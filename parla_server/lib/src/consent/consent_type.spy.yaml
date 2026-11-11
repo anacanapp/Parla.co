@@ -1,0 +1,8 @@
+### The three separate consents (privacy checklist CON-1).
+### Names must match `ConsentKind` in parla_shared.
+enum: ConsentType
+serialized: byName
+values:
+  - health
+  - analytics
+  - marketing

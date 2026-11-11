@@ -1,0 +1,16 @@
+### Audit log (data map row 17, checklist AUD-1..AUD-4). Holds ids only,
+### never health content, emails or tokens. Append-only, kept 1 year.
+class: AuditLogEntry
+table: audit_log
+fields:
+  ### Who acted: the user themself or an internal account.
+  actorId: UuidValue?
+  actorRole: String
+  ### For example: consent.granted, consent.withdrawn, profile.created.
+  action: String
+  objectType: String
+  objectId: String?
+  createdAt: DateTime
+indexes:
+  audit_log_created_idx:
+    fields: createdAt

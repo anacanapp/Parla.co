@@ -1,0 +1,15 @@
+name: parla_shared
+description: Pure Dart rules shared by the Parla server and apps (age gate, countries, consent texts).
+publish_to: none
+
+environment:
+  sdk: '^3.12.2'
+
+resolution: workspace
+
+dependencies:
+  crypto: ^3.0.6
+
+dev_dependencies:
+  lints: '>=3.0.0 <7.0.0'
+  test: ^1.25.5

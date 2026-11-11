@@ -1,0 +1,21 @@
+### One consent decision. Append-only: a change is a new row, never an update
+### (GDPR Art. 7(1), checklist CON-3). Retention: 3 years after account
+### deletion with a hashed user id (proposal, pending legal review).
+class: ConsentRecord
+table: consent_record
+fields:
+  ### The authenticated user who decided.
+  authUserId: UuidValue
+  consentType: ConsentType
+  granted: bool
+  ### Version of the text in parla_shared that was shown.
+  textVersion: String
+  ### SHA-256 of the exact text shown, in [language].
+  textHash: String
+  language: String
+  ### Where the decision was made: app or web.
+  source: String
+  createdAt: DateTime
+indexes:
+  consent_record_user_idx:
+    fields: authUserId, consentType, createdAt
