@@ -97,4 +97,4 @@ jobs:
           fetch-depth: 0
       # Checklist ENC-4: no keys or passwords in the repository.
       - name: gitleaks
-        run: docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:v8.18.4 detect --source /repo --no-banner --redact
+        run: docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:v8.18.4 detect --source /repo --no-banner --redact --verbose
