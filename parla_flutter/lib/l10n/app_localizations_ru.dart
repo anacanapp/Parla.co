@@ -140,13 +140,6 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get homeTitle => 'Сегодня';
-
-  @override
-  String get homePlaceholder =>
-      'Ваш уход появится здесь после теста кожи. Тест появится в следующей версии.';
-
-  @override
   String get guestTitle => 'Поиск продуктов';
 
   @override
@@ -178,4 +171,142 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get error_consent_outdated_version =>
       'Текст согласия изменился. Пожалуйста, просмотрите его ещё раз.';
+
+  @override
+  String get homeGreetingMorning => 'Доброе утро!';
+
+  @override
+  String get homeGreetingAfternoon => 'Добрый день!';
+
+  @override
+  String get homeGreetingEvening => 'Добрый вечер!';
+
+  @override
+  String get homeTagline => 'С каждым днём — немного больше себя.';
+
+  @override
+  String get homeProfileButton => 'Профиль и конфиденциальность';
+
+  @override
+  String get routineSwitchLabel => 'Выбор ухода';
+
+  @override
+  String get routineMorning => 'Утро';
+
+  @override
+  String get routineEvening => 'Вечер';
+
+  @override
+  String get routineMorningTitle => 'Утренний уход';
+
+  @override
+  String get routineEveningTitle => 'Вечерний уход';
+
+  @override
+  String get meterStepsDone => 'ШАГОВ ГОТОВО';
+
+  @override
+  String meterProgress(int done, int total, int minutes) {
+    return '$done из $total шагов готово · осталось ~$minutes мин';
+  }
+
+  @override
+  String meterAllDone(String routine) {
+    return '$routine: всё готово';
+  }
+
+  @override
+  String get nextStepLabel => 'СЛЕДУЮЩИЙ ШАГ';
+
+  @override
+  String minutesShort(int minutes) {
+    return '$minutes мин';
+  }
+
+  @override
+  String get approvedByDermatologist => 'Одобрено дерматологом';
+
+  @override
+  String get stepDoneButton => 'Готово';
+
+  @override
+  String get stepStatusDone => 'Готово';
+
+  @override
+  String stepMarkDone(String step) {
+    return '$step: отметить';
+  }
+
+  @override
+  String stepMarkUndone(String step) {
+    return '$step: выполнено, отменить';
+  }
+
+  @override
+  String routineDoneHeader(String routine) {
+    return '$routine: готово';
+  }
+
+  @override
+  String get routineDoneTitle => 'Сегодня ты снова сияешь.';
+
+  @override
+  String get routineDoneBody => 'Все шаги выполнены. До следующего ухода.';
+
+  @override
+  String get routineRestart => 'Начать заново';
+
+  @override
+  String get habitsTitle => 'Привычки на сегодня';
+
+  @override
+  String get habitWater => 'Вода';
+
+  @override
+  String habitWaterCount(int count, int goal) {
+    return '$count из $goal стаканов';
+  }
+
+  @override
+  String get habitWaterAdd => 'Добавить стакан';
+
+  @override
+  String get habitWaterRemove => 'Убрать стакан';
+
+  @override
+  String get habitSleep => 'Сон';
+
+  @override
+  String get habitMove => 'Движение';
+
+  @override
+  String get habitNoEntry => 'Пока нет записей';
+
+  @override
+  String get habitLog => 'Записать';
+
+  @override
+  String get scanTitle => 'Проверить продукт';
+
+  @override
+  String get scanBody =>
+      'Отсканируй штрихкод и посмотри состав простыми словами';
+
+  @override
+  String get navMenuLabel => 'Главное меню';
+
+  @override
+  String get navToday => 'Сегодня';
+
+  @override
+  String get navScan => 'Скан';
+
+  @override
+  String get navHabits => 'Привычки';
+
+  @override
+  String get navProfile => 'Профиль';
+
+  @override
+  String get comingSoon => 'Этот раздел появится в следующей версии.';
 }

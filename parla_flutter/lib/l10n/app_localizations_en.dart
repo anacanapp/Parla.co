@@ -141,13 +141,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get homeTitle => 'Today';
-
-  @override
-  String get homePlaceholder =>
-      'Your routine will appear here after the skin test. The test arrives in the next version.';
-
-  @override
   String get guestTitle => 'Product search';
 
   @override
@@ -181,4 +174,143 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get error_consent_outdated_version =>
       'The consent text has changed. Please review it again.';
+
+  @override
+  String get homeGreetingMorning => 'Good morning!';
+
+  @override
+  String get homeGreetingAfternoon => 'Good afternoon!';
+
+  @override
+  String get homeGreetingEvening => 'Good evening!';
+
+  @override
+  String get homeTagline => 'A little more you, every day.';
+
+  @override
+  String get homeProfileButton => 'Profile and privacy';
+
+  @override
+  String get routineSwitchLabel => 'Choose routine';
+
+  @override
+  String get routineMorning => 'Morning';
+
+  @override
+  String get routineEvening => 'Evening';
+
+  @override
+  String get routineMorningTitle => 'Morning routine';
+
+  @override
+  String get routineEveningTitle => 'Evening routine';
+
+  @override
+  String get meterStepsDone => 'STEPS DONE';
+
+  @override
+  String meterProgress(int done, int total, int minutes) {
+    return '$done of $total steps done · about $minutes min left';
+  }
+
+  @override
+  String meterAllDone(String routine) {
+    return '$routine is done';
+  }
+
+  @override
+  String get nextStepLabel => 'NEXT STEP';
+
+  @override
+  String minutesShort(int minutes) {
+    return '$minutes min';
+  }
+
+  @override
+  String get approvedByDermatologist => 'Approved by a dermatologist';
+
+  @override
+  String get stepDoneButton => 'Done';
+
+  @override
+  String get stepStatusDone => 'Done';
+
+  @override
+  String stepMarkDone(String step) {
+    return '$step: mark as done';
+  }
+
+  @override
+  String stepMarkUndone(String step) {
+    return '$step: done, tap to undo';
+  }
+
+  @override
+  String routineDoneHeader(String routine) {
+    return '$routine is ready';
+  }
+
+  @override
+  String get routineDoneTitle => 'You glowed again today.';
+
+  @override
+  String get routineDoneBody =>
+      'Every step is done. See you at the next routine.';
+
+  @override
+  String get routineRestart => 'Start again';
+
+  @override
+  String get habitsTitle => 'Today\'s habits';
+
+  @override
+  String get habitWater => 'Water';
+
+  @override
+  String habitWaterCount(int count, int goal) {
+    return '$count of $goal glasses';
+  }
+
+  @override
+  String get habitWaterAdd => 'Add a glass';
+
+  @override
+  String get habitWaterRemove => 'Remove a glass';
+
+  @override
+  String get habitSleep => 'Sleep';
+
+  @override
+  String get habitMove => 'Movement';
+
+  @override
+  String get habitNoEntry => 'Nothing logged yet';
+
+  @override
+  String get habitLog => 'Log';
+
+  @override
+  String get scanTitle => 'Check a product';
+
+  @override
+  String get scanBody =>
+      'Scan the barcode and see the ingredients in plain words';
+
+  @override
+  String get navMenuLabel => 'Main menu';
+
+  @override
+  String get navToday => 'Today';
+
+  @override
+  String get navScan => 'Scan';
+
+  @override
+  String get navHabits => 'Habits';
+
+  @override
+  String get navProfile => 'Profile';
+
+  @override
+  String get comingSoon => 'This part arrives in the next version.';
 }

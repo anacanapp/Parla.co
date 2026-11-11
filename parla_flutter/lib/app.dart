@@ -8,13 +8,7 @@ import 'routes.dart';
 import 'services/parla_api.dart';
 import 'state/app_settings.dart';
 import 'state/onboarding_state.dart';
-
-ThemeData _theme(Brightness brightness) => ThemeData(
-  colorScheme: ColorScheme.fromSeed(
-    seedColor: const Color(0xFFB5838D),
-    brightness: brightness,
-  ),
-);
+import 'ui/brand.dart';
 
 /// The Parla user app.
 class ParlaApp extends StatefulWidget {
@@ -53,9 +47,11 @@ class _ParlaAppState extends State<ParlaApp> {
       child: ListenableBuilder(
         listenable: widget.settings,
         builder: (context, _) => MaterialApp.router(
+          debugShowCheckedModeBanner: false,
           onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-          theme: _theme(Brightness.light),
-          darkTheme: _theme(Brightness.dark),
+          // Light only for now: the brand's dark ("cocoa") theme is not
+          // designed yet.
+          theme: parlaTheme(),
           locale: widget.settings.locale,
           supportedLocales: AppLocalizations.supportedLocales,
           localizationsDelegates: const [

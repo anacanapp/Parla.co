@@ -340,18 +340,6 @@ abstract class AppLocalizations {
   /// **'Text version: {version}'**
   String consentVersion(String version);
 
-  /// M-14 placeholder
-  ///
-  /// In en, this message translates to:
-  /// **'Today'**
-  String get homeTitle;
-
-  /// No description provided for @homePlaceholder.
-  ///
-  /// In en, this message translates to:
-  /// **'Your routine will appear here after the skin test. The test arrives in the next version.'**
-  String get homePlaceholder;
-
   /// No description provided for @guestTitle.
   ///
   /// In en, this message translates to:
@@ -411,6 +399,252 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The consent text has changed. Please review it again.'**
   String get error_consent_outdated_version;
+
+  /// No description provided for @homeGreetingMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Good morning!'**
+  String get homeGreetingMorning;
+
+  /// No description provided for @homeGreetingAfternoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Good afternoon!'**
+  String get homeGreetingAfternoon;
+
+  /// No description provided for @homeGreetingEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Good evening!'**
+  String get homeGreetingEvening;
+
+  /// No description provided for @homeTagline.
+  ///
+  /// In en, this message translates to:
+  /// **'A little more you, every day.'**
+  String get homeTagline;
+
+  /// No description provided for @homeProfileButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile and privacy'**
+  String get homeProfileButton;
+
+  /// No description provided for @routineSwitchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Choose routine'**
+  String get routineSwitchLabel;
+
+  /// No description provided for @routineMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning'**
+  String get routineMorning;
+
+  /// No description provided for @routineEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Evening'**
+  String get routineEvening;
+
+  /// No description provided for @routineMorningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning routine'**
+  String get routineMorningTitle;
+
+  /// No description provided for @routineEveningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Evening routine'**
+  String get routineEveningTitle;
+
+  /// No description provided for @meterStepsDone.
+  ///
+  /// In en, this message translates to:
+  /// **'STEPS DONE'**
+  String get meterStepsDone;
+
+  /// No description provided for @meterProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} steps done · about {minutes} min left'**
+  String meterProgress(int done, int total, int minutes);
+
+  /// No description provided for @meterAllDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{routine} is done'**
+  String meterAllDone(String routine);
+
+  /// No description provided for @nextStepLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'NEXT STEP'**
+  String get nextStepLabel;
+
+  /// No description provided for @minutesShort.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min'**
+  String minutesShort(int minutes);
+
+  /// No description provided for @approvedByDermatologist.
+  ///
+  /// In en, this message translates to:
+  /// **'Approved by a dermatologist'**
+  String get approvedByDermatologist;
+
+  /// No description provided for @stepDoneButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get stepDoneButton;
+
+  /// No description provided for @stepStatusDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get stepStatusDone;
+
+  /// No description provided for @stepMarkDone.
+  ///
+  /// In en, this message translates to:
+  /// **'{step}: mark as done'**
+  String stepMarkDone(String step);
+
+  /// No description provided for @stepMarkUndone.
+  ///
+  /// In en, this message translates to:
+  /// **'{step}: done, tap to undo'**
+  String stepMarkUndone(String step);
+
+  /// No description provided for @routineDoneHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'{routine} is ready'**
+  String routineDoneHeader(String routine);
+
+  /// No description provided for @routineDoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'You glowed again today.'**
+  String get routineDoneTitle;
+
+  /// No description provided for @routineDoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Every step is done. See you at the next routine.'**
+  String get routineDoneBody;
+
+  /// No description provided for @routineRestart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start again'**
+  String get routineRestart;
+
+  /// No description provided for @habitsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s habits'**
+  String get habitsTitle;
+
+  /// No description provided for @habitWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Water'**
+  String get habitWater;
+
+  /// No description provided for @habitWaterCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} of {goal} glasses'**
+  String habitWaterCount(int count, int goal);
+
+  /// No description provided for @habitWaterAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a glass'**
+  String get habitWaterAdd;
+
+  /// No description provided for @habitWaterRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove a glass'**
+  String get habitWaterRemove;
+
+  /// No description provided for @habitSleep.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep'**
+  String get habitSleep;
+
+  /// No description provided for @habitMove.
+  ///
+  /// In en, this message translates to:
+  /// **'Movement'**
+  String get habitMove;
+
+  /// No description provided for @habitNoEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing logged yet'**
+  String get habitNoEntry;
+
+  /// No description provided for @habitLog.
+  ///
+  /// In en, this message translates to:
+  /// **'Log'**
+  String get habitLog;
+
+  /// No description provided for @scanTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check a product'**
+  String get scanTitle;
+
+  /// No description provided for @scanBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan the barcode and see the ingredients in plain words'**
+  String get scanBody;
+
+  /// No description provided for @navMenuLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Main menu'**
+  String get navMenuLabel;
+
+  /// No description provided for @navToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get navToday;
+
+  /// No description provided for @navScan.
+  ///
+  /// In en, this message translates to:
+  /// **'Scan'**
+  String get navScan;
+
+  /// No description provided for @navHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'Habits'**
+  String get navHabits;
+
+  /// No description provided for @navProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get navProfile;
+
+  /// No description provided for @comingSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'This part arrives in the next version.'**
+  String get comingSoon;
 }
 
 class _AppLocalizationsDelegate

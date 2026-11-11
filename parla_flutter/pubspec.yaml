@@ -31,6 +31,7 @@ dependencies:
     sdk: flutter
   flutter_localizations:
     sdk: flutter
+  flutter_svg: ^2.3.4
   go_router: ^18.1.4
   intl: any
   parla_client:
@@ -76,6 +77,26 @@ flutter:
   # https://flutter.dev/assets-and-images/#from-packages
   assets:
     - assets/config.json
+
+  # Brand fonts, bundled so no font is fetched from Google at runtime
+  # (that would send the user's IP address to a third party).
+  # Licences: assets/fonts/OFL-*.txt (SIL Open Font License 1.1).
+  fonts:
+    - family: Commissioner
+      fonts:
+        - asset: assets/fonts/Commissioner-Regular.ttf
+          weight: 400
+        - asset: assets/fonts/Commissioner-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Commissioner-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Commissioner-ExtraBold.ttf
+          weight: 800
+    - family: Fraunces
+      fonts:
+        - asset: assets/fonts/Fraunces-Italic.ttf
+          style: italic
+          weight: 400
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

@@ -42,6 +42,26 @@ cloud email sender were removed.
   `tool/create_local_passwords.sh`; deployments use `SERVERPOD_PASSWORD_*`
   environment variables. CI runs gitleaks.
 
+## App UI rules
+
+- **Brand.** Colours, type and the Smile Curve follow the Parla Sun brand
+  guidelines v2.0 (`parla_flutter/lib/ui/brand.dart`). Commissioner and
+  Fraunces are bundled (SIL OFL 1.1, licences in `assets/fonts/`); no font is
+  fetched from Google at runtime, which would send users' IP addresses to a
+  third party. Fraunces has no Cyrillic, so Russian accent lines use
+  Commissioner.
+- **Accessibility.** Every text is at least 18 px, text colours pass WCAG AA,
+  touch targets are at least 48 px and icons always come with a text label.
+  `home_screen_test.dart` checks the 18 px rule and overflow on a 390 px
+  phone in az, ru and en, with the real fonts loaded.
+- **Navigation.** Four tabs (Today, Scan, Habits, Profile). Five did not fit
+  at 18 px in Russian; the routine lives on the Today tab.
+- **Expert badge.** The "approved by a dermatologist" badge only shows for
+  content marked approved. The current routine steps
+  (`lib/home/routine.dart`) are sample content and never show it.
+- **Habit data** on the home screen is held in memory only until health
+  consent and encrypted storage exist.
+
 ## Not done yet (tracked, not forgotten)
 
 | Item | Checklist | Planned |

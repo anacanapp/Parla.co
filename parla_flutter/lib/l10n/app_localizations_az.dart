@@ -139,13 +139,6 @@ class AppLocalizationsAz extends AppLocalizations {
   }
 
   @override
-  String get homeTitle => 'Bu gün';
-
-  @override
-  String get homePlaceholder =>
-      'Dəri testindən sonra rutininiz burada görünəcək. Test növbəti versiyada əlavə olunur.';
-
-  @override
   String get guestTitle => 'Məhsul axtarışı';
 
   @override
@@ -177,4 +170,142 @@ class AppLocalizationsAz extends AppLocalizations {
   @override
   String get error_consent_outdated_version =>
       'Razılıq mətni dəyişib. Zəhmət olmasa, yenidən baxın.';
+
+  @override
+  String get homeGreetingMorning => 'Günaydın!';
+
+  @override
+  String get homeGreetingAfternoon => 'Xeyirli gün!';
+
+  @override
+  String get homeGreetingEvening => 'Axşamınız xeyir!';
+
+  @override
+  String get homeTagline => 'Hər gün bir az daha sən.';
+
+  @override
+  String get homeProfileButton => 'Profil və məxfilik';
+
+  @override
+  String get routineSwitchLabel => 'Rutin seçimi';
+
+  @override
+  String get routineMorning => 'Səhər';
+
+  @override
+  String get routineEvening => 'Axşam';
+
+  @override
+  String get routineMorningTitle => 'Səhər rutini';
+
+  @override
+  String get routineEveningTitle => 'Axşam rutini';
+
+  @override
+  String get meterStepsDone => 'ADDIM TAMAM';
+
+  @override
+  String meterProgress(int done, int total, int minutes) {
+    return '$done / $total addım tamamdır · təxminən $minutes dəq qalıb';
+  }
+
+  @override
+  String meterAllDone(String routine) {
+    return '$routine tamamdır';
+  }
+
+  @override
+  String get nextStepLabel => 'NÖVBƏTİ ADDIM';
+
+  @override
+  String minutesShort(int minutes) {
+    return '$minutes dəq';
+  }
+
+  @override
+  String get approvedByDermatologist => 'Dermatoloq təsdiqləyib';
+
+  @override
+  String get stepDoneButton => 'Tamamladım';
+
+  @override
+  String get stepStatusDone => 'Tamamdır';
+
+  @override
+  String stepMarkDone(String step) {
+    return '$step: tamamla';
+  }
+
+  @override
+  String stepMarkUndone(String step) {
+    return '$step: tamamlandı, geri qaytar';
+  }
+
+  @override
+  String routineDoneHeader(String routine) {
+    return '$routine hazırdır';
+  }
+
+  @override
+  String get routineDoneTitle => 'Bu gün də parladın.';
+
+  @override
+  String get routineDoneBody =>
+      'Bütün addımlar tamamdır. Növbəti rutində görüşərik.';
+
+  @override
+  String get routineRestart => 'Yenidən başla';
+
+  @override
+  String get habitsTitle => 'Bu günün vərdişləri';
+
+  @override
+  String get habitWater => 'Su';
+
+  @override
+  String habitWaterCount(int count, int goal) {
+    return '$count / $goal stəkan';
+  }
+
+  @override
+  String get habitWaterAdd => 'Bir stəkan əlavə et';
+
+  @override
+  String get habitWaterRemove => 'Bir stəkan çıx';
+
+  @override
+  String get habitSleep => 'Yuxu';
+
+  @override
+  String get habitMove => 'Hərəkət';
+
+  @override
+  String get habitNoEntry => 'Hələ qeyd yoxdur';
+
+  @override
+  String get habitLog => 'Qeyd et';
+
+  @override
+  String get scanTitle => 'Məhsulu yoxla';
+
+  @override
+  String get scanBody => 'Barkodu skan et, tərkibi sadə dildə gör';
+
+  @override
+  String get navMenuLabel => 'Əsas menyu';
+
+  @override
+  String get navToday => 'Bu gün';
+
+  @override
+  String get navScan => 'Skan';
+
+  @override
+  String get navHabits => 'Vərdiş';
+
+  @override
+  String get navProfile => 'Profil';
+
+  @override
+  String get comingSoon => 'Bu bölmə növbəti versiyada əlavə olunur.';
 }
