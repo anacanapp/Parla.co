@@ -96,5 +96,7 @@ jobs:
         with:
           fetch-depth: 0
       # Checklist ENC-4: no keys or passwords in the repository.
+      # Exceptions live in .gitleaks.toml; --verbose names the file of a
+      # finding while --redact keeps its value out of the log.
       - name: gitleaks
         run: docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:v8.18.4 detect --source /repo --no-banner --redact --verbose
