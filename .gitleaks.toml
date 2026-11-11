@@ -1,13 +1,13 @@
 # Gitleaks configuration (checklist ENC-4).
-# Keeps all default rules and only allows lines that are nothing but a
-# pub package content hash, e.g. `sha256: eaac...` in pubspec.lock. Such a
-# hash is public, 64 hex characters, and can match token patterns by chance.
+# Keeps all default rules. The only exception is pubspec.lock: pub writes it
+# and it holds nothing but package names, versions, pub.dev URLs and public
+# 64-character sha256 content hashes, which can match token patterns by
+# chance (the 'hooks' package hash starts with "eaac", like a Facebook token).
 title = "Parla gitleaks config"
 
 [extend]
 useDefault = true
 
 [allowlist]
-description = "pub.dev package content hashes"
-regexTarget = "line"
-regexes = ['''^\s*sha256: "?[0-9a-f]{64}"?\s*$''']
+description = "pub lockfile: public package hashes only"
+paths = ['''(^|/)pubspec\.lock$''']
