@@ -7,12 +7,14 @@ FROM dart:3.12.2 AS build
 # Create a minimal workspace that preserves locked server dependency versions.
 WORKDIR /app
 COPY pubspec.lock .
+COPY parla_shared parla_shared
 COPY parla_server parla_server
 RUN printf '%s\n' \
   'name: _' \
   'environment:' \
   '  sdk: ^3.12.2' \
   'workspace:' \
+  '  - parla_shared' \
   '  - parla_server' \
   > pubspec.yaml
 RUN dart pub get
@@ -34,6 +36,8 @@ ENV runmode=production
 ENV serverid=default
 ENV logging=normal
 ENV role=monolith
+# Extra flags, e.g. "--apply-migrations" on the staging service.
+ENV flags=""
 
 # Copy runtime dependencies
 COPY --from=build /runtime/ /
@@ -55,4 +59,4 @@ EXPOSE 8081
 EXPOSE 8082
 
 # Define the entrypoint command
-ENTRYPOINT ./bin/server --mode=$runmode --server-id=$serverid --logging=$logging --role=$role
+ENTRYPOINT ./bin/server --mode=$runmode --server-id=$serverid --logging=$logging --role=$role $flags

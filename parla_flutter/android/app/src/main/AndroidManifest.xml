@@ -3,6 +3,8 @@
          after a reboot. No exact-alarm permission: reminders may arrive a
          few minutes late, which is fine for a routine nudge. -->
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+    <!-- Release builds talk to the Parla server. -->
+    <uses-permission android:name="android.permission.INTERNET"/>
     <application
         android:label="parla"
         android:name="${applicationName}"

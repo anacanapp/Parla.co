@@ -1,0 +1,15 @@
+# Secrets never go into an image: the server reads them from
+# SERVERPOD_PASSWORD_* environment variables (Secret Manager).
+**/passwords.yaml
+**/*.jks
+**/*.keystore
+**/*.p8
+**/.env*
+
+# Not needed to build the server image.
+.git
+.dart_tool
+**/.dart_tool
+**/build
+parla_flutter
+parla_client/.dart_tool
