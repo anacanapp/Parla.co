@@ -1,0 +1,5 @@
+### A rule violation the app can show to the user. [code] is stable and
+### translated on the client; it never contains personal data.
+exception: ParlaException
+fields:
+  code: String

@@ -1,0 +1,102 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  FLUTTER_VERSION: '3.47.9'
+  SERVERPOD_VERSION: '4.1.1'
+
+jobs:
+  analyze:
+    name: Analyze and format
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+      - run: flutter pub get
+      - name: Analyze shared, server and app
+        run: |
+          (cd parla_shared && dart analyze --fatal-infos)
+          (cd parla_server && dart analyze --fatal-infos)
+          (cd parla_flutter && flutter analyze --fatal-infos)
+      - name: Check formatting
+        run: dart format --set-exit-if-changed parla_shared parla_server/lib parla_server/test parla_server/bin parla_flutter/lib parla_flutter/test
+
+  test-shared:
+    name: Test shared rules
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+      - run: flutter pub get
+      - working-directory: parla_shared
+        run: dart test
+
+  test-server:
+    name: Test server
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+      # The test config sets `database.dataPath`, so Serverpod runs an
+      # embedded PostgreSQL itself. Its binaries are cached between runs.
+      - uses: actions/cache@v4
+        with:
+          path: ~/.cache/serverpod/pg-binaries
+          key: serverpod-pg-binaries-${{ runner.os }}-${{ env.SERVERPOD_VERSION }}
+      - run: flutter pub get
+      - name: Install Serverpod CLI
+        run: |
+          dart install serverpod_cli@$SERVERPOD_VERSION
+          echo "${XDG_STATE_HOME:-$HOME/.local/state}/Dart/install/bin" >> "$GITHUB_PATH"
+      # Throwaway secrets for the ephemeral test database. Real secrets live
+      # only in config/passwords.yaml, which is never committed.
+      - name: Generate test secrets
+        run: |
+          for key in database emailSecretHashPepper jwtHmacSha512PrivateKey jwtRefreshTokenHashPepper; do
+            echo "SERVERPOD_PASSWORD_${key}=$(openssl rand -hex 24)" >> "$GITHUB_ENV"
+          done
+      - name: Check generated code is up to date
+        working-directory: parla_server
+        run: |
+          serverpod generate
+          git diff --exit-code -- lib/src/generated ../parla_client
+      - working-directory: parla_server
+        run: dart test
+
+  test-app:
+    name: Test Flutter app
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+      - run: flutter pub get
+      - working-directory: parla_flutter
+        run: flutter test
+
+  secret-scan:
+    name: Secret scan
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      # Checklist ENC-4: no keys or passwords in the repository.
+      # Exceptions live in .gitleaks.toml; --verbose names the file of a
+      # finding while --redact keeps its value out of the log.
+      - name: gitleaks
+        run: docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:v8.18.4 detect --source /repo --config /repo/.gitleaks.toml --no-banner --redact --verbose

@@ -1,0 +1,18 @@
+### Core profile (data map rows 3-5). Stored in the user's country region.
+### Deliberately has no name, full birth date, phone or location
+### (data minimisation list).
+class: MemberProfile
+table: member_profile
+fields:
+  authUserId: UuidValue
+  ### Only the year (age gate and age-appropriate routine).
+  birthYear: int
+  ### ISO 3166-1 alpha-2; decides the data region.
+  countryCode: String
+  ### Interface language: az, ru or en.
+  language: String
+  createdAt: DateTime
+indexes:
+  member_profile_auth_user_idx:
+    fields: authUserId
+    unique: true

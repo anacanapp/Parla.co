@@ -1,0 +1,64 @@
+{
+  "@@locale": "az",
+  "appTitle": "Parla",
+
+  "languageTitle": "Dili seçin",
+  "languageName_az": "Azərbaycanca",
+  "languageName_ru": "Русский",
+  "languageName_en": "English",
+  "continueButton": "Davam et",
+
+  "welcomeTitle": "Fərdi qulluq bələdçiniz",
+  "welcomeBody1": "Dəriniz, saçınız və bədəniniz üçün ekspertlərin yoxladığı rutinlər.",
+  "welcomeBody2": "Məhsulu skan edin və hər tərkib maddəsinin nə etdiyini rəsmi mənbələrlə görün.",
+  "welcomeBody3": "Yuxu, su və hərəkət: kiçik vərdişlər bir yerdə.",
+  "welcomeStart": "Başla",
+  "welcomeBrowse": "Hesabsız bax",
+  "welcomeSignIn": "Artıq hesabım var",
+
+  "ageTitle": "Hansı ildə doğulmusunuz?",
+  "ageWhy": "Parla 18 yaş və yuxarı üçündür. Biz yalnız ili saxlayırıq, tam tarixi yox.",
+  "ageYearLabel": "Doğum ili",
+  "ageInvalid": "1900 ilə bu il arasında bir il daxil edin.",
+  "ageBirthdayQuestion": "Bu il ad gününüz artıq keçib?",
+  "yes": "Bəli",
+  "no": "Xeyr",
+
+  "underageTitle": "Parla böyüklər üçündür",
+  "underageBody": "Parla yalnız 18 yaş və yuxarı şəxslər üçün əlçatandır. Daxil etdiyiniz heç bir məlumat saxlanılmayıb.",
+  "close": "Bağla",
+
+  "signInTitle": "Daxil olun və ya hesab yaradın",
+  "signInBody": "E-poçtunuza birdəfəlik kod göndərəcəyik. Şifrə lazım deyil.",
+  "signInFailed": "Giriş alınmadı. Yenidən cəhd edin.",
+
+  "countryTitle": "Harada yaşayırsınız?",
+  "countryWhy": "Məlumatlarınız ölkənizin regionunda saxlanılır. Parla əvvəlcə Azərbaycanda açılır.",
+  "countryComingSoon": "Tezliklə",
+  "countryName_AZ": "Azərbaycan",
+  "countryName_TR": "Türkiyə",
+  "countryName_KZ": "Qazaxıstan",
+  "countryName_UZ": "Özbəkistan",
+
+  "consentTitle": "Seçimləriniz",
+  "consentIntro": "Hər razılıq ayrıdır və default olaraq söndürülüb. Tətbiq onlarsız da işləyir. Onları istənilən vaxt Parametrlər → Məxfilik bölməsində dəyişə bilərsiniz.",
+  "consentHealthTitle": "Sağlamlıqla bağlı cavablar",
+  "consentHealthHint": "Yalnız dəri vəziyyətləri, allergiya, hamiləlik və dərmanlar haqqında könüllü suallar üçün lazımdır.",
+  "consentAnalyticsTitle": "İstifadə statistikası",
+  "consentMarketingTitle": "E-poçtla yeniliklər və məsləhətlər",
+  "consentVersion": "Mətn versiyası: {version}",
+
+  "homeTitle": "Bu gün",
+  "homePlaceholder": "Dəri testindən sonra rutininiz burada görünəcək. Test növbəti versiyada əlavə olunur.",
+  "guestTitle": "Məhsul axtarışı",
+  "guestPlaceholder": "Məhsul axtarışı və skan növbəti versiyada əlavə olunur.",
+
+  "errorGeneric": "Xəta baş verdi. Yenidən cəhd edin.",
+  "error_age_minor": "Parla yalnız 18 yaş və yuxarı şəxslər üçün əlçatandır.",
+  "error_age_needs_confirmation": "Ad günü sualına cavab verin.",
+  "error_age_invalid": "Düzgün doğum ili daxil edin.",
+  "error_country_closed": "Parla bu ölkədə hələ açılmayıb.",
+  "error_language_unsupported": "Bu dil hələ dəstəklənmir.",
+  "error_profile_exists": "Profiliniz artıq mövcuddur.",
+  "error_consent_outdated_version": "Razılıq mətni dəyişib. Zəhmət olmasa, yenidən baxın."
+}

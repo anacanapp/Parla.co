@@ -1,0 +1,7 @@
+### The latest decision for one consent type, as shown to the user.
+class: ConsentState
+fields:
+  consentType: ConsentType
+  granted: bool
+  textVersion: String?
+  updatedAt: DateTime?
