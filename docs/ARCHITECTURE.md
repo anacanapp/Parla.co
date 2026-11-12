@@ -42,6 +42,33 @@ cloud email sender were removed.
   `tool/create_local_passwords.sh`; deployments use `SERVERPOD_PASSWORD_*`
   environment variables. CI runs gitleaks.
 
+## Health data (sprint 2)
+
+- **Envelope encryption (ENC-3).** Health answers (diagnoses, allergies,
+  pregnancy, medicine categories) are stored in `health_record`, encrypted
+  with AES-256-GCM under a per-user data key. The data key is stored only
+  wrapped by the key-encryption key (KEK) in `health_key`; the user id is
+  bound in as associated data, so a row copied to another user does not
+  decrypt. The KEK is `healthKek` in `passwords.yaml` / `SERVERPOD_PASSWORD_healthKek`
+  for now; production needs a KMS in the data region (`HealthCrypto` is the
+  only place to change).
+- **Consent guard (CON-2).** `quiz.saveAnswers` refuses health answers
+  unless the health consent is granted; `myAnswers` returns them only while
+  it is.
+- **Withdrawal (CON-6).** Withdrawing the health consent deletes the health
+  record and the data key in the same transaction (crypto-shredding) and
+  writes a `health.erased` audit row.
+- **Warning signs stay on the device.** The warning-sign question only
+  decides whether the "see a doctor" screen (M-12) appears; the server
+  refuses to store it. Legal review should confirm this local-only
+  processing.
+- **Quiz content and routine rules** (`parla_shared/lib/src/quiz.dart`,
+  `routine_rules.dart`) are sample content with `approved: false`. The
+  rules are conservative: a missing or declined safety answer (pregnancy,
+  medication) leaves retinol out instead of guessing.
+- **No admin web app.** Until there is an approval tool, expert content
+  lives in code and changes go through pull requests.
+
 ## App UI rules
 
 - **Brand.** Colours, type and the Smile Curve follow the Parla Sun brand
@@ -66,7 +93,7 @@ cloud email sender were removed.
 
 | Item | Checklist | Planned |
 | --- | --- | --- |
-| Health data tables with per-user envelope encryption and crypto-shredding | ENC-3, CON-6 | Sprint 2, with the skin test |
+| KMS for the health KEK in the production data region | ENC-3 | With the production hosting decision |
 | Database-level append-only enforcement for `consent_record` and `audit_log` (restricted DB role) | AUD-2 | With the production database setup |
 | Data export and account deletion | EXP-*, DEL-* | Sprint 3 |
 | Retention jobs | RET-* | Sprint 3 |

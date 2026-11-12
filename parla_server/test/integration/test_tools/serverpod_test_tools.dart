@@ -19,6 +19,8 @@ import 'package:parla_server/src/generated/consent/consent_type.dart'
     as _i1w7mn9k;
 import 'package:parla_server/src/generated/profile/member_profile.dart'
     as _igsplnqd;
+import 'package:parla_server/src/generated/quiz/quiz_answer_input.dart'
+    as _iak2pevv;
 import 'package:serverpod/serverpod.dart' as _is;
 import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
     as _iacs;
@@ -165,6 +167,8 @@ class TestEndpoints {
   late final _ConsentEndpoint consent;
 
   late final _ProfileEndpoint profile;
+
+  late final _QuizEndpoint quiz;
 }
 
 class _InternalTestEndpoints extends TestEndpoints
@@ -187,6 +191,10 @@ class _InternalTestEndpoints extends TestEndpoints
       serializationManager,
     );
     profile = _ProfileEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    quiz = _QuizEndpoint(
       endpoints,
       serializationManager,
     );
@@ -797,6 +805,78 @@ class _ProfileEndpoint {
                   _localCallContext.arguments,
                 )
                 as _ida.Future<_igsplnqd.MemberProfile>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
+class _QuizEndpoint {
+  _QuizEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _is.EndpointDispatch _endpointDispatch;
+
+  final _is.SerializationManager _serializationManager;
+
+  _ida.Future<void> saveAnswers(
+    _ist.TestSessionBuilder sessionBuilder,
+    List<_iak2pevv.QuizAnswerInput> answers,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'quiz',
+            method: 'saveAnswers',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'quiz',
+          methodName: 'saveAnswers',
+          parameters: _ist.testObjectToJson({'answers': answers}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<void>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _ida.Future<List<_iak2pevv.QuizAnswerInput>> myAnswers(
+    _ist.TestSessionBuilder sessionBuilder,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'quiz',
+            method: 'myAnswers',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'quiz',
+          methodName: 'myAnswers',
+          parameters: _ist.testObjectToJson({}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<List<_iak2pevv.QuizAnswerInput>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

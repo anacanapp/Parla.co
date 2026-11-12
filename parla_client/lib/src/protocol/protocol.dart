@@ -13,6 +13,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:parla_client/src/protocol/consent/consent_state.dart'
     as _iflgmsvc;
+import 'package:parla_client/src/protocol/quiz/quiz_answer_input.dart'
+    as _ikoicjb8;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
     as _iacc;
 import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
@@ -23,13 +25,21 @@ import 'common/parla_exception.dart' as _iv1d8f8b;
 import 'consent/consent_record.dart' as _it7bphsc;
 import 'consent/consent_state.dart' as _icra10er;
 import 'consent/consent_type.dart' as _i40db2a8;
+import 'health/health_key.dart' as _ipdtgm1c;
+import 'health/health_record.dart' as _ioxvgdwn;
 import 'profile/member_profile.dart' as _i1iocmvy;
+import 'quiz/quiz_answer.dart' as _ih1qnypb;
+import 'quiz/quiz_answer_input.dart' as _ilw6ope9;
 export 'audit/audit_log_entry.dart';
 export 'common/parla_exception.dart';
 export 'consent/consent_record.dart';
 export 'consent/consent_state.dart';
 export 'consent/consent_type.dart';
+export 'health/health_key.dart';
+export 'health/health_record.dart';
 export 'profile/member_profile.dart';
+export 'quiz/quiz_answer.dart';
+export 'quiz/quiz_answer_input.dart';
 export 'client.dart';
 
 class Protocol extends _isc.SerializationManager
@@ -50,14 +60,24 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_it7bphsc.ConsentRecord>,
           _isc.getType<_icra10er.ConsentState>,
           _isc.getType<_i40db2a8.ConsentType>,
+          _isc.getType<_ipdtgm1c.HealthKey>,
+          _isc.getType<_ioxvgdwn.HealthRecord>,
           _isc.getType<_i1iocmvy.MemberProfile>,
+          _isc.getType<_ih1qnypb.QuizAnswer>,
+          _isc.getType<_ilw6ope9.QuizAnswerInput>,
           _isc.getType<_ioa77d8b.AuditLogEntry?>,
           _isc.getType<_iv1d8f8b.ParlaException?>,
           _isc.getType<_it7bphsc.ConsentRecord?>,
           _isc.getType<_icra10er.ConsentState?>,
           _isc.getType<_i40db2a8.ConsentType?>,
+          _isc.getType<_ipdtgm1c.HealthKey?>,
+          _isc.getType<_ioxvgdwn.HealthRecord?>,
           _isc.getType<_i1iocmvy.MemberProfile?>,
+          _isc.getType<_ih1qnypb.QuizAnswer?>,
+          _isc.getType<_ilw6ope9.QuizAnswerInput?>,
+          _isc.getType<List<String>>,
           _isc.getType<List<_iflgmsvc.ConsentState>>,
+          _isc.getType<List<_ikoicjb8.QuizAnswerInput>>,
         ],
         modules: const [
           _iaic.Protocol.new,
@@ -69,7 +89,11 @@ class Protocol extends _isc.SerializationManager
           'ConsentRecord',
           'ConsentState',
           'ConsentType',
+          'HealthKey',
+          'HealthRecord',
           'MemberProfile',
+          'QuizAnswer',
+          'QuizAnswerInput',
         ],
       );
 
@@ -112,8 +136,20 @@ class Protocol extends _isc.SerializationManager
     if (t == _i40db2a8.ConsentType) {
       return _i40db2a8.ConsentType.fromJson(data) as T;
     }
+    if (t == _ipdtgm1c.HealthKey) {
+      return _ipdtgm1c.HealthKey.fromJson(data) as T;
+    }
+    if (t == _ioxvgdwn.HealthRecord) {
+      return _ioxvgdwn.HealthRecord.fromJson(data) as T;
+    }
     if (t == _i1iocmvy.MemberProfile) {
       return _i1iocmvy.MemberProfile.fromJson(data) as T;
+    }
+    if (t == _ih1qnypb.QuizAnswer) {
+      return _ih1qnypb.QuizAnswer.fromJson(data) as T;
+    }
+    if (t == _ilw6ope9.QuizAnswerInput) {
+      return _ilw6ope9.QuizAnswerInput.fromJson(data) as T;
     }
     if (t == _isc.getType<_ioa77d8b.AuditLogEntry?>()) {
       return (data != null ? _ioa77d8b.AuditLogEntry.fromJson(data) : null)
@@ -133,13 +169,35 @@ class Protocol extends _isc.SerializationManager
     if (t == _isc.getType<_i40db2a8.ConsentType?>()) {
       return (data != null ? _i40db2a8.ConsentType.fromJson(data) : null) as T;
     }
+    if (t == _isc.getType<_ipdtgm1c.HealthKey?>()) {
+      return (data != null ? _ipdtgm1c.HealthKey.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_ioxvgdwn.HealthRecord?>()) {
+      return (data != null ? _ioxvgdwn.HealthRecord.fromJson(data) : null) as T;
+    }
     if (t == _isc.getType<_i1iocmvy.MemberProfile?>()) {
       return (data != null ? _i1iocmvy.MemberProfile.fromJson(data) : null)
           as T;
     }
+    if (t == _isc.getType<_ih1qnypb.QuizAnswer?>()) {
+      return (data != null ? _ih1qnypb.QuizAnswer.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_ilw6ope9.QuizAnswerInput?>()) {
+      return (data != null ? _ilw6ope9.QuizAnswerInput.fromJson(data) : null)
+          as T;
+    }
+    if (t == List<String>) {
+      return (data as List).map((e) => deserialize<String>(e)).toList() as T;
+    }
     if (t == List<_iflgmsvc.ConsentState>) {
       return (data as List)
               .map((e) => deserialize<_iflgmsvc.ConsentState>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_ikoicjb8.QuizAnswerInput>) {
+      return (data as List)
+              .map((e) => deserialize<_ikoicjb8.QuizAnswerInput>(e))
               .toList()
           as T;
     }
@@ -163,7 +221,11 @@ class Protocol extends _isc.SerializationManager
       _it7bphsc.ConsentRecord => 'ConsentRecord',
       _icra10er.ConsentState => 'ConsentState',
       _i40db2a8.ConsentType => 'ConsentType',
+      _ipdtgm1c.HealthKey => 'HealthKey',
+      _ioxvgdwn.HealthRecord => 'HealthRecord',
       _i1iocmvy.MemberProfile => 'MemberProfile',
+      _ih1qnypb.QuizAnswer => 'QuizAnswer',
+      _ilw6ope9.QuizAnswerInput => 'QuizAnswerInput',
       _ => null,
     };
   }
@@ -188,8 +250,16 @@ class Protocol extends _isc.SerializationManager
         return 'ConsentState';
       case _i40db2a8.ConsentType():
         return 'ConsentType';
+      case _ipdtgm1c.HealthKey():
+        return 'HealthKey';
+      case _ioxvgdwn.HealthRecord():
+        return 'HealthRecord';
       case _i1iocmvy.MemberProfile():
         return 'MemberProfile';
+      case _ih1qnypb.QuizAnswer():
+        return 'QuizAnswer';
+      case _ilw6ope9.QuizAnswerInput():
+        return 'QuizAnswerInput';
     }
     className = _iaic.Protocol().getClassNameForObject(data);
     if (className != null) {
@@ -227,8 +297,20 @@ class Protocol extends _isc.SerializationManager
     if (dataClassName == 'ConsentType') {
       return deserialize<_i40db2a8.ConsentType>(data['data']);
     }
+    if (dataClassName == 'HealthKey') {
+      return deserialize<_ipdtgm1c.HealthKey>(data['data']);
+    }
+    if (dataClassName == 'HealthRecord') {
+      return deserialize<_ioxvgdwn.HealthRecord>(data['data']);
+    }
     if (dataClassName == 'MemberProfile') {
       return deserialize<_i1iocmvy.MemberProfile>(data['data']);
+    }
+    if (dataClassName == 'QuizAnswer') {
+      return deserialize<_ih1qnypb.QuizAnswer>(data['data']);
+    }
+    if (dataClassName == 'QuizAnswerInput') {
+      return deserialize<_ilw6ope9.QuizAnswerInput>(data['data']);
     }
     if (dataClassName.startsWith('serverpod_auth_idp.')) {
       return _iaic.Protocol().deserializeByClassName({

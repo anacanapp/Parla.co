@@ -6,6 +6,7 @@ import 'screens/country_screen.dart';
 import 'screens/guest_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/language_screen.dart';
+import 'screens/quiz_screen.dart';
 import 'screens/sign_in_screen.dart';
 import 'screens/start_screen.dart';
 import 'screens/underage_screen.dart';
@@ -21,7 +22,8 @@ abstract final class Routes {
   static const signIn = '/sign-in'; // M-05, M-06
   static const country = '/country'; // M-07
   static const consents = '/consents'; // M-08
-  static const home = '/home'; // M-14 (placeholder)
+  static const quiz = '/quiz'; // M-09 to M-13
+  static const home = '/home'; // M-14
   static const guest = '/guest'; // M-20 (placeholder)
 }
 
@@ -36,6 +38,7 @@ GoRouter buildRouter() => GoRouter(
     GoRoute(path: Routes.signIn, builder: (_, _) => const SignInScreen()),
     GoRoute(path: Routes.country, builder: (_, _) => const CountryScreen()),
     GoRoute(path: Routes.consents, builder: (_, _) => const ConsentScreen()),
+    GoRoute(path: Routes.quiz, builder: (_, _) => const QuizScreen()),
     GoRoute(path: Routes.home, builder: (_, _) => const HomeScreen()),
     GoRoute(path: Routes.guest, builder: (_, _) => const GuestScreen()),
   ],

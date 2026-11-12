@@ -1,0 +1,16 @@
+### Encrypted health answers (data map rows 8-11), one row per user.
+### [ciphertext] is AES-256-GCM under the user's data key; the user id is
+### bound in as associated data. Deleted when the health consent is
+### withdrawn (CON-6).
+class: HealthRecord
+table: health_record
+fields:
+  authUserId: UuidValue
+  ciphertext: String
+  nonce: String
+  contentVersion: String
+  updatedAt: DateTime
+indexes:
+  health_record_user_idx:
+    fields: authUserId
+    unique: true

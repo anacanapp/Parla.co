@@ -176,5 +176,46 @@
         "type": "int"
       }
     }
-  }
+  },
+  "quizIntroTitle": "Let's get to know you.",
+  "quizIntroBody": "A few questions about your skin, hair and daily rhythm. It takes about 3 minutes.",
+  "quizStart": "Let's start",
+  "quizLater": "Later",
+  "quizProgress": "Question {current} of {total}",
+  "@quizProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "quizMultipleHint": "You can choose several",
+  "quizNext": "Next",
+  "quizBack": "Back",
+  "quizDecline": "I'd rather not answer",
+  "quizFinish": "Finish",
+  "healthGateTitle": "A few sensitive questions",
+  "healthGateBody": "The next questions are about skin diagnoses, allergies, pregnancy and medicines. They help keep your routine safe. Your answers are encrypted and stored only with your consent.",
+  "healthGateAgree": "I agree, continue",
+  "healthGateSkip": "Skip this section",
+  "healthGateSkipNote": "If you skip, your routine will be built more cautiously.",
+  "redFlagTitle": "Please show this to a doctor",
+  "redFlagBody": "The sign you noted may need a doctor's examination. Parla does not diagnose and does not replace a doctor. We recommend seeing a dermatologist.",
+  "redFlagOk": "I understand",
+  "resultTitle": "Your routine is ready",
+  "resultSkin": "Skin",
+  "resultHair": "Hair",
+  "resultGoals": "Goals",
+  "resultSeeRoutine": "Show my routine",
+  "resultExclusionPregnancy": "We left out retinol: we don't suggest it during pregnancy or breastfeeding, or when this question isn't answered.",
+  "resultExclusionMedication": "We left out retinol: the medication question is unanswered or you use a prescription skin medicine. Talk to your doctor.",
+  "resultExclusionSensitive": "For sensitive skin we chose soothing steps instead of active ingredients.",
+  "homeQuizTitle": "Let's personalise your routine",
+  "homeQuizBody": "A 3-minute quiz and your routine adapts to you.",
+  "homeQuizStart": "Start the quiz",
+  "error_consent_health_required": "These answers need the health consent.",
+  "resultExclusionRetinoidBoth": "We left out retinol: we don't suggest it without answers about pregnancy and medicines."
 }

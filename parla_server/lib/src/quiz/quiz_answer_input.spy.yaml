@@ -1,0 +1,7 @@
+### One answer as the app sends and receives it. [declined] means the user
+### chose "I'd rather not answer" (only allowed for health questions).
+class: QuizAnswerInput
+fields:
+  questionId: String
+  optionIds: List<String>
+  declined: bool

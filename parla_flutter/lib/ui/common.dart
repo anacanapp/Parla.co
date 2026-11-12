@@ -78,6 +78,7 @@ String errorMessage(AppLocalizations l10n, Object error) {
     'language.unsupported' => l10n.error_language_unsupported,
     'profile.exists' => l10n.error_profile_exists,
     'consent.outdated_version' => l10n.error_consent_outdated_version,
+    'consent.health_required' => l10n.error_consent_health_required,
     _ => l10n.errorGeneric,
   };
 }

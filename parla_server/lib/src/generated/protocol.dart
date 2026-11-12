@@ -13,6 +13,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:parla_server/src/generated/consent/consent_state.dart'
     as _ianfun2u;
+import 'package:parla_server/src/generated/quiz/quiz_answer_input.dart'
+    as _iak2pevv;
 import 'package:serverpod/protocol.dart' as _isp;
 import 'package:serverpod/serverpod.dart' as _is;
 import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
@@ -24,13 +26,21 @@ import 'common/parla_exception.dart' as _iv1d8f8b;
 import 'consent/consent_record.dart' as _it7bphsc;
 import 'consent/consent_state.dart' as _icra10er;
 import 'consent/consent_type.dart' as _i40db2a8;
+import 'health/health_key.dart' as _ipdtgm1c;
+import 'health/health_record.dart' as _ioxvgdwn;
 import 'profile/member_profile.dart' as _i1iocmvy;
+import 'quiz/quiz_answer.dart' as _ih1qnypb;
+import 'quiz/quiz_answer_input.dart' as _ilw6ope9;
 export 'audit/audit_log_entry.dart';
 export 'common/parla_exception.dart';
 export 'consent/consent_record.dart';
 export 'consent/consent_state.dart';
 export 'consent/consent_type.dart';
+export 'health/health_key.dart';
+export 'health/health_record.dart';
 export 'profile/member_profile.dart';
+export 'quiz/quiz_answer.dart';
+export 'quiz/quiz_answer_input.dart';
 
 class Protocol extends _is.DatabaseSerializationManager
     implements _is.DatabaseProtocolDeserializationProvider {
@@ -50,14 +60,24 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_it7bphsc.ConsentRecord>,
           _is.getType<_icra10er.ConsentState>,
           _is.getType<_i40db2a8.ConsentType>,
+          _is.getType<_ipdtgm1c.HealthKey>,
+          _is.getType<_ioxvgdwn.HealthRecord>,
           _is.getType<_i1iocmvy.MemberProfile>,
+          _is.getType<_ih1qnypb.QuizAnswer>,
+          _is.getType<_ilw6ope9.QuizAnswerInput>,
           _is.getType<_ioa77d8b.AuditLogEntry?>,
           _is.getType<_iv1d8f8b.ParlaException?>,
           _is.getType<_it7bphsc.ConsentRecord?>,
           _is.getType<_icra10er.ConsentState?>,
           _is.getType<_i40db2a8.ConsentType?>,
+          _is.getType<_ipdtgm1c.HealthKey?>,
+          _is.getType<_ioxvgdwn.HealthRecord?>,
           _is.getType<_i1iocmvy.MemberProfile?>,
+          _is.getType<_ih1qnypb.QuizAnswer?>,
+          _is.getType<_ilw6ope9.QuizAnswerInput?>,
+          _is.getType<List<String>>,
           _is.getType<List<_ianfun2u.ConsentState>>,
+          _is.getType<List<_iak2pevv.QuizAnswerInput>>,
         ],
         modules: const [
           _iais.Protocol.new,
@@ -70,7 +90,11 @@ class Protocol extends _is.DatabaseSerializationManager
           'ConsentRecord',
           'ConsentState',
           'ConsentType',
+          'HealthKey',
+          'HealthRecord',
           'MemberProfile',
+          'QuizAnswer',
+          'QuizAnswerInput',
         ],
       );
 
@@ -232,6 +256,130 @@ class Protocol extends _is.DatabaseSerializationManager
       managed: true,
     ),
     _isp.TableDefinition(
+      name: 'health_key',
+      dartName: 'HealthKey',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'authUserId',
+          columnType: _isp.ColumnType.uuid,
+          isNullable: false,
+          dartType: 'UuidValue',
+        ),
+        _isp.ColumnDefinition(
+          name: 'wrappedKey',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'nonce',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'kekVersion',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _isp.ColumnDefinition(
+          name: 'createdAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'health_key_user_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'authUserId',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _isp.TableDefinition(
+      name: 'health_record',
+      dartName: 'HealthRecord',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'authUserId',
+          columnType: _isp.ColumnType.uuid,
+          isNullable: false,
+          dartType: 'UuidValue',
+        ),
+        _isp.ColumnDefinition(
+          name: 'ciphertext',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'nonce',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'contentVersion',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'updatedAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'health_record_user_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'authUserId',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _isp.TableDefinition(
       name: 'member_profile',
       dartName: 'MemberProfile',
       schema: 'public',
@@ -293,6 +441,72 @@ class Protocol extends _is.DatabaseSerializationManager
       ],
       managed: true,
     ),
+    _isp.TableDefinition(
+      name: 'quiz_answer',
+      dartName: 'QuizAnswer',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'authUserId',
+          columnType: _isp.ColumnType.uuid,
+          isNullable: false,
+          dartType: 'UuidValue',
+        ),
+        _isp.ColumnDefinition(
+          name: 'questionId',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'optionIds',
+          columnType: _isp.ColumnType.json,
+          isNullable: false,
+          dartType: 'List<String>',
+        ),
+        _isp.ColumnDefinition(
+          name: 'contentVersion',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'answeredAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'quiz_answer_user_question_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'authUserId',
+            ),
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'questionId',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
     ..._iais.Protocol.targetTableDefinitions,
     ..._iacs.Protocol.targetTableDefinitions,
     ..._isp.Protocol.targetTableDefinitions,
@@ -337,8 +551,20 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _i40db2a8.ConsentType) {
       return _i40db2a8.ConsentType.fromJson(data) as T;
     }
+    if (t == _ipdtgm1c.HealthKey) {
+      return _ipdtgm1c.HealthKey.fromJson(data) as T;
+    }
+    if (t == _ioxvgdwn.HealthRecord) {
+      return _ioxvgdwn.HealthRecord.fromJson(data) as T;
+    }
     if (t == _i1iocmvy.MemberProfile) {
       return _i1iocmvy.MemberProfile.fromJson(data) as T;
+    }
+    if (t == _ih1qnypb.QuizAnswer) {
+      return _ih1qnypb.QuizAnswer.fromJson(data) as T;
+    }
+    if (t == _ilw6ope9.QuizAnswerInput) {
+      return _ilw6ope9.QuizAnswerInput.fromJson(data) as T;
     }
     if (t == _is.getType<_ioa77d8b.AuditLogEntry?>()) {
       return (data != null ? _ioa77d8b.AuditLogEntry.fromJson(data) : null)
@@ -358,13 +584,35 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _is.getType<_i40db2a8.ConsentType?>()) {
       return (data != null ? _i40db2a8.ConsentType.fromJson(data) : null) as T;
     }
+    if (t == _is.getType<_ipdtgm1c.HealthKey?>()) {
+      return (data != null ? _ipdtgm1c.HealthKey.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_ioxvgdwn.HealthRecord?>()) {
+      return (data != null ? _ioxvgdwn.HealthRecord.fromJson(data) : null) as T;
+    }
     if (t == _is.getType<_i1iocmvy.MemberProfile?>()) {
       return (data != null ? _i1iocmvy.MemberProfile.fromJson(data) : null)
           as T;
     }
+    if (t == _is.getType<_ih1qnypb.QuizAnswer?>()) {
+      return (data != null ? _ih1qnypb.QuizAnswer.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_ilw6ope9.QuizAnswerInput?>()) {
+      return (data != null ? _ilw6ope9.QuizAnswerInput.fromJson(data) : null)
+          as T;
+    }
+    if (t == List<String>) {
+      return (data as List).map((e) => deserialize<String>(e)).toList() as T;
+    }
     if (t == List<_ianfun2u.ConsentState>) {
       return (data as List)
               .map((e) => deserialize<_ianfun2u.ConsentState>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_iak2pevv.QuizAnswerInput>) {
+      return (data as List)
+              .map((e) => deserialize<_iak2pevv.QuizAnswerInput>(e))
               .toList()
           as T;
     }
@@ -388,7 +636,11 @@ class Protocol extends _is.DatabaseSerializationManager
       _it7bphsc.ConsentRecord => 'ConsentRecord',
       _icra10er.ConsentState => 'ConsentState',
       _i40db2a8.ConsentType => 'ConsentType',
+      _ipdtgm1c.HealthKey => 'HealthKey',
+      _ioxvgdwn.HealthRecord => 'HealthRecord',
       _i1iocmvy.MemberProfile => 'MemberProfile',
+      _ih1qnypb.QuizAnswer => 'QuizAnswer',
+      _ilw6ope9.QuizAnswerInput => 'QuizAnswerInput',
       _ => null,
     };
   }
@@ -413,8 +665,16 @@ class Protocol extends _is.DatabaseSerializationManager
         return 'ConsentState';
       case _i40db2a8.ConsentType():
         return 'ConsentType';
+      case _ipdtgm1c.HealthKey():
+        return 'HealthKey';
+      case _ioxvgdwn.HealthRecord():
+        return 'HealthRecord';
       case _i1iocmvy.MemberProfile():
         return 'MemberProfile';
+      case _ih1qnypb.QuizAnswer():
+        return 'QuizAnswer';
+      case _ilw6ope9.QuizAnswerInput():
+        return 'QuizAnswerInput';
     }
     className = _iais.Protocol().getClassNameForObject(data);
     if (className != null) {
@@ -456,8 +716,20 @@ class Protocol extends _is.DatabaseSerializationManager
     if (dataClassName == 'ConsentType') {
       return deserialize<_i40db2a8.ConsentType>(data['data']);
     }
+    if (dataClassName == 'HealthKey') {
+      return deserialize<_ipdtgm1c.HealthKey>(data['data']);
+    }
+    if (dataClassName == 'HealthRecord') {
+      return deserialize<_ioxvgdwn.HealthRecord>(data['data']);
+    }
     if (dataClassName == 'MemberProfile') {
       return deserialize<_i1iocmvy.MemberProfile>(data['data']);
+    }
+    if (dataClassName == 'QuizAnswer') {
+      return deserialize<_ih1qnypb.QuizAnswer>(data['data']);
+    }
+    if (dataClassName == 'QuizAnswerInput') {
+      return deserialize<_ilw6ope9.QuizAnswerInput>(data['data']);
     }
     if (dataClassName.startsWith('serverpod_auth_idp.')) {
       return _iais.Protocol().deserializeByClassName({
@@ -510,8 +782,14 @@ class Protocol extends _is.DatabaseSerializationManager
         return _ioa77d8b.AuditLogEntry.t;
       case _it7bphsc.ConsentRecord:
         return _it7bphsc.ConsentRecord.t;
+      case _ipdtgm1c.HealthKey:
+        return _ipdtgm1c.HealthKey.t;
+      case _ioxvgdwn.HealthRecord:
+        return _ioxvgdwn.HealthRecord.t;
       case _i1iocmvy.MemberProfile:
         return _i1iocmvy.MemberProfile.t;
+      case _ih1qnypb.QuizAnswer:
+        return _ih1qnypb.QuizAnswer.t;
     }
     return null;
   }

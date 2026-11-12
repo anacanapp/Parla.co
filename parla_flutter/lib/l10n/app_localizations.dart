@@ -645,6 +645,192 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{routine}: {done} of {total} steps done'**
   String routineProgressLabel(String routine, int done, int total);
+
+  /// No description provided for @quizIntroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s get to know you.'**
+  String get quizIntroTitle;
+
+  /// No description provided for @quizIntroBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A few questions about your skin, hair and daily rhythm. It takes about 3 minutes.'**
+  String get quizIntroBody;
+
+  /// No description provided for @quizStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s start'**
+  String get quizStart;
+
+  /// No description provided for @quizLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get quizLater;
+
+  /// No description provided for @quizProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Question {current} of {total}'**
+  String quizProgress(int current, int total);
+
+  /// No description provided for @quizMultipleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'You can choose several'**
+  String get quizMultipleHint;
+
+  /// No description provided for @quizNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get quizNext;
+
+  /// No description provided for @quizBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get quizBack;
+
+  /// No description provided for @quizDecline.
+  ///
+  /// In en, this message translates to:
+  /// **'I\'d rather not answer'**
+  String get quizDecline;
+
+  /// No description provided for @quizFinish.
+  ///
+  /// In en, this message translates to:
+  /// **'Finish'**
+  String get quizFinish;
+
+  /// No description provided for @healthGateTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A few sensitive questions'**
+  String get healthGateTitle;
+
+  /// No description provided for @healthGateBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The next questions are about skin diagnoses, allergies, pregnancy and medicines. They help keep your routine safe. Your answers are encrypted and stored only with your consent.'**
+  String get healthGateBody;
+
+  /// No description provided for @healthGateAgree.
+  ///
+  /// In en, this message translates to:
+  /// **'I agree, continue'**
+  String get healthGateAgree;
+
+  /// No description provided for @healthGateSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip this section'**
+  String get healthGateSkip;
+
+  /// No description provided for @healthGateSkipNote.
+  ///
+  /// In en, this message translates to:
+  /// **'If you skip, your routine will be built more cautiously.'**
+  String get healthGateSkipNote;
+
+  /// No description provided for @redFlagTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Please show this to a doctor'**
+  String get redFlagTitle;
+
+  /// No description provided for @redFlagBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The sign you noted may need a doctor\'s examination. Parla does not diagnose and does not replace a doctor. We recommend seeing a dermatologist.'**
+  String get redFlagBody;
+
+  /// No description provided for @redFlagOk.
+  ///
+  /// In en, this message translates to:
+  /// **'I understand'**
+  String get redFlagOk;
+
+  /// No description provided for @resultTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your routine is ready'**
+  String get resultTitle;
+
+  /// No description provided for @resultSkin.
+  ///
+  /// In en, this message translates to:
+  /// **'Skin'**
+  String get resultSkin;
+
+  /// No description provided for @resultHair.
+  ///
+  /// In en, this message translates to:
+  /// **'Hair'**
+  String get resultHair;
+
+  /// No description provided for @resultGoals.
+  ///
+  /// In en, this message translates to:
+  /// **'Goals'**
+  String get resultGoals;
+
+  /// No description provided for @resultSeeRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Show my routine'**
+  String get resultSeeRoutine;
+
+  /// No description provided for @resultExclusionPregnancy.
+  ///
+  /// In en, this message translates to:
+  /// **'We left out retinol: we don\'t suggest it during pregnancy or breastfeeding, or when this question isn\'t answered.'**
+  String get resultExclusionPregnancy;
+
+  /// No description provided for @resultExclusionMedication.
+  ///
+  /// In en, this message translates to:
+  /// **'We left out retinol: the medication question is unanswered or you use a prescription skin medicine. Talk to your doctor.'**
+  String get resultExclusionMedication;
+
+  /// No description provided for @resultExclusionSensitive.
+  ///
+  /// In en, this message translates to:
+  /// **'For sensitive skin we chose soothing steps instead of active ingredients.'**
+  String get resultExclusionSensitive;
+
+  /// No description provided for @homeQuizTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s personalise your routine'**
+  String get homeQuizTitle;
+
+  /// No description provided for @homeQuizBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A 3-minute quiz and your routine adapts to you.'**
+  String get homeQuizBody;
+
+  /// No description provided for @homeQuizStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start the quiz'**
+  String get homeQuizStart;
+
+  /// No description provided for @error_consent_health_required.
+  ///
+  /// In en, this message translates to:
+  /// **'These answers need the health consent.'**
+  String get error_consent_health_required;
+
+  /// No description provided for @resultExclusionRetinoidBoth.
+  ///
+  /// In en, this message translates to:
+  /// **'We left out retinol: we don\'t suggest it without answers about pregnancy and medicines.'**
+  String get resultExclusionRetinoidBoth;
 }
 
 class _AppLocalizationsDelegate

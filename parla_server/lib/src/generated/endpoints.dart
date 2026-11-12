@@ -12,6 +12,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:parla_server/src/generated/consent/consent_type.dart'
     as _i1w7mn9k;
+import 'package:parla_server/src/generated/quiz/quiz_answer_input.dart'
+    as _iak2pevv;
 import 'package:serverpod/serverpod.dart' as _is;
 import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
     as _iacs;
@@ -21,6 +23,7 @@ import '../auth/email_idp_endpoint.dart' as _iuc1hd5t;
 import '../auth/jwt_refresh_endpoint.dart' as _inwq3ztq;
 import '../consent/consent_endpoint.dart' as _iu5xf735;
 import '../profile/profile_endpoint.dart' as _i6ky944g;
+import '../quiz/quiz_endpoint.dart' as _iskif4sw;
 
 class Endpoints extends _is.EndpointDispatch {
   @override
@@ -48,6 +51,12 @@ class Endpoints extends _is.EndpointDispatch {
         ..initialize(
           server,
           'profile',
+          null,
+        ),
+      'quiz': _iskif4sw.QuizEndpoint()
+        ..initialize(
+          server,
+          'quiz',
           null,
         ),
     };
@@ -455,6 +464,41 @@ class Endpoints extends _is.EndpointDispatch {
                     countryCode: params['countryCode'],
                     language: params['language'],
                   ),
+        ),
+      },
+    );
+    connectors['quiz'] = _is.EndpointConnector(
+      name: 'quiz',
+      endpoint: endpoints['quiz']!,
+      methodConnectors: {
+        'saveAnswers': _is.MethodConnector(
+          name: 'saveAnswers',
+          params: {
+            'answers': _is.ParameterDescription(
+              name: 'answers',
+              type: _is.getType<List<_iak2pevv.QuizAnswerInput>>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['quiz'] as _iskif4sw.QuizEndpoint).saveAnswers(
+                    session,
+                    params['answers'],
+                  ),
+        ),
+        'myAnswers': _is.MethodConnector(
+          name: 'myAnswers',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['quiz'] as _iskif4sw.QuizEndpoint)
+                  .myAnswers(session),
         ),
       },
     );

@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:parla/app.dart';
 import 'package:parla/services/parla_api.dart';
 import 'package:parla/state/app_settings.dart';
+import 'package:parla_shared/parla_shared.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'support/fake_api.dart';
+import 'support/text_sizes.dart';
 
 /// Opens the app as a signed-in user with a profile, so it lands on M-14.
+/// Quiz answers that produce the standard four-step routine.
+const _standardAnswers = QuizAnswers(
+  chosen: {
+    'skin_type': ['normal'],
+    'skin_sensitivity': ['rarely'],
+    'routine_time': ['standard'],
+  },
+);
+
 Future<void> _pumpHome(
   WidgetTester tester, {
   String language = 'en',
   DateTime? now,
+  QuizAnswers? quizAnswers = _standardAnswers,
 }) async {
   tester.view.physicalSize = const Size(390 * 3, 844 * 3);
   tester.view.devicePixelRatio = 3;
@@ -22,7 +33,8 @@ Future<void> _pumpHome(
   final settings = await AppSettings.load();
   final api = FakeApi()
     ..signedIn = true
-    ..profile = ProfileSummary(countryCode: 'AZ', language: language);
+    ..profile = ProfileSummary(countryCode: 'AZ', language: language)
+    ..quizAnswers = quizAnswers;
   await tester.pumpWidget(
     ParlaApp(
       api: api,
@@ -52,29 +64,6 @@ Future<void> _scrollThrough(WidgetTester tester) async {
     await tester.drag(list, const Offset(0, -500));
     await tester.pumpAndSettle();
   }
-}
-
-/// Font sizes of every text span painted on screen right now.
-List<double> _paintedFontSizes(WidgetTester tester) {
-  final sizes = <double>[];
-  for (final paragraph in tester.renderObjectList<RenderParagraph>(
-    find.byType(RichText),
-  )) {
-    void visit(InlineSpan span, double? inherited) {
-      final size = span.style?.fontSize ?? inherited;
-      if (span is TextSpan && (span.text?.trim().isNotEmpty ?? false)) {
-        sizes.add(size ?? 14);
-      }
-      if (span is TextSpan) {
-        for (final child in span.children ?? const <InlineSpan>[]) {
-          visit(child, size);
-        }
-      }
-    }
-
-    visit(paragraph.text, null);
-  }
-  return sizes;
 }
 
 void main() {
@@ -166,6 +155,24 @@ void main() {
     expect(find.text('EVENING ROUTINE'), findsOneWidget);
   });
 
+  testWidgets('without a quiz the default routine shows with a quiz '
+      'prompt', (tester) async {
+    await _pumpHome(tester, quizAnswers: null);
+    expect(find.text("Let's personalise your routine"), findsOneWidget);
+    expect(find.bySemanticsLabel('Gentle cleanser: mark as done'), findsOne);
+    expect(
+      find.bySemanticsLabel('Vitamin C serum: mark as done'),
+      findsNothing,
+    );
+    await _tap(tester, find.text('Start the quiz'));
+    expect(find.text("Let's get to know you."), findsOneWidget);
+  });
+
+  testWidgets('with a quiz there is no prompt', (tester) async {
+    await _pumpHome(tester);
+    expect(find.text("Let's personalise your routine"), findsNothing);
+  });
+
   testWidgets('water goes up and down within 0 to 8', (tester) async {
     await _pumpHome(tester);
     final add = find.bySemanticsLabel('Add a glass');
@@ -188,9 +195,9 @@ void main() {
         'overflows on a 390 px phone', (tester) async {
       await _pumpHome(tester, language: language);
 
-      final sizes = <double>[..._paintedFontSizes(tester)];
+      final sizes = <double>[...paintedFontSizes(tester)];
       await _scrollThrough(tester);
-      sizes.addAll(_paintedFontSizes(tester));
+      sizes.addAll(paintedFontSizes(tester));
 
       expect(sizes, isNotEmpty);
       expect(sizes.where((s) => s < 18), isEmpty);

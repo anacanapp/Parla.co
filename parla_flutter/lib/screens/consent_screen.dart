@@ -64,7 +64,7 @@ class _ConsentScreenState extends State<ConsentScreen> {
         );
       }
       onboarding.clear();
-      if (mounted) context.go(Routes.home);
+      if (mounted) context.go(Routes.quiz);
     } on Object catch (error) {
       if (mounted) showError(context, errorMessage(l10n, error));
     } finally {

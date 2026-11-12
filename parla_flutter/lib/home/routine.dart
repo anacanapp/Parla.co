@@ -35,49 +35,65 @@ class RoutineStep {
 
 /// SAMPLE CONTENT, NOT EXPERT-APPROVED.
 ///
-/// Placeholder routine until the onboarding test and the expert CMS (M3,
-/// M4, M8) produce real routines. None of it is marked approved, so the
-/// dermatologist badge never shows for it.
-List<RoutineStep> sampleRoutine(RoutineKind kind, String language) {
+/// Step texts for the step ids that the routine rules
+/// (`planRoutine` in parla_shared) produce. None of it is marked approved,
+/// so the dermatologist badge never shows for it.
+List<RoutineStep> routineSteps(List<String> ids, String language) {
   final text = _sampleText[language] ?? _sampleText['az']!;
-  final rows = kind == RoutineKind.morning ? _morning : _evening;
   return [
-    for (final row in rows)
-      RoutineStep(
-        id: row.id,
-        title: text[row.id]![0],
-        meta: text[row.id]![1],
-        tip: text[row.id]![2],
-        minutes: row.minutes,
-        tile: row.tile,
-      ),
+    for (final id in ids)
+      if (text.containsKey(id))
+        RoutineStep(
+          id: id,
+          title: text[id]![0],
+          meta: text[id]![1],
+          tip: text[id]![2],
+          minutes: _minutes[id] ?? 1,
+          tile: _tiles[id] ?? ParlaColors.lemon,
+        ),
   ];
 }
 
-class _Row {
-  const _Row(this.id, this.minutes, this.tile);
-  final String id;
-  final int minutes;
-  final Color tile;
-}
+/// Every step id that has text, per language (for tests).
+Iterable<String> knownStepIds(String language) =>
+    (_sampleText[language] ?? const {}).keys;
 
-const _morning = [
-  _Row('cleanser', 1, ParlaColors.sage),
-  _Row('vitamin-c', 1, ParlaColors.sky),
-  _Row('moisturiser', 1, ParlaColors.lemon),
-  _Row('sunscreen', 1, ParlaColors.sun),
-];
+const _minutes = {'makeup-off': 2};
 
-const _evening = [
-  _Row('makeup-off', 2, ParlaColors.sky),
-  _Row('cleanser-pm', 1, ParlaColors.sage),
-  _Row('night-cream', 1, ParlaColors.lemon),
-  _Row('lip-balm', 1, ParlaColors.sun),
-];
+const _tiles = {
+  'cleanser': ParlaColors.sage,
+  'cleanser-pm': ParlaColors.sage,
+  'soothing-serum': ParlaColors.sage,
+  'vitamin-c': ParlaColors.sky,
+  'makeup-off': ParlaColors.sky,
+  'retinoid-pm': ParlaColors.sky,
+  'sunscreen': ParlaColors.sun,
+  'lip-balm': ParlaColors.sun,
+};
 
 /// id → [title, meta, tip] per language.
 const Map<String, Map<String, List<String>>> _sampleText = {
   'az': {
+    'moisturiser-light': [
+      "Yüngül gel krem",
+      "Noxud boyda · nazik qat",
+      "Yağlı dəri üçün: nəmləndirir, parıltı artırmır.",
+    ],
+    'moisturiser-rich': [
+      "Qidalandırıcı krem",
+      "Noxud boyda · yüngül masajla",
+      "Quru dəri üçün: dartılma hissini azaldır.",
+    ],
+    'soothing-serum': [
+      "Sakitləşdirici serum",
+      "2–3 damcı · üz",
+      "Həssas dəri üçün: aktiv turşular olmadan.",
+    ],
+    'retinoid-pm': [
+      "Retinol (axşam)",
+      "Noxud boyda · həftədə 2 dəfə",
+      "Yavaş başla ki, dəri uyğunlaşsın. Səhər günəşdən qoruyucu vacibdir.",
+    ],
     'cleanser': [
       'Yumşaq təmizləyici',
       '60 saniyə · ılıq su',
@@ -120,6 +136,26 @@ const Map<String, Map<String, List<String>>> _sampleText = {
     ],
   },
   'ru': {
+    'moisturiser-light': [
+      "Лёгкий гель-крем",
+      "С горошину · тонкий слой",
+      "Для жирной кожи: увлажняет, не добавляя блеска.",
+    ],
+    'moisturiser-rich': [
+      "Питательный крем",
+      "С горошину · лёгкий массаж",
+      "Для сухой кожи: снимает ощущение стянутости.",
+    ],
+    'soothing-serum': [
+      "Успокаивающая сыворотка",
+      "2–3 капли · лицо",
+      "Для чувствительной кожи: без активных кислот.",
+    ],
+    'retinoid-pm': [
+      "Ретинол (вечер)",
+      "С горошину · 2 раза в неделю",
+      "Начинай постепенно, чтобы кожа привыкла. Утром обязательно SPF.",
+    ],
     'cleanser': [
       'Мягкое очищение',
       '60 секунд · тёплая вода',
@@ -162,6 +198,26 @@ const Map<String, Map<String, List<String>>> _sampleText = {
     ],
   },
   'en': {
+    'moisturiser-light': [
+      "Light gel moisturiser",
+      "Pea-sized · thin layer",
+      "For oily skin: hydrates without adding shine.",
+    ],
+    'moisturiser-rich': [
+      "Rich cream",
+      "Pea-sized · light massage",
+      "For dry skin: eases the tight feeling.",
+    ],
+    'soothing-serum': [
+      "Soothing serum",
+      "2–3 drops · face",
+      "For sensitive skin: no active acids.",
+    ],
+    'retinoid-pm': [
+      "Retinol (evening)",
+      "Pea-sized · twice a week",
+      "Start slowly so your skin adapts. Sunscreen in the morning is a must.",
+    ],
     'cleanser': [
       'Gentle cleanser',
       '60 seconds · lukewarm water',

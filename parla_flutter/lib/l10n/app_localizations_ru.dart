@@ -316,4 +316,108 @@ class AppLocalizationsRu extends AppLocalizations {
   String routineProgressLabel(String routine, int done, int total) {
     return '$routine: выполнено $done из $total';
   }
+
+  @override
+  String get quizIntroTitle => 'Давайте познакомимся.';
+
+  @override
+  String get quizIntroBody =>
+      'Несколько вопросов о коже, волосах и вашем ритме дня. Это займёт около 3 минут.';
+
+  @override
+  String get quizStart => 'Начнём';
+
+  @override
+  String get quizLater => 'Позже';
+
+  @override
+  String quizProgress(int current, int total) {
+    return 'Вопрос $current из $total';
+  }
+
+  @override
+  String get quizMultipleHint => 'Можно выбрать несколько';
+
+  @override
+  String get quizNext => 'Далее';
+
+  @override
+  String get quizBack => 'Назад';
+
+  @override
+  String get quizDecline => 'Предпочитаю не отвечать';
+
+  @override
+  String get quizFinish => 'Готово';
+
+  @override
+  String get healthGateTitle => 'Несколько деликатных вопросов';
+
+  @override
+  String get healthGateBody =>
+      'Следующие вопросы — о диагнозах кожи, аллергиях, беременности и лекарствах. Они помогают сделать уход безопасным. Ответы шифруются и хранятся только с вашего согласия.';
+
+  @override
+  String get healthGateAgree => 'Даю согласие, продолжить';
+
+  @override
+  String get healthGateSkip => 'Пропустить раздел';
+
+  @override
+  String get healthGateSkipNote =>
+      'Если пропустить, уход будет подобран осторожнее.';
+
+  @override
+  String get redFlagTitle => 'Покажите это врачу';
+
+  @override
+  String get redFlagBody =>
+      'Отмеченный признак может требовать осмотра врача. Parla не ставит диагнозы и не заменяет врача. Рекомендуем обратиться к дерматологу.';
+
+  @override
+  String get redFlagOk => 'Понятно';
+
+  @override
+  String get resultTitle => 'Ваш уход готов';
+
+  @override
+  String get resultSkin => 'Кожа';
+
+  @override
+  String get resultHair => 'Волосы';
+
+  @override
+  String get resultGoals => 'Цели';
+
+  @override
+  String get resultSeeRoutine => 'Показать мой уход';
+
+  @override
+  String get resultExclusionPregnancy =>
+      'Мы не добавили ретинол: не рекомендуем его при беременности, кормлении грудью или если на этот вопрос нет ответа.';
+
+  @override
+  String get resultExclusionMedication =>
+      'Мы не добавили ретинол: вопрос о лекарствах без ответа или вы используете препарат для кожи по рецепту. Посоветуйтесь с врачом.';
+
+  @override
+  String get resultExclusionSensitive =>
+      'Для чувствительной кожи мы выбрали успокаивающие шаги вместо активных средств.';
+
+  @override
+  String get homeQuizTitle => 'Давайте настроим уход под вас';
+
+  @override
+  String get homeQuizBody => 'Тест на 3 минуты — и уход подстроится под вас.';
+
+  @override
+  String get homeQuizStart => 'Начать тест';
+
+  @override
+  String get error_consent_health_required =>
+      'Для этих ответов нужно согласие на данные о здоровье.';
+
+  @override
+  String get resultExclusionRetinoidBoth =>
+      'Мы не добавили ретинол: без ответов о беременности и лекарствах мы его не рекомендуем.';
 }

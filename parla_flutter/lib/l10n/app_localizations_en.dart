@@ -319,4 +319,108 @@ class AppLocalizationsEn extends AppLocalizations {
   String routineProgressLabel(String routine, int done, int total) {
     return '$routine: $done of $total steps done';
   }
+
+  @override
+  String get quizIntroTitle => 'Let\'s get to know you.';
+
+  @override
+  String get quizIntroBody =>
+      'A few questions about your skin, hair and daily rhythm. It takes about 3 minutes.';
+
+  @override
+  String get quizStart => 'Let\'s start';
+
+  @override
+  String get quizLater => 'Later';
+
+  @override
+  String quizProgress(int current, int total) {
+    return 'Question $current of $total';
+  }
+
+  @override
+  String get quizMultipleHint => 'You can choose several';
+
+  @override
+  String get quizNext => 'Next';
+
+  @override
+  String get quizBack => 'Back';
+
+  @override
+  String get quizDecline => 'I\'d rather not answer';
+
+  @override
+  String get quizFinish => 'Finish';
+
+  @override
+  String get healthGateTitle => 'A few sensitive questions';
+
+  @override
+  String get healthGateBody =>
+      'The next questions are about skin diagnoses, allergies, pregnancy and medicines. They help keep your routine safe. Your answers are encrypted and stored only with your consent.';
+
+  @override
+  String get healthGateAgree => 'I agree, continue';
+
+  @override
+  String get healthGateSkip => 'Skip this section';
+
+  @override
+  String get healthGateSkipNote =>
+      'If you skip, your routine will be built more cautiously.';
+
+  @override
+  String get redFlagTitle => 'Please show this to a doctor';
+
+  @override
+  String get redFlagBody =>
+      'The sign you noted may need a doctor\'s examination. Parla does not diagnose and does not replace a doctor. We recommend seeing a dermatologist.';
+
+  @override
+  String get redFlagOk => 'I understand';
+
+  @override
+  String get resultTitle => 'Your routine is ready';
+
+  @override
+  String get resultSkin => 'Skin';
+
+  @override
+  String get resultHair => 'Hair';
+
+  @override
+  String get resultGoals => 'Goals';
+
+  @override
+  String get resultSeeRoutine => 'Show my routine';
+
+  @override
+  String get resultExclusionPregnancy =>
+      'We left out retinol: we don\'t suggest it during pregnancy or breastfeeding, or when this question isn\'t answered.';
+
+  @override
+  String get resultExclusionMedication =>
+      'We left out retinol: the medication question is unanswered or you use a prescription skin medicine. Talk to your doctor.';
+
+  @override
+  String get resultExclusionSensitive =>
+      'For sensitive skin we chose soothing steps instead of active ingredients.';
+
+  @override
+  String get homeQuizTitle => 'Let\'s personalise your routine';
+
+  @override
+  String get homeQuizBody => 'A 3-minute quiz and your routine adapts to you.';
+
+  @override
+  String get homeQuizStart => 'Start the quiz';
+
+  @override
+  String get error_consent_health_required =>
+      'These answers need the health consent.';
+
+  @override
+  String get resultExclusionRetinoidBoth =>
+      'We left out retinol: we don\'t suggest it without answers about pregnancy and medicines.';
 }
