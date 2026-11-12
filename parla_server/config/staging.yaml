@@ -1,36 +1,38 @@
-# Staging (test) environment: the server runs as a Docker container on
-# Google Cloud Run (europe-west3, Frankfurt) and uses a Supabase PostgreSQL
-# database in the EU (Frankfurt). See docs/RELEASE.md.
+# Staging (test) environment: the server runs as a Docker container on AWS
+# ECS Fargate in Frankfurt (eu-central-1) with an RDS PostgreSQL database in
+# the same region. Infrastructure: deploy/aws/staging; setup:
+# docs/RELEASE.md.
 #
-# Nothing here is tied to Cloud Run or Supabase: the values below are
-# overridden by SERVERPOD_* environment variables set on the service, so
-# moving to our own servers only means changing those variables. Secrets
-# (database password, SMTP, keys) come from SERVERPOD_PASSWORD_* variables
-# backed by Secret Manager, never from this file.
+# Nothing here is tied to AWS: the values below are overridden by SERVERPOD_*
+# environment variables set on the task, so moving to our own servers only
+# means changing those variables. Secrets (database password, SMTP, keys)
+# come from SERVERPOD_PASSWORD_* variables backed by Secrets Manager, never
+# from this file.
 
-# Cloud Run sends all traffic to one port and terminates HTTPS.
+# CloudFront terminates HTTPS and forwards every request to this one port.
 apiServer:
   port: 8080
   publicHost: parla-staging.example.invalid # Set SERVERPOD_API_SERVER_PUBLIC_HOST.
   publicPort: 443
   publicScheme: https
 
-# No Insights server: Cloud Run exposes a single port, and Insights would
+# No Insights server: only the API port is reachable, and Insights would
 # need its own protected endpoint.
 
-# Supabase session pooler (IPv4, keeps prepared statements working).
+# RDS in private subnets, reachable only from the server; TLS is enforced
+# by the database (rds.force_ssl).
 database:
-  host: aws-0-eu-central-1.pooler.supabase.com # Set SERVERPOD_DATABASE_HOST.
+  host: parla-staging.example.invalid # Set SERVERPOD_DATABASE_HOST.
   port: 5432
-  name: postgres
-  user: postgres.project-ref # Set SERVERPOD_DATABASE_USER.
+  name: parla
+  user: parla
   requireSsl: true
-  maxConnectionCount: 5 # The free Supabase pooler allows few connections.
+  maxConnectionCount: 10
 
 maxRequestSize: 524288 # The maximum size of requests allowed in bytes
 
 sessionLogs:
-  # Keep session logs in the container log (Cloud Logging, EU) rather than
-  # in the database.
+  # Keep session logs in the container log (CloudWatch, Frankfurt, 30 days)
+  # rather than in the database.
   persistentEnabled: false
   consoleEnabled: true

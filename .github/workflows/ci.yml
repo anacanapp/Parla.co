@@ -102,3 +102,18 @@ jobs:
       # finding while --redact keeps its value out of the log.
       - name: gitleaks
         run: docker run --rm -v "$PWD:/repo" zricethezav/gitleaks:v8.18.4 detect --source /repo --config /repo/.gitleaks.toml --no-banner --redact --verbose
+
+  terraform:
+    name: Validate AWS infrastructure
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: deploy/aws/staging
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.10.5
+      - run: terraform fmt -check -recursive
+      - run: terraform init -backend=false
+      - run: terraform validate

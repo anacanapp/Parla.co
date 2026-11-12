@@ -1,0 +1,56 @@
+name: Deploy staging server
+
+# Started by hand (Actions -> Deploy staging server -> Run workflow).
+# Builds the server image, pushes it to ECR and restarts the staging
+# service on AWS. No AWS key is stored in GitHub: the job takes the deploy
+# role through OIDC, which only jobs in the "staging" environment may do.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: eu-central-1
+  ECR_REPOSITORY: parla-staging/server
+  ECS_CLUSTER: parla-staging
+  ECS_SERVICE: parla-staging-server
+
+jobs:
+  deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push the image
+        env:
+          IMAGE: ${{ steps.ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}
+        run: |
+          docker build -f parla_server/Dockerfile -t "$IMAGE:$GITHUB_SHA" -t "$IMAGE:staging" .
+          docker push "$IMAGE:$GITHUB_SHA"
+          docker push "$IMAGE:staging"
+
+      - name: Restart the service with the new image
+        run: |
+          aws ecs update-service --cluster "$ECS_CLUSTER" --service "$ECS_SERVICE" \
+            --force-new-deployment >/dev/null
+          aws ecs wait services-stable --cluster "$ECS_CLUSTER" --services "$ECS_SERVICE"
+
+      - name: Check the server answers
+        if: vars.STAGING_SERVER_URL != ''
+        run: curl -fsS --retry 5 --retry-delay 10 "${{ vars.STAGING_SERVER_URL }}readyz"

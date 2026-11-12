@@ -6,79 +6,119 @@ the first upload).
 
 ```
 GitHub ──► Codemagic ──► Play internal testing / TestFlight ──► testers
-                             │ app talks to
-                             ▼
-              Cloud Run (parla-staging, Frankfurt) ──► Supabase Postgres (Frankfurt)
-                             └── sign-in codes by SMTP from info@anacan.az
+   │                         │ app talks to
+   │ deploy workflow         ▼
+   └──────────► AWS Frankfurt (eu-central-1):
+                CloudFront (HTTPS) ──► internal load balancer ──► ECS Fargate server
+                                                                   │
+                                     RDS PostgreSQL (private) ◄────┘
+                └── sign-in codes by SMTP from info@anacan.az
 ```
 
-Nothing is tied to these vendors. The server is a plain Docker image
-configured only by environment variables, so moving to our own servers means
-running the same image with new variables.
+Nothing is tied to AWS. The server is a plain Docker image configured only
+by environment variables, so moving to our own servers means running the
+same image with new variables.
 
 ## Privacy and legal checks before inviting testers
 
 - Testers are real people and may enter real health answers. Staging is
   therefore treated like production for data protection.
-- Supabase project in **EU (Frankfurt)**, Cloud Run in **europe-west3
-  (Frankfurt)**. Sign the Supabase and Google Cloud data processing
-  agreements (both offer one).
+- Everything runs in AWS **eu-central-1 (Frankfurt)**: server, database,
+  backups (7 days), secrets and logs (30 days). The database, its backups,
+  the secrets and the logs are encrypted with one KMS key that AWS rotates
+  yearly. The database has no public address; the load balancer is
+  internal and only CloudFront reaches it, over AWS's own network.
+- AWS's data processing addendum (GDPR DPA) is part of the AWS Service
+  Terms and applies automatically; keep a copy for the processor list
+  (AWS Artifact → Agreements).
+- CloudFront serves the HTTPS address from AWS edge locations; requests
+  pass through them but nothing is cached (caching is off).
 - The anacan.az mailbox provider processes testers' email addresses: note
   which provider it is and where it stores mail.
 - Tell testers it is a test version and their data may be deleted.
 - Open for the lawyer: Azerbaijani data localisation (testers in AZ, data in
   Germany), and whether `ITSAppUsesNonExemptEncryption = false` is right
   (the app itself only uses HTTPS and the phone's secure storage).
+- Update the processor list in the privacy policy draft: AWS instead of
+  Google Cloud and Supabase.
 
-## 1. Database: Supabase (once)
+## 1. AWS: infrastructure (once)
 
-1. Create a project in region **Central EU (Frankfurt)**. Keep the database
-   password in your password manager.
-2. Project settings → Database → Connection string → **Session pooler**.
-   Note the host (e.g. `aws-0-eu-central-1.pooler.supabase.com`) and the
-   user (`postgres.<project-ref>`). The session pooler is used because the
-   direct connection is IPv6 only and the transaction pooler breaks
-   prepared statements.
-3. Nothing else: the server creates its tables on first start
-   (`--apply-migrations`).
+Everything is described in Terraform in `deploy/aws/staging`: network,
+KMS key, RDS PostgreSQL 16, Secrets Manager secret, ECR, ECS Fargate,
+internal load balancer, CloudFront and the GitHub deploy role. Running it
+creates paid resources, roughly 45–55 USD a month (load balancer ~18,
+database ~15, server ~10, rest small).
 
-## 2. Email: info@anacan.az (once)
-
-The server sends sign-in codes by SMTP. From the anacan.az mail provider you
-need: SMTP host, port (587 or 465) and a password for info@anacan.az. With
-Google Workspace, use `smtp.gmail.com`, port 587 and an **app password**
-(Google account → Security → 2-Step Verification → App passwords), not the
-normal password.
-
-## 3. Server: Google Cloud Run (once, then one command per deploy)
-
-1. Create a Google Cloud project with billing, then:
+1. Sign in to the Anacan App AWS account with a user that may create IAM
+   roles, switch the region to **Europe (Frankfurt) eu-central-1** and open
+   **CloudShell** (the terminal icon in the top bar). No AWS key is needed
+   on your own computer.
+2. Install Terraform and get the code:
    ```bash
-   gcloud config set project <project-id>
-   gcloud services enable run.googleapis.com cloudbuild.googleapis.com artifactregistry.googleapis.com secretmanager.googleapis.com
-   gcloud artifacts repositories create parla --repository-format=docker --location=europe-west3
+   sudo yum install -y yum-utils
    ```
-2. Create the secrets. Random keys are generated; the script asks for the
-   Supabase password and SMTP settings without showing them:
    ```bash
-   deploy/create-staging-secrets.sh <project-id>
+   sudo yum-config-manager --add-repo https://rpm.releases.hashicorp.com/AmazonLinux/hashicorp.repo
    ```
-3. Let Cloud Build and Cloud Run read the secrets and deploy: grant the
-   Cloud Build service account the roles *Cloud Run Admin*, *Service Account
-   User* and *Artifact Registry Writer*, and the Cloud Run runtime service
-   account *Secret Manager Secret Accessor*.
-4. In `deploy/cloudbuild-staging.yaml` set `_DB_HOST` and `_DB_USER` from
-   step 1.2. Deploy:
    ```bash
-   gcloud builds submit --config deploy/cloudbuild-staging.yaml .
+   sudo yum -y install terraform
    ```
-5. The first deploy prints the service URL
-   (`https://parla-staging-….europe-west3.run.app`). Put its host into
-   `_PUBLIC_HOST` and deploy once more. The URL with a trailing `/` is the
-   app's `SERVER_URL`.
+   ```bash
+   git clone https://github.com/anacanapp/Parla.co.git && cd Parla.co
+   ```
+3. Check whether the account already has a GitHub identity provider (IAM →
+   Identity providers → `token.actions.githubusercontent.com`). If it does,
+   add `-var create_github_oidc_provider=false` to both commands in step 4.
+4. Create the state bucket and the infrastructure:
+   ```bash
+   deploy/aws/init-staging.sh
+   ```
+   ```bash
+   terraform -chdir=deploy/aws/staging apply
+   ```
+   Read the plan, answer `yes`. It takes 15–20 minutes (the database and
+   CloudFront are slow to create). At the end it prints `server_url`,
+   `deploy_role_arn` and the other outputs; `terraform -chdir=deploy/aws/staging output`
+   shows them again. The server task keeps failing until steps 2 and 3
+   have run: there is no image and no secret yet.
 
-The service runs one always-on instance (the daily retention timer needs
-it), roughly 10–15 USD a month.
+## 2. Secrets (once)
+
+In the same CloudShell:
+
+```bash
+deploy/aws/put-staging-secrets.sh
+```
+
+It generates the keys (JWT, peppers, the health data key) and asks for the
+SMTP settings without showing them. The database password is never asked
+for: RDS created it and keeps it in Secrets Manager. The script refuses to
+overwrite an existing value, because a new health data key would make
+every stored health answer unreadable.
+
+SMTP for info@anacan.az: from the anacan.az mail provider you need the SMTP
+host, port (587 or 465) and a password. With Google Workspace use
+`smtp.gmail.com`, port 587 and an **app password** (Google account →
+Security → 2-Step Verification → App passwords), not the normal password.
+
+## 3. Deploys from GitHub
+
+1. GitHub → the repository → Settings → Environments → **New environment**
+   named `staging`. Under *Deployment protection rules* you can require your
+   own approval for each deploy.
+2. In that environment add the **variables** (not secrets; neither is
+   sensitive):
+   - `AWS_DEPLOY_ROLE_ARN` = `deploy_role_arn` from step 1.4.
+   - `STAGING_SERVER_URL` = `server_url` from step 1.4.
+3. Actions → **Deploy staging server** → *Run workflow* (branch `main`). It
+   builds the image, pushes it, restarts the server and checks that
+   `server_url` + `readyz` answers. On first start the server creates its
+   tables (`--apply-migrations`).
+4. Logs: CloudWatch → Log groups → `/parla-staging/server`.
+
+Later deploys are just step 3.3. Changes to `deploy/aws/staging` need
+`terraform apply` again (steps 1.2 and 1.4 in a new CloudShell session).
 
 ## 4. Codemagic (once)
 
@@ -98,7 +138,8 @@ it), roughly 10–15 USD a month.
    key. Codemagic then creates the App Store profile for
    `com.atlasoon.parla` itself.
 5. **Environment variable groups:**
-   - `parla_staging`: `SERVER_URL` = the Cloud Run URL from step 3.5.
+   - `parla_staging`: `SERVER_URL` = `server_url` from step 1.4 (with the
+     trailing `/`).
    - `google_play`: `GCLOUD_SERVICE_ACCOUNT_CREDENTIALS` (secure) = the
      JSON key from step 6.3.
 
@@ -156,6 +197,7 @@ it), roughly 10–15 USD a month.
 
 Run the same Docker image (`parla_server/Dockerfile`) with
 `runmode=staging` or `production`, set the `SERVERPOD_*` variables and
-`SERVERPOD_PASSWORD_*` secrets listed in `deploy/cloudbuild-staging.yaml`,
-point it at any PostgreSQL 16+ (a `pg_dump` from Supabase moves the data),
-and change `SERVER_URL` in Codemagic.
+`SERVERPOD_PASSWORD_*` secrets listed in `deploy/aws/staging/ecs.tf` and
+`secrets.tf`, point it at any PostgreSQL 16+ (a `pg_dump` from RDS moves the
+data; keep the same `healthKek`, or health answers become unreadable), and
+change `SERVER_URL` in Codemagic.
