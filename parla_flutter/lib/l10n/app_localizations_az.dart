@@ -441,7 +441,7 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get privacyExportBody =>
-      'Parla-nın sizin haqqınızda saxladığı hər şey bir faylda. Fayl indi yaradılır və serverlərimizdə saxlanılmır.';
+      'Parla-nın sizin haqqınızda saxladığı hər şey, üstəlik bu telefondakı vərdiş qeydləri, bir faylda. Fayl indi yaradılır və serverlərimizdə saxlanılmır.';
 
   @override
   String get privacyExportButton => 'Fayl yarat';
@@ -460,7 +460,7 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get deleteWhatGoes =>
-      'Dərhal silinir: profiliniz, test cavablarınız, sağlamlıq cavablarınız və onların şifrə açarı, giriş hesabınız.';
+      'Dərhal silinir: profiliniz, test cavablarınız, sağlamlıq cavablarınız və onların şifrə açarı, giriş hesabınız. Bu telefondakı vərdiş qeydləriniz də silinir.';
 
   @override
   String get deleteWhatStays =>
@@ -506,4 +506,97 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get legalConsentsTitle => 'Razılıq mətnləri';
+
+  @override
+  String get habitEdit => 'Dəyiş';
+
+  @override
+  String get habitSleepSheetTitle => 'Ötən gecə nə qədər yatdınız?';
+
+  @override
+  String get habitMoveSheetTitle => 'Bu gün nə qədər hərəkət etdiniz?';
+
+  @override
+  String habitSleepHours(String hours) {
+    return '$hours saat';
+  }
+
+  @override
+  String habitMoveMinutes(int minutes) {
+    return '$minutes dəq';
+  }
+
+  @override
+  String get habitLess => 'Azalt';
+
+  @override
+  String get habitMore => 'Artır';
+
+  @override
+  String get habitSave => 'Yadda saxla';
+
+  @override
+  String get habitClearEntry => 'Qeydi sil';
+
+  @override
+  String get habitsScreenTitle => 'Vərdişlər';
+
+  @override
+  String get habitsScreenIntro => 'Kiçik addımlar, öz tempinizlə.';
+
+  @override
+  String get habitsToday => 'Bu gün';
+
+  @override
+  String get habitsWeekTitle => 'Son 7 gün';
+
+  @override
+  String get habitsWeekCare => 'Rutinə vaxt ayırdığınız günlər';
+
+  @override
+  String habitsWeekCareValue(int days) {
+    return '7 gündən $days';
+  }
+
+  @override
+  String get habitsWeekNone => 'Hələ qeyd yoxdur';
+
+  @override
+  String habitsWeekWaterValue(String glasses) {
+    return 'Gündə orta hesabla $glasses stəkan';
+  }
+
+  @override
+  String habitsWeekSleepValue(String hours, int nights) {
+    return 'Orta hesabla $hours saat, $nights gecə qeyd olunub';
+  }
+
+  @override
+  String habitsWeekMoveValue(int minutes, int days) {
+    return 'Cəmi $minutes dəq, $days gün';
+  }
+
+  @override
+  String get habitsPrivacyNote =>
+      'Vərdiş qeydləriniz yalnız bu telefonda saxlanılır və serverə göndərilmir. 90 gündən köhnə qeydlər avtomatik silinir.';
+
+  @override
+  String get privacyHabitsTitle => 'Bu telefondakı vərdiş qeydləri';
+
+  @override
+  String get privacyHabitsBody =>
+      'Su, yuxu, hərəkət və rutin qeydləri yalnız bu telefonda saxlanılır. Onları istənilən vaxt silə bilərsiniz.';
+
+  @override
+  String get privacyHabitsDelete => 'Qeydləri sil';
+
+  @override
+  String get privacyHabitsDeleteTitle => 'Vərdiş qeydləri silinsin?';
+
+  @override
+  String get privacyHabitsDeleteBody =>
+      'Bu telefondakı bütün su, yuxu, hərəkət və rutin qeydləriniz silinəcək. Bunu geri qaytarmaq olmur.';
+
+  @override
+  String get privacyHabitsDeleted => 'Vərdiş qeydləri silindi.';
 }

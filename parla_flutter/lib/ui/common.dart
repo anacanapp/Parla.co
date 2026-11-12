@@ -83,7 +83,11 @@ String errorMessage(AppLocalizations l10n, Object error) {
   };
 }
 
-void showError(BuildContext context, String message) {
+void showError(BuildContext context, String message) =>
+    showMessage(context, message);
+
+/// Shows a short message at the bottom of the screen.
+void showMessage(BuildContext context, String message) {
   ScaffoldMessenger.of(context)
     ..hideCurrentSnackBar()
     ..showSnackBar(SnackBar(content: Text(message)));

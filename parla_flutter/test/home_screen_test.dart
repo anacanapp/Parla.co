@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'dart:convert';
+
 import 'package:parla/app.dart';
+import 'package:parla/habits/habit_store.dart';
 import 'package:parla/services/parla_api.dart';
 import 'package:parla/state/app_settings.dart';
 import 'package:parla_shared/parla_shared.dart';
@@ -19,11 +22,13 @@ const _standardAnswers = QuizAnswers(
   },
 );
 
-Future<void> _pumpHome(
+Future<FakeApi> _pumpHome(
   WidgetTester tester, {
   String language = 'en',
   DateTime? now,
   QuizAnswers? quizAnswers = _standardAnswers,
+  MemoryHabitStore? store,
+  String userId = 'user-1',
 }) async {
   tester.view.physicalSize = const Size(390 * 3, 844 * 3);
   tester.view.devicePixelRatio = 3;
@@ -34,15 +39,20 @@ Future<void> _pumpHome(
   final api = FakeApi()
     ..signedIn = true
     ..profile = ProfileSummary(countryCode: 'AZ', language: language)
-    ..quizAnswers = quizAnswers;
+    ..quizAnswers = quizAnswers
+    ..userId = userId;
   await tester.pumpWidget(
     ParlaApp(
+      // A new key per pump, so a second pump is a fresh app start.
+      key: UniqueKey(),
       api: api,
       settings: settings,
       clock: () => now ?? DateTime(2026, 11, 12, 8, 30),
+      habitStore: store ?? MemoryHabitStore(),
     ),
   );
   await tester.pumpAndSettle();
+  return api;
 }
 
 Future<void> _tap(WidgetTester tester, Finder finder) async {
@@ -188,6 +198,104 @@ void main() {
 
     await _tap(tester, remove);
     expect(find.text('7 of 8 glasses'), findsOneWidget);
+  });
+
+  testWidgets('water and ticked steps are kept on the device across app '
+      'starts', (tester) async {
+    final store = MemoryHabitStore();
+    await _pumpHome(tester, store: store);
+    await _tap(tester, find.bySemanticsLabel('Add a glass'));
+    await _tap(tester, find.bySemanticsLabel('Add a glass'));
+    await tick(tester, 'Gentle cleanser');
+
+    final saved = jsonDecode(store.data['user-1']!) as Map<String, Object?>;
+    expect(saved['format'], 'parla-habits-v1');
+    expect(saved['days'], {
+      '2026-11-12': {
+        'water': 2,
+        'morningDone': ['cleanser'],
+      },
+    });
+
+    await _pumpHome(tester, store: store);
+    expect(find.text('2 of 8 glasses'), findsOneWidget);
+    await _toTop(tester);
+    expect(summary(1), findsOneWidget);
+  });
+
+  testWidgets('another account on the same phone starts empty', (
+    tester,
+  ) async {
+    final store = MemoryHabitStore();
+    await _pumpHome(tester, store: store);
+    await _tap(tester, find.bySemanticsLabel('Add a glass'));
+
+    await _pumpHome(tester, store: store, userId: 'user-2');
+    expect(find.text('0 of 8 glasses'), findsOneWidget);
+    expect(store.data.keys, ['user-1']);
+  });
+
+  testWidgets('a new day starts with nothing ticked', (tester) async {
+    final store = MemoryHabitStore();
+    await _pumpHome(tester, store: store);
+    await _tap(tester, find.bySemanticsLabel('Add a glass'));
+
+    await _pumpHome(tester, store: store, now: DateTime(2026, 11, 13, 8));
+    expect(find.text('0 of 8 glasses'), findsOneWidget);
+  });
+
+  testWidgets('sleep is logged in half hours from the home tile', (
+    tester,
+  ) async {
+    final store = MemoryHabitStore();
+    await _pumpHome(tester, store: store);
+    final sleep = find.byKey(const ValueKey('habit-sleep'));
+    await _tap(
+      tester,
+      find.descendant(of: sleep, matching: find.text('Log')),
+    );
+    expect(find.text('How long did you sleep last night?'), findsOneWidget);
+    expect(find.text('7 h'), findsOneWidget);
+    await _tap(tester, find.bySemanticsLabel('More'));
+    expect(find.text('7½ h'), findsOneWidget);
+    await _tap(tester, find.text('Save'));
+
+    expect(
+      find.descendant(of: sleep, matching: find.text('7½ h')),
+      findsOneWidget,
+    );
+    expect(store.data['user-1'], contains('"sleepHours":7.5'));
+
+    // Editing offers to remove the entry.
+    await _tap(
+      tester,
+      find.descendant(of: sleep, matching: find.text('Edit')),
+    );
+    await _tap(tester, find.text('Remove entry'));
+    expect(
+      find.descendant(of: sleep, matching: find.text('Nothing logged yet')),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('movement is logged in minutes', (tester) async {
+    await _pumpHome(tester);
+    final move = find.byKey(const ValueKey('habit-move'));
+    await _tap(tester, find.descendant(of: move, matching: find.text('Log')));
+    expect(find.text('20 min'), findsOneWidget);
+    await _tap(tester, find.bySemanticsLabel('More'));
+    await _tap(tester, find.bySemanticsLabel('More'));
+    await _tap(tester, find.text('Save'));
+    expect(
+      find.descendant(of: move, matching: find.text('30 min')),
+      findsOneWidget,
+    );
+  });
+
+  testWidgets('the Habits tab opens the habits screen', (tester) async {
+    await _pumpHome(tester);
+    await _tap(tester, find.text('Habits').last);
+    expect(find.text('Last 7 days'), findsOneWidget);
   });
 
   for (final language in ['az', 'ru', 'en']) {

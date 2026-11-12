@@ -452,7 +452,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyExportBody =>
-      'A file with everything Parla stores about you. It is created now and is not kept on our servers.';
+      'A file with everything Parla stores about you, plus the habit entries on this phone. It is created now and is not kept on our servers.';
 
   @override
   String get privacyExportButton => 'Create file';
@@ -471,7 +471,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteWhatGoes =>
-      'Deleted right away: your profile, quiz answers, health answers and their encryption key, and your sign-in account.';
+      'Deleted right away: your profile, quiz answers, health answers and their encryption key, and your sign-in account. Your habit entries on this phone are deleted too.';
 
   @override
   String get deleteWhatStays =>
@@ -517,4 +517,97 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get legalConsentsTitle => 'Consent texts';
+
+  @override
+  String get habitEdit => 'Edit';
+
+  @override
+  String get habitSleepSheetTitle => 'How long did you sleep last night?';
+
+  @override
+  String get habitMoveSheetTitle => 'How long did you move today?';
+
+  @override
+  String habitSleepHours(String hours) {
+    return '$hours h';
+  }
+
+  @override
+  String habitMoveMinutes(int minutes) {
+    return '$minutes min';
+  }
+
+  @override
+  String get habitLess => 'Less';
+
+  @override
+  String get habitMore => 'More';
+
+  @override
+  String get habitSave => 'Save';
+
+  @override
+  String get habitClearEntry => 'Remove entry';
+
+  @override
+  String get habitsScreenTitle => 'Habits';
+
+  @override
+  String get habitsScreenIntro => 'Small steps, at your own pace.';
+
+  @override
+  String get habitsToday => 'Today';
+
+  @override
+  String get habitsWeekTitle => 'Last 7 days';
+
+  @override
+  String get habitsWeekCare => 'Days you made time for your routine';
+
+  @override
+  String habitsWeekCareValue(int days) {
+    return '$days of 7 days';
+  }
+
+  @override
+  String get habitsWeekNone => 'Nothing logged yet';
+
+  @override
+  String habitsWeekWaterValue(String glasses) {
+    return 'On average $glasses glasses a day';
+  }
+
+  @override
+  String habitsWeekSleepValue(String hours, int nights) {
+    return 'On average $hours h, $nights nights logged';
+  }
+
+  @override
+  String habitsWeekMoveValue(int minutes, int days) {
+    return '$minutes min in total, on $days days';
+  }
+
+  @override
+  String get habitsPrivacyNote =>
+      'Your habit entries are kept only on this phone and are never sent to our server. Entries older than 90 days are deleted automatically.';
+
+  @override
+  String get privacyHabitsTitle => 'Habit entries on this phone';
+
+  @override
+  String get privacyHabitsBody =>
+      'Water, sleep, movement and routine entries are kept only on this phone. You can delete them at any time.';
+
+  @override
+  String get privacyHabitsDelete => 'Delete entries';
+
+  @override
+  String get privacyHabitsDeleteTitle => 'Delete your habit entries?';
+
+  @override
+  String get privacyHabitsDeleteBody =>
+      'All water, sleep, movement and routine entries on this phone will be deleted. This cannot be undone.';
+
+  @override
+  String get privacyHabitsDeleted => 'Habit entries deleted.';
 }

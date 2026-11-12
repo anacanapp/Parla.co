@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 
+import 'habits/habit_store.dart';
+import 'habits/habit_tracker.dart';
 import 'l10n/app_localizations.dart';
 import 'parla_scope.dart';
 import 'routes.dart';
@@ -19,12 +21,14 @@ class ParlaApp extends StatefulWidget {
     required this.settings,
     this.clock = DateTime.now,
     this.shareExport = shareExportFile,
+    this.habitStore = const SecureHabitStore(),
   });
 
   final ParlaApi api;
   final AppSettings settings;
   final DateTime Function() clock;
   final Future<void> Function(String json) shareExport;
+  final HabitStore habitStore;
 
   @override
   State<ParlaApp> createState() => _ParlaAppState();
@@ -33,9 +37,14 @@ class ParlaApp extends StatefulWidget {
 class _ParlaAppState extends State<ParlaApp> {
   final GoRouter _router = buildRouter();
   final OnboardingState _onboarding = OnboardingState();
+  late final HabitTracker _habits = HabitTracker(
+    store: widget.habitStore,
+    clock: widget.clock,
+  );
 
   @override
   void dispose() {
+    _habits.dispose();
     _router.dispose();
     super.dispose();
   }
@@ -48,6 +57,7 @@ class _ParlaAppState extends State<ParlaApp> {
       onboarding: _onboarding,
       clock: widget.clock,
       shareExport: widget.shareExport,
+      habits: _habits,
       child: ListenableBuilder(
         listenable: widget.settings,
         builder: (context, _) => MaterialApp.router(

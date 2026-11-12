@@ -1,5 +1,6 @@
 import 'package:flutter/widgets.dart';
 
+import 'habits/habit_tracker.dart';
 import 'services/parla_api.dart';
 import 'state/app_settings.dart';
 import 'state/onboarding_state.dart';
@@ -13,6 +14,7 @@ class ParlaScope extends InheritedWidget {
     required this.onboarding,
     required this.clock,
     required this.shareExport,
+    required this.habits,
     required super.child,
   });
 
@@ -25,6 +27,9 @@ class ParlaScope extends InheritedWidget {
 
   /// Hands the exported JSON to the system share sheet. Replaced in tests.
   final Future<void> Function(String json) shareExport;
+
+  /// Habit history of the signed-in account, kept on this device only.
+  final HabitTracker habits;
 
   static ParlaScope of(BuildContext context) =>
       context.getInheritedWidgetOfExactType<ParlaScope>()!;

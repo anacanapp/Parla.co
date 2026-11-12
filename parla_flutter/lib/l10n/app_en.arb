@@ -226,13 +226,13 @@
   "privacyWithdraw": "Withdraw and delete",
   "privacyCancel": "Cancel",
   "privacyExportTitle": "Download my data",
-  "privacyExportBody": "A file with everything Parla stores about you. It is created now and is not kept on our servers.",
+  "privacyExportBody": "A file with everything Parla stores about you, plus the habit entries on this phone. It is created now and is not kept on our servers.",
   "privacyExportButton": "Create file",
   "privacyLegalTitle": "Legal documents",
   "privacySignOut": "Sign out",
   "privacyDeleteTitle": "Delete account",
   "deleteTitle": "Delete your account?",
-  "deleteWhatGoes": "Deleted right away: your profile, quiz answers, health answers and their encryption key, and your sign-in account.",
+  "deleteWhatGoes": "Deleted right away: your profile, quiz answers, health answers and their encryption key, and your sign-in account. Your habit entries on this phone are deleted too.",
   "deleteWhatStays": "Kept as proof, without your name or email: your consent history (3 years) and security log entries (1 year).",
   "deleteExportFirst": "Download my data first",
   "deleteConfirmLabel": "Type {word} to confirm",
@@ -252,5 +252,79 @@
   "legalMedicalBody": "Parla offers care guidance. It does not diagnose, treat or replace a doctor. For skin conditions or worrying signs, see a dermatologist.",
   "legalPolicyTitle": "Privacy policy and terms",
   "legalPolicyBody": "These documents are being prepared with a lawyer and will appear here before launch.",
-  "legalConsentsTitle": "Consent texts"
+  "legalConsentsTitle": "Consent texts",
+  "habitEdit": "Edit",
+  "habitSleepSheetTitle": "How long did you sleep last night?",
+  "habitMoveSheetTitle": "How long did you move today?",
+  "habitSleepHours": "{hours} h",
+  "@habitSleepHours": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      }
+    }
+  },
+  "habitMoveMinutes": "{minutes} min",
+  "@habitMoveMinutes": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "habitLess": "Less",
+  "habitMore": "More",
+  "habitSave": "Save",
+  "habitClearEntry": "Remove entry",
+  "habitsScreenTitle": "Habits",
+  "habitsScreenIntro": "Small steps, at your own pace.",
+  "habitsToday": "Today",
+  "habitsWeekTitle": "Last 7 days",
+  "habitsWeekCare": "Days you made time for your routine",
+  "habitsWeekCareValue": "{days} of 7 days",
+  "@habitsWeekCareValue": {
+    "placeholders": {
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "habitsWeekNone": "Nothing logged yet",
+  "habitsWeekWaterValue": "On average {glasses} glasses a day",
+  "@habitsWeekWaterValue": {
+    "placeholders": {
+      "glasses": {
+        "type": "String"
+      }
+    }
+  },
+  "habitsWeekSleepValue": "On average {hours} h, {nights} nights logged",
+  "@habitsWeekSleepValue": {
+    "placeholders": {
+      "hours": {
+        "type": "String"
+      },
+      "nights": {
+        "type": "int"
+      }
+    }
+  },
+  "habitsWeekMoveValue": "{minutes} min in total, on {days} days",
+  "@habitsWeekMoveValue": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      },
+      "days": {
+        "type": "int"
+      }
+    }
+  },
+  "habitsPrivacyNote": "Your habit entries are kept only on this phone and are never sent to our server. Entries older than 90 days are deleted automatically.",
+  "privacyHabitsTitle": "Habit entries on this phone",
+  "privacyHabitsBody": "Water, sleep, movement and routine entries are kept only on this phone. You can delete them at any time.",
+  "privacyHabitsDelete": "Delete entries",
+  "privacyHabitsDeleteTitle": "Delete your habit entries?",
+  "privacyHabitsDeleteBody": "All water, sleep, movement and routine entries on this phone will be deleted. This cannot be undone.",
+  "privacyHabitsDeleted": "Habit entries deleted."
 }

@@ -94,6 +94,27 @@ cloud email sender were removed.
   withdrawn, data download, legal documents, sign-out and account deletion
   with a typed confirmation word.
 
+## Habits (sprint 4)
+
+- **On the device only.** Water, sleep, movement and ticked routine steps
+  (M-17, M-18) never reach the server. They are kept with
+  `flutter_secure_storage` (iOS Keychain; on Android, encrypted with an
+  Android Keystore key) under one entry per account, so a second person on
+  a shared phone does not see them. Signing out keeps them for the next
+  sign-in of the same account. iOS keeps Keychain items after the app is
+  removed, so the first start of a fresh installation deletes any habit
+  entries left behind (`SecureHabitStore.forgetAfterReinstall`).
+- **Minimal history.** Only days with an entry are kept, and none older than
+  90 days (`HabitLog.keepDays`). The habits tab shows the last 7 days.
+- **Rights.** The data export adds the device entries (`deviceHabits`) to
+  the server data before the file is shared. Account deletion deletes them
+  on this phone, and the privacy centre can delete them on their own. Other
+  phones the user signed in on keep their own entries until the app is
+  removed there; the account deletion text says "on this phone".
+- **No judging.** Plain counts and averages only. There is no sleep target,
+  no score and no streak that can be lost. The water goal of 8 glasses and
+  all habit wording need the expert review before launch.
+
 ## App UI rules
 
 - **Brand.** Colours, type and the Smile Curve follow the Parla Sun brand
@@ -111,8 +132,7 @@ cloud email sender were removed.
 - **Expert badge.** The "approved by a dermatologist" badge only shows for
   content marked approved. The current routine steps
   (`lib/home/routine.dart`) are sample content and never show it.
-- **Habit data** on the home screen is held in memory only until health
-  consent and encrypted storage exist.
+- **Habit data** is stored on the device only; see "Habits (sprint 4)".
 
 ## Not done yet (tracked, not forgotten)
 
@@ -124,7 +144,8 @@ cloud email sender were removed.
 | Privacy policy and terms texts | — | Lawyer |
 | Apple and Google sign-in | US-01 | Needs the Apple and Google developer accounts (company registration) |
 | Production email provider and data region | RES-1, RES-5 | After the lawyer answers the localisation questions |
-| Admin/CMS app | M8 | Sprint 2 |
+| Admin/CMS app | M8 | Dropped: expert content lives in code and is reviewed in pull requests |
+| Habit reminders (local notifications) | M7 | Next pull request, with a real-device test |
 
 ## Known environment issue
 
