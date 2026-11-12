@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    namespace = "space.serverpod.parla"
+    namespace = "com.atlasoon.parla"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = flutter.ndkVersion
 
@@ -17,8 +17,8 @@ android {
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "space.serverpod.parla"
+        // Permanent store identifier: never change it after the first upload.
+        applicationId = "com.atlasoon.parla"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
@@ -31,11 +31,29 @@ android {
         versionName = flutter.versionName
     }
 
+    // Release builds are signed with the Play upload key. Codemagic provides
+    // it through these environment variables; the key is never in the repo.
+    // Without them (a developer's machine) the debug key is used, which Play
+    // rejects, so a wrongly signed build cannot be published.
+    val uploadKeystore = System.getenv("CM_KEYSTORE_PATH")
+    signingConfigs {
+        if (uploadKeystore != null) {
+            create("upload") {
+                storeFile = file(uploadKeystore)
+                storePassword = System.getenv("CM_KEYSTORE_PASSWORD")
+                keyAlias = System.getenv("CM_KEY_ALIAS")
+                keyPassword = System.getenv("CM_KEY_PASSWORD")
+            }
+        }
+    }
+
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            signingConfig = if (uploadKeystore != null) {
+                signingConfigs.getByName("upload")
+            } else {
+                signingConfigs.getByName("debug")
+            }
         }
     }
 }

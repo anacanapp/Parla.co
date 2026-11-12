@@ -1,67 +1,36 @@
-# This is the configuration file for your staging environment. The staging
-# environment is meant to resemble the production environment as much as
-# possible and may connect to production databases services and data. You use it
-# for final testing before deploying the production server.
+# Staging (test) environment: the server runs as a Docker container on
+# Google Cloud Run (europe-west3, Frankfurt) and uses a Supabase PostgreSQL
+# database in the EU (Frankfurt). See docs/RELEASE.md.
 #
-# Typically, you will want to route the traffic through a load balancer
-# which adds SSL security through https. If you use Serverpod's standard
-# Terraform scripts to deploy your server, all you need to change in
-# this file is the examplepod.com domain name.
+# Nothing here is tied to Cloud Run or Supabase: the values below are
+# overridden by SERVERPOD_* environment variables set on the service, so
+# moving to our own servers only means changing those variables. Secrets
+# (database password, SMTP, keys) come from SERVERPOD_PASSWORD_* variables
+# backed by Secret Manager, never from this file.
 
-# Configuration for the main API server.
+# Cloud Run sends all traffic to one port and terminates HTTPS.
 apiServer:
   port: 8080
-  publicHost: api-staging.examplepod.com
+  publicHost: parla-staging.example.invalid # Set SERVERPOD_API_SERVER_PUBLIC_HOST.
   publicPort: 443
   publicScheme: https
 
-# Configuration for the Insights server.
-insightsServer:
-  port: 8081
-  publicHost: insights-staging.examplepod.com
-  publicPort: 443
-  publicScheme: https
+# No Insights server: Cloud Run exposes a single port, and Insights would
+# need its own protected endpoint.
 
-
-# This is the database setup for your servers. The default for the Google Cloud
-# Engine Terraform configuration is to connect on a private IP address.
-# If you are connecting on a public IP (e.g. on AWS or Google Cloud Run), you
-# connect on the public IP of the database e.g. database-staging.examplepod.com.
+# Supabase session pooler (IPv4, keeps prepared statements working).
 database:
-  host: database.private-staging.examplepod.com
+  host: aws-0-eu-central-1.pooler.supabase.com # Set SERVERPOD_DATABASE_HOST.
   port: 5432
-  name: serverpod
-  user: postgres
+  name: postgres
+  user: postgres.project-ref # Set SERVERPOD_DATABASE_USER.
   requireSsl: true
-  #isUnixSocket: true # defaults to false
-  #maxConnectionCount: 10 # Defaults to 10, a negative or null value removes the limit
-
+  maxConnectionCount: 5 # The free Supabase pooler allows few connections.
 
 maxRequestSize: 524288 # The maximum size of requests allowed in bytes
 
 sessionLogs:
-# persistentEnabled: true
-# consoleEnabled: true
-# consoleLogFormat: json # Defaults to "json", options are "text" or "json"
-
-#futureCall:
-#  enabled: true # Defaults to true, set to false to disable scheduling and running future calls
-#  executionEnabled: true # Defaults to true
-#  concurrencyLimit: 1 # Defaults to 1, a negative or null value removes the limit
-#  scanInterval: 5000 # Unit in milliseconds, defaults to 5000
-
-# Recommended when serving web clients: keeps auth tokens in httpOnly
-# cookies. Without this, web tokens live in JavaScript-readable storage,
-# where any XSS can steal them. Web clients opt in with
-# `client.cookieAuth = true`. Requires `allowedOrigins`; browsers from
-# origins not in the list lose cross-origin access, including to public
-# endpoints.
-#authCookie:
-#  sameSite: lax # Defaults to "lax", options are "strict" or "none"
-#  #name: serverpod_auth # Defaults to "serverpod_auth"
-#  #refreshName: serverpod_auth_refresh # Defaults to "<name>_refresh"
-#  #domain: examplepod.com # Defaults to host-only; set to share across subdomains
-#  #path: / # Defaults to "/"
-#  #secure: true # Defaults to true; the cookie is only sent over https
-#allowedOrigins:
-#  - https://app-staging.examplepod.com # The origin serving your Flutter web app
+  # Keep session logs in the container log (Cloud Logging, EU) rather than
+  # in the database.
+  persistentEnabled: false
+  consoleEnabled: true

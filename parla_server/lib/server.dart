@@ -9,8 +9,8 @@ import 'src/generated/serverpod.dart';
 void run(List<String> args) async {
   final pod = Serverpod(args);
 
-  // Fails fast in staging/production until an approved email provider exists.
-  final codeSender = verificationCodeSenderFor(pod.runMode);
+  // Staging/production send through SMTP and fail fast without settings.
+  final codeSender = verificationCodeSenderFor(pod.runMode, pod.getPassword);
 
   pod.initializeAuthServices(
     tokenManagerBuilders: [
@@ -19,8 +19,7 @@ void run(List<String> args) async {
     ],
     identityProviderBuilders: [
       // Passwordless sign-in with a one-time code sent by email (PRD US-01).
-      // Codes go through our own sender, not a hosted email service, so the
-      // email address never leaves an approved provider.
+      // Codes go through our own SMTP sender, not a hosted email service.
       EmailIdpConfigFromPasswords(
         sendOtpLoginVerificationCode:
             (

@@ -1,4 +1,4 @@
-package space.serverpod.parla
+package com.atlasoon.parla
 
 import io.flutter.embedding.android.FlutterActivity
 

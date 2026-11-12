@@ -18,6 +18,13 @@ move personal data to a provider and country that the legal review has not
 approved. The template's Serverpod Cloud deploy workflow, cloud storage and
 cloud email sender were removed.
 
+**Test environment (staging).** The server runs as a Docker container on
+Google Cloud Run in Frankfurt with a Supabase PostgreSQL database in
+Frankfurt. Sign-in codes go out by SMTP from info@anacan.az
+(`SmtpCodeSender`). The image is configured only by environment variables,
+so it can move to our own servers unchanged. Setup and store steps are in
+`docs/RELEASE.md`; builds run on Codemagic (`codemagic.yaml`).
+
 ## Data rules in code
 
 - **Minimisation.** Only the birth year is stored, never a full date. No
@@ -164,7 +171,7 @@ cloud email sender were removed.
 | Re-ask the pregnancy question after 12 months | RET-2 | With habit and health data history |
 | Privacy policy and terms texts | — | Lawyer |
 | Apple and Google sign-in | US-01 | Needs the Apple and Google developer accounts (company registration) |
-| Production email provider and data region | RES-1, RES-5 | After the lawyer answers the localisation questions |
+| Production hosting, email provider and data region (staging uses Cloud Run, Supabase and SMTP via info@anacan.az, all in or through the EU) | RES-1, RES-5 | After the lawyer answers the localisation questions |
 | Admin/CMS app | M8 | Dropped: expert content lives in code and is reviewed in pull requests |
 | Real-device test of reminders (Android 13+ permission, reboot, iOS foreground) | M7 | Before the beta |
 

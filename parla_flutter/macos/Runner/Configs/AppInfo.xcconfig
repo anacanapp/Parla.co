@@ -8,7 +8,7 @@
 PRODUCT_NAME = parla
 
 // The application's bundle identifier
-PRODUCT_BUNDLE_IDENTIFIER = space.serverpod.parla
+PRODUCT_BUNDLE_IDENTIFIER = com.atlasoon.parla
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyright © 2026 space.serverpod. All rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2026 com.atlasoon. All rights reserved.

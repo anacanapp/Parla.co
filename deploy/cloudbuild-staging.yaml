@@ -1,0 +1,57 @@
+# Builds the Parla server image and deploys it to the staging Cloud Run
+# service. Run from the repository root:
+#
+#   gcloud builds submit --config deploy/cloudbuild-staging.yaml .
+#
+# Everything project-specific is a substitution or a Secret Manager secret,
+# so moving to our own servers only needs the same image and variables.
+# See docs/RELEASE.md for the one-time setup.
+
+substitutions:
+  _REGION: europe-west3 # Frankfurt
+  _SERVICE: parla-staging
+  _REPOSITORY: parla
+  # Supabase session pooler (Project settings → Database → Session pooler).
+  _DB_HOST: aws-0-eu-central-1.pooler.supabase.com
+  _DB_USER: postgres.CHANGE_ME
+  # The public host Cloud Run gives the service (without https://).
+  _PUBLIC_HOST: CHANGE_ME.europe-west3.run.app
+
+steps:
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - -f
+      - parla_server/Dockerfile
+      - -t
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/server:$BUILD_ID
+      - .
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/server:$BUILD_ID
+  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+    entrypoint: gcloud
+    args:
+      - run
+      - deploy
+      - ${_SERVICE}
+      - --image=${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/server:$BUILD_ID
+      - --region=${_REGION}
+      - --port=8080
+      # Always on: the daily retention timer must keep running.
+      - --min-instances=1
+      - --max-instances=1
+      - --no-cpu-throttling
+      - --memory=512Mi
+      - --allow-unauthenticated
+      - >-
+        --set-env-vars=runmode=staging,flags=--apply-migrations,SERVERPOD_DATABASE_HOST=${_DB_HOST},SERVERPOD_DATABASE_USER=${_DB_USER},SERVERPOD_API_SERVER_PUBLIC_HOST=${_PUBLIC_HOST}
+      - >-
+        --set-secrets=SERVERPOD_PASSWORD_database=parla-staging-database:latest,SERVERPOD_PASSWORD_serviceSecret=parla-staging-service-secret:latest,SERVERPOD_PASSWORD_emailSecretHashPepper=parla-staging-email-pepper:latest,SERVERPOD_PASSWORD_jwtHmacSha512PrivateKey=parla-staging-jwt-key:latest,SERVERPOD_PASSWORD_jwtRefreshTokenHashPepper=parla-staging-jwt-refresh-pepper:latest,SERVERPOD_PASSWORD_healthKek=parla-staging-health-kek:latest,SERVERPOD_PASSWORD_pseudonymPepper=parla-staging-pseudonym-pepper:latest,SERVERPOD_PASSWORD_smtpHost=parla-staging-smtp-host:latest,SERVERPOD_PASSWORD_smtpPort=parla-staging-smtp-port:latest,SERVERPOD_PASSWORD_smtpUser=parla-staging-smtp-user:latest,SERVERPOD_PASSWORD_smtpPassword=parla-staging-smtp-password:latest,SERVERPOD_PASSWORD_smtpFrom=parla-staging-smtp-from:latest
+
+images:
+  - ${_REGION}-docker.pkg.dev/$PROJECT_ID/${_REPOSITORY}/server:$BUILD_ID
+
+options:
+  logging: CLOUD_LOGGING_ONLY
