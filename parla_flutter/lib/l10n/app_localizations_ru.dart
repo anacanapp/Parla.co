@@ -608,4 +608,59 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get privacyHabitsDeleted => 'Записи о привычках удалены.';
+
+  @override
+  String get remindersTitle => 'Напоминания';
+
+  @override
+  String get remindersIntro =>
+      'Уведомления показывает сам телефон, ничего не отправляется на сервер. Их можно выключить в любой момент.';
+
+  @override
+  String get remindersOpen => 'Настроить';
+
+  @override
+  String get remindersSummaryOff => 'Все выключены';
+
+  @override
+  String remindersSummaryOn(int count) {
+    return 'Включено: $count';
+  }
+
+  @override
+  String get reminderMorningTitle => 'Утренний уход';
+
+  @override
+  String get reminderEveningTitle => 'Вечерний уход';
+
+  @override
+  String get reminderSleepTitle => 'Запись сна';
+
+  @override
+  String get reminderMorningBody => 'Время утреннего ухода.';
+
+  @override
+  String get reminderEveningBody => 'Время вечернего ухода.';
+
+  @override
+  String get reminderSleepBody => 'Хотите записать прошлую ночь?';
+
+  @override
+  String reminderAt(String time) {
+    return 'В $time';
+  }
+
+  @override
+  String get reminderChangeTime => 'Изменить время';
+
+  @override
+  String get reminderTimeSheetTitle => 'Когда напомнить?';
+
+  @override
+  String get reminderPermissionDenied =>
+      'Разрешение на уведомления не дано. Его можно включить в настройках телефона.';
+
+  @override
+  String get remindersNote =>
+      'Тексты нейтральные и не показывают на экране блокировки данные о здоровье. Уведомление может прийти на несколько минут позже.';
 }

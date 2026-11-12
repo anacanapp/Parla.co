@@ -10,6 +10,7 @@ import 'package:parla_shared/parla_shared.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'support/fake_api.dart';
+import 'support/fake_reminders.dart';
 import 'support/text_sizes.dart';
 
 /// Opens the app as a signed-in user with a profile, so it lands on M-14.
@@ -46,6 +47,7 @@ Future<FakeApi> _pumpHome(
       // A new key per pump, so a second pump is a fresh app start.
       key: UniqueKey(),
       api: api,
+      reminderScheduler: FakeReminderScheduler(),
       settings: settings,
       clock: () => now ?? DateTime(2026, 11, 12, 8, 30),
       habitStore: store ?? MemoryHabitStore(),

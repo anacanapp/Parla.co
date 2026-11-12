@@ -610,4 +610,59 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyHabitsDeleted => 'Habit entries deleted.';
+
+  @override
+  String get remindersTitle => 'Reminders';
+
+  @override
+  String get remindersIntro =>
+      'Your phone shows the reminders itself; nothing is sent to a server. You can turn them off at any time.';
+
+  @override
+  String get remindersOpen => 'Set up';
+
+  @override
+  String get remindersSummaryOff => 'All off';
+
+  @override
+  String remindersSummaryOn(int count) {
+    return '$count on';
+  }
+
+  @override
+  String get reminderMorningTitle => 'Morning routine';
+
+  @override
+  String get reminderEveningTitle => 'Evening routine';
+
+  @override
+  String get reminderSleepTitle => 'Sleep entry';
+
+  @override
+  String get reminderMorningBody => 'Time for your morning routine.';
+
+  @override
+  String get reminderEveningBody => 'Time for your evening routine.';
+
+  @override
+  String get reminderSleepBody => 'Would you like to log last night?';
+
+  @override
+  String reminderAt(String time) {
+    return 'At $time';
+  }
+
+  @override
+  String get reminderChangeTime => 'Change time';
+
+  @override
+  String get reminderTimeSheetTitle => 'When should we remind you?';
+
+  @override
+  String get reminderPermissionDenied =>
+      'Notifications are not allowed. You can allow them in your phone\'s settings.';
+
+  @override
+  String get remindersNote =>
+      'The texts are neutral and show no health information on the lock screen. A reminder may arrive a few minutes late.';
 }

@@ -7,6 +7,7 @@ import 'package:parla_shared/parla_shared.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'support/fake_api.dart';
+import 'support/fake_reminders.dart';
 
 final _today = DateTime(2026, 11, 11);
 
@@ -19,7 +20,12 @@ Future<FakeApi> _pumpApp(
   final settings = await AppSettings.load();
   final fake = api ?? FakeApi();
   await tester.pumpWidget(
-    ParlaApp(api: fake, settings: settings, clock: () => _today),
+    ParlaApp(
+      api: fake,
+      settings: settings,
+      clock: () => _today,
+      reminderScheduler: FakeReminderScheduler(),
+    ),
   );
   await tester.pumpAndSettle();
   return fake;

@@ -17,7 +17,7 @@ String formatHours(double hours) {
 /// Asks for last night's sleep and saves it.
 Future<void> logSleep(BuildContext context, HabitTracker habits) async {
   final l10n = AppLocalizations.of(context);
-  final result = await _showStepperSheet(
+  final result = await showStepperSheet(
     context,
     title: l10n.habitSleepSheetTitle,
     icon: ParlaIconName.moon,
@@ -34,7 +34,7 @@ Future<void> logSleep(BuildContext context, HabitTracker habits) async {
 /// Asks for today's movement in minutes and saves it.
 Future<void> logMove(BuildContext context, HabitTracker habits) async {
   final l10n = AppLocalizations.of(context);
-  final result = await _showStepperSheet(
+  final result = await showStepperSheet(
     context,
     title: l10n.habitMoveSheetTitle,
     icon: ParlaIconName.move,
@@ -48,14 +48,17 @@ Future<void> logMove(BuildContext context, HabitTracker habits) async {
   habits.setMove(result.cleared ? null : result.value.round());
 }
 
-class _SheetResult {
-  const _SheetResult(this.value, {this.cleared = false});
+/// What a stepper sheet returns: the chosen value, or `cleared`.
+class StepperResult {
+  const StepperResult(this.value, {this.cleared = false});
 
   final double value;
   final bool cleared;
 }
 
-Future<_SheetResult?> _showStepperSheet(
+/// A bottom sheet with a value, minus and plus buttons and Save. With
+/// [canClear] it also offers to remove the entry.
+Future<StepperResult?> showStepperSheet(
   BuildContext context, {
   required String title,
   required ParlaIconName icon,
@@ -63,8 +66,8 @@ Future<_SheetResult?> _showStepperSheet(
   required double step,
   required double max,
   required String Function(double) format,
-  required bool canClear,
-}) => showModalBottomSheet<_SheetResult>(
+  bool canClear = false,
+}) => showModalBottomSheet<StepperResult>(
   context: context,
   backgroundColor: ParlaColors.cream,
   isScrollControlled: true,
@@ -165,7 +168,7 @@ class _StepperSheetState extends State<_StepperSheet> {
             ),
             const SizedBox(height: 24),
             FilledButton(
-              onPressed: () => Navigator.of(context).pop(_SheetResult(_value)),
+              onPressed: () => Navigator.of(context).pop(StepperResult(_value)),
               child: Text(l10n.habitSave),
             ),
             if (widget.canClear) ...[
@@ -173,7 +176,7 @@ class _StepperSheetState extends State<_StepperSheet> {
               TextButton(
                 onPressed: () => Navigator.of(
                   context,
-                ).pop(const _SheetResult(0, cleared: true)),
+                ).pop(const StepperResult(0, cleared: true)),
                 child: Text(l10n.habitClearEntry),
               ),
             ],

@@ -1155,6 +1155,102 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Habit entries deleted.'**
   String get privacyHabitsDeleted;
+
+  /// No description provided for @remindersTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Reminders'**
+  String get remindersTitle;
+
+  /// No description provided for @remindersIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Your phone shows the reminders itself; nothing is sent to a server. You can turn them off at any time.'**
+  String get remindersIntro;
+
+  /// No description provided for @remindersOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Set up'**
+  String get remindersOpen;
+
+  /// No description provided for @remindersSummaryOff.
+  ///
+  /// In en, this message translates to:
+  /// **'All off'**
+  String get remindersSummaryOff;
+
+  /// No description provided for @remindersSummaryOn.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} on'**
+  String remindersSummaryOn(int count);
+
+  /// No description provided for @reminderMorningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning routine'**
+  String get reminderMorningTitle;
+
+  /// No description provided for @reminderEveningTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Evening routine'**
+  String get reminderEveningTitle;
+
+  /// No description provided for @reminderSleepTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sleep entry'**
+  String get reminderSleepTitle;
+
+  /// No description provided for @reminderMorningBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Time for your morning routine.'**
+  String get reminderMorningBody;
+
+  /// No description provided for @reminderEveningBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Time for your evening routine.'**
+  String get reminderEveningBody;
+
+  /// No description provided for @reminderSleepBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Would you like to log last night?'**
+  String get reminderSleepBody;
+
+  /// No description provided for @reminderAt.
+  ///
+  /// In en, this message translates to:
+  /// **'At {time}'**
+  String reminderAt(String time);
+
+  /// No description provided for @reminderChangeTime.
+  ///
+  /// In en, this message translates to:
+  /// **'Change time'**
+  String get reminderChangeTime;
+
+  /// No description provided for @reminderTimeSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'When should we remind you?'**
+  String get reminderTimeSheetTitle;
+
+  /// No description provided for @reminderPermissionDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are not allowed. You can allow them in your phone\'s settings.'**
+  String get reminderPermissionDenied;
+
+  /// No description provided for @remindersNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The texts are neutral and show no health information on the lock screen. A reminder may arrive a few minutes late.'**
+  String get remindersNote;
 }
 
 class _AppLocalizationsDelegate

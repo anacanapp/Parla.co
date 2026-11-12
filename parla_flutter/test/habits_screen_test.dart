@@ -11,6 +11,7 @@ import 'package:parla/state/app_settings.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'support/fake_api.dart';
+import 'support/fake_reminders.dart';
 import 'support/text_sizes.dart';
 
 final _today = DateTime(2026, 11, 12, 9);
@@ -48,6 +49,7 @@ Future<void> _pumpHabits(
   await tester.pumpWidget(
     ParlaApp(
       api: api,
+      reminderScheduler: FakeReminderScheduler(),
       settings: settings,
       clock: () => _today,
       habitStore: store ?? _seeded(),

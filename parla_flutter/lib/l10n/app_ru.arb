@@ -175,5 +175,21 @@
   "privacyHabitsDelete": "Удалить записи",
   "privacyHabitsDeleteTitle": "Удалить записи о привычках?",
   "privacyHabitsDeleteBody": "Все записи о воде, сне, движении и уходе на этом телефоне будут удалены. Это нельзя отменить.",
-  "privacyHabitsDeleted": "Записи о привычках удалены."
+  "privacyHabitsDeleted": "Записи о привычках удалены.",
+  "remindersTitle": "Напоминания",
+  "remindersIntro": "Уведомления показывает сам телефон, ничего не отправляется на сервер. Их можно выключить в любой момент.",
+  "remindersOpen": "Настроить",
+  "remindersSummaryOff": "Все выключены",
+  "remindersSummaryOn": "Включено: {count}",
+  "reminderMorningTitle": "Утренний уход",
+  "reminderEveningTitle": "Вечерний уход",
+  "reminderSleepTitle": "Запись сна",
+  "reminderMorningBody": "Время утреннего ухода.",
+  "reminderEveningBody": "Время вечернего ухода.",
+  "reminderSleepBody": "Хотите записать прошлую ночь?",
+  "reminderAt": "В {time}",
+  "reminderChangeTime": "Изменить время",
+  "reminderTimeSheetTitle": "Когда напомнить?",
+  "reminderPermissionDenied": "Разрешение на уведомления не дано. Его можно включить в настройках телефона.",
+  "remindersNote": "Тексты нейтральные и не показывают на экране блокировки данные о здоровье. Уведомление может прийти на несколько минут позже."
 }

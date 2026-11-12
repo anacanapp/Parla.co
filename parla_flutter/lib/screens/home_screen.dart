@@ -36,7 +36,7 @@ class _HomeScreenState extends State<HomeScreen> {
     if (_controller == null) {
       final scope = ParlaScope.of(context);
       _controller = HomeController(now: scope.clock(), habits: scope.habits);
-      scope.habits.attach(scope.api.accountId);
+      scope.attachAccount();
       _loadAnswers();
     }
   }

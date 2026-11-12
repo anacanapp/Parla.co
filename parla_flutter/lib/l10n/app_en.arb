@@ -326,5 +326,35 @@
   "privacyHabitsDelete": "Delete entries",
   "privacyHabitsDeleteTitle": "Delete your habit entries?",
   "privacyHabitsDeleteBody": "All water, sleep, movement and routine entries on this phone will be deleted. This cannot be undone.",
-  "privacyHabitsDeleted": "Habit entries deleted."
+  "privacyHabitsDeleted": "Habit entries deleted.",
+  "remindersTitle": "Reminders",
+  "remindersIntro": "Your phone shows the reminders itself; nothing is sent to a server. You can turn them off at any time.",
+  "remindersOpen": "Set up",
+  "remindersSummaryOff": "All off",
+  "remindersSummaryOn": "{count} on",
+  "@remindersSummaryOn": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "reminderMorningTitle": "Morning routine",
+  "reminderEveningTitle": "Evening routine",
+  "reminderSleepTitle": "Sleep entry",
+  "reminderMorningBody": "Time for your morning routine.",
+  "reminderEveningBody": "Time for your evening routine.",
+  "reminderSleepBody": "Would you like to log last night?",
+  "reminderAt": "At {time}",
+  "@reminderAt": {
+    "placeholders": {
+      "time": {
+        "type": "String"
+      }
+    }
+  },
+  "reminderChangeTime": "Change time",
+  "reminderTimeSheetTitle": "When should we remind you?",
+  "reminderPermissionDenied": "Notifications are not allowed. You can allow them in your phone's settings.",
+  "remindersNote": "The texts are neutral and show no health information on the lock screen. A reminder may arrive a few minutes late."
 }
