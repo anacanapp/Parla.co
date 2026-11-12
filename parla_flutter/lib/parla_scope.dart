@@ -1,4 +1,5 @@
 import 'package:flutter/widgets.dart';
+import 'package:parla_shared/parla_shared.dart';
 
 import 'habits/habit_tracker.dart';
 import 'reminders/reminder_controller.dart';
@@ -17,6 +18,7 @@ class ParlaScope extends InheritedWidget {
     required this.shareExport,
     required this.habits,
     required this.reminders,
+    required this.ingredients,
     required super.child,
   });
 
@@ -35,6 +37,9 @@ class ParlaScope extends InheritedWidget {
 
   /// Reminder settings of the signed-in account (local notifications).
   final ReminderController reminders;
+
+  /// EU ingredient statuses shipped with the app (CosIng export).
+  final IngredientDataset ingredients;
 
   /// Loads the signed-in account's on-device data: habits and reminders.
   Future<void> attachAccount() async {

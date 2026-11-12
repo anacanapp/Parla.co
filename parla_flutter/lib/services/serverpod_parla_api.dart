@@ -127,6 +127,22 @@ class ServerpodParlaApi implements ParlaApi {
   });
 
   @override
+  Future<List<ProductResult>> searchProducts(String query) => _guard(() async {
+    final found = await _client.product.search(query);
+    return [
+      for (final p in found)
+        ProductResult(
+          source: p.source,
+          code: p.code,
+          name: p.productName,
+          brand: p.brand,
+          ingredientsText: p.ingredientsText,
+          sourceUrl: p.sourceUrl,
+        ),
+    ];
+  });
+
+  @override
   Future<void> signOut() => _guard(_signOutLocally);
 
   Future<void> _signOutLocally() async {

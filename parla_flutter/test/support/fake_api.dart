@@ -107,6 +107,18 @@ class FakeApi implements ParlaApi {
     quizAnswers = null;
   }
 
+  /// Products every search returns; [productError] makes search fail.
+  List<ProductResult> products = const [];
+  String? productError;
+  final productQueries = <String>[];
+
+  @override
+  Future<List<ProductResult>> searchProducts(String query) async {
+    productQueries.add(query);
+    if (productError != null) throw ApiError(productError!);
+    return products;
+  }
+
   @override
   Future<void> signOut() async => signedIn = false;
 

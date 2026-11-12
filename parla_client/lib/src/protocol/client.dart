@@ -16,6 +16,8 @@ import 'package:parla_client/src/protocol/consent/consent_state.dart'
     as _iflgmsvc;
 import 'package:parla_client/src/protocol/consent/consent_type.dart'
     as _ibhb6xek;
+import 'package:parla_client/src/protocol/products/product_summary.dart'
+    as _isvy2zc1;
 import 'package:parla_client/src/protocol/profile/member_profile.dart'
     as _isrsmpwu;
 import 'package:parla_client/src/protocol/quiz/quiz_answer_input.dart'
@@ -428,6 +430,24 @@ class EndpointConsent extends _isc.EndpointRef {
   );
 }
 
+/// Product search (M-20). Signed-in users only for now, which also limits
+/// load on Open Beauty Facts; guests get it with the guest flow.
+/// {@category Endpoint}
+class EndpointProduct extends _isc.EndpointRef {
+  EndpointProduct(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'product';
+
+  /// Products whose name or brand matches [query] (2 to 80 characters).
+  _ida.Future<List<_isvy2zc1.ProductSummary>> search(String query) =>
+      caller.callServerEndpoint<List<_isvy2zc1.ProductSummary>>(
+        'product',
+        'search',
+        {'query': query},
+      );
+}
+
 /// Creates and reads the signed-in user's core profile (screens M-03, M-07).
 /// {@category Endpoint}
 class EndpointProfile extends _isc.EndpointRef {
@@ -536,6 +556,7 @@ class Client extends _isc.ServerpodClientShared {
     emailIdp = EndpointEmailIdp(this);
     jwtRefresh = EndpointJwtRefresh(this);
     consent = EndpointConsent(this);
+    product = EndpointProduct(this);
     profile = EndpointProfile(this);
     quiz = EndpointQuiz(this);
     modules = Modules(this);
@@ -549,6 +570,8 @@ class Client extends _isc.ServerpodClientShared {
 
   late final EndpointConsent consent;
 
+  late final EndpointProduct product;
+
   late final EndpointProfile profile;
 
   late final EndpointQuiz quiz;
@@ -561,6 +584,7 @@ class Client extends _isc.ServerpodClientShared {
     'emailIdp': emailIdp,
     'jwtRefresh': jwtRefresh,
     'consent': consent,
+    'product': product,
     'profile': profile,
     'quiz': quiz,
   };

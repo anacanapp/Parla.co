@@ -6,8 +6,10 @@ import 'screens/country_screen.dart';
 import 'screens/guest_screen.dart';
 import 'screens/habits_screen.dart';
 import 'screens/home_screen.dart';
+import 'services/parla_api.dart';
 import 'screens/language_screen.dart';
 import 'screens/privacy_screens.dart';
+import 'screens/products_screen.dart';
 import 'screens/reminders_screen.dart';
 import 'screens/quiz_screen.dart';
 import 'screens/sign_in_screen.dart';
@@ -29,7 +31,9 @@ abstract final class Routes {
   static const home = '/home'; // M-14
   static const habits = '/habits'; // M-17, M-18
   static const reminders = '/habits/reminders'; // Part of M-26
-  static const guest = '/guest'; // M-20 (placeholder)
+  static const products = '/products'; // M-20, M-22
+  static const productDetail = '/products/detail'; // M-21, M-23
+  static const guest = '/guest'; // Guest placeholder
   static const privacy = '/privacy'; // M-25, M-27, M-28
   static const legal = '/privacy/legal'; // M-34
   static const deleteAccount = '/privacy/delete'; // M-32
@@ -53,6 +57,19 @@ GoRouter buildRouter() => GoRouter(
     GoRoute(
       path: Routes.reminders,
       builder: (_, _) => const RemindersScreen(),
+    ),
+    GoRoute(
+      path: Routes.products,
+      builder: (_, _) => const ProductSearchScreen(),
+    ),
+    GoRoute(
+      path: Routes.productDetail,
+      // The product travels in memory only; without it (e.g. a reload on
+      // the web) the search opens again.
+      redirect: (_, state) =>
+          state.extra is ProductResult ? null : Routes.products,
+      builder: (_, state) =>
+          ProductDetailScreen(product: state.extra! as ProductResult),
     ),
     GoRoute(path: Routes.guest, builder: (_, _) => const GuestScreen()),
     GoRoute(path: Routes.privacy, builder: (_, _) => const PrivacyScreen()),

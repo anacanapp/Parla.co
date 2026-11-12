@@ -26,6 +26,7 @@ class ParlaApp extends StatefulWidget {
     this.shareExport = shareExportFile,
     this.habitStore = const SecureHabitStore(),
     this.reminderScheduler,
+    this.ingredientDataset,
   });
 
   final ParlaApi api;
@@ -36,6 +37,9 @@ class ParlaApp extends StatefulWidget {
 
   /// Defaults to local notifications on the device.
   final ReminderScheduler? reminderScheduler;
+
+  /// Defaults to the CosIng data shipped in `parla_shared`.
+  final IngredientDataset? ingredientDataset;
 
   @override
   State<ParlaApp> createState() => _ParlaAppState();
@@ -88,6 +92,7 @@ class _ParlaAppState extends State<ParlaApp> {
       shareExport: widget.shareExport,
       habits: _habits,
       reminders: _reminders,
+      ingredients: widget.ingredientDataset ?? euIngredientDataset,
       child: ListenableBuilder(
         listenable: widget.settings,
         builder: (context, _) => MaterialApp.router(

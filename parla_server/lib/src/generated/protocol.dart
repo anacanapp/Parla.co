@@ -13,6 +13,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:parla_server/src/generated/consent/consent_state.dart'
     as _ianfun2u;
+import 'package:parla_server/src/generated/products/product_summary.dart'
+    as _ivq5jofi;
 import 'package:parla_server/src/generated/quiz/quiz_answer_input.dart'
     as _iak2pevv;
 import 'package:serverpod/protocol.dart' as _isp;
@@ -29,6 +31,7 @@ import 'consent/consent_state.dart' as _icra10er;
 import 'consent/consent_type.dart' as _i40db2a8;
 import 'health/health_key.dart' as _ipdtgm1c;
 import 'health/health_record.dart' as _ioxvgdwn;
+import 'products/product_summary.dart' as _ikmk0g5q;
 import 'profile/member_profile.dart' as _i1iocmvy;
 import 'quiz/quiz_answer.dart' as _ih1qnypb;
 import 'quiz/quiz_answer_input.dart' as _ilw6ope9;
@@ -40,6 +43,7 @@ export 'consent/consent_state.dart';
 export 'consent/consent_type.dart';
 export 'health/health_key.dart';
 export 'health/health_record.dart';
+export 'products/product_summary.dart';
 export 'profile/member_profile.dart';
 export 'quiz/quiz_answer.dart';
 export 'quiz/quiz_answer_input.dart';
@@ -65,6 +69,7 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_i40db2a8.ConsentType>,
           _is.getType<_ipdtgm1c.HealthKey>,
           _is.getType<_ioxvgdwn.HealthRecord>,
+          _is.getType<_ikmk0g5q.ProductSummary>,
           _is.getType<_i1iocmvy.MemberProfile>,
           _is.getType<_ih1qnypb.QuizAnswer>,
           _is.getType<_ilw6ope9.QuizAnswerInput>,
@@ -76,11 +81,13 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_i40db2a8.ConsentType?>,
           _is.getType<_ipdtgm1c.HealthKey?>,
           _is.getType<_ioxvgdwn.HealthRecord?>,
+          _is.getType<_ikmk0g5q.ProductSummary?>,
           _is.getType<_i1iocmvy.MemberProfile?>,
           _is.getType<_ih1qnypb.QuizAnswer?>,
           _is.getType<_ilw6ope9.QuizAnswerInput?>,
           _is.getType<List<String>>,
           _is.getType<List<_ianfun2u.ConsentState>>,
+          _is.getType<List<_ivq5jofi.ProductSummary>>,
           _is.getType<List<_iak2pevv.QuizAnswerInput>>,
         ],
         modules: const [
@@ -97,6 +104,7 @@ class Protocol extends _is.DatabaseSerializationManager
           'ConsentType',
           'HealthKey',
           'HealthRecord',
+          'ProductSummary',
           'MemberProfile',
           'QuizAnswer',
           'QuizAnswerInput',
@@ -609,6 +617,9 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _ioxvgdwn.HealthRecord) {
       return _ioxvgdwn.HealthRecord.fromJson(data) as T;
     }
+    if (t == _ikmk0g5q.ProductSummary) {
+      return _ikmk0g5q.ProductSummary.fromJson(data) as T;
+    }
     if (t == _i1iocmvy.MemberProfile) {
       return _i1iocmvy.MemberProfile.fromJson(data) as T;
     }
@@ -646,6 +657,10 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _is.getType<_ioxvgdwn.HealthRecord?>()) {
       return (data != null ? _ioxvgdwn.HealthRecord.fromJson(data) : null) as T;
     }
+    if (t == _is.getType<_ikmk0g5q.ProductSummary?>()) {
+      return (data != null ? _ikmk0g5q.ProductSummary.fromJson(data) : null)
+          as T;
+    }
     if (t == _is.getType<_i1iocmvy.MemberProfile?>()) {
       return (data != null ? _i1iocmvy.MemberProfile.fromJson(data) : null)
           as T;
@@ -663,6 +678,12 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == List<_ianfun2u.ConsentState>) {
       return (data as List)
               .map((e) => deserialize<_ianfun2u.ConsentState>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_ivq5jofi.ProductSummary>) {
+      return (data as List)
+              .map((e) => deserialize<_ivq5jofi.ProductSummary>(e))
               .toList()
           as T;
     }
@@ -695,6 +716,7 @@ class Protocol extends _is.DatabaseSerializationManager
       _i40db2a8.ConsentType => 'ConsentType',
       _ipdtgm1c.HealthKey => 'HealthKey',
       _ioxvgdwn.HealthRecord => 'HealthRecord',
+      _ikmk0g5q.ProductSummary => 'ProductSummary',
       _i1iocmvy.MemberProfile => 'MemberProfile',
       _ih1qnypb.QuizAnswer => 'QuizAnswer',
       _ilw6ope9.QuizAnswerInput => 'QuizAnswerInput',
@@ -728,6 +750,8 @@ class Protocol extends _is.DatabaseSerializationManager
         return 'HealthKey';
       case _ioxvgdwn.HealthRecord():
         return 'HealthRecord';
+      case _ikmk0g5q.ProductSummary():
+        return 'ProductSummary';
       case _i1iocmvy.MemberProfile():
         return 'MemberProfile';
       case _ih1qnypb.QuizAnswer():
@@ -783,6 +807,9 @@ class Protocol extends _is.DatabaseSerializationManager
     }
     if (dataClassName == 'HealthRecord') {
       return deserialize<_ioxvgdwn.HealthRecord>(data['data']);
+    }
+    if (dataClassName == 'ProductSummary') {
+      return deserialize<_ikmk0g5q.ProductSummary>(data['data']);
     }
     if (dataClassName == 'MemberProfile') {
       return deserialize<_i1iocmvy.MemberProfile>(data['data']);

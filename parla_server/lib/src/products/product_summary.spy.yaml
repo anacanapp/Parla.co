@@ -1,0 +1,14 @@
+### A product as the app shows it (M-20, M-21). Public product data only:
+### nothing about the user who searched.
+class: ProductSummary
+fields:
+  ### "parla" (our own catalogue) or "openbeautyfacts".
+  source: String
+  ### Barcode or catalogue id.
+  code: String
+  productName: String
+  brand: String?
+  ### The ingredient list as printed on the product, if known.
+  ingredientsText: String?
+  ### Link to the source record, shown with the licence notice.
+  sourceUrl: String?

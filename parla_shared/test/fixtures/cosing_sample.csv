@@ -1,0 +1,6 @@
+"Made-up test file in the shape of a CosIng annex export. Not real data."
+Reference Number,Chemical name / INN,INCI name,Maximum concentration in ready for use preparation,Other,Wording of conditions of use and warnings
+X1,Example alpha chemical,"Example Alpha; Example Beta","1 %, ""quoted""",-,"it's a placeholder
+on two lines"
+X2,,Example Delta,,,
+,ignored row without reference,Ignored,,,
