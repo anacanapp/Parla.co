@@ -27,6 +27,38 @@ import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
 import 'package:serverpod_client/serverpod_client.dart' as _isc;
 import 'protocol.dart' as _il2as5qe;
 
+/// The user's rights over their own data (privacy centre, M-27 to M-33).
+/// {@category Endpoint}
+class EndpointAccount extends _isc.EndpointRef {
+  EndpointAccount(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'account';
+
+  /// Everything Parla stores about the caller, as JSON (GDPR Art. 15 and 20,
+  /// checklist EXP-1). Health answers are decrypted for the export.
+  ///
+  /// The file is built on request and returned directly; it is never stored
+  /// on the server.
+  _ida.Future<String> exportMyData() => caller.callServerEndpoint<String>(
+    'account',
+    'exportMyData',
+    {},
+  );
+
+  /// Deletes the caller's account (checklist DEL-1, DEL-2).
+  ///
+  /// In one transaction: health data and its key (crypto-shredding), quiz
+  /// answers, profile and the sign-in account with its sessions and tokens
+  /// are deleted. Consent records and audit rows are kept as proof but
+  /// their user id is replaced by a pseudonym.
+  _ida.Future<void> deleteAccount() => caller.callServerEndpoint<void>(
+    'account',
+    'deleteAccount',
+    {},
+  );
+}
+
 /// By extending [EmailOtpIdpBaseEndpoint], the email identity provider
 /// endpoints, including the passwordless sign-in with one-time passwords, are
 /// made available on the server and enable the corresponding sign-in widget on
@@ -500,6 +532,7 @@ class Client extends _isc.ServerpodClientShared {
              disconnectStreamsOnLostInternetConnection,
          httpClientOverride: httpClientOverride,
        ) {
+    account = EndpointAccount(this);
     emailIdp = EndpointEmailIdp(this);
     jwtRefresh = EndpointJwtRefresh(this);
     consent = EndpointConsent(this);
@@ -507,6 +540,8 @@ class Client extends _isc.ServerpodClientShared {
     quiz = EndpointQuiz(this);
     modules = Modules(this);
   }
+
+  late final EndpointAccount account;
 
   late final EndpointEmailIdp emailIdp;
 
@@ -522,6 +557,7 @@ class Client extends _isc.ServerpodClientShared {
 
   @override
   Map<String, _isc.EndpointRef> get endpointRefLookup => {
+    'account': account,
     'emailIdp': emailIdp,
     'jwtRefresh': jwtRefresh,
     'consent': consent,

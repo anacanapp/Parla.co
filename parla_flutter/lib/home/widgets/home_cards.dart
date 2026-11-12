@@ -27,7 +27,9 @@ class SoftCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(radius),
       boxShadow: kSoftShadow,
     ),
-    child: child,
+    // Ink splashes of buttons and list tiles inside the card paint on this
+    // transparent Material instead of under the card's white background.
+    child: Material(type: MaterialType.transparency, child: child),
   );
 }
 

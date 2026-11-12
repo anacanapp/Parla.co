@@ -69,6 +69,31 @@ cloud email sender were removed.
 - **No admin web app.** Until there is an approval tool, expert content
   lives in code and changes go through pull requests.
 
+## Privacy rights (sprint 3)
+
+- **Export (EXP-1).** `account.exportMyData` returns everything stored about
+  the user as JSON (`parla-export-v1`), health answers decrypted. The app
+  hands it to the system share sheet; the file is never stored on the
+  server. This replaces the planned 7-day download link (EXP-2), which
+  would have kept a copy on the server.
+- **Deletion (DEL-1, DEL-2).** `account.deleteAccount` deletes, in one
+  transaction and immediately: health data and its key, quiz answers,
+  profile, and the sign-in account with its sessions and refresh tokens.
+  Short-lived access tokens expire on their own. Immediate deletion is
+  stricter than the 30 days in the data map.
+- **Pseudonymisation, the one exception to append-only.** On deletion the
+  user id in `consent_record` and `audit_log` is replaced by an HMAC
+  pseudonym (`pseudonymPepper` secret). This is the only update ever made
+  to those tables. A `deleted_account` row holds the pseudonym and date.
+- **Retention (RET-1, RET-2, AUD-4).** A daily timer (`scheduleDailyRetention`)
+  deletes audit rows older than 1 year and the consent records of accounts
+  deleted more than 3 years ago. Periods are proposals pending legal
+  review. Pregnancy re-asking after 12 months is not implemented yet.
+- **Privacy centre (M-25 to M-34).** Reached from the Profile tab and the
+  profile button: consents with a confirmation before the health consent is
+  withdrawn, data download, legal documents, sign-out and account deletion
+  with a typed confirmation word.
+
 ## App UI rules
 
 - **Brand.** Colours, type and the Smile Curve follow the Parla Sun brand
@@ -95,8 +120,8 @@ cloud email sender were removed.
 | --- | --- | --- |
 | KMS for the health KEK in the production data region | ENC-3 | With the production hosting decision |
 | Database-level append-only enforcement for `consent_record` and `audit_log` (restricted DB role) | AUD-2 | With the production database setup |
-| Data export and account deletion | EXP-*, DEL-* | Sprint 3 |
-| Retention jobs | RET-* | Sprint 3 |
+| Re-ask the pregnancy question after 12 months | RET-2 | With habit and health data history |
+| Privacy policy and terms texts | — | Lawyer |
 | Apple and Google sign-in | US-01 | Needs the Apple and Google developer accounts (company registration) |
 | Production email provider and data region | RES-1, RES-5 | After the lawyer answers the localisation questions |
 | Admin/CMS app | M8 | Sprint 2 |

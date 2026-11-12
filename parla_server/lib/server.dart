@@ -1,6 +1,7 @@
 import 'package:serverpod_auth_idp_server/core.dart';
 import 'package:serverpod_auth_idp_server/providers/email.dart';
 
+import 'src/account/retention.dart';
 import 'src/auth/verification_code_sender.dart';
 import 'src/generated/serverpod.dart';
 
@@ -50,4 +51,9 @@ void run(List<String> args) async {
   );
 
   await pod.start();
+
+  // Deletes data past its retention period once a day (RET-1, RET-2).
+  if (pod.runMode != ServerpodRunMode.test) {
+    scheduleDailyRetention(pod);
+  }
 }

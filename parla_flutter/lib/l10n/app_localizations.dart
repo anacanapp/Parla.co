@@ -831,6 +831,174 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'We left out retinol: we don\'t suggest it without answers about pregnancy and medicines.'**
   String get resultExclusionRetinoidBoth;
+
+  /// No description provided for @privacyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy centre'**
+  String get privacyTitle;
+
+  /// No description provided for @privacyIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Your data, your choices. Every right is one tap away.'**
+  String get privacyIntro;
+
+  /// No description provided for @privacyConsentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Consents'**
+  String get privacyConsentsTitle;
+
+  /// No description provided for @privacyHealthWithdrawTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw the health consent?'**
+  String get privacyHealthWithdrawTitle;
+
+  /// No description provided for @privacyHealthWithdrawBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Your health answers will be deleted right away, and your routine will be built more cautiously. You can give the consent again later.'**
+  String get privacyHealthWithdrawBody;
+
+  /// No description provided for @privacyWithdraw.
+  ///
+  /// In en, this message translates to:
+  /// **'Withdraw and delete'**
+  String get privacyWithdraw;
+
+  /// No description provided for @privacyCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get privacyCancel;
+
+  /// No description provided for @privacyExportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Download my data'**
+  String get privacyExportTitle;
+
+  /// No description provided for @privacyExportBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A file with everything Parla stores about you. It is created now and is not kept on our servers.'**
+  String get privacyExportBody;
+
+  /// No description provided for @privacyExportButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create file'**
+  String get privacyExportButton;
+
+  /// No description provided for @privacyLegalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal documents'**
+  String get privacyLegalTitle;
+
+  /// No description provided for @privacySignOut.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get privacySignOut;
+
+  /// No description provided for @privacyDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete account'**
+  String get privacyDeleteTitle;
+
+  /// No description provided for @deleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your account?'**
+  String get deleteTitle;
+
+  /// No description provided for @deleteWhatGoes.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted right away: your profile, quiz answers, health answers and their encryption key, and your sign-in account.'**
+  String get deleteWhatGoes;
+
+  /// No description provided for @deleteWhatStays.
+  ///
+  /// In en, this message translates to:
+  /// **'Kept as proof, without your name or email: your consent history (3 years) and security log entries (1 year).'**
+  String get deleteWhatStays;
+
+  /// No description provided for @deleteExportFirst.
+  ///
+  /// In en, this message translates to:
+  /// **'Download my data first'**
+  String get deleteExportFirst;
+
+  /// No description provided for @deleteConfirmLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Type {word} to confirm'**
+  String deleteConfirmLabel(String word);
+
+  /// No description provided for @deleteConfirmWord.
+  ///
+  /// In en, this message translates to:
+  /// **'DELETE'**
+  String get deleteConfirmWord;
+
+  /// No description provided for @deleteButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete my account'**
+  String get deleteButton;
+
+  /// No description provided for @deletedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account is deleted'**
+  String get deletedTitle;
+
+  /// No description provided for @deletedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Thank you for being with us. You are always welcome back.'**
+  String get deletedBody;
+
+  /// No description provided for @legalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Legal documents'**
+  String get legalTitle;
+
+  /// No description provided for @legalMedicalTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Not medical advice'**
+  String get legalMedicalTitle;
+
+  /// No description provided for @legalMedicalBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Parla offers care guidance. It does not diagnose, treat or replace a doctor. For skin conditions or worrying signs, see a dermatologist.'**
+  String get legalMedicalBody;
+
+  /// No description provided for @legalPolicyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy and terms'**
+  String get legalPolicyTitle;
+
+  /// No description provided for @legalPolicyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'These documents are being prepared with a lawyer and will appear here before launch.'**
+  String get legalPolicyBody;
+
+  /// No description provided for @legalConsentsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Consent texts'**
+  String get legalConsentsTitle;
 }
 
 class _AppLocalizationsDelegate

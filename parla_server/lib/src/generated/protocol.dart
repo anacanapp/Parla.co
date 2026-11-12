@@ -21,6 +21,7 @@ import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
     as _iacs;
 import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
     as _iais;
+import 'account/deleted_account.dart' as _ioqa84oy;
 import 'audit/audit_log_entry.dart' as _ioa77d8b;
 import 'common/parla_exception.dart' as _iv1d8f8b;
 import 'consent/consent_record.dart' as _it7bphsc;
@@ -31,6 +32,7 @@ import 'health/health_record.dart' as _ioxvgdwn;
 import 'profile/member_profile.dart' as _i1iocmvy;
 import 'quiz/quiz_answer.dart' as _ih1qnypb;
 import 'quiz/quiz_answer_input.dart' as _ilw6ope9;
+export 'account/deleted_account.dart';
 export 'audit/audit_log_entry.dart';
 export 'common/parla_exception.dart';
 export 'consent/consent_record.dart';
@@ -55,6 +57,7 @@ class Protocol extends _is.DatabaseSerializationManager
       _is.ProtocolDeserialization.cached(
         this,
         types: const [
+          _is.getType<_ioqa84oy.DeletedAccount>,
           _is.getType<_ioa77d8b.AuditLogEntry>,
           _is.getType<_iv1d8f8b.ParlaException>,
           _is.getType<_it7bphsc.ConsentRecord>,
@@ -65,6 +68,7 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_i1iocmvy.MemberProfile>,
           _is.getType<_ih1qnypb.QuizAnswer>,
           _is.getType<_ilw6ope9.QuizAnswerInput>,
+          _is.getType<_ioqa84oy.DeletedAccount?>,
           _is.getType<_ioa77d8b.AuditLogEntry?>,
           _is.getType<_iv1d8f8b.ParlaException?>,
           _is.getType<_it7bphsc.ConsentRecord?>,
@@ -85,6 +89,7 @@ class Protocol extends _is.DatabaseSerializationManager
           _isp.Protocol.new,
         ],
         classNames: const [
+          'DeletedAccount',
           'AuditLogEntry',
           'ParlaException',
           'ConsentRecord',
@@ -250,6 +255,50 @@ class Protocol extends _is.DatabaseSerializationManager
           ],
           type: 'btree',
           isUnique: false,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _isp.TableDefinition(
+      name: 'deleted_account',
+      dartName: 'DeletedAccount',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'pseudonym',
+          columnType: _isp.ColumnType.uuid,
+          isNullable: false,
+          dartType: 'UuidValue',
+        ),
+        _isp.ColumnDefinition(
+          name: 'deletedAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'deleted_account_pseudonym_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'pseudonym',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
           isPrimary: false,
         ),
       ],
@@ -536,6 +585,9 @@ class Protocol extends _is.DatabaseSerializationManager
       }
     }
 
+    if (t == _ioqa84oy.DeletedAccount) {
+      return _ioqa84oy.DeletedAccount.fromJson(data) as T;
+    }
     if (t == _ioa77d8b.AuditLogEntry) {
       return _ioa77d8b.AuditLogEntry.fromJson(data) as T;
     }
@@ -565,6 +617,10 @@ class Protocol extends _is.DatabaseSerializationManager
     }
     if (t == _ilw6ope9.QuizAnswerInput) {
       return _ilw6ope9.QuizAnswerInput.fromJson(data) as T;
+    }
+    if (t == _is.getType<_ioqa84oy.DeletedAccount?>()) {
+      return (data != null ? _ioqa84oy.DeletedAccount.fromJson(data) : null)
+          as T;
     }
     if (t == _is.getType<_ioa77d8b.AuditLogEntry?>()) {
       return (data != null ? _ioa77d8b.AuditLogEntry.fromJson(data) : null)
@@ -631,6 +687,7 @@ class Protocol extends _is.DatabaseSerializationManager
 
   static String? getClassNameForType(Type type) {
     return switch (type) {
+      _ioqa84oy.DeletedAccount => 'DeletedAccount',
       _ioa77d8b.AuditLogEntry => 'AuditLogEntry',
       _iv1d8f8b.ParlaException => 'ParlaException',
       _it7bphsc.ConsentRecord => 'ConsentRecord',
@@ -655,6 +712,8 @@ class Protocol extends _is.DatabaseSerializationManager
     }
 
     switch (data) {
+      case _ioqa84oy.DeletedAccount():
+        return 'DeletedAccount';
       case _ioa77d8b.AuditLogEntry():
         return 'AuditLogEntry';
       case _iv1d8f8b.ParlaException():
@@ -700,6 +759,9 @@ class Protocol extends _is.DatabaseSerializationManager
     var dataClassName = data['className'];
     if (dataClassName is! String) {
       return super.deserializeByClassName(data);
+    }
+    if (dataClassName == 'DeletedAccount') {
+      return deserialize<_ioqa84oy.DeletedAccount>(data['data']);
     }
     if (dataClassName == 'AuditLogEntry') {
       return deserialize<_ioa77d8b.AuditLogEntry>(data['data']);
@@ -778,6 +840,8 @@ class Protocol extends _is.DatabaseSerializationManager
       }
     }
     switch (t) {
+      case _ioqa84oy.DeletedAccount:
+        return _ioqa84oy.DeletedAccount.t;
       case _ioa77d8b.AuditLogEntry:
         return _ioa77d8b.AuditLogEntry.t;
       case _it7bphsc.ConsentRecord:

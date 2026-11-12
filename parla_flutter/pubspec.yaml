@@ -40,6 +40,7 @@ dependencies:
     path: ../parla_shared
   serverpod_auth_idp_flutter: 4.1.1
   serverpod_flutter: 4.1.1
+  share_plus: ^13.3.1
   shared_preferences: ^2.5.6
 
 dev_dependencies:

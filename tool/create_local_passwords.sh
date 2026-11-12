@@ -18,6 +18,7 @@ cat > "$target" <<YAML
 development:
   database: '$(secret)'
   healthKek: '$(kek)'
+  pseudonymPepper: '$(secret)'
   serviceSecret: '$(secret)'
   emailSecretHashPepper: '$(secret)'
   jwtHmacSha512PrivateKey: '$(secret)'
@@ -26,6 +27,7 @@ development:
 test:
   database: '$(secret)'
   healthKek: '$(kek)'
+  pseudonymPepper: '$(secret)'
   emailSecretHashPepper: '$(secret)'
   jwtHmacSha512PrivateKey: '$(secret)'
   jwtRefreshTokenHashPepper: '$(secret)'

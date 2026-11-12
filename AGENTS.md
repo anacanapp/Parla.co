@@ -10,6 +10,8 @@ data. Key rules:
 - Never add a model field from the do-not-collect list (name, phone, full birth
   date, location, advertising id, photos, weight, height).
 - `consent_record` and `audit_log` are append-only. Audit rows hold ids only.
+  The only allowed update is replacing a deleted user's id with its pseudonym
+  in `account.deleteAccount`.
 - Changing a consent text means adding a new version in `parla_shared`, never
   editing an existing one.
 - User-facing strings go in `parla_flutter/lib/l10n/app_{az,ru,en}.arb`; all

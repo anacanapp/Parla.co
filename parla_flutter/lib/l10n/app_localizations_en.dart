@@ -423,4 +423,98 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get resultExclusionRetinoidBoth =>
       'We left out retinol: we don\'t suggest it without answers about pregnancy and medicines.';
+
+  @override
+  String get privacyTitle => 'Privacy centre';
+
+  @override
+  String get privacyIntro =>
+      'Your data, your choices. Every right is one tap away.';
+
+  @override
+  String get privacyConsentsTitle => 'Consents';
+
+  @override
+  String get privacyHealthWithdrawTitle => 'Withdraw the health consent?';
+
+  @override
+  String get privacyHealthWithdrawBody =>
+      'Your health answers will be deleted right away, and your routine will be built more cautiously. You can give the consent again later.';
+
+  @override
+  String get privacyWithdraw => 'Withdraw and delete';
+
+  @override
+  String get privacyCancel => 'Cancel';
+
+  @override
+  String get privacyExportTitle => 'Download my data';
+
+  @override
+  String get privacyExportBody =>
+      'A file with everything Parla stores about you. It is created now and is not kept on our servers.';
+
+  @override
+  String get privacyExportButton => 'Create file';
+
+  @override
+  String get privacyLegalTitle => 'Legal documents';
+
+  @override
+  String get privacySignOut => 'Sign out';
+
+  @override
+  String get privacyDeleteTitle => 'Delete account';
+
+  @override
+  String get deleteTitle => 'Delete your account?';
+
+  @override
+  String get deleteWhatGoes =>
+      'Deleted right away: your profile, quiz answers, health answers and their encryption key, and your sign-in account.';
+
+  @override
+  String get deleteWhatStays =>
+      'Kept as proof, without your name or email: your consent history (3 years) and security log entries (1 year).';
+
+  @override
+  String get deleteExportFirst => 'Download my data first';
+
+  @override
+  String deleteConfirmLabel(String word) {
+    return 'Type $word to confirm';
+  }
+
+  @override
+  String get deleteConfirmWord => 'DELETE';
+
+  @override
+  String get deleteButton => 'Delete my account';
+
+  @override
+  String get deletedTitle => 'Your account is deleted';
+
+  @override
+  String get deletedBody =>
+      'Thank you for being with us. You are always welcome back.';
+
+  @override
+  String get legalTitle => 'Legal documents';
+
+  @override
+  String get legalMedicalTitle => 'Not medical advice';
+
+  @override
+  String get legalMedicalBody =>
+      'Parla offers care guidance. It does not diagnose, treat or replace a doctor. For skin conditions or worrying signs, see a dermatologist.';
+
+  @override
+  String get legalPolicyTitle => 'Privacy policy and terms';
+
+  @override
+  String get legalPolicyBody =>
+      'These documents are being prepared with a lawyer and will appear here before launch.';
+
+  @override
+  String get legalConsentsTitle => 'Consent texts';
 }

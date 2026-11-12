@@ -20,6 +20,7 @@ import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
 import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
     as _iaic;
 import 'package:serverpod_client/serverpod_client.dart' as _isc;
+import 'account/deleted_account.dart' as _ioqa84oy;
 import 'audit/audit_log_entry.dart' as _ioa77d8b;
 import 'common/parla_exception.dart' as _iv1d8f8b;
 import 'consent/consent_record.dart' as _it7bphsc;
@@ -30,6 +31,7 @@ import 'health/health_record.dart' as _ioxvgdwn;
 import 'profile/member_profile.dart' as _i1iocmvy;
 import 'quiz/quiz_answer.dart' as _ih1qnypb;
 import 'quiz/quiz_answer_input.dart' as _ilw6ope9;
+export 'account/deleted_account.dart';
 export 'audit/audit_log_entry.dart';
 export 'common/parla_exception.dart';
 export 'consent/consent_record.dart';
@@ -55,6 +57,7 @@ class Protocol extends _isc.SerializationManager
       _isc.ProtocolDeserialization.cached(
         this,
         types: const [
+          _isc.getType<_ioqa84oy.DeletedAccount>,
           _isc.getType<_ioa77d8b.AuditLogEntry>,
           _isc.getType<_iv1d8f8b.ParlaException>,
           _isc.getType<_it7bphsc.ConsentRecord>,
@@ -65,6 +68,7 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_i1iocmvy.MemberProfile>,
           _isc.getType<_ih1qnypb.QuizAnswer>,
           _isc.getType<_ilw6ope9.QuizAnswerInput>,
+          _isc.getType<_ioqa84oy.DeletedAccount?>,
           _isc.getType<_ioa77d8b.AuditLogEntry?>,
           _isc.getType<_iv1d8f8b.ParlaException?>,
           _isc.getType<_it7bphsc.ConsentRecord?>,
@@ -84,6 +88,7 @@ class Protocol extends _isc.SerializationManager
           _iacc.Protocol.new,
         ],
         classNames: const [
+          'DeletedAccount',
           'AuditLogEntry',
           'ParlaException',
           'ConsentRecord',
@@ -121,6 +126,9 @@ class Protocol extends _isc.SerializationManager
       }
     }
 
+    if (t == _ioqa84oy.DeletedAccount) {
+      return _ioqa84oy.DeletedAccount.fromJson(data) as T;
+    }
     if (t == _ioa77d8b.AuditLogEntry) {
       return _ioa77d8b.AuditLogEntry.fromJson(data) as T;
     }
@@ -150,6 +158,10 @@ class Protocol extends _isc.SerializationManager
     }
     if (t == _ilw6ope9.QuizAnswerInput) {
       return _ilw6ope9.QuizAnswerInput.fromJson(data) as T;
+    }
+    if (t == _isc.getType<_ioqa84oy.DeletedAccount?>()) {
+      return (data != null ? _ioqa84oy.DeletedAccount.fromJson(data) : null)
+          as T;
     }
     if (t == _isc.getType<_ioa77d8b.AuditLogEntry?>()) {
       return (data != null ? _ioa77d8b.AuditLogEntry.fromJson(data) : null)
@@ -216,6 +228,7 @@ class Protocol extends _isc.SerializationManager
 
   static String? getClassNameForType(Type type) {
     return switch (type) {
+      _ioqa84oy.DeletedAccount => 'DeletedAccount',
       _ioa77d8b.AuditLogEntry => 'AuditLogEntry',
       _iv1d8f8b.ParlaException => 'ParlaException',
       _it7bphsc.ConsentRecord => 'ConsentRecord',
@@ -240,6 +253,8 @@ class Protocol extends _isc.SerializationManager
     }
 
     switch (data) {
+      case _ioqa84oy.DeletedAccount():
+        return 'DeletedAccount';
       case _ioa77d8b.AuditLogEntry():
         return 'AuditLogEntry';
       case _iv1d8f8b.ParlaException():
@@ -281,6 +296,9 @@ class Protocol extends _isc.SerializationManager
     var dataClassName = data['className'];
     if (dataClassName is! String) {
       return super.deserializeByClassName(data);
+    }
+    if (dataClassName == 'DeletedAccount') {
+      return deserialize<_ioqa84oy.DeletedAccount>(data['data']);
     }
     if (dataClassName == 'AuditLogEntry') {
       return deserialize<_ioa77d8b.AuditLogEntry>(data['data']);

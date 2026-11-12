@@ -56,6 +56,18 @@ abstract interface class ParlaApi {
   /// The saved quiz answers, or `null` when the quiz was never taken.
   Future<QuizAnswers?> myQuizAnswers();
 
+  /// The current decision for every consent (M-28).
+  Future<Map<ConsentKind, bool>> consentStates();
+
+  /// Everything stored about the user, as JSON (M-31).
+  Future<String> exportMyData();
+
+  /// Deletes the account and signs out on this device (M-32).
+  Future<void> deleteAccount();
+
+  /// Signs out on this device.
+  Future<void> signOut();
+
   /// The sign-in UI (screens M-05 and M-06).
   Widget buildSignIn(
     BuildContext context, {
