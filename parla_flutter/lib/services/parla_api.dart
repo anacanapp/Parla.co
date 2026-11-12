@@ -27,6 +27,10 @@ class ProfileSummary {
 abstract interface class ParlaApi {
   bool get isSignedIn;
 
+  /// A stable id of the signed-in account, used only to keep each account's
+  /// on-device data (habits) apart. `null` when signed out.
+  String? get accountId;
+
   /// The signed-in user's profile, or `null` before onboarding is finished.
   Future<ProfileSummary?> myProfile();
 

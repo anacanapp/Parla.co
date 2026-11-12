@@ -1,12 +1,15 @@
 import 'dart:async';
 
 import 'package:flutter/services.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:flutter_test/flutter_test.dart';
 
 /// Loads the bundled brand fonts so layout tests measure real text widths
 /// instead of the wider default test font.
 Future<void> testExecutable(FutureOr<void> Function() testMain) async {
   TestWidgetsFlutterBinding.ensureInitialized();
+  // Tests that do not pass their own habit store get an empty secure store.
+  FlutterSecureStorage.setMockInitialValues({});
 
   Future<void> load(String family, List<String> files) async {
     final loader = FontLoader(family);

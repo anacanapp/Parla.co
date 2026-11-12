@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parla_shared/parla_shared.dart';
@@ -88,8 +90,38 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
   });
 
   Future<void> _signOut() async {
-    await ParlaScope.of(context).api.signOut();
+    final scope = ParlaScope.of(context);
+    await scope.api.signOut();
+    // The habit entries stay on the device under this account and come back
+    // when the same account signs in again.
+    scope.habits.detach();
     if (mounted) context.go(Routes.welcome);
+  }
+
+  Future<void> _deleteHabits() async {
+    final scope = ParlaScope.of(context);
+    final l10n = AppLocalizations.of(context);
+    final confirmed = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.privacyHabitsDeleteTitle),
+        content: Text(l10n.privacyHabitsDeleteBody),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.privacyCancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(l10n.privacyHabitsDelete),
+          ),
+        ],
+      ),
+    );
+    if (confirmed != true) return;
+    await scope.habits.attach(scope.api.accountId);
+    await scope.habits.erase();
+    if (mounted) showMessage(context, l10n.privacyHabitsDeleted);
   }
 
   @override
@@ -152,6 +184,23 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
             ),
           ),
           const SizedBox(height: 16),
+          SoftCard(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(l10n.privacyHabitsTitle, style: text.titleLarge),
+                const SizedBox(height: 6),
+                Text(l10n.privacyHabitsBody, style: text.bodyMedium),
+                const SizedBox(height: 16),
+                OutlinedButton(
+                  key: const ValueKey('delete-habits'),
+                  onPressed: _busy ? null : _deleteHabits,
+                  child: Text(l10n.privacyHabitsDelete),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(height: 16),
           _LinkTile(
             label: l10n.privacyLegalTitle,
             onTap: () => context.go(Routes.legal),
@@ -177,8 +226,15 @@ Future<void> exportAndShare(
   final l10n = AppLocalizations.of(context);
   setBusy(true);
   try {
-    final json = await scope.api.exportMyData();
-    await scope.shareExport(json);
+    final server = await scope.api.exportMyData();
+    // Habit entries live only on this device; add them so the file holds
+    // everything Parla keeps about the user (data portability).
+    await scope.habits.attach(scope.api.accountId);
+    final data = jsonDecode(server) as Map<String, Object?>;
+    data['deviceHabits'] = scope.habits.exportJson();
+    await scope.shareExport(
+      const JsonEncoder.withIndent('  ').convert(data),
+    );
   } on Object catch (error) {
     if (context.mounted) showError(context, errorMessage(l10n, error));
   } finally {
@@ -289,7 +345,12 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
     final l10n = AppLocalizations.of(context);
     setState(() => _busy = true);
     try {
+      // Load first so the right account's entries are known, then delete
+      // the device entries only once the server deletion succeeded.
+      await scope.habits.attach(scope.api.accountId);
       await scope.api.deleteAccount();
+      await scope.habits.erase();
+      scope.habits.detach();
       scope.onboarding.clear();
       if (mounted) context.go(Routes.accountDeleted);
     } on Object catch (error) {

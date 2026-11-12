@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parla_shared/parla_shared.dart';
 
+import '../habits/habit_sheets.dart';
 import '../home/home_controller.dart';
 import '../home/routine.dart';
 import '../home/widgets/home_cards.dart';
@@ -33,7 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
   void didChangeDependencies() {
     super.didChangeDependencies();
     if (_controller == null) {
-      _controller = HomeController(now: ParlaScope.of(context).clock());
+      final scope = ParlaScope.of(context);
+      _controller = HomeController(now: scope.clock(), habits: scope.habits);
+      scope.habits.attach(scope.api.accountId);
       _loadAnswers();
     }
   }
@@ -72,6 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
       case 1:
         context.go(Routes.guest); // M-19/M-20 placeholder for now.
+      case 2:
+        context.go(Routes.habits);
       case 3:
         context.go(Routes.privacy);
       default:
@@ -92,7 +97,6 @@ class _HomeScreenState extends State<HomeScreen> {
           controller: controller,
           plan: _answers == null ? defaultRoutinePlan : planRoutine(_answers!),
           showQuizPrompt: _loaded && _answers == null,
-          onComingSoon: _comingSoon,
           onScan: () => context.go(Routes.guest),
           onQuiz: () => context.go(Routes.quiz),
         ),
@@ -106,7 +110,6 @@ class _HomeBody extends StatelessWidget {
     required this.controller,
     required this.plan,
     required this.showQuizPrompt,
-    required this.onComingSoon,
     required this.onScan,
     required this.onQuiz,
   });
@@ -114,7 +117,6 @@ class _HomeBody extends StatelessWidget {
   final HomeController controller;
   final RoutinePlan plan;
   final bool showQuizPrompt;
-  final VoidCallback onComingSoon;
   final VoidCallback onScan;
   final VoidCallback onQuiz;
 
@@ -128,6 +130,7 @@ class _HomeBody extends StatelessWidget {
     final language = scope.settings.language ?? defaultLanguage;
 
     final kind = controller.kind;
+    final habits = controller.habits;
     final morning = kind == RoutineKind.morning;
     final progress = RoutineProgress(
       routineSteps(morning ? plan.morning : plan.evening, language),
@@ -304,23 +307,35 @@ class _HomeBody extends StatelessWidget {
                   children: [
                     Expanded(
                       child: SmallHabitTile(
+                        key: const ValueKey('habit-sleep'),
                         icon: ParlaIconName.moon,
                         title: l10n.habitSleep,
-                        value: l10n.habitNoEntry,
+                        value: habits.sleepHours == null
+                            ? l10n.habitNoEntry
+                            : l10n.habitSleepHours(
+                                formatHours(habits.sleepHours!),
+                              ),
                         background: ParlaColors.lemon,
-                        actionLabel: l10n.habitLog,
-                        onAction: onComingSoon,
+                        actionLabel: habits.sleepHours == null
+                            ? l10n.habitLog
+                            : l10n.habitEdit,
+                        onAction: () => logSleep(context, habits),
                       ),
                     ),
                     const SizedBox(width: 12),
                     Expanded(
                       child: SmallHabitTile(
+                        key: const ValueKey('habit-move'),
                         icon: ParlaIconName.move,
                         title: l10n.habitMove,
-                        value: l10n.habitNoEntry,
+                        value: habits.moveMinutes == null
+                            ? l10n.habitNoEntry
+                            : l10n.habitMoveMinutes(habits.moveMinutes!),
                         background: ParlaColors.sage,
-                        actionLabel: l10n.habitLog,
-                        onAction: onComingSoon,
+                        actionLabel: habits.moveMinutes == null
+                            ? l10n.habitLog
+                            : l10n.habitEdit,
+                        onAction: () => logMove(context, habits),
                       ),
                     ),
                   ],

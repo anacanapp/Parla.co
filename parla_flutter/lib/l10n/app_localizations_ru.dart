@@ -450,7 +450,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get privacyExportBody =>
-      'Файл со всем, что Parla хранит о вас. Он создаётся сейчас и не сохраняется на наших серверах.';
+      'Всё, что Parla хранит о вас, а также записи о привычках с этого телефона, в одном файле. Файл создаётся сейчас и не хранится на наших серверах.';
 
   @override
   String get privacyExportButton => 'Создать файл';
@@ -469,7 +469,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get deleteWhatGoes =>
-      'Сразу удаляются: профиль, ответы теста, ответы о здоровье и их ключ шифрования, аккаунт для входа.';
+      'Сразу удаляются: профиль, ответы теста, ответы о здоровье и их ключ шифрования, аккаунт для входа. Записи о привычках на этом телефоне тоже удаляются.';
 
   @override
   String get deleteWhatStays =>
@@ -515,4 +515,97 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get legalConsentsTitle => 'Тексты согласий';
+
+  @override
+  String get habitEdit => 'Изменить';
+
+  @override
+  String get habitSleepSheetTitle => 'Сколько вы спали прошлой ночью?';
+
+  @override
+  String get habitMoveSheetTitle => 'Сколько вы сегодня двигались?';
+
+  @override
+  String habitSleepHours(String hours) {
+    return '$hours ч';
+  }
+
+  @override
+  String habitMoveMinutes(int minutes) {
+    return '$minutes мин';
+  }
+
+  @override
+  String get habitLess => 'Меньше';
+
+  @override
+  String get habitMore => 'Больше';
+
+  @override
+  String get habitSave => 'Сохранить';
+
+  @override
+  String get habitClearEntry => 'Удалить запись';
+
+  @override
+  String get habitsScreenTitle => 'Привычки';
+
+  @override
+  String get habitsScreenIntro => 'Маленькие шаги в вашем темпе.';
+
+  @override
+  String get habitsToday => 'Сегодня';
+
+  @override
+  String get habitsWeekTitle => 'Последние 7 дней';
+
+  @override
+  String get habitsWeekCare => 'Дни, когда вы уделили время уходу';
+
+  @override
+  String habitsWeekCareValue(int days) {
+    return '$days из 7 дней';
+  }
+
+  @override
+  String get habitsWeekNone => 'Пока нет записей';
+
+  @override
+  String habitsWeekWaterValue(String glasses) {
+    return 'В среднем $glasses стак. в день';
+  }
+
+  @override
+  String habitsWeekSleepValue(String hours, int nights) {
+    return 'В среднем $hours ч, записано ночей: $nights';
+  }
+
+  @override
+  String habitsWeekMoveValue(int minutes, int days) {
+    return 'Всего $minutes мин, дней: $days';
+  }
+
+  @override
+  String get habitsPrivacyNote =>
+      'Записи о привычках хранятся только на этом телефоне и не отправляются на сервер. Записи старше 90 дней удаляются автоматически.';
+
+  @override
+  String get privacyHabitsTitle => 'Записи о привычках на этом телефоне';
+
+  @override
+  String get privacyHabitsBody =>
+      'Записи о воде, сне, движении и уходе хранятся только на этом телефоне. Вы можете удалить их в любой момент.';
+
+  @override
+  String get privacyHabitsDelete => 'Удалить записи';
+
+  @override
+  String get privacyHabitsDeleteTitle => 'Удалить записи о привычках?';
+
+  @override
+  String get privacyHabitsDeleteBody =>
+      'Все записи о воде, сне, движении и уходе на этом телефоне будут удалены. Это нельзя отменить.';
+
+  @override
+  String get privacyHabitsDeleted => 'Записи о привычках удалены.';
 }

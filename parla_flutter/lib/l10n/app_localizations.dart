@@ -883,7 +883,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacyExportBody.
   ///
   /// In en, this message translates to:
-  /// **'A file with everything Parla stores about you. It is created now and is not kept on our servers.'**
+  /// **'A file with everything Parla stores about you, plus the habit entries on this phone. It is created now and is not kept on our servers.'**
   String get privacyExportBody;
 
   /// No description provided for @privacyExportButton.
@@ -919,7 +919,7 @@ abstract class AppLocalizations {
   /// No description provided for @deleteWhatGoes.
   ///
   /// In en, this message translates to:
-  /// **'Deleted right away: your profile, quiz answers, health answers and their encryption key, and your sign-in account.'**
+  /// **'Deleted right away: your profile, quiz answers, health answers and their encryption key, and your sign-in account. Your habit entries on this phone are deleted too.'**
   String get deleteWhatGoes;
 
   /// No description provided for @deleteWhatStays.
@@ -999,6 +999,162 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Consent texts'**
   String get legalConsentsTitle;
+
+  /// No description provided for @habitEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit'**
+  String get habitEdit;
+
+  /// No description provided for @habitSleepSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How long did you sleep last night?'**
+  String get habitSleepSheetTitle;
+
+  /// No description provided for @habitMoveSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'How long did you move today?'**
+  String get habitMoveSheetTitle;
+
+  /// No description provided for @habitSleepHours.
+  ///
+  /// In en, this message translates to:
+  /// **'{hours} h'**
+  String habitSleepHours(String hours);
+
+  /// No description provided for @habitMoveMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min'**
+  String habitMoveMinutes(int minutes);
+
+  /// No description provided for @habitLess.
+  ///
+  /// In en, this message translates to:
+  /// **'Less'**
+  String get habitLess;
+
+  /// No description provided for @habitMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get habitMore;
+
+  /// No description provided for @habitSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get habitSave;
+
+  /// No description provided for @habitClearEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove entry'**
+  String get habitClearEntry;
+
+  /// No description provided for @habitsScreenTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Habits'**
+  String get habitsScreenTitle;
+
+  /// No description provided for @habitsScreenIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Small steps, at your own pace.'**
+  String get habitsScreenIntro;
+
+  /// No description provided for @habitsToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get habitsToday;
+
+  /// No description provided for @habitsWeekTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Last 7 days'**
+  String get habitsWeekTitle;
+
+  /// No description provided for @habitsWeekCare.
+  ///
+  /// In en, this message translates to:
+  /// **'Days you made time for your routine'**
+  String get habitsWeekCare;
+
+  /// No description provided for @habitsWeekCareValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{days} of 7 days'**
+  String habitsWeekCareValue(int days);
+
+  /// No description provided for @habitsWeekNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing logged yet'**
+  String get habitsWeekNone;
+
+  /// No description provided for @habitsWeekWaterValue.
+  ///
+  /// In en, this message translates to:
+  /// **'On average {glasses} glasses a day'**
+  String habitsWeekWaterValue(String glasses);
+
+  /// No description provided for @habitsWeekSleepValue.
+  ///
+  /// In en, this message translates to:
+  /// **'On average {hours} h, {nights} nights logged'**
+  String habitsWeekSleepValue(String hours, int nights);
+
+  /// No description provided for @habitsWeekMoveValue.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min in total, on {days} days'**
+  String habitsWeekMoveValue(int minutes, int days);
+
+  /// No description provided for @habitsPrivacyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Your habit entries are kept only on this phone and are never sent to our server. Entries older than 90 days are deleted automatically.'**
+  String get habitsPrivacyNote;
+
+  /// No description provided for @privacyHabitsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Habit entries on this phone'**
+  String get privacyHabitsTitle;
+
+  /// No description provided for @privacyHabitsBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Water, sleep, movement and routine entries are kept only on this phone. You can delete them at any time.'**
+  String get privacyHabitsBody;
+
+  /// No description provided for @privacyHabitsDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete entries'**
+  String get privacyHabitsDelete;
+
+  /// No description provided for @privacyHabitsDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete your habit entries?'**
+  String get privacyHabitsDeleteTitle;
+
+  /// No description provided for @privacyHabitsDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'All water, sleep, movement and routine entries on this phone will be deleted. This cannot be undone.'**
+  String get privacyHabitsDeleteBody;
+
+  /// No description provided for @privacyHabitsDeleted.
+  ///
+  /// In en, this message translates to:
+  /// **'Habit entries deleted.'**
+  String get privacyHabitsDeleted;
 }
 
 class _AppLocalizationsDelegate

@@ -1,28 +1,26 @@
 import 'package:flutter/foundation.dart';
 
+import '../habits/habit_tracker.dart';
 import 'routine.dart';
 
-/// State of the home screen (M-14): which routine is shown, which steps are
-/// done today, and today's water count.
-///
-/// Held in memory only for now. Persisting habit data comes with the health
-/// consent and encrypted storage (privacy checklist ENC-3, CON-2).
+/// State of the home screen (M-14): which routine is shown. Done steps and
+/// today's water come from the [HabitTracker], which keeps them on the
+/// device.
 class HomeController extends ChangeNotifier {
-  HomeController({required DateTime now})
-    : _kind = now.hour < 15 ? RoutineKind.morning : RoutineKind.evening;
+  HomeController({required DateTime now, required this.habits})
+    : _kind = now.hour < 15 ? RoutineKind.morning : RoutineKind.evening {
+    habits.addListener(notifyListeners);
+  }
 
-  static const waterGoal = 8;
+  static const waterGoal = HabitTracker.waterGoal;
 
+  final HabitTracker habits;
   RoutineKind _kind;
-  final Map<RoutineKind, Set<String>> _done = {
-    for (final kind in RoutineKind.values) kind: <String>{},
-  };
-  int _water = 0;
 
   RoutineKind get kind => _kind;
-  int get water => _water;
+  int get water => habits.water;
 
-  bool isDone(String stepId) => _done[_kind]!.contains(stepId);
+  bool isDone(String stepId) => habits.isDone(_kind, stepId);
 
   void selectKind(RoutineKind kind) {
     if (kind == _kind) return;
@@ -30,27 +28,18 @@ class HomeController extends ChangeNotifier {
     notifyListeners();
   }
 
-  void toggle(String stepId) {
-    final done = _done[_kind]!;
-    if (!done.remove(stepId)) done.add(stepId);
-    notifyListeners();
-  }
+  void toggle(String stepId) => habits.toggleStep(_kind, stepId);
 
-  void restart() {
-    _done[_kind]!.clear();
-    notifyListeners();
-  }
+  void restart() => habits.restart(_kind);
 
-  void addWater() {
-    if (_water >= waterGoal) return;
-    _water++;
-    notifyListeners();
-  }
+  void addWater() => habits.addWater();
 
-  void removeWater() {
-    if (_water == 0) return;
-    _water--;
-    notifyListeners();
+  void removeWater() => habits.removeWater();
+
+  @override
+  void dispose() {
+    habits.removeListener(notifyListeners);
+    super.dispose();
   }
 }
 

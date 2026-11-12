@@ -4,6 +4,7 @@ import 'screens/age_screen.dart';
 import 'screens/consent_screen.dart';
 import 'screens/country_screen.dart';
 import 'screens/guest_screen.dart';
+import 'screens/habits_screen.dart';
 import 'screens/home_screen.dart';
 import 'screens/language_screen.dart';
 import 'screens/privacy_screens.dart';
@@ -25,6 +26,7 @@ abstract final class Routes {
   static const consents = '/consents'; // M-08
   static const quiz = '/quiz'; // M-09 to M-13
   static const home = '/home'; // M-14
+  static const habits = '/habits'; // M-17, M-18
   static const guest = '/guest'; // M-20 (placeholder)
   static const privacy = '/privacy'; // M-25, M-27, M-28
   static const legal = '/privacy/legal'; // M-34
@@ -45,6 +47,7 @@ GoRouter buildRouter() => GoRouter(
     GoRoute(path: Routes.consents, builder: (_, _) => const ConsentScreen()),
     GoRoute(path: Routes.quiz, builder: (_, _) => const QuizScreen()),
     GoRoute(path: Routes.home, builder: (_, _) => const HomeScreen()),
+    GoRoute(path: Routes.habits, builder: (_, _) => const HabitsScreen()),
     GoRoute(path: Routes.guest, builder: (_, _) => const GuestScreen()),
     GoRoute(path: Routes.privacy, builder: (_, _) => const PrivacyScreen()),
     GoRoute(path: Routes.legal, builder: (_, _) => const LegalScreen()),

@@ -16,6 +16,9 @@ class ServerpodParlaApi implements ParlaApi {
   bool get isSignedIn => _client.auth.isAuthenticated;
 
   @override
+  String? get accountId => _client.auth.authInfo?.authUserId.toString();
+
+  @override
   Future<ProfileSummary?> myProfile() => _guard(() async {
     final profile = await _client.profile.me();
     if (profile == null) return null;

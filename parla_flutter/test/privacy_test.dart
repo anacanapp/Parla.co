@@ -1,6 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:parla/app.dart';
+import 'package:parla/habits/habit_store.dart';
 import 'package:parla/services/parla_api.dart';
 import 'package:parla/state/app_settings.dart';
 import 'package:parla_shared/parla_shared.dart';
@@ -10,10 +13,11 @@ import 'support/fake_api.dart';
 import 'support/text_sizes.dart';
 
 class _Harness {
-  _Harness(this.api, this.shared);
+  _Harness(this.api, this.shared, this.store);
 
   final FakeApi api;
   final List<String> shared;
+  final MemoryHabitStore store;
 }
 
 /// Signed-in user with a quiz and the health consent, opened on the privacy
@@ -21,6 +25,7 @@ class _Harness {
 Future<_Harness> _openPrivacy(
   WidgetTester tester, {
   String language = 'en',
+  MemoryHabitStore? store,
 }) async {
   tester.view.physicalSize = const Size(390 * 3, 844 * 3);
   tester.view.devicePixelRatio = 3;
@@ -29,6 +34,7 @@ Future<_Harness> _openPrivacy(
   SharedPreferences.setMockInitialValues({'language': language});
   final settings = await AppSettings.load();
   final shared = <String>[];
+  final habitStore = store ?? MemoryHabitStore();
   final api = FakeApi()
     ..signedIn = true
     ..profile = ProfileSummary(countryCode: 'AZ', language: language)
@@ -43,6 +49,7 @@ Future<_Harness> _openPrivacy(
       api: api,
       settings: settings,
       shareExport: (json) async => shared.add(json),
+      habitStore: habitStore,
     ),
   );
   await tester.pumpAndSettle();
@@ -50,10 +57,14 @@ Future<_Harness> _openPrivacy(
   final nav = find.byType(InkWell).last;
   await tester.tap(nav);
   await tester.pumpAndSettle();
-  return _Harness(api, shared);
+  return _Harness(api, shared, habitStore);
 }
 
 Future<void> _tap(WidgetTester tester, Finder finder) async {
+  final list = find.byType(Scrollable);
+  if (finder.evaluate().isEmpty && list.evaluate().isNotEmpty) {
+    await tester.scrollUntilVisible(finder, 200, scrollable: list.first);
+  }
   await tester.ensureVisible(finder.first);
   await tester.pumpAndSettle();
   await tester.tap(finder.first);
@@ -116,6 +127,69 @@ void main() {
     await _tap(tester, find.text('Create file'));
     expect(h.api.exports, 1);
     expect(h.shared.single, contains('parla-export-v1'));
+  });
+
+  testWidgets('the export also holds the habit entries kept on this phone', (
+    tester,
+  ) async {
+    final store = MemoryHabitStore()
+      ..data['user-1'] = jsonEncode({
+        'format': 'parla-habits-v1',
+        'days': {
+          '2026-11-12': {'water': 3},
+        },
+      });
+    final h = await _openPrivacy(tester, store: store);
+    await _tap(tester, find.text('Create file'));
+    final file = jsonDecode(h.shared.single) as Map<String, Object?>;
+    expect(file['format'], 'parla-export-v1');
+    expect(file['deviceHabits'], {
+      'format': 'parla-habits-v1',
+      'days': {
+        '2026-11-12': {'water': 3},
+      },
+    });
+  });
+
+  testWidgets('habit entries on this phone can be deleted after a '
+      'confirmation', (tester) async {
+    final store = MemoryHabitStore()..data['user-1'] = '{}';
+    await _openPrivacy(tester, store: store);
+    await _tap(tester, find.byKey(const ValueKey('delete-habits')));
+    expect(find.text('Delete your habit entries?'), findsOneWidget);
+    await _tap(tester, find.text('Cancel'));
+    expect(store.data, contains('user-1'));
+
+    await _tap(tester, find.byKey(const ValueKey('delete-habits')));
+    await _tap(tester, find.text('Delete entries').last);
+    expect(store.data, isEmpty);
+    expect(find.text('Habit entries deleted.'), findsOneWidget);
+  });
+
+  testWidgets('signing out keeps the habit entries for the next sign-in', (
+    tester,
+  ) async {
+    final store = MemoryHabitStore()..data['user-1'] = '{}';
+    await _openPrivacy(tester, store: store);
+    await _tap(tester, find.text('Sign out'));
+    expect(store.data, contains('user-1'));
+  });
+
+  testWidgets('deleting the account also deletes the habit entries on this '
+      'phone', (tester) async {
+    final store = MemoryHabitStore()
+      ..data['user-1'] = '{}'
+      ..data['other-user'] = '{}';
+    final h = await _openPrivacy(tester, store: store);
+    await _tap(tester, find.text('Delete account'));
+    await tester.enterText(
+      find.byKey(const ValueKey('delete-confirm')),
+      'delete',
+    );
+    await tester.pumpAndSettle();
+    await _tap(tester, find.widgetWithText(FilledButton, 'Delete my account'));
+    expect(h.api.deleted, isTrue);
+    expect(store.data.keys, ['other-user']);
   });
 
   testWidgets('deleting needs the typed word, then signs out to the '

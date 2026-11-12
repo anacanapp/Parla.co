@@ -12,6 +12,11 @@ class FakeApi implements ParlaApi {
   @override
   bool get isSignedIn => signedIn;
 
+  String userId = 'user-1';
+
+  @override
+  String? get accountId => signedIn ? userId : null;
+
   @override
   Future<ProfileSummary?> myProfile() async => profile;
 
