@@ -60,13 +60,6 @@
   "routineEvening": "Axşam",
   "routineMorningTitle": "Səhər rutini",
   "routineEveningTitle": "Axşam rutini",
-  "meterStepsDone": "ADDIM TAMAM",
-  "meterProgress": "{done} / {total} addım tamamdır · təxminən {minutes} dəq qalıb",
-  "meterAllDone": "{routine} tamamdır",
-  "nextStepLabel": "NÖVBƏTİ ADDIM",
-  "minutesShort": "{minutes} dəq",
-  "approvedByDermatologist": "Dermatoloq təsdiqləyib",
-  "stepDoneButton": "Tamamladım",
   "stepStatusDone": "Tamamdır",
   "stepMarkDone": "{step}: tamamla",
   "stepMarkUndone": "{step}: tamamlandı, geri qaytar",
@@ -90,5 +83,12 @@
   "navScan": "Skan",
   "navHabits": "Vərdiş",
   "navProfile": "Profil",
-  "comingSoon": "Bu bölmə növbəti versiyada əlavə olunur."
+  "comingSoon": "Bu bölmə növbəti versiyada əlavə olunur.",
+  "routineMorningEyebrow": "SƏHƏR RUTİNİ",
+  "routineEveningEyebrow": "AXŞAM RUTİNİ",
+  "routineStatusStart": "Başlayaq",
+  "routineStatusLeft": "{left} addım qalıb",
+  "routineStatusDone": "Hamısı hazırdır",
+  "routineMinutesLeft": "Təxminən {minutes} dəqiqə",
+  "routineProgressLabel": "{routine}: {done} / {total} addım tamamdır"
 }

@@ -26,22 +26,24 @@ class ParlaNavBar extends StatelessWidget {
     return Semantics(
       container: true,
       label: l10n.navMenuLabel,
-      child: Container(
-        decoration: const BoxDecoration(
-          color: ParlaColors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
-          boxShadow: [
-            BoxShadow(
-              color: Color(0x141F1A14),
-              blurRadius: 24,
-              offset: Offset(0, -6),
+      child: SafeArea(
+        top: false,
+        minimum: const EdgeInsets.only(bottom: 12),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 10),
+            decoration: BoxDecoration(
+              color: ParlaColors.white,
+              borderRadius: BorderRadius.circular(32),
+              boxShadow: const [
+                BoxShadow(
+                  color: Color(0x1A1F1A14),
+                  blurRadius: 30,
+                  offset: Offset(0, 10),
+                ),
+              ],
             ),
-          ],
-        ),
-        child: SafeArea(
-          top: false,
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(4, 10, 4, 10),
             child: Row(
               children: [
                 for (var i = 0; i < items.length; i++)
@@ -91,11 +93,11 @@ class _NavItem extends StatelessWidget {
             children: [
               AnimatedContainer(
                 duration: const Duration(milliseconds: 200),
-                width: 60,
-                height: 36,
+                width: 44,
+                height: 44,
                 decoration: BoxDecoration(
-                  color: selected ? ParlaColors.lemon : Colors.transparent,
-                  borderRadius: BorderRadius.circular(18),
+                  color: selected ? ParlaColors.sun : Colors.transparent,
+                  shape: BoxShape.circle,
                 ),
                 alignment: Alignment.center,
                 child: ParlaIcon(icon, color: color),

@@ -202,33 +202,6 @@ class AppLocalizationsAz extends AppLocalizations {
   String get routineEveningTitle => 'Axşam rutini';
 
   @override
-  String get meterStepsDone => 'ADDIM TAMAM';
-
-  @override
-  String meterProgress(int done, int total, int minutes) {
-    return '$done / $total addım tamamdır · təxminən $minutes dəq qalıb';
-  }
-
-  @override
-  String meterAllDone(String routine) {
-    return '$routine tamamdır';
-  }
-
-  @override
-  String get nextStepLabel => 'NÖVBƏTİ ADDIM';
-
-  @override
-  String minutesShort(int minutes) {
-    return '$minutes dəq';
-  }
-
-  @override
-  String get approvedByDermatologist => 'Dermatoloq təsdiqləyib';
-
-  @override
-  String get stepDoneButton => 'Tamamladım';
-
-  @override
   String get stepStatusDone => 'Tamamdır';
 
   @override
@@ -308,4 +281,31 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get comingSoon => 'Bu bölmə növbəti versiyada əlavə olunur.';
+
+  @override
+  String get routineMorningEyebrow => 'SƏHƏR RUTİNİ';
+
+  @override
+  String get routineEveningEyebrow => 'AXŞAM RUTİNİ';
+
+  @override
+  String get routineStatusStart => 'Başlayaq';
+
+  @override
+  String routineStatusLeft(int left) {
+    return '$left addım qalıb';
+  }
+
+  @override
+  String get routineStatusDone => 'Hamısı hazırdır';
+
+  @override
+  String routineMinutesLeft(int minutes) {
+    return 'Təxminən $minutes dəqiqə';
+  }
+
+  @override
+  String routineProgressLabel(String routine, int done, int total) {
+    return '$routine: $done / $total addım tamamdır';
+  }
 }

@@ -206,33 +206,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get routineEveningTitle => 'Evening routine';
 
   @override
-  String get meterStepsDone => 'STEPS DONE';
-
-  @override
-  String meterProgress(int done, int total, int minutes) {
-    return '$done of $total steps done · about $minutes min left';
-  }
-
-  @override
-  String meterAllDone(String routine) {
-    return '$routine is done';
-  }
-
-  @override
-  String get nextStepLabel => 'NEXT STEP';
-
-  @override
-  String minutesShort(int minutes) {
-    return '$minutes min';
-  }
-
-  @override
-  String get approvedByDermatologist => 'Approved by a dermatologist';
-
-  @override
-  String get stepDoneButton => 'Done';
-
-  @override
   String get stepStatusDone => 'Done';
 
   @override
@@ -313,4 +286,37 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get comingSoon => 'This part arrives in the next version.';
+
+  @override
+  String get routineMorningEyebrow => 'MORNING ROUTINE';
+
+  @override
+  String get routineEveningEyebrow => 'EVENING ROUTINE';
+
+  @override
+  String get routineStatusStart => 'Let\'s begin';
+
+  @override
+  String routineStatusLeft(int left) {
+    String _temp0 = intl.Intl.pluralLogic(
+      left,
+      locale: localeName,
+      other: '$left steps to go',
+      one: '1 step to go',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get routineStatusDone => 'All done';
+
+  @override
+  String routineMinutesLeft(int minutes) {
+    return 'About $minutes min left';
+  }
+
+  @override
+  String routineProgressLabel(String routine, int done, int total) {
+    return '$routine: $done of $total steps done';
+  }
 }

@@ -88,40 +88,6 @@
   "routineEvening": "Evening",
   "routineMorningTitle": "Morning routine",
   "routineEveningTitle": "Evening routine",
-  "meterStepsDone": "STEPS DONE",
-  "meterProgress": "{done} of {total} steps done · about {minutes} min left",
-  "@meterProgress": {
-    "placeholders": {
-      "done": {
-        "type": "int"
-      },
-      "total": {
-        "type": "int"
-      },
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
-  "meterAllDone": "{routine} is done",
-  "@meterAllDone": {
-    "placeholders": {
-      "routine": {
-        "type": "String"
-      }
-    }
-  },
-  "nextStepLabel": "NEXT STEP",
-  "minutesShort": "{minutes} min",
-  "@minutesShort": {
-    "placeholders": {
-      "minutes": {
-        "type": "int"
-      }
-    }
-  },
-  "approvedByDermatologist": "Approved by a dermatologist",
-  "stepDoneButton": "Done",
   "stepStatusDone": "Done",
   "stepMarkDone": "{step}: mark as done",
   "@stepMarkDone": {
@@ -176,5 +142,39 @@
   "navScan": "Scan",
   "navHabits": "Habits",
   "navProfile": "Profile",
-  "comingSoon": "This part arrives in the next version."
+  "comingSoon": "This part arrives in the next version.",
+  "routineMorningEyebrow": "MORNING ROUTINE",
+  "routineEveningEyebrow": "EVENING ROUTINE",
+  "routineStatusStart": "Let's begin",
+  "routineStatusLeft": "{left, plural, =1{1 step to go} other{{left} steps to go}}",
+  "@routineStatusLeft": {
+    "placeholders": {
+      "left": {
+        "type": "int"
+      }
+    }
+  },
+  "routineStatusDone": "All done",
+  "routineMinutesLeft": "About {minutes} min left",
+  "@routineMinutesLeft": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "routineProgressLabel": "{routine}: {done} of {total} steps done",
+  "@routineProgressLabel": {
+    "placeholders": {
+      "routine": {
+        "type": "String"
+      },
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  }
 }

@@ -4,6 +4,7 @@ import '../../l10n/app_localizations.dart';
 import '../../ui/brand.dart';
 import '../../ui/parla_icons.dart';
 import '../routine.dart';
+import 'smile_meter.dart';
 
 /// White rounded card with the brand's soft shadow.
 class SoftCard extends StatelessWidget {
@@ -130,96 +131,68 @@ class RoutineSwitch extends StatelessWidget {
   }
 }
 
-/// M-14's one main action: the next step and a "done" button.
-class NextStepCard extends StatelessWidget {
-  const NextStepCard({
+/// First card of the sheet: the Smile Meter with the routine's status.
+class RoutineSummaryCard extends StatelessWidget {
+  const RoutineSummaryCard({
     super.key,
-    required this.step,
-    required this.number,
-    required this.onDone,
+    required this.eyebrow,
+    required this.status,
+    required this.caption,
+    required this.doneCount,
+    required this.total,
+    required this.semanticLabel,
   });
 
-  final RoutineStep step;
-  final int number;
-  final VoidCallback onDone;
+  final String eyebrow;
+  final String status;
+  final String? caption;
+  final int doneCount;
+  final int total;
+  final String semanticLabel;
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    return SoftCard(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              EyebrowText(l10n.nextStepLabel),
-              Text(
-                l10n.minutesShort(step.minutes),
-                style: text.labelMedium?.copyWith(color: ParlaColors.muted),
+    return Semantics(
+      container: true,
+      liveRegion: true,
+      label: semanticLabel,
+      excludeSemantics: true,
+      child: SoftCard(
+        padding: const EdgeInsets.all(22),
+        child: Row(
+          children: [
+            SmileMeter(
+              width: 124,
+              track: ParlaColors.lemon,
+              fraction: total == 0 ? 0 : doneCount / total,
+              child: Text(
+                '$doneCount/$total',
+                style: text.headlineMedium,
               ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              _NumberTile(number: number, color: step.tile, size: 64),
-              const SizedBox(width: 14),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(step.title, style: text.titleLarge),
-                    const SizedBox(height: 2),
+            ),
+            const SizedBox(width: 18),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  EyebrowText(eyebrow),
+                  const SizedBox(height: 4),
+                  Text(status, style: text.titleLarge),
+                  if (caption != null) ...[
+                    const SizedBox(height: 4),
                     Text(
-                      step.meta,
+                      caption!,
                       style: text.bodyMedium?.copyWith(
-                        color: ParlaColors.sunInk,
+                        color: ParlaColors.muted,
                       ),
                     ),
                   ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 16),
-          Text(step.tip, style: text.bodyLarge),
-          if (step.approvedByDermatologist) ...[
-            const SizedBox(height: 16),
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 14,
-                  vertical: 8,
-                ),
-                decoration: BoxDecoration(
-                  color: ParlaColors.moveTrack,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const ParlaIcon(
-                      ParlaIconName.check,
-                      size: 20,
-                      strokeWidth: 2.5,
-                    ),
-                    const SizedBox(width: 8),
-                    Text(l10n.approvedByDermatologist, style: text.labelMedium),
-                  ],
-                ),
+                ],
               ),
             ),
           ],
-          const SizedBox(height: 20),
-          FilledButton.icon(
-            onPressed: onDone,
-            icon: const ParlaIcon(ParlaIconName.check, strokeWidth: 2.5),
-            label: Text(l10n.stepDoneButton),
-          ),
-        ],
+        ),
       ),
     );
   }
@@ -528,4 +501,54 @@ class RoundIconButton extends StatelessWidget {
       ),
     ),
   );
+}
+
+/// Half-width habit tile (sleep, movement) with a log action.
+class SmallHabitTile extends StatelessWidget {
+  const SmallHabitTile({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.value,
+    required this.background,
+    required this.actionLabel,
+    required this.onAction,
+  });
+
+  final ParlaIconName icon;
+  final String title;
+  final String value;
+  final Color background;
+  final String actionLabel;
+  final VoidCallback onAction;
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    return Container(
+      padding: const EdgeInsets.fromLTRB(16, 16, 8, 8),
+      decoration: BoxDecoration(
+        color: background,
+        borderRadius: BorderRadius.circular(24),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          ParlaIcon(icon, size: 28),
+          const SizedBox(height: 10),
+          Text(title, style: text.titleMedium),
+          Text(value, style: text.bodyMedium),
+          const SizedBox(height: 4),
+          TextButton(
+            onPressed: onAction,
+            style: TextButton.styleFrom(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              alignment: Alignment.centerLeft,
+            ),
+            child: Text(actionLabel),
+          ),
+        ],
+      ),
+    );
+  }
 }

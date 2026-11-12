@@ -78,66 +78,75 @@ List<double> _paintedFontSizes(WidgetTester tester) {
 }
 
 void main() {
-  testWidgets('morning opens with the first step as the next step', (
+  const steps = [
+    'Gentle cleanser',
+    'Vitamin C serum',
+    'Moisturiser',
+    'Sunscreen',
+  ];
+
+  Finder summary(int done) =>
+      find.bySemanticsLabel('Morning routine: $done of 4 steps done');
+
+  Future<void> tick(WidgetTester tester, String step) =>
+      _tap(tester, find.bySemanticsLabel('$step: mark as done'));
+
+  testWidgets('morning opens with the summary card and every step open', (
     tester,
   ) async {
     await _pumpHome(tester);
     expect(find.text('Good morning!'), findsOneWidget);
-    expect(find.text('0/4'), findsOneWidget);
-    expect(find.text('NEXT STEP'), findsOneWidget);
-    expect(find.text('Gentle cleanser'), findsNWidgets(2)); // card + list
+    expect(find.text('MORNING ROUTINE'), findsOneWidget);
+    expect(find.text("Let's begin"), findsOneWidget);
+    expect(find.text('About 4 min left'), findsOneWidget);
+    expect(summary(0), findsOneWidget);
+    for (final step in steps) {
+      expect(find.bySemanticsLabel('$step: mark as done'), findsOneWidget);
+    }
   });
 
-  testWidgets('sample content never shows the dermatologist badge', (
+  testWidgets('ticking a step moves the meter and the status on', (
     tester,
   ) async {
     await _pumpHome(tester);
-    expect(find.text('Approved by a dermatologist'), findsNothing);
-  });
-
-  testWidgets('"Done" completes the step and moves the meter on', (
-    tester,
-  ) async {
-    await _pumpHome(tester);
-    await _tap(tester, find.widgetWithText(FilledButton, 'Done'));
+    await tick(tester, 'Gentle cleanser');
     await _toTop(tester);
 
-    expect(find.text('1/4'), findsOneWidget);
-    expect(
-      find.text('1 of 4 steps done · about 3 min left'),
-      findsOneWidget,
-    );
-    expect(find.text('Vitamin C serum'), findsNWidgets(2));
+    expect(summary(1), findsOneWidget);
+    expect(find.text('3 steps to go'), findsOneWidget);
+    expect(find.text('About 3 min left'), findsOneWidget);
+
+    await tick(tester, 'Vitamin C serum');
+    await tick(tester, 'Moisturiser');
+    await _toTop(tester);
+    expect(find.text('1 step to go'), findsOneWidget);
   });
 
   testWidgets('finishing every step shows the success card; restart '
       'clears it', (tester) async {
     await _pumpHome(tester);
-    for (var i = 0; i < 4; i++) {
-      await _tap(tester, find.widgetWithText(FilledButton, 'Done'));
+    for (final step in steps) {
+      await tick(tester, step);
     }
     await _toTop(tester);
-    expect(find.text('4/4'), findsOneWidget);
+    expect(summary(4), findsOneWidget);
+    expect(find.text('All done'), findsOneWidget);
     expect(find.text('You glowed again today.'), findsOneWidget);
-    expect(find.text('Morning routine is done'), findsOneWidget);
 
     await _tap(tester, find.text('Start again'));
     await _toTop(tester);
-    expect(find.text('0/4'), findsOneWidget);
+    expect(summary(0), findsOneWidget);
   });
 
-  testWidgets('a step can be ticked and unticked from the list', (
-    tester,
-  ) async {
+  testWidgets('a step can be unticked', (tester) async {
     await _pumpHome(tester);
-    final sunscreen = find.bySemanticsLabel('Sunscreen: mark as done');
-    await _tap(tester, sunscreen);
+    await tick(tester, 'Sunscreen');
     await _toTop(tester);
-    expect(find.text('1/4'), findsOneWidget);
+    expect(summary(1), findsOneWidget);
 
     await _tap(tester, find.bySemanticsLabel('Sunscreen: done, tap to undo'));
     await _toTop(tester);
-    expect(find.text('0/4'), findsOneWidget);
+    expect(summary(0), findsOneWidget);
   });
 
   testWidgets('switching to evening shows the evening routine', (
@@ -145,8 +154,8 @@ void main() {
   ) async {
     await _pumpHome(tester);
     await _tap(tester, find.text('Evening'));
-    expect(find.text('Remove make-up'), findsNWidgets(2));
-    expect(find.text('Evening routine'), findsOneWidget);
+    expect(find.text('EVENING ROUTINE'), findsOneWidget);
+    expect(find.text('Remove make-up'), findsOneWidget);
   });
 
   testWidgets('in the evening the evening routine opens first', (
@@ -154,7 +163,7 @@ void main() {
   ) async {
     await _pumpHome(tester, now: DateTime(2026, 11, 12, 20));
     expect(find.text('Good evening!'), findsOneWidget);
-    expect(find.text('Remove make-up'), findsNWidgets(2));
+    expect(find.text('EVENING ROUTINE'), findsOneWidget);
   });
 
   testWidgets('water goes up and down within 0 to 8', (tester) async {

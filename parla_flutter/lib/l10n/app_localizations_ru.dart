@@ -203,33 +203,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get routineEveningTitle => 'Вечерний уход';
 
   @override
-  String get meterStepsDone => 'ШАГОВ ГОТОВО';
-
-  @override
-  String meterProgress(int done, int total, int minutes) {
-    return '$done из $total шагов готово · осталось ~$minutes мин';
-  }
-
-  @override
-  String meterAllDone(String routine) {
-    return '$routine: всё готово';
-  }
-
-  @override
-  String get nextStepLabel => 'СЛЕДУЮЩИЙ ШАГ';
-
-  @override
-  String minutesShort(int minutes) {
-    return '$minutes мин';
-  }
-
-  @override
-  String get approvedByDermatologist => 'Одобрено дерматологом';
-
-  @override
-  String get stepDoneButton => 'Готово';
-
-  @override
   String get stepStatusDone => 'Готово';
 
   @override
@@ -309,4 +282,38 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get comingSoon => 'Этот раздел появится в следующей версии.';
+
+  @override
+  String get routineMorningEyebrow => 'УТРЕННИЙ УХОД';
+
+  @override
+  String get routineEveningEyebrow => 'ВЕЧЕРНИЙ УХОД';
+
+  @override
+  String get routineStatusStart => 'Начнём';
+
+  @override
+  String routineStatusLeft(int left) {
+    String _temp0 = intl.Intl.pluralLogic(
+      left,
+      locale: localeName,
+      other: 'Осталось $left шагов',
+      few: 'Осталось $left шага',
+      one: 'Остался 1 шаг',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get routineStatusDone => 'Всё готово';
+
+  @override
+  String routineMinutesLeft(int minutes) {
+    return 'Примерно $minutes мин';
+  }
+
+  @override
+  String routineProgressLabel(String routine, int done, int total) {
+    return '$routine: выполнено $done из $total';
+  }
 }

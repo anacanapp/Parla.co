@@ -60,13 +60,6 @@
   "routineEvening": "Вечер",
   "routineMorningTitle": "Утренний уход",
   "routineEveningTitle": "Вечерний уход",
-  "meterStepsDone": "ШАГОВ ГОТОВО",
-  "meterProgress": "{done} из {total} шагов готово · осталось ~{minutes} мин",
-  "meterAllDone": "{routine}: всё готово",
-  "nextStepLabel": "СЛЕДУЮЩИЙ ШАГ",
-  "minutesShort": "{minutes} мин",
-  "approvedByDermatologist": "Одобрено дерматологом",
-  "stepDoneButton": "Готово",
   "stepStatusDone": "Готово",
   "stepMarkDone": "{step}: отметить",
   "stepMarkUndone": "{step}: выполнено, отменить",
@@ -90,5 +83,12 @@
   "navScan": "Скан",
   "navHabits": "Привычки",
   "navProfile": "Профиль",
-  "comingSoon": "Этот раздел появится в следующей версии."
+  "comingSoon": "Этот раздел появится в следующей версии.",
+  "routineMorningEyebrow": "УТРЕННИЙ УХОД",
+  "routineEveningEyebrow": "ВЕЧЕРНИЙ УХОД",
+  "routineStatusStart": "Начнём",
+  "routineStatusLeft": "{left, plural, =1{Остался 1 шаг} few{Осталось {left} шага} other{Осталось {left} шагов}}",
+  "routineStatusDone": "Всё готово",
+  "routineMinutesLeft": "Примерно {minutes} мин",
+  "routineProgressLabel": "{routine}: выполнено {done} из {total}"
 }

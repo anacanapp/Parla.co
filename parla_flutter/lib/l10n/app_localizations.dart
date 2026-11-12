@@ -460,48 +460,6 @@ abstract class AppLocalizations {
   /// **'Evening routine'**
   String get routineEveningTitle;
 
-  /// No description provided for @meterStepsDone.
-  ///
-  /// In en, this message translates to:
-  /// **'STEPS DONE'**
-  String get meterStepsDone;
-
-  /// No description provided for @meterProgress.
-  ///
-  /// In en, this message translates to:
-  /// **'{done} of {total} steps done · about {minutes} min left'**
-  String meterProgress(int done, int total, int minutes);
-
-  /// No description provided for @meterAllDone.
-  ///
-  /// In en, this message translates to:
-  /// **'{routine} is done'**
-  String meterAllDone(String routine);
-
-  /// No description provided for @nextStepLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'NEXT STEP'**
-  String get nextStepLabel;
-
-  /// No description provided for @minutesShort.
-  ///
-  /// In en, this message translates to:
-  /// **'{minutes} min'**
-  String minutesShort(int minutes);
-
-  /// No description provided for @approvedByDermatologist.
-  ///
-  /// In en, this message translates to:
-  /// **'Approved by a dermatologist'**
-  String get approvedByDermatologist;
-
-  /// No description provided for @stepDoneButton.
-  ///
-  /// In en, this message translates to:
-  /// **'Done'**
-  String get stepDoneButton;
-
   /// No description provided for @stepStatusDone.
   ///
   /// In en, this message translates to:
@@ -645,6 +603,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'This part arrives in the next version.'**
   String get comingSoon;
+
+  /// No description provided for @routineMorningEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'MORNING ROUTINE'**
+  String get routineMorningEyebrow;
+
+  /// No description provided for @routineEveningEyebrow.
+  ///
+  /// In en, this message translates to:
+  /// **'EVENING ROUTINE'**
+  String get routineEveningEyebrow;
+
+  /// No description provided for @routineStatusStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Let\'s begin'**
+  String get routineStatusStart;
+
+  /// No description provided for @routineStatusLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'{left, plural, =1{1 step to go} other{{left} steps to go}}'**
+  String routineStatusLeft(int left);
+
+  /// No description provided for @routineStatusDone.
+  ///
+  /// In en, this message translates to:
+  /// **'All done'**
+  String get routineStatusDone;
+
+  /// No description provided for @routineMinutesLeft.
+  ///
+  /// In en, this message translates to:
+  /// **'About {minutes} min left'**
+  String routineMinutesLeft(int minutes);
+
+  /// No description provided for @routineProgressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{routine}: {done} of {total} steps done'**
+  String routineProgressLabel(String routine, int done, int total);
 }
 
 class _AppLocalizationsDelegate

@@ -6,15 +6,15 @@ import '../home/home_controller.dart';
 import '../home/routine.dart';
 import '../home/widgets/home_cards.dart';
 import '../home/widgets/parla_nav_bar.dart';
-import '../home/widgets/smile_meter.dart';
 import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
 import '../routes.dart';
 import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
 
-/// M-14 "Bu gün": the next routine step first, then the whole routine,
-/// today's habits and product scanning.
+/// M-14 "Bu gün" (design A+): a lemon header with the greeting and the
+/// routine switch, then a cream sheet with the Smile Meter summary, the
+/// routine steps, today's habits and product scanning.
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -60,7 +60,8 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final controller = _controller!;
     return Scaffold(
-      backgroundColor: ParlaColors.lemon,
+      backgroundColor: ParlaColors.cream,
+      extendBody: true,
       bottomNavigationBar: ParlaNavBar(selected: 0, onTap: _onNav),
       body: ListenableBuilder(
         listenable: controller,
@@ -95,11 +96,12 @@ class _HomeBody extends StatelessWidget {
     final language = scope.settings.language ?? defaultLanguage;
 
     final kind = controller.kind;
+    final morning = kind == RoutineKind.morning;
     final progress = RoutineProgress(
       sampleRoutine(kind, language),
       controller,
     );
-    final routineName = kind == RoutineKind.morning
+    final routineName = morning
         ? l10n.routineMorningTitle
         : l10n.routineEveningTitle;
     final greeting = now.hour >= 5 && now.hour < 12
@@ -107,113 +109,94 @@ class _HomeBody extends StatelessWidget {
         : now.hour >= 12 && now.hour < 18
         ? l10n.homeGreetingAfternoon
         : l10n.homeGreetingEvening;
-    final next = progress.next;
+    final left = progress.total - progress.doneCount;
+    final status = progress.allDone
+        ? l10n.routineStatusDone
+        : progress.doneCount == 0
+        ? l10n.routineStatusStart
+        : l10n.routineStatusLeft(left);
 
-    return SafeArea(
-      bottom: false,
-      child: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          // Header on lemon.
-          Padding(
-            padding: const EdgeInsets.fromLTRB(20, 16, 20, 28),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Row(
-                  children: [
-                    const _Wordmark(),
-                    const Spacer(),
-                    RoundIconButton(
-                      icon: ParlaIconName.profile,
-                      label: l10n.homeProfileButton,
-                      onPressed: onComingSoon,
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 20),
-                Text(
-                  MaterialLocalizations.of(context).formatFullDate(now),
-                  style: text.labelMedium?.copyWith(color: ParlaColors.sunInk),
-                ),
-                const SizedBox(height: 4),
-                Semantics(
-                  header: true,
-                  child: Text(greeting, style: text.headlineLarge),
-                ),
-                const SizedBox(height: 6),
-                Text(l10n.homeTagline, style: accentStyle(locale)),
-                const SizedBox(height: 20),
-                RoutineSwitch(kind: kind, onChanged: controller.selectKind),
-                const SizedBox(height: 20),
-                Center(
-                  child: SmileMeter(
-                    fraction: progress.fraction,
-                    child: ExcludeSemantics(
-                      child: Column(
-                        children: [
-                          Text(
-                            '${progress.doneCount}/${progress.total}',
-                            style: text.displayLarge,
-                          ),
-                          Text(
-                            l10n.meterStepsDone,
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w700,
-                              letterSpacing: 1.5,
-                              color: ParlaColors.sunInk,
-                            ),
-                          ),
-                        ],
+    return ListView(
+      padding: EdgeInsets.zero,
+      children: [
+        // Lemon header (brand: Lemon surface, espresso text).
+        ColoredBox(
+          color: ParlaColors.lemon,
+          child: SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(20, 16, 20, 60),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    children: [
+                      const _Wordmark(),
+                      const Spacer(),
+                      RoundIconButton(
+                        icon: ParlaIconName.profile,
+                        label: l10n.homeProfileButton,
+                        onPressed: onComingSoon,
                       ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
+                  Text(
+                    MaterialLocalizations.of(context).formatFullDate(now),
+                    style: text.labelMedium?.copyWith(
+                      color: ParlaColors.sunInk,
                     ),
                   ),
-                ),
-                const SizedBox(height: 6),
-                Semantics(
-                  liveRegion: true,
-                  child: Text(
-                    progress.allDone
-                        ? l10n.meterAllDone(routineName)
-                        : l10n.meterProgress(
-                            progress.doneCount,
-                            progress.total,
-                            progress.minutesLeft,
-                          ),
-                    textAlign: TextAlign.center,
-                    style: text.bodyMedium,
+                  const SizedBox(height: 4),
+                  Semantics(
+                    header: true,
+                    child: Text(greeting, style: text.headlineLarge),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 6),
+                  Text(l10n.homeTagline, style: accentStyle(locale)),
+                  const SizedBox(height: 20),
+                  RoutineSwitch(kind: kind, onChanged: controller.selectKind),
+                ],
+              ),
             ),
           ),
+        ),
 
-          // Cream sheet with the content.
-          Container(
+        // Cream sheet rising over the lemon with rounded top corners.
+        Transform.translate(
+          offset: const Offset(0, -36),
+          child: Container(
             decoration: const BoxDecoration(
               color: ParlaColors.cream,
               borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
             ),
-            padding: const EdgeInsets.fromLTRB(20, 28, 20, 32),
+            padding: const EdgeInsets.fromLTRB(20, 28, 20, 120),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                AnimatedSwitcher(
-                  duration: const Duration(milliseconds: 250),
-                  child: next == null
-                      ? RoutineDoneCard(
-                          key: const ValueKey('routine-done'),
-                          routineName: routineName,
-                          onRestart: controller.restart,
-                        )
-                      : NextStepCard(
-                          key: ValueKey('next-${next.id}'),
-                          step: next,
-                          number: progress.nextNumber,
-                          onDone: () => controller.toggle(next.id),
-                        ),
+                RoutineSummaryCard(
+                  eyebrow: morning
+                      ? l10n.routineMorningEyebrow
+                      : l10n.routineEveningEyebrow,
+                  status: status,
+                  caption: progress.allDone
+                      ? null
+                      : l10n.routineMinutesLeft(progress.minutesLeft),
+                  doneCount: progress.doneCount,
+                  total: progress.total,
+                  semanticLabel: l10n.routineProgressLabel(
+                    routineName,
+                    progress.doneCount,
+                    progress.total,
+                  ),
                 ),
+                if (progress.allDone) ...[
+                  const SizedBox(height: 16),
+                  RoutineDoneCard(
+                    routineName: routineName,
+                    onRestart: controller.restart,
+                  ),
+                ],
                 const SizedBox(height: 28),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.baseline,
@@ -280,30 +263,29 @@ class _HomeBody extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                HabitCard(
-                  icon: ParlaIconName.moon,
-                  title: l10n.habitSleep,
-                  value: l10n.habitNoEntry,
-                  background: ParlaColors.lemon,
-                  fill: ParlaColors.sunInk,
-                  actions: [
-                    TextButton(
-                      onPressed: onComingSoon,
-                      child: Text(l10n.habitLog),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Expanded(
+                      child: SmallHabitTile(
+                        icon: ParlaIconName.moon,
+                        title: l10n.habitSleep,
+                        value: l10n.habitNoEntry,
+                        background: ParlaColors.lemon,
+                        actionLabel: l10n.habitLog,
+                        onAction: onComingSoon,
+                      ),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                HabitCard(
-                  icon: ParlaIconName.move,
-                  title: l10n.habitMove,
-                  value: l10n.habitNoEntry,
-                  background: ParlaColors.sage,
-                  fill: ParlaColors.moveFill,
-                  actions: [
-                    TextButton(
-                      onPressed: onComingSoon,
-                      child: Text(l10n.habitLog),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: SmallHabitTile(
+                        icon: ParlaIconName.move,
+                        title: l10n.habitMove,
+                        value: l10n.habitNoEntry,
+                        background: ParlaColors.sage,
+                        actionLabel: l10n.habitLog,
+                        onAction: onComingSoon,
+                      ),
                     ),
                   ],
                 ),
@@ -312,8 +294,8 @@ class _HomeBody extends StatelessWidget {
               ],
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -370,6 +352,7 @@ class _WordmarkSmile extends CustomPainter {
   bool shouldRepaint(_WordmarkSmile oldDelegate) => false;
 }
 
+/// "Check a product" card: lemon surface, sun icon circle (design A+).
 class _ScanCard extends StatelessWidget {
   const _ScanCard({required this.onTap});
 
@@ -380,10 +363,8 @@ class _ScanCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
     return Material(
-      color: ParlaColors.white,
+      color: ParlaColors.lemon,
       borderRadius: BorderRadius.circular(28),
-      shadowColor: const Color(0x331F1A14),
-      elevation: 2,
       child: InkWell(
         borderRadius: BorderRadius.circular(28),
         onTap: onTap,
@@ -395,7 +376,7 @@ class _ScanCard extends StatelessWidget {
                 width: 56,
                 height: 56,
                 decoration: const BoxDecoration(
-                  color: ParlaColors.sky,
+                  color: ParlaColors.sun,
                   shape: BoxShape.circle,
                 ),
                 alignment: Alignment.center,
@@ -408,12 +389,7 @@ class _ScanCard extends StatelessWidget {
                   children: [
                     Text(l10n.scanTitle, style: text.titleLarge),
                     const SizedBox(height: 2),
-                    Text(
-                      l10n.scanBody,
-                      style: text.bodyMedium?.copyWith(
-                        color: ParlaColors.muted,
-                      ),
-                    ),
+                    Text(l10n.scanBody, style: text.bodyMedium),
                   ],
                 ),
               ),
