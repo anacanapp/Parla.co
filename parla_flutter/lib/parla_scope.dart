@@ -1,6 +1,7 @@
 import 'package:flutter/widgets.dart';
 
 import 'habits/habit_tracker.dart';
+import 'reminders/reminder_controller.dart';
 import 'services/parla_api.dart';
 import 'state/app_settings.dart';
 import 'state/onboarding_state.dart';
@@ -15,6 +16,7 @@ class ParlaScope extends InheritedWidget {
     required this.clock,
     required this.shareExport,
     required this.habits,
+    required this.reminders,
     required super.child,
   });
 
@@ -30,6 +32,29 @@ class ParlaScope extends InheritedWidget {
 
   /// Habit history of the signed-in account, kept on this device only.
   final HabitTracker habits;
+
+  /// Reminder settings of the signed-in account (local notifications).
+  final ReminderController reminders;
+
+  /// Loads the signed-in account's on-device data: habits and reminders.
+  Future<void> attachAccount() async {
+    final id = api.accountId;
+    await Future.wait([habits.attach(id), reminders.attach(id)]);
+  }
+
+  /// Sign-out: forgets the account's on-device data in memory and cancels
+  /// its reminders. The stored data stays for the next sign-in.
+  Future<void> detachAccount() async {
+    habits.detach();
+    await reminders.detach();
+  }
+
+  /// Account deletion: deletes the account's on-device data.
+  Future<void> eraseAccountData() async {
+    await habits.erase();
+    habits.detach();
+    await reminders.erase();
+  }
 
   static ParlaScope of(BuildContext context) =>
       context.getInheritedWidgetOfExactType<ParlaScope>()!;

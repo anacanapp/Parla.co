@@ -10,6 +10,7 @@ import 'package:parla_shared/parla_shared.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'support/fake_api.dart';
+import 'support/fake_reminders.dart';
 import 'support/text_sizes.dart';
 
 class _Harness {
@@ -47,6 +48,7 @@ Future<_Harness> _openPrivacy(
   await tester.pumpWidget(
     ParlaApp(
       api: api,
+      reminderScheduler: FakeReminderScheduler(),
       settings: settings,
       shareExport: (json) async => shared.add(json),
       habitStore: habitStore,
@@ -143,6 +145,10 @@ void main() {
     await _tap(tester, find.text('Create file'));
     final file = jsonDecode(h.shared.single) as Map<String, Object?>;
     expect(file['format'], 'parla-export-v1');
+    expect(
+      (file['deviceReminders'] as Map)['morningRoutine'],
+      {'enabled': false, 'minutes': 480},
+    );
     expect(file['deviceHabits'], {
       'format': 'parla-habits-v1',
       'days': {

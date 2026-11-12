@@ -175,5 +175,21 @@
   "privacyHabitsDelete": "Qeydləri sil",
   "privacyHabitsDeleteTitle": "Vərdiş qeydləri silinsin?",
   "privacyHabitsDeleteBody": "Bu telefondakı bütün su, yuxu, hərəkət və rutin qeydləriniz silinəcək. Bunu geri qaytarmaq olmur.",
-  "privacyHabitsDeleted": "Vərdiş qeydləri silindi."
+  "privacyHabitsDeleted": "Vərdiş qeydləri silindi.",
+  "remindersTitle": "Xatırlatmalar",
+  "remindersIntro": "Bildirişləri telefonunuz özü göstərir, heç nə serverə göndərilmir. İstədiyiniz vaxt söndürə bilərsiniz.",
+  "remindersOpen": "Ayarla",
+  "remindersSummaryOff": "Hamısı söndürülüb",
+  "remindersSummaryOn": "Aktiv: {count}",
+  "reminderMorningTitle": "Səhər rutini",
+  "reminderEveningTitle": "Axşam rutini",
+  "reminderSleepTitle": "Yuxu qeydi",
+  "reminderMorningBody": "Səhər rutini vaxtıdır.",
+  "reminderEveningBody": "Axşam rutini vaxtıdır.",
+  "reminderSleepBody": "Keçən gecəni qeyd etmək istəyirsiniz?",
+  "reminderAt": "Saat {time}",
+  "reminderChangeTime": "Vaxtı dəyiş",
+  "reminderTimeSheetTitle": "Nə vaxt xatırladaq?",
+  "reminderPermissionDenied": "Bildiriş icazəsi verilməyib. Onu telefonun ayarlarında aça bilərsiniz.",
+  "remindersNote": "Mətnlər neytraldır və kilid ekranında sağlamlıq məlumatı göstərmir. Bildiriş bir neçə dəqiqə gec gələ bilər."
 }

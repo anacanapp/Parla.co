@@ -115,6 +115,27 @@ cloud email sender were removed.
   no score and no streak that can be lost. The water goal of 8 glasses and
   all habit wording need the expert review before launch.
 
+## Reminders
+
+- **Local notifications only** (`flutter_local_notifications`). The phone
+  schedules them itself; there is no push service, so no device token goes
+  to Google or to our server.
+- **Opt-in.** Morning routine (08:00), evening routine (21:30) and sleep
+  entry (09:00) are all off until the user turns one on, and the
+  notification permission is asked only then. Times change in 15-minute
+  steps.
+- **Neutral texts.** They show on the lock screen, so they never mention
+  skin conditions or other health information.
+- **Per account.** Settings (on/off and time only) are kept in the app
+  preferences per account. Sign-out cancels the notifications; the same
+  account signing in again gets them back. Account deletion cancels them
+  and deletes the settings. The data export includes them
+  (`deviceReminders`).
+- **Android.** Inexact scheduling (`inexactAllowWhileIdle`): no exact-alarm
+  permission, which Google Play reserves for alarm and calendar apps, so a
+  reminder may come a few minutes late. Reminders are restored after a
+  reboot. Android and iOS only; the web build hides them.
+
 ## App UI rules
 
 - **Brand.** Colours, type and the Smile Curve follow the Parla Sun brand
@@ -145,7 +166,7 @@ cloud email sender were removed.
 | Apple and Google sign-in | US-01 | Needs the Apple and Google developer accounts (company registration) |
 | Production email provider and data region | RES-1, RES-5 | After the lawyer answers the localisation questions |
 | Admin/CMS app | M8 | Dropped: expert content lives in code and is reviewed in pull requests |
-| Habit reminders (local notifications) | M7 | Next pull request, with a real-device test |
+| Real-device test of reminders (Android 13+ permission, reboot, iOS foreground) | M7 | Before the beta |
 
 ## Known environment issue
 

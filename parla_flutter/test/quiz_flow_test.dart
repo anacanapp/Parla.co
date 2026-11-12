@@ -7,6 +7,7 @@ import 'package:parla_shared/parla_shared.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'support/fake_api.dart';
+import 'support/fake_reminders.dart';
 import 'support/text_sizes.dart';
 
 /// Signed-in user with a profile and no quiz yet, opened on the quiz.
@@ -27,6 +28,7 @@ Future<FakeApi> _openQuiz(
   await tester.pumpWidget(
     ParlaApp(
       api: api,
+      reminderScheduler: FakeReminderScheduler(),
       settings: settings,
       clock: () => DateTime(2026, 11, 12, 8, 30),
     ),

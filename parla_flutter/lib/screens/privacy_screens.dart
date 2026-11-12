@@ -92,9 +92,9 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
   Future<void> _signOut() async {
     final scope = ParlaScope.of(context);
     await scope.api.signOut();
-    // The habit entries stay on the device under this account and come back
-    // when the same account signs in again.
-    scope.habits.detach();
+    // Habit entries and reminder settings stay on the device under this
+    // account and come back when the same account signs in again.
+    await scope.detachAccount();
     if (mounted) context.go(Routes.welcome);
   }
 
@@ -229,9 +229,10 @@ Future<void> exportAndShare(
     final server = await scope.api.exportMyData();
     // Habit entries live only on this device; add them so the file holds
     // everything Parla keeps about the user (data portability).
-    await scope.habits.attach(scope.api.accountId);
+    await scope.attachAccount();
     final data = jsonDecode(server) as Map<String, Object?>;
     data['deviceHabits'] = scope.habits.exportJson();
+    data['deviceReminders'] = scope.reminders.settings.toJson();
     await scope.shareExport(
       const JsonEncoder.withIndent('  ').convert(data),
     );
@@ -347,10 +348,9 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
     try {
       // Load first so the right account's entries are known, then delete
       // the device entries only once the server deletion succeeded.
-      await scope.habits.attach(scope.api.accountId);
+      await scope.attachAccount();
       await scope.api.deleteAccount();
-      await scope.habits.erase();
-      scope.habits.detach();
+      await scope.eraseAccountData();
       scope.onboarding.clear();
       if (mounted) context.go(Routes.accountDeleted);
     } on Object catch (error) {

@@ -34,7 +34,7 @@ class _HabitsScreenState extends State<HabitsScreen> {
     if (!_attached) {
       _attached = true;
       final scope = ParlaScope.of(context);
-      scope.habits.attach(scope.api.accountId);
+      scope.attachAccount();
     }
   }
 
@@ -58,7 +58,7 @@ class _HabitsScreenState extends State<HabitsScreen> {
       extendBody: true,
       bottomNavigationBar: ParlaNavBar(selected: 2, onTap: _onNav),
       body: ListenableBuilder(
-        listenable: habits,
+        listenable: Listenable.merge([habits, scope.reminders]),
         builder: (context, _) =>
             _HabitsBody(habits: habits, today: scope.clock()),
       ),
@@ -77,6 +77,10 @@ class _HabitsBody extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
     final week = WeekSummary(habits.log, today);
+    final reminders = ParlaScope.of(context).reminders;
+    final enabledReminders = reminders.settings.reminders.values
+        .where((r) => r.enabled)
+        .length;
     final waterAverage = week.waterAverage;
     final sleepAverage = week.sleepAverage;
 
@@ -145,6 +149,20 @@ class _HabitsBody extends StatelessWidget {
             action: habits.moveMinutes == null ? l10n.habitLog : l10n.habitEdit,
             onTap: () => logMove(context, habits),
           ),
+          if (reminders.supported) ...[
+            const SizedBox(height: 12),
+            _LogRow(
+              key: const ValueKey('habits-reminders'),
+              icon: ParlaIconName.sparkle,
+              background: ParlaColors.white,
+              title: l10n.remindersTitle,
+              value: enabledReminders == 0
+                  ? l10n.remindersSummaryOff
+                  : l10n.remindersSummaryOn(enabledReminders),
+              action: l10n.remindersOpen,
+              onTap: () => context.go(Routes.reminders),
+            ),
+          ],
           const SizedBox(height: 32),
           Semantics(
             header: true,

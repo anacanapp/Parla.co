@@ -599,4 +599,59 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get privacyHabitsDeleted => 'Vərdiş qeydləri silindi.';
+
+  @override
+  String get remindersTitle => 'Xatırlatmalar';
+
+  @override
+  String get remindersIntro =>
+      'Bildirişləri telefonunuz özü göstərir, heç nə serverə göndərilmir. İstədiyiniz vaxt söndürə bilərsiniz.';
+
+  @override
+  String get remindersOpen => 'Ayarla';
+
+  @override
+  String get remindersSummaryOff => 'Hamısı söndürülüb';
+
+  @override
+  String remindersSummaryOn(int count) {
+    return 'Aktiv: $count';
+  }
+
+  @override
+  String get reminderMorningTitle => 'Səhər rutini';
+
+  @override
+  String get reminderEveningTitle => 'Axşam rutini';
+
+  @override
+  String get reminderSleepTitle => 'Yuxu qeydi';
+
+  @override
+  String get reminderMorningBody => 'Səhər rutini vaxtıdır.';
+
+  @override
+  String get reminderEveningBody => 'Axşam rutini vaxtıdır.';
+
+  @override
+  String get reminderSleepBody => 'Keçən gecəni qeyd etmək istəyirsiniz?';
+
+  @override
+  String reminderAt(String time) {
+    return 'Saat $time';
+  }
+
+  @override
+  String get reminderChangeTime => 'Vaxtı dəyiş';
+
+  @override
+  String get reminderTimeSheetTitle => 'Nə vaxt xatırladaq?';
+
+  @override
+  String get reminderPermissionDenied =>
+      'Bildiriş icazəsi verilməyib. Onu telefonun ayarlarında aça bilərsiniz.';
+
+  @override
+  String get remindersNote =>
+      'Mətnlər neytraldır və kilid ekranında sağlamlıq məlumatı göstərmir. Bildiriş bir neçə dəqiqə gec gələ bilər.';
 }
