@@ -348,10 +348,10 @@ packages:
     dependency: transitive
     description:
       name: flutter_svg
-      sha256: d02281c22cebba7aa7ac72e75978c946274c8c05f8623e9893e1f5f2eb951713
+      sha256: bce4a000275c0d0ac42f3fdcf0a6162fb95ac30983ba7ee6cffcf60f6ad33611
       url: "https://pub.dev"
     source: hosted
-    version: "2.3.3"
+    version: "2.3.4"
   flutter_test:
     dependency: transitive
     description: flutter

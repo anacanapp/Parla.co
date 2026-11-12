@@ -1,67 +1,75 @@
 {
   "@@locale": "en",
   "appTitle": "Parla",
-
   "languageTitle": "Choose your language",
-  "@languageTitle": {"description": "M-01 heading"},
+  "@languageTitle": {
+    "description": "M-01 heading"
+  },
   "languageName_az": "Azərbaycanca",
   "languageName_ru": "Русский",
   "languageName_en": "English",
   "continueButton": "Continue",
-
   "welcomeTitle": "Your personal care guide",
-  "@welcomeTitle": {"description": "M-02 heading"},
+  "@welcomeTitle": {
+    "description": "M-02 heading"
+  },
   "welcomeBody1": "Routines for your skin, hair and body, checked by experts.",
   "welcomeBody2": "Scan a product and see what each ingredient does, with official sources.",
   "welcomeBody3": "Sleep, water and movement: small habits tracked in one place.",
   "welcomeStart": "Get started",
   "welcomeBrowse": "Browse without an account",
   "welcomeSignIn": "I already have an account",
-
   "ageTitle": "What year were you born?",
-  "@ageTitle": {"description": "M-03 heading"},
+  "@ageTitle": {
+    "description": "M-03 heading"
+  },
   "ageWhy": "Parla is for people aged 18 and over. We only store the year, never the full date.",
   "ageYearLabel": "Birth year",
   "ageInvalid": "Enter a year between 1900 and this year.",
   "ageBirthdayQuestion": "Have you already had your birthday this year?",
   "yes": "Yes",
   "no": "No",
-
   "underageTitle": "Parla is for adults",
-  "@underageTitle": {"description": "M-04 heading"},
+  "@underageTitle": {
+    "description": "M-04 heading"
+  },
   "underageBody": "Parla is only available to people aged 18 and over. Nothing you entered has been stored.",
   "close": "Close",
-
   "signInTitle": "Sign in or create an account",
-  "@signInTitle": {"description": "M-05 heading"},
+  "@signInTitle": {
+    "description": "M-05 heading"
+  },
   "signInBody": "We will email you a one-time code. No password needed.",
   "signInFailed": "Sign-in failed. Please try again.",
-
   "countryTitle": "Where do you live?",
-  "@countryTitle": {"description": "M-07 heading"},
+  "@countryTitle": {
+    "description": "M-07 heading"
+  },
   "countryWhy": "Your data is stored in your country's region. Parla opens in Azerbaijan first.",
   "countryComingSoon": "Coming soon",
   "countryName_AZ": "Azerbaijan",
   "countryName_TR": "Türkiye",
   "countryName_KZ": "Kazakhstan",
   "countryName_UZ": "Uzbekistan",
-
   "consentTitle": "Your choices",
-  "@consentTitle": {"description": "M-08 heading"},
+  "@consentTitle": {
+    "description": "M-08 heading"
+  },
   "consentIntro": "Each consent is separate and off by default. The app works without them, and you can change them any time in Settings → Privacy.",
   "consentHealthTitle": "Health-related answers",
   "consentHealthHint": "Needed only for the optional questions about skin conditions, allergies, pregnancy and medicines.",
   "consentAnalyticsTitle": "Usage statistics",
   "consentMarketingTitle": "News and tips by email",
   "consentVersion": "Text version: {version}",
-  "@consentVersion": {"placeholders": {"version": {"type": "String"}}},
-
-  "homeTitle": "Today",
-  "@homeTitle": {"description": "M-14 placeholder"},
-  "homePlaceholder": "Your routine will appear here after the skin test. The test arrives in the next version.",
+  "@consentVersion": {
+    "placeholders": {
+      "version": {
+        "type": "String"
+      }
+    }
+  },
   "guestTitle": "Product search",
   "guestPlaceholder": "Product search and scanning arrive in the next version.",
-
   "errorGeneric": "Something went wrong. Please try again.",
   "error_age_minor": "Parla is only available to people aged 18 and over.",
   "error_age_needs_confirmation": "Please answer the birthday question.",
@@ -69,5 +77,104 @@
   "error_country_closed": "Parla is not open in this country yet.",
   "error_language_unsupported": "This language is not supported yet.",
   "error_profile_exists": "Your profile already exists.",
-  "error_consent_outdated_version": "The consent text has changed. Please review it again."
+  "error_consent_outdated_version": "The consent text has changed. Please review it again.",
+  "homeGreetingMorning": "Good morning!",
+  "homeGreetingAfternoon": "Good afternoon!",
+  "homeGreetingEvening": "Good evening!",
+  "homeTagline": "A little more you, every day.",
+  "homeProfileButton": "Profile and privacy",
+  "routineSwitchLabel": "Choose routine",
+  "routineMorning": "Morning",
+  "routineEvening": "Evening",
+  "routineMorningTitle": "Morning routine",
+  "routineEveningTitle": "Evening routine",
+  "stepStatusDone": "Done",
+  "stepMarkDone": "{step}: mark as done",
+  "@stepMarkDone": {
+    "placeholders": {
+      "step": {
+        "type": "String"
+      }
+    }
+  },
+  "stepMarkUndone": "{step}: done, tap to undo",
+  "@stepMarkUndone": {
+    "placeholders": {
+      "step": {
+        "type": "String"
+      }
+    }
+  },
+  "routineDoneHeader": "{routine} is ready",
+  "@routineDoneHeader": {
+    "placeholders": {
+      "routine": {
+        "type": "String"
+      }
+    }
+  },
+  "routineDoneTitle": "You glowed again today.",
+  "routineDoneBody": "Every step is done. See you at the next routine.",
+  "routineRestart": "Start again",
+  "habitsTitle": "Today's habits",
+  "habitWater": "Water",
+  "habitWaterCount": "{count} of {goal} glasses",
+  "@habitWaterCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "goal": {
+        "type": "int"
+      }
+    }
+  },
+  "habitWaterAdd": "Add a glass",
+  "habitWaterRemove": "Remove a glass",
+  "habitSleep": "Sleep",
+  "habitMove": "Movement",
+  "habitNoEntry": "Nothing logged yet",
+  "habitLog": "Log",
+  "scanTitle": "Check a product",
+  "scanBody": "Scan the barcode and see the ingredients in plain words",
+  "navMenuLabel": "Main menu",
+  "navToday": "Today",
+  "navScan": "Scan",
+  "navHabits": "Habits",
+  "navProfile": "Profile",
+  "comingSoon": "This part arrives in the next version.",
+  "routineMorningEyebrow": "MORNING ROUTINE",
+  "routineEveningEyebrow": "EVENING ROUTINE",
+  "routineStatusStart": "Let's begin",
+  "routineStatusLeft": "{left, plural, =1{1 step to go} other{{left} steps to go}}",
+  "@routineStatusLeft": {
+    "placeholders": {
+      "left": {
+        "type": "int"
+      }
+    }
+  },
+  "routineStatusDone": "All done",
+  "routineMinutesLeft": "About {minutes} min left",
+  "@routineMinutesLeft": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "routineProgressLabel": "{routine}: {done} of {total} steps done",
+  "@routineProgressLabel": {
+    "placeholders": {
+      "routine": {
+        "type": "String"
+      },
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  }
 }

@@ -21,8 +21,10 @@ before changing anything that stores or sends personal data.
 
 Sprint 1 (foundation) covers screens M-01 to M-08 of the screen list:
 language, welcome, age gate, sign-in with an emailed one-time code, country
-and consents. The home screen (M-14) and product search (M-20) are
-placeholders.
+and consents. The home screen (M-14) shows the routine with the Smile
+Meter, today's habits and product scanning; its routine steps are sample
+content until expert-approved routines exist. Product search (M-20) is a
+placeholder.
 
 **No real user data may be collected yet.** The company is not registered,
 the legal review is open and the production data region is undecided
