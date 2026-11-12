@@ -12,6 +12,7 @@ class ParlaScope extends InheritedWidget {
     required this.settings,
     required this.onboarding,
     required this.clock,
+    required this.shareExport,
     required super.child,
   });
 
@@ -21,6 +22,9 @@ class ParlaScope extends InheritedWidget {
 
   /// Current time. Replaced in tests.
   final DateTime Function() clock;
+
+  /// Hands the exported JSON to the system share sheet. Replaced in tests.
+  final Future<void> Function(String json) shareExport;
 
   static ParlaScope of(BuildContext context) =>
       context.getInheritedWidgetOfExactType<ParlaScope>()!;

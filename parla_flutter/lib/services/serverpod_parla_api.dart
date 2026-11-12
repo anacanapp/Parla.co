@@ -106,6 +106,36 @@ class ServerpodParlaApi implements ParlaApi {
   });
 
   @override
+  Future<Map<ConsentKind, bool>> consentStates() => _guard(() async {
+    final states = await _client.consent.current();
+    return {
+      for (final s in states)
+        ConsentKind.values.byName(s.consentType.name): s.granted,
+    };
+  });
+
+  @override
+  Future<String> exportMyData() => _guard(_client.account.exportMyData);
+
+  @override
+  Future<void> deleteAccount() => _guard(() async {
+    await _client.account.deleteAccount();
+    await _signOutLocally();
+  });
+
+  @override
+  Future<void> signOut() => _guard(_signOutLocally);
+
+  Future<void> _signOutLocally() async {
+    try {
+      await _client.auth.signOutDevice();
+    } on Object {
+      // The server may already have dropped the session (deleted account);
+      // the local session is cleared either way.
+    }
+  }
+
+  @override
   Widget buildSignIn(
     BuildContext context, {
     required VoidCallback onSignedIn,

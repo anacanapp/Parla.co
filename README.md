@@ -31,6 +31,10 @@ the answers, health answers are encrypted per user and deleted when the
 health consent is withdrawn. Quiz questions and routine rules are sample
 content awaiting dermatologist review.
 
+Sprint 3 adds the privacy centre (M-25 to M-34): consent management, data
+download, immediate account deletion with pseudonymised proof records, and
+daily retention clean-up.
+
 **No real user data may be collected yet.** The company is not registered,
 the legal review is open and the production data region is undecided
 (roadmap gate A).

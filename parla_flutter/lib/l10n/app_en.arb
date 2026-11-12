@@ -217,5 +217,40 @@
   "homeQuizBody": "A 3-minute quiz and your routine adapts to you.",
   "homeQuizStart": "Start the quiz",
   "error_consent_health_required": "These answers need the health consent.",
-  "resultExclusionRetinoidBoth": "We left out retinol: we don't suggest it without answers about pregnancy and medicines."
+  "resultExclusionRetinoidBoth": "We left out retinol: we don't suggest it without answers about pregnancy and medicines.",
+  "privacyTitle": "Privacy centre",
+  "privacyIntro": "Your data, your choices. Every right is one tap away.",
+  "privacyConsentsTitle": "Consents",
+  "privacyHealthWithdrawTitle": "Withdraw the health consent?",
+  "privacyHealthWithdrawBody": "Your health answers will be deleted right away, and your routine will be built more cautiously. You can give the consent again later.",
+  "privacyWithdraw": "Withdraw and delete",
+  "privacyCancel": "Cancel",
+  "privacyExportTitle": "Download my data",
+  "privacyExportBody": "A file with everything Parla stores about you. It is created now and is not kept on our servers.",
+  "privacyExportButton": "Create file",
+  "privacyLegalTitle": "Legal documents",
+  "privacySignOut": "Sign out",
+  "privacyDeleteTitle": "Delete account",
+  "deleteTitle": "Delete your account?",
+  "deleteWhatGoes": "Deleted right away: your profile, quiz answers, health answers and their encryption key, and your sign-in account.",
+  "deleteWhatStays": "Kept as proof, without your name or email: your consent history (3 years) and security log entries (1 year).",
+  "deleteExportFirst": "Download my data first",
+  "deleteConfirmLabel": "Type {word} to confirm",
+  "@deleteConfirmLabel": {
+    "placeholders": {
+      "word": {
+        "type": "String"
+      }
+    }
+  },
+  "deleteConfirmWord": "DELETE",
+  "deleteButton": "Delete my account",
+  "deletedTitle": "Your account is deleted",
+  "deletedBody": "Thank you for being with us. You are always welcome back.",
+  "legalTitle": "Legal documents",
+  "legalMedicalTitle": "Not medical advice",
+  "legalMedicalBody": "Parla offers care guidance. It does not diagnose, treat or replace a doctor. For skin conditions or worrying signs, see a dermatologist.",
+  "legalPolicyTitle": "Privacy policy and terms",
+  "legalPolicyBody": "These documents are being prepared with a lawyer and will appear here before launch.",
+  "legalConsentsTitle": "Consent texts"
 }

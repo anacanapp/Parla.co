@@ -411,4 +411,99 @@ class AppLocalizationsAz extends AppLocalizations {
   @override
   String get resultExclusionRetinoidBoth =>
       'Retinol əlavə etmədik: hamiləlik və dərmanlarla bağlı cavablar olmadan onu tövsiyə etmirik.';
+
+  @override
+  String get privacyTitle => 'Məxfilik mərkəzi';
+
+  @override
+  String get privacyIntro =>
+      'Sənin datan, sənin seçimin. Hər hüququn bir toxunuş uzaqlığındadır.';
+
+  @override
+  String get privacyConsentsTitle => 'Razılıqlar';
+
+  @override
+  String get privacyHealthWithdrawTitle =>
+      'Sağlamlıq razılığını geri götürürsünüz?';
+
+  @override
+  String get privacyHealthWithdrawBody =>
+      'Sağlamlıq cavablarınız dərhal silinəcək və rutin daha ehtiyatlı qurulacaq. Razılığı sonra yenidən verə bilərsiniz.';
+
+  @override
+  String get privacyWithdraw => 'Geri götür və sil';
+
+  @override
+  String get privacyCancel => 'Ləğv et';
+
+  @override
+  String get privacyExportTitle => 'Datamı yüklə';
+
+  @override
+  String get privacyExportBody =>
+      'Parla-nın sizin haqqınızda saxladığı hər şey bir faylda. Fayl indi yaradılır və serverlərimizdə saxlanılmır.';
+
+  @override
+  String get privacyExportButton => 'Fayl yarat';
+
+  @override
+  String get privacyLegalTitle => 'Hüquqi sənədlər';
+
+  @override
+  String get privacySignOut => 'Çıxış';
+
+  @override
+  String get privacyDeleteTitle => 'Hesabı sil';
+
+  @override
+  String get deleteTitle => 'Hesabınız silinsin?';
+
+  @override
+  String get deleteWhatGoes =>
+      'Dərhal silinir: profiliniz, test cavablarınız, sağlamlıq cavablarınız və onların şifrə açarı, giriş hesabınız.';
+
+  @override
+  String get deleteWhatStays =>
+      'Adınız və e-poçtunuz olmadan sübut kimi qalır: razılıq tarixçəsi (3 il) və təhlükəsizlik qeydləri (1 il).';
+
+  @override
+  String get deleteExportFirst => 'Əvvəlcə datamı yüklə';
+
+  @override
+  String deleteConfirmLabel(String word) {
+    return 'Təsdiq üçün $word yazın';
+  }
+
+  @override
+  String get deleteConfirmWord => 'SİL';
+
+  @override
+  String get deleteButton => 'Hesabımı sil';
+
+  @override
+  String get deletedTitle => 'Hesabınız silindi';
+
+  @override
+  String get deletedBody =>
+      'Bizimlə olduğunuz üçün təşəkkür edirik. Hər zaman geri qayıda bilərsiniz.';
+
+  @override
+  String get legalTitle => 'Hüquqi sənədlər';
+
+  @override
+  String get legalMedicalTitle => 'Tibbi məsləhət deyil';
+
+  @override
+  String get legalMedicalBody =>
+      'Parla qulluq bələdçisidir. Diaqnoz qoymur, müalicə etmir və həkimi əvəz etmir. Dəri xəstəlikləri və ya narahatedici əlamətlər üçün dermatoloqa müraciət edin.';
+
+  @override
+  String get legalPolicyTitle => 'Məxfilik siyasəti və istifadə şərtləri';
+
+  @override
+  String get legalPolicyBody =>
+      'Bu sənədlər hüquqşünasla hazırlanır və launch-dan əvvəl burada görünəcək.';
+
+  @override
+  String get legalConsentsTitle => 'Razılıq mətnləri';
 }

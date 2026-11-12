@@ -1,0 +1,12 @@
+### Marks a deleted account by its pseudonym only (never the real id), so
+### the retention job knows when the account's consent records may go
+### (3 years after deletion, proposal pending legal review).
+class: DeletedAccount
+table: deleted_account
+fields:
+  pseudonym: UuidValue
+  deletedAt: DateTime
+indexes:
+  deleted_account_pseudonym_idx:
+    fields: pseudonym
+    unique: true

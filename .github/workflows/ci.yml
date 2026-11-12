@@ -65,7 +65,7 @@ jobs:
       # only in config/passwords.yaml, which is never committed.
       - name: Generate test secrets
         run: |
-          for key in database emailSecretHashPepper jwtHmacSha512PrivateKey jwtRefreshTokenHashPepper; do
+          for key in database emailSecretHashPepper jwtHmacSha512PrivateKey jwtRefreshTokenHashPepper pseudonymPepper; do
             echo "SERVERPOD_PASSWORD_${key}=$(openssl rand -hex 24)" >> "$GITHUB_ENV"
           done
           # 32-byte key-encryption key for health data (base64).

@@ -39,7 +39,11 @@ class FakeApi implements ParlaApi {
     required String language,
   }) async {
     consentCalls.add((kind, granted, textVersion, language));
-    if (kind == ConsentKind.health) healthConsent = granted;
+    consents[kind] = granted;
+    if (kind == ConsentKind.health) {
+      healthConsent = granted;
+      if (!granted) quizAnswers = null; // Mirrors the server's erase.
+    }
   }
 
   bool healthConsent = false;
@@ -71,6 +75,35 @@ class FakeApi implements ParlaApi {
 
   @override
   Future<QuizAnswers?> myQuizAnswers() async => quizAnswers;
+
+  final consents = <ConsentKind, bool>{
+    for (final kind in ConsentKind.values) kind: false,
+  };
+  int exports = 0;
+  bool deleted = false;
+
+  @override
+  Future<Map<ConsentKind, bool>> consentStates() async => {
+    ...consents,
+    ConsentKind.health: healthConsent,
+  };
+
+  @override
+  Future<String> exportMyData() async {
+    exports++;
+    return '{"format":"parla-export-v1"}';
+  }
+
+  @override
+  Future<void> deleteAccount() async {
+    deleted = true;
+    signedIn = false;
+    profile = null;
+    quizAnswers = null;
+  }
+
+  @override
+  Future<void> signOut() async => signedIn = false;
 
   @override
   Widget buildSignIn(

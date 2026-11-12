@@ -1,3 +1,6 @@
+account:
+  - exportMyData:
+  - deleteAccount:
 emailIdp:
   - startOtpLogin:
   - verifyOtpLoginCode:

@@ -420,4 +420,99 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get resultExclusionRetinoidBoth =>
       'Мы не добавили ретинол: без ответов о беременности и лекарствах мы его не рекомендуем.';
+
+  @override
+  String get privacyTitle => 'Центр конфиденциальности';
+
+  @override
+  String get privacyIntro =>
+      'Ваши данные — ваш выбор. Каждое право — в одно касание.';
+
+  @override
+  String get privacyConsentsTitle => 'Согласия';
+
+  @override
+  String get privacyHealthWithdrawTitle =>
+      'Отозвать согласие на данные о здоровье?';
+
+  @override
+  String get privacyHealthWithdrawBody =>
+      'Ваши ответы о здоровье будут сразу удалены, а уход будет подобран осторожнее. Согласие можно дать снова позже.';
+
+  @override
+  String get privacyWithdraw => 'Отозвать и удалить';
+
+  @override
+  String get privacyCancel => 'Отмена';
+
+  @override
+  String get privacyExportTitle => 'Скачать мои данные';
+
+  @override
+  String get privacyExportBody =>
+      'Файл со всем, что Parla хранит о вас. Он создаётся сейчас и не сохраняется на наших серверах.';
+
+  @override
+  String get privacyExportButton => 'Создать файл';
+
+  @override
+  String get privacyLegalTitle => 'Юридические документы';
+
+  @override
+  String get privacySignOut => 'Выйти';
+
+  @override
+  String get privacyDeleteTitle => 'Удалить аккаунт';
+
+  @override
+  String get deleteTitle => 'Удалить аккаунт?';
+
+  @override
+  String get deleteWhatGoes =>
+      'Сразу удаляются: профиль, ответы теста, ответы о здоровье и их ключ шифрования, аккаунт для входа.';
+
+  @override
+  String get deleteWhatStays =>
+      'Остаются как доказательство, без имени и почты: история согласий (3 года) и записи безопасности (1 год).';
+
+  @override
+  String get deleteExportFirst => 'Сначала скачать мои данные';
+
+  @override
+  String deleteConfirmLabel(String word) {
+    return 'Введите $word для подтверждения';
+  }
+
+  @override
+  String get deleteConfirmWord => 'УДАЛИТЬ';
+
+  @override
+  String get deleteButton => 'Удалить мой аккаунт';
+
+  @override
+  String get deletedTitle => 'Аккаунт удалён';
+
+  @override
+  String get deletedBody =>
+      'Спасибо, что были с нами. Вы всегда можете вернуться.';
+
+  @override
+  String get legalTitle => 'Юридические документы';
+
+  @override
+  String get legalMedicalTitle => 'Не медицинский совет';
+
+  @override
+  String get legalMedicalBody =>
+      'Parla — гид по уходу. Она не ставит диагнозы, не лечит и не заменяет врача. При заболеваниях кожи или тревожных признаках обратитесь к дерматологу.';
+
+  @override
+  String get legalPolicyTitle => 'Политика конфиденциальности и условия';
+
+  @override
+  String get legalPolicyBody =>
+      'Эти документы готовятся с юристом и появятся здесь до запуска.';
+
+  @override
+  String get legalConsentsTitle => 'Тексты согласий';
 }

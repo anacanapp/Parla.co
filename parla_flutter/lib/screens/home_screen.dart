@@ -72,6 +72,8 @@ class _HomeScreenState extends State<HomeScreen> {
         break;
       case 1:
         context.go(Routes.guest); // M-19/M-20 placeholder for now.
+      case 3:
+        context.go(Routes.privacy);
       default:
         _comingSoon();
     }
@@ -166,7 +168,7 @@ class _HomeBody extends StatelessWidget {
                       RoundIconButton(
                         icon: ParlaIconName.profile,
                         label: l10n.homeProfileButton,
-                        onPressed: onComingSoon,
+                        onPressed: () => context.go(Routes.privacy),
                       ),
                     ],
                   ),
