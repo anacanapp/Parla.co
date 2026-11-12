@@ -79,6 +79,8 @@ String errorMessage(AppLocalizations l10n, Object error) {
     'profile.exists' => l10n.error_profile_exists,
     'consent.outdated_version' => l10n.error_consent_outdated_version,
     'consent.health_required' => l10n.error_consent_health_required,
+    'product.query_invalid' => l10n.error_product_query_invalid,
+    'product.source_unavailable' => l10n.error_product_source_unavailable,
     _ => l10n.errorGeneric,
   };
 }

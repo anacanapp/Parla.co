@@ -17,6 +17,8 @@ import 'package:parla_server/src/generated/consent/consent_state.dart'
     as _ianfun2u;
 import 'package:parla_server/src/generated/consent/consent_type.dart'
     as _i1w7mn9k;
+import 'package:parla_server/src/generated/products/product_summary.dart'
+    as _ivq5jofi;
 import 'package:parla_server/src/generated/profile/member_profile.dart'
     as _igsplnqd;
 import 'package:parla_server/src/generated/quiz/quiz_answer_input.dart'
@@ -168,6 +170,8 @@ class TestEndpoints {
 
   late final _ConsentEndpoint consent;
 
+  late final _ProductEndpoint product;
+
   late final _ProfileEndpoint profile;
 
   late final _QuizEndpoint quiz;
@@ -193,6 +197,10 @@ class _InternalTestEndpoints extends TestEndpoints
       serializationManager,
     );
     consent = _ConsentEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    product = _ProductEndpoint(
       endpoints,
       serializationManager,
     );
@@ -802,6 +810,48 @@ class _ConsentEndpoint {
                   _localCallContext.arguments,
                 )
                 as _ida.Future<_ianfun2u.ConsentState>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
+class _ProductEndpoint {
+  _ProductEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _is.EndpointDispatch _endpointDispatch;
+
+  final _is.SerializationManager _serializationManager;
+
+  _ida.Future<List<_ivq5jofi.ProductSummary>> search(
+    _ist.TestSessionBuilder sessionBuilder,
+    String query,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'product',
+            method: 'search',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'product',
+          methodName: 'search',
+          parameters: _ist.testObjectToJson({'query': query}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<List<_ivq5jofi.ProductSummary>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

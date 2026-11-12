@@ -663,4 +663,124 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get remindersNote =>
       'Тексты нейтральные и не показывают на экране блокировки данные о здоровье. Уведомление может прийти на несколько минут позже.';
+
+  @override
+  String get productsTitle => 'Проверить продукт';
+
+  @override
+  String get productsIntro => 'Введите название или бренд и посмотрите состав.';
+
+  @override
+  String get productsSearchLabel => 'Название или бренд';
+
+  @override
+  String get productsSearchButton => 'Найти';
+
+  @override
+  String get productsQueryTooShort => 'Введите хотя бы 2 буквы.';
+
+  @override
+  String get productsNotFoundTitle => 'Ничего не найдено';
+
+  @override
+  String get productsNotFoundBody =>
+      'Попробуйте другое написание или название бренда. В базе пока есть не все продукты.';
+
+  @override
+  String get productsSourceObf => 'Open Beauty Facts';
+
+  @override
+  String get productsSourceParla => 'Каталог Parla';
+
+  @override
+  String get error_product_query_invalid =>
+      'Запрос должен быть от 2 до 80 символов.';
+
+  @override
+  String get error_product_source_unavailable =>
+      'База продуктов сейчас не отвечает. Попробуйте чуть позже.';
+
+  @override
+  String get productIngredientsTitle => 'Состав';
+
+  @override
+  String get productNoIngredients =>
+      'Для этого продукта нет списка ингредиентов. Посмотрите состав на упаковке.';
+
+  @override
+  String productIngredientCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ингредиента',
+      many: '$count ингредиентов',
+      few: '$count ингредиента',
+      one: '1 ингредиент',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String productListedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'Для $count ингредиентов есть записи ЕС',
+      one: 'Для 1 ингредиента есть запись ЕС',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get productStatusesMissing =>
+      'Статусы ингредиентов ещё не загружены. Пока показан только список ингредиентов.';
+
+  @override
+  String get productDataNotice =>
+      'Список ингредиентов взят из открытой базы и может содержать ошибки. Сверьте его с упаковкой.';
+
+  @override
+  String productLegalNotice(String date) {
+    return 'Статусы основаны на приложениях к Регламенту ЕС 1223/2009 (CosIng, $date). Названия сопоставляются автоматически. Это не правила Азербайджана и не оценка безопасности продукта.';
+  }
+
+  @override
+  String get productAttribution =>
+      'Данные о продукте: Open Beauty Facts, лицензия ODbL.';
+
+  @override
+  String get annexIIShort => 'ЕС: в списке запрещённых веществ';
+
+  @override
+  String get annexIIIShort => 'ЕС: разрешено с ограничениями';
+
+  @override
+  String get annexIVShort => 'ЕС: разрешённый краситель';
+
+  @override
+  String get annexVShort => 'ЕС: разрешённый консервант';
+
+  @override
+  String get annexVIShort => 'ЕС: разрешённый УФ-фильтр';
+
+  @override
+  String annexEntry(String annex, String reference) {
+    return 'Приложение $annex, № $reference';
+  }
+
+  @override
+  String get annexConditionsLabel =>
+      'Официальные условия (как в CosIng, на английском)';
+
+  @override
+  String get ingredientNoEntry =>
+      'В приложениях ЕС отдельной записи не найдено';
+
+  @override
+  String ingredientSheetSource(String date) {
+    return 'Источник: CosIng, $date';
+  }
+
+  @override
+  String get ingredientDetailsHint => 'Подробнее';
 }

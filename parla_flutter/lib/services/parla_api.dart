@@ -20,6 +20,26 @@ class ProfileSummary {
   final String language;
 }
 
+/// A product found by search (M-20, M-21). Public data only.
+class ProductResult {
+  const ProductResult({
+    required this.source,
+    required this.code,
+    required this.name,
+    this.brand,
+    this.ingredientsText,
+    this.sourceUrl,
+  });
+
+  /// "parla" (our catalogue) or "openbeautyfacts".
+  final String source;
+  final String code;
+  final String name;
+  final String? brand;
+  final String? ingredientsText;
+  final String? sourceUrl;
+}
+
 /// Everything the screens need from the backend.
 ///
 /// Screens depend on this interface, not on the generated Serverpod client,
@@ -68,6 +88,10 @@ abstract interface class ParlaApi {
 
   /// Deletes the account and signs out on this device (M-32).
   Future<void> deleteAccount();
+
+  /// Products whose name or brand matches [query]. Throws [ApiError] with
+  /// `product.query_invalid` or `product.source_unavailable`.
+  Future<List<ProductResult>> searchProducts(String query);
 
   /// Signs out on this device.
   Future<void> signOut();

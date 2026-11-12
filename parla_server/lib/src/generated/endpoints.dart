@@ -23,6 +23,7 @@ import '../account/account_endpoint.dart' as _it9bm8zx;
 import '../auth/email_idp_endpoint.dart' as _iuc1hd5t;
 import '../auth/jwt_refresh_endpoint.dart' as _inwq3ztq;
 import '../consent/consent_endpoint.dart' as _iu5xf735;
+import '../products/product_endpoint.dart' as _i6m7gswv;
 import '../profile/profile_endpoint.dart' as _i6ky944g;
 import '../quiz/quiz_endpoint.dart' as _iskif4sw;
 
@@ -52,6 +53,12 @@ class Endpoints extends _is.EndpointDispatch {
         ..initialize(
           server,
           'consent',
+          null,
+        ),
+      'product': _i6m7gswv.ProductEndpoint()
+        ..initialize(
+          server,
+          'product',
           null,
         ),
       'profile': _i6ky944g.ProfileEndpoint()
@@ -442,6 +449,31 @@ class Endpoints extends _is.EndpointDispatch {
                     textVersion: params['textVersion'],
                     language: params['language'],
                     source: params['source'],
+                  ),
+        ),
+      },
+    );
+    connectors['product'] = _is.EndpointConnector(
+      name: 'product',
+      endpoint: endpoints['product']!,
+      methodConnectors: {
+        'search': _is.MethodConnector(
+          name: 'search',
+          params: {
+            'query': _is.ParameterDescription(
+              name: 'query',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['product'] as _i6m7gswv.ProductEndpoint).search(
+                    session,
+                    params['query'],
                   ),
         ),
       },

@@ -74,7 +74,7 @@ class _HomeScreenState extends State<HomeScreen> {
       case 0:
         break;
       case 1:
-        context.go(Routes.guest); // M-19/M-20 placeholder for now.
+        context.go(Routes.products);
       case 2:
         context.go(Routes.habits);
       case 3:
@@ -97,7 +97,7 @@ class _HomeScreenState extends State<HomeScreen> {
           controller: controller,
           plan: _answers == null ? defaultRoutinePlan : planRoutine(_answers!),
           showQuizPrompt: _loaded && _answers == null,
-          onScan: () => context.go(Routes.guest),
+          onScan: () => context.go(Routes.products),
           onQuiz: () => context.go(Routes.quiz),
         ),
       ),

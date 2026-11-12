@@ -19,6 +19,8 @@ jwtRefresh:
 consent:
   - current:
   - decide:
+product:
+  - search:
 profile:
   - me:
   - create:

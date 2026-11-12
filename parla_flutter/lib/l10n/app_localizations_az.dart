@@ -654,4 +654,109 @@ class AppLocalizationsAz extends AppLocalizations {
   @override
   String get remindersNote =>
       'Mətnlər neytraldır və kilid ekranında sağlamlıq məlumatı göstərmir. Bildiriş bir neçə dəqiqə gec gələ bilər.';
+
+  @override
+  String get productsTitle => 'Məhsul yoxla';
+
+  @override
+  String get productsIntro =>
+      'Məhsulun adını və ya brendini yazın və tərkibinə baxın.';
+
+  @override
+  String get productsSearchLabel => 'Məhsul adı və ya brend';
+
+  @override
+  String get productsSearchButton => 'Axtar';
+
+  @override
+  String get productsQueryTooShort => 'Ən azı 2 hərf yazın.';
+
+  @override
+  String get productsNotFoundTitle => 'Heç nə tapılmadı';
+
+  @override
+  String get productsNotFoundBody =>
+      'Başqa yazılışla və ya brend adı ilə yoxlayın. Bazada hələ hər məhsul yoxdur.';
+
+  @override
+  String get productsSourceObf => 'Open Beauty Facts';
+
+  @override
+  String get productsSourceParla => 'Parla kataloqu';
+
+  @override
+  String get error_product_query_invalid => 'Axtarış 2–80 simvol olmalıdır.';
+
+  @override
+  String get error_product_source_unavailable =>
+      'Məhsul bazası hazırda cavab vermir. Bir az sonra yenidən cəhd edin.';
+
+  @override
+  String get productIngredientsTitle => 'Tərkib';
+
+  @override
+  String get productNoIngredients =>
+      'Bu məhsul üçün tərkib siyahısı yoxdur. Qutudakı siyahıya baxın.';
+
+  @override
+  String productIngredientCount(int count) {
+    return '$count tərkib maddəsi';
+  }
+
+  @override
+  String productListedCount(int count) {
+    return '$count maddə üçün AB qeydi var';
+  }
+
+  @override
+  String get productStatusesMissing =>
+      'Tərkib statusları hələ yüklənməyib. Hazırda yalnız tərkib siyahısı göstərilir.';
+
+  @override
+  String get productDataNotice =>
+      'Tərkib siyahısı icma bazasından gəlir və səhvlər ola bilər. Qutudakı siyahı ilə müqayisə edin.';
+
+  @override
+  String productLegalNotice(String date) {
+    return 'Statuslar AB-nin 1223/2009 saylı Reqlamentinin əlavələrinə əsaslanır (CosIng, $date). Adlar avtomatik uyğunlaşdırılır. Bu, Azərbaycan qaydası deyil və məhsulun təhlükəsizliyi barədə qiymətləndirmə deyil.';
+  }
+
+  @override
+  String get productAttribution =>
+      'Məhsul datası: Open Beauty Facts, ODbL lisenziyası ilə.';
+
+  @override
+  String get annexIIShort => 'AB: qadağan olunmuş maddələr siyahısında';
+
+  @override
+  String get annexIIIShort => 'AB: məhdudiyyətlərlə icazəlidir';
+
+  @override
+  String get annexIVShort => 'AB: icazəli rəngləndirici';
+
+  @override
+  String get annexVShort => 'AB: icazəli konservant';
+
+  @override
+  String get annexVIShort => 'AB: icazəli UV filtr';
+
+  @override
+  String annexEntry(String annex, String reference) {
+    return 'Əlavə $annex, sıra № $reference';
+  }
+
+  @override
+  String get annexConditionsLabel =>
+      'Rəsmi şərtlər (CosIng-dən olduğu kimi, ingiliscə)';
+
+  @override
+  String get ingredientNoEntry => 'AB əlavələrində ayrıca qeyd tapılmadı';
+
+  @override
+  String ingredientSheetSource(String date) {
+    return 'Mənbə: CosIng, $date';
+  }
+
+  @override
+  String get ingredientDetailsHint => 'Ətraflı';
 }

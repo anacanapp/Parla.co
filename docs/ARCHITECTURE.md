@@ -101,6 +101,14 @@ so it can move to our own servers unchanged. Setup and store steps are in
   withdrawn, data download, legal documents, sign-out and account deletion
   with a typed confirmation word.
 
+## Products and ingredients (M5, M6)
+
+Search by name or brand through our server (Open Beauty Facts and our own
+catalogue); the app never calls third parties directly and searches are not
+stored. Ingredient statuses are the EU annexes from an official CosIng
+export, imported by a tool, shown neutrally with source and date. Details,
+wording rules and open legal questions: `docs/INGREDIENTS.md`.
+
 ## Habits (sprint 4)
 
 - **On the device only.** Water, sleep, movement and ticked routine steps

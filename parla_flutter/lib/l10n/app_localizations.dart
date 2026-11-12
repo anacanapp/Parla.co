@@ -1251,6 +1251,180 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'The texts are neutral and show no health information on the lock screen. A reminder may arrive a few minutes late.'**
   String get remindersNote;
+
+  /// No description provided for @productsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Check a product'**
+  String get productsTitle;
+
+  /// No description provided for @productsIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Type a product name or brand and look at its ingredients.'**
+  String get productsIntro;
+
+  /// No description provided for @productsSearchLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Product name or brand'**
+  String get productsSearchLabel;
+
+  /// No description provided for @productsSearchButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Search'**
+  String get productsSearchButton;
+
+  /// No description provided for @productsQueryTooShort.
+  ///
+  /// In en, this message translates to:
+  /// **'Type at least 2 letters.'**
+  String get productsQueryTooShort;
+
+  /// No description provided for @productsNotFoundTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing found'**
+  String get productsNotFoundTitle;
+
+  /// No description provided for @productsNotFoundBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Try another spelling or the brand name. Not every product is in the database yet.'**
+  String get productsNotFoundBody;
+
+  /// No description provided for @productsSourceObf.
+  ///
+  /// In en, this message translates to:
+  /// **'Open Beauty Facts'**
+  String get productsSourceObf;
+
+  /// No description provided for @productsSourceParla.
+  ///
+  /// In en, this message translates to:
+  /// **'Parla catalogue'**
+  String get productsSourceParla;
+
+  /// No description provided for @error_product_query_invalid.
+  ///
+  /// In en, this message translates to:
+  /// **'A search needs 2 to 80 characters.'**
+  String get error_product_query_invalid;
+
+  /// No description provided for @error_product_source_unavailable.
+  ///
+  /// In en, this message translates to:
+  /// **'The product database is not answering right now. Please try again a little later.'**
+  String get error_product_source_unavailable;
+
+  /// No description provided for @productIngredientsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Ingredients'**
+  String get productIngredientsTitle;
+
+  /// No description provided for @productNoIngredients.
+  ///
+  /// In en, this message translates to:
+  /// **'There is no ingredient list for this product. Please check the package.'**
+  String get productNoIngredients;
+
+  /// No description provided for @productIngredientCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 ingredient} other{{count} ingredients}}'**
+  String productIngredientCount(int count);
+
+  /// No description provided for @productListedCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 has an EU entry} other{{count} have an EU entry}}'**
+  String productListedCount(int count);
+
+  /// No description provided for @productStatusesMissing.
+  ///
+  /// In en, this message translates to:
+  /// **'Ingredient statuses are not loaded yet. For now only the ingredient list is shown.'**
+  String get productStatusesMissing;
+
+  /// No description provided for @productDataNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'The ingredient list comes from a community database and may contain mistakes. Compare it with the package.'**
+  String get productDataNotice;
+
+  /// No description provided for @productLegalNotice.
+  ///
+  /// In en, this message translates to:
+  /// **'Statuses are based on the annexes of EU Regulation 1223/2009 (CosIng, {date}). Names are matched automatically. This is not an Azerbaijani rule and not a safety assessment of the product.'**
+  String productLegalNotice(String date);
+
+  /// No description provided for @productAttribution.
+  ///
+  /// In en, this message translates to:
+  /// **'Product data: Open Beauty Facts, under the ODbL licence.'**
+  String get productAttribution;
+
+  /// No description provided for @annexIIShort.
+  ///
+  /// In en, this message translates to:
+  /// **'EU: on the list of prohibited substances'**
+  String get annexIIShort;
+
+  /// No description provided for @annexIIIShort.
+  ///
+  /// In en, this message translates to:
+  /// **'EU: allowed with restrictions'**
+  String get annexIIIShort;
+
+  /// No description provided for @annexIVShort.
+  ///
+  /// In en, this message translates to:
+  /// **'EU: allowed colorant'**
+  String get annexIVShort;
+
+  /// No description provided for @annexVShort.
+  ///
+  /// In en, this message translates to:
+  /// **'EU: allowed preservative'**
+  String get annexVShort;
+
+  /// No description provided for @annexVIShort.
+  ///
+  /// In en, this message translates to:
+  /// **'EU: allowed UV filter'**
+  String get annexVIShort;
+
+  /// No description provided for @annexEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'Annex {annex}, entry {reference}'**
+  String annexEntry(String annex, String reference);
+
+  /// No description provided for @annexConditionsLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Official conditions (as in CosIng, in English)'**
+  String get annexConditionsLabel;
+
+  /// No description provided for @ingredientNoEntry.
+  ///
+  /// In en, this message translates to:
+  /// **'No separate entry found in the EU annexes'**
+  String get ingredientNoEntry;
+
+  /// No description provided for @ingredientSheetSource.
+  ///
+  /// In en, this message translates to:
+  /// **'Source: CosIng, {date}'**
+  String ingredientSheetSource(String date);
+
+  /// No description provided for @ingredientDetailsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Details'**
+  String get ingredientDetailsHint;
 }
 
 class _AppLocalizationsDelegate

@@ -665,4 +665,122 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get remindersNote =>
       'The texts are neutral and show no health information on the lock screen. A reminder may arrive a few minutes late.';
+
+  @override
+  String get productsTitle => 'Check a product';
+
+  @override
+  String get productsIntro =>
+      'Type a product name or brand and look at its ingredients.';
+
+  @override
+  String get productsSearchLabel => 'Product name or brand';
+
+  @override
+  String get productsSearchButton => 'Search';
+
+  @override
+  String get productsQueryTooShort => 'Type at least 2 letters.';
+
+  @override
+  String get productsNotFoundTitle => 'Nothing found';
+
+  @override
+  String get productsNotFoundBody =>
+      'Try another spelling or the brand name. Not every product is in the database yet.';
+
+  @override
+  String get productsSourceObf => 'Open Beauty Facts';
+
+  @override
+  String get productsSourceParla => 'Parla catalogue';
+
+  @override
+  String get error_product_query_invalid =>
+      'A search needs 2 to 80 characters.';
+
+  @override
+  String get error_product_source_unavailable =>
+      'The product database is not answering right now. Please try again a little later.';
+
+  @override
+  String get productIngredientsTitle => 'Ingredients';
+
+  @override
+  String get productNoIngredients =>
+      'There is no ingredient list for this product. Please check the package.';
+
+  @override
+  String productIngredientCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count ingredients',
+      one: '1 ingredient',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String productListedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count have an EU entry',
+      one: '1 has an EU entry',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get productStatusesMissing =>
+      'Ingredient statuses are not loaded yet. For now only the ingredient list is shown.';
+
+  @override
+  String get productDataNotice =>
+      'The ingredient list comes from a community database and may contain mistakes. Compare it with the package.';
+
+  @override
+  String productLegalNotice(String date) {
+    return 'Statuses are based on the annexes of EU Regulation 1223/2009 (CosIng, $date). Names are matched automatically. This is not an Azerbaijani rule and not a safety assessment of the product.';
+  }
+
+  @override
+  String get productAttribution =>
+      'Product data: Open Beauty Facts, under the ODbL licence.';
+
+  @override
+  String get annexIIShort => 'EU: on the list of prohibited substances';
+
+  @override
+  String get annexIIIShort => 'EU: allowed with restrictions';
+
+  @override
+  String get annexIVShort => 'EU: allowed colorant';
+
+  @override
+  String get annexVShort => 'EU: allowed preservative';
+
+  @override
+  String get annexVIShort => 'EU: allowed UV filter';
+
+  @override
+  String annexEntry(String annex, String reference) {
+    return 'Annex $annex, entry $reference';
+  }
+
+  @override
+  String get annexConditionsLabel =>
+      'Official conditions (as in CosIng, in English)';
+
+  @override
+  String get ingredientNoEntry => 'No separate entry found in the EU annexes';
+
+  @override
+  String ingredientSheetSource(String date) {
+    return 'Source: CosIng, $date';
+  }
+
+  @override
+  String get ingredientDetailsHint => 'Details';
 }

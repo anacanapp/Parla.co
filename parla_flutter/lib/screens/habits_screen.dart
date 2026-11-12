@@ -43,7 +43,7 @@ class _HabitsScreenState extends State<HabitsScreen> {
       case 0:
         context.go(Routes.home);
       case 1:
-        context.go(Routes.guest);
+        context.go(Routes.products);
       case 3:
         context.go(Routes.privacy);
     }

@@ -356,5 +356,72 @@
   "reminderChangeTime": "Change time",
   "reminderTimeSheetTitle": "When should we remind you?",
   "reminderPermissionDenied": "Notifications are not allowed. You can allow them in your phone's settings.",
-  "remindersNote": "The texts are neutral and show no health information on the lock screen. A reminder may arrive a few minutes late."
+  "remindersNote": "The texts are neutral and show no health information on the lock screen. A reminder may arrive a few minutes late.",
+  "productsTitle": "Check a product",
+  "productsIntro": "Type a product name or brand and look at its ingredients.",
+  "productsSearchLabel": "Product name or brand",
+  "productsSearchButton": "Search",
+  "productsQueryTooShort": "Type at least 2 letters.",
+  "productsNotFoundTitle": "Nothing found",
+  "productsNotFoundBody": "Try another spelling or the brand name. Not every product is in the database yet.",
+  "productsSourceObf": "Open Beauty Facts",
+  "productsSourceParla": "Parla catalogue",
+  "error_product_query_invalid": "A search needs 2 to 80 characters.",
+  "error_product_source_unavailable": "The product database is not answering right now. Please try again a little later.",
+  "productIngredientsTitle": "Ingredients",
+  "productNoIngredients": "There is no ingredient list for this product. Please check the package.",
+  "productIngredientCount": "{count, plural, =1{1 ingredient} other{{count} ingredients}}",
+  "@productIngredientCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "productListedCount": "{count, plural, =1{1 has an EU entry} other{{count} have an EU entry}}",
+  "@productListedCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "productStatusesMissing": "Ingredient statuses are not loaded yet. For now only the ingredient list is shown.",
+  "productDataNotice": "The ingredient list comes from a community database and may contain mistakes. Compare it with the package.",
+  "productLegalNotice": "Statuses are based on the annexes of EU Regulation 1223/2009 (CosIng, {date}). Names are matched automatically. This is not an Azerbaijani rule and not a safety assessment of the product.",
+  "@productLegalNotice": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "productAttribution": "Product data: Open Beauty Facts, under the ODbL licence.",
+  "annexIIShort": "EU: on the list of prohibited substances",
+  "annexIIIShort": "EU: allowed with restrictions",
+  "annexIVShort": "EU: allowed colorant",
+  "annexVShort": "EU: allowed preservative",
+  "annexVIShort": "EU: allowed UV filter",
+  "annexEntry": "Annex {annex}, entry {reference}",
+  "@annexEntry": {
+    "placeholders": {
+      "annex": {
+        "type": "String"
+      },
+      "reference": {
+        "type": "String"
+      }
+    }
+  },
+  "annexConditionsLabel": "Official conditions (as in CosIng, in English)",
+  "ingredientNoEntry": "No separate entry found in the EU annexes",
+  "ingredientSheetSource": "Source: CosIng, {date}",
+  "@ingredientSheetSource": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "ingredientDetailsHint": "Details"
 }
