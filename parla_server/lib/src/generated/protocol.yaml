@@ -19,3 +19,6 @@ consent:
 profile:
   - me:
   - create:
+quiz:
+  - saveAnswers:
+  - myAnswers:

@@ -156,7 +156,7 @@ void main() {
         'ru',
       ),
     ]);
-    expect(find.text('Сегодня'), findsOneWidget);
+    expect(find.text('Давайте познакомимся.'), findsOneWidget);
   });
 
   testWidgets('a signed-in user with a profile opens on the home screen', (

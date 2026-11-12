@@ -1,0 +1,16 @@
+### A non-health quiz answer (data map row 7: skin and hair type, goals,
+### habits). Health answers never go here: they are encrypted in
+### health_record.
+class: QuizAnswer
+table: quiz_answer
+fields:
+  authUserId: UuidValue
+  questionId: String
+  optionIds: List<String>
+  ### Version of the question set the answer was given to.
+  contentVersion: String
+  answeredAt: DateTime
+indexes:
+  quiz_answer_user_question_idx:
+    fields: authUserId, questionId
+    unique: true

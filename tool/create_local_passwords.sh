@@ -12,10 +12,12 @@ if [[ -e "$target" ]]; then
 fi
 
 secret() { openssl rand -hex 24; }
+kek() { openssl rand -base64 32; }
 
 cat > "$target" <<YAML
 development:
   database: '$(secret)'
+  healthKek: '$(kek)'
   serviceSecret: '$(secret)'
   emailSecretHashPepper: '$(secret)'
   jwtHmacSha512PrivateKey: '$(secret)'
@@ -23,6 +25,7 @@ development:
 
 test:
   database: '$(secret)'
+  healthKek: '$(kek)'
   emailSecretHashPepper: '$(secret)'
   jwtHmacSha512PrivateKey: '$(secret)'
   jwtRefreshTokenHashPepper: '$(secret)'

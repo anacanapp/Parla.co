@@ -46,6 +46,16 @@ abstract interface class ParlaApi {
     required String language,
   });
 
+  /// Whether the health consent is currently granted.
+  Future<bool> hasHealthConsent();
+
+  /// Saves quiz answers. Only questions with `stored: true` are sent; health
+  /// answers only when the health consent is granted.
+  Future<void> saveQuizAnswers(QuizAnswers answers);
+
+  /// The saved quiz answers, or `null` when the quiz was never taken.
+  Future<QuizAnswers?> myQuizAnswers();
+
   /// The sign-in UI (screens M-05 and M-06).
   Widget buildSignIn(
     BuildContext context, {

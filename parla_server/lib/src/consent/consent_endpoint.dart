@@ -4,6 +4,7 @@ import 'package:serverpod_auth_idp_server/core.dart';
 
 import '../audit/audit.dart';
 import '../generated/protocol.dart';
+import '../health/health_store.dart';
 
 /// Error codes returned by [ConsentEndpoint]. The app translates them.
 abstract final class ConsentErrors {
@@ -85,8 +86,23 @@ class ConsentEndpoint extends Endpoint {
         objectId: record.id.toString(),
         transaction: transaction,
       );
-      // No health data tables exist yet. When they are added, withdrawing
-      // the health consent must delete them in this transaction (CON-6).
+      // Withdrawing the health consent deletes the encrypted health answers
+      // and the user's data key in the same transaction (CON-6).
+      if (!granted && consentType == ConsentType.health) {
+        final erased = await HealthStore.of(
+          session,
+        ).erase(session, userId, transaction: transaction);
+        if (erased) {
+          await writeAudit(
+            session,
+            actorId: userId,
+            actorRole: AuditActor.user,
+            action: 'health.erased',
+            objectType: 'health_record',
+            transaction: transaction,
+          );
+        }
+      }
       return ConsentState(
         consentType: record.consentType,
         granted: record.granted,

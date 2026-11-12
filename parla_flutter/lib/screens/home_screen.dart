@@ -25,10 +25,31 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   HomeController? _controller;
 
+  /// The quiz answers, `null` until loaded or when the quiz was not taken.
+  QuizAnswers? _answers;
+  bool _loaded = false;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
-    _controller ??= HomeController(now: ParlaScope.of(context).clock());
+    if (_controller == null) {
+      _controller = HomeController(now: ParlaScope.of(context).clock());
+      _loadAnswers();
+    }
+  }
+
+  Future<void> _loadAnswers() async {
+    QuizAnswers? answers;
+    try {
+      answers = await ParlaScope.of(context).api.myQuizAnswers();
+    } on Object {
+      answers = null; // The default routine still works offline.
+    }
+    if (!mounted) return;
+    setState(() {
+      _answers = answers;
+      _loaded = true;
+    });
   }
 
   @override
@@ -67,8 +88,11 @@ class _HomeScreenState extends State<HomeScreen> {
         listenable: controller,
         builder: (context, _) => _HomeBody(
           controller: controller,
+          plan: _answers == null ? defaultRoutinePlan : planRoutine(_answers!),
+          showQuizPrompt: _loaded && _answers == null,
           onComingSoon: _comingSoon,
           onScan: () => context.go(Routes.guest),
+          onQuiz: () => context.go(Routes.quiz),
         ),
       ),
     );
@@ -78,13 +102,19 @@ class _HomeScreenState extends State<HomeScreen> {
 class _HomeBody extends StatelessWidget {
   const _HomeBody({
     required this.controller,
+    required this.plan,
+    required this.showQuizPrompt,
     required this.onComingSoon,
     required this.onScan,
+    required this.onQuiz,
   });
 
   final HomeController controller;
+  final RoutinePlan plan;
+  final bool showQuizPrompt;
   final VoidCallback onComingSoon;
   final VoidCallback onScan;
+  final VoidCallback onQuiz;
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +128,7 @@ class _HomeBody extends StatelessWidget {
     final kind = controller.kind;
     final morning = kind == RoutineKind.morning;
     final progress = RoutineProgress(
-      sampleRoutine(kind, language),
+      routineSteps(morning ? plan.morning : plan.evening, language),
       controller,
     );
     final routineName = morning
@@ -174,6 +204,10 @@ class _HomeBody extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                if (showQuizPrompt) ...[
+                  _QuizPromptCard(onStart: onQuiz),
+                  const SizedBox(height: 16),
+                ],
                 RoutineSummaryCard(
                   eyebrow: morning
                       ? l10n.routineMorningEyebrow
@@ -397,6 +431,36 @@ class _ScanCard extends StatelessWidget {
             ],
           ),
         ),
+      ),
+    );
+  }
+}
+
+/// Shown until the quiz is taken: the routine is generic until then.
+class _QuizPromptCard extends StatelessWidget {
+  const _QuizPromptCard({required this.onStart});
+
+  final VoidCallback onStart;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final text = Theme.of(context).textTheme;
+    return Container(
+      padding: const EdgeInsets.all(20),
+      decoration: BoxDecoration(
+        color: ParlaColors.sky,
+        borderRadius: BorderRadius.circular(28),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Text(l10n.homeQuizTitle, style: text.titleLarge),
+          const SizedBox(height: 6),
+          Text(l10n.homeQuizBody, style: text.bodyMedium),
+          const SizedBox(height: 16),
+          FilledButton(onPressed: onStart, child: Text(l10n.homeQuizStart)),
+        ],
       ),
     );
   }

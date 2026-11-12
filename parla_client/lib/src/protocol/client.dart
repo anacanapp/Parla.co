@@ -18,6 +18,8 @@ import 'package:parla_client/src/protocol/consent/consent_type.dart'
     as _ibhb6xek;
 import 'package:parla_client/src/protocol/profile/member_profile.dart'
     as _isrsmpwu;
+import 'package:parla_client/src/protocol/quiz/quiz_answer_input.dart'
+    as _ikoicjb8;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
     as _iacc;
 import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
@@ -430,6 +432,36 @@ class EndpointProfile extends _isc.EndpointRef {
   );
 }
 
+/// Saves and returns the user's onboarding quiz answers (M-09 to M-13).
+///
+/// Non-health answers go to `quiz_answer`; health answers are encrypted in
+/// `health_record` and only accepted with the health consent (CON-2).
+/// Warning-sign answers are refused outright: they never leave the device.
+/// {@category Endpoint}
+class EndpointQuiz extends _isc.EndpointRef {
+  EndpointQuiz(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'quiz';
+
+  /// Saves [answers], replacing earlier answers to the same questions.
+  _ida.Future<void> saveAnswers(List<_ikoicjb8.QuizAnswerInput> answers) =>
+      caller.callServerEndpoint<void>(
+        'quiz',
+        'saveAnswers',
+        {'answers': answers},
+      );
+
+  /// The user's saved answers. Health answers are included only while the
+  /// health consent is granted.
+  _ida.Future<List<_ikoicjb8.QuizAnswerInput>> myAnswers() =>
+      caller.callServerEndpoint<List<_ikoicjb8.QuizAnswerInput>>(
+        'quiz',
+        'myAnswers',
+        {},
+      );
+}
+
 class Modules {
   Modules(Client client) {
     serverpod_auth_idp = _iaic.Caller(client);
@@ -472,6 +504,7 @@ class Client extends _isc.ServerpodClientShared {
     jwtRefresh = EndpointJwtRefresh(this);
     consent = EndpointConsent(this);
     profile = EndpointProfile(this);
+    quiz = EndpointQuiz(this);
     modules = Modules(this);
   }
 
@@ -483,6 +516,8 @@ class Client extends _isc.ServerpodClientShared {
 
   late final EndpointProfile profile;
 
+  late final EndpointQuiz quiz;
+
   late final Modules modules;
 
   @override
@@ -491,6 +526,7 @@ class Client extends _isc.ServerpodClientShared {
     'jwtRefresh': jwtRefresh,
     'consent': consent,
     'profile': profile,
+    'quiz': quiz,
   };
 
   @override

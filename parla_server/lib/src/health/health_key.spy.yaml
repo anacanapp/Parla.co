@@ -1,0 +1,15 @@
+### The user's data key, encrypted ("wrapped") with the key-encryption key
+### (KEK). Deleting this row makes every copy of the user's health data,
+### including backups, unreadable (crypto-shredding, ENC-3).
+class: HealthKey
+table: health_key
+fields:
+  authUserId: UuidValue
+  wrappedKey: String
+  nonce: String
+  kekVersion: int
+  createdAt: DateTime
+indexes:
+  health_key_user_idx:
+    fields: authUserId
+    unique: true

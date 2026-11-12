@@ -26,6 +26,11 @@ Meter, today's habits and product scanning; its routine steps are sample
 content until expert-approved routines exist. Product search (M-20) is a
 placeholder.
 
+Sprint 2 adds the onboarding quiz (M-09 to M-13): the routine now follows
+the answers, health answers are encrypted per user and deleted when the
+health consent is withdrawn. Quiz questions and routine rules are sample
+content awaiting dermatologist review.
+
 **No real user data may be collected yet.** The company is not registered,
 the legal review is open and the production data region is undecided
 (roadmap gate A).

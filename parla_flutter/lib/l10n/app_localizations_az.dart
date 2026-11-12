@@ -308,4 +308,107 @@ class AppLocalizationsAz extends AppLocalizations {
   String routineProgressLabel(String routine, int done, int total) {
     return '$routine: $done / $total addım tamamdır';
   }
+
+  @override
+  String get quizIntroTitle => 'Gəl tanış olaq.';
+
+  @override
+  String get quizIntroBody =>
+      'Dəriniz, saçınız və gündəlik ritminiz haqqında bir neçə sual. Təxminən 3 dəqiqə çəkir.';
+
+  @override
+  String get quizStart => 'Başlayaq';
+
+  @override
+  String get quizLater => 'Sonra';
+
+  @override
+  String quizProgress(int current, int total) {
+    return 'Sual $current / $total';
+  }
+
+  @override
+  String get quizMultipleHint => 'Bir neçəsini seçə bilərsiniz';
+
+  @override
+  String get quizNext => 'Növbəti';
+
+  @override
+  String get quizBack => 'Geri';
+
+  @override
+  String get quizDecline => 'Cavab vermək istəmirəm';
+
+  @override
+  String get quizFinish => 'Bitir';
+
+  @override
+  String get healthGateTitle => 'Bir neçə həssas sual';
+
+  @override
+  String get healthGateBody =>
+      'Növbəti suallar dəri diaqnozları, allergiya, hamiləlik və dərmanlar haqqındadır. Onlar rutini təhlükəsiz etməyə kömək edir. Cavablarınız şifrələnir və yalnız razılığınızla saxlanılır.';
+
+  @override
+  String get healthGateAgree => 'Razıyam, davam et';
+
+  @override
+  String get healthGateSkip => 'Bu bölməni keç';
+
+  @override
+  String get healthGateSkipNote => 'Keçsəniz, rutin daha ehtiyatlı qurulacaq.';
+
+  @override
+  String get redFlagTitle => 'Bunu həkimə göstərin';
+
+  @override
+  String get redFlagBody =>
+      'Qeyd etdiyiniz əlamət həkim müayinəsi tələb edə bilər. Parla diaqnoz qoymur və həkimi əvəz etmir. Dermatoloqa müraciət etməyi tövsiyə edirik.';
+
+  @override
+  String get redFlagOk => 'Başa düşdüm';
+
+  @override
+  String get resultTitle => 'Rutininiz hazırdır';
+
+  @override
+  String get resultSkin => 'Dəri';
+
+  @override
+  String get resultHair => 'Saç';
+
+  @override
+  String get resultGoals => 'Məqsədlər';
+
+  @override
+  String get resultSeeRoutine => 'Rutinimi göstər';
+
+  @override
+  String get resultExclusionPregnancy =>
+      'Retinol əlavə etmədik: hamiləlik və əmizdirmə dövründə, ya da bu suala cavab olmayanda onu tövsiyə etmirik.';
+
+  @override
+  String get resultExclusionMedication =>
+      'Retinol əlavə etmədik: dərman sualı cavabsızdır və ya həkimin yazdığı dəri preparatından istifadə edirsiniz. Həkiminizlə məsləhətləşin.';
+
+  @override
+  String get resultExclusionSensitive =>
+      'Həssas dəri üçün aktiv maddələr əvəzinə sakitləşdirici addımlar seçdik.';
+
+  @override
+  String get homeQuizTitle => 'Rutininizi fərdiləşdirək';
+
+  @override
+  String get homeQuizBody => '3 dəqiqəlik test — və rutin sizə uyğunlaşır.';
+
+  @override
+  String get homeQuizStart => 'Testə başla';
+
+  @override
+  String get error_consent_health_required =>
+      'Bu cavablar üçün sağlamlıq razılığı lazımdır.';
+
+  @override
+  String get resultExclusionRetinoidBoth =>
+      'Retinol əlavə etmədik: hamiləlik və dərmanlarla bağlı cavablar olmadan onu tövsiyə etmirik.';
 }

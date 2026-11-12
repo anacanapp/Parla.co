@@ -68,6 +68,8 @@ jobs:
           for key in database emailSecretHashPepper jwtHmacSha512PrivateKey jwtRefreshTokenHashPepper; do
             echo "SERVERPOD_PASSWORD_${key}=$(openssl rand -hex 24)" >> "$GITHUB_ENV"
           done
+          # 32-byte key-encryption key for health data (base64).
+          echo "SERVERPOD_PASSWORD_healthKek=$(openssl rand -base64 32)" >> "$GITHUB_ENV"
       - name: Check generated code is up to date
         working-directory: parla_server
         run: |

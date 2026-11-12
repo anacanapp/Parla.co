@@ -39,7 +39,38 @@ class FakeApi implements ParlaApi {
     required String language,
   }) async {
     consentCalls.add((kind, granted, textVersion, language));
+    if (kind == ConsentKind.health) healthConsent = granted;
   }
+
+  bool healthConsent = false;
+  QuizAnswers? quizAnswers;
+  final savedQuizAnswers = <QuizAnswers>[];
+
+  @override
+  Future<bool> hasHealthConsent() async => healthConsent;
+
+  @override
+  Future<void> saveQuizAnswers(QuizAnswers answers) async {
+    // Mirror the real API: drop answers that must never leave the device,
+    // and health answers without consent.
+    bool keep(String id) {
+      final q = quizQuestion(id)!;
+      return q.stored && (!q.sensitive || healthConsent);
+    }
+
+    final sent = QuizAnswers(
+      chosen: {
+        for (final e in answers.chosen.entries)
+          if (keep(e.key)) e.key: e.value,
+      },
+      declined: answers.declined.where(keep).toSet(),
+    );
+    savedQuizAnswers.add(sent);
+    quizAnswers = sent;
+  }
+
+  @override
+  Future<QuizAnswers?> myQuizAnswers() async => quizAnswers;
 
   @override
   Widget buildSignIn(
