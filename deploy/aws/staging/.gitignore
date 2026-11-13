@@ -1,0 +1,6 @@
+# Provider plugins and local state from `terraform init`; the state itself
+# lives in S3 (deploy/aws/init-staging.sh).
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfplan
