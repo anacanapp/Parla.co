@@ -143,6 +143,19 @@ Later deploys are just step 3.3. Changes to `deploy/aws/staging` need
    - `google_play`: `GCLOUD_SERVICE_ACCOUNT_CREDENTIALS` (secure) = the
      JSON key from step 6.3.
 
+## Android test APK (quickest way onto a phone)
+
+Needs only step 4.2 (keystore `parla_upload`) and the `parla_staging`
+group with `SERVER_URL`; no Play Console.
+
+1. Codemagic → Parla → **Start new build** → branch `main`, workflow
+   **Android → test APK (direct install)**.
+2. When it finishes (about 15–20 minutes), open the build on the phone and
+   download `app-release.apk` from *Artifacts*.
+3. Install it: Android asks once to allow installs from the browser or
+   Files app. Testers outside the team get the APK file from you; Play
+   internal testing (section 6) replaces this once the Play app exists.
+
 ## 5. App Store (Anacan App's account)
 
 1. Certificates, Identifiers & Profiles → Identifiers → register the App ID
