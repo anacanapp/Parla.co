@@ -87,15 +87,24 @@ resource "aws_security_group" "db" {
   vpc_id      = aws_vpc.main.id
 }
 
-# CloudFront's VPC origin connects from network interfaces inside this VPC;
-# the load balancer is internal, so nothing outside the VPC can reach it.
+# CloudFront's VPC origin reaches the internal load balancer from the
+# security group AWS creates with the first VPC origin in this VPC
+# ("CloudFront-VPCOrigins-Service-SG"). Only that group may connect; the
+# load balancer has no public address either way.
+data "aws_security_group" "cloudfront_vpc_origins" {
+  vpc_id = aws_vpc.main.id
+  name   = "CloudFront-VPCOrigins-Service-SG"
+
+  depends_on = [aws_cloudfront_vpc_origin.alb]
+}
+
 resource "aws_vpc_security_group_ingress_rule" "alb_http" {
-  security_group_id = aws_security_group.alb.id
-  description       = "CloudFront VPC origin"
-  cidr_ipv4         = aws_vpc.main.cidr_block
-  ip_protocol       = "tcp"
-  from_port         = 80
-  to_port           = 80
+  security_group_id            = aws_security_group.alb.id
+  description                  = "CloudFront VPC origin"
+  referenced_security_group_id = data.aws_security_group.cloudfront_vpc_origins.id
+  ip_protocol                  = "tcp"
+  from_port                    = 80
+  to_port                      = 80
 }
 
 resource "aws_vpc_security_group_egress_rule" "alb_to_app" {
