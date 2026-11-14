@@ -121,10 +121,9 @@ workflows:
             --create
           keychain add-certificates
           xcode-project use-profiles
-      - name: Install pods
-        script: |
-          cd parla_flutter/ios
-          pod install
+      # No separate "pod install": the iOS project uses Flutter's Swift
+      # Package Manager integration, and `flutter build ipa` sets up
+      # CocoaPods by itself if a plugin still needs it.
       - name: Build IPA
         script: |
           cd parla_flutter
