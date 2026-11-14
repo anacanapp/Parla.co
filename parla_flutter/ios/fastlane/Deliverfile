@@ -1,0 +1,22 @@
+# App Store listing for Parla: texts in fastlane/metadata, screenshots in
+# fastlane/screenshots. Uploaded by the Codemagic workflow "iOS → App Store
+# listing" (codemagic.yaml); nothing is submitted for review automatically.
+#
+# Not settable here (Apple has no API for them), done in App Store Connect:
+# App Privacy answers, age rating (17+/18+), price and availability.
+
+app_identifier("com.atlasoon.parla")
+metadata_path("./fastlane/metadata")
+screenshots_path("./fastlane/screenshots")
+
+skip_binary_upload(true)
+submit_for_review(false)
+automatic_release(false)
+
+# Screenshots in the folder replace those in App Store Connect, so the
+# folder is always the single source.
+overwrite_screenshots(true)
+
+# No HTML preview on a CI machine.
+force(true)
+run_precheck_before_submit(false)
