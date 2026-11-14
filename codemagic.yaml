@@ -4,12 +4,12 @@
 # One-time setup in the Codemagic UI (see docs/RELEASE.md):
 # - Team settings → Code signing identities → Android keystores:
 #   upload keystore with reference name "parla_upload".
-# - Team settings → Integrations → Developer Portal: App Store Connect API
-#   key named "Parla ASC".
 # - Environment variable groups:
 #   - "parla_staging": SERVER_URL (the server_url output of
 #     deploy/aws/staging, e.g. https://xxxx.cloudfront.net/)
 #   - "google_play": GCLOUD_SERVICE_ACCOUNT_CREDENTIALS (secure)
+#   - "app_store": APP_STORE_CONNECT_ISSUER_ID, APP_STORE_CONNECT_KEY_IDENTIFIER,
+#     APP_STORE_CONNECT_PRIVATE_KEY (secure), CERTIFICATE_PRIVATE_KEY (secure)
 # No secret is ever written in this file.
 
 definitions:
@@ -87,26 +87,40 @@ workflows:
         track: internal
         submit_as_draft: true
 
+  # Signing without Codemagic's UI integrations, so it also works on a
+  # personal Codemagic account: the Codemagic CLI tools fetch (or create once)
+  # the Apple Distribution certificate and the App Store profile with the App
+  # Store Connect API key from the "app_store" group.
   ios-testflight:
     name: iOS → TestFlight
     instance_type: *instance
     max_build_duration: 60
-    integrations:
-      app_store_connect: Parla ASC
     environment:
       flutter: *flutter
       xcode: latest
       cocoapods: default
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.atlasoon.parla
       groups:
         - parla_staging
+        # APP_STORE_CONNECT_ISSUER_ID, APP_STORE_CONNECT_KEY_IDENTIFIER,
+        # APP_STORE_CONNECT_PRIVATE_KEY (secure), CERTIFICATE_PRIVATE_KEY
+        # (secure). Read by the CLI tools below and by publishing.
+        - app_store
+      vars:
+        BUNDLE_ID: com.atlasoon.parla
     scripts:
       - *get_packages
       - *tests
-      - name: Use signing profiles
-        script: xcode-project use-profiles
+      - name: Set up code signing
+        script: |
+          keychain initialize
+          # Reuses the distribution certificate that matches
+          # CERTIFICATE_PRIVATE_KEY and the App Store profile; creates them
+          # only when they do not exist yet.
+          app-store-connect fetch-signing-files "$BUNDLE_ID" \
+            --type IOS_APP_STORE \
+            --create
+          keychain add-certificates
+          xcode-project use-profiles
       - name: Install pods
         script: |
           cd parla_flutter/ios
@@ -123,7 +137,9 @@ workflows:
       - /tmp/xcodebuild_logs/*.log
     publishing:
       app_store_connect:
-        auth: integration
+        api_key: $APP_STORE_CONNECT_PRIVATE_KEY
+        key_id: $APP_STORE_CONNECT_KEY_IDENTIFIER
+        issuer_id: $APP_STORE_CONNECT_ISSUER_ID
         # Internal testers get the build after Apple's processing; no beta
         # review is needed for them.
         submit_to_testflight: false

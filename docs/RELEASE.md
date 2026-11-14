@@ -124,24 +124,41 @@ Later deploys are just step 3.3. Changes to `deploy/aws/staging` need
 
 1. Sign in at codemagic.io with GitHub and add `anacanapp/Parla.co`. The
    builds are defined in `codemagic.yaml` and started by hand.
-2. **Android upload key.** Team settings → Code signing identities →
+2. **Android upload key.** Team settings (on a personal account: Settings) → Code signing identities →
    Android keystores → *Generate keystore* (or upload one), reference name
    **`parla_upload`**. Download a backup and keep it with the passwords: a
    lost upload key needs a reset request to Google.
 3. **App Store Connect API key.** In App Store Connect → Users and Access →
    Integrations → App Store Connect API, create a key with the **App
-   Manager** role. In Codemagic: Team settings → Integrations → Developer
-   Portal → add it with the name **`Parla ASC`** (Issuer ID, Key ID, .p8
-   file). Enter it only there, never in chat or in the repository.
-4. **iOS certificate.** Team settings → Code signing identities → iOS
-   certificates → generate an *Apple Distribution* certificate with that
-   key. Codemagic then creates the App Store profile for
-   `com.atlasoon.parla` itself.
+   Manager** role. Note the Issuer ID and Key ID and download the `.p8`
+   file (Apple allows the download only once). Keep the file in your
+   password manager; never send it in chat or commit it.
+4. **Certificate key.** The iOS build creates the Apple Distribution
+   certificate itself and needs a private RSA key for it, made once on any
+   computer with a terminal (Mac, Linux, or AWS CloudShell in the browser):
+   ```bash
+   ssh-keygen -t rsa -b 2048 -m PEM -f parla_cert_key -q -N ""
+   ```
+   ```bash
+   cat parla_cert_key
+   ```
+   Copy the whole output (with the `BEGIN`/`END` lines) into
+   `CERTIFICATE_PRIVATE_KEY` below, keep a copy in your password manager,
+   then delete both files (`rm parla_cert_key parla_cert_key.pub`). The same
+   key must be kept: a new one would create a new certificate, and Apple
+   allows only a few.
 5. **Environment variable groups:**
    - `parla_staging`: `SERVER_URL` = `server_url` from step 1.4 (with the
      trailing `/`).
    - `google_play`: `GCLOUD_SERVICE_ACCOUNT_CREDENTIALS` (secure) = the
      JSON key from step 6.3.
+   - `app_store`, for iOS. Works on a personal Codemagic account; no
+     Integrations or Code signing menus are needed:
+     - `APP_STORE_CONNECT_ISSUER_ID` = Issuer ID from step 4.3
+     - `APP_STORE_CONNECT_KEY_IDENTIFIER` = Key ID from step 4.3
+     - `APP_STORE_CONNECT_PRIVATE_KEY` (secure) = the whole text of the
+       `.p8` file
+     - `CERTIFICATE_PRIVATE_KEY` (secure) = the key from step 4.4
 
 ## Android test APK (quickest way onto a phone)
 
