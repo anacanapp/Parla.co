@@ -15,14 +15,26 @@ abstract interface class HabitStore {
 /// [HabitStore] in the platform's encrypted storage: the iOS Keychain and,
 /// on Android, values encrypted with a key held in the Android Keystore.
 class SecureHabitStore implements HabitStore {
-  const SecureHabitStore([this._storage = const FlutterSecureStorage()]);
+  const SecureHabitStore([
+    this._storage = const FlutterSecureStorage(),
+    this._kind = '',
+  ]);
+
+  /// The user's own routines, in their own entry next to the habit log.
+  const SecureHabitStore.routines([
+    this._storage = const FlutterSecureStorage(),
+  ]) : _kind = 'routines.';
 
   final FlutterSecureStorage _storage;
+
+  /// Distinguishes entries of the same account; every key still starts
+  /// with [_prefix], so [forgetAfterReinstall] covers all of them.
+  final String _kind;
 
   static const _prefix = 'parla.habits.';
   static const _installedKey = 'habitStoreInstalled';
 
-  static String _key(String accountId) => '${_prefix}v1.$accountId';
+  String _key(String accountId) => '$_prefix${_kind}v1.$accountId';
 
   /// Deletes habit entries left over from an earlier installation.
   ///

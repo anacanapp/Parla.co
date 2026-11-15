@@ -2,6 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 
+import 'package:parla_shared/parla_shared.dart';
+
 import '../home/routine.dart';
 import 'habit_log.dart';
 import 'habit_store.dart';
@@ -94,6 +96,52 @@ class HabitTracker extends ChangeNotifier {
   });
 
   void restart(RoutineKind kind) => _change((day) => day.done(kind).clear());
+
+  /// Whether [stepId] is done in [slot]: today for morning and evening,
+  /// any day of this calendar week for weekly steps.
+  bool isDoneIn(RoutineSlot slot, String stepId) => switch (slot) {
+    RoutineSlot.morning => isDone(RoutineKind.morning, stepId),
+    RoutineSlot.evening => isDone(RoutineKind.evening, stepId),
+    RoutineSlot.weekly => _thisWeek().any(
+      (d) => _log.peek(d)?.weeklyDone.contains(stepId) ?? false,
+    ),
+  };
+
+  void toggleIn(RoutineSlot slot, String stepId) {
+    switch (slot) {
+      case RoutineSlot.morning:
+        toggleStep(RoutineKind.morning, stepId);
+      case RoutineSlot.evening:
+        toggleStep(RoutineKind.evening, stepId);
+      case RoutineSlot.weekly:
+        if (isDoneIn(RoutineSlot.weekly, stepId)) {
+          // Undo wherever it was ticked this week.
+          for (final d in _thisWeek()) {
+            _log.peek(d)?.weeklyDone.remove(stepId);
+          }
+          _change((_) {});
+        } else {
+          _change((day) => day.weeklyDone.add(stepId));
+        }
+    }
+  }
+
+  /// Steps of the user's own routines, ticked per day.
+  bool isCustomDone(String stepId) =>
+      _todayEntry?.customDone.contains(stepId) ?? false;
+
+  void toggleCustom(String stepId) => _change((day) {
+    if (!day.customDone.remove(stepId)) day.customDone.add(stepId);
+  });
+
+  List<DateTime> _thisWeek() {
+    final today = _today;
+    final start = weekStart(today);
+    return [
+      for (var i = 0; i <= today.difference(start).inDays; i++)
+        DateTime(start.year, start.month, start.day + i),
+    ];
+  }
 
   void addWater() {
     if (water >= waterGoal) return;

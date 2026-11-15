@@ -298,7 +298,7 @@ void main() {
   testWidgets('the Routine tab opens the routine screen', (tester) async {
     await _pumpHome(tester);
     await _tap(tester, find.text('Routine').last);
-    expect(find.text('Last 7 days'), findsOneWidget);
+    expect(find.byKey(const ValueKey('area-face')), findsOneWidget);
   });
 
   for (final language in ['az', 'ru', 'en']) {

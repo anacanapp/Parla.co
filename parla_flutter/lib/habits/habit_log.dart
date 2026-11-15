@@ -11,8 +11,12 @@ class DayEntry {
     this.moveMinutes,
     Set<String>? morningDone,
     Set<String>? eveningDone,
+    Set<String>? weeklyDone,
+    Set<String>? customDone,
   }) : morningDone = morningDone ?? <String>{},
-       eveningDone = eveningDone ?? <String>{};
+       eveningDone = eveningDone ?? <String>{},
+       weeklyDone = weeklyDone ?? <String>{},
+       customDone = customDone ?? <String>{};
 
   factory DayEntry.fromJson(Map<String, Object?> json) => DayEntry(
     water: (json['water'] as num?)?.toInt() ?? 0,
@@ -20,6 +24,8 @@ class DayEntry {
     moveMinutes: (json['moveMinutes'] as num?)?.toInt(),
     morningDone: {...?(json['morningDone'] as List?)?.cast<String>()},
     eveningDone: {...?(json['eveningDone'] as List?)?.cast<String>()},
+    weeklyDone: {...?(json['weeklyDone'] as List?)?.cast<String>()},
+    customDone: {...?(json['customDone'] as List?)?.cast<String>()},
   );
 
   int water;
@@ -28,11 +34,21 @@ class DayEntry {
   final Set<String> morningDone;
   final Set<String> eveningDone;
 
+  /// Weekly steps (hair mask, scrub) ticked on this day.
+  final Set<String> weeklyDone;
+
+  /// Steps of the user's own routines ticked on this day.
+  final Set<String> customDone;
+
   Set<String> done(RoutineKind kind) =>
       kind == RoutineKind.morning ? morningDone : eveningDone;
 
   /// At least one routine step was ticked.
-  bool get hadCare => morningDone.isNotEmpty || eveningDone.isNotEmpty;
+  bool get hadCare =>
+      morningDone.isNotEmpty ||
+      eveningDone.isNotEmpty ||
+      weeklyDone.isNotEmpty ||
+      customDone.isNotEmpty;
 
   bool get isEmpty =>
       water == 0 && sleepHours == null && moveMinutes == null && !hadCare;
@@ -43,6 +59,8 @@ class DayEntry {
     if (moveMinutes != null) 'moveMinutes': moveMinutes,
     if (morningDone.isNotEmpty) 'morningDone': morningDone.toList()..sort(),
     if (eveningDone.isNotEmpty) 'eveningDone': eveningDone.toList()..sort(),
+    if (weeklyDone.isNotEmpty) 'weeklyDone': weeklyDone.toList()..sort(),
+    if (customDone.isNotEmpty) 'customDone': customDone.toList()..sort(),
   };
 }
 
@@ -106,6 +124,11 @@ class HabitLog {
     };
   }
 }
+
+/// Monday of the calendar week that holds [day] (weeks run Monday to
+/// Sunday, as in Azerbaijan).
+DateTime weekStart(DateTime day) =>
+    DateTime(day.year, day.month, day.day - (day.weekday - DateTime.monday));
 
 /// The seven days ending today, oldest first.
 List<DateTime> lastSevenDays(DateTime today) => [

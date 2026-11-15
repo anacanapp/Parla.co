@@ -233,6 +233,7 @@ Future<void> exportAndShare(
     final data = jsonDecode(server) as Map<String, Object?>;
     data['deviceHabits'] = scope.habits.exportJson();
     data['deviceReminders'] = scope.reminders.settings.toJson();
+    data['deviceRoutines'] = scope.routines.exportJson();
     await scope.shareExport(
       const JsonEncoder.withIndent('  ').convert(data),
     );

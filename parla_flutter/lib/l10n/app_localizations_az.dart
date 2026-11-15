@@ -259,12 +259,6 @@ class AppLocalizationsAz extends AppLocalizations {
   String get habitLog => 'Qeyd et';
 
   @override
-  String get scanTitle => 'Məhsulu yoxla';
-
-  @override
-  String get scanBody => 'Barkodu skan et, tərkibi sadə dildə gör';
-
-  @override
   String get navMenuLabel => 'Əsas menyu';
 
   @override
@@ -432,7 +426,7 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get privacyExportBody =>
-      'Parla-nın sizin haqqınızda saxladığı hər şey, üstəlik bu telefondakı vərdiş qeydləri, bir faylda. Fayl indi yaradılır və serverlərimizdə saxlanılmır.';
+      'Parla-nın sizin haqqınızda saxladığı hər şey, üstəlik bu telefondakı vərdiş qeydləri və öz rutinləriniz, bir faylda. Fayl indi yaradılır və serverlərimizdə saxlanılmır.';
 
   @override
   String get privacyExportButton => 'Fayl yarat';
@@ -451,7 +445,7 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get deleteWhatGoes =>
-      'Dərhal silinir: profiliniz, test cavablarınız, sağlamlıq cavablarınız və onların şifrə açarı, giriş hesabınız. Bu telefondakı vərdiş qeydləriniz də silinir.';
+      'Dərhal silinir: profiliniz, test cavablarınız, sağlamlıq cavablarınız və onların şifrə açarı, giriş hesabınız. Bu telefondakı vərdiş qeydləriniz və öz rutinləriniz də silinir.';
 
   @override
   String get deleteWhatStays =>
@@ -820,4 +814,150 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get onboardingStepPrivacy => 'Məxfilik';
+
+  @override
+  String get routineAreaFace => 'Üz';
+
+  @override
+  String get routineAreaHair => 'Saç';
+
+  @override
+  String get routineAreaBody => 'Bədən';
+
+  @override
+  String get routineSlotMorning => 'Səhər';
+
+  @override
+  String get routineSlotEvening => 'Axşam';
+
+  @override
+  String get routineSlotWeekly => 'Həftəlik';
+
+  @override
+  String get routineWeeklyHint =>
+      'Həftədə bir dəfə. İşarələr bazar ertəsi yenilənir.';
+
+  @override
+  String get routineSlotEmpty => 'Bu vaxt üçün addım yoxdur.';
+
+  @override
+  String get routineOwnButton => 'Öz rutinin';
+
+  @override
+  String get routineOwnSection => 'Öz rutinlərin';
+
+  @override
+  String get routineOwnEmpty => 'Öz rutinini yaradıb burada izləyə bilərsən.';
+
+  @override
+  String get routineOwnEveryDay => 'Hər gün';
+
+  @override
+  String routineOwnSteps(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count addım',
+      one: '1 addım',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String routineOwnEdit(String name) {
+    return 'Dəyiş: $name';
+  }
+
+  @override
+  String get routineDayHabits => 'Gün ərzində';
+
+  @override
+  String get builderTitleNew => 'Öz rutinini yarat';
+
+  @override
+  String get builderTitleEdit => 'Rutini dəyiş';
+
+  @override
+  String get builderName => 'Adı';
+
+  @override
+  String get builderNameHint => 'Məs. Bazar günü spa';
+
+  @override
+  String get builderArea => 'Bölmə';
+
+  @override
+  String get builderWhen => 'Nə vaxt';
+
+  @override
+  String get builderEveryDay => 'Hər gün';
+
+  @override
+  String get builderOnceWeek => 'Həftədə bir dəfə';
+
+  @override
+  String get builderSteps => 'Addımlar';
+
+  @override
+  String get builderStepHint => 'Yeni addım';
+
+  @override
+  String get builderAddStep => 'Əlavə et';
+
+  @override
+  String get builderSuggestions => 'Hazır addımlardan seç';
+
+  @override
+  String builderMoveUp(String step) {
+    return 'Yuxarı: $step';
+  }
+
+  @override
+  String builderMoveDown(String step) {
+    return 'Aşağı: $step';
+  }
+
+  @override
+  String builderRemoveStep(String step) {
+    return 'Sil: $step';
+  }
+
+  @override
+  String get builderSave => 'Yadda saxla';
+
+  @override
+  String get builderDelete => 'Rutini sil';
+
+  @override
+  String get builderDeleteConfirm => 'Bu rutin silinsin?';
+
+  @override
+  String get builderDeleteYes => 'Sil';
+
+  @override
+  String get builderCancel => 'Ləğv et';
+
+  @override
+  String get builderNeedName => 'Rutinə ad ver.';
+
+  @override
+  String get builderNeedStep => 'Ən azı bir addım əlavə et.';
+
+  @override
+  String builderLimit(int count) {
+    return 'Ən çox $count addım.';
+  }
+
+  @override
+  String get builderPrivacyNote =>
+      'Öz rutinlərin yalnız bu telefonda saxlanılır.';
+
+  @override
+  String get todayRoutinesTitle => 'Bu günün rutinləri';
+
+  @override
+  String get todayRoutinesAll => 'Hamısı';
+
+  @override
+  String get todayRoutinesNone => 'Bu gün üçün başqa rutin yoxdur.';
 }

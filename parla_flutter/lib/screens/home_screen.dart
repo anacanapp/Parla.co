@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:parla_shared/parla_shared.dart';
 
 import '../habits/habit_sheets.dart';
+import '../habits/habit_tracker.dart';
 import '../home/home_controller.dart';
 import '../home/routine.dart';
 import '../home/widgets/home_cards.dart';
@@ -10,12 +11,13 @@ import '../home/widgets/parla_nav_bar.dart';
 import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
 import '../routes.dart';
+import '../routines/routine_section.dart';
 import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
 
 /// M-14 "Bu gün" (design A+): a lemon header with the greeting and the
 /// routine switch, then a cream sheet with the Smile Meter summary, the
-/// routine steps, today's habits and product scanning.
+/// face routine steps, the other routines due today and today's habits.
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -69,12 +71,15 @@ class _HomeScreenState extends State<HomeScreen> {
       extendBody: true,
       bottomNavigationBar: const ParlaNavBar(selected: ParlaTab.today),
       body: ListenableBuilder(
-        listenable: controller,
+        listenable: Listenable.merge([
+          controller,
+          ParlaScope.of(context).routines,
+        ]),
         builder: (context, _) => _HomeBody(
           controller: controller,
+          answers: _answers,
           plan: _answers == null ? defaultRoutinePlan : planRoutine(_answers!),
           showQuizPrompt: _loaded && _answers == null,
-          onScan: () => context.go(Routes.products),
           onQuiz: () => context.go(Routes.quiz),
         ),
       ),
@@ -85,16 +90,16 @@ class _HomeScreenState extends State<HomeScreen> {
 class _HomeBody extends StatelessWidget {
   const _HomeBody({
     required this.controller,
+    required this.answers,
     required this.plan,
     required this.showQuizPrompt,
-    required this.onScan,
     required this.onQuiz,
   });
 
   final HomeController controller;
+  final QuizAnswers? answers;
   final RoutinePlan plan;
   final bool showQuizPrompt;
-  final VoidCallback onScan;
   final VoidCallback onQuiz;
 
   @override
@@ -137,7 +142,7 @@ class _HomeBody extends StatelessWidget {
           child: SafeArea(
             bottom: false,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 52),
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 48),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -152,7 +157,7 @@ class _HomeBody extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 14),
+                  const SizedBox(height: 8),
                   Text(
                     MaterialLocalizations.of(context).formatFullDate(now),
                     style: text.labelMedium?.copyWith(
@@ -164,9 +169,9 @@ class _HomeBody extends StatelessWidget {
                     header: true,
                     child: Text(greeting, style: text.headlineLarge),
                   ),
-                  const SizedBox(height: 6),
+                  const SizedBox(height: 2),
                   Text(l10n.homeTagline, style: accentStyle(locale)),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 14),
                   RoutineSwitch(kind: kind, onChanged: controller.selectKind),
                 ],
               ),
@@ -182,7 +187,7 @@ class _HomeBody extends StatelessWidget {
               color: ParlaColors.cream,
               borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
             ),
-            padding: const EdgeInsets.fromLTRB(16, 22, 16, 110),
+            padding: const EdgeInsets.fromLTRB(16, 18, 16, 110),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -213,7 +218,7 @@ class _HomeBody extends StatelessWidget {
                     onRestart: controller.restart,
                   ),
                 ],
-                const SizedBox(height: 28),
+                const SizedBox(height: 22),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
@@ -241,9 +246,16 @@ class _HomeBody extends StatelessWidget {
                     done: progress.done[i],
                     onToggle: () => controller.toggle(progress.steps[i].id),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 8),
                 ],
-                const SizedBox(height: 16),
+                const SizedBox(height: 14),
+                _TodayRoutines(
+                  answers: answers,
+                  kind: kind,
+                  habits: habits,
+                  today: now,
+                ),
+                const SizedBox(height: 22),
                 Semantics(
                   header: true,
                   child: Text(l10n.habitsTitle, style: text.headlineSmall),
@@ -317,8 +329,6 @@ class _HomeBody extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 28),
-                _ScanCard(onTap: onScan),
               ],
             ),
           ),
@@ -380,56 +390,6 @@ class _WordmarkSmile extends CustomPainter {
   bool shouldRepaint(_WordmarkSmile oldDelegate) => false;
 }
 
-/// "Check a product" card: lemon surface, sun icon circle (design A+).
-class _ScanCard extends StatelessWidget {
-  const _ScanCard({required this.onTap});
-
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final text = Theme.of(context).textTheme;
-    return Material(
-      color: ParlaColors.lemon,
-      borderRadius: BorderRadius.circular(28),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(28),
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(20),
-          child: Row(
-            children: [
-              Container(
-                width: 56,
-                height: 56,
-                decoration: const BoxDecoration(
-                  color: ParlaColors.sun,
-                  shape: BoxShape.circle,
-                ),
-                alignment: Alignment.center,
-                child: const ParlaIcon(ParlaIconName.scan, size: 26),
-              ),
-              const SizedBox(width: 16),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(l10n.scanTitle, style: text.titleLarge),
-                    const SizedBox(height: 2),
-                    Text(l10n.scanBody, style: text.bodyMedium),
-                  ],
-                ),
-              ),
-              const ParlaIcon(ParlaIconName.arrowRight, strokeWidth: 2.5),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
 /// Shown until the quiz is taken: the routine is generic until then.
 class _QuizPromptCard extends StatelessWidget {
   const _QuizPromptCard({required this.onStart});
@@ -458,4 +418,162 @@ class _QuizPromptCard extends StatelessWidget {
       ),
     );
   }
+}
+
+/// The other routines due today, after the face steps: hair and body for
+/// this part of the day, weekly steps still open this week and the user's
+/// own routines for today. Each row opens the Routine tab.
+class _TodayRoutines extends StatelessWidget {
+  const _TodayRoutines({
+    required this.answers,
+    required this.kind,
+    required this.habits,
+    required this.today,
+  });
+
+  final QuizAnswers? answers;
+  final RoutineKind kind;
+  final HabitTracker habits;
+  final DateTime today;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final text = Theme.of(context).textTheme;
+    final book = ParlaScope.of(context).routines;
+    final daySlot = kind == RoutineKind.morning
+        ? RoutineSlot.morning
+        : RoutineSlot.evening;
+    final rows = <_RowData>[];
+    for (final area in [RoutineArea.hair, RoutineArea.body]) {
+      final plan = planArea(area, answers);
+      for (final slot in [daySlot, RoutineSlot.weekly]) {
+        final ids = plan.slot(slot);
+        if (ids.isEmpty) continue;
+        final done = ids.where((id) => habits.isDoneIn(slot, id)).length;
+        // A finished weekly slot waits for next week.
+        if (slot == RoutineSlot.weekly && done == ids.length) continue;
+        rows.add(
+          _RowData(
+            key: 'today-${area.name}-${slot.name}',
+            title: '${areaLabel(l10n, area)} · ${slotLabel(l10n, slot)}',
+            steps: ids.length,
+            done: done,
+            tile: area == RoutineArea.hair
+                ? ParlaColors.lilac
+                : ParlaColors.sky,
+          ),
+        );
+      }
+    }
+    for (final routine in book.routines.where((r) => r.isDueOn(today))) {
+      rows.add(
+        _RowData(
+          key: 'today-own-${routine.id}',
+          title: routine.name,
+          steps: routine.steps.length,
+          done: routine.steps.where((s) => habits.isCustomDone(s.id)).length,
+          tile: ParlaColors.blush,
+        ),
+      );
+    }
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Semantics(
+                header: true,
+                child: Text(l10n.todayRoutinesTitle, style: text.headlineSmall),
+              ),
+            ),
+            TextButton(
+              onPressed: () => context.go(Routes.habits),
+              child: Text(
+                l10n.todayRoutinesAll,
+                semanticsLabel:
+                    '${l10n.todayRoutinesAll}: '
+                    '${l10n.todayRoutinesTitle}',
+              ),
+            ),
+          ],
+        ),
+        const SizedBox(height: 6),
+        if (rows.isEmpty)
+          Text(
+            l10n.todayRoutinesNone,
+            style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
+          ),
+        for (final row in rows) ...[
+          Material(
+            key: ValueKey(row.key),
+            color: ParlaColors.white,
+            borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
+            child: InkWell(
+              borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
+              onTap: () => context.go(Routes.habits),
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(12, 10, 14, 10),
+                child: Row(
+                  children: [
+                    Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: row.tile,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      alignment: Alignment.center,
+                      child: const ParlaIcon(ParlaIconName.sparkle, size: 18),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(row.title, style: text.titleMedium),
+                          Text(
+                            l10n.routineOwnSteps(row.steps),
+                            style: text.bodySmall?.copyWith(
+                              color: ParlaColors.muted,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Text(
+                      '${row.done}/${row.steps}',
+                      style: text.labelMedium?.copyWith(
+                        color: ParlaColors.sunInk,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 8),
+        ],
+      ],
+    );
+  }
+}
+
+class _RowData {
+  const _RowData({
+    required this.key,
+    required this.title,
+    required this.steps,
+    required this.done,
+    required this.tile,
+  });
+
+  final String key;
+  final String title;
+  final int steps;
+  final int done;
+  final Color tile;
 }

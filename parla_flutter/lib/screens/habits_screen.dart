@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
+import 'package:parla_shared/parla_shared.dart';
 
 import '../habits/habit_log.dart';
 import '../habits/habit_sheets.dart';
@@ -10,10 +11,13 @@ import '../home/widgets/parla_nav_bar.dart';
 import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
 import '../routes.dart';
+import '../routines/custom_routines.dart';
+import '../routines/routine_section.dart';
 import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
 
-/// M-17 "Vərdişlər": today's habits and the last seven days.
+/// M-17 "Rutin": face, hair and body routines, the user's own routines,
+/// today's habits and the last seven days.
 ///
 /// Only plain counts and averages, no scores, targets for sleep or streaks
 /// that can be "lost": the tab should encourage, not pressure. Values are
@@ -28,6 +32,9 @@ class HabitsScreen extends StatefulWidget {
 class _HabitsScreenState extends State<HabitsScreen> {
   bool _attached = false;
 
+  /// The quiz answers, `null` until loaded or when the quiz was not taken.
+  QuizAnswers? _answers;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -35,7 +42,19 @@ class _HabitsScreenState extends State<HabitsScreen> {
       _attached = true;
       final scope = ParlaScope.of(context);
       scope.attachAccount();
+      _loadAnswers();
     }
+  }
+
+  Future<void> _loadAnswers() async {
+    QuizAnswers? answers;
+    try {
+      answers = await ParlaScope.of(context).api.myQuizAnswers();
+    } on Object {
+      answers = null; // Basic routines still work offline.
+    }
+    if (!mounted) return;
+    setState(() => _answers = answers);
   }
 
   @override
@@ -47,18 +66,33 @@ class _HabitsScreenState extends State<HabitsScreen> {
       extendBody: true,
       bottomNavigationBar: const ParlaNavBar(selected: ParlaTab.routine),
       body: ListenableBuilder(
-        listenable: Listenable.merge([habits, scope.reminders]),
-        builder: (context, _) =>
-            _HabitsBody(habits: habits, today: scope.clock()),
+        listenable: Listenable.merge([
+          habits,
+          scope.reminders,
+          scope.routines,
+        ]),
+        builder: (context, _) => _HabitsBody(
+          habits: habits,
+          book: scope.routines,
+          answers: _answers,
+          today: scope.clock(),
+        ),
       ),
     );
   }
 }
 
 class _HabitsBody extends StatelessWidget {
-  const _HabitsBody({required this.habits, required this.today});
+  const _HabitsBody({
+    required this.habits,
+    required this.book,
+    required this.answers,
+    required this.today,
+  });
 
   final HabitTracker habits;
+  final CustomRoutineBook book;
+  final QuizAnswers? answers;
   final DateTime today;
 
   @override
@@ -84,10 +118,17 @@ class _HabitsBody extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(l10n.habitsScreenIntro, style: text.bodyLarge),
-          const SizedBox(height: 24),
+          const SizedBox(height: 20),
+          RoutinesSection(
+            answers: answers,
+            habits: habits,
+            book: book,
+            today: today,
+          ),
+          const SizedBox(height: 28),
           Semantics(
             header: true,
-            child: Text(l10n.habitsToday, style: text.headlineSmall),
+            child: Text(l10n.routineDayHabits, style: text.headlineSmall),
           ),
           const SizedBox(height: 12),
           HabitCard(

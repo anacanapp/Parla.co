@@ -1,5 +1,6 @@
 import 'package:go_router/go_router.dart';
 
+import 'routines/routine_builder_screen.dart';
 import 'screens/age_screen.dart';
 import 'screens/consent_screen.dart';
 import 'screens/coming_soon_screens.dart';
@@ -32,6 +33,7 @@ abstract final class Routes {
   static const home = '/home'; // M-14
   static const habits = '/habits'; // M-17, M-18
   static const reminders = '/habits/reminders'; // Part of M-26
+  static const routineBuilder = '/habits/builder'; // Own routine (step 2)
   static const products = '/products'; // M-20, M-22
   static const productDetail = '/products/detail'; // M-21, M-23
   static const sport = '/sport'; // Workout plan (redesign step 4)
@@ -60,6 +62,14 @@ GoRouter buildRouter() => GoRouter(
     GoRoute(
       path: Routes.reminders,
       builder: (_, _) => const RemindersScreen(),
+    ),
+    GoRoute(
+      path: Routes.routineBuilder,
+      // The routine id to edit travels as `extra`; without it a new
+      // routine is made.
+      builder: (_, state) => RoutineBuilderScreen(
+        routineId: state.extra is String ? state.extra! as String : null,
+      ),
     ),
     GoRoute(
       path: Routes.products,

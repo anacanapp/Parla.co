@@ -132,6 +132,30 @@ wording rules and open legal questions: `docs/INGREDIENTS.md`.
   no score and no streak that can be lost. The water goal of 8 glasses and
   all habit wording need the expert review before launch.
 
+## Care routines and own routines (redesign step 2)
+
+- **Areas and slots.** The Routine tab shows face, hair and body routines,
+  each with morning, evening and weekly steps. The plans come from the quiz
+  answers through `planArea` in `parla_shared` (no answers: a basic plan).
+  Hair and body texts in `lib/home/routine.dart` are drafts by us, marked
+  as sample content, and need the dermatologist review like the face texts.
+- **Weekly steps** count as done for the whole week (Monday to Sunday) once
+  ticked on any day; they are kept in the same on-device habit log
+  (`weeklyDone`).
+- **Own routines** (name, area, every day or one weekday, up to 12 steps of
+  free text) are kept **on the device only**, encrypted in their own
+  `flutter_secure_storage` entry per account
+  (`SecureHabitStore.routines`, at most 20 routines). Their ticks go into
+  the habit log (`customDone`). Free text may hold anything the user types,
+  including health details, so it never reaches the server and is not used
+  for recommendations. The data export includes them (`deviceRoutines`),
+  account deletion deletes them on this phone, and a fresh installation on
+  iOS deletes leftovers like the habit entries. Reminders for own routines
+  are not built yet.
+- **Today** shows the face steps for the part of the day, then a short list
+  of the other routines due today (hair, body, open weekly steps, own
+  routines), each opening the Routine tab.
+
 ## Reminders
 
 - **Local notifications only** (`flutter_local_notifications`). The phone
@@ -179,7 +203,8 @@ wording rules and open legal questions: `docs/INGREDIENTS.md`.
 - **Expert badge.** The "approved by a dermatologist" badge only shows for
   content marked approved. The current routine steps
   (`lib/home/routine.dart`) are sample content and never show it.
-- **Habit data** is stored on the device only; see "Habits (sprint 4)".
+- **Habit data and own routines** are stored on the device only; see
+  "Habits (sprint 4)" and "Care routines and own routines".
 
 ## Not done yet (tracked, not forgotten)
 

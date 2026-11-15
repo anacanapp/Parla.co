@@ -58,7 +58,16 @@ List<RoutineStep> routineSteps(List<String> ids, String language) {
 Iterable<String> knownStepIds(String language) =>
     (_sampleText[language] ?? const {}).keys;
 
-const _minutes = {'makeup-off': 2};
+const _minutes = {
+  'makeup-off': 2,
+  'hair-wash': 5,
+  'hair-conditioner': 3,
+  'hair-mask': 15,
+  'hair-scalp-care': 2,
+  'body-shower': 8,
+  'body-scrub': 3,
+  'body-hands-feet': 3,
+};
 
 const _tiles = {
   'cleanser': ParlaColors.sage,
@@ -69,11 +78,83 @@ const _tiles = {
   'retinoid-pm': ParlaColors.sky,
   'sunscreen': ParlaColors.sun,
   'lip-balm': ParlaColors.sun,
+  'hair-detangle': ParlaColors.lilac,
+  'hair-leave-in': ParlaColors.lilac,
+  'hair-night-protect': ParlaColors.lilac,
+  'hair-wash': ParlaColors.lilac,
+  'hair-conditioner': ParlaColors.lilac,
+  'hair-mask': ParlaColors.blush,
+  'hair-scalp-care': ParlaColors.blush,
+  'body-shower': ParlaColors.sky,
+  'body-sunscreen': ParlaColors.sun,
+  'body-lotion': ParlaColors.sageTint,
+  'body-scrub': ParlaColors.sageTint,
+  'body-hands-feet': ParlaColors.blush,
 };
 
 /// id → [title, meta, tip] per language.
 const Map<String, Map<String, List<String>>> _sampleText = {
   'az': {
+    'hair-detangle': [
+      "Saçı daramaq",
+      "Uclardan köklərə · geniş dişli daraq",
+      "Uclardan başlamaq qırılmanı azaldır.",
+    ],
+    'hair-leave-in': [
+      "Yuyulmayan kondisioner",
+      "Bir az · yalnız uclara",
+      "Saçı yumşaq saxlayır, daramağı asanlaşdırır.",
+    ],
+    'hair-night-protect': [
+      "Gecə saçı qorumaq",
+      "Yumşaq rezin və ya ipək yastıq üzü",
+      "Sürtünmə azalır, saç səhər daha az dolaşır.",
+    ],
+    'hair-wash': [
+      "Saçı yumaq",
+      "Şampun baş dərisinə · ılıq su",
+      "Şampunu əsasən köklərə çək, uclar köpüklə təmizlənir.",
+    ],
+    'hair-conditioner': [
+      "Kondisioner",
+      "Uclara · 2–3 dəqiqə",
+      "Köklərə çəkmə ki, saç tez yağlanmasın.",
+    ],
+    'hair-mask': [
+      "Saç maskası",
+      "Uclara · 10–15 dəqiqə",
+      "Həftədə bir dəfə əlavə qulluq.",
+    ],
+    'hair-scalp-care': [
+      "Baş dərisinə qulluq",
+      "Yumşaq masaj · 2 dəqiqə",
+      "Dırnaqla yox, barmaq ucları ilə yüngül masaj et.",
+    ],
+    'body-shower': [
+      "Ilıq duş",
+      "5–10 dəqiqə · ılıq su",
+      "Çox isti su dərini qurudur.",
+    ],
+    'body-sunscreen': [
+      "Bədənə günəşdən qoruyucu",
+      "Açıq qalan yerlərə · SPF 30+",
+      "Qollar, boyun və dekolte tez-tez unudulur.",
+    ],
+    'body-lotion': [
+      "Bədən losyonu",
+      "Duşdan sonra · dəri bir az nəmkən",
+      "Nəm dəriyə çəkilən losyon daha yaxşı hopur.",
+    ],
+    'body-scrub': [
+      "Yumşaq skrab",
+      "Həftədə 1 dəfə · yüngül hərəkətlə",
+      "Güclü sürtmək lazım deyil.",
+    ],
+    'body-hands-feet': [
+      "Əl və ayaq qulluğu",
+      "Krem · dırnaq ətrafına da",
+      "Ayaqlara gecə krem çəkib pambıq corab geyinmək olar.",
+    ],
     'moisturiser-light': [
       "Yüngül gel krem",
       "Noxud boyda · nazik qat",
@@ -136,6 +217,66 @@ const Map<String, Map<String, List<String>>> _sampleText = {
     ],
   },
   'ru': {
+    'hair-detangle': [
+      "Расчесать волосы",
+      "От кончиков к корням · широкая расчёска",
+      "Если начинать с кончиков, волосы меньше ломаются.",
+    ],
+    'hair-leave-in': [
+      "Несмываемый кондиционер",
+      "Немного · только на кончики",
+      "Волосы остаются мягкими и легче расчёсываются.",
+    ],
+    'hair-night-protect': [
+      "Защита волос на ночь",
+      "Мягкая резинка или шёлковая наволочка",
+      "Меньше трения, утром волосы меньше путаются.",
+    ],
+    'hair-wash': [
+      "Мытьё волос",
+      "Шампунь на кожу головы · тёплая вода",
+      "Наносите шампунь в основном на корни, длину очистит пена.",
+    ],
+    'hair-conditioner': [
+      "Кондиционер",
+      "На кончики · 2–3 минуты",
+      "Не наносите на корни, чтобы волосы не жирнели быстрее.",
+    ],
+    'hair-mask': [
+      "Маска для волос",
+      "На кончики · 10–15 минут",
+      "Дополнительный уход раз в неделю.",
+    ],
+    'hair-scalp-care': [
+      "Уход за кожей головы",
+      "Мягкий массаж · 2 минуты",
+      "Массируйте подушечками пальцев, не ногтями.",
+    ],
+    'body-shower': [
+      "Тёплый душ",
+      "5–10 минут · тёплая вода",
+      "Слишком горячая вода сушит кожу.",
+    ],
+    'body-sunscreen': [
+      "Солнцезащита для тела",
+      "На открытые места · SPF 30+",
+      "Руки, шею и зону декольте часто забывают.",
+    ],
+    'body-lotion': [
+      "Лосьон для тела",
+      "После душа · на слегка влажную кожу",
+      "На влажной коже лосьон впитывается лучше.",
+    ],
+    'body-scrub': [
+      "Мягкий скраб",
+      "Раз в неделю · лёгкими движениями",
+      "Сильно тереть не нужно.",
+    ],
+    'body-hands-feet': [
+      "Уход за руками и ногами",
+      "Крем · и вокруг ногтей",
+      "На ночь можно нанести крем на стопы и надеть хлопковые носки.",
+    ],
     'moisturiser-light': [
       "Лёгкий гель-крем",
       "С горошину · тонкий слой",
@@ -198,6 +339,66 @@ const Map<String, Map<String, List<String>>> _sampleText = {
     ],
   },
   'en': {
+    'hair-detangle': [
+      "Detangle",
+      "Ends to roots · wide-tooth comb",
+      "Starting at the ends means less breakage.",
+    ],
+    'hair-leave-in': [
+      "Leave-in conditioner",
+      "A little · ends only",
+      "Keeps hair soft and easier to comb.",
+    ],
+    'hair-night-protect': [
+      "Protect hair overnight",
+      "Soft scrunchie or silk pillowcase",
+      "Less friction, fewer tangles in the morning.",
+    ],
+    'hair-wash': [
+      "Wash day",
+      "Shampoo on the scalp · lukewarm water",
+      "Shampoo mainly the roots; the lather cleans the lengths.",
+    ],
+    'hair-conditioner': [
+      "Conditioner",
+      "On the ends · 2–3 minutes",
+      "Keep it off the roots so hair stays fresh longer.",
+    ],
+    'hair-mask': [
+      "Hair mask",
+      "On the ends · 10–15 minutes",
+      "Extra care once a week.",
+    ],
+    'hair-scalp-care': [
+      "Scalp care",
+      "Gentle massage · 2 minutes",
+      "Use your fingertips, not your nails.",
+    ],
+    'body-shower': [
+      "Lukewarm shower",
+      "5–10 minutes · lukewarm water",
+      "Very hot water dries the skin.",
+    ],
+    'body-sunscreen': [
+      "Body sunscreen",
+      "On uncovered skin · SPF 30+",
+      "Arms, neck and chest are easy to forget.",
+    ],
+    'body-lotion': [
+      "Body lotion",
+      "After the shower · on slightly damp skin",
+      "Lotion on damp skin absorbs better.",
+    ],
+    'body-scrub': [
+      "Gentle scrub",
+      "Once a week · light movements",
+      "No need to rub hard.",
+    ],
+    'body-hands-feet': [
+      "Hands and feet",
+      "Cream · around the nails too",
+      "At night you can put cream on your feet and wear cotton socks.",
+    ],
     'moisturiser-light': [
       "Light gel moisturiser",
       "Pea-sized · thin layer",

@@ -3,6 +3,7 @@ import 'package:parla_shared/parla_shared.dart';
 
 import 'habits/habit_tracker.dart';
 import 'reminders/reminder_controller.dart';
+import 'routines/custom_routines.dart';
 import 'services/parla_api.dart';
 import 'state/app_settings.dart';
 import 'state/onboarding_state.dart';
@@ -18,6 +19,7 @@ class ParlaScope extends InheritedWidget {
     required this.shareExport,
     required this.habits,
     required this.reminders,
+    required this.routines,
     required this.ingredients,
     required super.child,
   });
@@ -38,19 +40,27 @@ class ParlaScope extends InheritedWidget {
   /// Reminder settings of the signed-in account (local notifications).
   final ReminderController reminders;
 
+  /// The user's own routines, kept on this device only.
+  final CustomRoutineBook routines;
+
   /// EU ingredient statuses shipped with the app (CosIng export).
   final IngredientDataset ingredients;
 
   /// Loads the signed-in account's on-device data: habits and reminders.
   Future<void> attachAccount() async {
     final id = api.accountId;
-    await Future.wait([habits.attach(id), reminders.attach(id)]);
+    await Future.wait([
+      habits.attach(id),
+      reminders.attach(id),
+      routines.attach(id),
+    ]);
   }
 
   /// Sign-out: forgets the account's on-device data in memory and cancels
   /// its reminders. The stored data stays for the next sign-in.
   Future<void> detachAccount() async {
     habits.detach();
+    routines.detach();
     await reminders.detach();
   }
 
@@ -58,6 +68,8 @@ class ParlaScope extends InheritedWidget {
   Future<void> eraseAccountData() async {
     await habits.erase();
     habits.detach();
+    await routines.erase();
+    routines.detach();
     await reminders.erase();
   }
 
