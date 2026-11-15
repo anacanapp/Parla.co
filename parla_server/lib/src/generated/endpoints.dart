@@ -26,6 +26,7 @@ import '../consent/consent_endpoint.dart' as _iu5xf735;
 import '../products/product_endpoint.dart' as _i6m7gswv;
 import '../profile/profile_endpoint.dart' as _i6ky944g;
 import '../quiz/quiz_endpoint.dart' as _iskif4sw;
+import '../routines/routine_endpoint.dart' as _ifrtvzp2;
 
 class Endpoints extends _is.EndpointDispatch {
   @override
@@ -71,6 +72,12 @@ class Endpoints extends _is.EndpointDispatch {
         ..initialize(
           server,
           'quiz',
+          null,
+        ),
+      'routine': _ifrtvzp2.RoutineEndpoint()
+        ..initialize(
+          server,
+          'routine',
           null,
         ),
     };
@@ -564,6 +571,41 @@ class Endpoints extends _is.EndpointDispatch {
                 Map<String, dynamic> params,
               ) async => (endpoints['quiz'] as _iskif4sw.QuizEndpoint)
                   .myAnswers(session),
+        ),
+      },
+    );
+    connectors['routine'] = _is.EndpointConnector(
+      name: 'routine',
+      endpoint: endpoints['routine']!,
+      methodConnectors: {
+        'myRoutines': _is.MethodConnector(
+          name: 'myRoutines',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['routine'] as _ifrtvzp2.RoutineEndpoint)
+                  .myRoutines(session),
+        ),
+        'saveRoutines': _is.MethodConnector(
+          name: 'saveRoutines',
+          params: {
+            'json': _is.ParameterDescription(
+              name: 'json',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['routine'] as _ifrtvzp2.RoutineEndpoint)
+                  .saveRoutines(
+                    session,
+                    params['json'],
+                  ),
         ),
       },
     );

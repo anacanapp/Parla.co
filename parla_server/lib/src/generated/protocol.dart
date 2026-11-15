@@ -29,6 +29,7 @@ import 'common/parla_exception.dart' as _iv1d8f8b;
 import 'consent/consent_record.dart' as _it7bphsc;
 import 'consent/consent_state.dart' as _icra10er;
 import 'consent/consent_type.dart' as _i40db2a8;
+import 'health/custom_routine_record.dart' as _idmfi0v2;
 import 'health/health_key.dart' as _ipdtgm1c;
 import 'health/health_record.dart' as _ioxvgdwn;
 import 'products/product_summary.dart' as _ikmk0g5q;
@@ -41,6 +42,7 @@ export 'common/parla_exception.dart';
 export 'consent/consent_record.dart';
 export 'consent/consent_state.dart';
 export 'consent/consent_type.dart';
+export 'health/custom_routine_record.dart';
 export 'health/health_key.dart';
 export 'health/health_record.dart';
 export 'products/product_summary.dart';
@@ -67,6 +69,7 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_it7bphsc.ConsentRecord>,
           _is.getType<_icra10er.ConsentState>,
           _is.getType<_i40db2a8.ConsentType>,
+          _is.getType<_idmfi0v2.CustomRoutineRecord>,
           _is.getType<_ipdtgm1c.HealthKey>,
           _is.getType<_ioxvgdwn.HealthRecord>,
           _is.getType<_ikmk0g5q.ProductSummary>,
@@ -79,6 +82,7 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_it7bphsc.ConsentRecord?>,
           _is.getType<_icra10er.ConsentState?>,
           _is.getType<_i40db2a8.ConsentType?>,
+          _is.getType<_idmfi0v2.CustomRoutineRecord?>,
           _is.getType<_ipdtgm1c.HealthKey?>,
           _is.getType<_ioxvgdwn.HealthRecord?>,
           _is.getType<_ikmk0g5q.ProductSummary?>,
@@ -102,6 +106,7 @@ class Protocol extends _is.DatabaseSerializationManager
           'ConsentRecord',
           'ConsentState',
           'ConsentType',
+          'CustomRoutineRecord',
           'HealthKey',
           'HealthRecord',
           'ProductSummary',
@@ -263,6 +268,68 @@ class Protocol extends _is.DatabaseSerializationManager
           ],
           type: 'btree',
           isUnique: false,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _isp.TableDefinition(
+      name: 'custom_routine_record',
+      dartName: 'CustomRoutineRecord',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'authUserId',
+          columnType: _isp.ColumnType.uuid,
+          isNullable: false,
+          dartType: 'UuidValue',
+        ),
+        _isp.ColumnDefinition(
+          name: 'ciphertext',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'nonce',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'format',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _isp.ColumnDefinition(
+          name: 'updatedAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'custom_routine_record_user_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'authUserId',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
           isPrimary: false,
         ),
       ],
@@ -611,6 +678,9 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _i40db2a8.ConsentType) {
       return _i40db2a8.ConsentType.fromJson(data) as T;
     }
+    if (t == _idmfi0v2.CustomRoutineRecord) {
+      return _idmfi0v2.CustomRoutineRecord.fromJson(data) as T;
+    }
     if (t == _ipdtgm1c.HealthKey) {
       return _ipdtgm1c.HealthKey.fromJson(data) as T;
     }
@@ -650,6 +720,12 @@ class Protocol extends _is.DatabaseSerializationManager
     }
     if (t == _is.getType<_i40db2a8.ConsentType?>()) {
       return (data != null ? _i40db2a8.ConsentType.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_idmfi0v2.CustomRoutineRecord?>()) {
+      return (data != null
+              ? _idmfi0v2.CustomRoutineRecord.fromJson(data)
+              : null)
+          as T;
     }
     if (t == _is.getType<_ipdtgm1c.HealthKey?>()) {
       return (data != null ? _ipdtgm1c.HealthKey.fromJson(data) : null) as T;
@@ -714,6 +790,7 @@ class Protocol extends _is.DatabaseSerializationManager
       _it7bphsc.ConsentRecord => 'ConsentRecord',
       _icra10er.ConsentState => 'ConsentState',
       _i40db2a8.ConsentType => 'ConsentType',
+      _idmfi0v2.CustomRoutineRecord => 'CustomRoutineRecord',
       _ipdtgm1c.HealthKey => 'HealthKey',
       _ioxvgdwn.HealthRecord => 'HealthRecord',
       _ikmk0g5q.ProductSummary => 'ProductSummary',
@@ -746,6 +823,8 @@ class Protocol extends _is.DatabaseSerializationManager
         return 'ConsentState';
       case _i40db2a8.ConsentType():
         return 'ConsentType';
+      case _idmfi0v2.CustomRoutineRecord():
+        return 'CustomRoutineRecord';
       case _ipdtgm1c.HealthKey():
         return 'HealthKey';
       case _ioxvgdwn.HealthRecord():
@@ -801,6 +880,9 @@ class Protocol extends _is.DatabaseSerializationManager
     }
     if (dataClassName == 'ConsentType') {
       return deserialize<_i40db2a8.ConsentType>(data['data']);
+    }
+    if (dataClassName == 'CustomRoutineRecord') {
+      return deserialize<_idmfi0v2.CustomRoutineRecord>(data['data']);
     }
     if (dataClassName == 'HealthKey') {
       return deserialize<_ipdtgm1c.HealthKey>(data['data']);
@@ -873,6 +955,8 @@ class Protocol extends _is.DatabaseSerializationManager
         return _ioa77d8b.AuditLogEntry.t;
       case _it7bphsc.ConsentRecord:
         return _it7bphsc.ConsentRecord.t;
+      case _idmfi0v2.CustomRoutineRecord:
+        return _idmfi0v2.CustomRoutineRecord.t;
       case _ipdtgm1c.HealthKey:
         return _ipdtgm1c.HealthKey.t;
       case _ioxvgdwn.HealthRecord:

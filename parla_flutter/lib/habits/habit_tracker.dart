@@ -126,13 +126,21 @@ class HabitTracker extends ChangeNotifier {
     }
   }
 
-  /// Steps of the user's own routines, ticked per day.
-  bool isCustomDone(String stepId) =>
-      _todayEntry?.customDone.contains(stepId) ?? false;
-
-  void toggleCustom(String stepId) => _change((day) {
-    if (!day.customDone.remove(stepId)) day.customDone.add(stepId);
-  });
+  /// Removes and returns the own-routine ticks an earlier version kept in
+  /// this log; they now live with the routines (`CustomRoutineBook`).
+  Map<String, Set<String>> takeOwnRoutineTicks() {
+    final taken = <String, Set<String>>{
+      for (final e in _log.days.entries)
+        if (e.value.customDone.isNotEmpty) e.key: {...e.value.customDone},
+    };
+    if (taken.isEmpty) return taken;
+    for (final day in _log.days.values) {
+      day.customDone.clear();
+    }
+    _log.prune(_today);
+    _save();
+    return taken;
+  }
 
   List<DateTime> _thisWeek() {
     final today = _today;

@@ -80,6 +80,13 @@ abstract interface class ParlaApi {
   /// The saved quiz answers, or `null` when the quiz was never taken.
   Future<QuizAnswers?> myQuizAnswers();
 
+  /// The user's own routines and ticks as JSON (see `CustomRoutineRules`),
+  /// or `null` when none are stored or the health consent is not granted.
+  Future<String?> myRoutines();
+
+  /// Replaces the stored own routines. Needs the health consent.
+  Future<void> saveRoutines(String json);
+
   /// The current decision for every consent (M-28).
   Future<Map<ConsentKind, bool>> consentStates();
 

@@ -54,6 +54,10 @@ class ParlaScope extends InheritedWidget {
       reminders.attach(id),
       routines.attach(id),
     ]);
+    // Own-routine ticks moved from the habit log to the routines.
+    if (id != null && api.accountId == id) {
+      await routines.adoptTicks(habits.takeOwnRoutineTicks());
+    }
   }
 
   /// Sign-out: forgets the account's on-device data in memory and cancels

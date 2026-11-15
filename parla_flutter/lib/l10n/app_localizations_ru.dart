@@ -421,7 +421,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get privacyHealthWithdrawBody =>
-      'Ваши ответы о здоровье будут сразу удалены, а уход будет подобран осторожнее. Согласие можно дать снова позже.';
+      'Ваши ответы о здоровье и копия ваших рутин на сервере будут сразу удалены, а уход будет подобран осторожнее. Ваши рутины останутся на этом телефоне. Согласие можно дать снова позже.';
 
   @override
   String get privacyWithdraw => 'Отозвать и удалить';
@@ -453,7 +453,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get deleteWhatGoes =>
-      'Сразу удаляются: профиль, ответы теста, ответы о здоровье и их ключ шифрования, аккаунт для входа. Записи о привычках и ваши рутины на этом телефоне тоже удаляются.';
+      'Сразу удаляются: профиль, ответы теста, ответы о здоровье, ваши рутины и их ключ шифрования, аккаунт для входа. Записи о привычках и копия ваших рутин на этом телефоне тоже удаляются.';
 
   @override
   String get deleteWhatStays =>
@@ -974,10 +974,6 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get builderPrivacyNote =>
-      'Твои рутины хранятся только на этом телефоне.';
-
-  @override
   String get todayRoutinesTitle => 'Рутины на сегодня';
 
   @override
@@ -985,4 +981,12 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get todayRoutinesNone => 'На сегодня других рутин нет.';
+
+  @override
+  String get builderPrivacySynced =>
+      'Твои рутины хранятся на сервере в зашифрованном виде, а на этом телефоне остаётся копия для работы без сети.';
+
+  @override
+  String get builderPrivacyDevice =>
+      'Пока твои рутины хранятся только на этом телефоне. С обновлённым согласием на данные о здоровье они будут храниться на сервере в зашифрованном виде.';
 }

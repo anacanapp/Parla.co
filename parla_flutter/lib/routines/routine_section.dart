@@ -163,7 +163,7 @@ class _RoutinesSectionState extends State<RoutinesSection> {
           _OwnRoutineCard(
             key: ValueKey('own-${routine.id}'),
             routine: routine,
-            habits: widget.habits,
+            book: widget.book,
             dueToday: routine.isDueOn(widget.today),
           ),
           const SizedBox(height: 8),
@@ -280,19 +280,19 @@ class _OwnRoutineCard extends StatelessWidget {
   const _OwnRoutineCard({
     super.key,
     required this.routine,
-    required this.habits,
+    required this.book,
     required this.dueToday,
   });
 
   final CustomRoutine routine;
-  final HabitTracker habits;
+  final CustomRoutineBook book;
   final bool dueToday;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    final done = routine.steps.where((s) => habits.isCustomDone(s.id)).length;
+    final done = routine.steps.where((s) => book.isTicked(s.id)).length;
     return SoftCard(
       radius: ParlaSpace.cardRadius,
       padding: const EdgeInsets.fromLTRB(14, 10, 6, 10),
@@ -330,8 +330,8 @@ class _OwnRoutineCard extends StatelessWidget {
                 contentPadding: EdgeInsets.zero,
                 dense: true,
                 controlAffinity: ListTileControlAffinity.leading,
-                value: habits.isCustomDone(step.id),
-                onChanged: (_) => habits.toggleCustom(step.id),
+                value: book.isTicked(step.id),
+                onChanged: (_) => book.toggleTick(step.id),
                 title: Text(step.title, style: text.bodyMedium),
               ),
         ],

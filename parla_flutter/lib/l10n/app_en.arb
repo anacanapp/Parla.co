@@ -217,7 +217,7 @@
   "privacyIntro": "Your data, your choices. Every right is one tap away.",
   "privacyConsentsTitle": "Consents",
   "privacyHealthWithdrawTitle": "Withdraw the health consent?",
-  "privacyHealthWithdrawBody": "Your health answers will be deleted right away, and your routine will be built more cautiously. You can give the consent again later.",
+  "privacyHealthWithdrawBody": "Your health answers and the server copy of your own routines will be deleted right away, and your routine will be built more cautiously. Your own routines stay on this phone. You can give the consent again later.",
   "privacyWithdraw": "Withdraw and delete",
   "privacyCancel": "Cancel",
   "privacyExportTitle": "Download my data",
@@ -227,7 +227,7 @@
   "privacySignOut": "Sign out",
   "privacyDeleteTitle": "Delete account",
   "deleteTitle": "Delete your account?",
-  "deleteWhatGoes": "Deleted right away: your profile, quiz answers, health answers and their encryption key, and your sign-in account. Your habit entries and your own routines on this phone are deleted too.",
+  "deleteWhatGoes": "Deleted right away: your profile, quiz answers, health answers, your own routines and their encryption key, and your sign-in account. Your habit entries and the copy of your own routines on this phone are deleted too.",
   "deleteWhatStays": "Kept as proof, without your name or email: your consent history (3 years) and security log entries (1 year).",
   "deleteExportFirst": "Download my data first",
   "deleteConfirmLabel": "Type {word} to confirm",
@@ -522,8 +522,9 @@
       }
     }
   },
-  "builderPrivacyNote": "Your own routines are kept only on this phone.",
   "todayRoutinesTitle": "Today's routines",
   "todayRoutinesAll": "All",
-  "todayRoutinesNone": "No other routines for today."
+  "todayRoutinesNone": "No other routines for today.",
+  "builderPrivacySynced": "Your own routines are kept encrypted on our server, with a copy on this phone for offline use.",
+  "builderPrivacyDevice": "For now your own routines are kept only on this phone. With the updated health consent they will be kept encrypted on our server."
 }

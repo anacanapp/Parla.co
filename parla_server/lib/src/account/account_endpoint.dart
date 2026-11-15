@@ -41,7 +41,9 @@ class AccountEndpoint extends Endpoint {
       session,
       where: (t) => t.authUserId.equals(userId),
     );
-    final health = await HealthStore.of(session).read(session, userId);
+    final store = HealthStore.of(session);
+    final health = await store.read(session, userId);
+    final routines = await store.readRoutines(session, userId);
 
     await writeAudit(
       session,
@@ -94,12 +96,14 @@ class AccountEndpoint extends Endpoint {
             'declined': a.declined,
           },
       ],
+      'customRoutines': routines == null ? null : jsonDecode(routines),
     });
   }
 
   /// Deletes the caller's account (checklist DEL-1, DEL-2).
   ///
-  /// In one transaction: health data and its key (crypto-shredding), quiz
+  /// In one transaction: health data, own routines and their key
+  /// (crypto-shredding), quiz
   /// answers, profile and the sign-in account with its sessions and tokens
   /// are deleted. Consent records and audit rows are kept as proof but
   /// their user id is replaced by a pseudonym.

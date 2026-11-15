@@ -413,7 +413,7 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get privacyHealthWithdrawBody =>
-      'Sağlamlıq cavablarınız dərhal silinəcək və rutin daha ehtiyatlı qurulacaq. Razılığı sonra yenidən verə bilərsiniz.';
+      'Sağlamlıq cavablarınız və öz rutinlərinizin serverdəki nüsxəsi dərhal silinəcək, rutin daha ehtiyatlı qurulacaq. Öz rutinləriniz bu telefonda qalır. Razılığı sonra yenidən verə bilərsiniz.';
 
   @override
   String get privacyWithdraw => 'Geri götür və sil';
@@ -445,7 +445,7 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get deleteWhatGoes =>
-      'Dərhal silinir: profiliniz, test cavablarınız, sağlamlıq cavablarınız və onların şifrə açarı, giriş hesabınız. Bu telefondakı vərdiş qeydləriniz və öz rutinləriniz də silinir.';
+      'Dərhal silinir: profiliniz, test cavablarınız, sağlamlıq cavablarınız, öz rutinləriniz və onların şifrə açarı, giriş hesabınız. Bu telefondakı vərdiş qeydləriniz və öz rutinlərinizin nüsxəsi də silinir.';
 
   @override
   String get deleteWhatStays =>
@@ -949,10 +949,6 @@ class AppLocalizationsAz extends AppLocalizations {
   }
 
   @override
-  String get builderPrivacyNote =>
-      'Öz rutinlərin yalnız bu telefonda saxlanılır.';
-
-  @override
   String get todayRoutinesTitle => 'Bu günün rutinləri';
 
   @override
@@ -960,4 +956,12 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get todayRoutinesNone => 'Bu gün üçün başqa rutin yoxdur.';
+
+  @override
+  String get builderPrivacySynced =>
+      'Öz rutinlərin serverdə şifrəli saxlanılır, bu telefonda isə oflayn üçün nüsxəsi qalır.';
+
+  @override
+  String get builderPrivacyDevice =>
+      'Öz rutinlərin hələlik yalnız bu telefonda saxlanılır. Yenilənmiş sağlamlıq razılığı ilə serverdə şifrəli saxlanılacaq.';
 }

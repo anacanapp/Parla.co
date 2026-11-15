@@ -99,7 +99,11 @@ class _HabitsBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    final week = WeekSummary(habits.log, today);
+    final week = WeekSummary(
+      habits.log,
+      today,
+      ownRoutineDays: book.tickedDays,
+    );
     final reminders = ParlaScope.of(context).reminders;
     final enabledReminders = reminders.settings.reminders.values
         .where((r) => r.enabled)
@@ -205,7 +209,7 @@ class _HabitsBody extends StatelessWidget {
             value: l10n.habitsWeekCareValue(week.careDays),
             dates: week.dates,
             fractions: [
-              for (final e in week.entries) (e?.hadCare ?? false) ? 1 : 0,
+              for (final c in week.care) c ? 1 : 0,
             ],
             fill: ParlaColors.sunInk,
           ),
