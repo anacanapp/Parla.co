@@ -1,12 +1,10 @@
-import 'dart:convert';
 import 'dart:math';
 
-import 'package:flutter/foundation.dart';
 import 'package:parla_shared/parla_shared.dart';
 
 import '../habits/habit_log.dart';
-import '../habits/habit_store.dart';
 import '../services/parla_api.dart';
+import '../sync/synced_document.dart';
 
 /// One step of a routine the user made herself.
 class CustomStep {
@@ -78,44 +76,38 @@ class CustomRoutine {
 /// The user's own routines and their daily ticks.
 ///
 /// With the health consent the server keeps them (encrypted) and this phone
-/// keeps an encrypted copy for offline use; changes made offline are sent
-/// on the next start. Without the consent they stay on this phone only.
-/// The names and steps are free text that may hold health details, which
-/// is why the server needs the health consent (checked there too).
-class CustomRoutineBook extends ChangeNotifier {
+/// keeps an encrypted copy for offline use; see [SyncedDocument]. Without
+/// the consent they stay on this phone only. The names and steps are free
+/// text that may hold health details, which is why the server needs the
+/// health consent (checked there too).
+class CustomRoutineBook extends SyncedDocument {
   CustomRoutineBook({
-    required this._store,
-    this._api,
+    required super.store,
+    super.api,
     DateTime Function()? clock,
     Random? random,
   }) : _clock = clock ?? DateTime.now,
        _random = random ?? Random.secure();
 
-  static const format = CustomRoutineRules.format;
   static const maxRoutines = CustomRoutineRules.maxRoutines;
 
-  final HabitStore _store;
-  final ParlaApi? _api;
   final DateTime Function() _clock;
   final Random _random;
   final List<CustomRoutine> _routines = [];
 
   /// Ticked step ids per day ("2026-11-12").
   final Map<String, Set<String>> _ticks = {};
-  String? _accountId;
 
-  /// Local changes the server has not got yet.
-  bool _pending = false;
+  @override
+  int get format => CustomRoutineRules.format;
 
-  /// Whether the server keeps the routines (health consent granted).
-  bool _synced = false;
-  bool _pushing = false;
-  bool _pushAgain = false;
+  @override
+  Future<String?> fetchRemote(ParlaApi api) => api.myRoutines();
+
+  @override
+  Future<void> sendRemote(ParlaApi api, String json) => api.saveRoutines(json);
 
   List<CustomRoutine> get routines => List.unmodifiable(_routines);
-
-  /// Whether the routines are kept on the server for this account.
-  bool get isSynced => _synced;
 
   Iterable<CustomRoutine> forArea(RoutineArea area) =>
       _routines.where((r) => r.area == area);
@@ -135,10 +127,10 @@ class CustomRoutineBook extends ChangeNotifier {
 
   /// Whether [stepId] is ticked today.
   bool isTicked(String stepId) =>
-      _ticks[_key(_clock())]?.contains(stepId) ?? false;
+      _ticks[HabitLog.keyOf(_clock())]?.contains(stepId) ?? false;
 
   void toggleTick(String stepId) {
-    final day = _ticks.putIfAbsent(_key(_clock()), () => <String>{});
+    final day = _ticks.putIfAbsent(HabitLog.keyOf(_clock()), () => <String>{});
     if (!day.remove(stepId)) day.add(stepId);
     _changed();
   }
@@ -149,51 +141,14 @@ class CustomRoutineBook extends ChangeNotifier {
       if (e.value.isNotEmpty) e.key,
   };
 
-  Future<void> attach(String? accountId) async {
-    if (accountId == _accountId && accountId != null) return;
-    _accountId = accountId;
-    _clear();
-    if (accountId != null) {
-      try {
-        final raw = await _store.read(accountId);
-        if (raw != null && _accountId == accountId) {
-          final json = jsonDecode(raw) as Map<String, Object?>;
-          if (json['format'] == format) {
-            _load(json);
-            _pending = json['pendingUpload'] == true;
-          }
-        }
-      } on Object {
-        _clear(); // Unreadable data is treated as no routines.
-      }
-    }
-    notifyListeners();
-    if (accountId != null) await _sync(accountId);
-  }
-
   /// Moves own-routine ticks kept in the habit log by an earlier version
   /// into this book, which sends them on.
   Future<void> adoptTicks(Map<String, Set<String>> ticks) async {
-    if (ticks.isEmpty || _accountId == null) return;
+    if (ticks.isEmpty || accountId == null) return;
     for (final e in ticks.entries) {
       _ticks.putIfAbsent(e.key, () => <String>{}).addAll(e.value);
     }
     await _changed();
-  }
-
-  void detach() {
-    _accountId = null;
-    _clear();
-    notifyListeners();
-  }
-
-  /// Deletes the routines on this phone. The server deletes its copy with
-  /// the account or the health consent.
-  Future<void> erase() async {
-    final id = _accountId;
-    _clear();
-    notifyListeners();
-    if (id != null) await _store.delete(id);
   }
 
   /// Adds [routine], or replaces the routine with the same id.
@@ -220,7 +175,7 @@ class CustomRoutineBook extends ChangeNotifier {
     await _changed();
   }
 
-  /// The routines and ticks in the stored format (also the data export).
+  @override
   Map<String, Object?> exportJson() => {
     'format': format,
     'routines': [for (final r in _routines) r.toJson()],
@@ -230,14 +185,14 @@ class CustomRoutineBook extends ChangeNotifier {
     },
   };
 
-  void _clear() {
+  @override
+  void clearContent() {
     _routines.clear();
     _ticks.clear();
-    _pending = false;
-    _synced = false;
   }
 
-  void _load(Map<String, Object?> json) {
+  @override
+  void load(Map<String, Object?> json) {
     _routines.clear();
     _ticks.clear();
     for (final r in (json['routines'] as List? ?? const [])) {
@@ -249,66 +204,12 @@ class CustomRoutineBook extends ChangeNotifier {
     }
   }
 
-  bool get _hasContent => _routines.isNotEmpty || tickedDays.isNotEmpty;
+  @override
+  bool get hasContent => _routines.isNotEmpty || tickedDays.isNotEmpty;
 
-  /// Server first when the consent is granted: local changes not sent yet
-  /// (or a first upload) go up, otherwise the server's copy comes down.
-  Future<void> _sync(String accountId) async {
-    final api = _api;
-    if (api == null) return;
-    try {
-      if (!await api.hasHealthConsent()) return;
-      final remote = await api.myRoutines();
-      if (_accountId != accountId) return;
-      _synced = true;
-      if (_pending || (remote == null && _hasContent)) {
-        await _push();
-      } else if (remote != null) {
-        final json = jsonDecode(remote) as Map<String, Object?>;
-        if (json['format'] != format) return;
-        _load(json);
-        notifyListeners();
-        await _writeLocal();
-      }
-    } on Object catch (error) {
-      // Offline or the server refused: the local copy keeps working and
-      // is sent on the next start.
-      debugPrint('Routines not synced: ${error.runtimeType}');
-    }
-  }
-
-  Future<void> _changed() async {
+  Future<void> _changed() {
     _prune();
-    _pending = true;
-    notifyListeners();
-    await _writeLocal();
-    await _push();
-  }
-
-  /// Sends the current state; one request at a time, the last state wins.
-  Future<void> _push() async {
-    final api = _api;
-    final id = _accountId;
-    if (api == null || id == null || !_synced) return;
-    if (_pushing) {
-      _pushAgain = true;
-      return;
-    }
-    _pushing = true;
-    try {
-      do {
-        _pushAgain = false;
-        await api.saveRoutines(jsonEncode(exportJson()));
-      } while (_pushAgain && _accountId == id);
-      if (_accountId == id) {
-        _pending = false;
-        await _writeLocal();
-      }
-    } on Object catch (error) {
-      debugPrint('Routines not sent: ${error.runtimeType}');
-    } finally {
-      _pushing = false;
-    }
+    return changed();
   }
 
   void _prune() {
@@ -322,19 +223,4 @@ class CustomRoutineBook extends ChangeNotifier {
       (day, steps) => steps.isEmpty || DateTime.parse(day).isBefore(oldest),
     );
   }
-
-  Future<void> _writeLocal() async {
-    final id = _accountId;
-    if (id == null) return;
-    try {
-      await _store.write(
-        id,
-        jsonEncode({...exportJson(), 'pendingUpload': _pending}),
-      );
-    } on Object catch (error) {
-      debugPrint('Routines not saved: ${error.runtimeType}');
-    }
-  }
-
-  static String _key(DateTime day) => HabitLog.keyOf(day);
 }

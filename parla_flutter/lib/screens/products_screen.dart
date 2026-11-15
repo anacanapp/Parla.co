@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parla_shared/parla_shared.dart';
 
+import '../check/care_list.dart';
+import '../check/preference_ui.dart';
 import '../home/widgets/home_cards.dart';
 import '../home/widgets/parla_nav_bar.dart';
 import '../l10n/app_localizations.dart';
@@ -12,8 +14,9 @@ import '../ui/brand.dart';
 import '../ui/common.dart';
 import '../ui/parla_icons.dart';
 
-/// M-20 product search and M-22 "nothing found". Searches go through our
-/// server, never straight to Open Beauty Facts.
+/// M-20 "Yoxla": product search, the user's preferences and recently
+/// checked products; M-22 "nothing found". Searches go through our server,
+/// never straight to Open Beauty Facts.
 class ProductSearchScreen extends StatefulWidget {
   const ProductSearchScreen({super.key});
 
@@ -33,9 +36,10 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
     super.dispose();
   }
 
-  Future<void> _search() async {
+  Future<void> _search([String? text]) async {
     final l10n = AppLocalizations.of(context);
     final api = ParlaScope.of(context).api;
+    if (text != null) _query.text = text;
     final query = _query.text.trim();
     if (query.length < 2) {
       setState(() => _hint = l10n.productsQueryTooShort);
@@ -58,8 +62,6 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final text = Theme.of(context).textTheme;
     final results = _results;
     return Scaffold(
       backgroundColor: ParlaColors.cream,
@@ -67,66 +69,166 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
       bottomNavigationBar: const ParlaNavBar(selected: ParlaTab.check),
       body: SafeArea(
         bottom: false,
-        child: ListView(
-          padding: const EdgeInsets.fromLTRB(20, 24, 20, 120),
-          children: [
-            Semantics(
-              header: true,
-              child: Text(l10n.productsTitle, style: text.headlineLarge),
-            ),
-            const SizedBox(height: 6),
-            Text(l10n.productsIntro, style: text.bodyLarge),
-            const SizedBox(height: 20),
-            TextField(
-              key: const ValueKey('product-query'),
-              controller: _query,
-              textInputAction: TextInputAction.search,
-              maxLength: 80,
-              decoration: InputDecoration(
-                labelText: l10n.productsSearchLabel,
-                errorText: _hint,
-                counterText: '',
-                border: const OutlineInputBorder(),
-                filled: true,
-                fillColor: ParlaColors.white,
-              ),
-              onSubmitted: (_) => _search(),
-            ),
-            const SizedBox(height: 12),
-            FilledButton(
-              onPressed: _busy ? null : _search,
-              child: _busy
-                  ? const SizedBox(
-                      width: 24,
-                      height: 24,
-                      child: CircularProgressIndicator(strokeWidth: 3),
-                    )
-                  : Text(l10n.productsSearchButton),
-            ),
-            const SizedBox(height: 24),
-            if (results != null && results.isEmpty)
-              SoftCard(
-                key: const ValueKey('products-not-found'),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(l10n.productsNotFoundTitle, style: text.titleLarge),
-                    const SizedBox(height: 6),
-                    Text(l10n.productsNotFoundBody, style: text.bodyMedium),
-                  ],
-                ),
-              ),
-            if (results != null)
-              for (final product in results) ...[
-                _ProductTile(
-                  product: product,
-                  onTap: () => context.go(Routes.productDetail, extra: product),
-                ),
-                const SizedBox(height: 12),
-              ],
-          ],
+        child: ListenableBuilder(
+          listenable: ParlaScope.of(context).careList,
+          builder: (context, _) => _body(context, results),
         ),
       ),
+    );
+  }
+
+  Widget _body(BuildContext context, List<ProductResult>? results) {
+    final l10n = AppLocalizations.of(context);
+    final text = Theme.of(context).textTheme;
+    final book = ParlaScope.of(context).careList;
+    return ListView(
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 120),
+      children: [
+        Semantics(
+          header: true,
+          child: Text(l10n.productsTitle, style: text.headlineLarge),
+        ),
+        const SizedBox(height: 6),
+        Text(l10n.productsIntro, style: text.bodyLarge),
+        const SizedBox(height: 20),
+        TextField(
+          key: const ValueKey('product-query'),
+          controller: _query,
+          textInputAction: TextInputAction.search,
+          maxLength: 80,
+          decoration: InputDecoration(
+            labelText: l10n.productsSearchLabel,
+            errorText: _hint,
+            counterText: '',
+            border: const OutlineInputBorder(),
+            filled: true,
+            fillColor: ParlaColors.white,
+          ),
+          onSubmitted: (_) => _search(),
+        ),
+        const SizedBox(height: 12),
+        FilledButton(
+          onPressed: _busy ? null : _search,
+          child: _busy
+              ? const SizedBox(
+                  width: 24,
+                  height: 24,
+                  child: CircularProgressIndicator(strokeWidth: 3),
+                )
+              : Text(l10n.productsSearchButton),
+        ),
+        const SizedBox(height: 8),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: ParlaColors.white,
+                borderRadius: BorderRadius.circular(999),
+                border: Border.all(color: ParlaColors.line),
+              ),
+              child: Text(
+                l10n.checkBarcodeSoon,
+                style: text.labelMedium?.copyWith(color: ParlaColors.muted),
+              ),
+            ),
+            TextButton.icon(
+              key: const ValueKey('open-shopping'),
+              onPressed: () => context.go(Routes.shoppingList),
+              icon: const ParlaIcon(ParlaIconName.check, size: 18),
+              label: Text(l10n.discoverShopping),
+            ),
+          ],
+        ),
+        const SizedBox(height: 20),
+        if (results != null && results.isEmpty)
+          SoftCard(
+            key: const ValueKey('products-not-found'),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(l10n.productsNotFoundTitle, style: text.titleLarge),
+                const SizedBox(height: 6),
+                Text(l10n.productsNotFoundBody, style: text.bodyMedium),
+              ],
+            ),
+          ),
+        if (results != null)
+          for (final product in results) ...[
+            _ProductTile(
+              product: product,
+              onTap: () => context.go(Routes.productDetail, extra: product),
+            ),
+            const SizedBox(height: 12),
+          ],
+        const SizedBox(height: 8),
+        Wrap(
+          alignment: WrapAlignment.spaceBetween,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            SizedBox(
+              child: Semantics(
+                header: true,
+                child: Text(l10n.checkPrefsTitle, style: text.titleLarge),
+              ),
+            ),
+            TextButton(
+              key: const ValueKey('prefs-edit'),
+              onPressed: () => editPreferences(context, book),
+              child: Text(
+                book.preferences.isEmpty
+                    ? l10n.checkPrefsAdd
+                    : l10n.checkPrefsEdit,
+              ),
+            ),
+          ],
+        ),
+        if (book.preferences.isEmpty)
+          Text(
+            l10n.checkPrefsEmpty,
+            style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
+          )
+        else
+          PreferenceChips(ids: book.preferences),
+        if (book.recent.isNotEmpty) ...[
+          const SizedBox(height: 24),
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              SizedBox(
+                child: Semantics(
+                  header: true,
+                  child: Text(
+                    l10n.checkRecentTitle,
+                    style: text.titleLarge,
+                  ),
+                ),
+              ),
+              TextButton(
+                onPressed: book.clearRecent,
+                child: Text(
+                  l10n.checkRecentClear,
+                  semanticsLabel:
+                      '${l10n.checkRecentClear}: ${l10n.checkRecentTitle}',
+                ),
+              ),
+            ],
+          ),
+          for (final r in book.recent)
+            ListTile(
+              key: ValueKey('recent-${r.code}'),
+              contentPadding: EdgeInsets.zero,
+              title: Text(r.name, style: text.titleMedium),
+              subtitle: r.brand == null ? null : Text(r.brand!),
+              trailing: const Icon(Icons.search, size: 20),
+              onTap: () => _search(r.name),
+            ),
+        ],
+      ],
     );
   }
 }
@@ -166,13 +268,68 @@ class _ProductTile extends StatelessWidget {
 /// M-21 product detail with the ingredient list and EU statuses, and M-23
 /// ingredient detail as a sheet. Neutral, sourced statuses only; no verdict
 /// on the product and nothing personal (no quiz or health data is used).
-class ProductDetailScreen extends StatelessWidget {
+class ProductDetailScreen extends StatefulWidget {
   const ProductDetailScreen({super.key, required this.product});
 
   final ProductResult product;
 
   @override
-  Widget build(BuildContext context) {
+  State<ProductDetailScreen> createState() => _ProductDetailScreenState();
+}
+
+class _ProductDetailScreenState extends State<ProductDetailScreen> {
+  bool _recorded = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_recorded) return;
+    _recorded = true;
+    final p = widget.product;
+    final book = ParlaScope.of(context).careList;
+    // After this frame: the book notifies listeners, which must not
+    // happen while the screen builds.
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => book.addRecent(
+        code: p.code,
+        source: p.source,
+        name: p.name,
+        brand: p.brand,
+      ),
+    );
+  }
+
+  Future<void> _addToList(CareListBook book) async {
+    final l10n = AppLocalizations.of(context);
+    final p = widget.product;
+    final added = await book.addItem(
+      p.brand == null ? p.name : '${p.brand} · ${p.name}',
+      origin: 'check',
+      code: p.code,
+      source: p.source,
+    );
+    if (!mounted) return;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(
+          added
+              ? l10n.resultAdded
+              : l10n.shoppingFull(CareListRules.maxShopping),
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) => ListenableBuilder(
+    listenable: ParlaScope.of(context).careList,
+    builder: (context, _) => _build(context),
+  );
+
+  Widget _build(BuildContext context) {
+    final product = widget.product;
+    final book = ParlaScope.of(context).careList;
+    final inList = book.hasProduct(product.code, product.source);
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
     final dataset = ParlaScope.of(context).ingredients;
@@ -202,6 +359,21 @@ class ProductDetailScreen extends StatelessWidget {
               style: text.bodyLarge?.copyWith(color: ParlaColors.muted),
             ),
           ],
+          const SizedBox(height: 16),
+          OutlinedButton.icon(
+            key: const ValueKey('add-to-list'),
+            onPressed: inList ? null : () => _addToList(book),
+            icon: ParlaIcon(
+              inList ? ParlaIconName.check : ParlaIconName.plus,
+              size: 18,
+            ),
+            label: Text(inList ? l10n.resultInList : l10n.resultAddToList),
+          ),
+          const SizedBox(height: 20),
+          _PreferencesCard(
+            results: checkPreferences(ingredients, book.preferences),
+            onEdit: () => editPreferences(context, book),
+          ),
           const SizedBox(height: 24),
           Text(l10n.productIngredientsTitle, style: text.headlineSmall),
           const SizedBox(height: 8),
@@ -246,6 +418,107 @@ class ProductDetailScreen extends StatelessWidget {
               style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
             ),
           ],
+        ],
+      ),
+    );
+  }
+}
+
+/// How the product fits the user's own preferences. Neutral wording only:
+/// "fits" or "contains X", never a score or a warning colour.
+class _PreferencesCard extends StatelessWidget {
+  const _PreferencesCard({required this.results, required this.onEdit});
+
+  final List<PreferenceResult> results;
+  final VoidCallback onEdit;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final text = Theme.of(context).textTheme;
+    final known = results.where((r) => r.outcome != PreferenceOutcome.unknown);
+    final fits = known.where((r) => r.outcome == PreferenceOutcome.fits).length;
+    return SoftCard(
+      key: const ValueKey('prefs-result'),
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Wrap(
+            alignment: WrapAlignment.spaceBetween,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            children: [
+              SizedBox(
+                child: Text(l10n.resultPrefsTitle, style: text.titleMedium),
+              ),
+              TextButton(
+                onPressed: onEdit,
+                child: Text(
+                  results.isEmpty ? l10n.checkPrefsAdd : l10n.checkPrefsEdit,
+                ),
+              ),
+            ],
+          ),
+          if (results.isEmpty)
+            Text(l10n.resultPrefsNone, style: text.bodyMedium)
+          else ...[
+            if (known.isNotEmpty)
+              Text(
+                l10n.resultPrefsSummary(fits, known.length),
+                style: text.titleLarge,
+              ),
+            const SizedBox(height: 8),
+            for (final r in results)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(top: 2),
+                      child: ParlaIcon(
+                        r.outcome == PreferenceOutcome.fits
+                            ? ParlaIconName.check
+                            : ParlaIconName.sparkle,
+                        size: 18,
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            preferenceLabel(l10n, r.preference.id),
+                            style: text.titleSmall,
+                          ),
+                          Text(
+                            switch (r.outcome) {
+                              PreferenceOutcome.fits =>
+                                r.preference.cautious
+                                    ? l10n.resultPrefVeganFits
+                                    : l10n.resultPrefFits,
+                              PreferenceOutcome.conflicts =>
+                                l10n.resultPrefContains(r.found.join(', ')),
+                              PreferenceOutcome.unknown =>
+                                l10n.resultPrefUnknown,
+                            },
+                            style: text.bodyMedium?.copyWith(
+                              color: ParlaColors.muted,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+          ],
+          const SizedBox(height: 8),
+          Text(
+            l10n.resultPrefsNote,
+            style: text.bodySmall?.copyWith(color: ParlaColors.muted),
+          ),
         ],
       ),
     );

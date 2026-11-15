@@ -964,4 +964,154 @@ class AppLocalizationsAz extends AppLocalizations {
   @override
   String get builderPrivacyDevice =>
       'Öz rutinlərin hələlik yalnız bu telefonda saxlanılır. Yenilənmiş sağlamlıq razılığı ilə serverdə şifrəli saxlanılacaq.';
+
+  @override
+  String get checkPrefsTitle => 'Sənin seçimlərin';
+
+  @override
+  String get checkPrefsEdit => 'Dəyiş';
+
+  @override
+  String get checkPrefsEmpty =>
+      'Sənin üçün vacib olanı seç, tərkibi seçimlərinlə tutuşduraq.';
+
+  @override
+  String get checkPrefsAdd => 'Seçim əlavə et';
+
+  @override
+  String get checkPrefsSheetTitle => 'Sənin üçün nə vacibdir?';
+
+  @override
+  String get checkPrefsSave => 'Yadda saxla';
+
+  @override
+  String get prefFragranceFree => 'Ətirsiz';
+
+  @override
+  String get prefAlcoholFree => 'Spirtsiz';
+
+  @override
+  String get prefSulfateFree => 'Sulfatsız';
+
+  @override
+  String get prefSiliconeFree => 'Silikonsuz';
+
+  @override
+  String get prefParabenFree => 'Parabensiz';
+
+  @override
+  String get prefVegan => 'Vegan';
+
+  @override
+  String get prefAlcoholFreeHint => 'Yağlı spirtlər (cetyl, cetearyl) sayılmır';
+
+  @override
+  String get prefVeganHint =>
+      'Yalnız tanınan heyvan mənşəli maddələr yoxlanılır';
+
+  @override
+  String get checkBarcodeSoon => 'Barkod skaneri · tezliklə';
+
+  @override
+  String get checkRecentTitle => 'Son yoxlanılanlar';
+
+  @override
+  String get checkRecentClear => 'Təmizlə';
+
+  @override
+  String get resultPrefsTitle => 'Sənin seçimlərinlə';
+
+  @override
+  String resultPrefsSummary(int fits, int count) {
+    return 'Seçimlərindən $fits / $count uyğundur';
+  }
+
+  @override
+  String get resultPrefFits => 'Uyğundur';
+
+  @override
+  String resultPrefContains(String names) {
+    return 'Tərkibdə var: $names';
+  }
+
+  @override
+  String get resultPrefVeganFits => 'Tanınan heyvan mənşəli maddə tapılmadı';
+
+  @override
+  String get resultPrefUnknown =>
+      'Tərkib siyahısı olmadığı üçün yoxlamaq olmur';
+
+  @override
+  String get resultPrefsNone =>
+      'Seçimlərini əlavə et ki, tərkibi onlarla tutuşduraq.';
+
+  @override
+  String get resultPrefsNote =>
+      'Parla məhsulları qiymətləndirmir və bal vermir. Uyğunluq yalnız sənin seçimlərinə və tərkib siyahısına əsaslanır.';
+
+  @override
+  String get resultAddToList => 'Alış siyahısına';
+
+  @override
+  String get resultInList => 'Siyahıdadır';
+
+  @override
+  String get resultAdded => 'Alış siyahısına əlavə olundu.';
+
+  @override
+  String shoppingCount(int bought, int total) {
+    return '$bought / $total alındı';
+  }
+
+  @override
+  String get shoppingNewHint => 'Yeni məhsul';
+
+  @override
+  String get shoppingAdd => 'Əlavə et';
+
+  @override
+  String get shoppingEmpty => 'Siyahı boşdur. Lazım olanları burada qeyd et.';
+
+  @override
+  String get shoppingAreaOther => 'Digər';
+
+  @override
+  String get shoppingFromCheck => 'Yoxla bölməsindən';
+
+  @override
+  String shoppingRemove(String title) {
+    return 'Sil: $title';
+  }
+
+  @override
+  String get shoppingRemoveBought => 'Alınanları sil';
+
+  @override
+  String shoppingFull(int count) {
+    return 'Siyahıda ən çox $count məhsul ola bilər.';
+  }
+
+  @override
+  String get careListSynced =>
+      'Seçimlərin və alış siyahın serverdə şifrəli saxlanılır, bu telefonda isə oflayn üçün nüsxəsi qalır.';
+
+  @override
+  String get careListDevice =>
+      'Seçimlərin və alış siyahın hələlik yalnız bu telefonda saxlanılır. Yenilənmiş sağlamlıq razılığı ilə serverdə şifrəli saxlanılacaq.';
+
+  @override
+  String get shopTitle => 'Parla Mağaza';
+
+  @override
+  String get shopBody =>
+      'Rutinindəki məhsullar, bir toxunuşla. Alış siyahını birbaşa sifariş edə, seçimlərinə uyğun məhsulları tapa biləcəksən.';
+
+  @override
+  String get shopSoonCard => 'Parla Mağaza tezliklə';
+
+  @override
+  String get shopSoonCardBody => 'Siyahını birbaşa sifariş edə biləcəksən';
+
+  @override
+  String get shopOpenList => 'Alış siyahıma bax';
 }

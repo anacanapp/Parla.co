@@ -10,6 +10,7 @@ import 'reminders/reminder_controller.dart';
 import 'reminders/reminder_scheduler.dart';
 import 'parla_scope.dart';
 import 'routes.dart';
+import 'check/care_list.dart';
 import 'routines/custom_routines.dart';
 import 'services/export_share.dart';
 import 'services/parla_api.dart';
@@ -27,6 +28,7 @@ class ParlaApp extends StatefulWidget {
     this.shareExport = shareExportFile,
     this.habitStore = const SecureHabitStore(),
     this.routineStore = const SecureHabitStore.routines(),
+    this.careListStore = const SecureHabitStore.careList(),
     this.reminderScheduler,
     this.ingredientDataset,
   });
@@ -39,6 +41,9 @@ class ParlaApp extends StatefulWidget {
 
   /// Where the user's own routines are kept (on the device).
   final HabitStore routineStore;
+
+  /// Where the phone copy of the "Yoxla" data is kept.
+  final HabitStore careListStore;
 
   /// Defaults to local notifications on the device.
   final ReminderScheduler? reminderScheduler;
@@ -55,6 +60,12 @@ class _ParlaAppState extends State<ParlaApp> {
   final OnboardingState _onboarding = OnboardingState();
   late final HabitTracker _habits = HabitTracker(
     store: widget.habitStore,
+    clock: widget.clock,
+  );
+
+  late final CareListBook _careList = CareListBook(
+    store: widget.careListStore,
+    api: widget.api,
     clock: widget.clock,
   );
 
@@ -89,6 +100,7 @@ class _ParlaAppState extends State<ParlaApp> {
     widget.settings.removeListener(_onSettings);
     _reminders.dispose();
     _routines.dispose();
+    _careList.dispose();
     _habits.dispose();
     _router.dispose();
     super.dispose();
@@ -105,6 +117,7 @@ class _ParlaAppState extends State<ParlaApp> {
       habits: _habits,
       reminders: _reminders,
       routines: _routines,
+      careList: _careList,
       ingredients: widget.ingredientDataset ?? euIngredientDataset,
       child: ListenableBuilder(
         listenable: widget.settings,

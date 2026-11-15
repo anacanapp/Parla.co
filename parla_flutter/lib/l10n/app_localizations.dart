@@ -1791,6 +1791,270 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'For now your own routines are kept only on this phone. With the updated health consent they will be kept encrypted on our server.'**
   String get builderPrivacyDevice;
+
+  /// No description provided for @checkPrefsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your preferences'**
+  String get checkPrefsTitle;
+
+  /// No description provided for @checkPrefsEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Change'**
+  String get checkPrefsEdit;
+
+  /// No description provided for @checkPrefsEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick what matters to you and we compare the ingredients with your picks.'**
+  String get checkPrefsEmpty;
+
+  /// No description provided for @checkPrefsAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add preferences'**
+  String get checkPrefsAdd;
+
+  /// No description provided for @checkPrefsSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What matters to you?'**
+  String get checkPrefsSheetTitle;
+
+  /// No description provided for @checkPrefsSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get checkPrefsSave;
+
+  /// No description provided for @prefFragranceFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Fragrance free'**
+  String get prefFragranceFree;
+
+  /// No description provided for @prefAlcoholFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Alcohol free'**
+  String get prefAlcoholFree;
+
+  /// No description provided for @prefSulfateFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Sulfate free'**
+  String get prefSulfateFree;
+
+  /// No description provided for @prefSiliconeFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Silicone free'**
+  String get prefSiliconeFree;
+
+  /// No description provided for @prefParabenFree.
+  ///
+  /// In en, this message translates to:
+  /// **'Paraben free'**
+  String get prefParabenFree;
+
+  /// No description provided for @prefVegan.
+  ///
+  /// In en, this message translates to:
+  /// **'Vegan'**
+  String get prefVegan;
+
+  /// No description provided for @prefAlcoholFreeHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Fatty alcohols (cetyl, cetearyl) do not count'**
+  String get prefAlcoholFreeHint;
+
+  /// No description provided for @prefVeganHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Only known animal-derived ingredients are checked'**
+  String get prefVeganHint;
+
+  /// No description provided for @checkBarcodeSoon.
+  ///
+  /// In en, this message translates to:
+  /// **'Barcode scanner · soon'**
+  String get checkBarcodeSoon;
+
+  /// No description provided for @checkRecentTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Recently checked'**
+  String get checkRecentTitle;
+
+  /// No description provided for @checkRecentClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get checkRecentClear;
+
+  /// No description provided for @resultPrefsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'With your preferences'**
+  String get resultPrefsTitle;
+
+  /// No description provided for @resultPrefsSummary.
+  ///
+  /// In en, this message translates to:
+  /// **'{fits} of {count} of your picks fit'**
+  String resultPrefsSummary(int fits, int count);
+
+  /// No description provided for @resultPrefFits.
+  ///
+  /// In en, this message translates to:
+  /// **'Fits'**
+  String get resultPrefFits;
+
+  /// No description provided for @resultPrefContains.
+  ///
+  /// In en, this message translates to:
+  /// **'Contains: {names}'**
+  String resultPrefContains(String names);
+
+  /// No description provided for @resultPrefVeganFits.
+  ///
+  /// In en, this message translates to:
+  /// **'No known animal-derived ingredient found'**
+  String get resultPrefVeganFits;
+
+  /// No description provided for @resultPrefUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Cannot check: no ingredient list'**
+  String get resultPrefUnknown;
+
+  /// No description provided for @resultPrefsNone.
+  ///
+  /// In en, this message translates to:
+  /// **'Add your preferences and we compare the ingredients with them.'**
+  String get resultPrefsNone;
+
+  /// No description provided for @resultPrefsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Parla does not rate products or give scores. The match is based only on your picks and the ingredient list.'**
+  String get resultPrefsNote;
+
+  /// No description provided for @resultAddToList.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to shopping list'**
+  String get resultAddToList;
+
+  /// No description provided for @resultInList.
+  ///
+  /// In en, this message translates to:
+  /// **'On your list'**
+  String get resultInList;
+
+  /// No description provided for @resultAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'Added to your shopping list.'**
+  String get resultAdded;
+
+  /// No description provided for @shoppingCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{bought} of {total} bought'**
+  String shoppingCount(int bought, int total);
+
+  /// No description provided for @shoppingNewHint.
+  ///
+  /// In en, this message translates to:
+  /// **'New item'**
+  String get shoppingNewHint;
+
+  /// No description provided for @shoppingAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get shoppingAdd;
+
+  /// No description provided for @shoppingEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'The list is empty. Note what you need here.'**
+  String get shoppingEmpty;
+
+  /// No description provided for @shoppingAreaOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get shoppingAreaOther;
+
+  /// No description provided for @shoppingFromCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'From Check'**
+  String get shoppingFromCheck;
+
+  /// No description provided for @shoppingRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove: {title}'**
+  String shoppingRemove(String title);
+
+  /// No description provided for @shoppingRemoveBought.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove bought'**
+  String get shoppingRemoveBought;
+
+  /// No description provided for @shoppingFull.
+  ///
+  /// In en, this message translates to:
+  /// **'The list can hold at most {count} items.'**
+  String shoppingFull(int count);
+
+  /// No description provided for @careListSynced.
+  ///
+  /// In en, this message translates to:
+  /// **'Your preferences and shopping list are kept encrypted on our server, with a copy on this phone for offline use.'**
+  String get careListSynced;
+
+  /// No description provided for @careListDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'For now your preferences and shopping list are kept only on this phone. With the updated health consent they will be kept encrypted on our server.'**
+  String get careListDevice;
+
+  /// No description provided for @shopTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Parla Shop'**
+  String get shopTitle;
+
+  /// No description provided for @shopBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The products in your routine, in one tap. You will be able to order your shopping list directly and find products that fit your picks.'**
+  String get shopBody;
+
+  /// No description provided for @shopSoonCard.
+  ///
+  /// In en, this message translates to:
+  /// **'Parla Shop is coming'**
+  String get shopSoonCard;
+
+  /// No description provided for @shopSoonCardBody.
+  ///
+  /// In en, this message translates to:
+  /// **'You will be able to order your list directly'**
+  String get shopSoonCardBody;
+
+  /// No description provided for @shopOpenList.
+  ///
+  /// In en, this message translates to:
+  /// **'See my shopping list'**
+  String get shopOpenList;
 }
 
 class _AppLocalizationsDelegate

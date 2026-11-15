@@ -3,6 +3,7 @@ import 'package:parla_shared/parla_shared.dart';
 
 import 'habits/habit_tracker.dart';
 import 'reminders/reminder_controller.dart';
+import 'check/care_list.dart';
 import 'routines/custom_routines.dart';
 import 'services/parla_api.dart';
 import 'state/app_settings.dart';
@@ -20,6 +21,7 @@ class ParlaScope extends InheritedWidget {
     required this.habits,
     required this.reminders,
     required this.routines,
+    required this.careList,
     required this.ingredients,
     required super.child,
   });
@@ -40,8 +42,11 @@ class ParlaScope extends InheritedWidget {
   /// Reminder settings of the signed-in account (local notifications).
   final ReminderController reminders;
 
-  /// The user's own routines, kept on this device only.
+  /// The user's own routines (server with the health consent, else phone).
   final CustomRoutineBook routines;
+
+  /// Product preferences, checked products and the shopping list.
+  final CareListBook careList;
 
   /// EU ingredient statuses shipped with the app (CosIng export).
   final IngredientDataset ingredients;
@@ -53,6 +58,7 @@ class ParlaScope extends InheritedWidget {
       habits.attach(id),
       reminders.attach(id),
       routines.attach(id),
+      careList.attach(id),
     ]);
     // Own-routine ticks moved from the habit log to the routines.
     if (id != null && api.accountId == id) {
@@ -65,6 +71,7 @@ class ParlaScope extends InheritedWidget {
   Future<void> detachAccount() async {
     habits.detach();
     routines.detach();
+    careList.detach();
     await reminders.detach();
   }
 
@@ -74,6 +81,8 @@ class ParlaScope extends InheritedWidget {
     habits.detach();
     await routines.erase();
     routines.detach();
+    await careList.erase();
+    careList.detach();
     await reminders.erase();
   }
 

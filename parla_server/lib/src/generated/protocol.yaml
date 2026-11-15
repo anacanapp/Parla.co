@@ -27,6 +27,9 @@ profile:
 quiz:
   - saveAnswers:
   - myAnswers:
+careList:
+  - myCareList:
+  - saveCareList:
 routine:
   - myRoutines:
   - saveRoutines:

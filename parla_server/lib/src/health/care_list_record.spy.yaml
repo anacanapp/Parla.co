@@ -1,0 +1,18 @@
+### The user's product preferences, recently checked products and shopping
+### list ("Yoxla"), one row per user. [ciphertext] is AES-256-GCM under the
+### same data key as the health answers, with the user id bound in as
+### associated data. Stored only with a health consent whose text covers
+### it, because the shopping list is free text that may hold health
+### details; deleted with the consent.
+class: CareListRecord
+table: care_list_record
+fields:
+  authUserId: UuidValue
+  ciphertext: String
+  nonce: String
+  format: int
+  updatedAt: DateTime
+indexes:
+  care_list_record_user_idx:
+    fields: authUserId
+    unique: true

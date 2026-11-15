@@ -106,7 +106,8 @@ class HealthStore {
     }
   }
 
-  /// Deletes the user's health answers, own routines and data key (CON-6).
+  /// Deletes the user's health answers, own routines, care list and data
+  /// key (CON-6).
   /// Returns whether anything was deleted.
   Future<bool> erase(
     Session session,
@@ -123,12 +124,20 @@ class HealthStore {
       where: (t) => t.authUserId.equals(userId),
       transaction: transaction,
     );
+    final careLists = await CareListRecord.db.deleteWhere(
+      session,
+      where: (t) => t.authUserId.equals(userId),
+      transaction: transaction,
+    );
     final keys = await HealthKey.db.deleteWhere(
       session,
       where: (t) => t.authUserId.equals(userId),
       transaction: transaction,
     );
-    return records.isNotEmpty || routines.isNotEmpty || keys.isNotEmpty;
+    return records.isNotEmpty ||
+        routines.isNotEmpty ||
+        careLists.isNotEmpty ||
+        keys.isNotEmpty;
   }
 
   /// The user's own routines as the JSON the app sent, or `null`.
@@ -143,20 +152,7 @@ class HealthStore {
       transaction: transaction,
     );
     if (record == null) return null;
-    final key = await HealthKey.db.findFirstRow(
-      session,
-      where: (t) => t.authUserId.equals(userId),
-      transaction: transaction,
-    );
-    if (key == null) return null;
-    final dataKey = await _crypto.unwrap(
-      Sealed(ciphertext: key.wrappedKey, nonce: key.nonce),
-    );
-    return _crypto.open(
-      dataKey,
-      Sealed(ciphertext: record.ciphertext, nonce: record.nonce),
-      userId.toString(),
-    );
+    return _open(session, userId, record.ciphertext, record.nonce, transaction);
   }
 
   /// Replaces the user's own routines with [json] (already validated).
@@ -166,8 +162,7 @@ class HealthStore {
     String json, {
     required Transaction transaction,
   }) async {
-    final dataKey = await _dataKey(session, userId, transaction);
-    final sealed = await _crypto.seal(dataKey, json, userId.toString());
+    final sealed = await _seal(session, userId, json, transaction);
     final existing = await CustomRoutineRecord.db.findFirstRow(
       session,
       where: (t) => t.authUserId.equals(userId),
@@ -198,6 +193,96 @@ class HealthStore {
         transaction: transaction,
       );
     }
+  }
+
+  /// The user's preferences, checked products and shopping list as the
+  /// JSON the app sent, or `null`.
+  Future<String?> readCareList(
+    Session session,
+    UuidValue userId, {
+    Transaction? transaction,
+  }) async {
+    final record = await CareListRecord.db.findFirstRow(
+      session,
+      where: (t) => t.authUserId.equals(userId),
+      transaction: transaction,
+    );
+    if (record == null) return null;
+    return _open(session, userId, record.ciphertext, record.nonce, transaction);
+  }
+
+  /// Replaces the user's care list with [json] (already validated).
+  Future<void> writeCareList(
+    Session session,
+    UuidValue userId,
+    String json, {
+    required Transaction transaction,
+  }) async {
+    final sealed = await _seal(session, userId, json, transaction);
+    final existing = await CareListRecord.db.findFirstRow(
+      session,
+      where: (t) => t.authUserId.equals(userId),
+      transaction: transaction,
+    );
+    final now = DateTime.now().toUtc();
+    if (existing == null) {
+      await CareListRecord.db.insertRow(
+        session,
+        CareListRecord(
+          authUserId: userId,
+          ciphertext: sealed.ciphertext,
+          nonce: sealed.nonce,
+          format: CareListRules.format,
+          updatedAt: now,
+        ),
+        transaction: transaction,
+      );
+    } else {
+      await CareListRecord.db.updateRow(
+        session,
+        existing.copyWith(
+          ciphertext: sealed.ciphertext,
+          nonce: sealed.nonce,
+          format: CareListRules.format,
+          updatedAt: now,
+        ),
+        transaction: transaction,
+      );
+    }
+  }
+
+  Future<Sealed> _seal(
+    Session session,
+    UuidValue userId,
+    String json,
+    Transaction transaction,
+  ) async {
+    final dataKey = await _dataKey(session, userId, transaction);
+    return _crypto.seal(dataKey, json, userId.toString());
+  }
+
+  /// Decrypts a row of [userId], or `null` when the key is gone.
+  Future<String?> _open(
+    Session session,
+    UuidValue userId,
+    String ciphertext,
+    String nonce,
+    Transaction? transaction,
+  ) async {
+    final key = await HealthKey.db.findFirstRow(
+      session,
+      where: (t) => t.authUserId.equals(userId),
+      transaction: transaction,
+    );
+    if (key == null) return null;
+    final dataKey = await _crypto.unwrap(
+      Sealed(ciphertext: key.wrappedKey, nonce: key.nonce),
+    );
+    return _crypto.open(
+      dataKey,
+      Sealed(ciphertext: ciphertext, nonce: nonce),
+      userId.toString(),
+    );
   }
 
   /// The user's data key, created and stored wrapped on first use.

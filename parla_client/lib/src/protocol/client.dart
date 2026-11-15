@@ -50,7 +50,7 @@ class EndpointAccount extends _isc.EndpointRef {
 
   /// Deletes the caller's account (checklist DEL-1, DEL-2).
   ///
-  /// In one transaction: health data, own routines and their key
+  /// In one transaction: health data, own routines, care list and their key
   /// (crypto-shredding), quiz
   /// answers, profile and the sign-in account with its sessions and tokens
   /// are deleted. Consent records and audit rows are kept as proof but
@@ -515,6 +515,38 @@ class EndpointQuiz extends _isc.EndpointRef {
       );
 }
 
+/// The user's product preferences, recently checked products and shopping
+/// list ("Yoxla"), kept encrypted in `care_list_record` and only with a
+/// health consent whose text covers them ([healthVersionsCoveringCareList]):
+/// the shopping list is free text that may hold health details. The server
+/// never reads the content beyond checking it against [CareListRules].
+///
+/// Saves are not written to the audit log, like own routines: the user
+/// changes her own data often and nobody else can read it.
+/// {@category Endpoint}
+class EndpointCareList extends _isc.EndpointRef {
+  EndpointCareList(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'careList';
+
+  /// The stored care list as JSON, or `null` when there is none or the
+  /// covering health consent is not granted.
+  _ida.Future<String?> myCareList() => caller.callServerEndpoint<String?>(
+    'careList',
+    'myCareList',
+    {},
+  );
+
+  /// Replaces the stored care list with [json].
+  _ida.Future<void> saveCareList(String json) =>
+      caller.callServerEndpoint<void>(
+        'careList',
+        'saveCareList',
+        {'json': json},
+      );
+}
+
 /// The user's own routines and their daily ticks, kept encrypted in
 /// `custom_routine_record` and only with a health consent whose text covers
 /// them ([healthVersionsCoveringOwnRoutines]): the names and steps are free
@@ -593,6 +625,7 @@ class Client extends _isc.ServerpodClientShared {
     product = EndpointProduct(this);
     profile = EndpointProfile(this);
     quiz = EndpointQuiz(this);
+    careList = EndpointCareList(this);
     routine = EndpointRoutine(this);
     modules = Modules(this);
   }
@@ -611,6 +644,8 @@ class Client extends _isc.ServerpodClientShared {
 
   late final EndpointQuiz quiz;
 
+  late final EndpointCareList careList;
+
   late final EndpointRoutine routine;
 
   late final Modules modules;
@@ -624,6 +659,7 @@ class Client extends _isc.ServerpodClientShared {
     'product': product,
     'profile': profile,
     'quiz': quiz,
+    'careList': careList,
     'routine': routine,
   };
 

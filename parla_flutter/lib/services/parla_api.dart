@@ -87,6 +87,14 @@ abstract interface class ParlaApi {
   /// Replaces the stored own routines. Needs the health consent.
   Future<void> saveRoutines(String json);
 
+  /// The "Yoxla" preferences, checked products and shopping list as JSON
+  /// (see `CareListRules`), or `null` when none or not covered by the
+  /// health consent.
+  Future<String?> myCareList();
+
+  /// Replaces the stored care list. Needs the health consent.
+  Future<void> saveCareList(String json);
+
   /// The current decision for every consent (M-28).
   Future<Map<ConsentKind, bool>> consentStates();
 
