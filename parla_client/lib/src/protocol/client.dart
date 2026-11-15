@@ -516,8 +516,9 @@ class EndpointQuiz extends _isc.EndpointRef {
 }
 
 /// The user's own routines and their daily ticks, kept encrypted in
-/// `custom_routine_record` and only with the health consent: the names and
-/// steps are free text that may hold health details. The server never reads
+/// `custom_routine_record` and only with a health consent whose text covers
+/// them ([healthVersionsCoveringOwnRoutines]): the names and steps are free
+/// text that may hold health details. The server never reads
 /// the content beyond checking it against [CustomRoutineRules].
 ///
 /// Saves are not written to the audit log: the user changes her own data
