@@ -77,7 +77,7 @@ void main() {
     await _pump(tester, language: 'en');
     await tester.tap(_tab(ParlaTab.sport));
     await tester.pumpAndSettle();
-    expect(find.text('A workout plan made for you, soon'), findsOneWidget);
+    expect(find.text('A workout plan made for you'), findsOneWidget);
 
     await tester.tap(_tab(ParlaTab.discover));
     await tester.pumpAndSettle();

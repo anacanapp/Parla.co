@@ -424,8 +424,6 @@
   "navSport": "Fitness",
   "navDiscover": "Discover",
   "sportTitle": "Fitness",
-  "sportSoonTitle": "A workout plan made for you, soon",
-  "sportSoonBody": "A few questions, then a weekly plan: moves, sets and reps, and a timer. Music plays from your own app.",
   "discoverTitle": "Discover",
   "discoverBlogs": "Blogs",
   "discoverBlogsHint": "Care, beauty, fashion",
@@ -611,5 +609,198 @@
   "shopBody": "The products in your routine, in one tap. You will be able to order your shopping list directly and find products that fit your picks.",
   "shopSoonCard": "Parla Shop is coming",
   "shopSoonCardBody": "You will be able to order your list directly",
-  "shopOpenList": "See my shopping list"
+  "shopOpenList": "See my shopping list",
+  "sportIntroTitle": "A workout plan made for you",
+  "sportIntroBody": "A few questions: goal, areas, the workouts you like. Then a weekly plan with sets, reps and a timer. Music plays from your own app.",
+  "sportStart": "Start",
+  "sportNext": "Next",
+  "sportNeedOne": "Pick at least one.",
+  "sportQGoals": "What is your goal?",
+  "sportQGoalsHint": "Pick up to two",
+  "sportGoalTone": "Tone and firmness",
+  "sportGoalMuscle": "Build muscle",
+  "sportGoalFlexibility": "Flexibility",
+  "sportGoalPosture": "Posture",
+  "sportGoalEndurance": "Endurance",
+  "sportGoalRelax": "Unwind",
+  "sportQAreas": "Which areas should we focus on?",
+  "sportAreasNote": "Fat cannot be burned from one spot. These moves strengthen and tone those muscles.",
+  "sportAreaArms": "Arms",
+  "sportAreaLegs": "Legs",
+  "sportAreaCore": "Abs and core",
+  "sportAreaGlutes": "Glutes",
+  "sportAreaBack": "Back",
+  "sportAreaFull": "Full body",
+  "sportQTypes": "Which workouts do you want?",
+  "sportTypeFitness": "Fitness",
+  "sportTypePilates": "Pilates",
+  "sportTypeWallPilates": "Wall pilates",
+  "sportTypeStretching": "Stretching",
+  "sportTypeCardio": "Low-impact cardio",
+  "sportQLevel": "What is your level?",
+  "sportLevelBeginner": "Just starting",
+  "sportLevelIntermediate": "Intermediate",
+  "sportLevelAdvanced": "Experienced",
+  "sportQSchedule": "How much time do you have?",
+  "sportDaysLabel": "Days a week",
+  "sportMinutesLabel": "One workout",
+  "sportDays": "{count} days",
+  "@sportDays": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sportMinutes": "{count} min",
+  "@sportMinutes": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "sportDumbbells": "I have dumbbells at home",
+  "sportQSafety": "For your safety",
+  "sportSafetyIntro": "These answers only remove moves that do not suit you from the plan.",
+  "sportPregnancyLabel": "Pregnancy",
+  "sportPregNo": "No",
+  "sportPregPregnant": "I am pregnant",
+  "sportPregPostpartum": "Gave birth in the last 6 months",
+  "sportInjuriesLabel": "Pain or injury",
+  "sportInjKnee": "Knee",
+  "sportInjBack": "Lower back",
+  "sportInjShoulder": "Shoulder",
+  "sportInjWrist": "Wrist",
+  "sportDoctorLimit": "A doctor limited exercise or asked me to check first",
+  "sportBuildPlan": "Build my plan",
+  "sportWeekTitle": "This week",
+  "sportWeekProgress": "{done} of {total} workouts",
+  "@sportWeekProgress": {
+    "placeholders": {
+      "done": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "sportWorkoutTitle": "Workout {number}",
+  "@sportWorkoutTitle": {
+    "placeholders": {
+      "number": {
+        "type": "int"
+      }
+    }
+  },
+  "sportWorkoutMeta": "{type} · ~{minutes} min",
+  "@sportWorkoutMeta": {
+    "placeholders": {
+      "type": {
+        "type": "String"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "sportDone": "Done",
+  "sportNextLabel": "Next up",
+  "sportEditAnswers": "Update answers",
+  "sportBlockedTitle": "Talk to your doctor first",
+  "sportBlockedBody": "If a doctor limited exercise, we do not build a plan. Update your answers once you have the go-ahead.",
+  "sportGentleNote": "A gentle plan for pregnancy and after birth. Check with your doctor before you start.",
+  "sportDraftNote": "The moves and numbers have not been reviewed by a trainer yet. Stop if anything hurts.",
+  "sportAllDone": "All of this week's workouts are done.",
+  "sportSetsReps": "{sets} × {reps} reps",
+  "@sportSetsReps": {
+    "placeholders": {
+      "sets": {
+        "type": "int"
+      },
+      "reps": {
+        "type": "int"
+      }
+    }
+  },
+  "sportSetsSeconds": "{sets} × {seconds} s",
+  "@sportSetsSeconds": {
+    "placeholders": {
+      "sets": {
+        "type": "int"
+      },
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "sportRestSeconds": "Rest {seconds} s",
+  "@sportRestSeconds": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
+  "sportStartWorkout": "Start workout",
+  "sportMusicNote": "Play music from your own music app. Parla only gives short signals.",
+  "sportSoundOn": "Sound signals on",
+  "sportSoundOff": "Sound off, vibration only",
+  "sportSetOf": "Set {set} of {sets}",
+  "@sportSetOf": {
+    "placeholders": {
+      "set": {
+        "type": "int"
+      },
+      "sets": {
+        "type": "int"
+      }
+    }
+  },
+  "sportRepsNow": "{reps} reps",
+  "@sportRepsNow": {
+    "placeholders": {
+      "reps": {
+        "type": "int"
+      }
+    }
+  },
+  "sportSetDone": "Set done",
+  "sportPause": "Pause",
+  "sportResume": "Resume",
+  "sportSkip": "Skip",
+  "sportResting": "Rest",
+  "sportNextUp": "Next: {name}",
+  "@sportNextUp": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "sportExerciseOf": "Move {index} of {total}",
+  "@sportExerciseOf": {
+    "placeholders": {
+      "index": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "sportFinishedTitle": "Workout done",
+  "sportFinishedBody": "{minutes} minutes of movement were added to today's entries.",
+  "@sportFinishedBody": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "sportBackToPlan": "Back to the plan",
+  "sportQuit": "Stop workout",
+  "sportPrivacySynced": "Your fitness answers are kept encrypted on our server, with a copy on this phone for offline use.",
+  "sportPrivacyDevice": "For now your fitness answers are kept only on this phone. With the updated health consent they will be kept encrypted on our server."
 }

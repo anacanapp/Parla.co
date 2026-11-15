@@ -95,6 +95,13 @@ abstract interface class ParlaApi {
   /// Replaces the stored care list. Needs the health consent.
   Future<void> saveCareList(String json);
 
+  /// The sport answers and workout log as JSON (see `SportRules`), or
+  /// `null` when none or not covered by the health consent.
+  Future<String?> mySport();
+
+  /// Replaces the stored sport document. Needs the health consent.
+  Future<void> saveSport(String json);
+
   /// The current decision for every consent (M-28).
   Future<Map<ConsentKind, bool>> consentStates();
 

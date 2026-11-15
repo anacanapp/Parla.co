@@ -761,13 +761,6 @@ class AppLocalizationsAz extends AppLocalizations {
   String get sportTitle => 'İdman';
 
   @override
-  String get sportSoonTitle => 'Sənə uyğun idman planı tezliklə';
-
-  @override
-  String get sportSoonBody =>
-      'Bir neçə sual, sonra həftəlik plan: hərəkətlər, dəst və təkrar sayı, taymer. Musiqi öz tətbiqindən çalacaq.';
-
-  @override
   String get discoverTitle => 'Kəşf et';
 
   @override
@@ -1114,4 +1107,292 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get shopOpenList => 'Alış siyahıma bax';
+
+  @override
+  String get sportIntroTitle => 'Sənə uyğun idman planı';
+
+  @override
+  String get sportIntroBody =>
+      'Bir neçə sual: məqsəd, bölgələr, sevdiyin məşqlər. Sonra həftəlik plan, set və təkrar sayı, taymer. Musiqi öz tətbiqindən çalır.';
+
+  @override
+  String get sportStart => 'Başla';
+
+  @override
+  String get sportNext => 'Davam';
+
+  @override
+  String get sportNeedOne => 'Ən azı birini seç.';
+
+  @override
+  String get sportQGoals => 'Məqsədin nədir?';
+
+  @override
+  String get sportQGoalsHint => '2-yə qədər seç';
+
+  @override
+  String get sportGoalTone => 'Tonus və sıxlıq';
+
+  @override
+  String get sportGoalMuscle => 'Əzələ kütləsi artırmaq';
+
+  @override
+  String get sportGoalFlexibility => 'Elastiklik';
+
+  @override
+  String get sportGoalPosture => 'Duruş';
+
+  @override
+  String get sportGoalEndurance => 'Dözümlülük';
+
+  @override
+  String get sportGoalRelax => 'Stresdən rahatlama';
+
+  @override
+  String get sportQAreas => 'Hansı bölgələrə fokuslanaq?';
+
+  @override
+  String get sportAreasNote =>
+      'Bir bölgədən yağ yandırmaq mümkün deyil. Bu hərəkətlər həmin əzələləri gücləndirir və tonus verir.';
+
+  @override
+  String get sportAreaArms => 'Qollar';
+
+  @override
+  String get sportAreaLegs => 'Ayaqlar';
+
+  @override
+  String get sportAreaCore => 'Qarın və kor';
+
+  @override
+  String get sportAreaGlutes => 'Omba';
+
+  @override
+  String get sportAreaBack => 'Kürək';
+
+  @override
+  String get sportAreaFull => 'Bütün bədən';
+
+  @override
+  String get sportQTypes => 'Hansı məşqləri istəyirsən?';
+
+  @override
+  String get sportTypeFitness => 'Fitnes';
+
+  @override
+  String get sportTypePilates => 'Pilates';
+
+  @override
+  String get sportTypeWallPilates => 'Divar pilatesi';
+
+  @override
+  String get sportTypeStretching => 'Stretching';
+
+  @override
+  String get sportTypeCardio => 'Yüngül kardio';
+
+  @override
+  String get sportQLevel => 'Səviyyən necədir?';
+
+  @override
+  String get sportLevelBeginner => 'Yeni başlayıram';
+
+  @override
+  String get sportLevelIntermediate => 'Orta';
+
+  @override
+  String get sportLevelAdvanced => 'Təcrübəli';
+
+  @override
+  String get sportQSchedule => 'Nə qədər vaxtın var?';
+
+  @override
+  String get sportDaysLabel => 'Həftədə neçə gün';
+
+  @override
+  String get sportMinutesLabel => 'Bir məşq';
+
+  @override
+  String sportDays(int count) {
+    return '$count gün';
+  }
+
+  @override
+  String sportMinutes(int count) {
+    return '$count dəq';
+  }
+
+  @override
+  String get sportDumbbells => 'Evdə hantelim var';
+
+  @override
+  String get sportQSafety => 'Təhlükəsizlik üçün';
+
+  @override
+  String get sportSafetyIntro =>
+      'Bu cavablar yalnız sənə uyğun olmayan hərəkətləri plandan çıxarmaq üçündür.';
+
+  @override
+  String get sportPregnancyLabel => 'Hamiləlik';
+
+  @override
+  String get sportPregNo => 'Yox';
+
+  @override
+  String get sportPregPregnant => 'Hamiləyəm';
+
+  @override
+  String get sportPregPostpartum => 'Son 6 ayda doğmuşam';
+
+  @override
+  String get sportInjuriesLabel => 'Ağrı və ya zədə';
+
+  @override
+  String get sportInjKnee => 'Diz';
+
+  @override
+  String get sportInjBack => 'Bel';
+
+  @override
+  String get sportInjShoulder => 'Çiyin';
+
+  @override
+  String get sportInjWrist => 'Bilək';
+
+  @override
+  String get sportDoctorLimit =>
+      'Həkim idmanı məhdudlaşdırıb və ya əvvəlcə soruşmağı deyib';
+
+  @override
+  String get sportBuildPlan => 'Planı qur';
+
+  @override
+  String get sportWeekTitle => 'Bu həftə';
+
+  @override
+  String sportWeekProgress(int done, int total) {
+    return '$done / $total məşq';
+  }
+
+  @override
+  String sportWorkoutTitle(int number) {
+    return 'Məşq $number';
+  }
+
+  @override
+  String sportWorkoutMeta(String type, int minutes) {
+    return '$type · ~$minutes dəq';
+  }
+
+  @override
+  String get sportDone => 'Edildi';
+
+  @override
+  String get sportNextLabel => 'Növbəti';
+
+  @override
+  String get sportEditAnswers => 'Sorğunu yenilə';
+
+  @override
+  String get sportBlockedTitle => 'Əvvəlcə həkiminlə danış';
+
+  @override
+  String get sportBlockedBody =>
+      'Həkim idmanı məhdudlaşdırıbsa, plan qurmuruq. İcazə alanda sorğunu yenilə.';
+
+  @override
+  String get sportGentleNote =>
+      'Hamiləlik və doğuşdan sonrakı dövr üçün yüngül plan. Başlamazdan əvvəl həkimindən soruş.';
+
+  @override
+  String get sportDraftNote =>
+      'Hərəkətlər və saylar hələ məşqçi tərəfindən yoxlanılmayıb. Ağrı hiss etsən, dayan.';
+
+  @override
+  String get sportAllDone => 'Bu həftənin bütün məşqləri edildi.';
+
+  @override
+  String sportSetsReps(int sets, int reps) {
+    return '$sets × $reps təkrar';
+  }
+
+  @override
+  String sportSetsSeconds(int sets, int seconds) {
+    return '$sets × $seconds san';
+  }
+
+  @override
+  String sportRestSeconds(int seconds) {
+    return 'İstirahət $seconds san';
+  }
+
+  @override
+  String get sportStartWorkout => 'Məşqə başla';
+
+  @override
+  String get sportMusicNote =>
+      'Musiqini öz musiqi tətbiqindən aç. Parla yalnız qısa siqnal verir.';
+
+  @override
+  String get sportSoundOn => 'Siqnal səsi açıqdır';
+
+  @override
+  String get sportSoundOff => 'Siqnal səsi bağlıdır, yalnız vibrasiya';
+
+  @override
+  String sportSetOf(int set, int sets) {
+    return 'Set $set / $sets';
+  }
+
+  @override
+  String sportRepsNow(int reps) {
+    return '$reps təkrar';
+  }
+
+  @override
+  String get sportSetDone => 'Set bitdi';
+
+  @override
+  String get sportPause => 'Fasilə';
+
+  @override
+  String get sportResume => 'Davam';
+
+  @override
+  String get sportSkip => 'Keç';
+
+  @override
+  String get sportResting => 'İstirahət';
+
+  @override
+  String sportNextUp(String name) {
+    return 'Sonra: $name';
+  }
+
+  @override
+  String sportExerciseOf(int index, int total) {
+    return 'Hərəkət $index / $total';
+  }
+
+  @override
+  String get sportFinishedTitle => 'Məşq bitdi';
+
+  @override
+  String sportFinishedBody(int minutes) {
+    return '$minutes dəqiqə hərəkət bu günün qeydinə əlavə olundu.';
+  }
+
+  @override
+  String get sportBackToPlan => 'Plana qayıt';
+
+  @override
+  String get sportQuit => 'Məşqi dayandır';
+
+  @override
+  String get sportPrivacySynced =>
+      'İdman cavabların serverdə şifrəli saxlanılır, bu telefonda isə oflayn üçün nüsxəsi qalır.';
+
+  @override
+  String get sportPrivacyDevice =>
+      'İdman cavabların hələlik yalnız bu telefonda saxlanılır. Yenilənmiş sağlamlıq razılığı ilə serverdə şifrəli saxlanılacaq.';
 }

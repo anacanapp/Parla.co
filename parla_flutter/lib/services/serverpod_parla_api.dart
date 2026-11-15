@@ -107,6 +107,13 @@ class ServerpodParlaApi implements ParlaApi {
       _guard(() => _client.careList.saveCareList(json));
 
   @override
+  Future<String?> mySport() => _guard(_client.sport.mySport);
+
+  @override
+  Future<void> saveSport(String json) =>
+      _guard(() => _client.sport.saveSport(json));
+
+  @override
   Future<QuizAnswers?> myQuizAnswers() => _guard(() async {
     final saved = await _client.quiz.myAnswers();
     if (saved.isEmpty) return null;

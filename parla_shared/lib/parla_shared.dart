@@ -14,6 +14,7 @@ export 'src/markets.dart';
 export 'src/product_preferences.dart';
 export 'src/quiz.dart';
 export 'src/routine_rules.dart';
+export 'src/sport_rules.dart';
 
 /// The ingredient statuses shipped with this version.
 final euIngredientDataset = IngredientDataset(

@@ -1426,18 +1426,6 @@ abstract class AppLocalizations {
   /// **'Fitness'**
   String get sportTitle;
 
-  /// No description provided for @sportSoonTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'A workout plan made for you, soon'**
-  String get sportSoonTitle;
-
-  /// No description provided for @sportSoonBody.
-  ///
-  /// In en, this message translates to:
-  /// **'A few questions, then a weekly plan: moves, sets and reps, and a timer. Music plays from your own app.'**
-  String get sportSoonBody;
-
   /// No description provided for @discoverTitle.
   ///
   /// In en, this message translates to:
@@ -2055,6 +2043,510 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'See my shopping list'**
   String get shopOpenList;
+
+  /// No description provided for @sportIntroTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A workout plan made for you'**
+  String get sportIntroTitle;
+
+  /// No description provided for @sportIntroBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A few questions: goal, areas, the workouts you like. Then a weekly plan with sets, reps and a timer. Music plays from your own app.'**
+  String get sportIntroBody;
+
+  /// No description provided for @sportStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get sportStart;
+
+  /// No description provided for @sportNext.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get sportNext;
+
+  /// No description provided for @sportNeedOne.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick at least one.'**
+  String get sportNeedOne;
+
+  /// No description provided for @sportQGoals.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your goal?'**
+  String get sportQGoals;
+
+  /// No description provided for @sportQGoalsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick up to two'**
+  String get sportQGoalsHint;
+
+  /// No description provided for @sportGoalTone.
+  ///
+  /// In en, this message translates to:
+  /// **'Tone and firmness'**
+  String get sportGoalTone;
+
+  /// No description provided for @sportGoalMuscle.
+  ///
+  /// In en, this message translates to:
+  /// **'Build muscle'**
+  String get sportGoalMuscle;
+
+  /// No description provided for @sportGoalFlexibility.
+  ///
+  /// In en, this message translates to:
+  /// **'Flexibility'**
+  String get sportGoalFlexibility;
+
+  /// No description provided for @sportGoalPosture.
+  ///
+  /// In en, this message translates to:
+  /// **'Posture'**
+  String get sportGoalPosture;
+
+  /// No description provided for @sportGoalEndurance.
+  ///
+  /// In en, this message translates to:
+  /// **'Endurance'**
+  String get sportGoalEndurance;
+
+  /// No description provided for @sportGoalRelax.
+  ///
+  /// In en, this message translates to:
+  /// **'Unwind'**
+  String get sportGoalRelax;
+
+  /// No description provided for @sportQAreas.
+  ///
+  /// In en, this message translates to:
+  /// **'Which areas should we focus on?'**
+  String get sportQAreas;
+
+  /// No description provided for @sportAreasNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Fat cannot be burned from one spot. These moves strengthen and tone those muscles.'**
+  String get sportAreasNote;
+
+  /// No description provided for @sportAreaArms.
+  ///
+  /// In en, this message translates to:
+  /// **'Arms'**
+  String get sportAreaArms;
+
+  /// No description provided for @sportAreaLegs.
+  ///
+  /// In en, this message translates to:
+  /// **'Legs'**
+  String get sportAreaLegs;
+
+  /// No description provided for @sportAreaCore.
+  ///
+  /// In en, this message translates to:
+  /// **'Abs and core'**
+  String get sportAreaCore;
+
+  /// No description provided for @sportAreaGlutes.
+  ///
+  /// In en, this message translates to:
+  /// **'Glutes'**
+  String get sportAreaGlutes;
+
+  /// No description provided for @sportAreaBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get sportAreaBack;
+
+  /// No description provided for @sportAreaFull.
+  ///
+  /// In en, this message translates to:
+  /// **'Full body'**
+  String get sportAreaFull;
+
+  /// No description provided for @sportQTypes.
+  ///
+  /// In en, this message translates to:
+  /// **'Which workouts do you want?'**
+  String get sportQTypes;
+
+  /// No description provided for @sportTypeFitness.
+  ///
+  /// In en, this message translates to:
+  /// **'Fitness'**
+  String get sportTypeFitness;
+
+  /// No description provided for @sportTypePilates.
+  ///
+  /// In en, this message translates to:
+  /// **'Pilates'**
+  String get sportTypePilates;
+
+  /// No description provided for @sportTypeWallPilates.
+  ///
+  /// In en, this message translates to:
+  /// **'Wall pilates'**
+  String get sportTypeWallPilates;
+
+  /// No description provided for @sportTypeStretching.
+  ///
+  /// In en, this message translates to:
+  /// **'Stretching'**
+  String get sportTypeStretching;
+
+  /// No description provided for @sportTypeCardio.
+  ///
+  /// In en, this message translates to:
+  /// **'Low-impact cardio'**
+  String get sportTypeCardio;
+
+  /// No description provided for @sportQLevel.
+  ///
+  /// In en, this message translates to:
+  /// **'What is your level?'**
+  String get sportQLevel;
+
+  /// No description provided for @sportLevelBeginner.
+  ///
+  /// In en, this message translates to:
+  /// **'Just starting'**
+  String get sportLevelBeginner;
+
+  /// No description provided for @sportLevelIntermediate.
+  ///
+  /// In en, this message translates to:
+  /// **'Intermediate'**
+  String get sportLevelIntermediate;
+
+  /// No description provided for @sportLevelAdvanced.
+  ///
+  /// In en, this message translates to:
+  /// **'Experienced'**
+  String get sportLevelAdvanced;
+
+  /// No description provided for @sportQSchedule.
+  ///
+  /// In en, this message translates to:
+  /// **'How much time do you have?'**
+  String get sportQSchedule;
+
+  /// No description provided for @sportDaysLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Days a week'**
+  String get sportDaysLabel;
+
+  /// No description provided for @sportMinutesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'One workout'**
+  String get sportMinutesLabel;
+
+  /// No description provided for @sportDays.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} days'**
+  String sportDays(int count);
+
+  /// No description provided for @sportMinutes.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} min'**
+  String sportMinutes(int count);
+
+  /// No description provided for @sportDumbbells.
+  ///
+  /// In en, this message translates to:
+  /// **'I have dumbbells at home'**
+  String get sportDumbbells;
+
+  /// No description provided for @sportQSafety.
+  ///
+  /// In en, this message translates to:
+  /// **'For your safety'**
+  String get sportQSafety;
+
+  /// No description provided for @sportSafetyIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'These answers only remove moves that do not suit you from the plan.'**
+  String get sportSafetyIntro;
+
+  /// No description provided for @sportPregnancyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pregnancy'**
+  String get sportPregnancyLabel;
+
+  /// No description provided for @sportPregNo.
+  ///
+  /// In en, this message translates to:
+  /// **'No'**
+  String get sportPregNo;
+
+  /// No description provided for @sportPregPregnant.
+  ///
+  /// In en, this message translates to:
+  /// **'I am pregnant'**
+  String get sportPregPregnant;
+
+  /// No description provided for @sportPregPostpartum.
+  ///
+  /// In en, this message translates to:
+  /// **'Gave birth in the last 6 months'**
+  String get sportPregPostpartum;
+
+  /// No description provided for @sportInjuriesLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Pain or injury'**
+  String get sportInjuriesLabel;
+
+  /// No description provided for @sportInjKnee.
+  ///
+  /// In en, this message translates to:
+  /// **'Knee'**
+  String get sportInjKnee;
+
+  /// No description provided for @sportInjBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Lower back'**
+  String get sportInjBack;
+
+  /// No description provided for @sportInjShoulder.
+  ///
+  /// In en, this message translates to:
+  /// **'Shoulder'**
+  String get sportInjShoulder;
+
+  /// No description provided for @sportInjWrist.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrist'**
+  String get sportInjWrist;
+
+  /// No description provided for @sportDoctorLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'A doctor limited exercise or asked me to check first'**
+  String get sportDoctorLimit;
+
+  /// No description provided for @sportBuildPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Build my plan'**
+  String get sportBuildPlan;
+
+  /// No description provided for @sportWeekTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'This week'**
+  String get sportWeekTitle;
+
+  /// No description provided for @sportWeekProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} of {total} workouts'**
+  String sportWeekProgress(int done, int total);
+
+  /// No description provided for @sportWorkoutTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout {number}'**
+  String sportWorkoutTitle(int number);
+
+  /// No description provided for @sportWorkoutMeta.
+  ///
+  /// In en, this message translates to:
+  /// **'{type} · ~{minutes} min'**
+  String sportWorkoutMeta(String type, int minutes);
+
+  /// No description provided for @sportDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get sportDone;
+
+  /// No description provided for @sportNextLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Next up'**
+  String get sportNextLabel;
+
+  /// No description provided for @sportEditAnswers.
+  ///
+  /// In en, this message translates to:
+  /// **'Update answers'**
+  String get sportEditAnswers;
+
+  /// No description provided for @sportBlockedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Talk to your doctor first'**
+  String get sportBlockedTitle;
+
+  /// No description provided for @sportBlockedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'If a doctor limited exercise, we do not build a plan. Update your answers once you have the go-ahead.'**
+  String get sportBlockedBody;
+
+  /// No description provided for @sportGentleNote.
+  ///
+  /// In en, this message translates to:
+  /// **'A gentle plan for pregnancy and after birth. Check with your doctor before you start.'**
+  String get sportGentleNote;
+
+  /// No description provided for @sportDraftNote.
+  ///
+  /// In en, this message translates to:
+  /// **'The moves and numbers have not been reviewed by a trainer yet. Stop if anything hurts.'**
+  String get sportDraftNote;
+
+  /// No description provided for @sportAllDone.
+  ///
+  /// In en, this message translates to:
+  /// **'All of this week\'s workouts are done.'**
+  String get sportAllDone;
+
+  /// No description provided for @sportSetsReps.
+  ///
+  /// In en, this message translates to:
+  /// **'{sets} × {reps} reps'**
+  String sportSetsReps(int sets, int reps);
+
+  /// No description provided for @sportSetsSeconds.
+  ///
+  /// In en, this message translates to:
+  /// **'{sets} × {seconds} s'**
+  String sportSetsSeconds(int sets, int seconds);
+
+  /// No description provided for @sportRestSeconds.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest {seconds} s'**
+  String sportRestSeconds(int seconds);
+
+  /// No description provided for @sportStartWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'Start workout'**
+  String get sportStartWorkout;
+
+  /// No description provided for @sportMusicNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Play music from your own music app. Parla only gives short signals.'**
+  String get sportMusicNote;
+
+  /// No description provided for @sportSoundOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sound signals on'**
+  String get sportSoundOn;
+
+  /// No description provided for @sportSoundOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Sound off, vibration only'**
+  String get sportSoundOff;
+
+  /// No description provided for @sportSetOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Set {set} of {sets}'**
+  String sportSetOf(int set, int sets);
+
+  /// No description provided for @sportRepsNow.
+  ///
+  /// In en, this message translates to:
+  /// **'{reps} reps'**
+  String sportRepsNow(int reps);
+
+  /// No description provided for @sportSetDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Set done'**
+  String get sportSetDone;
+
+  /// No description provided for @sportPause.
+  ///
+  /// In en, this message translates to:
+  /// **'Pause'**
+  String get sportPause;
+
+  /// No description provided for @sportResume.
+  ///
+  /// In en, this message translates to:
+  /// **'Resume'**
+  String get sportResume;
+
+  /// No description provided for @sportSkip.
+  ///
+  /// In en, this message translates to:
+  /// **'Skip'**
+  String get sportSkip;
+
+  /// No description provided for @sportResting.
+  ///
+  /// In en, this message translates to:
+  /// **'Rest'**
+  String get sportResting;
+
+  /// No description provided for @sportNextUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Next: {name}'**
+  String sportNextUp(String name);
+
+  /// No description provided for @sportExerciseOf.
+  ///
+  /// In en, this message translates to:
+  /// **'Move {index} of {total}'**
+  String sportExerciseOf(int index, int total);
+
+  /// No description provided for @sportFinishedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Workout done'**
+  String get sportFinishedTitle;
+
+  /// No description provided for @sportFinishedBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} minutes of movement were added to today\'s entries.'**
+  String sportFinishedBody(int minutes);
+
+  /// No description provided for @sportBackToPlan.
+  ///
+  /// In en, this message translates to:
+  /// **'Back to the plan'**
+  String get sportBackToPlan;
+
+  /// No description provided for @sportQuit.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop workout'**
+  String get sportQuit;
+
+  /// No description provided for @sportPrivacySynced.
+  ///
+  /// In en, this message translates to:
+  /// **'Your fitness answers are kept encrypted on our server, with a copy on this phone for offline use.'**
+  String get sportPrivacySynced;
+
+  /// No description provided for @sportPrivacyDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'For now your fitness answers are kept only on this phone. With the updated health consent they will be kept encrypted on our server.'**
+  String get sportPrivacyDevice;
 }
 
 class _AppLocalizationsDelegate

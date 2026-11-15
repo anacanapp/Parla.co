@@ -194,6 +194,37 @@ wording rules and open legal questions: `docs/INGREDIENTS.md`.
 - **Barcode scanning** is shown as "coming soon". Searches still go through
   our server only.
 
+## Fitness (redesign step 4)
+
+- **Questions**: one or two goals (tone, muscle, flexibility, posture,
+  endurance, unwind), focus areas, workout types (fitness, pilates, wall
+  pilates, stretching, low-impact cardio), level, days per week, minutes,
+  dumbbells, and safety questions (pregnancy or the six months after
+  birth, pain or injury, a doctor's limit).
+- **Plan** (`planSport` in `parla_shared`): one workout per day, with the
+  types rotating and the chosen areas first. Sets, repetitions and rests
+  follow the main goal and the level. The safety answers remove exercises:
+  pregnancy and after birth give a gentle, beginner-level plan with a note
+  to ask the doctor, and a doctor's limit builds no plan at all. Goals
+  speak of tone and strength, never of slimming one body part, because
+  spot reduction is not possible and the app says so.
+- **Content**: 45 exercises with names and how-tos in az/ru/en
+  (`lib/sport/exercise_text.dart`). They are drafts, marked as not
+  reviewed by a trainer or physiotherapist. Each move shows a coloured
+  card until licensed photos arrive.
+- **Workout**: a guided run with sets, a timer for holds and timed moves,
+  and rests. Music plays from the user's own music app; Parla only gives a
+  short signal (sound and vibration, or vibration only). A finished
+  workout is logged and its minutes are added to today's movement entry.
+- **Stored** like the other documents: the answers, the workout log (90
+  days) and the sound setting. The server keeps them encrypted in
+  `sport_record`, only with a health consent that covers them
+  (`healthVersionsCoveringSport`, from `health-2026-11-draft4`), and checks
+  them against `SportRules`. Without that consent they stay on the phone,
+  and the phone always keeps an encrypted copy. The export, consent
+  withdrawal and account deletion work as for own routines (`sport`,
+  `deviceSport`).
+
 ## Reminders
 
 - **Local notifications only** (`flutter_local_notifications`). The phone
@@ -236,8 +267,9 @@ wording rules and open legal questions: `docs/INGREDIENTS.md`.
   size, in az, ru and en with the real fonts loaded; the feature tests check
   the minimum size on their own screens.
 - **Navigation.** Five tabs: Today, Routine, Check, Fitness, Discover
-  (`ParlaTab`). Profile and privacy open from the avatar on Today. Fitness
-  and Discover show what is coming until their redesign steps land.
+  (`ParlaTab`). Profile and privacy open from the avatar on Today. Blogs,
+  experts and nutrition in Discover show what is coming until redesign
+  step 5 lands.
 - **Expert badge.** The "approved by a dermatologist" badge only shows for
   content marked approved. The current routine steps
   (`lib/home/routine.dart`) are sample content and never show it.
@@ -257,8 +289,10 @@ wording rules and open legal questions: `docs/INGREDIENTS.md`.
 | Production hosting, email provider and data region (staging uses AWS in Frankfurt and SMTP via info@anacan.az) | RES-1, RES-5 | After the lawyer answers the localisation questions |
 | Admin/CMS app | M8 | Dropped: expert content lives in code and is reviewed in pull requests |
 | Real-device test of reminders (Android 13+ permission, reboot, iOS foreground) | M7 | Before the beta |
-| Ask people who agreed to an older health consent text to agree to the current one (own routines, preferences and the shopping list stay on the phone until then) | CON-3 | Before launch, if anyone agreed to `health-2026-11-draft1` or `draft2` |
+| Ask people who agreed to an older health consent text to agree to the current one (own routines, preferences and the shopping list stay on the phone until then) | CON-3 | Before launch, if anyone agreed to `health-2026-11-draft1`, `draft2` or `draft3` |
 | Expert review of the preference ingredient lists (`product_preferences.dart`) | — | Before launch |
+| Trainer or physiotherapist review of the exercises, numbers and safety rules (`sport_rules.dart`, `exercise_text.dart`) | — | Before launch |
+| Licensed exercise photos (shown by exercise id) | — | When the photos arrive |
 | Barcode scanning | — | Later step |
 
 ## Known environment issue

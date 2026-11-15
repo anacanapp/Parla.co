@@ -50,7 +50,8 @@ class EndpointAccount extends _isc.EndpointRef {
 
   /// Deletes the caller's account (checklist DEL-1, DEL-2).
   ///
-  /// In one transaction: health data, own routines, care list and their key
+  /// In one transaction: health data, own routines, care list, sport
+  /// document and their key
   /// (crypto-shredding), quiz
   /// answers, profile and the sign-in account with its sessions and tokens
   /// are deleted. Consent records and audit rows are kept as proof but
@@ -580,6 +581,39 @@ class EndpointRoutine extends _isc.EndpointRef {
       );
 }
 
+/// The user's sport answers (goals, areas, pregnancy, injuries, a doctor's
+/// limit) and the log of finished workouts, kept encrypted in
+/// `sport_record` and only with a health consent whose text covers them
+/// ([healthVersionsCoveringSport]). The server never reads the content
+/// beyond checking it against [SportRules].
+///
+/// Saves are not written to the audit log, like own routines: the user
+/// changes her own data often and nobody else can read it.
+/// {@category Endpoint}
+class EndpointSport extends _isc.EndpointRef {
+  EndpointSport(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'sport';
+
+  /// The stored sport document as JSON, or `null` when there is none or
+  /// the covering health consent is not granted.
+  _ida.Future<String?> mySport() => caller.callServerEndpoint<String?>(
+    'sport',
+    'mySport',
+    {},
+  );
+
+  /// Replaces the stored sport document with [json]. Log entries older
+  /// than [SportRules.keepLogDays] are the app's to drop; the size limit
+  /// keeps the document small.
+  _ida.Future<void> saveSport(String json) => caller.callServerEndpoint<void>(
+    'sport',
+    'saveSport',
+    {'json': json},
+  );
+}
+
 class Modules {
   Modules(Client client) {
     serverpod_auth_idp = _iaic.Caller(client);
@@ -627,6 +661,7 @@ class Client extends _isc.ServerpodClientShared {
     quiz = EndpointQuiz(this);
     careList = EndpointCareList(this);
     routine = EndpointRoutine(this);
+    sport = EndpointSport(this);
     modules = Modules(this);
   }
 
@@ -648,6 +683,8 @@ class Client extends _isc.ServerpodClientShared {
 
   late final EndpointRoutine routine;
 
+  late final EndpointSport sport;
+
   late final Modules modules;
 
   @override
@@ -661,6 +698,7 @@ class Client extends _isc.ServerpodClientShared {
     'quiz': quiz,
     'careList': careList,
     'routine': routine,
+    'sport': sport,
   };
 
   @override

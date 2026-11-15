@@ -3,6 +3,9 @@ import 'package:go_router/go_router.dart';
 import 'check/shop_screen.dart';
 import 'check/shopping_list_screen.dart';
 import 'routines/routine_builder_screen.dart';
+import 'sport/sport_quiz_screen.dart';
+import 'sport/sport_screen.dart';
+import 'sport/workout_screen.dart';
 import 'screens/age_screen.dart';
 import 'screens/consent_screen.dart';
 import 'screens/coming_soon_screens.dart';
@@ -41,6 +44,8 @@ abstract final class Routes {
   static const shoppingList = '/products/list'; // Shopping list (step 3)
   static const shop = '/products/shop'; // Shop "coming soon" (step 3)
   static const sport = '/sport'; // Workout plan (redesign step 4)
+  static const sportQuiz = '/sport/quiz'; // Sport questions
+  static const workout = '/sport/workout'; // One workout, id as `extra`
   static const discover = '/discover'; // Blogs, experts, lists (step 5)
   static const guest = '/guest'; // Guest placeholder
   static const privacy = '/privacy'; // M-25, M-27, M-28
@@ -94,6 +99,16 @@ GoRouter buildRouter() => GoRouter(
     ),
     GoRoute(path: Routes.shop, builder: (_, _) => const ShopScreen()),
     GoRoute(path: Routes.sport, builder: (_, _) => const SportScreen()),
+    GoRoute(
+      path: Routes.sportQuiz,
+      builder: (_, _) => const SportQuizScreen(),
+    ),
+    GoRoute(
+      path: Routes.workout,
+      // The workout id travels in memory; without it the plan opens.
+      redirect: (_, state) => state.extra is String ? null : Routes.sport,
+      builder: (_, state) => WorkoutScreen(workoutId: state.extra! as String),
+    ),
     GoRoute(path: Routes.discover, builder: (_, _) => const DiscoverScreen()),
     GoRoute(path: Routes.guest, builder: (_, _) => const GuestScreen()),
     GoRoute(path: Routes.privacy, builder: (_, _) => const PrivacyScreen()),

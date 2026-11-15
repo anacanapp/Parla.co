@@ -28,6 +28,7 @@ import '../profile/profile_endpoint.dart' as _i6ky944g;
 import '../quiz/quiz_endpoint.dart' as _iskif4sw;
 import '../routines/care_list_endpoint.dart' as _itrne0fi;
 import '../routines/routine_endpoint.dart' as _ifrtvzp2;
+import '../routines/sport_endpoint.dart' as _iv36jnzl;
 
 class Endpoints extends _is.EndpointDispatch {
   @override
@@ -85,6 +86,12 @@ class Endpoints extends _is.EndpointDispatch {
         ..initialize(
           server,
           'routine',
+          null,
+        ),
+      'sport': _iv36jnzl.SportEndpoint()
+        ..initialize(
+          server,
+          'sport',
           null,
         ),
     };
@@ -645,6 +652,41 @@ class Endpoints extends _is.EndpointDispatch {
                 Map<String, dynamic> params,
               ) async => (endpoints['routine'] as _ifrtvzp2.RoutineEndpoint)
                   .saveRoutines(
+                    session,
+                    params['json'],
+                  ),
+        ),
+      },
+    );
+    connectors['sport'] = _is.EndpointConnector(
+      name: 'sport',
+      endpoint: endpoints['sport']!,
+      methodConnectors: {
+        'mySport': _is.MethodConnector(
+          name: 'mySport',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['sport'] as _iv36jnzl.SportEndpoint)
+                  .mySport(session),
+        ),
+        'saveSport': _is.MethodConnector(
+          name: 'saveSport',
+          params: {
+            'json': _is.ParameterDescription(
+              name: 'json',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['sport'] as _iv36jnzl.SportEndpoint).saveSport(
                     session,
                     params['json'],
                   ),
