@@ -526,5 +526,90 @@
   "todayRoutinesAll": "All",
   "todayRoutinesNone": "No other routines for today.",
   "builderPrivacySynced": "Your own routines are kept encrypted on our server, with a copy on this phone for offline use.",
-  "builderPrivacyDevice": "For now your own routines are kept only on this phone. With the updated health consent they will be kept encrypted on our server."
+  "builderPrivacyDevice": "For now your own routines are kept only on this phone. With the updated health consent they will be kept encrypted on our server.",
+  "checkPrefsTitle": "Your preferences",
+  "checkPrefsEdit": "Change",
+  "checkPrefsEmpty": "Pick what matters to you and we compare the ingredients with your picks.",
+  "checkPrefsAdd": "Add preferences",
+  "checkPrefsSheetTitle": "What matters to you?",
+  "checkPrefsSave": "Save",
+  "prefFragranceFree": "Fragrance free",
+  "prefAlcoholFree": "Alcohol free",
+  "prefSulfateFree": "Sulfate free",
+  "prefSiliconeFree": "Silicone free",
+  "prefParabenFree": "Paraben free",
+  "prefVegan": "Vegan",
+  "prefAlcoholFreeHint": "Fatty alcohols (cetyl, cetearyl) do not count",
+  "prefVeganHint": "Only known animal-derived ingredients are checked",
+  "checkBarcodeSoon": "Barcode scanner · soon",
+  "checkRecentTitle": "Recently checked",
+  "checkRecentClear": "Clear",
+  "resultPrefsTitle": "With your preferences",
+  "resultPrefsSummary": "{fits} of {count} of your picks fit",
+  "@resultPrefsSummary": {
+    "placeholders": {
+      "fits": {
+        "type": "int"
+      },
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "resultPrefFits": "Fits",
+  "resultPrefContains": "Contains: {names}",
+  "@resultPrefContains": {
+    "placeholders": {
+      "names": {
+        "type": "String"
+      }
+    }
+  },
+  "resultPrefVeganFits": "No known animal-derived ingredient found",
+  "resultPrefUnknown": "Cannot check: no ingredient list",
+  "resultPrefsNone": "Add your preferences and we compare the ingredients with them.",
+  "resultPrefsNote": "Parla does not rate products or give scores. The match is based only on your picks and the ingredient list.",
+  "resultAddToList": "Add to shopping list",
+  "resultInList": "On your list",
+  "resultAdded": "Added to your shopping list.",
+  "shoppingCount": "{bought} of {total} bought",
+  "@shoppingCount": {
+    "placeholders": {
+      "bought": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "shoppingNewHint": "New item",
+  "shoppingAdd": "Add",
+  "shoppingEmpty": "The list is empty. Note what you need here.",
+  "shoppingAreaOther": "Other",
+  "shoppingFromCheck": "From Check",
+  "shoppingRemove": "Remove: {title}",
+  "@shoppingRemove": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "shoppingRemoveBought": "Remove bought",
+  "shoppingFull": "The list can hold at most {count} items.",
+  "@shoppingFull": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "careListSynced": "Your preferences and shopping list are kept encrypted on our server, with a copy on this phone for offline use.",
+  "careListDevice": "For now your preferences and shopping list are kept only on this phone. With the updated health consent they will be kept encrypted on our server.",
+  "shopTitle": "Parla Shop",
+  "shopBody": "The products in your routine, in one tap. You will be able to order your shopping list directly and find products that fit your picks.",
+  "shopSoonCard": "Parla Shop is coming",
+  "shopSoonCardBody": "You will be able to order your list directly",
+  "shopOpenList": "See my shopping list"
 }

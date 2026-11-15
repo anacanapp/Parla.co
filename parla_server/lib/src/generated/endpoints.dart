@@ -26,6 +26,7 @@ import '../consent/consent_endpoint.dart' as _iu5xf735;
 import '../products/product_endpoint.dart' as _i6m7gswv;
 import '../profile/profile_endpoint.dart' as _i6ky944g;
 import '../quiz/quiz_endpoint.dart' as _iskif4sw;
+import '../routines/care_list_endpoint.dart' as _itrne0fi;
 import '../routines/routine_endpoint.dart' as _ifrtvzp2;
 
 class Endpoints extends _is.EndpointDispatch {
@@ -72,6 +73,12 @@ class Endpoints extends _is.EndpointDispatch {
         ..initialize(
           server,
           'quiz',
+          null,
+        ),
+      'careList': _itrne0fi.CareListEndpoint()
+        ..initialize(
+          server,
+          'careList',
           null,
         ),
       'routine': _ifrtvzp2.RoutineEndpoint()
@@ -571,6 +578,41 @@ class Endpoints extends _is.EndpointDispatch {
                 Map<String, dynamic> params,
               ) async => (endpoints['quiz'] as _iskif4sw.QuizEndpoint)
                   .myAnswers(session),
+        ),
+      },
+    );
+    connectors['careList'] = _is.EndpointConnector(
+      name: 'careList',
+      endpoint: endpoints['careList']!,
+      methodConnectors: {
+        'myCareList': _is.MethodConnector(
+          name: 'myCareList',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['careList'] as _itrne0fi.CareListEndpoint)
+                  .myCareList(session),
+        ),
+        'saveCareList': _is.MethodConnector(
+          name: 'saveCareList',
+          params: {
+            'json': _is.ParameterDescription(
+              name: 'json',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['careList'] as _itrne0fi.CareListEndpoint)
+                  .saveCareList(
+                    session,
+                    params['json'],
+                  ),
         ),
       },
     );

@@ -986,4 +986,154 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get builderPrivacyDevice =>
       'For now your own routines are kept only on this phone. With the updated health consent they will be kept encrypted on our server.';
+
+  @override
+  String get checkPrefsTitle => 'Your preferences';
+
+  @override
+  String get checkPrefsEdit => 'Change';
+
+  @override
+  String get checkPrefsEmpty =>
+      'Pick what matters to you and we compare the ingredients with your picks.';
+
+  @override
+  String get checkPrefsAdd => 'Add preferences';
+
+  @override
+  String get checkPrefsSheetTitle => 'What matters to you?';
+
+  @override
+  String get checkPrefsSave => 'Save';
+
+  @override
+  String get prefFragranceFree => 'Fragrance free';
+
+  @override
+  String get prefAlcoholFree => 'Alcohol free';
+
+  @override
+  String get prefSulfateFree => 'Sulfate free';
+
+  @override
+  String get prefSiliconeFree => 'Silicone free';
+
+  @override
+  String get prefParabenFree => 'Paraben free';
+
+  @override
+  String get prefVegan => 'Vegan';
+
+  @override
+  String get prefAlcoholFreeHint =>
+      'Fatty alcohols (cetyl, cetearyl) do not count';
+
+  @override
+  String get prefVeganHint =>
+      'Only known animal-derived ingredients are checked';
+
+  @override
+  String get checkBarcodeSoon => 'Barcode scanner · soon';
+
+  @override
+  String get checkRecentTitle => 'Recently checked';
+
+  @override
+  String get checkRecentClear => 'Clear';
+
+  @override
+  String get resultPrefsTitle => 'With your preferences';
+
+  @override
+  String resultPrefsSummary(int fits, int count) {
+    return '$fits of $count of your picks fit';
+  }
+
+  @override
+  String get resultPrefFits => 'Fits';
+
+  @override
+  String resultPrefContains(String names) {
+    return 'Contains: $names';
+  }
+
+  @override
+  String get resultPrefVeganFits => 'No known animal-derived ingredient found';
+
+  @override
+  String get resultPrefUnknown => 'Cannot check: no ingredient list';
+
+  @override
+  String get resultPrefsNone =>
+      'Add your preferences and we compare the ingredients with them.';
+
+  @override
+  String get resultPrefsNote =>
+      'Parla does not rate products or give scores. The match is based only on your picks and the ingredient list.';
+
+  @override
+  String get resultAddToList => 'Add to shopping list';
+
+  @override
+  String get resultInList => 'On your list';
+
+  @override
+  String get resultAdded => 'Added to your shopping list.';
+
+  @override
+  String shoppingCount(int bought, int total) {
+    return '$bought of $total bought';
+  }
+
+  @override
+  String get shoppingNewHint => 'New item';
+
+  @override
+  String get shoppingAdd => 'Add';
+
+  @override
+  String get shoppingEmpty => 'The list is empty. Note what you need here.';
+
+  @override
+  String get shoppingAreaOther => 'Other';
+
+  @override
+  String get shoppingFromCheck => 'From Check';
+
+  @override
+  String shoppingRemove(String title) {
+    return 'Remove: $title';
+  }
+
+  @override
+  String get shoppingRemoveBought => 'Remove bought';
+
+  @override
+  String shoppingFull(int count) {
+    return 'The list can hold at most $count items.';
+  }
+
+  @override
+  String get careListSynced =>
+      'Your preferences and shopping list are kept encrypted on our server, with a copy on this phone for offline use.';
+
+  @override
+  String get careListDevice =>
+      'For now your preferences and shopping list are kept only on this phone. With the updated health consent they will be kept encrypted on our server.';
+
+  @override
+  String get shopTitle => 'Parla Shop';
+
+  @override
+  String get shopBody =>
+      'The products in your routine, in one tap. You will be able to order your shopping list directly and find products that fit your picks.';
+
+  @override
+  String get shopSoonCard => 'Parla Shop is coming';
+
+  @override
+  String get shopSoonCardBody => 'You will be able to order your list directly';
+
+  @override
+  String get shopOpenList => 'See my shopping list';
 }

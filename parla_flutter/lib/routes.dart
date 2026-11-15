@@ -1,5 +1,7 @@
 import 'package:go_router/go_router.dart';
 
+import 'check/shop_screen.dart';
+import 'check/shopping_list_screen.dart';
 import 'routines/routine_builder_screen.dart';
 import 'screens/age_screen.dart';
 import 'screens/consent_screen.dart';
@@ -36,6 +38,8 @@ abstract final class Routes {
   static const routineBuilder = '/habits/builder'; // Own routine (step 2)
   static const products = '/products'; // M-20, M-22
   static const productDetail = '/products/detail'; // M-21, M-23
+  static const shoppingList = '/products/list'; // Shopping list (step 3)
+  static const shop = '/products/shop'; // Shop "coming soon" (step 3)
   static const sport = '/sport'; // Workout plan (redesign step 4)
   static const discover = '/discover'; // Blogs, experts, lists (step 5)
   static const guest = '/guest'; // Guest placeholder
@@ -84,6 +88,11 @@ GoRouter buildRouter() => GoRouter(
       builder: (_, state) =>
           ProductDetailScreen(product: state.extra! as ProductResult),
     ),
+    GoRoute(
+      path: Routes.shoppingList,
+      builder: (_, _) => const ShoppingListScreen(),
+    ),
+    GoRoute(path: Routes.shop, builder: (_, _) => const ShopScreen()),
     GoRoute(path: Routes.sport, builder: (_, _) => const SportScreen()),
     GoRoute(path: Routes.discover, builder: (_, _) => const DiscoverScreen()),
     GoRoute(path: Routes.guest, builder: (_, _) => const GuestScreen()),

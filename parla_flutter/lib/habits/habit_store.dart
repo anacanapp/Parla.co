@@ -25,6 +25,11 @@ class SecureHabitStore implements HabitStore {
     this._storage = const FlutterSecureStorage(),
   ]) : _kind = 'routines.';
 
+  /// The "Yoxla" preferences, checked products and shopping list.
+  const SecureHabitStore.careList([
+    this._storage = const FlutterSecureStorage(),
+  ]) : _kind = 'careList.';
+
   final FlutterSecureStorage _storage;
 
   /// Distinguishes entries of the same account; every key still starts

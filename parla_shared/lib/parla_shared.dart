@@ -5,11 +5,13 @@ import 'src/cosing_data.dart';
 import 'src/ingredients.dart';
 
 export 'src/age_policy.dart';
+export 'src/care_list_rules.dart';
 export 'src/consent_texts.dart';
 export 'src/cosing_data.dart';
 export 'src/custom_routine_rules.dart';
 export 'src/ingredients.dart';
 export 'src/markets.dart';
+export 'src/product_preferences.dart';
 export 'src/quiz.dart';
 export 'src/routine_rules.dart';
 

@@ -176,6 +176,8 @@ class TestEndpoints {
 
   late final _QuizEndpoint quiz;
 
+  late final _CareListEndpoint careList;
+
   late final _RoutineEndpoint routine;
 }
 
@@ -211,6 +213,10 @@ class _InternalTestEndpoints extends TestEndpoints
       serializationManager,
     );
     quiz = _QuizEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    careList = _CareListEndpoint(
       endpoints,
       serializationManager,
     );
@@ -1010,6 +1016,78 @@ class _QuizEndpoint {
                   _localCallContext.arguments,
                 )
                 as _ida.Future<List<_iak2pevv.QuizAnswerInput>>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
+class _CareListEndpoint {
+  _CareListEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _is.EndpointDispatch _endpointDispatch;
+
+  final _is.SerializationManager _serializationManager;
+
+  _ida.Future<String?> myCareList(
+    _ist.TestSessionBuilder sessionBuilder,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'careList',
+            method: 'myCareList',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'careList',
+          methodName: 'myCareList',
+          parameters: _ist.testObjectToJson({}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<String?>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _ida.Future<void> saveCareList(
+    _ist.TestSessionBuilder sessionBuilder,
+    String json,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'careList',
+            method: 'saveCareList',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'careList',
+          methodName: 'saveCareList',
+          parameters: _ist.testObjectToJson({'json': json}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<void>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

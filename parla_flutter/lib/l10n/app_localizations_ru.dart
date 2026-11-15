@@ -989,4 +989,156 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get builderPrivacyDevice =>
       'Пока твои рутины хранятся только на этом телефоне. С обновлённым согласием на данные о здоровье они будут храниться на сервере в зашифрованном виде.';
+
+  @override
+  String get checkPrefsTitle => 'Твои предпочтения';
+
+  @override
+  String get checkPrefsEdit => 'Изменить';
+
+  @override
+  String get checkPrefsEmpty =>
+      'Выбери, что для тебя важно, и мы сравним состав с твоими предпочтениями.';
+
+  @override
+  String get checkPrefsAdd => 'Добавить предпочтения';
+
+  @override
+  String get checkPrefsSheetTitle => 'Что для тебя важно?';
+
+  @override
+  String get checkPrefsSave => 'Сохранить';
+
+  @override
+  String get prefFragranceFree => 'Без отдушек';
+
+  @override
+  String get prefAlcoholFree => 'Без спирта';
+
+  @override
+  String get prefSulfateFree => 'Без сульфатов';
+
+  @override
+  String get prefSiliconeFree => 'Без силиконов';
+
+  @override
+  String get prefParabenFree => 'Без парабенов';
+
+  @override
+  String get prefVegan => 'Веган';
+
+  @override
+  String get prefAlcoholFreeHint =>
+      'Жирные спирты (cetyl, cetearyl) не учитываются';
+
+  @override
+  String get prefVeganHint =>
+      'Проверяются только известные компоненты животного происхождения';
+
+  @override
+  String get checkBarcodeSoon => 'Сканер штрихкода · скоро';
+
+  @override
+  String get checkRecentTitle => 'Недавно проверенные';
+
+  @override
+  String get checkRecentClear => 'Очистить';
+
+  @override
+  String get resultPrefsTitle => 'По твоим предпочтениям';
+
+  @override
+  String resultPrefsSummary(int fits, int count) {
+    return 'Подходит $fits из $count предпочтений';
+  }
+
+  @override
+  String get resultPrefFits => 'Подходит';
+
+  @override
+  String resultPrefContains(String names) {
+    return 'В составе есть: $names';
+  }
+
+  @override
+  String get resultPrefVeganFits =>
+      'Известных компонентов животного происхождения не найдено';
+
+  @override
+  String get resultPrefUnknown => 'Нельзя проверить: нет списка состава';
+
+  @override
+  String get resultPrefsNone =>
+      'Добавь свои предпочтения, и мы сравним с ними состав.';
+
+  @override
+  String get resultPrefsNote =>
+      'Parla не оценивает продукты и не ставит баллы. Совпадение основано только на твоих предпочтениях и списке состава.';
+
+  @override
+  String get resultAddToList => 'В список покупок';
+
+  @override
+  String get resultInList => 'Уже в списке';
+
+  @override
+  String get resultAdded => 'Добавлено в список покупок.';
+
+  @override
+  String shoppingCount(int bought, int total) {
+    return 'Куплено $bought из $total';
+  }
+
+  @override
+  String get shoppingNewHint => 'Новый продукт';
+
+  @override
+  String get shoppingAdd => 'Добавить';
+
+  @override
+  String get shoppingEmpty =>
+      'Список пуст. Отмечай здесь то, что нужно купить.';
+
+  @override
+  String get shoppingAreaOther => 'Другое';
+
+  @override
+  String get shoppingFromCheck => 'Из раздела «Проверка»';
+
+  @override
+  String shoppingRemove(String title) {
+    return 'Удалить: $title';
+  }
+
+  @override
+  String get shoppingRemoveBought => 'Удалить купленное';
+
+  @override
+  String shoppingFull(int count) {
+    return 'В списке может быть не больше $count позиций.';
+  }
+
+  @override
+  String get careListSynced =>
+      'Твои предпочтения и список покупок хранятся на сервере в зашифрованном виде, а на этом телефоне остаётся копия для работы без сети.';
+
+  @override
+  String get careListDevice =>
+      'Пока твои предпочтения и список покупок хранятся только на этом телефоне. С обновлённым согласием на данные о здоровье они будут храниться на сервере в зашифрованном виде.';
+
+  @override
+  String get shopTitle => 'Parla Магазин';
+
+  @override
+  String get shopBody =>
+      'Продукты из твоей рутины в одно касание. Ты сможешь заказать список покупок напрямую и находить продукты по своим предпочтениям.';
+
+  @override
+  String get shopSoonCard => 'Parla Магазин скоро';
+
+  @override
+  String get shopSoonCardBody => 'Ты сможешь заказать список напрямую';
+
+  @override
+  String get shopOpenList => 'Открыть мой список покупок';
 }

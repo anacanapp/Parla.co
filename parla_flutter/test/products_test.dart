@@ -139,6 +139,11 @@ void main() {
       scrollable: find.byType(Scrollable).first,
     );
     expect(find.textContaining('not a safety assessment'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.textContaining('Open Beauty Facts, under the ODbL'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
     expect(find.textContaining('Open Beauty Facts, under the ODbL'), findsOne);
   });
 

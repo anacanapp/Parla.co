@@ -50,6 +50,7 @@ class FakeApi implements ParlaApi {
       if (!granted) {
         quizAnswers = null; // Mirrors the server's erase.
         routines = null;
+        careList = null;
       }
     }
   }
@@ -89,6 +90,27 @@ class FakeApi implements ParlaApi {
   String? routines;
   int routineSaves = 0;
   Object? routineError;
+
+  /// The care list as the server keeps it.
+  String? careList;
+  int careListSaves = 0;
+
+  @override
+  Future<String?> myCareList() async {
+    if (routineError != null) throw routineError!;
+    return healthConsent ? careList : null;
+  }
+
+  @override
+  Future<void> saveCareList(String json) async {
+    if (routineError != null) throw routineError!;
+    if (!healthConsent) throw const ApiError('consent.health_required');
+    if (!CareListRules.isValid(json)) {
+      throw const ApiError('care_list.invalid');
+    }
+    careListSaves++;
+    careList = json;
+  }
 
   @override
   Future<String?> myRoutines() async {
@@ -132,6 +154,7 @@ class FakeApi implements ParlaApi {
     profile = null;
     quizAnswers = null;
     routines = null;
+    careList = null;
   }
 
   /// Products every search returns; [productError] makes search fail.

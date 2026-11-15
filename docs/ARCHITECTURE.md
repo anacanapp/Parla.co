@@ -167,6 +167,33 @@ wording rules and open legal questions: `docs/INGREDIENTS.md`.
   of the other routines due today (hair, body, open weekly steps, own
   routines), each opening the Routine tab.
 
+## Check, preferences and shopping list (redesign step 3)
+
+- **Preferences** (fragrance free, alcohol free, sulfate free, silicone
+  free, paraben free, vegan) are ingredient rules in `parla_shared`
+  (`product_preferences.dart`). New options are added there by pull
+  request, not in an admin panel, so every rule is reviewed. The result is
+  about the user's own picks only: "fits" or "contains X". There is no
+  score, no risk label and no warning colour, and nothing is called
+  harmful. "Vegan" can only say that no known animal-derived ingredient was
+  found, because names like glycerin can come from plants or animals. The
+  ingredient lists are drafts and need the expert review.
+- **Stored** like own routines: preferences, the last 20 checked products
+  and the shopping list (at most 100 items) form one JSON document. The
+  server keeps it encrypted in `care_list_record` under the user's data
+  key, only with a health consent that covers it
+  (`healthVersionsCoveringCareList`, from `health-2026-11-draft3`), and
+  checks it against `CareListRules`. Without that consent it stays on the
+  phone. The phone always keeps an encrypted copy (`SecureHabitStore.careList`)
+  for offline use (`SyncedDocument`).
+- **Rights.** The server export has `careList` and the app adds
+  `deviceCareList`. Withdrawing the health consent deletes the server copy,
+  and account deletion deletes both copies.
+- **Shop.** "Parla Mağaza" is an information screen only. It has no
+  sign-up for news, which would need the marketing consent.
+- **Barcode scanning** is shown as "coming soon". Searches still go through
+  our server only.
+
 ## Reminders
 
 - **Local notifications only** (`flutter_local_notifications`). The phone
@@ -230,7 +257,9 @@ wording rules and open legal questions: `docs/INGREDIENTS.md`.
 | Production hosting, email provider and data region (staging uses AWS in Frankfurt and SMTP via info@anacan.az) | RES-1, RES-5 | After the lawyer answers the localisation questions |
 | Admin/CMS app | M8 | Dropped: expert content lives in code and is reviewed in pull requests |
 | Real-device test of reminders (Android 13+ permission, reboot, iOS foreground) | M7 | Before the beta |
-| Ask people who agreed to an older health consent text to agree to the current one (own routines stay on the phone until then) | CON-3 | Before launch, if anyone agreed to `health-2026-11-draft1` |
+| Ask people who agreed to an older health consent text to agree to the current one (own routines, preferences and the shopping list stay on the phone until then) | CON-3 | Before launch, if anyone agreed to `health-2026-11-draft1` or `draft2` |
+| Expert review of the preference ingredient lists (`product_preferences.dart`) | — | Before launch |
+| Barcode scanning | — | Later step |
 
 ## Known environment issue
 
