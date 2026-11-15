@@ -37,7 +37,8 @@ class DayEntry {
   /// Weekly steps (hair mask, scrub) ticked on this day.
   final Set<String> weeklyDone;
 
-  /// Steps of the user's own routines ticked on this day.
+  /// Own-routine ticks written by an earlier version. Only read so they
+  /// can move to `CustomRoutineBook`; new ticks are kept there.
   final Set<String> customDone;
 
   Set<String> done(RoutineKind kind) =>
@@ -137,14 +138,27 @@ List<DateTime> lastSevenDays(DateTime today) => [
 
 /// Weekly summary for the habits tab. Plain counts and averages only.
 class WeekSummary {
-  WeekSummary(HabitLog log, DateTime today)
-    : dates = lastSevenDays(today),
-      entries = [for (final d in lastSevenDays(today)) log.peek(d)];
+  /// [ownRoutineDays] are the days with a ticked own-routine step
+  /// (`HabitLog.keyOf` keys); they count as care days too.
+  WeekSummary(
+    HabitLog log,
+    DateTime today, {
+    Set<String> ownRoutineDays = const {},
+  }) : dates = lastSevenDays(today),
+       entries = [for (final d in lastSevenDays(today)) log.peek(d)],
+       care = [
+         for (final d in lastSevenDays(today))
+           (log.peek(d)?.hadCare ?? false) ||
+               ownRoutineDays.contains(HabitLog.keyOf(d)),
+       ];
 
   final List<DateTime> dates;
   final List<DayEntry?> entries;
 
-  int get careDays => entries.where((e) => e?.hadCare ?? false).length;
+  /// Per day, oldest first: whether any care step was ticked.
+  final List<bool> care;
+
+  int get careDays => care.where((c) => c).length;
 
   List<int> get water => [for (final e in entries) e?.water ?? 0];
 

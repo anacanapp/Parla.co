@@ -60,6 +60,8 @@ class _ParlaAppState extends State<ParlaApp> {
 
   late final CustomRoutineBook _routines = CustomRoutineBook(
     store: widget.routineStore,
+    api: widget.api,
+    clock: widget.clock,
   );
 
   late final ReminderController _reminders = ReminderController(

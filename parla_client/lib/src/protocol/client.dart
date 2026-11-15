@@ -50,7 +50,8 @@ class EndpointAccount extends _isc.EndpointRef {
 
   /// Deletes the caller's account (checklist DEL-1, DEL-2).
   ///
-  /// In one transaction: health data and its key (crypto-shredding), quiz
+  /// In one transaction: health data, own routines and their key
+  /// (crypto-shredding), quiz
   /// answers, profile and the sign-in account with its sessions and tokens
   /// are deleted. Consent records and audit rows are kept as proof but
   /// their user id is replaced by a pseudonym.
@@ -514,6 +515,39 @@ class EndpointQuiz extends _isc.EndpointRef {
       );
 }
 
+/// The user's own routines and their daily ticks, kept encrypted in
+/// `custom_routine_record` and only with a health consent whose text covers
+/// them ([healthVersionsCoveringOwnRoutines]): the names and steps are free
+/// text that may hold health details. The server never reads
+/// the content beyond checking it against [CustomRoutineRules].
+///
+/// Saves are not written to the audit log: the user changes her own data
+/// many times a day (every tick), and nobody else can read it.
+/// {@category Endpoint}
+class EndpointRoutine extends _isc.EndpointRef {
+  EndpointRoutine(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'routine';
+
+  /// The stored routines as JSON, or `null` when there are none or the
+  /// health consent is not granted.
+  _ida.Future<String?> myRoutines() => caller.callServerEndpoint<String?>(
+    'routine',
+    'myRoutines',
+    {},
+  );
+
+  /// Replaces the stored routines with [json]. Ticks older than
+  /// [CustomRoutineRules.keepTickDays] are dropped.
+  _ida.Future<void> saveRoutines(String json) =>
+      caller.callServerEndpoint<void>(
+        'routine',
+        'saveRoutines',
+        {'json': json},
+      );
+}
+
 class Modules {
   Modules(Client client) {
     serverpod_auth_idp = _iaic.Caller(client);
@@ -559,6 +593,7 @@ class Client extends _isc.ServerpodClientShared {
     product = EndpointProduct(this);
     profile = EndpointProfile(this);
     quiz = EndpointQuiz(this);
+    routine = EndpointRoutine(this);
     modules = Modules(this);
   }
 
@@ -576,6 +611,8 @@ class Client extends _isc.ServerpodClientShared {
 
   late final EndpointQuiz quiz;
 
+  late final EndpointRoutine routine;
+
   late final Modules modules;
 
   @override
@@ -587,6 +624,7 @@ class Client extends _isc.ServerpodClientShared {
     'product': product,
     'profile': profile,
     'quiz': quiz,
+    'routine': routine,
   };
 
   @override

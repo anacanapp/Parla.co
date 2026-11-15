@@ -27,3 +27,6 @@ profile:
 quiz:
   - saveAnswers:
   - myAnswers:
+routine:
+  - myRoutines:
+  - saveRoutines:

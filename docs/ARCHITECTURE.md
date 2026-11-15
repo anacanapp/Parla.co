@@ -143,15 +143,26 @@ wording rules and open legal questions: `docs/INGREDIENTS.md`.
   ticked on any day; they are kept in the same on-device habit log
   (`weeklyDone`).
 - **Own routines** (name, area, every day or one weekday, up to 12 steps of
-  free text) are kept **on the device only**, encrypted in their own
-  `flutter_secure_storage` entry per account
-  (`SecureHabitStore.routines`, at most 20 routines). Their ticks go into
-  the habit log (`customDone`). Free text may hold anything the user types,
-  including health details, so it never reaches the server and is not used
-  for recommendations. The data export includes them (`deviceRoutines`),
-  account deletion deletes them on this phone, and a fresh installation on
-  iOS deletes leftovers like the habit entries. Reminders for own routines
-  are not built yet.
+  free text) and their daily ticks are kept **on the server, encrypted**,
+  in `custom_routine_record` (one row per user, AES-256-GCM under the same
+  data key as the health answers, so deleting `health_key` makes them
+  unreadable). The free text may hold health details, so the server keeps
+  them only with a health consent whose text covers them
+  (`healthVersionsCoveringOwnRoutines`, from `health-2026-11-draft2`) and
+  checks every save against `CustomRoutineRules` in `parla_shared` (known
+  fields only, limits, at most 20 routines, 64 KB, ticks pruned after 90
+  days). Saves are not audited: the user edits her own data many times a
+  day and nobody else can read it.
+- **On the phone** an encrypted copy (`SecureHabitStore.routines`) lets the
+  app work offline; changes made offline are sent on the next start
+  (`pendingUpload`, a local-only flag). Without the covering consent the
+  routines stay on the phone only. Routines and ticks from step 2 (phone
+  only, ticks in the habit log) move to the server on the first start
+  with the consent.
+- **Rights.** The server export includes them (`customRoutines`), the app
+  export also adds the phone copy (`deviceRoutines`). Withdrawing the
+  health consent deletes the server copy (the phone copy stays); account
+  deletion deletes both. Reminders for own routines are not built yet.
 - **Today** shows the face steps for the part of the day, then a short list
   of the other routines due today (hair, body, open weekly steps, own
   routines), each opening the Routine tab.
@@ -203,8 +214,9 @@ wording rules and open legal questions: `docs/INGREDIENTS.md`.
 - **Expert badge.** The "approved by a dermatologist" badge only shows for
   content marked approved. The current routine steps
   (`lib/home/routine.dart`) are sample content and never show it.
-- **Habit data and own routines** are stored on the device only; see
-  "Habits (sprint 4)" and "Care routines and own routines".
+- **Habit data** is stored on the device only, own routines on the server
+  with the health consent; see "Habits (sprint 4)" and "Care routines and
+  own routines".
 
 ## Not done yet (tracked, not forgotten)
 
@@ -218,6 +230,7 @@ wording rules and open legal questions: `docs/INGREDIENTS.md`.
 | Production hosting, email provider and data region (staging uses AWS in Frankfurt and SMTP via info@anacan.az) | RES-1, RES-5 | After the lawyer answers the localisation questions |
 | Admin/CMS app | M8 | Dropped: expert content lives in code and is reviewed in pull requests |
 | Real-device test of reminders (Android 13+ permission, reboot, iOS foreground) | M7 | Before the beta |
+| Ask people who agreed to an older health consent text to agree to the current one (own routines stay on the phone until then) | CON-3 | Before launch, if anyone agreed to `health-2026-11-draft1` |
 
 ## Known environment issue
 

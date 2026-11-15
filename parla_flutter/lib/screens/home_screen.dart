@@ -472,7 +472,7 @@ class _TodayRoutines extends StatelessWidget {
           key: 'today-own-${routine.id}',
           title: routine.name,
           steps: routine.steps.length,
-          done: routine.steps.where((s) => habits.isCustomDone(s.id)).length,
+          done: routine.steps.where((s) => book.isTicked(s.id)).length,
           tile: ParlaColors.blush,
         ),
       );

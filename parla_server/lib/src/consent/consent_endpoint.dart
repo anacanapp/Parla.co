@@ -158,3 +158,21 @@ Future<bool> hasConsent(
   );
   return latest?.granted ?? false;
 }
+
+/// The text version of the user's granted [type] consent, or `null` when
+/// it is not granted.
+Future<String?> grantedConsentVersion(
+  Session session,
+  UuidValue userId,
+  ConsentType type,
+) async {
+  final latest = await ConsentRecord.db.findFirstRow(
+    session,
+    where: (t) => t.authUserId.equals(userId) & t.consentType.equals(type),
+    orderByList: (t) => [
+      t.createdAt.desc(),
+      t.id.desc(),
+    ],
+  );
+  return (latest?.granted ?? false) ? latest!.textVersion : null;
+}

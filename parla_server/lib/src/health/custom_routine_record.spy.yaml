@@ -1,0 +1,18 @@
+### The user's own routines and their daily ticks (data map: own
+### routines), one row per user. [ciphertext] is AES-256-GCM under the same
+### data key as the health answers, with the user id bound in as associated
+### data, so deleting the key in `health_key` makes it unreadable too.
+### Stored only with the health consent, because the names and steps are
+### free text that may hold health details; deleted with the consent.
+class: CustomRoutineRecord
+table: custom_routine_record
+fields:
+  authUserId: UuidValue
+  ciphertext: String
+  nonce: String
+  format: int
+  updatedAt: DateTime
+indexes:
+  custom_routine_record_user_idx:
+    fields: authUserId
+    unique: true

@@ -829,7 +829,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacyHealthWithdrawBody.
   ///
   /// In en, this message translates to:
-  /// **'Your health answers will be deleted right away, and your routine will be built more cautiously. You can give the consent again later.'**
+  /// **'Your health answers and the server copy of your own routines will be deleted right away, and your routine will be built more cautiously. Your own routines stay on this phone. You can give the consent again later.'**
   String get privacyHealthWithdrawBody;
 
   /// No description provided for @privacyWithdraw.
@@ -889,7 +889,7 @@ abstract class AppLocalizations {
   /// No description provided for @deleteWhatGoes.
   ///
   /// In en, this message translates to:
-  /// **'Deleted right away: your profile, quiz answers, health answers and their encryption key, and your sign-in account. Your habit entries and your own routines on this phone are deleted too.'**
+  /// **'Deleted right away: your profile, quiz answers, health answers, your own routines and their encryption key, and your sign-in account. Your habit entries and the copy of your own routines on this phone are deleted too.'**
   String get deleteWhatGoes;
 
   /// No description provided for @deleteWhatStays.
@@ -1762,12 +1762,6 @@ abstract class AppLocalizations {
   /// **'At most {count} steps.'**
   String builderLimit(int count);
 
-  /// No description provided for @builderPrivacyNote.
-  ///
-  /// In en, this message translates to:
-  /// **'Your own routines are kept only on this phone.'**
-  String get builderPrivacyNote;
-
   /// No description provided for @todayRoutinesTitle.
   ///
   /// In en, this message translates to:
@@ -1785,6 +1779,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'No other routines for today.'**
   String get todayRoutinesNone;
+
+  /// No description provided for @builderPrivacySynced.
+  ///
+  /// In en, this message translates to:
+  /// **'Your own routines are kept encrypted on our server, with a copy on this phone for offline use.'**
+  String get builderPrivacySynced;
+
+  /// No description provided for @builderPrivacyDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'For now your own routines are kept only on this phone. With the updated health consent they will be kept encrypted on our server.'**
+  String get builderPrivacyDevice;
 }
 
 class _AppLocalizationsDelegate

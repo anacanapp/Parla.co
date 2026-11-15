@@ -47,7 +47,10 @@ class FakeApi implements ParlaApi {
     consents[kind] = granted;
     if (kind == ConsentKind.health) {
       healthConsent = granted;
-      if (!granted) quizAnswers = null; // Mirrors the server's erase.
+      if (!granted) {
+        quizAnswers = null; // Mirrors the server's erase.
+        routines = null;
+      }
     }
   }
 
@@ -81,6 +84,29 @@ class FakeApi implements ParlaApi {
   @override
   Future<QuizAnswers?> myQuizAnswers() async => quizAnswers;
 
+  /// Own routines as the server keeps them; [routineError] makes the
+  /// calls fail like an offline phone.
+  String? routines;
+  int routineSaves = 0;
+  Object? routineError;
+
+  @override
+  Future<String?> myRoutines() async {
+    if (routineError != null) throw routineError!;
+    return healthConsent ? routines : null;
+  }
+
+  @override
+  Future<void> saveRoutines(String json) async {
+    if (routineError != null) throw routineError!;
+    if (!healthConsent) throw const ApiError('consent.health_required');
+    if (!CustomRoutineRules.isValid(json)) {
+      throw const ApiError('routines.invalid');
+    }
+    routineSaves++;
+    routines = json;
+  }
+
   final consents = <ConsentKind, bool>{
     for (final kind in ConsentKind.values) kind: false,
   };
@@ -105,6 +131,7 @@ class FakeApi implements ParlaApi {
     signedIn = false;
     profile = null;
     quizAnswers = null;
+    routines = null;
   }
 
   /// Products every search returns; [productError] makes search fail.

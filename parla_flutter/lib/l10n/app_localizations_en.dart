@@ -423,7 +423,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyHealthWithdrawBody =>
-      'Your health answers will be deleted right away, and your routine will be built more cautiously. You can give the consent again later.';
+      'Your health answers and the server copy of your own routines will be deleted right away, and your routine will be built more cautiously. Your own routines stay on this phone. You can give the consent again later.';
 
   @override
   String get privacyWithdraw => 'Withdraw and delete';
@@ -455,7 +455,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteWhatGoes =>
-      'Deleted right away: your profile, quiz answers, health answers and their encryption key, and your sign-in account. Your habit entries and your own routines on this phone are deleted too.';
+      'Deleted right away: your profile, quiz answers, health answers, your own routines and their encryption key, and your sign-in account. Your habit entries and the copy of your own routines on this phone are deleted too.';
 
   @override
   String get deleteWhatStays =>
@@ -971,10 +971,6 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get builderPrivacyNote =>
-      'Your own routines are kept only on this phone.';
-
-  @override
   String get todayRoutinesTitle => 'Today\'s routines';
 
   @override
@@ -982,4 +978,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get todayRoutinesNone => 'No other routines for today.';
+
+  @override
+  String get builderPrivacySynced =>
+      'Your own routines are kept encrypted on our server, with a copy on this phone for offline use.';
+
+  @override
+  String get builderPrivacyDevice =>
+      'For now your own routines are kept only on this phone. With the updated health consent they will be kept encrypted on our server.';
 }

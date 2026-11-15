@@ -25,9 +25,9 @@ List<String> stepSuggestions(RoutineArea area, String language) {
   return [for (final s in routineSteps(ids.toList(), language)) s.title];
 }
 
-/// Makes or edits one of the user's own routines. Everything stays on this
-/// device; the name and steps are free text, so nothing here is sent to
-/// the server or used for recommendations.
+/// Makes or edits one of the user's own routines. The name and steps are
+/// free text: they are kept encrypted (on the server only with the health
+/// consent) and never used for recommendations.
 class RoutineBuilderScreen extends StatefulWidget {
   const RoutineBuilderScreen({super.key, this.routineId});
 
@@ -328,7 +328,9 @@ class _RoutineBuilderScreenState extends State<RoutineBuilderScreen> {
             const SizedBox(width: 8),
             Expanded(
               child: Text(
-                l10n.builderPrivacyNote,
+                _book.isSynced
+                    ? l10n.builderPrivacySynced
+                    : l10n.builderPrivacyDevice,
                 style: text.bodySmall?.copyWith(color: ParlaColors.muted),
               ),
             ),

@@ -121,7 +121,7 @@
   "privacyIntro": "Sənin datan, sənin seçimin. Hər hüququn bir toxunuş uzaqlığındadır.",
   "privacyConsentsTitle": "Razılıqlar",
   "privacyHealthWithdrawTitle": "Sağlamlıq razılığını geri götürürsünüz?",
-  "privacyHealthWithdrawBody": "Sağlamlıq cavablarınız dərhal silinəcək və rutin daha ehtiyatlı qurulacaq. Razılığı sonra yenidən verə bilərsiniz.",
+  "privacyHealthWithdrawBody": "Sağlamlıq cavablarınız və öz rutinlərinizin serverdəki nüsxəsi dərhal silinəcək, rutin daha ehtiyatlı qurulacaq. Öz rutinləriniz bu telefonda qalır. Razılığı sonra yenidən verə bilərsiniz.",
   "privacyWithdraw": "Geri götür və sil",
   "privacyCancel": "Ləğv et",
   "privacyExportTitle": "Datamı yüklə",
@@ -131,7 +131,7 @@
   "privacySignOut": "Çıxış",
   "privacyDeleteTitle": "Hesabı sil",
   "deleteTitle": "Hesabınız silinsin?",
-  "deleteWhatGoes": "Dərhal silinir: profiliniz, test cavablarınız, sağlamlıq cavablarınız və onların şifrə açarı, giriş hesabınız. Bu telefondakı vərdiş qeydləriniz və öz rutinləriniz də silinir.",
+  "deleteWhatGoes": "Dərhal silinir: profiliniz, test cavablarınız, sağlamlıq cavablarınız, öz rutinləriniz və onların şifrə açarı, giriş hesabınız. Bu telefondakı vərdiş qeydləriniz və öz rutinlərinizin nüsxəsi də silinir.",
   "deleteWhatStays": "Adınız və e-poçtunuz olmadan sübut kimi qalır: razılıq tarixçəsi (3 il) və təhlükəsizlik qeydləri (1 il).",
   "deleteExportFirst": "Əvvəlcə datamı yüklə",
   "deleteConfirmLabel": "Təsdiq üçün {word} yazın",
@@ -277,8 +277,9 @@
   "builderNeedName": "Rutinə ad ver.",
   "builderNeedStep": "Ən azı bir addım əlavə et.",
   "builderLimit": "Ən çox {count} addım.",
-  "builderPrivacyNote": "Öz rutinlərin yalnız bu telefonda saxlanılır.",
   "todayRoutinesTitle": "Bu günün rutinləri",
   "todayRoutinesAll": "Hamısı",
-  "todayRoutinesNone": "Bu gün üçün başqa rutin yoxdur."
+  "todayRoutinesNone": "Bu gün üçün başqa rutin yoxdur.",
+  "builderPrivacySynced": "Öz rutinlərin serverdə şifrəli saxlanılır, bu telefonda isə oflayn üçün nüsxəsi qalır.",
+  "builderPrivacyDevice": "Öz rutinlərin hələlik yalnız bu telefonda saxlanılır. Yenilənmiş sağlamlıq razılığı ilə serverdə şifrəli saxlanılacaq."
 }

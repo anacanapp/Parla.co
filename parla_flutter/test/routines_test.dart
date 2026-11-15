@@ -39,6 +39,8 @@ Future<_App> _open(
   MemoryHabitStore? habits,
   MemoryHabitStore? routines,
   QuizAnswers? answers,
+  bool? healthConsent,
+  FakeApi? api,
   double textScale = 1,
 }) async {
   tester.view.physicalSize = const Size(390 * 3, 844 * 3);
@@ -52,10 +54,10 @@ Future<_App> _open(
   final shared = <String>[];
   final habitStore = habits ?? MemoryHabitStore();
   final routineStore = routines ?? MemoryHabitStore();
-  final api = FakeApi()
+  api ??= FakeApi()
     ..signedIn = true
     ..profile = ProfileSummary(countryCode: 'AZ', language: language)
-    ..healthConsent = answers != null
+    ..healthConsent = healthConsent ?? answers != null
     ..quizAnswers = answers;
   await tester.pumpWidget(
     ParlaApp(
@@ -242,12 +244,16 @@ void main() {
     expect(routines, hasLength(1));
     expect((routines.single as Map)['name'], 'Sunday spa');
     expect((routines.single as Map)['area'], 'hair');
-    // Nothing about own routines reaches the server.
-    expect(app.api.quizAnswers, isNull);
+    // Without the health consent nothing reaches the server.
+    expect(app.api.routines, isNull);
+    expect(app.api.routineSaves, 0);
 
     await _tap(tester, find.text('Oil the ends'));
     expect(find.textContaining('Every day · 2 steps · 1/2'), findsOneWidget);
-    expect(_stored(app.habits).toString(), contains('customDone'));
+    expect(_stored(app.routines)['ticks'], {
+      '2026-11-12': [isA<String>()],
+    });
+    expect(app.habits.data['user-1'] ?? '', isNot(contains('customDone')));
   });
 
   testWidgets('a once-a-week routine shows its steps only on its day', (
@@ -280,7 +286,7 @@ void main() {
     await _tap(tester, find.byKey(const ValueKey('routine-own-add')));
     expect(find.text('Make your own routine'), findsOneWidget);
     await tester.scrollUntilVisible(
-      find.text('Your own routines are kept only on this phone.'),
+      find.textContaining('For now your own routines are kept only on'),
       200,
       scrollable: find.byType(Scrollable).first,
     );
@@ -456,6 +462,123 @@ void main() {
 
     await _tap(tester, find.byKey(const ValueKey('today-own-r1')));
     expect(find.byKey(const ValueKey('area-face')), findsOneWidget);
+  });
+
+  group('with the health consent', () {
+    Map<String, Object?> server(FakeApi api) =>
+        jsonDecode(api.routines!) as Map<String, Object?>;
+
+    testWidgets('a new routine and its ticks are kept on the server too', (
+      tester,
+    ) async {
+      final app = await _open(tester, healthConsent: true);
+      await _makeRoutine(tester, name: 'Spa', steps: ['Mask']);
+      expect(
+        (server(app.api)['routines']! as List).single,
+        containsPair(
+          'name',
+          'Spa',
+        ),
+      );
+      expect(_stored(app.routines)['pendingUpload'], isFalse);
+
+      await _tap(tester, find.byKey(const ValueKey('area-hair')));
+      await _tap(tester, find.text('Mask'));
+      expect(server(app.api)['ticks'], {
+        '2026-11-12': [isA<String>()],
+      });
+      // The pending flag is local only and never sent.
+      expect(app.api.routines, isNot(contains('pendingUpload')));
+
+      await _tap(tester, find.byTooltip('Edit: Spa'));
+      await tester.scrollUntilVisible(
+        find.textContaining('kept encrypted on our server'),
+        200,
+        scrollable: find.byType(Scrollable).first,
+      );
+    });
+
+    testWidgets("the server's copy is shown on a new phone", (tester) async {
+      final api = FakeApi()
+        ..signedIn = true
+        ..profile = const ProfileSummary(countryCode: 'AZ', language: 'en')
+        ..healthConsent = true
+        ..routines = jsonEncode({
+          'format': 1,
+          'routines': [
+            {'id': 'r1', 'name': 'From the cloud', 'area': 'face'},
+          ],
+        });
+      final routines = MemoryHabitStore();
+      await _open(tester, api: api, routines: routines);
+      await tester.scrollUntilVisible(
+        find.text('From the cloud'),
+        200,
+        scrollable: find.byType(Scrollable).first,
+      );
+      expect(_stored(routines)['routines'], hasLength(1));
+      expect(api.routineSaves, 0);
+    });
+
+    testWidgets('changes made offline are sent on the next start', (
+      tester,
+    ) async {
+      final api = FakeApi()
+        ..signedIn = true
+        ..profile = const ProfileSummary(countryCode: 'AZ', language: 'en')
+        ..healthConsent = true
+        ..routineError = Exception('offline');
+      final routines = MemoryHabitStore();
+      await _open(tester, api: api, routines: routines);
+      await _makeRoutine(tester, name: 'Offline', steps: ['One']);
+      expect(api.routines, isNull);
+      expect(_stored(routines)['pendingUpload'], isTrue);
+
+      api.routineError = null;
+      await _open(tester, api: api, routines: routines);
+      expect(server(api)['routines'], hasLength(1));
+      expect(_stored(routines)['pendingUpload'], isFalse);
+    });
+
+    testWidgets('routines and ticks from an earlier version move to the '
+        'server', (tester) async {
+      final routines = MemoryHabitStore()
+        ..data['user-1'] = jsonEncode({
+          'format': 1,
+          'routines': [
+            {
+              'id': 'r1',
+              'name': 'Old',
+              'area': 'body',
+              'steps': [
+                {'id': 's1', 'title': 'Scrub'},
+              ],
+            },
+          ],
+        });
+      final habits = MemoryHabitStore()
+        ..data['user-1'] = jsonEncode({
+          'format': 'parla-habits-v1',
+          'days': {
+            '2026-11-12': {
+              'water': 2,
+              'customDone': ['s1'],
+            },
+          },
+        });
+      final app = await _open(
+        tester,
+        healthConsent: true,
+        routines: routines,
+        habits: habits,
+      );
+      expect(server(app.api)['routines'], hasLength(1));
+      expect(server(app.api)['ticks'], {
+        '2026-11-12': ['s1'],
+      });
+      expect(habits.data['user-1'], isNot(contains('customDone')));
+      expect(habits.data['user-1'], contains('"water":2'));
+    });
   });
 
   for (final language in ['az', 'ru', 'en']) {

@@ -175,6 +175,8 @@ class TestEndpoints {
   late final _ProfileEndpoint profile;
 
   late final _QuizEndpoint quiz;
+
+  late final _RoutineEndpoint routine;
 }
 
 class _InternalTestEndpoints extends TestEndpoints
@@ -209,6 +211,10 @@ class _InternalTestEndpoints extends TestEndpoints
       serializationManager,
     );
     quiz = _QuizEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    routine = _RoutineEndpoint(
       endpoints,
       serializationManager,
     );
@@ -1004,6 +1010,78 @@ class _QuizEndpoint {
                   _localCallContext.arguments,
                 )
                 as _ida.Future<List<_iak2pevv.QuizAnswerInput>>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
+class _RoutineEndpoint {
+  _RoutineEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _is.EndpointDispatch _endpointDispatch;
+
+  final _is.SerializationManager _serializationManager;
+
+  _ida.Future<String?> myRoutines(
+    _ist.TestSessionBuilder sessionBuilder,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'routine',
+            method: 'myRoutines',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'routine',
+          methodName: 'myRoutines',
+          parameters: _ist.testObjectToJson({}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<String?>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _ida.Future<void> saveRoutines(
+    _ist.TestSessionBuilder sessionBuilder,
+    String json,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'routine',
+            method: 'saveRoutines',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'routine',
+          methodName: 'saveRoutines',
+          parameters: _ist.testObjectToJson({'json': json}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<void>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
