@@ -263,13 +263,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get habitLog => 'Log';
 
   @override
-  String get scanTitle => 'Check a product';
-
-  @override
-  String get scanBody =>
-      'Scan the barcode and see the ingredients in plain words';
-
-  @override
   String get navMenuLabel => 'Main menu';
 
   @override
@@ -443,7 +436,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyExportBody =>
-      'A file with everything Parla stores about you, plus the habit entries on this phone. It is created now and is not kept on our servers.';
+      'A file with everything Parla stores about you, plus the habit entries and your own routines on this phone. It is created now and is not kept on our servers.';
 
   @override
   String get privacyExportButton => 'Create file';
@@ -462,7 +455,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteWhatGoes =>
-      'Deleted right away: your profile, quiz answers, health answers and their encryption key, and your sign-in account. Your habit entries on this phone are deleted too.';
+      'Deleted right away: your profile, quiz answers, health answers and their encryption key, and your sign-in account. Your habit entries and your own routines on this phone are deleted too.';
 
   @override
   String get deleteWhatStays =>
@@ -844,4 +837,149 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get onboardingStepPrivacy => 'Privacy';
+
+  @override
+  String get routineAreaFace => 'Face';
+
+  @override
+  String get routineAreaHair => 'Hair';
+
+  @override
+  String get routineAreaBody => 'Body';
+
+  @override
+  String get routineSlotMorning => 'Morning';
+
+  @override
+  String get routineSlotEvening => 'Evening';
+
+  @override
+  String get routineSlotWeekly => 'Weekly';
+
+  @override
+  String get routineWeeklyHint => 'Once a week. Ticks reset on Monday.';
+
+  @override
+  String get routineSlotEmpty => 'No steps for this time.';
+
+  @override
+  String get routineOwnButton => 'Your own';
+
+  @override
+  String get routineOwnSection => 'Your routines';
+
+  @override
+  String get routineOwnEmpty => 'Make your own routine and tick it off here.';
+
+  @override
+  String get routineOwnEveryDay => 'Every day';
+
+  @override
+  String routineOwnSteps(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count steps',
+      one: '1 step',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String routineOwnEdit(String name) {
+    return 'Edit: $name';
+  }
+
+  @override
+  String get routineDayHabits => 'During the day';
+
+  @override
+  String get builderTitleNew => 'Make your own routine';
+
+  @override
+  String get builderTitleEdit => 'Edit routine';
+
+  @override
+  String get builderName => 'Name';
+
+  @override
+  String get builderNameHint => 'E.g. Sunday spa';
+
+  @override
+  String get builderArea => 'Area';
+
+  @override
+  String get builderWhen => 'When';
+
+  @override
+  String get builderEveryDay => 'Every day';
+
+  @override
+  String get builderOnceWeek => 'Once a week';
+
+  @override
+  String get builderSteps => 'Steps';
+
+  @override
+  String get builderStepHint => 'New step';
+
+  @override
+  String get builderAddStep => 'Add';
+
+  @override
+  String get builderSuggestions => 'Pick a ready step';
+
+  @override
+  String builderMoveUp(String step) {
+    return 'Move up: $step';
+  }
+
+  @override
+  String builderMoveDown(String step) {
+    return 'Move down: $step';
+  }
+
+  @override
+  String builderRemoveStep(String step) {
+    return 'Remove: $step';
+  }
+
+  @override
+  String get builderSave => 'Save routine';
+
+  @override
+  String get builderDelete => 'Delete routine';
+
+  @override
+  String get builderDeleteConfirm => 'Delete this routine?';
+
+  @override
+  String get builderDeleteYes => 'Delete';
+
+  @override
+  String get builderCancel => 'Cancel';
+
+  @override
+  String get builderNeedName => 'Give the routine a name.';
+
+  @override
+  String get builderNeedStep => 'Add at least one step.';
+
+  @override
+  String builderLimit(int count) {
+    return 'At most $count steps.';
+  }
+
+  @override
+  String get builderPrivacyNote =>
+      'Your own routines are kept only on this phone.';
+
+  @override
+  String get todayRoutinesTitle => 'Today\'s routines';
+
+  @override
+  String get todayRoutinesAll => 'All';
+
+  @override
+  String get todayRoutinesNone => 'No other routines for today.';
 }

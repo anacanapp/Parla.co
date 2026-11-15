@@ -87,7 +87,7 @@ void main() {
 
     await tester.tap(_tab(ParlaTab.routine));
     await tester.pumpAndSettle();
-    expect(find.text('Last 7 days'), findsOneWidget);
+    expect(find.byKey(const ValueKey('area-face')), findsOneWidget);
 
     await tester.tap(_tab(ParlaTab.check));
     await tester.pumpAndSettle();

@@ -556,18 +556,6 @@ abstract class AppLocalizations {
   /// **'Log'**
   String get habitLog;
 
-  /// No description provided for @scanTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Check a product'**
-  String get scanTitle;
-
-  /// No description provided for @scanBody.
-  ///
-  /// In en, this message translates to:
-  /// **'Scan the barcode and see the ingredients in plain words'**
-  String get scanBody;
-
   /// No description provided for @navMenuLabel.
   ///
   /// In en, this message translates to:
@@ -865,7 +853,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacyExportBody.
   ///
   /// In en, this message translates to:
-  /// **'A file with everything Parla stores about you, plus the habit entries on this phone. It is created now and is not kept on our servers.'**
+  /// **'A file with everything Parla stores about you, plus the habit entries and your own routines on this phone. It is created now and is not kept on our servers.'**
   String get privacyExportBody;
 
   /// No description provided for @privacyExportButton.
@@ -901,7 +889,7 @@ abstract class AppLocalizations {
   /// No description provided for @deleteWhatGoes.
   ///
   /// In en, this message translates to:
-  /// **'Deleted right away: your profile, quiz answers, health answers and their encryption key, and your sign-in account. Your habit entries on this phone are deleted too.'**
+  /// **'Deleted right away: your profile, quiz answers, health answers and their encryption key, and your sign-in account. Your habit entries and your own routines on this phone are deleted too.'**
   String get deleteWhatGoes;
 
   /// No description provided for @deleteWhatStays.
@@ -1545,6 +1533,258 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Privacy'**
   String get onboardingStepPrivacy;
+
+  /// No description provided for @routineAreaFace.
+  ///
+  /// In en, this message translates to:
+  /// **'Face'**
+  String get routineAreaFace;
+
+  /// No description provided for @routineAreaHair.
+  ///
+  /// In en, this message translates to:
+  /// **'Hair'**
+  String get routineAreaHair;
+
+  /// No description provided for @routineAreaBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Body'**
+  String get routineAreaBody;
+
+  /// No description provided for @routineSlotMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning'**
+  String get routineSlotMorning;
+
+  /// No description provided for @routineSlotEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Evening'**
+  String get routineSlotEvening;
+
+  /// No description provided for @routineSlotWeekly.
+  ///
+  /// In en, this message translates to:
+  /// **'Weekly'**
+  String get routineSlotWeekly;
+
+  /// No description provided for @routineWeeklyHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Once a week. Ticks reset on Monday.'**
+  String get routineWeeklyHint;
+
+  /// No description provided for @routineSlotEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No steps for this time.'**
+  String get routineSlotEmpty;
+
+  /// No description provided for @routineOwnButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Your own'**
+  String get routineOwnButton;
+
+  /// No description provided for @routineOwnSection.
+  ///
+  /// In en, this message translates to:
+  /// **'Your routines'**
+  String get routineOwnSection;
+
+  /// No description provided for @routineOwnEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Make your own routine and tick it off here.'**
+  String get routineOwnEmpty;
+
+  /// No description provided for @routineOwnEveryDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day'**
+  String get routineOwnEveryDay;
+
+  /// No description provided for @routineOwnSteps.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =1{1 step} other{{count} steps}}'**
+  String routineOwnSteps(int count);
+
+  /// No description provided for @routineOwnEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit: {name}'**
+  String routineOwnEdit(String name);
+
+  /// No description provided for @routineDayHabits.
+  ///
+  /// In en, this message translates to:
+  /// **'During the day'**
+  String get routineDayHabits;
+
+  /// No description provided for @builderTitleNew.
+  ///
+  /// In en, this message translates to:
+  /// **'Make your own routine'**
+  String get builderTitleNew;
+
+  /// No description provided for @builderTitleEdit.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit routine'**
+  String get builderTitleEdit;
+
+  /// No description provided for @builderName.
+  ///
+  /// In en, this message translates to:
+  /// **'Name'**
+  String get builderName;
+
+  /// No description provided for @builderNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'E.g. Sunday spa'**
+  String get builderNameHint;
+
+  /// No description provided for @builderArea.
+  ///
+  /// In en, this message translates to:
+  /// **'Area'**
+  String get builderArea;
+
+  /// No description provided for @builderWhen.
+  ///
+  /// In en, this message translates to:
+  /// **'When'**
+  String get builderWhen;
+
+  /// No description provided for @builderEveryDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day'**
+  String get builderEveryDay;
+
+  /// No description provided for @builderOnceWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Once a week'**
+  String get builderOnceWeek;
+
+  /// No description provided for @builderSteps.
+  ///
+  /// In en, this message translates to:
+  /// **'Steps'**
+  String get builderSteps;
+
+  /// No description provided for @builderStepHint.
+  ///
+  /// In en, this message translates to:
+  /// **'New step'**
+  String get builderStepHint;
+
+  /// No description provided for @builderAddStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get builderAddStep;
+
+  /// No description provided for @builderSuggestions.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick a ready step'**
+  String get builderSuggestions;
+
+  /// No description provided for @builderMoveUp.
+  ///
+  /// In en, this message translates to:
+  /// **'Move up: {step}'**
+  String builderMoveUp(String step);
+
+  /// No description provided for @builderMoveDown.
+  ///
+  /// In en, this message translates to:
+  /// **'Move down: {step}'**
+  String builderMoveDown(String step);
+
+  /// No description provided for @builderRemoveStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove: {step}'**
+  String builderRemoveStep(String step);
+
+  /// No description provided for @builderSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save routine'**
+  String get builderSave;
+
+  /// No description provided for @builderDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete routine'**
+  String get builderDelete;
+
+  /// No description provided for @builderDeleteConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this routine?'**
+  String get builderDeleteConfirm;
+
+  /// No description provided for @builderDeleteYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get builderDeleteYes;
+
+  /// No description provided for @builderCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get builderCancel;
+
+  /// No description provided for @builderNeedName.
+  ///
+  /// In en, this message translates to:
+  /// **'Give the routine a name.'**
+  String get builderNeedName;
+
+  /// No description provided for @builderNeedStep.
+  ///
+  /// In en, this message translates to:
+  /// **'Add at least one step.'**
+  String get builderNeedStep;
+
+  /// No description provided for @builderLimit.
+  ///
+  /// In en, this message translates to:
+  /// **'At most {count} steps.'**
+  String builderLimit(int count);
+
+  /// No description provided for @builderPrivacyNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Your own routines are kept only on this phone.'**
+  String get builderPrivacyNote;
+
+  /// No description provided for @todayRoutinesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s routines'**
+  String get todayRoutinesTitle;
+
+  /// No description provided for @todayRoutinesAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get todayRoutinesAll;
+
+  /// No description provided for @todayRoutinesNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No other routines for today.'**
+  String get todayRoutinesNone;
 }
 
 class _AppLocalizationsDelegate

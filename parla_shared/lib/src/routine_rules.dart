@@ -95,3 +95,88 @@ RoutinePlan planRoutine(QuizAnswers a) {
     exclusions: exclusions,
   );
 }
+
+/// The three care areas of the Routine tab.
+enum RoutineArea { face, hair, body }
+
+/// When a step is done: every morning, every evening, or once a week.
+enum RoutineSlot { morning, evening, weekly }
+
+/// Steps of one care area per slot, in order. Any slot may be empty.
+class AreaPlan {
+  const AreaPlan({
+    this.morning = const [],
+    this.evening = const [],
+    this.weekly = const [],
+  });
+
+  final List<String> morning;
+  final List<String> evening;
+  final List<String> weekly;
+
+  List<String> slot(RoutineSlot slot) => switch (slot) {
+    RoutineSlot.morning => morning,
+    RoutineSlot.evening => evening,
+    RoutineSlot.weekly => weekly,
+  };
+
+  bool get isEmpty => morning.isEmpty && evening.isEmpty && weekly.isEmpty;
+}
+
+/// Hair care from the hair answers (SAMPLE RULES, NOT EXPERT-APPROVED).
+///
+/// Without answers (no quiz yet) the basic wash-day routine is used.
+/// Washing is a weekly slot: how often people wash differs a lot, so the
+/// app asks for it once a week rather than prescribing a frequency.
+AreaPlan planHair(QuizAnswers? a) {
+  bool has(String id, String option) => a?.has(id, option) ?? false;
+  final textured = has('hair_type', 'curly') || has('hair_type', 'coily');
+  final dry = has('hair_concerns', 'dryness');
+  final frizz = has('hair_concerns', 'frizz');
+  final breakage = has('hair_concerns', 'breakage');
+  final oily = has('hair_concerns', 'oiliness');
+
+  final morning = <String>['hair-detangle'];
+  if ((textured || dry || frizz) && !oily) morning.add('hair-leave-in');
+
+  final evening = <String>[if (breakage || textured) 'hair-night-protect'];
+
+  final weekly = <String>['hair-wash', 'hair-conditioner'];
+  if (dry || breakage || textured) weekly.add('hair-mask');
+  if (oily) weekly.add('hair-scalp-care');
+
+  return AreaPlan(morning: morning, evening: evening, weekly: weekly);
+}
+
+/// Body care (SAMPLE RULES, NOT EXPERT-APPROVED).
+///
+/// The quiz has no body questions yet, so everyone gets the same basic
+/// routine; sensitive skin skips the scrub and outdoor days add sunscreen.
+AreaPlan planBody(QuizAnswers? a) {
+  bool has(String id, String option) => a?.has(id, option) ?? false;
+  final sensitive =
+      has('skin_sensitivity', 'often') ||
+      has('conditions', 'eczema') ||
+      has('conditions', 'psoriasis');
+  return AreaPlan(
+    morning: [
+      'body-shower',
+      if (!has('sun_exposure', 'indoors')) 'body-sunscreen',
+    ],
+    evening: const ['body-lotion'],
+    weekly: [if (!sensitive) 'body-scrub', 'body-hands-feet'],
+  );
+}
+
+/// The face plan as an [AreaPlan] (face has no weekly steps yet).
+AreaPlan facePlan(QuizAnswers? a) {
+  final plan = a == null ? defaultRoutinePlan : planRoutine(a);
+  return AreaPlan(morning: plan.morning, evening: plan.evening);
+}
+
+/// The plan for [area].
+AreaPlan planArea(RoutineArea area, QuizAnswers? a) => switch (area) {
+  RoutineArea.face => facePlan(a),
+  RoutineArea.hair => planHair(a),
+  RoutineArea.body => planBody(a),
+};

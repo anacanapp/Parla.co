@@ -259,13 +259,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get habitLog => 'Записать';
 
   @override
-  String get scanTitle => 'Проверить продукт';
-
-  @override
-  String get scanBody =>
-      'Отсканируй штрихкод и посмотри состав простыми словами';
-
-  @override
   String get navMenuLabel => 'Главное меню';
 
   @override
@@ -441,7 +434,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get privacyExportBody =>
-      'Всё, что Parla хранит о вас, а также записи о привычках с этого телефона, в одном файле. Файл создаётся сейчас и не хранится на наших серверах.';
+      'Всё, что Parla хранит о вас, а также записи о привычках и ваши собственные рутины с этого телефона, в одном файле. Файл создаётся сейчас и не хранится на наших серверах.';
 
   @override
   String get privacyExportButton => 'Создать файл';
@@ -460,7 +453,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get deleteWhatGoes =>
-      'Сразу удаляются: профиль, ответы теста, ответы о здоровье и их ключ шифрования, аккаунт для входа. Записи о привычках на этом телефоне тоже удаляются.';
+      'Сразу удаляются: профиль, ответы теста, ответы о здоровье и их ключ шифрования, аккаунт для входа. Записи о привычках и ваши рутины на этом телефоне тоже удаляются.';
 
   @override
   String get deleteWhatStays =>
@@ -844,4 +837,152 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get onboardingStepPrivacy => 'Приватность';
+
+  @override
+  String get routineAreaFace => 'Лицо';
+
+  @override
+  String get routineAreaHair => 'Волосы';
+
+  @override
+  String get routineAreaBody => 'Тело';
+
+  @override
+  String get routineSlotMorning => 'Утро';
+
+  @override
+  String get routineSlotEvening => 'Вечер';
+
+  @override
+  String get routineSlotWeekly => 'Раз в неделю';
+
+  @override
+  String get routineWeeklyHint =>
+      'Раз в неделю. Отметки обновляются в понедельник.';
+
+  @override
+  String get routineSlotEmpty => 'На это время шагов нет.';
+
+  @override
+  String get routineOwnButton => 'Своя рутина';
+
+  @override
+  String get routineOwnSection => 'Твои рутины';
+
+  @override
+  String get routineOwnEmpty => 'Создай свою рутину и отмечай её здесь.';
+
+  @override
+  String get routineOwnEveryDay => 'Каждый день';
+
+  @override
+  String routineOwnSteps(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count шага',
+      many: '$count шагов',
+      few: '$count шага',
+      one: '$count шаг',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String routineOwnEdit(String name) {
+    return 'Изменить: $name';
+  }
+
+  @override
+  String get routineDayHabits => 'В течение дня';
+
+  @override
+  String get builderTitleNew => 'Своя рутина';
+
+  @override
+  String get builderTitleEdit => 'Изменить рутину';
+
+  @override
+  String get builderName => 'Название';
+
+  @override
+  String get builderNameHint => 'Например, СПА в воскресенье';
+
+  @override
+  String get builderArea => 'Раздел';
+
+  @override
+  String get builderWhen => 'Когда';
+
+  @override
+  String get builderEveryDay => 'Каждый день';
+
+  @override
+  String get builderOnceWeek => 'Раз в неделю';
+
+  @override
+  String get builderSteps => 'Шаги';
+
+  @override
+  String get builderStepHint => 'Новый шаг';
+
+  @override
+  String get builderAddStep => 'Добавить';
+
+  @override
+  String get builderSuggestions => 'Готовые шаги';
+
+  @override
+  String builderMoveUp(String step) {
+    return 'Выше: $step';
+  }
+
+  @override
+  String builderMoveDown(String step) {
+    return 'Ниже: $step';
+  }
+
+  @override
+  String builderRemoveStep(String step) {
+    return 'Удалить: $step';
+  }
+
+  @override
+  String get builderSave => 'Сохранить';
+
+  @override
+  String get builderDelete => 'Удалить рутину';
+
+  @override
+  String get builderDeleteConfirm => 'Удалить эту рутину?';
+
+  @override
+  String get builderDeleteYes => 'Удалить';
+
+  @override
+  String get builderCancel => 'Отмена';
+
+  @override
+  String get builderNeedName => 'Дай рутине название.';
+
+  @override
+  String get builderNeedStep => 'Добавь хотя бы один шаг.';
+
+  @override
+  String builderLimit(int count) {
+    return 'Не больше $count шагов.';
+  }
+
+  @override
+  String get builderPrivacyNote =>
+      'Твои рутины хранятся только на этом телефоне.';
+
+  @override
+  String get todayRoutinesTitle => 'Рутины на сегодня';
+
+  @override
+  String get todayRoutinesAll => 'Все';
+
+  @override
+  String get todayRoutinesNone => 'На сегодня других рутин нет.';
 }

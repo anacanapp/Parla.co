@@ -150,6 +150,11 @@ void main() {
     });
 
     await _tap(tester, find.byType(BackButton));
+    await tester.scrollUntilVisible(
+      find.text('1 on'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
     expect(find.text('1 on'), findsOneWidget);
   });
 

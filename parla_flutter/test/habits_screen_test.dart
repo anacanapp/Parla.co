@@ -120,7 +120,6 @@ void main() {
   testWidgets('the week shows plain counts and averages', (tester) async {
     await _pumpHabits(tester);
     expect(find.text('Routine'), findsWidgets);
-    expect(find.text('Last 7 days'), findsOneWidget);
 
     final handle = tester.ensureSemantics();
     await tester.scrollUntilVisible(
@@ -128,6 +127,7 @@ void main() {
       200,
       scrollable: find.byType(Scrollable).first,
     );
+    expect(find.text('Last 7 days'), findsOneWidget);
     expect(
       _label(tester, 'week-care'),
       'Days you made time for your routine. 2 of 7 days',

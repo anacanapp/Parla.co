@@ -135,8 +135,6 @@
   "habitMove": "Movement",
   "habitNoEntry": "Nothing logged yet",
   "habitLog": "Log",
-  "scanTitle": "Check a product",
-  "scanBody": "Scan the barcode and see the ingredients in plain words",
   "navMenuLabel": "Main menu",
   "navToday": "Today",
   "comingSoon": "This part arrives in the next version.",
@@ -223,13 +221,13 @@
   "privacyWithdraw": "Withdraw and delete",
   "privacyCancel": "Cancel",
   "privacyExportTitle": "Download my data",
-  "privacyExportBody": "A file with everything Parla stores about you, plus the habit entries on this phone. It is created now and is not kept on our servers.",
+  "privacyExportBody": "A file with everything Parla stores about you, plus the habit entries and your own routines on this phone. It is created now and is not kept on our servers.",
   "privacyExportButton": "Create file",
   "privacyLegalTitle": "Legal documents",
   "privacySignOut": "Sign out",
   "privacyDeleteTitle": "Delete account",
   "deleteTitle": "Delete your account?",
-  "deleteWhatGoes": "Deleted right away: your profile, quiz answers, health answers and their encryption key, and your sign-in account. Your habit entries on this phone are deleted too.",
+  "deleteWhatGoes": "Deleted right away: your profile, quiz answers, health answers and their encryption key, and your sign-in account. Your habit entries and your own routines on this phone are deleted too.",
   "deleteWhatStays": "Kept as proof, without your name or email: your consent history (3 years) and security log entries (1 year).",
   "deleteExportFirst": "Download my data first",
   "deleteConfirmLabel": "Type {word} to confirm",
@@ -443,5 +441,89 @@
   "onboardingStepAbout": "About you",
   "onboardingStepAccount": "Account",
   "onboardingStepCountry": "Country",
-  "onboardingStepPrivacy": "Privacy"
+  "onboardingStepPrivacy": "Privacy",
+  "routineAreaFace": "Face",
+  "routineAreaHair": "Hair",
+  "routineAreaBody": "Body",
+  "routineSlotMorning": "Morning",
+  "routineSlotEvening": "Evening",
+  "routineSlotWeekly": "Weekly",
+  "routineWeeklyHint": "Once a week. Ticks reset on Monday.",
+  "routineSlotEmpty": "No steps for this time.",
+  "routineOwnButton": "Your own",
+  "routineOwnSection": "Your routines",
+  "routineOwnEmpty": "Make your own routine and tick it off here.",
+  "routineOwnEveryDay": "Every day",
+  "routineOwnSteps": "{count, plural, =1{1 step} other{{count} steps}}",
+  "@routineOwnSteps": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "routineOwnEdit": "Edit: {name}",
+  "@routineOwnEdit": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
+  "routineDayHabits": "During the day",
+  "builderTitleNew": "Make your own routine",
+  "builderTitleEdit": "Edit routine",
+  "builderName": "Name",
+  "builderNameHint": "E.g. Sunday spa",
+  "builderArea": "Area",
+  "builderWhen": "When",
+  "builderEveryDay": "Every day",
+  "builderOnceWeek": "Once a week",
+  "builderSteps": "Steps",
+  "builderStepHint": "New step",
+  "builderAddStep": "Add",
+  "builderSuggestions": "Pick a ready step",
+  "builderMoveUp": "Move up: {step}",
+  "@builderMoveUp": {
+    "placeholders": {
+      "step": {
+        "type": "String"
+      }
+    }
+  },
+  "builderMoveDown": "Move down: {step}",
+  "@builderMoveDown": {
+    "placeholders": {
+      "step": {
+        "type": "String"
+      }
+    }
+  },
+  "builderRemoveStep": "Remove: {step}",
+  "@builderRemoveStep": {
+    "placeholders": {
+      "step": {
+        "type": "String"
+      }
+    }
+  },
+  "builderSave": "Save routine",
+  "builderDelete": "Delete routine",
+  "builderDeleteConfirm": "Delete this routine?",
+  "builderDeleteYes": "Delete",
+  "builderCancel": "Cancel",
+  "builderNeedName": "Give the routine a name.",
+  "builderNeedStep": "Add at least one step.",
+  "builderLimit": "At most {count} steps.",
+  "@builderLimit": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "builderPrivacyNote": "Your own routines are kept only on this phone.",
+  "todayRoutinesTitle": "Today's routines",
+  "todayRoutinesAll": "All",
+  "todayRoutinesNone": "No other routines for today."
 }
