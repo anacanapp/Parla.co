@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:parla/ui/brand.dart';
 import 'package:parla/app.dart';
 import 'package:parla/habits/habit_store.dart';
 import 'package:parla/home/widgets/parla_nav_bar.dart';
@@ -78,7 +79,7 @@ Future<FakeApi> _openSearch(
           of: find.byType(ParlaNavBar),
           matching: find.byType(InkWell),
         )
-        .at(1),
+        .at(2),
   );
   await tester.pumpAndSettle();
   return api;
@@ -102,7 +103,7 @@ Future<void> _tap(WidgetTester tester, Finder finder) async {
 }
 
 void main() {
-  testWidgets('the Scan tab opens product search', (tester) async {
+  testWidgets('the Check tab opens product search', (tester) async {
     await _openSearch(tester);
     expect(find.text('Check a product'), findsOneWidget);
   });
@@ -227,7 +228,7 @@ void main() {
 
   for (final language in ['az', 'ru', 'en']) {
     testWidgets('$language: search, product and ingredient sheet keep text '
-        'at 18 px or more without overflow', (tester) async {
+        'at the minimum size or more without overflow', (tester) async {
       await _openSearch(tester, language: language);
       await _search(tester, 'gentle');
       final sizes = <double>[...paintedFontSizes(tester)];
@@ -246,7 +247,7 @@ void main() {
       await _tap(tester, find.text('Test Restricted'));
       sizes.addAll(paintedFontSizes(tester));
       expect(tester.takeException(), isNull);
-      expect(sizes.where((s) => s < 18), isEmpty);
+      expect(sizes.where((s) => s < kMinTextSize), isEmpty);
     });
   }
 }

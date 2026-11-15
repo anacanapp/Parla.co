@@ -271,15 +271,6 @@ class AppLocalizationsAz extends AppLocalizations {
   String get navToday => 'Bu gün';
 
   @override
-  String get navScan => 'Skan';
-
-  @override
-  String get navHabits => 'Vərdiş';
-
-  @override
-  String get navProfile => 'Profil';
-
-  @override
   String get comingSoon => 'Bu bölmə növbəti versiyada əlavə olunur.';
 
   @override
@@ -539,7 +530,7 @@ class AppLocalizationsAz extends AppLocalizations {
   String get habitClearEntry => 'Qeydi sil';
 
   @override
-  String get habitsScreenTitle => 'Vərdişlər';
+  String get habitsScreenTitle => 'Rutin';
 
   @override
   String get habitsScreenIntro => 'Kiçik addımlar, öz tempinizlə.';
@@ -759,4 +750,74 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get ingredientDetailsHint => 'Ətraflı';
+
+  @override
+  String get navRoutine => 'Rutin';
+
+  @override
+  String get navCheck => 'Yoxla';
+
+  @override
+  String get navSport => 'İdman';
+
+  @override
+  String get navDiscover => 'Kəşf et';
+
+  @override
+  String get sportTitle => 'İdman';
+
+  @override
+  String get sportSoonTitle => 'Sənə uyğun idman planı tezliklə';
+
+  @override
+  String get sportSoonBody =>
+      'Bir neçə sual, sonra həftəlik plan: hərəkətlər, dəst və təkrar sayı, taymer. Musiqi öz tətbiqindən çalacaq.';
+
+  @override
+  String get discoverTitle => 'Kəşf et';
+
+  @override
+  String get discoverBlogs => 'Bloqlar';
+
+  @override
+  String get discoverBlogsHint => 'Qulluq, gözəllik, moda';
+
+  @override
+  String get discoverExperts => 'Mütəxəssislər';
+
+  @override
+  String get discoverExpertsHint => 'Dermatoloq, kosmetoloq';
+
+  @override
+  String get discoverNutrition => 'Qidalanma';
+
+  @override
+  String get discoverNutritionHint => 'Gündəlik boşqab və reseptlər';
+
+  @override
+  String get discoverShopping => 'Alış siyahısı';
+
+  @override
+  String get discoverShoppingHint => 'Lazım olanları qeyd et';
+
+  @override
+  String get discoverShop => 'Mağaza';
+
+  @override
+  String get discoverShopHint => 'Rutinindəki məhsullar';
+
+  @override
+  String get soonBadge => 'Tezliklə';
+
+  @override
+  String get onboardingStepAbout => 'Tanışlıq';
+
+  @override
+  String get onboardingStepAccount => 'Hesab';
+
+  @override
+  String get onboardingStepCountry => 'Ölkə';
+
+  @override
+  String get onboardingStepPrivacy => 'Məxfilik';
 }

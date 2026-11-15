@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:parla/ui/brand.dart';
 import 'package:parla/app.dart';
 import 'package:parla/habits/habit_log.dart';
 import 'package:parla/habits/habit_store.dart';
@@ -56,7 +57,7 @@ Future<void> _pumpHabits(
     ),
   );
   await tester.pumpAndSettle();
-  await _navTo(tester, 2);
+  await _navTo(tester, 1);
 }
 
 /// Taps tab [index] of the bottom navigation.
@@ -118,7 +119,7 @@ void main() {
 
   testWidgets('the week shows plain counts and averages', (tester) async {
     await _pumpHabits(tester);
-    expect(find.text('Habits'), findsWidgets);
+    expect(find.text('Routine'), findsWidgets);
     expect(find.text('Last 7 days'), findsOneWidget);
 
     final handle = tester.ensureSemantics();
@@ -185,31 +186,34 @@ void main() {
   });
 
   for (final language in ['az', 'ru', 'en']) {
-    testWidgets('$language: habits screen and log sheet keep text at 18 px '
-        'or more without overflow', (tester) async {
-      await _pumpHabits(tester, language: language);
-      final sizes = <double>[];
-      final list = find.byType(Scrollable).first;
-      for (var i = 0; i < 6; i++) {
+    testWidgets(
+      '$language: habits screen and log sheet keep text at the minimum size '
+      'or more without overflow',
+      (tester) async {
+        await _pumpHabits(tester, language: language);
+        final sizes = <double>[];
+        final list = find.byType(Scrollable).first;
+        for (var i = 0; i < 6; i++) {
+          sizes.addAll(paintedFontSizes(tester));
+          expect(tester.takeException(), isNull);
+          await tester.drag(list, const Offset(0, -400));
+          await tester.pumpAndSettle();
+        }
+        await tester.drag(list, const Offset(0, 5000));
+        await tester.pumpAndSettle();
+
+        // Open the sleep sheet through its action button.
+        final sleep = find.byKey(const ValueKey('habits-sleep'));
+        await _tap(
+          tester,
+          find.descendant(of: sleep, matching: find.byType(TextButton)),
+        );
         sizes.addAll(paintedFontSizes(tester));
         expect(tester.takeException(), isNull);
-        await tester.drag(list, const Offset(0, -400));
-        await tester.pumpAndSettle();
-      }
-      await tester.drag(list, const Offset(0, 5000));
-      await tester.pumpAndSettle();
 
-      // Open the sleep sheet through its action button.
-      final sleep = find.byKey(const ValueKey('habits-sleep'));
-      await _tap(
-        tester,
-        find.descendant(of: sleep, matching: find.byType(TextButton)),
-      );
-      sizes.addAll(paintedFontSizes(tester));
-      expect(tester.takeException(), isNull);
-
-      expect(sizes, isNotEmpty);
-      expect(sizes.where((s) => s < 18), isEmpty);
-    });
+        expect(sizes, isNotEmpty);
+        expect(sizes.where((s) => s < kMinTextSize), isEmpty);
+      },
+    );
   }
 }

@@ -79,12 +79,15 @@ class _ConsentScreenState extends State<ConsentScreen> {
         ParlaScope.of(context).settings.language ?? defaultLanguage;
     return ParlaPage(
       title: l10n.consentTitle,
+      eyebrow: l10n.onboardingStepPrivacy,
+      subtitle: l10n.consentIntro,
+      step: 4,
+      steps: 4,
+      onBack: () => context.go(Routes.country),
       primaryLabel: l10n.continueButton,
       onPrimary: _finish,
       busy: _busy,
       children: [
-        Text(l10n.consentIntro),
-        const SizedBox(height: 16),
         for (final kind in ConsentKind.values)
           _ConsentCard(
             key: ValueKey('consent-${kind.name}'),
@@ -122,8 +125,8 @@ class _ConsentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final small = Theme.of(context).textTheme.bodySmall;
-    return Card(
-      margin: const EdgeInsets.only(bottom: 12),
+    return ParlaOptionCard(
+      selected: granted,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [

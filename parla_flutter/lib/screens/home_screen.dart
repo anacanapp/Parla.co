@@ -61,36 +61,13 @@ class _HomeScreenState extends State<HomeScreen> {
     super.dispose();
   }
 
-  void _comingSoon() {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(content: Text(AppLocalizations.of(context).comingSoon)),
-      );
-  }
-
-  void _onNav(int index) {
-    switch (index) {
-      case 0:
-        break;
-      case 1:
-        context.go(Routes.products);
-      case 2:
-        context.go(Routes.habits);
-      case 3:
-        context.go(Routes.privacy);
-      default:
-        _comingSoon();
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final controller = _controller!;
     return Scaffold(
       backgroundColor: ParlaColors.cream,
       extendBody: true,
-      bottomNavigationBar: ParlaNavBar(selected: 0, onTap: _onNav),
+      bottomNavigationBar: const ParlaNavBar(selected: ParlaTab.today),
       body: ListenableBuilder(
         listenable: controller,
         builder: (context, _) => _HomeBody(
@@ -160,7 +137,7 @@ class _HomeBody extends StatelessWidget {
           child: SafeArea(
             bottom: false,
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(20, 16, 20, 60),
+              padding: const EdgeInsets.fromLTRB(16, 12, 16, 52),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -175,7 +152,7 @@ class _HomeBody extends StatelessWidget {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 14),
                   Text(
                     MaterialLocalizations.of(context).formatFullDate(now),
                     style: text.labelMedium?.copyWith(
@@ -205,7 +182,7 @@ class _HomeBody extends StatelessWidget {
               color: ParlaColors.cream,
               borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
             ),
-            padding: const EdgeInsets.fromLTRB(20, 28, 20, 120),
+            padding: const EdgeInsets.fromLTRB(16, 22, 16, 110),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
@@ -366,7 +343,7 @@ class _Wordmark extends StatelessWidget {
           const Text(
             'parla',
             style: TextStyle(
-              fontSize: 32,
+              fontSize: 26,
               fontWeight: FontWeight.w800,
               letterSpacing: -0.5,
               height: 1,

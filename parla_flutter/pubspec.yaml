@@ -89,21 +89,33 @@ flutter:
   # (that would send the user's IP address to a third party).
   # Licences: assets/fonts/OFL-*.txt (SIL Open Font License 1.1).
   fonts:
-    - family: Commissioner
+    # Plus Jakarta Sans has no Cyrillic: Russian text falls back to Onest
+    # (theme fontFamilyFallback), which covers Cyrillic and Azerbaijani.
+    - family: PlusJakartaSans
       fonts:
-        - asset: assets/fonts/Commissioner-Regular.ttf
+        - asset: assets/fonts/PlusJakartaSans-Regular.ttf
           weight: 400
-        - asset: assets/fonts/Commissioner-SemiBold.ttf
+        - asset: assets/fonts/PlusJakartaSans-SemiBold.ttf
           weight: 600
-        - asset: assets/fonts/Commissioner-Bold.ttf
+        - asset: assets/fonts/PlusJakartaSans-Bold.ttf
           weight: 700
-        - asset: assets/fonts/Commissioner-ExtraBold.ttf
+        - asset: assets/fonts/PlusJakartaSans-ExtraBold.ttf
           weight: 800
-    - family: Fraunces
+    - family: Onest
       fonts:
-        - asset: assets/fonts/Fraunces-Italic.ttf
-          style: italic
+        - asset: assets/fonts/Onest-Regular.ttf
           weight: 400
+        - asset: assets/fonts/Onest-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Onest-Bold.ttf
+          weight: 700
+        - asset: assets/fonts/Onest-ExtraBold.ttf
+          weight: 800
+    - family: PlayfairDisplay
+      fonts:
+        - asset: assets/fonts/PlayfairDisplay-MediumItalic.ttf
+          style: italic
+          weight: 500
 
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a

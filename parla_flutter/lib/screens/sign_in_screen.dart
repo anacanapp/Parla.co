@@ -35,9 +35,14 @@ class SignInScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return ParlaPage(
       title: l10n.signInTitle,
+      eyebrow: l10n.onboardingStepAccount,
+      subtitle: l10n.signInBody,
+      step: ParlaScope.of(context).onboarding.hasAge ? 2 : null,
+      steps: 4,
+      onBack: () => context.go(
+        ParlaScope.of(context).onboarding.hasAge ? Routes.age : Routes.welcome,
+      ),
       children: [
-        Text(l10n.signInBody),
-        const SizedBox(height: 24),
         ParlaScope.of(context).api.buildSignIn(
           context,
           onSignedIn: () => _afterSignIn(context),

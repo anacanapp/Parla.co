@@ -155,18 +155,27 @@ wording rules and open legal questions: `docs/INGREDIENTS.md`.
 
 ## App UI rules
 
-- **Brand.** Colours, type and the Smile Curve follow the Parla Sun brand
-  guidelines v2.0 (`parla_flutter/lib/ui/brand.dart`). Commissioner and
-  Fraunces are bundled (SIL OFL 1.1, licences in `assets/fonts/`); no font is
-  fetched from Google at runtime, which would send users' IP addresses to a
-  third party. Fraunces has no Cyrillic, so Russian accent lines use
-  Commissioner.
-- **Accessibility.** Every text is at least 18 px, text colours pass WCAG AA,
-  touch targets are at least 48 px and icons always come with a text label.
-  `home_screen_test.dart` checks the 18 px rule and overflow on a 390 px
-  phone in az, ru and en, with the real fonts loaded.
-- **Navigation.** Four tabs (Today, Scan, Habits, Profile). Five did not fit
-  at 18 px in Russian; the routine lives on the Today tab.
+- **Brand.** Colours and the Smile Curve follow the Parla Sun brand
+  guidelines v2.0 (`parla_flutter/lib/ui/brand.dart`); the type and the
+  compact layout follow the 2026-11 redesign (design canvas "Parla yeni
+  dizayn"). Plus Jakarta Sans is the interface font, Onest its fallback for
+  Cyrillic (Plus Jakarta Sans has none) and Playfair Display Italic the
+  accent; all three cover Azerbaijani ə/Ə and are bundled (SIL OFL 1.1,
+  licences in `assets/fonts/`). No font is fetched from Google at runtime,
+  which would send users' IP addresses to a third party (`google_fonts` is
+  only a transitive dependency of the Serverpod sign-in package and is never
+  called).
+- **Accessibility.** Body text is 15–16 px and nothing is under 12 px
+  (`kMinTextSize`) before the user's own system text size, which the app
+  follows everywhere (Apple and Google guidance). Text colours pass WCAG AA,
+  touch targets are at least 44 px and nav icons always come with a text
+  label. `navigation_and_scaling_test.dart` checks the minimum size on the
+  tabs and onboarding and that no screen overflows at 200 % system text
+  size, in az, ru and en with the real fonts loaded; the feature tests check
+  the minimum size on their own screens.
+- **Navigation.** Five tabs: Today, Routine, Check, Fitness, Discover
+  (`ParlaTab`). Profile and privacy open from the avatar on Today. Fitness
+  and Discover show what is coming until their redesign steps land.
 - **Expert badge.** The "approved by a dermatologist" badge only shows for
   content marked approved. The current routine steps
   (`lib/home/routine.dart`) are sample content and never show it.

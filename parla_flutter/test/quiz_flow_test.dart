@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:parla/ui/brand.dart';
 import 'package:parla/app.dart';
 import 'package:parla/services/parla_api.dart';
 import 'package:parla/state/app_settings.dart';
@@ -192,40 +193,43 @@ void main() {
   });
 
   for (final language in ['az', 'ru', 'en']) {
-    testWidgets('$language: every quiz screen keeps text at 18 px or more '
-        'without overflow', (tester) async {
-      tester.view.physicalSize = const Size(390 * 3, 844 * 3);
-      tester.view.devicePixelRatio = 3;
-      addTearDown(tester.view.reset);
-      SharedPreferences.setMockInitialValues({'language': language});
-      final settings = await AppSettings.load();
-      final api = FakeApi()
-        ..signedIn = true
-        ..profile = ProfileSummary(countryCode: 'AZ', language: language);
-      await tester.pumpWidget(ParlaApp(api: api, settings: settings));
-      await tester.pumpAndSettle();
-      await _tap(tester, find.byType(FilledButton)); // home: start the quiz
-      await _tap(tester, find.byType(FilledButton)); // intro: start
+    testWidgets(
+      '$language: every quiz screen keeps text at the minimum size or more '
+      'without overflow',
+      (tester) async {
+        tester.view.physicalSize = const Size(390 * 3, 844 * 3);
+        tester.view.devicePixelRatio = 3;
+        addTearDown(tester.view.reset);
+        SharedPreferences.setMockInitialValues({'language': language});
+        final settings = await AppSettings.load();
+        final api = FakeApi()
+          ..signedIn = true
+          ..profile = ProfileSummary(countryCode: 'AZ', language: language);
+        await tester.pumpWidget(ParlaApp(api: api, settings: settings));
+        await tester.pumpAndSettle();
+        await _tap(tester, find.byType(FilledButton)); // home: start the quiz
+        await _tap(tester, find.byType(FilledButton)); // intro: start
 
-      final sizes = <double>[];
-      void collect() {
-        sizes.addAll(paintedFontSizes(tester));
-        expect(tester.takeException(), isNull);
-      }
-
-      for (final q in quizQuestions) {
-        collect();
-        if (q.sensitive && !api.healthConsent) {
-          // The consent gate before the first health question.
-          await _tap(tester, find.byType(FilledButton));
-          collect();
+        final sizes = <double>[];
+        void collect() {
+          sizes.addAll(paintedFontSizes(tester));
+          expect(tester.takeException(), isNull);
         }
-        final option = q.options.first.text[language]!;
-        await _tap(tester, find.text(option));
-        await _tap(tester, find.byType(FilledButton));
-      }
-      collect(); // red flag or result
-      expect(sizes.where((s) => s < 18), isEmpty);
-    });
+
+        for (final q in quizQuestions) {
+          collect();
+          if (q.sensitive && !api.healthConsent) {
+            // The consent gate before the first health question.
+            await _tap(tester, find.byType(FilledButton));
+            collect();
+          }
+          final option = q.options.first.text[language]!;
+          await _tap(tester, find.text(option));
+          await _tap(tester, find.byType(FilledButton));
+        }
+        collect(); // red flag or result
+        expect(sizes.where((s) => s < kMinTextSize), isEmpty);
+      },
+    );
   }
 }

@@ -56,17 +56,6 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
     }
   }
 
-  void _onNav(int index) {
-    switch (index) {
-      case 0:
-        context.go(Routes.home);
-      case 2:
-        context.go(Routes.habits);
-      case 3:
-        context.go(Routes.privacy);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -75,7 +64,7 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
     return Scaffold(
       backgroundColor: ParlaColors.cream,
       extendBody: true,
-      bottomNavigationBar: ParlaNavBar(selected: 1, onTap: _onNav),
+      bottomNavigationBar: const ParlaNavBar(selected: ParlaTab.check),
       body: SafeArea(
         bottom: false,
         child: ListView(

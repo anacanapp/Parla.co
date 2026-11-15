@@ -272,15 +272,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get navToday => 'Сегодня';
 
   @override
-  String get navScan => 'Скан';
-
-  @override
-  String get navHabits => 'Привычки';
-
-  @override
-  String get navProfile => 'Профиль';
-
-  @override
   String get comingSoon => 'Этот раздел появится в следующей версии.';
 
   @override
@@ -548,7 +539,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get habitClearEntry => 'Удалить запись';
 
   @override
-  String get habitsScreenTitle => 'Привычки';
+  String get habitsScreenTitle => 'Рутина';
 
   @override
   String get habitsScreenIntro => 'Маленькие шаги в вашем темпе.';
@@ -783,4 +774,74 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get ingredientDetailsHint => 'Подробнее';
+
+  @override
+  String get navRoutine => 'Рутина';
+
+  @override
+  String get navCheck => 'Проверка';
+
+  @override
+  String get navSport => 'Спорт';
+
+  @override
+  String get navDiscover => 'Обзор';
+
+  @override
+  String get sportTitle => 'Спорт';
+
+  @override
+  String get sportSoonTitle => 'Тренировки под тебя скоро';
+
+  @override
+  String get sportSoonBody =>
+      'Несколько вопросов, потом план на неделю: упражнения, подходы и повторы, таймер. Музыка будет играть из твоего приложения.';
+
+  @override
+  String get discoverTitle => 'Обзор';
+
+  @override
+  String get discoverBlogs => 'Блоги';
+
+  @override
+  String get discoverBlogsHint => 'Уход, красота, мода';
+
+  @override
+  String get discoverExperts => 'Специалисты';
+
+  @override
+  String get discoverExpertsHint => 'Дерматолог, косметолог';
+
+  @override
+  String get discoverNutrition => 'Питание';
+
+  @override
+  String get discoverNutritionHint => 'Тарелка дня и рецепты';
+
+  @override
+  String get discoverShopping => 'Список покупок';
+
+  @override
+  String get discoverShoppingHint => 'Отмечай нужное';
+
+  @override
+  String get discoverShop => 'Магазин';
+
+  @override
+  String get discoverShopHint => 'Продукты из твоей рутины';
+
+  @override
+  String get soonBadge => 'Скоро';
+
+  @override
+  String get onboardingStepAbout => 'Знакомство';
+
+  @override
+  String get onboardingStepAccount => 'Аккаунт';
+
+  @override
+  String get onboardingStepCountry => 'Страна';
+
+  @override
+  String get onboardingStepPrivacy => 'Приватность';
 }
