@@ -35,7 +35,7 @@ class SportScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(18),
               decoration: BoxDecoration(
-                color: ParlaColors.moveFill,
+                color: ParlaColors.sportBlue,
                 borderRadius: BorderRadius.circular(22),
               ),
               child: Column(
@@ -53,7 +53,7 @@ class SportScreen extends StatelessWidget {
                   Text(
                     l10n.sportSoonBody,
                     style: text.bodyMedium?.copyWith(
-                      color: const Color(0xFFE3EEDD),
+                      color: ParlaColors.sportBlueText,
                     ),
                   ),
                 ],

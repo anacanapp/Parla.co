@@ -29,6 +29,11 @@ abstract final class ParlaColors {
   static const blush = Color(0xFFF7E1E1);
   static const lilac = Color(0xFFEBE3F5);
 
+  /// Fitness section (redesign 2026-11): deep blue surface and its light
+  /// text (contrast 9.8:1).
+  static const sportBlue = Color(0xFF1E3A5F);
+  static const sportBlueText = Color(0xFFDCE8F5);
+
   /// Progress fills that must stand out from their tile.
   static const waterFill = Color(0xFF3A5A7A);
   static const moveFill = Color(0xFF3F4A3A);
