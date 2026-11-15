@@ -38,17 +38,6 @@ class _HabitsScreenState extends State<HabitsScreen> {
     }
   }
 
-  void _onNav(int index) {
-    switch (index) {
-      case 0:
-        context.go(Routes.home);
-      case 1:
-        context.go(Routes.products);
-      case 3:
-        context.go(Routes.privacy);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     final scope = ParlaScope.of(context);
@@ -56,7 +45,7 @@ class _HabitsScreenState extends State<HabitsScreen> {
     return Scaffold(
       backgroundColor: ParlaColors.cream,
       extendBody: true,
-      bottomNavigationBar: ParlaNavBar(selected: 2, onTap: _onNav),
+      bottomNavigationBar: const ParlaNavBar(selected: ParlaTab.routine),
       body: ListenableBuilder(
         listenable: Listenable.merge([habits, scope.reminders]),
         builder: (context, _) =>
@@ -395,7 +384,7 @@ class _WeekCard extends StatelessWidget {
     );
   }
 
-  /// One or two letters: enough to tell the days apart and fits at 18 px.
+  /// One or two letters: enough to tell the days apart and fits at large text sizes.
   static String _initial(String shortName) {
     final clean = shortName.replaceAll('.', '');
     return clean.length <= 2 ? clean : clean.substring(0, 2);

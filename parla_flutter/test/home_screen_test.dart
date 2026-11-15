@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'dart:convert';
 
+import 'package:parla/ui/brand.dart';
 import 'package:parla/app.dart';
 import 'package:parla/habits/habit_store.dart';
 import 'package:parla/services/parla_api.dart';
@@ -294,24 +295,27 @@ void main() {
     );
   });
 
-  testWidgets('the Habits tab opens the habits screen', (tester) async {
+  testWidgets('the Routine tab opens the routine screen', (tester) async {
     await _pumpHome(tester);
-    await _tap(tester, find.text('Habits').last);
+    await _tap(tester, find.text('Routine').last);
     expect(find.text('Last 7 days'), findsOneWidget);
   });
 
   for (final language in ['az', 'ru', 'en']) {
-    testWidgets('$language: every text is at least 18 px and nothing '
-        'overflows on a 390 px phone', (tester) async {
-      await _pumpHome(tester, language: language);
+    testWidgets(
+      '$language: every text is at least the minimum size and nothing '
+      'overflows on a 390 px phone',
+      (tester) async {
+        await _pumpHome(tester, language: language);
 
-      final sizes = <double>[...paintedFontSizes(tester)];
-      await _scrollThrough(tester);
-      sizes.addAll(paintedFontSizes(tester));
+        final sizes = <double>[...paintedFontSizes(tester)];
+        await _scrollThrough(tester);
+        sizes.addAll(paintedFontSizes(tester));
 
-      expect(sizes, isNotEmpty);
-      expect(sizes.where((s) => s < 18), isEmpty);
-      expect(tester.takeException(), isNull);
-    });
+        expect(sizes, isNotEmpty);
+        expect(sizes.where((s) => s < kMinTextSize), isEmpty);
+        expect(tester.takeException(), isNull);
+      },
+    );
   }
 }

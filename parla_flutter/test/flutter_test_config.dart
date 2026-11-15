@@ -19,13 +19,21 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
     await loader.load();
   }
 
-  await load('Commissioner', [
-    'assets/fonts/Commissioner-Regular.ttf',
-    'assets/fonts/Commissioner-SemiBold.ttf',
-    'assets/fonts/Commissioner-Bold.ttf',
-    'assets/fonts/Commissioner-ExtraBold.ttf',
+  await load('PlusJakartaSans', [
+    'assets/fonts/PlusJakartaSans-Regular.ttf',
+    'assets/fonts/PlusJakartaSans-SemiBold.ttf',
+    'assets/fonts/PlusJakartaSans-Bold.ttf',
+    'assets/fonts/PlusJakartaSans-ExtraBold.ttf',
   ]);
-  await load('Fraunces', ['assets/fonts/Fraunces-Italic.ttf']);
+  await load('Onest', [
+    'assets/fonts/Onest-Regular.ttf',
+    'assets/fonts/Onest-SemiBold.ttf',
+    'assets/fonts/Onest-Bold.ttf',
+    'assets/fonts/Onest-ExtraBold.ttf',
+  ]);
+  await load('PlayfairDisplay', [
+    'assets/fonts/PlayfairDisplay-MediumItalic.ttf',
+  ]);
 
   await testMain();
 }

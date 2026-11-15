@@ -276,15 +276,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navToday => 'Today';
 
   @override
-  String get navScan => 'Scan';
-
-  @override
-  String get navHabits => 'Habits';
-
-  @override
-  String get navProfile => 'Profile';
-
-  @override
   String get comingSoon => 'This part arrives in the next version.';
 
   @override
@@ -550,7 +541,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get habitClearEntry => 'Remove entry';
 
   @override
-  String get habitsScreenTitle => 'Habits';
+  String get habitsScreenTitle => 'Routine';
 
   @override
   String get habitsScreenIntro => 'Small steps, at your own pace.';
@@ -783,4 +774,74 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get ingredientDetailsHint => 'Details';
+
+  @override
+  String get navRoutine => 'Routine';
+
+  @override
+  String get navCheck => 'Check';
+
+  @override
+  String get navSport => 'Fitness';
+
+  @override
+  String get navDiscover => 'Discover';
+
+  @override
+  String get sportTitle => 'Fitness';
+
+  @override
+  String get sportSoonTitle => 'A workout plan made for you, soon';
+
+  @override
+  String get sportSoonBody =>
+      'A few questions, then a weekly plan: moves, sets and reps, and a timer. Music plays from your own app.';
+
+  @override
+  String get discoverTitle => 'Discover';
+
+  @override
+  String get discoverBlogs => 'Blogs';
+
+  @override
+  String get discoverBlogsHint => 'Care, beauty, fashion';
+
+  @override
+  String get discoverExperts => 'Experts';
+
+  @override
+  String get discoverExpertsHint => 'Dermatologists, cosmetologists';
+
+  @override
+  String get discoverNutrition => 'Nutrition';
+
+  @override
+  String get discoverNutritionHint => 'Daily plate and recipes';
+
+  @override
+  String get discoverShopping => 'Shopping list';
+
+  @override
+  String get discoverShoppingHint => 'Note what you need';
+
+  @override
+  String get discoverShop => 'Shop';
+
+  @override
+  String get discoverShopHint => 'Products from your routine';
+
+  @override
+  String get soonBadge => 'Soon';
+
+  @override
+  String get onboardingStepAbout => 'About you';
+
+  @override
+  String get onboardingStepAccount => 'Account';
+
+  @override
+  String get onboardingStepCountry => 'Country';
+
+  @override
+  String get onboardingStepPrivacy => 'Privacy';
 }

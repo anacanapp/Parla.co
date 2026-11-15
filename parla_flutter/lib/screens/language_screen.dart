@@ -52,10 +52,13 @@ class _LanguageScreenState extends State<LanguageScreen> {
           child: Column(
             children: [
               for (final code in supportedLanguages)
-                RadioListTile<String>(
-                  key: ValueKey('language-$code'),
-                  value: code,
-                  title: Text(_name(l10n, code)),
+                ParlaOptionCard(
+                  selected: _selected == code,
+                  child: RadioListTile<String>(
+                    key: ValueKey('language-$code'),
+                    value: code,
+                    title: Text(_name(l10n, code)),
+                  ),
                 ),
             ],
           ),

@@ -43,9 +43,9 @@ class EyebrowText extends StatelessWidget {
   Widget build(BuildContext context) => Text(
     text,
     style: const TextStyle(
-      fontSize: 18,
+      fontSize: kMinTextSize,
       fontWeight: FontWeight.w700,
-      letterSpacing: 1.5,
+      letterSpacing: 1.2,
       color: ParlaColors.sunInk,
     ),
   );
@@ -91,7 +91,7 @@ class RoutineSwitch extends StatelessWidget {
                   Text(
                     label,
                     style: TextStyle(
-                      fontSize: 18,
+                      fontSize: 15,
                       fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
                       color: color,
                     ),

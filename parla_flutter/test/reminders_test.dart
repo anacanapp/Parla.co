@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:parla/ui/brand.dart';
 import 'package:parla/app.dart';
+import 'package:parla/ui/parla_icons.dart';
+import 'package:parla/home/widgets/home_cards.dart';
 import 'package:parla/habits/habit_store.dart';
 import 'package:parla/home/widgets/parla_nav_bar.dart';
 import 'package:parla/reminders/reminder_scheduler.dart';
@@ -63,7 +66,7 @@ Future<_App> _open(
             of: find.byType(ParlaNavBar),
             matching: find.byType(InkWell),
           )
-          .at(2),
+          .at(1),
     );
     await _tap(
       tester,
@@ -208,7 +211,13 @@ void main() {
     final app = await _open(tester);
     await _tap(tester, _switch(ReminderKind.morningRoutine));
     await _tap(tester, find.byType(BackButton));
-    await _tap(tester, find.text('Profile').last);
+    await _tap(tester, find.text('Today').last);
+    await _tap(
+      tester,
+      find.byWidgetPredicate(
+        (w) => w is RoundIconButton && w.icon == ParlaIconName.profile,
+      ),
+    );
     await _tap(tester, find.text('Sign out'));
     expect(app.scheduler.scheduled, isEmpty);
     final prefs = await SharedPreferences.getInstance();
@@ -220,7 +229,13 @@ void main() {
     final app = await _open(tester);
     await _tap(tester, _switch(ReminderKind.morningRoutine));
     await _tap(tester, find.byType(BackButton));
-    await _tap(tester, find.text('Profile').last);
+    await _tap(tester, find.text('Today').last);
+    await _tap(
+      tester,
+      find.byWidgetPredicate(
+        (w) => w is RoundIconButton && w.icon == ParlaIconName.profile,
+      ),
+    );
     await _tap(tester, find.text('Delete account'));
     await tester.enterText(
       find.byKey(const ValueKey('delete-confirm')),
@@ -236,7 +251,7 @@ void main() {
 
   for (final language in ['az', 'ru', 'en']) {
     testWidgets('$language: reminders screen and time sheet keep text at '
-        '18 px or more without overflow', (tester) async {
+        'the minimum size or more without overflow', (tester) async {
       await _open(tester, language: language);
       final sizes = <double>[];
       final list = find.byType(Scrollable).first;
@@ -255,7 +270,7 @@ void main() {
       );
       sizes.addAll(paintedFontSizes(tester));
       expect(tester.takeException(), isNull);
-      expect(sizes.where((s) => s < 18), isEmpty);
+      expect(sizes.where((s) => s < kMinTextSize), isEmpty);
     });
   }
 }

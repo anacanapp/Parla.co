@@ -67,13 +67,16 @@ class _AgeScreenState extends State<AgeScreen> {
 
     return ParlaPage(
       title: l10n.ageTitle,
+      eyebrow: l10n.onboardingStepAbout,
+      subtitle: l10n.ageWhy,
+      step: 1,
+      steps: 4,
+      onBack: () => context.go(Routes.welcome),
       primaryLabel: l10n.continueButton,
       onPrimary: check == AgeCheck.adult || check == AgeCheck.minor
           ? _continue
           : null,
       children: [
-        Text(l10n.ageWhy),
-        const SizedBox(height: 24),
         TextField(
           key: const ValueKey('birth-year'),
           controller: _yearController,
@@ -82,9 +85,10 @@ class _AgeScreenState extends State<AgeScreen> {
             FilteringTextInputFormatter.digitsOnly,
             LengthLimitingTextInputFormatter(4),
           ],
+          textAlign: TextAlign.center,
+          style: Theme.of(context).textTheme.headlineMedium,
           decoration: InputDecoration(
             labelText: l10n.ageYearLabel,
-            border: const OutlineInputBorder(),
             errorText: yearComplete && check == AgeCheck.invalid
                 ? l10n.ageInvalid
                 : null,

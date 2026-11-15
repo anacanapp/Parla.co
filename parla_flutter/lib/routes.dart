@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 
 import 'screens/age_screen.dart';
 import 'screens/consent_screen.dart';
+import 'screens/coming_soon_screens.dart';
 import 'screens/country_screen.dart';
 import 'screens/guest_screen.dart';
 import 'screens/habits_screen.dart';
@@ -33,6 +34,8 @@ abstract final class Routes {
   static const reminders = '/habits/reminders'; // Part of M-26
   static const products = '/products'; // M-20, M-22
   static const productDetail = '/products/detail'; // M-21, M-23
+  static const sport = '/sport'; // Workout plan (redesign step 4)
+  static const discover = '/discover'; // Blogs, experts, lists (step 5)
   static const guest = '/guest'; // Guest placeholder
   static const privacy = '/privacy'; // M-25, M-27, M-28
   static const legal = '/privacy/legal'; // M-34
@@ -71,6 +74,8 @@ GoRouter buildRouter() => GoRouter(
       builder: (_, state) =>
           ProductDetailScreen(product: state.extra! as ProductResult),
     ),
+    GoRoute(path: Routes.sport, builder: (_, _) => const SportScreen()),
+    GoRoute(path: Routes.discover, builder: (_, _) => const DiscoverScreen()),
     GoRoute(path: Routes.guest, builder: (_, _) => const GuestScreen()),
     GoRoute(path: Routes.privacy, builder: (_, _) => const PrivacyScreen()),
     GoRoute(path: Routes.legal, builder: (_, _) => const LegalScreen()),

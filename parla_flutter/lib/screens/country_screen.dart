@@ -31,6 +31,11 @@ class _CountryScreenState extends State<CountryScreen> {
     final l10n = AppLocalizations.of(context);
     return ParlaPage(
       title: l10n.countryTitle,
+      eyebrow: l10n.onboardingStepCountry,
+      subtitle: l10n.countryWhy,
+      step: 3,
+      steps: 4,
+      onBack: () => context.go(Routes.age),
       primaryLabel: l10n.continueButton,
       onPrimary: _selected == null
           ? null
@@ -39,20 +44,21 @@ class _CountryScreenState extends State<CountryScreen> {
               context.go(Routes.consents);
             },
       children: [
-        Text(l10n.countryWhy),
-        const SizedBox(height: 16),
         RadioGroup<String>(
           groupValue: _selected,
           onChanged: (value) => setState(() => _selected = value),
           child: Column(
             children: [
               for (final market in markets)
-                RadioListTile<String>(
-                  key: ValueKey('country-${market.countryCode}'),
-                  value: market.countryCode,
-                  enabled: market.open,
-                  title: Text(_name(l10n, market.countryCode)),
-                  subtitle: market.open ? null : Text(l10n.countryComingSoon),
+                ParlaOptionCard(
+                  selected: _selected == market.countryCode,
+                  child: RadioListTile<String>(
+                    key: ValueKey('country-${market.countryCode}'),
+                    value: market.countryCode,
+                    enabled: market.open,
+                    title: Text(_name(l10n, market.countryCode)),
+                    subtitle: market.open ? null : Text(l10n.countryComingSoon),
+                  ),
                 ),
             ],
           ),

@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:parla/ui/brand.dart';
 import 'package:parla/app.dart';
+import 'package:parla/ui/parla_icons.dart';
+import 'package:parla/home/widgets/home_cards.dart';
 import 'package:parla/habits/habit_store.dart';
 import 'package:parla/services/parla_api.dart';
 import 'package:parla/state/app_settings.dart';
@@ -22,7 +25,7 @@ class _Harness {
 }
 
 /// Signed-in user with a quiz and the health consent, opened on the privacy
-/// centre through the Profile tab.
+/// centre through the avatar on the Today screen.
 Future<_Harness> _openPrivacy(
   WidgetTester tester, {
   String language = 'en',
@@ -55,9 +58,12 @@ Future<_Harness> _openPrivacy(
     ),
   );
   await tester.pumpAndSettle();
-  // The Profile tab is the last item of the bottom navigation.
-  final nav = find.byType(InkWell).last;
-  await tester.tap(nav);
+  // Profile and privacy open from the avatar on the Today screen.
+  await tester.tap(
+    find.byWidgetPredicate(
+      (w) => w is RoundIconButton && w.icon == ParlaIconName.profile,
+    ),
+  );
   await tester.pumpAndSettle();
   return _Harness(api, shared, habitStore);
 }
@@ -79,7 +85,7 @@ SwitchListTile _switch(WidgetTester tester, ConsentKind kind) =>
     );
 
 void main() {
-  testWidgets('the Profile tab opens the privacy centre with the current '
+  testWidgets('the avatar opens the privacy centre with the current '
       'consents', (tester) async {
     await _openPrivacy(tester);
     expect(find.text('Privacy centre'), findsOneWidget);
@@ -260,32 +266,35 @@ void main() {
   });
 
   for (final language in ['az', 'ru', 'en']) {
-    testWidgets('$language: privacy screens keep text at 18 px or more '
-        'without overflow', (tester) async {
-      await _openPrivacy(tester, language: language);
-      final sizes = <double>[];
-      Future<void> scrollAndCollect() async {
-        final list = find.byType(Scrollable);
-        for (var i = 0; i < 4; i++) {
-          sizes.addAll(paintedFontSizes(tester));
-          expect(tester.takeException(), isNull);
-          if (list.evaluate().isEmpty) break;
-          await tester.drag(list.first, const Offset(0, -400));
-          await tester.pumpAndSettle();
+    testWidgets(
+      '$language: privacy screens keep text at the minimum size or more '
+      'without overflow',
+      (tester) async {
+        await _openPrivacy(tester, language: language);
+        final sizes = <double>[];
+        Future<void> scrollAndCollect() async {
+          final list = find.byType(Scrollable);
+          for (var i = 0; i < 4; i++) {
+            sizes.addAll(paintedFontSizes(tester));
+            expect(tester.takeException(), isNull);
+            if (list.evaluate().isEmpty) break;
+            await tester.drag(list.first, const Offset(0, -400));
+            await tester.pumpAndSettle();
+          }
         }
-      }
 
-      await scrollAndCollect();
-      final tiles = find.byType(ListTile);
-      // Legal documents, then back, then delete account.
-      await _tap(tester, tiles.first);
-      await scrollAndCollect();
-      await _tap(tester, find.byType(BackButton));
-      await _tap(tester, find.byType(ListTile).last);
-      await scrollAndCollect();
+        await scrollAndCollect();
+        final tiles = find.byType(ListTile);
+        // Legal documents, then back, then delete account.
+        await _tap(tester, tiles.first);
+        await scrollAndCollect();
+        await _tap(tester, find.byType(BackButton));
+        await _tap(tester, find.byType(ListTile).last);
+        await scrollAndCollect();
 
-      expect(sizes, isNotEmpty);
-      expect(sizes.where((s) => s < 18), isEmpty);
-    });
+        expect(sizes, isNotEmpty);
+        expect(sizes.where((s) => s < kMinTextSize), isEmpty);
+      },
+    );
   }
 }

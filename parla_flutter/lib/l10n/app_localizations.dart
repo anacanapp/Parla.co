@@ -580,24 +580,6 @@ abstract class AppLocalizations {
   /// **'Today'**
   String get navToday;
 
-  /// No description provided for @navScan.
-  ///
-  /// In en, this message translates to:
-  /// **'Scan'**
-  String get navScan;
-
-  /// No description provided for @navHabits.
-  ///
-  /// In en, this message translates to:
-  /// **'Habits'**
-  String get navHabits;
-
-  /// No description provided for @navProfile.
-  ///
-  /// In en, this message translates to:
-  /// **'Profile'**
-  String get navProfile;
-
   /// No description provided for @comingSoon.
   ///
   /// In en, this message translates to:
@@ -1057,7 +1039,7 @@ abstract class AppLocalizations {
   /// No description provided for @habitsScreenTitle.
   ///
   /// In en, this message translates to:
-  /// **'Habits'**
+  /// **'Routine'**
   String get habitsScreenTitle;
 
   /// No description provided for @habitsScreenIntro.
@@ -1425,6 +1407,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Details'**
   String get ingredientDetailsHint;
+
+  /// No description provided for @navRoutine.
+  ///
+  /// In en, this message translates to:
+  /// **'Routine'**
+  String get navRoutine;
+
+  /// No description provided for @navCheck.
+  ///
+  /// In en, this message translates to:
+  /// **'Check'**
+  String get navCheck;
+
+  /// No description provided for @navSport.
+  ///
+  /// In en, this message translates to:
+  /// **'Fitness'**
+  String get navSport;
+
+  /// No description provided for @navDiscover.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover'**
+  String get navDiscover;
+
+  /// No description provided for @sportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Fitness'**
+  String get sportTitle;
+
+  /// No description provided for @sportSoonTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'A workout plan made for you, soon'**
+  String get sportSoonTitle;
+
+  /// No description provided for @sportSoonBody.
+  ///
+  /// In en, this message translates to:
+  /// **'A few questions, then a weekly plan: moves, sets and reps, and a timer. Music plays from your own app.'**
+  String get sportSoonBody;
+
+  /// No description provided for @discoverTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Discover'**
+  String get discoverTitle;
+
+  /// No description provided for @discoverBlogs.
+  ///
+  /// In en, this message translates to:
+  /// **'Blogs'**
+  String get discoverBlogs;
+
+  /// No description provided for @discoverBlogsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Care, beauty, fashion'**
+  String get discoverBlogsHint;
+
+  /// No description provided for @discoverExperts.
+  ///
+  /// In en, this message translates to:
+  /// **'Experts'**
+  String get discoverExperts;
+
+  /// No description provided for @discoverExpertsHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Dermatologists, cosmetologists'**
+  String get discoverExpertsHint;
+
+  /// No description provided for @discoverNutrition.
+  ///
+  /// In en, this message translates to:
+  /// **'Nutrition'**
+  String get discoverNutrition;
+
+  /// No description provided for @discoverNutritionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Daily plate and recipes'**
+  String get discoverNutritionHint;
+
+  /// No description provided for @discoverShopping.
+  ///
+  /// In en, this message translates to:
+  /// **'Shopping list'**
+  String get discoverShopping;
+
+  /// No description provided for @discoverShoppingHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Note what you need'**
+  String get discoverShoppingHint;
+
+  /// No description provided for @discoverShop.
+  ///
+  /// In en, this message translates to:
+  /// **'Shop'**
+  String get discoverShop;
+
+  /// No description provided for @discoverShopHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Products from your routine'**
+  String get discoverShopHint;
+
+  /// No description provided for @soonBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Soon'**
+  String get soonBadge;
+
+  /// No description provided for @onboardingStepAbout.
+  ///
+  /// In en, this message translates to:
+  /// **'About you'**
+  String get onboardingStepAbout;
+
+  /// No description provided for @onboardingStepAccount.
+  ///
+  /// In en, this message translates to:
+  /// **'Account'**
+  String get onboardingStepAccount;
+
+  /// No description provided for @onboardingStepCountry.
+  ///
+  /// In en, this message translates to:
+  /// **'Country'**
+  String get onboardingStepCountry;
+
+  /// No description provided for @onboardingStepPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy'**
+  String get onboardingStepPrivacy;
 }
 
 class _AppLocalizationsDelegate

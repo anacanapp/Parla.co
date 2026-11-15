@@ -35,7 +35,12 @@ enum ParlaIconName {
   check('<path d="M5 12.5l4.5 4.5L19 7.5"/>'),
   plus('<path d="M12 5v14M5 12h14"/>'),
   minus('<path d="M5 12h14"/>'),
-  arrowRight('<path d="M5 12h14M13 6l6 6-6 6"/>');
+  arrowRight('<path d="M5 12h14M13 6l6 6-6 6"/>'),
+  arrowLeft('<path d="M15 5l-7 7 7 7"/>'),
+  dumbbell('<path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/>'),
+  compass(
+    '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+  );
 
   const ParlaIconName(this.paths);
 
