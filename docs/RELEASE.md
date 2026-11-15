@@ -188,6 +188,18 @@ group with `SERVER_URL`; no Play Console.
    availability (Azerbaijan first), screenshots. In-app account deletion,
    which Apple requires, is already done.
 
+## App Store listing (texts and screenshots)
+
+The store texts (Turkish only: App Store Connect has no Azerbaijani) and
+screenshots live in `parla_flutter/ios/fastlane/`; see its `README.md`.
+Codemagic → **Start new build** → `main` → **iOS → App Store listing**
+uploads them to the version being prepared, using the `app_store` group.
+It never submits for review.
+
+Still done by hand in App Store Connect: primary language Turkish (App
+Information), App Privacy answers, age rating, price and availability,
+and the privacy policy and support URLs once the pages are public.
+
 ## 6. Google Play (Anacan App's account)
 
 1. Play Console → Create app: name "Parla", app, free. Accept the

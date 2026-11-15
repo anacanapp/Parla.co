@@ -142,3 +142,37 @@ workflows:
         # Internal testers get the build after Apple's processing; no beta
         # review is needed for them.
         submit_to_testflight: false
+
+  # Uploads the App Store texts and screenshots from
+  # parla_flutter/ios/fastlane (Deliverfile there) to the version being
+  # prepared in App Store Connect. Builds nothing and never submits for
+  # review. Uses the same "app_store" API key group as ios-testflight.
+  ios-store-listing:
+    name: iOS → App Store listing
+    instance_type: *instance
+    max_build_duration: 30
+    environment:
+      groups:
+        - app_store
+    scripts:
+      - name: Write the API key file for fastlane
+        script: |
+          # Written to the build machine only for this build; never printed.
+          python3 - <<'PY'
+          import json, os
+          path = os.path.join(os.environ["CM_BUILD_DIR"], "asc_api_key.json")
+          with open(path, "w") as f:
+              json.dump({
+                  "key_id": os.environ["APP_STORE_CONNECT_KEY_IDENTIFIER"],
+                  "issuer_id": os.environ["APP_STORE_CONNECT_ISSUER_ID"],
+                  "key": os.environ["APP_STORE_CONNECT_PRIVATE_KEY"],
+                  "in_house": False,
+              }, f)
+          os.chmod(path, 0o600)
+          PY
+      - name: Upload texts and screenshots
+        script: |
+          cd parla_flutter/ios
+          fastlane deliver --api_key_path "$CM_BUILD_DIR/asc_api_key.json"
+      - name: Remove the API key file
+        script: rm -f "$CM_BUILD_DIR/asc_api_key.json"
