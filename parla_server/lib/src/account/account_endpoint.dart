@@ -45,6 +45,7 @@ class AccountEndpoint extends Endpoint {
     final health = await store.read(session, userId);
     final routines = await store.readRoutines(session, userId);
     final careList = await store.readCareList(session, userId);
+    final sport = await store.readSport(session, userId);
 
     await writeAudit(
       session,
@@ -99,12 +100,14 @@ class AccountEndpoint extends Endpoint {
       ],
       'customRoutines': routines == null ? null : jsonDecode(routines),
       'careList': careList == null ? null : jsonDecode(careList),
+      'sport': sport == null ? null : jsonDecode(sport),
     });
   }
 
   /// Deletes the caller's account (checklist DEL-1, DEL-2).
   ///
-  /// In one transaction: health data, own routines, care list and their key
+  /// In one transaction: health data, own routines, care list, sport
+  /// document and their key
   /// (crypto-shredding), quiz
   /// answers, profile and the sign-in account with its sessions and tokens
   /// are deleted. Consent records and audit rows are kept as proof but

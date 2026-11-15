@@ -106,8 +106,8 @@ class HealthStore {
     }
   }
 
-  /// Deletes the user's health answers, own routines, care list and data
-  /// key (CON-6).
+  /// Deletes the user's health answers, own routines, care list, sport
+  /// document and data key (CON-6).
   /// Returns whether anything was deleted.
   Future<bool> erase(
     Session session,
@@ -129,6 +129,11 @@ class HealthStore {
       where: (t) => t.authUserId.equals(userId),
       transaction: transaction,
     );
+    final sport = await SportRecord.db.deleteWhere(
+      session,
+      where: (t) => t.authUserId.equals(userId),
+      transaction: transaction,
+    );
     final keys = await HealthKey.db.deleteWhere(
       session,
       where: (t) => t.authUserId.equals(userId),
@@ -137,6 +142,7 @@ class HealthStore {
     return records.isNotEmpty ||
         routines.isNotEmpty ||
         careLists.isNotEmpty ||
+        sport.isNotEmpty ||
         keys.isNotEmpty;
   }
 
@@ -244,6 +250,61 @@ class HealthStore {
           ciphertext: sealed.ciphertext,
           nonce: sealed.nonce,
           format: CareListRules.format,
+          updatedAt: now,
+        ),
+        transaction: transaction,
+      );
+    }
+  }
+
+  /// The user's sport answers and workout log as JSON, or `null`.
+  Future<String?> readSport(
+    Session session,
+    UuidValue userId, {
+    Transaction? transaction,
+  }) async {
+    final record = await SportRecord.db.findFirstRow(
+      session,
+      where: (t) => t.authUserId.equals(userId),
+      transaction: transaction,
+    );
+    if (record == null) return null;
+    return _open(session, userId, record.ciphertext, record.nonce, transaction);
+  }
+
+  /// Replaces the user's sport document with [json] (already validated).
+  Future<void> writeSport(
+    Session session,
+    UuidValue userId,
+    String json, {
+    required Transaction transaction,
+  }) async {
+    final sealed = await _seal(session, userId, json, transaction);
+    final existing = await SportRecord.db.findFirstRow(
+      session,
+      where: (t) => t.authUserId.equals(userId),
+      transaction: transaction,
+    );
+    final now = DateTime.now().toUtc();
+    if (existing == null) {
+      await SportRecord.db.insertRow(
+        session,
+        SportRecord(
+          authUserId: userId,
+          ciphertext: sealed.ciphertext,
+          nonce: sealed.nonce,
+          format: SportRules.format,
+          updatedAt: now,
+        ),
+        transaction: transaction,
+      );
+    } else {
+      await SportRecord.db.updateRow(
+        session,
+        existing.copyWith(
+          ciphertext: sealed.ciphertext,
+          nonce: sealed.nonce,
+          format: SportRules.format,
           updatedAt: now,
         ),
         transaction: transaction,

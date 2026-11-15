@@ -784,13 +784,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sportTitle => 'Спорт';
 
   @override
-  String get sportSoonTitle => 'Тренировки под тебя скоро';
-
-  @override
-  String get sportSoonBody =>
-      'Несколько вопросов, потом план на неделю: упражнения, подходы и повторы, таймер. Музыка будет играть из твоего приложения.';
-
-  @override
   String get discoverTitle => 'Обзор';
 
   @override
@@ -1141,4 +1134,292 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get shopOpenList => 'Открыть мой список покупок';
+
+  @override
+  String get sportIntroTitle => 'План тренировок для тебя';
+
+  @override
+  String get sportIntroBody =>
+      'Несколько вопросов: цель, зоны, любимые тренировки. Затем план на неделю, подходы и повторы, таймер. Музыка играет из твоего приложения.';
+
+  @override
+  String get sportStart => 'Начать';
+
+  @override
+  String get sportNext => 'Далее';
+
+  @override
+  String get sportNeedOne => 'Выбери хотя бы один вариант.';
+
+  @override
+  String get sportQGoals => 'Какая у тебя цель?';
+
+  @override
+  String get sportQGoalsHint => 'Выбери до двух';
+
+  @override
+  String get sportGoalTone => 'Тонус и упругость';
+
+  @override
+  String get sportGoalMuscle => 'Набор мышечной массы';
+
+  @override
+  String get sportGoalFlexibility => 'Гибкость';
+
+  @override
+  String get sportGoalPosture => 'Осанка';
+
+  @override
+  String get sportGoalEndurance => 'Выносливость';
+
+  @override
+  String get sportGoalRelax => 'Снять стресс';
+
+  @override
+  String get sportQAreas => 'На какие зоны сделать акцент?';
+
+  @override
+  String get sportAreasNote =>
+      'Сжечь жир в одной зоне невозможно. Эти упражнения укрепляют мышцы и придают им тонус.';
+
+  @override
+  String get sportAreaArms => 'Руки';
+
+  @override
+  String get sportAreaLegs => 'Ноги';
+
+  @override
+  String get sportAreaCore => 'Пресс и кор';
+
+  @override
+  String get sportAreaGlutes => 'Ягодицы';
+
+  @override
+  String get sportAreaBack => 'Спина';
+
+  @override
+  String get sportAreaFull => 'Всё тело';
+
+  @override
+  String get sportQTypes => 'Какие тренировки тебе по душе?';
+
+  @override
+  String get sportTypeFitness => 'Фитнес';
+
+  @override
+  String get sportTypePilates => 'Пилатес';
+
+  @override
+  String get sportTypeWallPilates => 'Пилатес у стены';
+
+  @override
+  String get sportTypeStretching => 'Растяжка';
+
+  @override
+  String get sportTypeCardio => 'Лёгкое кардио';
+
+  @override
+  String get sportQLevel => 'Какой у тебя уровень?';
+
+  @override
+  String get sportLevelBeginner => 'Только начинаю';
+
+  @override
+  String get sportLevelIntermediate => 'Средний';
+
+  @override
+  String get sportLevelAdvanced => 'Опытная';
+
+  @override
+  String get sportQSchedule => 'Сколько у тебя времени?';
+
+  @override
+  String get sportDaysLabel => 'Дней в неделю';
+
+  @override
+  String get sportMinutesLabel => 'Одна тренировка';
+
+  @override
+  String sportDays(int count) {
+    return '$count дн.';
+  }
+
+  @override
+  String sportMinutes(int count) {
+    return '$count мин';
+  }
+
+  @override
+  String get sportDumbbells => 'У меня есть гантели';
+
+  @override
+  String get sportQSafety => 'Для безопасности';
+
+  @override
+  String get sportSafetyIntro =>
+      'Эти ответы нужны только для того, чтобы убрать из плана неподходящие упражнения.';
+
+  @override
+  String get sportPregnancyLabel => 'Беременность';
+
+  @override
+  String get sportPregNo => 'Нет';
+
+  @override
+  String get sportPregPregnant => 'Я беременна';
+
+  @override
+  String get sportPregPostpartum => 'Роды в последние 6 месяцев';
+
+  @override
+  String get sportInjuriesLabel => 'Боль или травма';
+
+  @override
+  String get sportInjKnee => 'Колено';
+
+  @override
+  String get sportInjBack => 'Поясница';
+
+  @override
+  String get sportInjShoulder => 'Плечо';
+
+  @override
+  String get sportInjWrist => 'Запястье';
+
+  @override
+  String get sportDoctorLimit =>
+      'Врач ограничил нагрузки или просил сначала посоветоваться';
+
+  @override
+  String get sportBuildPlan => 'Составить план';
+
+  @override
+  String get sportWeekTitle => 'На этой неделе';
+
+  @override
+  String sportWeekProgress(int done, int total) {
+    return '$done из $total тренировок';
+  }
+
+  @override
+  String sportWorkoutTitle(int number) {
+    return 'Тренировка $number';
+  }
+
+  @override
+  String sportWorkoutMeta(String type, int minutes) {
+    return '$type · ~$minutes мин';
+  }
+
+  @override
+  String get sportDone => 'Готово';
+
+  @override
+  String get sportNextLabel => 'Следующая';
+
+  @override
+  String get sportEditAnswers => 'Изменить ответы';
+
+  @override
+  String get sportBlockedTitle => 'Сначала поговори с врачом';
+
+  @override
+  String get sportBlockedBody =>
+      'Если врач ограничил нагрузки, мы не составляем план. Когда получишь разрешение, обнови ответы.';
+
+  @override
+  String get sportGentleNote =>
+      'Мягкий план для беременности и периода после родов. Перед началом посоветуйся с врачом.';
+
+  @override
+  String get sportDraftNote =>
+      'Упражнения и цифры ещё не проверены тренером. Если чувствуешь боль, остановись.';
+
+  @override
+  String get sportAllDone => 'Все тренировки этой недели выполнены.';
+
+  @override
+  String sportSetsReps(int sets, int reps) {
+    return '$sets × $reps повт.';
+  }
+
+  @override
+  String sportSetsSeconds(int sets, int seconds) {
+    return '$sets × $seconds сек';
+  }
+
+  @override
+  String sportRestSeconds(int seconds) {
+    return 'Отдых $seconds сек';
+  }
+
+  @override
+  String get sportStartWorkout => 'Начать тренировку';
+
+  @override
+  String get sportMusicNote =>
+      'Включи музыку в своём музыкальном приложении. Parla подаёт только короткие сигналы.';
+
+  @override
+  String get sportSoundOn => 'Звуковые сигналы включены';
+
+  @override
+  String get sportSoundOff => 'Звук выключен, только вибрация';
+
+  @override
+  String sportSetOf(int set, int sets) {
+    return 'Подход $set из $sets';
+  }
+
+  @override
+  String sportRepsNow(int reps) {
+    return '$reps повторений';
+  }
+
+  @override
+  String get sportSetDone => 'Подход выполнен';
+
+  @override
+  String get sportPause => 'Пауза';
+
+  @override
+  String get sportResume => 'Продолжить';
+
+  @override
+  String get sportSkip => 'Пропустить';
+
+  @override
+  String get sportResting => 'Отдых';
+
+  @override
+  String sportNextUp(String name) {
+    return 'Далее: $name';
+  }
+
+  @override
+  String sportExerciseOf(int index, int total) {
+    return 'Упражнение $index из $total';
+  }
+
+  @override
+  String get sportFinishedTitle => 'Тренировка завершена';
+
+  @override
+  String sportFinishedBody(int minutes) {
+    return '$minutes минут движения добавлены в записи за сегодня.';
+  }
+
+  @override
+  String get sportBackToPlan => 'Вернуться к плану';
+
+  @override
+  String get sportQuit => 'Остановить тренировку';
+
+  @override
+  String get sportPrivacySynced =>
+      'Твои ответы о спорте хранятся на сервере в зашифрованном виде, а на этом телефоне остаётся копия для работы без сети.';
+
+  @override
+  String get sportPrivacyDevice =>
+      'Пока твои ответы о спорте хранятся только на этом телефоне. С обновлённым согласием на данные о здоровье они будут храниться на сервере в зашифрованном виде.';
 }

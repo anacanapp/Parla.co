@@ -33,6 +33,7 @@ import 'health/care_list_record.dart' as _iopyqj70;
 import 'health/custom_routine_record.dart' as _idmfi0v2;
 import 'health/health_key.dart' as _ipdtgm1c;
 import 'health/health_record.dart' as _ioxvgdwn;
+import 'health/sport_record.dart' as _izi2p90l;
 import 'products/product_summary.dart' as _ikmk0g5q;
 import 'profile/member_profile.dart' as _i1iocmvy;
 import 'quiz/quiz_answer.dart' as _ih1qnypb;
@@ -47,6 +48,7 @@ export 'health/care_list_record.dart';
 export 'health/custom_routine_record.dart';
 export 'health/health_key.dart';
 export 'health/health_record.dart';
+export 'health/sport_record.dart';
 export 'products/product_summary.dart';
 export 'profile/member_profile.dart';
 export 'quiz/quiz_answer.dart';
@@ -75,6 +77,7 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_idmfi0v2.CustomRoutineRecord>,
           _is.getType<_ipdtgm1c.HealthKey>,
           _is.getType<_ioxvgdwn.HealthRecord>,
+          _is.getType<_izi2p90l.SportRecord>,
           _is.getType<_ikmk0g5q.ProductSummary>,
           _is.getType<_i1iocmvy.MemberProfile>,
           _is.getType<_ih1qnypb.QuizAnswer>,
@@ -89,6 +92,7 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_idmfi0v2.CustomRoutineRecord?>,
           _is.getType<_ipdtgm1c.HealthKey?>,
           _is.getType<_ioxvgdwn.HealthRecord?>,
+          _is.getType<_izi2p90l.SportRecord?>,
           _is.getType<_ikmk0g5q.ProductSummary?>,
           _is.getType<_i1iocmvy.MemberProfile?>,
           _is.getType<_ih1qnypb.QuizAnswer?>,
@@ -114,6 +118,7 @@ class Protocol extends _is.DatabaseSerializationManager
           'CustomRoutineRecord',
           'HealthKey',
           'HealthRecord',
+          'SportRecord',
           'ProductSummary',
           'MemberProfile',
           'QuizAnswer',
@@ -698,6 +703,68 @@ class Protocol extends _is.DatabaseSerializationManager
       ],
       managed: true,
     ),
+    _isp.TableDefinition(
+      name: 'sport_record',
+      dartName: 'SportRecord',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'authUserId',
+          columnType: _isp.ColumnType.uuid,
+          isNullable: false,
+          dartType: 'UuidValue',
+        ),
+        _isp.ColumnDefinition(
+          name: 'ciphertext',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'nonce',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'format',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _isp.ColumnDefinition(
+          name: 'updatedAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'sport_record_user_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'authUserId',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
     ..._iais.Protocol.targetTableDefinitions,
     ..._iacs.Protocol.targetTableDefinitions,
     ..._isp.Protocol.targetTableDefinitions,
@@ -757,6 +824,9 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _ioxvgdwn.HealthRecord) {
       return _ioxvgdwn.HealthRecord.fromJson(data) as T;
     }
+    if (t == _izi2p90l.SportRecord) {
+      return _izi2p90l.SportRecord.fromJson(data) as T;
+    }
     if (t == _ikmk0g5q.ProductSummary) {
       return _ikmk0g5q.ProductSummary.fromJson(data) as T;
     }
@@ -806,6 +876,9 @@ class Protocol extends _is.DatabaseSerializationManager
     }
     if (t == _is.getType<_ioxvgdwn.HealthRecord?>()) {
       return (data != null ? _ioxvgdwn.HealthRecord.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_izi2p90l.SportRecord?>()) {
+      return (data != null ? _izi2p90l.SportRecord.fromJson(data) : null) as T;
     }
     if (t == _is.getType<_ikmk0g5q.ProductSummary?>()) {
       return (data != null ? _ikmk0g5q.ProductSummary.fromJson(data) : null)
@@ -868,6 +941,7 @@ class Protocol extends _is.DatabaseSerializationManager
       _idmfi0v2.CustomRoutineRecord => 'CustomRoutineRecord',
       _ipdtgm1c.HealthKey => 'HealthKey',
       _ioxvgdwn.HealthRecord => 'HealthRecord',
+      _izi2p90l.SportRecord => 'SportRecord',
       _ikmk0g5q.ProductSummary => 'ProductSummary',
       _i1iocmvy.MemberProfile => 'MemberProfile',
       _ih1qnypb.QuizAnswer => 'QuizAnswer',
@@ -906,6 +980,8 @@ class Protocol extends _is.DatabaseSerializationManager
         return 'HealthKey';
       case _ioxvgdwn.HealthRecord():
         return 'HealthRecord';
+      case _izi2p90l.SportRecord():
+        return 'SportRecord';
       case _ikmk0g5q.ProductSummary():
         return 'ProductSummary';
       case _i1iocmvy.MemberProfile():
@@ -969,6 +1045,9 @@ class Protocol extends _is.DatabaseSerializationManager
     }
     if (dataClassName == 'HealthRecord') {
       return deserialize<_ioxvgdwn.HealthRecord>(data['data']);
+    }
+    if (dataClassName == 'SportRecord') {
+      return deserialize<_izi2p90l.SportRecord>(data['data']);
     }
     if (dataClassName == 'ProductSummary') {
       return deserialize<_ikmk0g5q.ProductSummary>(data['data']);
@@ -1043,6 +1122,8 @@ class Protocol extends _is.DatabaseSerializationManager
         return _ipdtgm1c.HealthKey.t;
       case _ioxvgdwn.HealthRecord:
         return _ioxvgdwn.HealthRecord.t;
+      case _izi2p90l.SportRecord:
+        return _izi2p90l.SportRecord.t;
       case _i1iocmvy.MemberProfile:
         return _i1iocmvy.MemberProfile.t;
       case _ih1qnypb.QuizAnswer:

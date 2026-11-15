@@ -784,13 +784,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sportTitle => 'Fitness';
 
   @override
-  String get sportSoonTitle => 'A workout plan made for you, soon';
-
-  @override
-  String get sportSoonBody =>
-      'A few questions, then a weekly plan: moves, sets and reps, and a timer. Music plays from your own app.';
-
-  @override
   String get discoverTitle => 'Discover';
 
   @override
@@ -1136,4 +1129,292 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get shopOpenList => 'See my shopping list';
+
+  @override
+  String get sportIntroTitle => 'A workout plan made for you';
+
+  @override
+  String get sportIntroBody =>
+      'A few questions: goal, areas, the workouts you like. Then a weekly plan with sets, reps and a timer. Music plays from your own app.';
+
+  @override
+  String get sportStart => 'Start';
+
+  @override
+  String get sportNext => 'Next';
+
+  @override
+  String get sportNeedOne => 'Pick at least one.';
+
+  @override
+  String get sportQGoals => 'What is your goal?';
+
+  @override
+  String get sportQGoalsHint => 'Pick up to two';
+
+  @override
+  String get sportGoalTone => 'Tone and firmness';
+
+  @override
+  String get sportGoalMuscle => 'Build muscle';
+
+  @override
+  String get sportGoalFlexibility => 'Flexibility';
+
+  @override
+  String get sportGoalPosture => 'Posture';
+
+  @override
+  String get sportGoalEndurance => 'Endurance';
+
+  @override
+  String get sportGoalRelax => 'Unwind';
+
+  @override
+  String get sportQAreas => 'Which areas should we focus on?';
+
+  @override
+  String get sportAreasNote =>
+      'Fat cannot be burned from one spot. These moves strengthen and tone those muscles.';
+
+  @override
+  String get sportAreaArms => 'Arms';
+
+  @override
+  String get sportAreaLegs => 'Legs';
+
+  @override
+  String get sportAreaCore => 'Abs and core';
+
+  @override
+  String get sportAreaGlutes => 'Glutes';
+
+  @override
+  String get sportAreaBack => 'Back';
+
+  @override
+  String get sportAreaFull => 'Full body';
+
+  @override
+  String get sportQTypes => 'Which workouts do you want?';
+
+  @override
+  String get sportTypeFitness => 'Fitness';
+
+  @override
+  String get sportTypePilates => 'Pilates';
+
+  @override
+  String get sportTypeWallPilates => 'Wall pilates';
+
+  @override
+  String get sportTypeStretching => 'Stretching';
+
+  @override
+  String get sportTypeCardio => 'Low-impact cardio';
+
+  @override
+  String get sportQLevel => 'What is your level?';
+
+  @override
+  String get sportLevelBeginner => 'Just starting';
+
+  @override
+  String get sportLevelIntermediate => 'Intermediate';
+
+  @override
+  String get sportLevelAdvanced => 'Experienced';
+
+  @override
+  String get sportQSchedule => 'How much time do you have?';
+
+  @override
+  String get sportDaysLabel => 'Days a week';
+
+  @override
+  String get sportMinutesLabel => 'One workout';
+
+  @override
+  String sportDays(int count) {
+    return '$count days';
+  }
+
+  @override
+  String sportMinutes(int count) {
+    return '$count min';
+  }
+
+  @override
+  String get sportDumbbells => 'I have dumbbells at home';
+
+  @override
+  String get sportQSafety => 'For your safety';
+
+  @override
+  String get sportSafetyIntro =>
+      'These answers only remove moves that do not suit you from the plan.';
+
+  @override
+  String get sportPregnancyLabel => 'Pregnancy';
+
+  @override
+  String get sportPregNo => 'No';
+
+  @override
+  String get sportPregPregnant => 'I am pregnant';
+
+  @override
+  String get sportPregPostpartum => 'Gave birth in the last 6 months';
+
+  @override
+  String get sportInjuriesLabel => 'Pain or injury';
+
+  @override
+  String get sportInjKnee => 'Knee';
+
+  @override
+  String get sportInjBack => 'Lower back';
+
+  @override
+  String get sportInjShoulder => 'Shoulder';
+
+  @override
+  String get sportInjWrist => 'Wrist';
+
+  @override
+  String get sportDoctorLimit =>
+      'A doctor limited exercise or asked me to check first';
+
+  @override
+  String get sportBuildPlan => 'Build my plan';
+
+  @override
+  String get sportWeekTitle => 'This week';
+
+  @override
+  String sportWeekProgress(int done, int total) {
+    return '$done of $total workouts';
+  }
+
+  @override
+  String sportWorkoutTitle(int number) {
+    return 'Workout $number';
+  }
+
+  @override
+  String sportWorkoutMeta(String type, int minutes) {
+    return '$type · ~$minutes min';
+  }
+
+  @override
+  String get sportDone => 'Done';
+
+  @override
+  String get sportNextLabel => 'Next up';
+
+  @override
+  String get sportEditAnswers => 'Update answers';
+
+  @override
+  String get sportBlockedTitle => 'Talk to your doctor first';
+
+  @override
+  String get sportBlockedBody =>
+      'If a doctor limited exercise, we do not build a plan. Update your answers once you have the go-ahead.';
+
+  @override
+  String get sportGentleNote =>
+      'A gentle plan for pregnancy and after birth. Check with your doctor before you start.';
+
+  @override
+  String get sportDraftNote =>
+      'The moves and numbers have not been reviewed by a trainer yet. Stop if anything hurts.';
+
+  @override
+  String get sportAllDone => 'All of this week\'s workouts are done.';
+
+  @override
+  String sportSetsReps(int sets, int reps) {
+    return '$sets × $reps reps';
+  }
+
+  @override
+  String sportSetsSeconds(int sets, int seconds) {
+    return '$sets × $seconds s';
+  }
+
+  @override
+  String sportRestSeconds(int seconds) {
+    return 'Rest $seconds s';
+  }
+
+  @override
+  String get sportStartWorkout => 'Start workout';
+
+  @override
+  String get sportMusicNote =>
+      'Play music from your own music app. Parla only gives short signals.';
+
+  @override
+  String get sportSoundOn => 'Sound signals on';
+
+  @override
+  String get sportSoundOff => 'Sound off, vibration only';
+
+  @override
+  String sportSetOf(int set, int sets) {
+    return 'Set $set of $sets';
+  }
+
+  @override
+  String sportRepsNow(int reps) {
+    return '$reps reps';
+  }
+
+  @override
+  String get sportSetDone => 'Set done';
+
+  @override
+  String get sportPause => 'Pause';
+
+  @override
+  String get sportResume => 'Resume';
+
+  @override
+  String get sportSkip => 'Skip';
+
+  @override
+  String get sportResting => 'Rest';
+
+  @override
+  String sportNextUp(String name) {
+    return 'Next: $name';
+  }
+
+  @override
+  String sportExerciseOf(int index, int total) {
+    return 'Move $index of $total';
+  }
+
+  @override
+  String get sportFinishedTitle => 'Workout done';
+
+  @override
+  String sportFinishedBody(int minutes) {
+    return '$minutes minutes of movement were added to today\'s entries.';
+  }
+
+  @override
+  String get sportBackToPlan => 'Back to the plan';
+
+  @override
+  String get sportQuit => 'Stop workout';
+
+  @override
+  String get sportPrivacySynced =>
+      'Your fitness answers are kept encrypted on our server, with a copy on this phone for offline use.';
+
+  @override
+  String get sportPrivacyDevice =>
+      'For now your fitness answers are kept only on this phone. With the updated health consent they will be kept encrypted on our server.';
 }

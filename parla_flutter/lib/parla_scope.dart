@@ -5,6 +5,7 @@ import 'habits/habit_tracker.dart';
 import 'reminders/reminder_controller.dart';
 import 'check/care_list.dart';
 import 'routines/custom_routines.dart';
+import 'sport/sport_book.dart';
 import 'services/parla_api.dart';
 import 'state/app_settings.dart';
 import 'state/onboarding_state.dart';
@@ -22,6 +23,7 @@ class ParlaScope extends InheritedWidget {
     required this.reminders,
     required this.routines,
     required this.careList,
+    required this.sport,
     required this.ingredients,
     required super.child,
   });
@@ -48,6 +50,9 @@ class ParlaScope extends InheritedWidget {
   /// Product preferences, checked products and the shopping list.
   final CareListBook careList;
 
+  /// Sport answers, plan and finished workouts.
+  final SportBook sport;
+
   /// EU ingredient statuses shipped with the app (CosIng export).
   final IngredientDataset ingredients;
 
@@ -59,6 +64,7 @@ class ParlaScope extends InheritedWidget {
       reminders.attach(id),
       routines.attach(id),
       careList.attach(id),
+      sport.attach(id),
     ]);
     // Own-routine ticks moved from the habit log to the routines.
     if (id != null && api.accountId == id) {
@@ -72,6 +78,7 @@ class ParlaScope extends InheritedWidget {
     habits.detach();
     routines.detach();
     careList.detach();
+    sport.detach();
     await reminders.detach();
   }
 
@@ -83,6 +90,8 @@ class ParlaScope extends InheritedWidget {
     routines.detach();
     await careList.erase();
     careList.detach();
+    await sport.erase();
+    sport.detach();
     await reminders.erase();
   }
 

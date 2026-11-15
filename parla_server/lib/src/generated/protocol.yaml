@@ -33,3 +33,6 @@ careList:
 routine:
   - myRoutines:
   - saveRoutines:
+sport:
+  - mySport:
+  - saveSport:

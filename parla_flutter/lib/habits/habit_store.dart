@@ -30,6 +30,11 @@ class SecureHabitStore implements HabitStore {
     this._storage = const FlutterSecureStorage(),
   ]) : _kind = 'careList.';
 
+  /// The sport answers and finished workouts.
+  const SecureHabitStore.sport([
+    this._storage = const FlutterSecureStorage(),
+  ]) : _kind = 'sport.';
+
   final FlutterSecureStorage _storage;
 
   /// Distinguishes entries of the same account; every key still starts

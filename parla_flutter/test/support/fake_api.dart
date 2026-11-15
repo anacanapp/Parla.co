@@ -51,6 +51,7 @@ class FakeApi implements ParlaApi {
         quizAnswers = null; // Mirrors the server's erase.
         routines = null;
         careList = null;
+        sport = null;
       }
     }
   }
@@ -112,6 +113,23 @@ class FakeApi implements ParlaApi {
     careList = json;
   }
 
+  /// The sport document as the server keeps it.
+  String? sport;
+
+  @override
+  Future<String?> mySport() async {
+    if (routineError != null) throw routineError!;
+    return healthConsent ? sport : null;
+  }
+
+  @override
+  Future<void> saveSport(String json) async {
+    if (routineError != null) throw routineError!;
+    if (!healthConsent) throw const ApiError('consent.health_required');
+    if (!SportRules.isValid(json)) throw const ApiError('sport.invalid');
+    sport = json;
+  }
+
   @override
   Future<String?> myRoutines() async {
     if (routineError != null) throw routineError!;
@@ -155,6 +173,7 @@ class FakeApi implements ParlaApi {
     quizAnswers = null;
     routines = null;
     careList = null;
+    sport = null;
   }
 
   /// Products every search returns; [productError] makes search fail.
