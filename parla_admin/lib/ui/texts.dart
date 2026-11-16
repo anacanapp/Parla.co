@@ -16,6 +16,13 @@ String errorText(Object error) {
     'staff.already' => 'Bu artıq edilib.',
     'staff.last_admin' => 'Sonuncu aktiv admini dəyişmək olmaz.',
     'staff.email_invalid' => 'E-poçt ünvanı düzgün deyil.',
+    'content.not_found' => 'Yazı tapılmadı.',
+    'content.invalid' =>
+      'Məlumat düzgün deyil (slug, kateqoriya və ya sahələr).',
+    'content.incomplete' => 'Hər üç dildə bütün vacib sahələri doldurun.',
+    'content.slug_taken' => 'Bu slug artıq istifadə olunur.',
+    'content.wrong_status' => 'Bu addım indiki statusda mümkün deyil.',
+    'content.consent_missing' => 'Mütəxəssisin yazılı razılığı qeyd olunmayıb.',
     'auth.short_password' => 'Şifrə ən azı 12 simvol olmalıdır.',
     'auth.failed' =>
       'Alınmadı. E-poçtu, şifrəni və ya kodu yoxlayın və yenidən cəhd edin.',
@@ -33,4 +40,44 @@ String roleHint(StaffRole role) => switch (role) {
   StaffRole.admin => 'Hər şey, işçi hesabları daxil',
   StaffRole.editor => 'Məzmun yazır və redaktə edir',
   StaffRole.expert => 'Öz sahəsində məzmunu yoxlayır və təsdiqləyir',
+};
+
+String statusLabel(ContentStatus s) => switch (s) {
+  ContentStatus.draft => 'Qaralama',
+  ContentStatus.inReview => 'Yoxlamada',
+  ContentStatus.approved => 'Təsdiqlənib',
+  ContentStatus.published => 'Dərc olunub',
+};
+
+String kindLabel(String kind) => switch (kind) {
+  'article' => 'Bloqlar',
+  'recipe' => 'Reseptlər',
+  _ => 'Mütəxəssislər',
+};
+
+String categoryLabel(String id) => switch (id) {
+  'care' => 'Qulluq',
+  'beauty' => 'Gözəllik',
+  'fashion' => 'Moda',
+  'hair' => 'Saç',
+  'breakfast' => 'Səhər yeməyi',
+  'lunch' => 'Nahar',
+  'dinner' => 'Şam yeməyi',
+  'snack' => 'Qəlyanaltı',
+  'dermatologist' => 'Dermatoloq',
+  'cosmetologist' => 'Kosmetoloq',
+  'trainer' => 'Məşqçi',
+  'dietitian' => 'Dietoloq',
+  'trichologist' => 'Trixoloq',
+  _ => id,
+};
+
+String groupLabel(String id) => switch (id) {
+  'vegetables' => 'Tərəvəz',
+  'fruit' => 'Meyvə',
+  'protein' => 'Protein',
+  'whole_grain' => 'Tam taxıl',
+  'healthy_fat' => 'Sağlam yağ',
+  'dairy' => 'Süd məhsulu',
+  _ => id,
 };

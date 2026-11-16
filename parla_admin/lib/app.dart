@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 
 import 'api/admin_api.dart';
 import 'screens/auth_screens.dart';
+import 'screens/content_screens.dart';
 import 'screens/home_shell.dart';
 import 'screens/staff_screen.dart';
 import 'staff_session.dart';
@@ -102,18 +103,30 @@ GoRouter _buildRouter(StaffState state) => GoRouter(
           builder: (_, _) => const ComingSection(
             title: 'Ümumi',
             body:
-                'Xoş gəldiniz. Məzmun idarəsi B mərhələsində, istifadəçilər '
-                'və statistika C mərhələsində, bannerlər, mesajlar və push '
-                'bildirişlər D mərhələsində əlavə olunur.',
+                'Xoş gəldiniz. Məzmun bölməsində bloqlar, reseptlər və '
+                'mütəxəssislər idarə olunur. İstifadəçilər və statistika C '
+                'mərhələsində, bannerlər, mesajlar və push bildirişlər D '
+                'mərhələsində əlavə olunur.',
           ),
         ),
+        GoRoute(path: '/content', redirect: (_, _) => '/content/article'),
         GoRoute(
-          path: '/content',
-          builder: (_, _) => const ComingSection(
-            title: 'Məzmun',
-            body:
-                'Bloqlar, reseptlər, mütəxəssislər, məhsul seçimləri, idman '
-                'hərəkətləri və qulluq addımları. B mərhələsində gəlir.',
+          path: '/content/:kind',
+          redirect: (_, route) =>
+              const {'article', 'recipe', 'expert'}.contains(
+                route.pathParameters['kind'],
+              )
+              ? null
+              : '/content/article',
+          builder: (_, route) =>
+              ContentScreen(state: state, kind: route.pathParameters['kind']!),
+        ),
+        GoRoute(
+          path: '/content/:kind/:id',
+          builder: (_, route) => ContentEditorScreen(
+            state: state,
+            kind: route.pathParameters['kind']!,
+            id: int.tryParse(route.pathParameters['id']!) ?? -1,
           ),
         ),
         GoRoute(

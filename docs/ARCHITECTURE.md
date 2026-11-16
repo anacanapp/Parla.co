@@ -255,11 +255,32 @@ messages and push notifications (D) follow.
   routines, lists or fitness data. These are encrypted with per-user keys
   that the panel has no way to use. User management (phase C) shows account
   data only.
+- **Content (phase B1).** Articles, recipes and expert profiles live in
+  `content_item`, written in az, ru and en (`ContentRules` in
+  `parla_shared`: known fields only, all three languages before review).
+  Each item has a working copy and a separate published copy. Editors
+  write and send for review; an expert approves or returns it with a note;
+  an editor or admin publishes the approved copy. Editing a live item
+  never changes what the app shows until the new version is reviewed and
+  published. Expert profiles need no review, but an admin must record
+  where the expert's signed consent is kept before they can be published.
+  The app reads published items from `content.published` (no sign-in,
+  nothing personal). Every step is audited.
 - **Hosting.** A static build in a private S3 bucket behind its own
   CloudFront address (`deploy/aws/staging/admin.tf`) with a strict content
   security policy, `noindex`, and CanvasKit bundled so nothing loads from
   Google. It is deployed by the *Deploy staging admin panel* workflow. The
   panel is in Azerbaijani only, as it is for the team.
+
+## Nutrition (plate)
+
+- The daily plate records which food groups the user had each day
+  (vegetables, fruit, protein, whole grain, healthy fat, dairy). There are
+  no calories, weights or amounts. It is stored like the other documents,
+  encrypted in `nutrition_record`, only with a health consent that covers
+  it (`healthVersionsCoveringNutrition`, from `health-2026-11-draft5`), and
+  checked against `NutritionRules` (90 days). The app screens arrive in
+  phase B2.
 
 ## Reminders
 
@@ -323,10 +344,10 @@ messages and push notifications (D) follow.
 | Privacy policy and terms texts | — | Lawyer |
 | Apple and Google sign-in | US-01 | Needs the Apple and Google developer accounts (company registration) |
 | Production hosting, email provider and data region (staging uses AWS in Frankfurt and SMTP via info@anacan.az) | RES-1, RES-5 | After the lawyer answers the localisation questions |
-| Admin panel phases B (content, images in S3), C (users, statistics) and D (banners, messages, push notifications) | M8 | In progress; phase A done |
+| Admin panel phases B2 (Discover screens, plate, images in S3, moving preferences/exercises/steps to the panel), C (users, statistics) and D (banners, messages, push notifications) | M8 | In progress; A and B1 done |
 | Privacy policy text for staff access, the admin panel and push notifications | — | Lawyer, before phase D |
 | Real-device test of reminders (Android 13+ permission, reboot, iOS foreground) | M7 | Before the beta |
-| Ask people who agreed to an older health consent text to agree to the current one (own routines, preferences and the shopping list stay on the phone until then) | CON-3 | Before launch, if anyone agreed to `health-2026-11-draft1`, `draft2` or `draft3` |
+| Ask people who agreed to an older health consent text to agree to the current one (own routines, preferences and the shopping list stay on the phone until then) | CON-3 | Before launch, if anyone agreed to `health-2026-11-draft1` to `draft4` |
 | Expert review of the preference ingredient lists (`product_preferences.dart`) | — | Before launch |
 | Trainer or physiotherapist review of the exercises, numbers and safety rules (`sport_rules.dart`, `exercise_text.dart`) | — | Before launch |
 | Licensed exercise photos (shown by exercise id) | — | When the photos arrive |
