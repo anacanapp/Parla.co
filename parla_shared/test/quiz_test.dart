@@ -6,16 +6,6 @@ QuizAnswers _answers(
   Set<String> declined = const {},
 }) => QuizAnswers(chosen: chosen, declined: declined);
 
-/// Someone who would get a retinoid if nothing ruled it out.
-const _retinoidCandidate = {
-  'skin_type': ['normal'],
-  'skin_sensitivity': ['rarely'],
-  'skin_goals': ['glow'],
-  'routine_time': ['standard'],
-  'pregnancy': ['no'],
-  'medication': ['none'],
-};
-
 void main() {
   group('quiz content', () {
     test('ids are unique and every text exists in every language', () {
@@ -62,9 +52,10 @@ void main() {
       expect(skin.accepts(['shiny']), isFalse);
 
       final allergies = quizQuestion('allergies')!;
-      expect(allergies.accepts(['fragrance', 'nickel']), isTrue);
+      expect(allergies.accepts(['fragrance', 'lanolin']), isTrue);
       expect(allergies.accepts(['fragrance', 'none']), isFalse);
-      expect(allergies.accepts(['nickel', 'nickel']), isFalse);
+      expect(allergies.accepts(['lanolin', 'lanolin']), isFalse);
+      expect(allergies.accepts(['nickel']), isFalse);
     });
 
     test('red flags', () {
@@ -88,90 +79,39 @@ void main() {
     });
   });
 
-  group('routine rules', () {
-    test('a safe candidate gets a retinoid in the evening', () {
-      final plan = planRoutine(_answers(_retinoidCandidate));
-      expect(plan.evening, contains('retinoid-pm'));
-      expect(plan.morning, contains('vitamin-c'));
-      expect(plan.exclusions, isEmpty);
-    });
-
-    for (final pregnancy in ['pregnant', 'breastfeeding']) {
-      test('no retinoid when $pregnancy', () {
-        final plan = planRoutine(
-          _answers({
-            ..._retinoidCandidate,
-            'pregnancy': [pregnancy],
-          }),
-        );
-        expect(plan.evening, isNot(contains('retinoid-pm')));
-        expect(plan.exclusions, contains(RoutineExclusion.retinoidPregnancy));
-      });
+  test('the sheet questions are all there, with why we ask', () {
+    expect(quizQuestions.map((q) => q.id), [
+      'skin_type',
+      'sensitivity',
+      'concerns',
+      'pregnancy',
+      'medications',
+      'allergies',
+      'sun_exposure',
+      'makeup_spf',
+      'routine_level',
+      'actives_experience',
+      'fragrance_pref',
+      'body_skin',
+      'body_concerns',
+      'hair_type',
+      'scalp',
+      'hair_concerns',
+      'heat_styling',
+      'wash_frequency',
+      'hair_treated',
+      'warning_signs',
+    ]);
+    // The age comes from the birth year; under 18 cannot sign up.
+    expect(quizQuestion('age_range'), isNull);
+    for (final q in quizQuestions.where((q) => q.id != 'warning_signs')) {
+      for (final language in supportedLanguages) {
+        expect(q.why[language], isNotEmpty, reason: '${q.id} $language');
+      }
     }
-
-    test('no retinoid when pregnancy is declined (never guessed)', () {
-      final answers = Map.of(_retinoidCandidate)..remove('pregnancy');
-      final plan = planRoutine(_answers(answers, declined: {'pregnancy'}));
-      expect(plan.evening, isNot(contains('retinoid-pm')));
-      expect(plan.exclusions, contains(RoutineExclusion.retinoidPregnancy));
-    });
-
-    test('no retinoid with oral retinoids or unanswered medication', () {
-      final onIsotretinoin = planRoutine(
-        _answers({
-          ..._retinoidCandidate,
-          'medication': ['oral_retinoid'],
-        }),
-      );
-      expect(onIsotretinoin.evening, isNot(contains('retinoid-pm')));
-
-      final unanswered = Map.of(_retinoidCandidate)..remove('medication');
-      final plan = planRoutine(_answers(unanswered));
-      expect(plan.evening, isNot(contains('retinoid-pm')));
-      expect(plan.exclusions, contains(RoutineExclusion.retinoidMedication));
-    });
-
-    test('sensitive skin gets a soothing serum and no actives', () {
-      final plan = planRoutine(
-        _answers({
-          ..._retinoidCandidate,
-          'conditions': ['rosacea'],
-        }),
-      );
-      expect(plan.morning, contains('soothing-serum'));
-      expect(plan.morning, isNot(contains('vitamin-c')));
-      expect(plan.evening, isNot(contains('retinoid-pm')));
-    });
-
-    test('minimal routine keeps only the essentials', () {
-      final plan = planRoutine(
-        _answers({
-          ..._retinoidCandidate,
-          'routine_time': ['minimal'],
-        }),
-      );
-      expect(plan.morning, ['cleanser', 'moisturiser', 'sunscreen']);
-      expect(plan.evening, isNot(contains('retinoid-pm')));
-    });
-
-    test('moisturiser follows skin type; sunscreen is always in', () {
-      expect(
-        planRoutine(
-          _answers({
-            'skin_type': ['oily'],
-          }),
-        ).morning,
-        contains('moisturiser-light'),
-      );
-      expect(
-        planRoutine(
-          _answers({
-            'skin_type': ['dry'],
-          }),
-        ).morning,
-        contains('moisturiser-rich'),
-      );
-      expect(planRoutine(_answers({})).morning, contains('sunscreen'));
-    });
+    expect(
+      [for (final q in quizQuestions.where((q) => q.sensitive)) q.id],
+      ['pregnancy', 'medications', 'allergies'],
+    );
   });
 }

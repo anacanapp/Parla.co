@@ -71,10 +71,22 @@ so it can move to our own servers unchanged. Setup and store steps are in
   decides whether the "see a doctor" screen (M-12) appears; the server
   refuses to store it. Legal review should confirm this local-only
   processing.
-- **Quiz content and routine rules** (`parla_shared/lib/src/quiz.dart`,
-  `routine_rules.dart`) are sample content with `approved: false`. The
-  rules are conservative: a missing or declined safety answer (pregnancy,
-  medication) leaves retinol out instead of guessing.
+- **Quiz content and routine rules** come from the content sheet
+  (`test_suallari`, `rutin_addimlari`, `rutin_qaydalari`): 19 questions
+  with "why we ask" texts plus our own warning-signs question, 34 care
+  steps and 47 rules (`quiz.dart`, `routine_content.dart`; the engine is
+  `buildRoutine` in `routine_rules.dart`). All drafts with
+  `approved: false`. The sheet's age question is left out, because the
+  birth year is already known and the app is 18+ only. Its under-18 rule is
+  dropped for the same reason. Pregnancy, medications and allergies are the
+  health questions. The engine is conservative: removing always wins over
+  adding; a step marked unsafe in pregnancy is left out unless the answer
+  is "no" (so a skipped answer also leaves it out); an unanswered
+  medication question leaves out the actives a prescription would rule
+  out; and steps not suited to sensitive skin are left out when the skin
+  reacts often. The rules' notes are shown on the quiz result. The Check
+  filters the rules suggest (`RoutineResult.preferences`) are not used in
+  the app yet.
 - **Content in code for now.** Expert content lives in code and changes
   go through pull requests until the admin panel's content phase (B)
   moves it to the server with an expert approval step; see "Admin panel".
@@ -305,8 +317,9 @@ draft content until the named expert reviews it.
   drafts). Six exercises were added to the catalogue (side lunge, step-up,
   bicycle crunch, mountain climber, jumping jack, high knees). The band row
   is left out because the questions do not ask about a band.
-- C2 (next): the quiz with 20 questions (keeping our warning-signs
-  question), 34 routine steps and 50 routine rules.
+- C2 (done): the quiz, the routine steps and the rules (see "Quiz
+  content and routine rules"). Step texts are in
+  `lib/home/routine_step_texts.dart`.
 - C3 (next): recipes and blog titles imported into the admin panel as
   "in review" drafts.
 

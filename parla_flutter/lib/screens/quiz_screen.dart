@@ -346,6 +346,17 @@ class _QuestionView extends StatelessWidget {
                       style: text.headlineSmall,
                     ),
                   ),
+                  if ((question.why[language] ?? question.why['az']) !=
+                      null) ...[
+                    const SizedBox(height: 6),
+                    Text(
+                      question.why[language] ?? question.why['az']!,
+                      key: const ValueKey('quiz-why'),
+                      style: text.bodySmall?.copyWith(
+                        color: ParlaColors.muted,
+                      ),
+                    ),
+                  ],
                   if (question.multiple) ...[
                     const SizedBox(height: 8),
                     Text(
@@ -493,30 +504,21 @@ class _ResultView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    final plan = planRoutine(answers);
+    final routine = buildRoutine(answers);
     final rows = [
       if (answers.answered('skin_type'))
         (l10n.resultSkin, _optionText('skin_type')),
       if (answers.answered('hair_type'))
         (l10n.resultHair, _optionText('hair_type')),
-      if (answers.answered('skin_goals'))
-        (l10n.resultGoals, _optionText('skin_goals')),
+      if (answers.answered('concerns'))
+        (l10n.resultGoals, _optionText('concerns')),
     ];
-    final pregnancy = plan.exclusions.contains(
-      RoutineExclusion.retinoidPregnancy,
-    );
-    final medication = plan.exclusions.contains(
-      RoutineExclusion.retinoidMedication,
-    );
+    // What was left out, made gentler or needs care, from the rules
+    // (draft texts from the content sheet).
     final notes = [
-      if (pregnancy && medication)
-        l10n.resultExclusionRetinoidBoth
-      else if (pregnancy)
-        l10n.resultExclusionPregnancy
-      else if (medication)
-        l10n.resultExclusionMedication,
-      if (plan.exclusions.contains(RoutineExclusion.sensitiveSkin))
-        l10n.resultExclusionSensitive,
+      for (final rule in routine.notes)
+        if (rule.action != RuleAction.add)
+          rule.note[language] ?? rule.note['az']!,
     ];
     return ParlaPage(
       title: l10n.resultTitle,

@@ -88,7 +88,12 @@ Future<_App> _open(
 Future<void> _tap(WidgetTester tester, Finder finder) async {
   final list = find.byType(Scrollable);
   if (finder.evaluate().isEmpty && list.evaluate().isNotEmpty) {
-    await tester.scrollUntilVisible(finder, 200, scrollable: list.first);
+    // Look below first, then above (the lists are lazy).
+    try {
+      await tester.scrollUntilVisible(finder, 200, scrollable: list.first);
+    } on StateError {
+      await tester.scrollUntilVisible(finder, -200, scrollable: list.first);
+    }
   }
   await tester.ensureVisible(finder.first);
   await tester.pumpAndSettle();
@@ -98,6 +103,14 @@ Future<void> _tap(WidgetTester tester, Finder finder) async {
 
 Future<void> _enter(WidgetTester tester, String key, String value) async {
   final field = find.byKey(ValueKey(key));
+  // The field may be scrolled out of the (lazy) list above.
+  if (field.evaluate().isEmpty) {
+    await tester.scrollUntilVisible(
+      field,
+      -200,
+      scrollable: find.byType(Scrollable).first,
+    );
+  }
   await tester.ensureVisible(field);
   await tester.enterText(field, value);
   await tester.pumpAndSettle();
@@ -142,7 +155,7 @@ final _answerSets = <QuizAnswers?>[
     chosen: {
       'hair_type': ['straight'],
       'hair_concerns': ['oiliness'],
-      'skin_sensitivity': ['often'],
+      'sensitivity': ['often'],
       'sun_exposure': ['indoors'],
     },
   ),
@@ -170,8 +183,8 @@ void main() {
 
   test('hair and body suggestions exist in every language', () {
     for (final language in ['az', 'ru', 'en']) {
-      expect(stepSuggestions(RoutineArea.hair, language), hasLength(7));
-      expect(stepSuggestions(RoutineArea.body, language), hasLength(5));
+      expect(stepSuggestions(RoutineArea.hair, language), hasLength(11));
+      expect(stepSuggestions(RoutineArea.body, language), hasLength(8));
       expect(stepSuggestions(RoutineArea.face, language), isNotEmpty);
     }
   });
@@ -192,7 +205,7 @@ void main() {
 
     await _tap(tester, find.byKey(const ValueKey('area-body')));
     expect(
-      find.byKey(const ValueKey('routine-step-body-shower')),
+      find.byKey(const ValueKey('routine-step-body-cleanser')),
       findsOneWidget,
     );
   });
@@ -207,7 +220,7 @@ void main() {
     await _tap(
       tester,
       find.descendant(
-        of: find.byKey(const ValueKey('routine-step-hair-wash')),
+        of: find.byKey(const ValueKey('routine-step-hair-shampoo')),
         matching: find.byType(InkResponse),
       ),
     );
@@ -296,12 +309,17 @@ void main() {
 
     await _enter(tester, 'builder-name', 'Quick');
     await _tap(tester, find.text('Save routine'));
+    await tester.scrollUntilVisible(
+      find.text('Add at least one step.'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
     expect(find.text('Add at least one step.'), findsOneWidget);
     expect(app.routines.data, isEmpty);
 
     // A ready step from the suggestions.
     await _tap(tester, find.byKey(const ValueKey('builder-area-body')));
-    await _tap(tester, find.widgetWithText(ActionChip, 'Body lotion'));
+    await _tap(tester, find.widgetWithText(ActionChip, 'Body moisturiser'));
     await _tap(tester, find.text('Save routine'));
     expect(app.routines.data, contains('user-1'));
   });
@@ -430,7 +448,7 @@ void main() {
     // Tick both weekly hair steps on the Routine tab.
     await _tap(tester, find.byKey(const ValueKey('area-hair')));
     await _tap(tester, find.byKey(const ValueKey('slot-weekly')));
-    for (final id in ['hair-wash', 'hair-conditioner']) {
+    for (final id in ['hair-shampoo', 'hair-conditioner']) {
       await _tap(
         tester,
         find.descendant(
@@ -449,7 +467,8 @@ void main() {
     );
     expect(find.byKey(const ValueKey('today-hair-morning')), findsOneWidget);
     expect(find.byKey(const ValueKey('today-body-morning')), findsOneWidget);
-    expect(find.byKey(const ValueKey('today-body-weekly')), findsOneWidget);
+    // The base body routine has no weekly step.
+    expect(find.byKey(const ValueKey('today-body-weekly')), findsNothing);
     expect(find.byKey(const ValueKey('today-hair-weekly')), findsNothing);
     expect(find.byKey(const ValueKey('today-own-r2')), findsNothing);
     expect(

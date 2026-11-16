@@ -23,12 +23,12 @@ MemoryHabitStore _seeded() {
   log.day(_today)
     ..water = 6
     ..sleepHours = 7.5
-    ..morningDone.add('cleanser');
+    ..morningDone.add('face-cleanser-am');
   log.day(DateTime(2026, 11, 11))
     ..water = 4
     ..sleepHours = 6.5
     ..moveMinutes = 30
-    ..eveningDone.add('makeup-off');
+    ..eveningDone.add('face-cleanser-pm');
   log.day(DateTime(2026, 11, 8)).moveMinutes = 45;
   return MemoryHabitStore()..data['user-1'] = jsonEncode(log.toJson());
 }
