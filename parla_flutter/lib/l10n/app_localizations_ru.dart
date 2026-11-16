@@ -1003,32 +1003,6 @@ class AppLocalizationsRu extends AppLocalizations {
   String get checkPrefsSave => 'Сохранить';
 
   @override
-  String get prefFragranceFree => 'Без отдушек';
-
-  @override
-  String get prefAlcoholFree => 'Без спирта';
-
-  @override
-  String get prefSulfateFree => 'Без сульфатов';
-
-  @override
-  String get prefSiliconeFree => 'Без силиконов';
-
-  @override
-  String get prefParabenFree => 'Без парабенов';
-
-  @override
-  String get prefVegan => 'Веган';
-
-  @override
-  String get prefAlcoholFreeHint =>
-      'Жирные спирты (cetyl, cetearyl) не учитываются';
-
-  @override
-  String get prefVeganHint =>
-      'Проверяются только известные компоненты животного происхождения';
-
-  @override
   String get checkBarcodeSoon => 'Сканер штрихкода · скоро';
 
   @override

@@ -1816,54 +1816,6 @@ abstract class AppLocalizations {
   /// **'Save'**
   String get checkPrefsSave;
 
-  /// No description provided for @prefFragranceFree.
-  ///
-  /// In en, this message translates to:
-  /// **'Fragrance free'**
-  String get prefFragranceFree;
-
-  /// No description provided for @prefAlcoholFree.
-  ///
-  /// In en, this message translates to:
-  /// **'Alcohol free'**
-  String get prefAlcoholFree;
-
-  /// No description provided for @prefSulfateFree.
-  ///
-  /// In en, this message translates to:
-  /// **'Sulfate free'**
-  String get prefSulfateFree;
-
-  /// No description provided for @prefSiliconeFree.
-  ///
-  /// In en, this message translates to:
-  /// **'Silicone free'**
-  String get prefSiliconeFree;
-
-  /// No description provided for @prefParabenFree.
-  ///
-  /// In en, this message translates to:
-  /// **'Paraben free'**
-  String get prefParabenFree;
-
-  /// No description provided for @prefVegan.
-  ///
-  /// In en, this message translates to:
-  /// **'Vegan'**
-  String get prefVegan;
-
-  /// No description provided for @prefAlcoholFreeHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Fatty alcohols (cetyl, cetearyl) do not count'**
-  String get prefAlcoholFreeHint;
-
-  /// No description provided for @prefVeganHint.
-  ///
-  /// In en, this message translates to:
-  /// **'Only known animal-derived ingredients are checked'**
-  String get prefVeganHint;
-
   /// No description provided for @checkBarcodeSoon.
   ///
   /// In en, this message translates to:

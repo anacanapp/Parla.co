@@ -131,6 +131,15 @@ void main() {
     }
   });
 
+  test('exercises from the content sheet have their caution', () {
+    expect(exerciseCaution('squat', 'az'), contains('Diz'));
+    expect(exerciseCaution('jumping_jack', 'en'), isNotEmpty);
+    expect(
+      exerciseText('mountain_climber', 'ru').$1,
+      isNot('mountain_climber'),
+    );
+  });
+
   testWidgets('the questions build a weekly plan kept on the phone', (
     tester,
   ) async {

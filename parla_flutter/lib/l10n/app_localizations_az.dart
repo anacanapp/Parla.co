@@ -978,31 +978,6 @@ class AppLocalizationsAz extends AppLocalizations {
   String get checkPrefsSave => 'Yadda saxla';
 
   @override
-  String get prefFragranceFree => 'Ətirsiz';
-
-  @override
-  String get prefAlcoholFree => 'Spirtsiz';
-
-  @override
-  String get prefSulfateFree => 'Sulfatsız';
-
-  @override
-  String get prefSiliconeFree => 'Silikonsuz';
-
-  @override
-  String get prefParabenFree => 'Parabensiz';
-
-  @override
-  String get prefVegan => 'Vegan';
-
-  @override
-  String get prefAlcoholFreeHint => 'Yağlı spirtlər (cetyl, cetearyl) sayılmır';
-
-  @override
-  String get prefVeganHint =>
-      'Yalnız tanınan heyvan mənşəli maddələr yoxlanılır';
-
-  @override
   String get checkBarcodeSoon => 'Barkod skaneri · tezliklə';
 
   @override

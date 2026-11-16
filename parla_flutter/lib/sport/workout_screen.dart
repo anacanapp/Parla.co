@@ -284,6 +284,22 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
         ),
         const SizedBox(height: 16),
         if (!resting) Text(how, style: text.bodyLarge),
+        if (!resting && exerciseCaution(item.exercise.id, language) != null)
+          Padding(
+            padding: const EdgeInsets.only(top: 10),
+            child: Container(
+              key: const ValueKey('workout-caution'),
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: ParlaColors.sky,
+                borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
+              ),
+              child: Text(
+                exerciseCaution(item.exercise.id, language)!,
+                style: text.bodyMedium,
+              ),
+            ),
+          ),
         const SizedBox(height: 20),
         if (!resting && reps)
           FilledButton(

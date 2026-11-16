@@ -4,25 +4,22 @@ import 'package:parla_shared/parla_shared.dart';
 import '../l10n/app_localizations.dart';
 import '../ui/brand.dart';
 import 'care_list.dart';
+import 'preference_texts.dart';
 
-/// Label of a product preference; the id itself for one this version has
-/// no text for.
-String preferenceLabel(AppLocalizations l10n, String id) => switch (id) {
-  'fragrance_free' => l10n.prefFragranceFree,
-  'alcohol_free' => l10n.prefAlcoholFree,
-  'sulfate_free' => l10n.prefSulfateFree,
-  'silicone_free' => l10n.prefSiliconeFree,
-  'paraben_free' => l10n.prefParabenFree,
-  'vegan' => l10n.prefVegan,
-  _ => id,
+int _lang(AppLocalizations l10n) => switch (l10n.localeName) {
+  'ru' => 1,
+  'en' => 2,
+  _ => 0,
 };
 
-/// A short note on what a preference checks, or `null`.
-String? preferenceHint(AppLocalizations l10n, String id) => switch (id) {
-  'alcohol_free' => l10n.prefAlcoholFreeHint,
-  'vegan' => l10n.prefVeganHint,
-  _ => null,
-};
+/// Label of a product preference (from the content sheet); the id itself
+/// for one this version has no text for.
+String preferenceLabel(AppLocalizations l10n, String id) =>
+    preferenceTexts[id]?[0][_lang(l10n)] ?? id;
+
+/// What a preference checks, in neutral words, or `null`.
+String? preferenceHint(AppLocalizations l10n, String id) =>
+    preferenceTexts[id]?[1][_lang(l10n)];
 
 /// Lets the user pick her preferences; saves them to [book].
 Future<void> editPreferences(BuildContext context, CareListBook book) async {

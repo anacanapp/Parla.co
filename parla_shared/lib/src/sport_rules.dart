@@ -215,6 +215,22 @@ const exerciseCatalogue = <Exercise>[
   ),
   Exercise('dead_bug', 'fitness', {'core'}, avoid: {_p}),
   Exercise('superman', 'fitness', {'back'}, avoid: {'back', _p}),
+  // Added from the content sheet ("hereketler").
+  Exercise(
+    'side_lunge',
+    'fitness',
+    {'legs', 'glutes'},
+    level: 1,
+    avoid: {'knee', _p},
+  ),
+  Exercise('step_up', 'fitness', {'legs', 'glutes'}, avoid: {'knee'}),
+  Exercise(
+    'bicycle_crunch',
+    'fitness',
+    {'core'},
+    level: 1,
+    avoid: {'back', _p},
+  ),
   // Pilates on a mat.
   Exercise(
     'pil_hundred',
@@ -307,6 +323,30 @@ const exerciseCatalogue = <Exercise>[
     {'arms', 'core'},
     mode: ExerciseMode.timed,
     avoid: {'shoulder'},
+  ),
+  Exercise(
+    'mountain_climber',
+    'cardio',
+    {'core', 'legs'},
+    mode: ExerciseMode.timed,
+    level: 1,
+    avoid: {'wrist', 'shoulder', _p},
+  ),
+  Exercise(
+    'jumping_jack',
+    'cardio',
+    {'legs', 'arms'},
+    mode: ExerciseMode.timed,
+    level: 1,
+    avoid: {'knee', _p},
+  ),
+  Exercise(
+    'high_knees',
+    'cardio',
+    {'legs', 'core'},
+    mode: ExerciseMode.timed,
+    level: 2,
+    avoid: {'knee', _p},
   ),
   Exercise(
     'skater_step',

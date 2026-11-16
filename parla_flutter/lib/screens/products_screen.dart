@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:parla_shared/parla_shared.dart';
 
 import '../check/care_list.dart';
+import '../check/ingredient_texts.dart';
 import '../check/preference_ui.dart';
 import '../home/widgets/home_cards.dart';
 import '../home/widgets/parla_nav_bar.dart';
@@ -569,6 +570,10 @@ class _IngredientTile extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
     final entry = match.entry;
+    final explained = ingredientText(
+      match.name,
+      Localizations.localeOf(context).languageCode,
+    );
     return SoftCard(
       padding: EdgeInsets.zero,
       child: InkWell(
@@ -589,6 +594,15 @@ class _IngredientTile extends StatelessWidget {
                     ),
                 ],
               ),
+              // What the ingredient does, in neutral words (draft texts).
+              if (explained != null) ...[
+                const SizedBox(height: 2),
+                Text(
+                  explained.$1,
+                  style: text.labelMedium?.copyWith(color: ParlaColors.sunInk),
+                ),
+                Text(explained.$2, style: text.bodySmall),
+              ],
               if (entry != null)
                 for (final rule in entry.rules) ...[
                   const SizedBox(height: 6),

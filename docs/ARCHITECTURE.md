@@ -170,8 +170,13 @@ wording rules and open legal questions: `docs/INGREDIENTS.md`.
 
 ## Check, preferences and shopping list (redesign step 3)
 
-- **Preferences** (fragrance free, alcohol free, sulfate free, silicone
-  free, paraben free, vegan) are ingredient rules in `parla_shared`
+- **Preferences** come from the content sheet "Parla — Məzmun"
+  (`yoxla_secimleri`): fragrance-free (with the labelled fragrance
+  allergens), essential-oil-free, alcohol-free (fatty alcohols excluded),
+  vegan, silicone-free, sulfate-free, retinoid-free, allergy-linked
+  preservatives and lanolin-free, plus paraben-free from the first
+  version. Names and explanations are in `lib/check/preference_texts.dart`;
+  the ingredient rules are in `parla_shared`
   (`product_preferences.dart`). New options are added there by pull
   request, not in an admin panel, so every rule is reviewed. The result is
   about the user's own picks only: "fits" or "contains X". There is no
@@ -286,6 +291,24 @@ messages and push notifications (D) follow.
   that needs the expert review. A recipe's ingredients can be added to the
   shopping list (origin `recipe`). The tool says that it is general
   information, not a diet or medical advice.
+
+## Content from the sheet
+
+The team's content sheet "Parla — Məzmun" is the source for the drafts
+below. Every row is still marked `qaralama`, so all of it is shown as
+draft content until the named expert reviews it.
+
+- C1 (done): Yoxla preferences, explanations of 99 ingredients on the
+  product page (`lib/check/ingredient_texts.dart`), 32 nutrition tips, and
+  the names, how-tos and cautions of the exercises
+  (`lib/sport/exercise_sheet_texts.dart`, which wins over the first
+  drafts). Six exercises were added to the catalogue (side lunge, step-up,
+  bicycle crunch, mountain climber, jumping jack, high knees). The band row
+  is left out because the questions do not ask about a band.
+- C2 (next): the quiz with 20 questions (keeping our warning-signs
+  question), 34 routine steps and 50 routine rules.
+- C3 (next): recipes and blog titles imported into the admin panel as
+  "in review" drafts.
 
 ## Discover (B2a)
 
