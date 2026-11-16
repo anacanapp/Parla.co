@@ -27,8 +27,9 @@ jobs:
           (cd parla_shared && dart analyze --fatal-infos)
           (cd parla_server && dart analyze --fatal-infos)
           (cd parla_flutter && flutter analyze --fatal-infos)
+          (cd parla_admin && flutter analyze --fatal-infos)
       - name: Check formatting
-        run: dart format --set-exit-if-changed parla_shared parla_server/lib parla_server/test parla_server/bin parla_flutter/lib parla_flutter/test
+        run: dart format --set-exit-if-changed parla_shared parla_server/lib parla_server/test parla_server/bin parla_flutter/lib parla_flutter/test parla_admin/lib parla_admin/test
 
   test-shared:
     name: Test shared rules
@@ -70,6 +71,8 @@ jobs:
           done
           # 32-byte key-encryption key for health data (base64).
           echo "SERVERPOD_PASSWORD_healthKek=$(openssl rand -base64 32)" >> "$GITHUB_ENV"
+          # The address that may claim the first admin role in the tests.
+          echo "SERVERPOD_PASSWORD_staffBootstrapEmail=first-admin@example.com" >> "$GITHUB_ENV"
       - name: Check generated code is up to date
         working-directory: parla_server
         run: |
@@ -88,6 +91,18 @@ jobs:
           flutter-version: ${{ env.FLUTTER_VERSION }}
       - run: flutter pub get
       - working-directory: parla_flutter
+        run: flutter test
+
+  test-admin:
+    name: Test admin panel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: ${{ env.FLUTTER_VERSION }}
+      - run: flutter pub get
+      - working-directory: parla_admin
         run: flutter test
 
   secret-scan:

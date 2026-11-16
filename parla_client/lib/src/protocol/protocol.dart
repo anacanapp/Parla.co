@@ -17,6 +17,10 @@ import 'package:parla_client/src/protocol/products/product_summary.dart'
     as _isvy2zc1;
 import 'package:parla_client/src/protocol/quiz/quiz_answer_input.dart'
     as _ikoicjb8;
+import 'package:parla_client/src/protocol/staff/staff_invite_summary.dart'
+    as _ivj2ydpk;
+import 'package:parla_client/src/protocol/staff/staff_summary.dart'
+    as _i48vujj3;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
     as _iacc;
 import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
@@ -37,6 +41,14 @@ import 'products/product_summary.dart' as _ikmk0g5q;
 import 'profile/member_profile.dart' as _i1iocmvy;
 import 'quiz/quiz_answer.dart' as _ih1qnypb;
 import 'quiz/quiz_answer_input.dart' as _ilw6ope9;
+import 'staff/staff_invite.dart' as _ig710w64;
+import 'staff/staff_invite_summary.dart' as _igjtjhuj;
+import 'staff/staff_me.dart' as _i0yb5pr1;
+import 'staff/staff_member.dart' as _ihm1xmqc;
+import 'staff/staff_role.dart' as _imtqbwe6;
+import 'staff/staff_session.dart' as _igu3u6o0;
+import 'staff/staff_summary.dart' as _iminry28;
+import 'staff/totp_enrollment.dart' as _ieq44cuc;
 export 'account/deleted_account.dart';
 export 'audit/audit_log_entry.dart';
 export 'common/parla_exception.dart';
@@ -52,6 +64,14 @@ export 'products/product_summary.dart';
 export 'profile/member_profile.dart';
 export 'quiz/quiz_answer.dart';
 export 'quiz/quiz_answer_input.dart';
+export 'staff/staff_invite.dart';
+export 'staff/staff_invite_summary.dart';
+export 'staff/staff_me.dart';
+export 'staff/staff_member.dart';
+export 'staff/staff_role.dart';
+export 'staff/staff_session.dart';
+export 'staff/staff_summary.dart';
+export 'staff/totp_enrollment.dart';
 export 'client.dart';
 
 class Protocol extends _isc.SerializationManager
@@ -82,6 +102,14 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_i1iocmvy.MemberProfile>,
           _isc.getType<_ih1qnypb.QuizAnswer>,
           _isc.getType<_ilw6ope9.QuizAnswerInput>,
+          _isc.getType<_ig710w64.StaffInvite>,
+          _isc.getType<_igjtjhuj.StaffInviteSummary>,
+          _isc.getType<_i0yb5pr1.StaffMe>,
+          _isc.getType<_ihm1xmqc.StaffMember>,
+          _isc.getType<_imtqbwe6.StaffRole>,
+          _isc.getType<_igu3u6o0.StaffSession>,
+          _isc.getType<_iminry28.StaffSummary>,
+          _isc.getType<_ieq44cuc.TotpEnrollment>,
           _isc.getType<_ioqa84oy.DeletedAccount?>,
           _isc.getType<_ioa77d8b.AuditLogEntry?>,
           _isc.getType<_iv1d8f8b.ParlaException?>,
@@ -97,10 +125,20 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_i1iocmvy.MemberProfile?>,
           _isc.getType<_ih1qnypb.QuizAnswer?>,
           _isc.getType<_ilw6ope9.QuizAnswerInput?>,
+          _isc.getType<_ig710w64.StaffInvite?>,
+          _isc.getType<_igjtjhuj.StaffInviteSummary?>,
+          _isc.getType<_i0yb5pr1.StaffMe?>,
+          _isc.getType<_ihm1xmqc.StaffMember?>,
+          _isc.getType<_imtqbwe6.StaffRole?>,
+          _isc.getType<_igu3u6o0.StaffSession?>,
+          _isc.getType<_iminry28.StaffSummary?>,
+          _isc.getType<_ieq44cuc.TotpEnrollment?>,
           _isc.getType<List<String>>,
           _isc.getType<List<_iflgmsvc.ConsentState>>,
           _isc.getType<List<_isvy2zc1.ProductSummary>>,
           _isc.getType<List<_ikoicjb8.QuizAnswerInput>>,
+          _isc.getType<List<_i48vujj3.StaffSummary>>,
+          _isc.getType<List<_ivj2ydpk.StaffInviteSummary>>,
         ],
         modules: const [
           _iaic.Protocol.new,
@@ -122,6 +160,14 @@ class Protocol extends _isc.SerializationManager
           'MemberProfile',
           'QuizAnswer',
           'QuizAnswerInput',
+          'StaffInvite',
+          'StaffInviteSummary',
+          'StaffMe',
+          'StaffMember',
+          'StaffRole',
+          'StaffSession',
+          'StaffSummary',
+          'TotpEnrollment',
         ],
       );
 
@@ -194,6 +240,30 @@ class Protocol extends _isc.SerializationManager
     if (t == _ilw6ope9.QuizAnswerInput) {
       return _ilw6ope9.QuizAnswerInput.fromJson(data) as T;
     }
+    if (t == _ig710w64.StaffInvite) {
+      return _ig710w64.StaffInvite.fromJson(data) as T;
+    }
+    if (t == _igjtjhuj.StaffInviteSummary) {
+      return _igjtjhuj.StaffInviteSummary.fromJson(data) as T;
+    }
+    if (t == _i0yb5pr1.StaffMe) {
+      return _i0yb5pr1.StaffMe.fromJson(data) as T;
+    }
+    if (t == _ihm1xmqc.StaffMember) {
+      return _ihm1xmqc.StaffMember.fromJson(data) as T;
+    }
+    if (t == _imtqbwe6.StaffRole) {
+      return _imtqbwe6.StaffRole.fromJson(data) as T;
+    }
+    if (t == _igu3u6o0.StaffSession) {
+      return _igu3u6o0.StaffSession.fromJson(data) as T;
+    }
+    if (t == _iminry28.StaffSummary) {
+      return _iminry28.StaffSummary.fromJson(data) as T;
+    }
+    if (t == _ieq44cuc.TotpEnrollment) {
+      return _ieq44cuc.TotpEnrollment.fromJson(data) as T;
+    }
     if (t == _isc.getType<_ioqa84oy.DeletedAccount?>()) {
       return (data != null ? _ioqa84oy.DeletedAccount.fromJson(data) : null)
           as T;
@@ -250,6 +320,32 @@ class Protocol extends _isc.SerializationManager
       return (data != null ? _ilw6ope9.QuizAnswerInput.fromJson(data) : null)
           as T;
     }
+    if (t == _isc.getType<_ig710w64.StaffInvite?>()) {
+      return (data != null ? _ig710w64.StaffInvite.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_igjtjhuj.StaffInviteSummary?>()) {
+      return (data != null ? _igjtjhuj.StaffInviteSummary.fromJson(data) : null)
+          as T;
+    }
+    if (t == _isc.getType<_i0yb5pr1.StaffMe?>()) {
+      return (data != null ? _i0yb5pr1.StaffMe.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_ihm1xmqc.StaffMember?>()) {
+      return (data != null ? _ihm1xmqc.StaffMember.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_imtqbwe6.StaffRole?>()) {
+      return (data != null ? _imtqbwe6.StaffRole.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_igu3u6o0.StaffSession?>()) {
+      return (data != null ? _igu3u6o0.StaffSession.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_iminry28.StaffSummary?>()) {
+      return (data != null ? _iminry28.StaffSummary.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_ieq44cuc.TotpEnrollment?>()) {
+      return (data != null ? _ieq44cuc.TotpEnrollment.fromJson(data) : null)
+          as T;
+    }
     if (t == List<String>) {
       return (data as List).map((e) => deserialize<String>(e)).toList() as T;
     }
@@ -268,6 +364,18 @@ class Protocol extends _isc.SerializationManager
     if (t == List<_ikoicjb8.QuizAnswerInput>) {
       return (data as List)
               .map((e) => deserialize<_ikoicjb8.QuizAnswerInput>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i48vujj3.StaffSummary>) {
+      return (data as List)
+              .map((e) => deserialize<_i48vujj3.StaffSummary>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_ivj2ydpk.StaffInviteSummary>) {
+      return (data as List)
+              .map((e) => deserialize<_ivj2ydpk.StaffInviteSummary>(e))
               .toList()
           as T;
     }
@@ -301,6 +409,14 @@ class Protocol extends _isc.SerializationManager
       _i1iocmvy.MemberProfile => 'MemberProfile',
       _ih1qnypb.QuizAnswer => 'QuizAnswer',
       _ilw6ope9.QuizAnswerInput => 'QuizAnswerInput',
+      _ig710w64.StaffInvite => 'StaffInvite',
+      _igjtjhuj.StaffInviteSummary => 'StaffInviteSummary',
+      _i0yb5pr1.StaffMe => 'StaffMe',
+      _ihm1xmqc.StaffMember => 'StaffMember',
+      _imtqbwe6.StaffRole => 'StaffRole',
+      _igu3u6o0.StaffSession => 'StaffSession',
+      _iminry28.StaffSummary => 'StaffSummary',
+      _ieq44cuc.TotpEnrollment => 'TotpEnrollment',
       _ => null,
     };
   }
@@ -345,6 +461,22 @@ class Protocol extends _isc.SerializationManager
         return 'QuizAnswer';
       case _ilw6ope9.QuizAnswerInput():
         return 'QuizAnswerInput';
+      case _ig710w64.StaffInvite():
+        return 'StaffInvite';
+      case _igjtjhuj.StaffInviteSummary():
+        return 'StaffInviteSummary';
+      case _i0yb5pr1.StaffMe():
+        return 'StaffMe';
+      case _ihm1xmqc.StaffMember():
+        return 'StaffMember';
+      case _imtqbwe6.StaffRole():
+        return 'StaffRole';
+      case _igu3u6o0.StaffSession():
+        return 'StaffSession';
+      case _iminry28.StaffSummary():
+        return 'StaffSummary';
+      case _ieq44cuc.TotpEnrollment():
+        return 'TotpEnrollment';
     }
     className = _iaic.Protocol().getClassNameForObject(data);
     if (className != null) {
@@ -411,6 +543,30 @@ class Protocol extends _isc.SerializationManager
     }
     if (dataClassName == 'QuizAnswerInput') {
       return deserialize<_ilw6ope9.QuizAnswerInput>(data['data']);
+    }
+    if (dataClassName == 'StaffInvite') {
+      return deserialize<_ig710w64.StaffInvite>(data['data']);
+    }
+    if (dataClassName == 'StaffInviteSummary') {
+      return deserialize<_igjtjhuj.StaffInviteSummary>(data['data']);
+    }
+    if (dataClassName == 'StaffMe') {
+      return deserialize<_i0yb5pr1.StaffMe>(data['data']);
+    }
+    if (dataClassName == 'StaffMember') {
+      return deserialize<_ihm1xmqc.StaffMember>(data['data']);
+    }
+    if (dataClassName == 'StaffRole') {
+      return deserialize<_imtqbwe6.StaffRole>(data['data']);
+    }
+    if (dataClassName == 'StaffSession') {
+      return deserialize<_igu3u6o0.StaffSession>(data['data']);
+    }
+    if (dataClassName == 'StaffSummary') {
+      return deserialize<_iminry28.StaffSummary>(data['data']);
+    }
+    if (dataClassName == 'TotpEnrollment') {
+      return deserialize<_ieq44cuc.TotpEnrollment>(data['data']);
     }
     if (dataClassName.startsWith('serverpod_auth_idp.')) {
       return _iaic.Protocol().deserializeByClassName({

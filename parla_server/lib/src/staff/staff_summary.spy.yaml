@@ -1,0 +1,9 @@
+### One staff member in the admin's staff list.
+class: StaffSummary
+fields:
+  authUserId: UuidValue
+  email: String
+  role: StaffRole
+  active: bool
+  totpEnrolled: bool
+  createdAt: DateTime

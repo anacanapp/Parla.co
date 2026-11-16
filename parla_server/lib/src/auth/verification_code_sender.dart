@@ -14,6 +14,13 @@ abstract interface class VerificationCodeSender {
     required String email,
     required String code,
   });
+
+  /// Sends an admin panel invitation code (staff only, Azerbaijani).
+  Future<void> sendStaffInvite(
+    Session session, {
+    required String email,
+    required String code,
+  });
 }
 
 /// Development and test only: writes the code to the server log.
@@ -22,6 +29,22 @@ abstract interface class VerificationCodeSender {
 /// matches the code by time.
 class DevelopmentCodeSender implements VerificationCodeSender {
   const DevelopmentCodeSender();
+
+  /// The last invitation code, so tests can accept it.
+  static String? lastStaffInviteCode;
+
+  @override
+  Future<void> sendStaffInvite(
+    Session session, {
+    required String email,
+    required String code,
+  }) async {
+    lastStaffInviteCode = code;
+    session.log(
+      'Staff invitation code (development only): $code',
+      level: LogLevel.info,
+    );
+  }
 
   @override
   Future<void> send(
@@ -98,6 +121,27 @@ mail.Message signInCodeMessage({
     'The code is valid for 15 minutes. If you did not ask for it, ignore this email.',
   ].join('\n');
 
+/// The admin panel invitation. Staff only, so Azerbaijani; no role or
+/// name in it, only the code.
+mail.Message staffInviteMessage({
+  required String from,
+  required String to,
+  required String code,
+}) => mail.Message()
+  ..from = mail.Address(from, 'Parla')
+  ..recipients = [to]
+  ..subject = 'Parla admin paneli: dəvət'
+  ..text = [
+    'Sizi Parla admin panelinə dəvət etdilər.',
+    '',
+    'Dəvət kodu: $code',
+    '',
+    'Paneldə bu e-poçt ünvanı ilə qeydiyyatdan keçin və ya daxil olun, '
+        'sonra kodu daxil edin. Kod 72 saat etibarlıdır və bir dəfə '
+        'istifadə olunur.',
+    'Bu dəvəti gözləmirdinizsə, məktubu nəzərə almayın.',
+  ].join('\n');
+
 /// Sends the code through an SMTP mailbox (for now info@anacan.az).
 class SmtpCodeSender implements VerificationCodeSender {
   SmtpCodeSender(this.settings)
@@ -129,6 +173,27 @@ class SmtpCodeSender implements VerificationCodeSender {
       // Neither the address nor the code is logged (checklist AUD-3).
       session.log(
         'Sign-in email failed: ${error.runtimeType}',
+        level: LogLevel.error,
+      );
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> sendStaffInvite(
+    Session session, {
+    required String email,
+    required String code,
+  }) async {
+    try {
+      await mail.send(
+        staffInviteMessage(from: settings.fromAddress, to: email, code: code),
+        _server,
+        timeout: const Duration(seconds: 20),
+      );
+    } on Object catch (error) {
+      session.log(
+        'Staff invitation email failed: ${error.runtimeType}',
         level: LogLevel.error,
       );
       rethrow;

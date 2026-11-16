@@ -1,0 +1,5 @@
+### Shown once while setting up the authenticator app.
+class: TotpEnrollment
+fields:
+  secret: String
+  uri: String

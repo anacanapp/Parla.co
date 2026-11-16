@@ -1,0 +1,22 @@
+### A staff member of the admin panel: an existing sign-in account with a
+### role. The TOTP secret for the second factor is sealed with a key derived
+### from the server KEK (never stored in clear). No name or phone is kept.
+class: StaffMember
+table: staff_member
+fields:
+  authUserId: UuidValue
+  role: StaffRole
+  active: bool
+  totpSecret: String?
+  totpNonce: String?
+  totpConfirmedAt: DateTime?
+  ### The last accepted TOTP time step, so a code cannot be used twice.
+  lastTotpStep: int?
+  failedTotp: int
+  lockedUntil: DateTime?
+  invitedBy: UuidValue?
+  createdAt: DateTime
+indexes:
+  staff_member_user_idx:
+    fields: authUserId
+    unique: true

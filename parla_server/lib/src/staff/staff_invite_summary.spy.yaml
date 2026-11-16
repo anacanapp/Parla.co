@@ -1,0 +1,7 @@
+### An open invitation in the admin's staff list.
+class: StaffInviteSummary
+fields:
+  id: int
+  email: String
+  role: StaffRole
+  expiresAt: DateTime

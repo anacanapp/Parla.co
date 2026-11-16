@@ -21,6 +21,10 @@ void run(List<String> args) async {
       // Passwordless sign-in with a one-time code sent by email (PRD US-01).
       // Codes go through our own SMTP sender, not a hosted email service.
       EmailIdpConfigFromPasswords(
+        // Passwords are only used by staff for the admin panel (with a
+        // second factor); the app signs in with one-time codes.
+        passwordValidationFunction: (password) =>
+            password.length >= 12 && password.length <= 128,
         sendOtpLoginVerificationCode:
             (
               session, {

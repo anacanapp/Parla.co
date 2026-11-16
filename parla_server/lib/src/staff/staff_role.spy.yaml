@@ -1,0 +1,9 @@
+### What a staff member may do in the admin panel.
+### admin: everything, including staff accounts. editor: writes content.
+### expert: reviews and approves content in their field.
+enum: StaffRole
+serialized: byName
+values:
+  - admin
+  - editor
+  - expert

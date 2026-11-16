@@ -1,0 +1,153 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:go_router/go_router.dart';
+
+import 'api/admin_api.dart';
+import 'screens/auth_screens.dart';
+import 'screens/home_shell.dart';
+import 'screens/staff_screen.dart';
+import 'staff_session.dart';
+import 'ui/theme.dart';
+
+/// The Parla admin panel.
+class AdminApp extends StatefulWidget {
+  const AdminApp({super.key, required this.api});
+
+  final AdminApi api;
+
+  @override
+  State<AdminApp> createState() => _AdminAppState();
+}
+
+class _AdminAppState extends State<AdminApp> {
+  late final StaffState _state = StaffState(widget.api)..refresh();
+  late final GoRouter _router = _buildRouter(_state);
+
+  @override
+  void dispose() {
+    _router.dispose();
+    _state.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) => MaterialApp.router(
+    title: 'Parla Admin',
+    debugShowCheckedModeBanner: false,
+    theme: adminTheme(),
+    locale: const Locale('az'),
+    supportedLocales: const [Locale('az'), Locale('en')],
+    localizationsDelegates: GlobalMaterialLocalizations.delegates,
+    routerConfig: _router,
+  );
+}
+
+const _stagePaths = {
+  AdminStage.signedOut: '/sign-in',
+  AdminStage.notStaff: '/join',
+  AdminStage.setupTotp: '/2fa-setup',
+  AdminStage.verifyTotp: '/2fa',
+};
+
+GoRouter _buildRouter(StaffState state) => GoRouter(
+  initialLocation: '/overview',
+  refreshListenable: state,
+  redirect: (context, route) {
+    if (!state.loaded) return '/loading';
+    final stage = state.stage;
+    final path = route.matchedLocation;
+    if (stage != AdminStage.ready) {
+      final target = _stagePaths[stage]!;
+      return path == target ? null : target;
+    }
+    final gatePaths = {..._stagePaths.values, '/loading'};
+    if (gatePaths.contains(path)) return '/overview';
+    final section = adminSections.where((s) => path.startsWith(s.path));
+    if (section.isNotEmpty && section.first.adminOnly && !state.isAdmin) {
+      return '/overview';
+    }
+    return null;
+  },
+  routes: [
+    GoRoute(
+      path: '/loading',
+      builder: (_, _) =>
+          const Scaffold(body: Center(child: CircularProgressIndicator())),
+    ),
+    GoRoute(
+      path: '/sign-in',
+      builder: (_, _) => SignInScreen(state: state),
+    ),
+    GoRoute(
+      path: '/join',
+      builder: (_, _) => JoinScreen(state: state),
+    ),
+    GoRoute(
+      path: '/2fa-setup',
+      builder: (_, _) => TotpSetupScreen(state: state),
+    ),
+    GoRoute(
+      path: '/2fa',
+      builder: (_, _) => TotpScreen(state: state),
+    ),
+    ShellRoute(
+      builder: (context, route, child) => HomeShell(
+        state: state,
+        location: route.matchedLocation,
+        child: child,
+      ),
+      routes: [
+        GoRoute(
+          path: '/overview',
+          builder: (_, _) => const ComingSection(
+            title: 'Ümumi',
+            body:
+                'Xoş gəldiniz. Məzmun idarəsi B mərhələsində, istifadəçilər '
+                'və statistika C mərhələsində, bannerlər, mesajlar və push '
+                'bildirişlər D mərhələsində əlavə olunur.',
+          ),
+        ),
+        GoRoute(
+          path: '/content',
+          builder: (_, _) => const ComingSection(
+            title: 'Məzmun',
+            body:
+                'Bloqlar, reseptlər, mütəxəssislər, məhsul seçimləri, idman '
+                'hərəkətləri və qulluq addımları. B mərhələsində gəlir.',
+          ),
+        ),
+        GoRoute(
+          path: '/users',
+          builder: (_, _) => const ComingSection(
+            title: 'İstifadəçilər',
+            body:
+                'Hesab məlumatı, razılıqlar, bloklama, sorğu ilə ixrac və '
+                'silmə. Sağlamlıq məlumatı görünmür. C mərhələsində gəlir.',
+          ),
+        ),
+        GoRoute(
+          path: '/stats',
+          builder: (_, _) => const ComingSection(
+            title: 'Statistika',
+            body:
+                'Yalnız toplu, anonim rəqəmlər; 10 nəfərdən az qruplar '
+                'gizlədilir. C mərhələsində gəlir.',
+          ),
+        ),
+        GoRoute(
+          path: '/messages',
+          builder: (_, _) => const ComingSection(
+            title: 'Ünsiyyət',
+            body:
+                'Bannerlər və kampaniyalar, mesaj qutusu və push '
+                'bildirişlər. D mərhələsində gəlir.',
+          ),
+        ),
+        GoRoute(
+          path: '/staff',
+          builder: (_, _) => StaffScreen(state: state),
+        ),
+      ],
+    ),
+  ],
+);

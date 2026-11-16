@@ -5,6 +5,7 @@ import '../generated/protocol.dart';
 /// Actor roles written to the audit log.
 abstract final class AuditActor {
   static const user = 'user';
+  static const staff = 'staff';
 }
 
 /// Appends one audit entry (checklist AUD-1).

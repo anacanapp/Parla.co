@@ -1,0 +1,15 @@
+### An invitation to the admin panel. Only a hash of the one-time code is
+### kept; the code itself goes by email. Single use, expires after 72 hours.
+class: StaffInvite
+table: staff_invite
+fields:
+  email: String
+  role: StaffRole
+  codeHash: String
+  invitedBy: UuidValue
+  expiresAt: DateTime
+  usedAt: DateTime?
+  createdAt: DateTime
+indexes:
+  staff_invite_email_idx:
+    fields: email

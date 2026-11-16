@@ -43,3 +43,12 @@ variable "task_memory" {
   type        = number
   default     = 512
 }
+
+variable "staff_bootstrap_email" {
+  description = <<-EOT
+    Email that may claim the first admin role of the admin panel while there
+    is no staff yet. Not secret. Leave empty once the first admin exists.
+  EOT
+  type        = string
+  default     = ""
+}

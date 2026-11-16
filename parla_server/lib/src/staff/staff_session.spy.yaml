@@ -1,0 +1,14 @@
+### A sign-in session that passed the second factor. [authId] is the id of
+### the sign-in session (refresh token); admin calls are accepted only while
+### a row for it exists and has not expired (8 hours).
+class: StaffSession
+table: staff_session
+fields:
+  authUserId: UuidValue
+  authId: String
+  verifiedAt: DateTime
+  expiresAt: DateTime
+indexes:
+  staff_session_auth_idx:
+    fields: authId
+    unique: true

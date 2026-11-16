@@ -14,6 +14,7 @@ import 'package:parla_server/src/generated/consent/consent_type.dart'
     as _i1w7mn9k;
 import 'package:parla_server/src/generated/quiz/quiz_answer_input.dart'
     as _iak2pevv;
+import 'package:parla_server/src/generated/staff/staff_role.dart' as _i21eo3et;
 import 'package:serverpod/serverpod.dart' as _is;
 import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
     as _iacs;
@@ -29,6 +30,8 @@ import '../quiz/quiz_endpoint.dart' as _iskif4sw;
 import '../routines/care_list_endpoint.dart' as _itrne0fi;
 import '../routines/routine_endpoint.dart' as _ifrtvzp2;
 import '../routines/sport_endpoint.dart' as _iv36jnzl;
+import '../staff/staff_admin_endpoint.dart' as _i73k1848;
+import '../staff/staff_endpoint.dart' as _ig11nxnn;
 
 class Endpoints extends _is.EndpointDispatch {
   @override
@@ -92,6 +95,18 @@ class Endpoints extends _is.EndpointDispatch {
         ..initialize(
           server,
           'sport',
+          null,
+        ),
+      'staffAdmin': _i73k1848.StaffAdminEndpoint()
+        ..initialize(
+          server,
+          'staffAdmin',
+          null,
+        ),
+      'staff': _ig11nxnn.StaffEndpoint()
+        ..initialize(
+          server,
+          'staff',
           null,
         ),
     };
@@ -690,6 +705,255 @@ class Endpoints extends _is.EndpointDispatch {
                     session,
                     params['json'],
                   ),
+        ),
+      },
+    );
+    connectors['staffAdmin'] = _is.EndpointConnector(
+      name: 'staffAdmin',
+      endpoint: endpoints['staffAdmin']!,
+      methodConnectors: {
+        'listStaff': _is.MethodConnector(
+          name: 'listStaff',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['staffAdmin'] as _i73k1848.StaffAdminEndpoint)
+                      .listStaff(session),
+        ),
+        'listInvites': _is.MethodConnector(
+          name: 'listInvites',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['staffAdmin'] as _i73k1848.StaffAdminEndpoint)
+                      .listInvites(session),
+        ),
+        'invite': _is.MethodConnector(
+          name: 'invite',
+          params: {
+            'email': _is.ParameterDescription(
+              name: 'email',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+            'role': _is.ParameterDescription(
+              name: 'role',
+              type: _is.getType<_i21eo3et.StaffRole>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['staffAdmin'] as _i73k1848.StaffAdminEndpoint)
+                      .invite(
+                        session,
+                        params['email'],
+                        params['role'],
+                      ),
+        ),
+        'revokeInvite': _is.MethodConnector(
+          name: 'revokeInvite',
+          params: {
+            'inviteId': _is.ParameterDescription(
+              name: 'inviteId',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['staffAdmin'] as _i73k1848.StaffAdminEndpoint)
+                      .revokeInvite(
+                        session,
+                        params['inviteId'],
+                      ),
+        ),
+        'setRole': _is.MethodConnector(
+          name: 'setRole',
+          params: {
+            'authUserId': _is.ParameterDescription(
+              name: 'authUserId',
+              type: _is.getType<_is.UuidValue>(),
+              nullable: false,
+            ),
+            'role': _is.ParameterDescription(
+              name: 'role',
+              type: _is.getType<_i21eo3et.StaffRole>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['staffAdmin'] as _i73k1848.StaffAdminEndpoint)
+                      .setRole(
+                        session,
+                        params['authUserId'],
+                        params['role'],
+                      ),
+        ),
+        'setActive': _is.MethodConnector(
+          name: 'setActive',
+          params: {
+            'authUserId': _is.ParameterDescription(
+              name: 'authUserId',
+              type: _is.getType<_is.UuidValue>(),
+              nullable: false,
+            ),
+            'active': _is.ParameterDescription(
+              name: 'active',
+              type: _is.getType<bool>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['staffAdmin'] as _i73k1848.StaffAdminEndpoint)
+                      .setActive(
+                        session,
+                        params['authUserId'],
+                        params['active'],
+                      ),
+        ),
+        'resetTotp': _is.MethodConnector(
+          name: 'resetTotp',
+          params: {
+            'authUserId': _is.ParameterDescription(
+              name: 'authUserId',
+              type: _is.getType<_is.UuidValue>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['staffAdmin'] as _i73k1848.StaffAdminEndpoint)
+                      .resetTotp(
+                        session,
+                        params['authUserId'],
+                      ),
+        ),
+      },
+    );
+    connectors['staff'] = _is.EndpointConnector(
+      name: 'staff',
+      endpoint: endpoints['staff']!,
+      methodConnectors: {
+        'me': _is.MethodConnector(
+          name: 'me',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['staff'] as _ig11nxnn.StaffEndpoint).me(session),
+        ),
+        'acceptInvite': _is.MethodConnector(
+          name: 'acceptInvite',
+          params: {
+            'code': _is.ParameterDescription(
+              name: 'code',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['staff'] as _ig11nxnn.StaffEndpoint).acceptInvite(
+                    session,
+                    params['code'],
+                  ),
+        ),
+        'claimFirstAdmin': _is.MethodConnector(
+          name: 'claimFirstAdmin',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['staff'] as _ig11nxnn.StaffEndpoint)
+                  .claimFirstAdmin(session),
+        ),
+        'startTotp': _is.MethodConnector(
+          name: 'startTotp',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['staff'] as _ig11nxnn.StaffEndpoint)
+                  .startTotp(session),
+        ),
+        'confirmTotp': _is.MethodConnector(
+          name: 'confirmTotp',
+          params: {
+            'code': _is.ParameterDescription(
+              name: 'code',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['staff'] as _ig11nxnn.StaffEndpoint).confirmTotp(
+                    session,
+                    params['code'],
+                  ),
+        ),
+        'verifyTotp': _is.MethodConnector(
+          name: 'verifyTotp',
+          params: {
+            'code': _is.ParameterDescription(
+              name: 'code',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['staff'] as _ig11nxnn.StaffEndpoint).verifyTotp(
+                    session,
+                    params['code'],
+                  ),
+        ),
+        'endSession': _is.MethodConnector(
+          name: 'endSession',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['staff'] as _ig11nxnn.StaffEndpoint)
+                  .endSession(session),
         ),
       },
     );
