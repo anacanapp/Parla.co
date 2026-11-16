@@ -1000,32 +1000,6 @@ class AppLocalizationsEn extends AppLocalizations {
   String get checkPrefsSave => 'Save';
 
   @override
-  String get prefFragranceFree => 'Fragrance free';
-
-  @override
-  String get prefAlcoholFree => 'Alcohol free';
-
-  @override
-  String get prefSulfateFree => 'Sulfate free';
-
-  @override
-  String get prefSiliconeFree => 'Silicone free';
-
-  @override
-  String get prefParabenFree => 'Paraben free';
-
-  @override
-  String get prefVegan => 'Vegan';
-
-  @override
-  String get prefAlcoholFreeHint =>
-      'Fatty alcohols (cetyl, cetearyl) do not count';
-
-  @override
-  String get prefVeganHint =>
-      'Only known animal-derived ingredients are checked';
-
-  @override
   String get checkBarcodeSoon => 'Barcode scanner · soon';
 
   @override

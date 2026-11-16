@@ -4,16 +4,40 @@
 /// (parla_shared), per language: `[name, how]`.
 library;
 
-/// Name and how-to of [id] in [language] (Azerbaijani as fallback).
+import 'exercise_sheet_texts.dart';
+
+int _index(String language) => switch (language) {
+  'ru' => 1,
+  'en' => 2,
+  _ => 0,
+};
+
+/// Name and how-to of [id] in [language] (Azerbaijani as fallback). Texts
+/// from the content sheet win over the first draft.
 (String, String) exerciseText(String id, String language) {
+  final sheet = exerciseSheetTexts[id];
+  if (sheet != null) {
+    final i = _index(language);
+    return (sheet[0][i], sheet[1][i]);
+  }
   final texts = _texts[language] ?? _texts['az']!;
   final entry = texts[id] ?? _texts['az']![id];
   return entry == null ? (id, '') : (entry[0], entry[1]);
 }
 
+/// When to take care or skip the exercise, or `null`.
+String? exerciseCaution(String id, String language) {
+  final sheet = exerciseSheetTexts[id];
+  if (sheet == null) return null;
+  final text = sheet[2][_index(language)];
+  return text.isEmpty ? null : text;
+}
+
 /// Every exercise id with text in [language] (for tests).
-Iterable<String> exerciseTextIds(String language) =>
-    (_texts[language] ?? const {}).keys;
+Iterable<String> exerciseTextIds(String language) => {
+  ...(_texts[language] ?? const <String, List<String>>{}).keys,
+  ...exerciseSheetTexts.keys,
+};
 
 const _texts = <String, Map<String, List<String>>>{
   'az': {

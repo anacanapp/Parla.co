@@ -13,7 +13,8 @@ void main() {
       'fragrance_free',
     );
     expect(r.outcome, PreferenceOutcome.conflicts);
-    expect(r.found, ['Parfum (Fragrance)']);
+    // Labelled fragrance allergens count too (from the content sheet).
+    expect(r.found, ['Parfum (Fragrance)', 'Linalool']);
     expect(
       _one('Aqua, Glycerin', 'fragrance_free').outcome,
       PreferenceOutcome.fits,
@@ -57,6 +58,49 @@ void main() {
     expect(r.found, ['Cera Alba', 'Lanolin', 'CI 75470']);
     expect(r.preference.cautious, isTrue);
     expect(_one('Aqua, Glycerin', 'vegan').outcome, PreferenceOutcome.fits);
+  });
+
+  test('the options from the content sheet find their ingredients', () {
+    expect(
+      _one(
+        'Aqua, Lavandula Angustifolia Oil, Helianthus Annuus Seed Oil',
+        'essential_oil_free',
+      ).found,
+      ['Lavandula Angustifolia Oil'],
+    );
+    expect(_one('Aqua, Retinol', 'retinoid_free').found, ['Retinol']);
+    expect(
+      _one('Aqua, Bakuchiol', 'retinoid_free').outcome,
+      PreferenceOutcome.fits,
+    );
+    expect(
+      _one('Aqua, Methylisothiazolinone', 'preservative_alert').outcome,
+      PreferenceOutcome.conflicts,
+    );
+    expect(_one('Aqua, Lanolin', 'lanolin_free').found, ['Lanolin']);
+    expect(
+      _one('Aqua, Trimethylsiloxysilicate', 'silicone_free').outcome,
+      PreferenceOutcome.conflicts,
+    );
+    expect(
+      _one('Aqua, Sodium Cocoyl Isethionate', 'sulfate_free').outcome,
+      PreferenceOutcome.fits,
+    );
+    expect(
+      [for (final p in productPreferences) p.id],
+      [
+        'fragrance_free',
+        'essential_oil_free',
+        'alcohol_free',
+        'vegan',
+        'silicone_free',
+        'sulfate_free',
+        'retinoid_free',
+        'preservative_alert',
+        'lanolin_free',
+        'paraben_free',
+      ],
+    );
   });
 
   test('no ingredient list gives unknown; unknown ids are ignored', () {

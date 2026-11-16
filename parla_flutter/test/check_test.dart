@@ -121,7 +121,7 @@ void main() {
       findsOneWidget,
     );
     await _pick(tester, ['fragrance_free', 'vegan']);
-    expect(find.text('Fragrance free'), findsOneWidget);
+    expect(find.text('Fragrance-free'), findsOneWidget);
     expect(find.text('Vegan'), findsOneWidget);
     expect(_local(app.store)['preferences'], ['fragrance_free', 'vegan']);
     // Without the health consent nothing reaches the server.
@@ -158,6 +158,13 @@ void main() {
       findsOneWidget,
     );
     expect(find.textContaining('does not rate products'), findsOneWidget);
+    // Ingredient explanations from the content sheet.
+    await tester.scrollUntilVisible(
+      find.text('Solvent'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.textContaining('The base of most products'), findsOneWidget);
     for (final word in ['harmful', 'risk', 'score:', 'bad']) {
       expect(find.textContaining(word), findsNothing, reason: word);
     }
@@ -294,7 +301,7 @@ void main() {
           'preferences': ['paraben_free'],
         });
       await _open(tester, api: api);
-      expect(find.text('Paraben free'), findsOneWidget);
+      expect(find.text('Paraben-free'), findsOneWidget);
     });
 
     testWidgets('the export and account deletion cover the phone copy', (
