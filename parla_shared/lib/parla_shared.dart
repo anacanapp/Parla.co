@@ -12,6 +12,7 @@ export 'src/cosing_data.dart';
 export 'src/custom_routine_rules.dart';
 export 'src/ingredients.dart';
 export 'src/markets.dart';
+export 'src/media_rules.dart';
 export 'src/nutrition_rules.dart';
 export 'src/product_preferences.dart';
 export 'src/quiz.dart';

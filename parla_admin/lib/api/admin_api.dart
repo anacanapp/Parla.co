@@ -10,6 +10,7 @@ export 'package:parla_client/parla_client.dart'
         TotpEnrollment,
         ContentAdminItem,
         ContentStatus,
+        MediaAdminItem,
         UuidValue;
 
 /// A rule the server refused, with its stable code.
@@ -67,6 +68,24 @@ abstract interface class AdminApi {
   /// Imports the content sheet's articles and recipes as drafts (admins);
   /// returns how many were added.
   Future<int> importSheet();
+
+  // Images (phase B2b). The panel shrinks an image before upload; the
+  // server re-encodes it and drops all metadata.
+  Future<MediaAdminItem> uploadImage(
+    Uint8List bytes,
+    String license,
+    String? source,
+    String altJson,
+  );
+  Future<List<MediaAdminItem>> listImages();
+  Future<Uint8List> imagePreview(int id);
+  Future<MediaAdminItem> updateImage(
+    int id,
+    String license,
+    String? source,
+    String altJson,
+  );
+  Future<void> deleteImage(int id);
 
   /// Email and password. Throws [AdminError] `auth.failed` when refused.
   Future<void> login(String email, String password);

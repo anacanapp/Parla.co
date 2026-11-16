@@ -41,6 +41,38 @@ class ProductResult {
 }
 
 /// A published article, recipe or expert profile.
+/// A published image: where to load it and its alt text per language.
+class ContentImageRef {
+  const ContentImageRef({
+    required this.url,
+    required this.width,
+    required this.height,
+    required this.alt,
+  });
+
+  factory ContentImageRef.fromJson(Map<String, Object?> json) =>
+      ContentImageRef(
+        url: json['url']! as String,
+        width: (json['width']! as num).toInt(),
+        height: (json['height']! as num).toInt(),
+        alt: (json['alt']! as Map).cast<String, Object?>(),
+      );
+
+  final String url;
+  final int width;
+  final int height;
+  final Map<String, Object?> alt;
+
+  double get aspectRatio => height == 0 ? 1 : width / height;
+
+  Map<String, Object?> toJson() => {
+    'url': url,
+    'width': width,
+    'height': height,
+    'alt': alt,
+  };
+}
+
 class PublishedItem {
   const PublishedItem({
     required this.id,
@@ -50,6 +82,7 @@ class PublishedItem {
     required this.data,
     required this.publishedAt,
     this.reviewedAt,
+    this.image,
   });
 
   factory PublishedItem.fromJson(Map<String, Object?> json) => PublishedItem(
@@ -62,6 +95,11 @@ class PublishedItem {
     reviewedAt: json['reviewedAt'] == null
         ? null
         : DateTime.parse(json['reviewedAt']! as String),
+    image: json['image'] is Map
+        ? ContentImageRef.fromJson(
+            (json['image']! as Map).cast<String, Object?>(),
+          )
+        : null,
   );
 
   final int id;
@@ -74,6 +112,9 @@ class PublishedItem {
   /// When an expert reviewed it, or `null` (expert profiles).
   final DateTime? reviewedAt;
 
+  /// The published image, or `null`.
+  final ContentImageRef? image;
+
   Map<String, Object?> toJson() => {
     'id': id,
     'kind': kind,
@@ -82,6 +123,7 @@ class PublishedItem {
     'data': data,
     'publishedAt': publishedAt.toIso8601String(),
     if (reviewedAt != null) 'reviewedAt': reviewedAt!.toIso8601String(),
+    if (image != null) 'image': image!.toJson(),
   };
 
   /// A localized text field in [language] (Azerbaijani as fallback).

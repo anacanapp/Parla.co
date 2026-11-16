@@ -17,6 +17,8 @@ import 'package:parla_client/src/protocol/content/content_admin_item.dart'
     as _i9q5wd3k;
 import 'package:parla_client/src/protocol/content/public_content.dart'
     as _iryaqqq7;
+import 'package:parla_client/src/protocol/media/media_admin_item.dart'
+    as _izgab4v7;
 import 'package:parla_client/src/protocol/products/product_summary.dart'
     as _isvy2zc1;
 import 'package:parla_client/src/protocol/quiz/quiz_answer_input.dart'
@@ -46,6 +48,9 @@ import 'health/health_key.dart' as _ipdtgm1c;
 import 'health/health_record.dart' as _ioxvgdwn;
 import 'health/nutrition_record.dart' as _in188bse;
 import 'health/sport_record.dart' as _izi2p90l;
+import 'media/media_admin_item.dart' as _if8q33w5;
+import 'media/media_asset.dart' as _ijjfwapm;
+import 'media/public_image.dart' as _ig6ant5g;
 import 'products/product_summary.dart' as _ikmk0g5q;
 import 'profile/member_profile.dart' as _i1iocmvy;
 import 'quiz/quiz_answer.dart' as _ih1qnypb;
@@ -74,6 +79,9 @@ export 'health/health_key.dart';
 export 'health/health_record.dart';
 export 'health/nutrition_record.dart';
 export 'health/sport_record.dart';
+export 'media/media_admin_item.dart';
+export 'media/media_asset.dart';
+export 'media/public_image.dart';
 export 'products/product_summary.dart';
 export 'profile/member_profile.dart';
 export 'quiz/quiz_answer.dart';
@@ -117,6 +125,9 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_ioxvgdwn.HealthRecord>,
           _isc.getType<_in188bse.NutritionRecord>,
           _isc.getType<_izi2p90l.SportRecord>,
+          _isc.getType<_if8q33w5.MediaAdminItem>,
+          _isc.getType<_ijjfwapm.MediaAsset>,
+          _isc.getType<_ig6ant5g.PublicImage>,
           _isc.getType<_ikmk0g5q.ProductSummary>,
           _isc.getType<_i1iocmvy.MemberProfile>,
           _isc.getType<_ih1qnypb.QuizAnswer>,
@@ -145,6 +156,9 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_ioxvgdwn.HealthRecord?>,
           _isc.getType<_in188bse.NutritionRecord?>,
           _isc.getType<_izi2p90l.SportRecord?>,
+          _isc.getType<_if8q33w5.MediaAdminItem?>,
+          _isc.getType<_ijjfwapm.MediaAsset?>,
+          _isc.getType<_ig6ant5g.PublicImage?>,
           _isc.getType<_ikmk0g5q.ProductSummary?>,
           _isc.getType<_i1iocmvy.MemberProfile?>,
           _isc.getType<_ih1qnypb.QuizAnswer?>,
@@ -161,6 +175,7 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<List<_iflgmsvc.ConsentState>>,
           _isc.getType<List<_i9q5wd3k.ContentAdminItem>>,
           _isc.getType<List<_iryaqqq7.PublicContent>>,
+          _isc.getType<List<_izgab4v7.MediaAdminItem>>,
           _isc.getType<List<_isvy2zc1.ProductSummary>>,
           _isc.getType<List<_ikoicjb8.QuizAnswerInput>>,
           _isc.getType<List<_i48vujj3.StaffSummary>>,
@@ -187,6 +202,9 @@ class Protocol extends _isc.SerializationManager
           'HealthRecord',
           'NutritionRecord',
           'SportRecord',
+          'MediaAdminItem',
+          'MediaAsset',
+          'PublicImage',
           'ProductSummary',
           'MemberProfile',
           'QuizAnswer',
@@ -273,6 +291,15 @@ class Protocol extends _isc.SerializationManager
     }
     if (t == _izi2p90l.SportRecord) {
       return _izi2p90l.SportRecord.fromJson(data) as T;
+    }
+    if (t == _if8q33w5.MediaAdminItem) {
+      return _if8q33w5.MediaAdminItem.fromJson(data) as T;
+    }
+    if (t == _ijjfwapm.MediaAsset) {
+      return _ijjfwapm.MediaAsset.fromJson(data) as T;
+    }
+    if (t == _ig6ant5g.PublicImage) {
+      return _ig6ant5g.PublicImage.fromJson(data) as T;
     }
     if (t == _ikmk0g5q.ProductSummary) {
       return _ikmk0g5q.ProductSummary.fromJson(data) as T;
@@ -370,6 +397,16 @@ class Protocol extends _isc.SerializationManager
     if (t == _isc.getType<_izi2p90l.SportRecord?>()) {
       return (data != null ? _izi2p90l.SportRecord.fromJson(data) : null) as T;
     }
+    if (t == _isc.getType<_if8q33w5.MediaAdminItem?>()) {
+      return (data != null ? _if8q33w5.MediaAdminItem.fromJson(data) : null)
+          as T;
+    }
+    if (t == _isc.getType<_ijjfwapm.MediaAsset?>()) {
+      return (data != null ? _ijjfwapm.MediaAsset.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_ig6ant5g.PublicImage?>()) {
+      return (data != null ? _ig6ant5g.PublicImage.fromJson(data) : null) as T;
+    }
     if (t == _isc.getType<_ikmk0g5q.ProductSummary?>()) {
       return (data != null ? _ikmk0g5q.ProductSummary.fromJson(data) : null)
           as T;
@@ -432,6 +469,12 @@ class Protocol extends _isc.SerializationManager
               .toList()
           as T;
     }
+    if (t == List<_izgab4v7.MediaAdminItem>) {
+      return (data as List)
+              .map((e) => deserialize<_izgab4v7.MediaAdminItem>(e))
+              .toList()
+          as T;
+    }
     if (t == List<_isvy2zc1.ProductSummary>) {
       return (data as List)
               .map((e) => deserialize<_isvy2zc1.ProductSummary>(e))
@@ -487,6 +530,9 @@ class Protocol extends _isc.SerializationManager
       _ioxvgdwn.HealthRecord => 'HealthRecord',
       _in188bse.NutritionRecord => 'NutritionRecord',
       _izi2p90l.SportRecord => 'SportRecord',
+      _if8q33w5.MediaAdminItem => 'MediaAdminItem',
+      _ijjfwapm.MediaAsset => 'MediaAsset',
+      _ig6ant5g.PublicImage => 'PublicImage',
       _ikmk0g5q.ProductSummary => 'ProductSummary',
       _i1iocmvy.MemberProfile => 'MemberProfile',
       _ih1qnypb.QuizAnswer => 'QuizAnswer',
@@ -545,6 +591,12 @@ class Protocol extends _isc.SerializationManager
         return 'NutritionRecord';
       case _izi2p90l.SportRecord():
         return 'SportRecord';
+      case _if8q33w5.MediaAdminItem():
+        return 'MediaAdminItem';
+      case _ijjfwapm.MediaAsset():
+        return 'MediaAsset';
+      case _ig6ant5g.PublicImage():
+        return 'PublicImage';
       case _ikmk0g5q.ProductSummary():
         return 'ProductSummary';
       case _i1iocmvy.MemberProfile():
@@ -638,6 +690,15 @@ class Protocol extends _isc.SerializationManager
     }
     if (dataClassName == 'SportRecord') {
       return deserialize<_izi2p90l.SportRecord>(data['data']);
+    }
+    if (dataClassName == 'MediaAdminItem') {
+      return deserialize<_if8q33w5.MediaAdminItem>(data['data']);
+    }
+    if (dataClassName == 'MediaAsset') {
+      return deserialize<_ijjfwapm.MediaAsset>(data['data']);
+    }
+    if (dataClassName == 'PublicImage') {
+      return deserialize<_ig6ant5g.PublicImage>(data['data']);
     }
     if (dataClassName == 'ProductSummary') {
       return deserialize<_ikmk0g5q.ProductSummary>(data['data']);

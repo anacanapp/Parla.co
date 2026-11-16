@@ -1,9 +1,12 @@
+import 'dart:convert';
+
 import 'package:parla_shared/parla_shared.dart';
 import 'package:serverpod/serverpod.dart';
 
 import '../audit/audit.dart';
 import '../generated/protocol.dart';
 import '../staff/staff_guard.dart';
+import '../media/media_sync.dart';
 import 'content_seed_import.dart';
 
 /// Error codes of the content flow. The panel translates them.
@@ -14,6 +17,9 @@ abstract final class ContentErrors {
   static const slugTaken = 'content.slug_taken';
   static const wrongStatus = 'content.wrong_status';
   static const consentMissing = 'content.consent_missing';
+
+  /// The image is missing, or lacks its licence or alt text in az/ru/en.
+  static const imageIncomplete = 'content.image_incomplete';
 }
 
 const _writers = {StaffRole.admin, StaffRole.editor};
@@ -85,6 +91,13 @@ class ContentAdminEndpoint extends Endpoint {
     final k = _kind(row.kind);
     _checkMeta(k, row.slug, category);
     if (ContentRules.problems(k, json).isNotEmpty) {
+      throw ParlaException(code: ContentErrors.invalid);
+    }
+    final imageId = MediaRules.imageOf(
+      jsonDecode(json) as Map<String, Object?>,
+    );
+    if (imageId != null &&
+        await MediaAsset.db.findById(session, imageId) == null) {
       throw ParlaException(code: ContentErrors.invalid);
     }
     final updated = await ContentItem.db.updateRow(
@@ -203,8 +216,9 @@ class ContentAdminEndpoint extends Endpoint {
     } else if (row.status != ContentStatus.approved) {
       throw ParlaException(code: ContentErrors.wrongStatus);
     }
+    await _checkImage(session, row.draftJson);
     final now = DateTime.now().toUtc();
-    return _set(
+    final published = await _set(
       session,
       staff,
       row,
@@ -216,12 +230,14 @@ class ContentAdminEndpoint extends Endpoint {
         publishedAt: now,
       ),
     );
+    await syncPublicMedia(session);
+    return published;
   }
 
   Future<ContentAdminItem> unpublish(Session session, int id) async {
     final staff = await requireStaff(session, roles: _writers);
     final row = await _get(session, id);
-    return _set(
+    final result = await _set(
       session,
       staff,
       row,
@@ -235,6 +251,8 @@ class ContentAdminEndpoint extends Endpoint {
         publishedAt: null,
       ),
     );
+    await syncPublicMedia(session);
+    return result;
   }
 
   /// Imports the articles and recipes of the content sheet as drafts
@@ -293,6 +311,23 @@ class ContentAdminEndpoint extends Endpoint {
     if (!ContentRules.isSlug(slug) ||
         !ContentRules.categoriesFor(kind).contains(category)) {
       throw ParlaException(code: ContentErrors.invalid);
+    }
+  }
+
+  /// The draft's image must exist with a licence and alt text in all three
+  /// languages before it can go live.
+  static Future<void> _checkImage(Session session, String json) async {
+    final id = MediaRules.imageOf(jsonDecode(json) as Map<String, Object?>);
+    if (id == null) return;
+    final asset = await MediaAsset.db.findById(session, id);
+    if (asset == null ||
+        MediaRules.problems(
+          license: asset.license,
+          source: asset.source,
+          altJson: asset.altJson,
+          complete: true,
+        ).isNotEmpty) {
+      throw ParlaException(code: ContentErrors.imageIncomplete);
     }
   }
 

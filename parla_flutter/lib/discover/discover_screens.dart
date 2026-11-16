@@ -107,6 +107,10 @@ class BlogPostScreen extends StatelessWidget {
           header: true,
           child: Text(item.text('title', language), style: text.headlineMedium),
         ),
+        if (item.image case final image?) ...[
+          const SizedBox(height: 12),
+          ContentImage(image: image, aspectRatio: 16 / 9),
+        ],
         if (item.reviewedAt != null) ...[
           const SizedBox(height: 8),
           Row(
@@ -284,13 +288,24 @@ class _ExpertCard extends StatelessWidget {
         children: [
           Row(
             children: [
-              ExcludeSemantics(
-                child: CircleAvatar(
-                  radius: 24,
-                  backgroundColor: ParlaColors.sky,
-                  child: Text(initials, style: text.titleMedium),
+              if (item.image case final image?)
+                SizedBox(
+                  width: 48,
+                  height: 48,
+                  child: ContentImage(
+                    image: image,
+                    radius: 24,
+                    aspectRatio: 1,
+                  ),
+                )
+              else
+                ExcludeSemantics(
+                  child: CircleAvatar(
+                    radius: 24,
+                    backgroundColor: ParlaColors.sky,
+                    child: Text(initials, style: text.titleMedium),
+                  ),
                 ),
-              ),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
@@ -561,6 +576,10 @@ class RecipeScreen extends StatelessWidget {
           header: true,
           child: Text(r.text('title', language), style: text.headlineMedium),
         ),
+        if (r.image case final image?) ...[
+          const SizedBox(height: 12),
+          ContentImage(image: image, aspectRatio: 4 / 3),
+        ],
         const SizedBox(height: 8),
         Wrap(
           spacing: 6,

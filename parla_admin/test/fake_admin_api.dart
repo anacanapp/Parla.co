@@ -154,6 +154,61 @@ class FakeAdminApi implements AdminApi {
     return item;
   }
 
+  final List<MediaAdminItem> images = [];
+  final Map<int, Uint8List> imageBytes = {};
+
+  @override
+  Future<MediaAdminItem> uploadImage(
+    Uint8List bytes,
+    String license,
+    String? source,
+    String altJson,
+  ) async {
+    calls.add('upload:${bytes.length}:$license:$altJson');
+    final item = MediaAdminItem(
+      id: _nextId++,
+      pixelWidth: 40,
+      pixelHeight: 30,
+      bytes: bytes.length,
+      license: license,
+      source: source,
+      altJson: altJson,
+      public: false,
+      createdAt: DateTime.utc(2026, 11, 16),
+    );
+    images.add(item);
+    imageBytes[item.id] = bytes;
+    return item;
+  }
+
+  @override
+  Future<List<MediaAdminItem>> listImages() async => List.of(images);
+
+  @override
+  Future<Uint8List> imagePreview(int id) async => imageBytes[id]!;
+
+  @override
+  Future<MediaAdminItem> updateImage(
+    int id,
+    String license,
+    String? source,
+    String altJson,
+  ) async {
+    calls.add('updateImage:$id:$altJson');
+    final i = images.indexWhere((m) => m.id == id);
+    images[i] = images[i].copyWith(
+      license: license,
+      source: source,
+      altJson: altJson,
+    );
+    return images[i];
+  }
+
+  @override
+  Future<void> deleteImage(int id) async {
+    images.removeWhere((m) => m.id == id);
+  }
+
   /// What [importSheet] adds: (kind, slug, category, json).
   List<(String, String, String, String)> sheet = [];
 

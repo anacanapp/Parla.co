@@ -342,6 +342,40 @@ draft content until the named expert reviews it.
   - Articles have the new category `body`. The expert placeholders in the
     sheet are not imported: they have no real data or consent yet.
 
+## Content images (B2b-1)
+
+Article covers, recipe photos and expert photos are uploaded in the admin
+panel (`parla_admin/lib/media/`) and stored by the server
+(`parla_server/lib/src/media/`).
+
+- **Upload:**
+  - The panel shrinks the image to 1600 px as a JPEG of at most 1 MiB.
+  - The server checks the file type by its first bytes (JPEG, PNG, WebP),
+    decodes it and encodes a new JPEG from the pixels only. No EXIF, GPS,
+    camera or date metadata and no file name is kept.
+  - Requests may be up to 1.5 MiB (`maxRequestSize`) for this.
+- **Details:** every image needs a licence or permission note. Its alt text
+  must exist in az, ru and en before content that uses it can be published
+  (`content.image_incomplete`).
+- **Storage:**
+  - A private S3 bucket (`deploy/aws/staging/media.tf`). The server uses
+    the ECS task role, with no access keys, and its own SigV4 signer tested
+    against AWS's examples.
+  - Uploads stay under `uploads/`. `syncPublicMedia` copies an image to
+    `public/` only while published content uses it, and removes the copy
+    when nothing published does.
+  - CloudFront serves `public/` only. Local development and tests keep
+    images in memory.
+- **App:** `PublicContent.image` gives the URL, size and alt text. The app
+  shows it with the alt text as its screen-reader label, and shows nothing
+  if it fails to load. Images come from AWS like the API does; no new
+  processor is involved.
+- **Deletion:** only admins can delete an image, and only if no draft or
+  published content uses it. Uploads, edits and deletions are audited.
+- **People in images:** expert photos are the expert's personal data. The
+  written consent must cover the photo (lawyer to confirm the form). Images
+  showing anyone else need their written permission, noted as the licence.
+
 ## Discover (B2a)
 
 - Blogs (with category filter), the article (with "reviewed by an expert"
@@ -424,6 +458,7 @@ draft content until the named expert reviews it.
 | Trainer or physiotherapist review of the exercises, numbers and safety rules (`sport_rules.dart`, `exercise_text.dart`) | — | Before launch |
 | Licensed exercise photos (shown by exercise id) | — | When the photos arrive |
 | Optional on-device photo skin analysis (kept on branch `skin-photo`, not merged) | — | Postponed; needs lawyer approval and a DPIA, plus dermatologist review, before it returns |
+| Expert consent form to cover the profile photo; permission wording for people shown in content images | — | Lawyer, before publishing expert photos |
 | Barcode scanning | — | Later step |
 
 ## Known environment issue

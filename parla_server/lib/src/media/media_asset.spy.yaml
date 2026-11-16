@@ -1,0 +1,27 @@
+### An image uploaded in the admin panel for content (article covers,
+### recipe photos, expert photos, exercise images). The server re-encodes
+### every upload, so no camera or location metadata is kept, and never
+### stores the original file name. [key] names the object in the media
+### store; it is reachable by the app only while [public] is set, which the
+### server keeps in step with what is published.
+class: MediaAsset
+table: media_asset
+fields:
+  key: String
+  pixelWidth: int
+  pixelHeight: int
+  bytes: int
+  ### Licence or permission for the image (required), e.g. "Unsplash
+  ### licence" or "own photo, consent on file".
+  license: String
+  ### Where it came from (a link or the photographer), optional.
+  source: String?
+  ### Text for screen readers in az, ru and en, as JSON.
+  altJson: String
+  public: bool
+  createdBy: UuidValue
+  createdAt: DateTime
+indexes:
+  media_asset_key_idx:
+    fields: key
+    unique: true

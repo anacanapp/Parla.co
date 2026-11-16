@@ -146,9 +146,20 @@ abstract final class ContentRules {
       }
     }
 
+    final image = json['image'];
+    if (image != null && (image is! int || image < 1)) out.add('image.invalid');
+
     switch (kind) {
       case ContentKind.article:
-        only({'title', 'summary', 'body', 'minutes', 'tips', 'sources'});
+        only({
+          'title',
+          'summary',
+          'body',
+          'minutes',
+          'tips',
+          'sources',
+          'image',
+        });
         text('title', maxTitle);
         text('summary', maxSummary);
         text('body', maxBody);
@@ -177,6 +188,7 @@ abstract final class ContentRules {
           'steps',
           'note',
           'allergens',
+          'image',
         });
         text('title', maxTitle);
         number('minutes', 1, 240);
@@ -234,6 +246,7 @@ abstract final class ContentRules {
           'phone',
           'whatsapp',
           'instagram',
+          'image',
         });
         final name = json['name'];
         if (name == null) {

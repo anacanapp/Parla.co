@@ -1,0 +1,12 @@
+### An image as the admin panel lists it.
+class: MediaAdminItem
+fields:
+  id: int
+  pixelWidth: int
+  pixelHeight: int
+  bytes: int
+  license: String
+  source: String?
+  altJson: String
+  public: bool
+  createdAt: DateTime

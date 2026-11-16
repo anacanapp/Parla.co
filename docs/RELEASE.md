@@ -136,6 +136,15 @@ Later deploys are just step 3.3. Changes to `deploy/aws/staging` need
    apply` again without the variable, so nobody else can claim the first
    admin role.
 
+### Content images (staging)
+
+`terraform apply` (any run after this change) also creates the private
+media bucket and its CloudFront address (output `media_url`) and gives the
+server's task role access to that bucket only. No access key is created or
+stored: the server uses the role's temporary credentials. Deploy the server
+afterwards so it picks up the new `PARLA_MEDIA_*` settings. Until then,
+uploads in the panel fail with an error and nothing is lost.
+
 ## 4. Codemagic (once)
 
 1. Sign in at codemagic.io with GitHub and add `anacanapp/Parla.co`. The

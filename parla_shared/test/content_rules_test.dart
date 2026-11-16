@@ -135,6 +135,39 @@ void main() {
     expect(_p(ContentKind.article, planned), contains('body.plan_left'));
   });
 
+  test('content may point to an image by id', () {
+    for (final (kind, json) in [
+      (ContentKind.article, article),
+      (ContentKind.recipe, recipe),
+      (ContentKind.expert, expert),
+    ]) {
+      expect(_p(kind, {...json, 'image': 7}), isEmpty);
+      expect(_p(kind, {...json, 'image': 0}), contains('image.invalid'));
+      expect(_p(kind, {...json, 'image': '7'}), contains('image.invalid'));
+    }
+  });
+
+  test('images need a licence; publishing needs alt text in 3 languages', () {
+    final alt = jsonEncode(_l('Yulaf qabı'));
+    expect(MediaRules.problems(license: 'Own photo', altJson: alt), isEmpty);
+    expect(
+      MediaRules.problems(license: ' ', altJson: alt),
+      contains('license.invalid'),
+    );
+    final partial = jsonEncode({'az': 'Yulaf'});
+    expect(MediaRules.problems(license: 'x', altJson: partial), isEmpty);
+    expect(
+      MediaRules.problems(license: 'x', altJson: partial, complete: true),
+      containsAll(['alt.ru.missing', 'alt.en.missing']),
+    );
+    expect(
+      MediaRules.problems(license: 'x', altJson: '[1]'),
+      contains('alt.invalid'),
+    );
+    expect(MediaRules.imageOf({'image': 3}), 3);
+    expect(MediaRules.imageOf({}), isNull);
+  });
+
   test('slugs and picking a language', () {
     expect(ContentRules.isSlug('qis-ayl-ari-deri'), isTrue);
     expect(ContentRules.isSlug('Bad Slug'), isFalse);

@@ -121,6 +121,15 @@ class ServerpodParlaApi implements ParlaApi {
           data: (jsonDecode(r.json) as Map).cast<String, Object?>(),
           publishedAt: r.publishedAt,
           reviewedAt: r.reviewedAt,
+          image: switch (r.image) {
+            final i? when i.url.startsWith('https://') => ContentImageRef(
+              url: i.url,
+              width: i.pixelWidth,
+              height: i.pixelHeight,
+              alt: (jsonDecode(i.altJson) as Map).cast<String, Object?>(),
+            ),
+            _ => null,
+          },
         ),
     ];
   });

@@ -33,6 +33,12 @@ contentAdmin:
   - delete:
 content:
   - published:
+mediaAdmin:
+  - upload:
+  - list:
+  - preview:
+  - update:
+  - delete:
 product:
   - search:
 profile:

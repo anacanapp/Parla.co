@@ -9,6 +9,9 @@ data. Key rules:
   and are used by both the server and the app. Change them there only.
 - Never add a model field from the do-not-collect list (name, phone, full birth
   date, location, advertising id, photos, weight, height).
+- Images the team uploads for content (`parla_server/lib/src/media/`) are
+  not user data: the server re-encodes them without metadata. Users never
+  upload photos.
 - `consent_record` and `audit_log` are append-only. Audit rows hold ids only.
   The only allowed update is replacing a deleted user's id with its pseudonym
   in `account.deleteAccount`.

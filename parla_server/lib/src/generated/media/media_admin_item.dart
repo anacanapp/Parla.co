@@ -1,0 +1,180 @@
+/* AUTOMATICALLY GENERATED CODE DO NOT MODIFY */
+/*   To generate run: "serverpod generate"    */
+
+// ignore_for_file: implementation_imports
+// ignore_for_file: library_private_types_in_public_api
+// ignore_for_file: non_constant_identifier_names
+// ignore_for_file: public_member_api_docs
+// ignore_for_file: type_literal_in_constant_pattern
+// ignore_for_file: use_super_parameters
+// ignore_for_file: invalid_use_of_internal_member
+
+// ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:serverpod/serverpod.dart' as _is;
+
+/// An image as the admin panel lists it.
+abstract class MediaAdminItem
+    implements _is.SerializableModel, _is.ProtocolSerialization {
+  MediaAdminItem._({
+    required this.id,
+    required this.pixelWidth,
+    required this.pixelHeight,
+    required this.bytes,
+    required this.license,
+    this.source,
+    required this.altJson,
+    required this.public,
+    required this.createdAt,
+  });
+
+  factory MediaAdminItem({
+    required int id,
+    required int pixelWidth,
+    required int pixelHeight,
+    required int bytes,
+    required String license,
+    String? source,
+    required String altJson,
+    required bool public,
+    required DateTime createdAt,
+  }) = _MediaAdminItemImpl;
+
+  factory MediaAdminItem.fromJson(Map<String, dynamic> jsonSerialization) {
+    return MediaAdminItem(
+      id: jsonSerialization['id'] as int,
+      pixelWidth: jsonSerialization['pixelWidth'] as int,
+      pixelHeight: jsonSerialization['pixelHeight'] as int,
+      bytes: jsonSerialization['bytes'] as int,
+      license: jsonSerialization['license'] as String,
+      source: jsonSerialization['source'] as String?,
+      altJson: jsonSerialization['altJson'] as String,
+      public: _is.BoolJsonExtension.fromJson(jsonSerialization['public']),
+      createdAt: _is.DateTimeJsonExtension.fromJson(
+        jsonSerialization['createdAt'],
+      ),
+    );
+  }
+
+  int id;
+
+  int pixelWidth;
+
+  int pixelHeight;
+
+  int bytes;
+
+  String license;
+
+  String? source;
+
+  String altJson;
+
+  bool public;
+
+  DateTime createdAt;
+
+  /// Returns a shallow copy of this [MediaAdminItem]
+  /// with some or all fields replaced by the given arguments.
+  @_is.useResult
+  MediaAdminItem copyWith({
+    int? id,
+    int? pixelWidth,
+    int? pixelHeight,
+    int? bytes,
+    String? license,
+    String? source,
+    String? altJson,
+    bool? public,
+    DateTime? createdAt,
+  });
+  @override
+  Map<String, dynamic> toJson() {
+    return {
+      '__className__': 'MediaAdminItem',
+      'id': id,
+      'pixelWidth': pixelWidth,
+      'pixelHeight': pixelHeight,
+      'bytes': bytes,
+      'license': license,
+      if (source != null) 'source': source,
+      'altJson': altJson,
+      'public': public,
+      'createdAt': createdAt.toJson(),
+    };
+  }
+
+  @override
+  Map<String, dynamic> toJsonForProtocol() {
+    return {
+      '__className__': 'MediaAdminItem',
+      'id': id,
+      'pixelWidth': pixelWidth,
+      'pixelHeight': pixelHeight,
+      'bytes': bytes,
+      'license': license,
+      if (source != null) 'source': source,
+      'altJson': altJson,
+      'public': public,
+      'createdAt': createdAt.toJson(),
+    };
+  }
+
+  @override
+  String toString() {
+    return _is.SerializationManager.encode(this);
+  }
+}
+
+class _Undefined {}
+
+class _MediaAdminItemImpl extends MediaAdminItem {
+  _MediaAdminItemImpl({
+    required int id,
+    required int pixelWidth,
+    required int pixelHeight,
+    required int bytes,
+    required String license,
+    String? source,
+    required String altJson,
+    required bool public,
+    required DateTime createdAt,
+  }) : super._(
+         id: id,
+         pixelWidth: pixelWidth,
+         pixelHeight: pixelHeight,
+         bytes: bytes,
+         license: license,
+         source: source,
+         altJson: altJson,
+         public: public,
+         createdAt: createdAt,
+       );
+
+  /// Returns a shallow copy of this [MediaAdminItem]
+  /// with some or all fields replaced by the given arguments.
+  @_is.useResult
+  @override
+  MediaAdminItem copyWith({
+    int? id,
+    int? pixelWidth,
+    int? pixelHeight,
+    int? bytes,
+    String? license,
+    Object? source = _Undefined,
+    String? altJson,
+    bool? public,
+    DateTime? createdAt,
+  }) {
+    return MediaAdminItem(
+      id: id ?? this.id,
+      pixelWidth: pixelWidth ?? this.pixelWidth,
+      pixelHeight: pixelHeight ?? this.pixelHeight,
+      bytes: bytes ?? this.bytes,
+      license: license ?? this.license,
+      source: source is String? ? source : this.source,
+      altJson: altJson ?? this.altJson,
+      public: public ?? this.public,
+      createdAt: createdAt ?? this.createdAt,
+    );
+  }
+}

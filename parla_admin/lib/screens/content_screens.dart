@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:parla_shared/parla_shared.dart';
 
 import '../api/admin_api.dart';
+import '../media/image_field.dart';
 import '../staff_session.dart';
 import '../ui/texts.dart';
 import '../ui/theme.dart';
@@ -350,6 +351,8 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
   String _category = '';
   final Set<String> _groups = {};
 
+  int? _imageId;
+
   /// `null` until chosen; empty means "none of the 14 allergens".
   Set<String>? _allergens;
   final Map<String, TextEditingController> _plain = {};
@@ -411,6 +414,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
       for (final e in (list as List? ?? const []))
         ContentRules.pick(inner == null ? e : (e as Map)[inner], lang),
     ].join('\n');
+    _imageId = MediaRules.imageOf(json);
     for (final f in _defs) {
       switch (f.type) {
         case _FieldType.groups:
@@ -531,6 +535,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           if (v != null) out[f.key] = v;
       }
     }
+    if (_imageId != null) out['image'] = _imageId;
     return jsonEncode(out);
   }
 
@@ -801,6 +806,13 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
                 DropdownMenuItem(value: c, child: Text(categoryLabel(c))),
             ],
             onChanged: writer ? (v) => setState(() => _category = v!) : null,
+          ),
+          const SizedBox(height: 16),
+          ImageField(
+            api: _api,
+            imageId: _imageId,
+            enabled: writer,
+            onChanged: (id) => setState(() => _imageId = id),
           ),
           const SizedBox(height: 16),
           for (final f in _defs.where((f) => !f.localized)) ...[

@@ -13,6 +13,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _ida;
 import 'dart:io' as _idi;
+import 'dart:typed_data' as _idt;
 import 'package:parla_server/src/generated/consent/consent_state.dart'
     as _ianfun2u;
 import 'package:parla_server/src/generated/consent/consent_type.dart'
@@ -21,6 +22,8 @@ import 'package:parla_server/src/generated/content/content_admin_item.dart'
     as _itdeiy4d;
 import 'package:parla_server/src/generated/content/public_content.dart'
     as _ixzwgpmi;
+import 'package:parla_server/src/generated/media/media_admin_item.dart'
+    as _i0szydc4;
 import 'package:parla_server/src/generated/products/product_summary.dart'
     as _ivq5jofi;
 import 'package:parla_server/src/generated/profile/member_profile.dart'
@@ -186,6 +189,8 @@ class TestEndpoints {
 
   late final _ContentEndpoint content;
 
+  late final _MediaAdminEndpoint mediaAdmin;
+
   late final _ProductEndpoint product;
 
   late final _ProfileEndpoint profile;
@@ -233,6 +238,10 @@ class _InternalTestEndpoints extends TestEndpoints
       serializationManager,
     );
     content = _ContentEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    mediaAdmin = _MediaAdminEndpoint(
       endpoints,
       serializationManager,
     );
@@ -1281,6 +1290,187 @@ class _ContentEndpoint {
                   _localCallContext.arguments,
                 )
                 as _ida.Future<List<_ixzwgpmi.PublicContent>>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
+class _MediaAdminEndpoint {
+  _MediaAdminEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _is.EndpointDispatch _endpointDispatch;
+
+  final _is.SerializationManager _serializationManager;
+
+  _ida.Future<_i0szydc4.MediaAdminItem> upload(
+    _ist.TestSessionBuilder sessionBuilder,
+    _idt.ByteData data,
+    String license,
+    String? source,
+    String altJson,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'mediaAdmin',
+            method: 'upload',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'mediaAdmin',
+          methodName: 'upload',
+          parameters: _ist.testObjectToJson({
+            'data': data,
+            'license': license,
+            'source': source,
+            'altJson': altJson,
+          }),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<_i0szydc4.MediaAdminItem>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _ida.Future<List<_i0szydc4.MediaAdminItem>> list(
+    _ist.TestSessionBuilder sessionBuilder,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'mediaAdmin',
+            method: 'list',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'mediaAdmin',
+          methodName: 'list',
+          parameters: _ist.testObjectToJson({}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<List<_i0szydc4.MediaAdminItem>>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _ida.Future<_idt.ByteData> preview(
+    _ist.TestSessionBuilder sessionBuilder,
+    int id,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'mediaAdmin',
+            method: 'preview',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'mediaAdmin',
+          methodName: 'preview',
+          parameters: _ist.testObjectToJson({'id': id}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<_idt.ByteData>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _ida.Future<_i0szydc4.MediaAdminItem> update(
+    _ist.TestSessionBuilder sessionBuilder,
+    int id,
+    String license,
+    String? source,
+    String altJson,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'mediaAdmin',
+            method: 'update',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'mediaAdmin',
+          methodName: 'update',
+          parameters: _ist.testObjectToJson({
+            'id': id,
+            'license': license,
+            'source': source,
+            'altJson': altJson,
+          }),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<_i0szydc4.MediaAdminItem>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _ida.Future<void> delete(
+    _ist.TestSessionBuilder sessionBuilder,
+    int id,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'mediaAdmin',
+            method: 'delete',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'mediaAdmin',
+          methodName: 'delete',
+          parameters: _ist.testObjectToJson({'id': id}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<void>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();
