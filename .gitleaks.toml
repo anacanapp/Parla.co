@@ -1,13 +1,18 @@
 # Gitleaks configuration (checklist ENC-4).
-# Keeps all default rules. The only exception is pubspec.lock: pub writes it
-# and it holds nothing but package names, versions, pub.dev URLs and public
-# 64-character sha256 content hashes, which can match token patterns by
-# chance (the 'hooks' package hash starts with "eaac", like a Facebook token).
+# Keeps all default rules. Exceptions:
+# - AKIAIOSFODNN7EXAMPLE: the documented example key id of AWS (not a
+#   real key), used by the S3 signature test against AWS's published
+#   example signatures (parla_server/test/unit/s3_sigv4_test.dart).
+# - pubspec.lock: pub writes it,
+#   and it holds nothing but package names, versions, pub.dev URLs and public
+#   64-character sha256 content hashes, which can match token patterns by
+#   chance (the 'hooks' package hash starts with "eaac", like a Facebook token).
 title = "Parla gitleaks config"
 
 [extend]
 useDefault = true
 
 [allowlist]
-description = "pub lockfile: public package hashes only"
+description = "pub lockfile hashes; AWS documentation example key id"
 paths = ['''(^|/)pubspec\.lock$''']
+regexes = ['''^AKIAIOSFODNN7EXAMPLE$''']
