@@ -1532,4 +1532,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String recipeAdded(int count) {
     return '$count items added to your shopping list.';
   }
+
+  @override
+  String get skinCardTitle => 'Skin analysis';
+
+  @override
+  String get skinCardBody => 'Analyse your skin again by answering questions.';
 }

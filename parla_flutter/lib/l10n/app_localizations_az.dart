@@ -1512,4 +1512,10 @@ class AppLocalizationsAz extends AppLocalizations {
   String recipeAdded(int count) {
     return '$count məhsul alış siyahısına əlavə olundu.';
   }
+
+  @override
+  String get skinCardTitle => 'Dəri analizi';
+
+  @override
+  String get skinCardBody => 'Suallara cavab verərək dərini yenidən təhlil et.';
 }

@@ -403,6 +403,7 @@ draft content until the named expert reviews it.
 | Expert review of the preference ingredient lists (`product_preferences.dart`) | — | Before launch |
 | Trainer or physiotherapist review of the exercises, numbers and safety rules (`sport_rules.dart`, `exercise_text.dart`) | — | Before launch |
 | Licensed exercise photos (shown by exercise id) | — | When the photos arrive |
+| Optional on-device photo skin analysis (kept on branch `skin-photo`, not merged) | — | Postponed; needs lawyer approval and a DPIA, plus dermatologist review, before it returns |
 | Barcode scanning | — | Later step |
 
 ## Known environment issue

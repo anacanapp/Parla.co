@@ -441,5 +441,7 @@
   "recipeIngredients": "Ингредиенты",
   "recipeSteps": "Приготовление",
   "recipeAddAll": "Добавить ингредиенты в список покупок",
-  "recipeAdded": "В список покупок добавлено: {count}."
+  "recipeAdded": "В список покупок добавлено: {count}.",
+  "skinCardTitle": "Анализ кожи",
+  "skinCardBody": "Проанализируй кожу заново, ответив на вопросы."
 }

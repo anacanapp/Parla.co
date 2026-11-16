@@ -2751,6 +2751,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count} items added to your shopping list.'**
   String recipeAdded(int count);
+
+  /// No description provided for @skinCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Skin analysis'**
+  String get skinCardTitle;
+
+  /// No description provided for @skinCardBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Analyse your skin again by answering questions.'**
+  String get skinCardBody;
 }
 
 class _AppLocalizationsDelegate

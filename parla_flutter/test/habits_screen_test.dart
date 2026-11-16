@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:parla/screens/quiz_screen.dart';
 import 'package:parla/ui/brand.dart';
 import 'package:parla/app.dart';
 import 'package:parla/habits/habit_log.dart';
@@ -162,6 +163,11 @@ void main() {
     tester,
   ) async {
     await _pumpHabits(tester);
+    await tester.scrollUntilVisible(
+      find.text('6 of 8 glasses'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
     expect(find.text('6 of 8 glasses'), findsOneWidget);
     await _tap(tester, find.bySemanticsLabel('Add a glass'));
     expect(find.text('7 of 8 glasses'), findsOneWidget);
@@ -173,6 +179,12 @@ void main() {
       scrollable: find.byType(Scrollable).first,
     );
     expect(find.text('7 of 8 glasses'), findsOneWidget);
+  });
+
+  testWidgets('the skin analysis card opens the questions', (tester) async {
+    await _pumpHabits(tester);
+    await _tap(tester, find.byKey(const ValueKey('habits-skin-analysis')));
+    expect(find.byType(QuizScreen), findsOneWidget);
   });
 
   testWidgets('the screen says the entries stay on the phone', (tester) async {

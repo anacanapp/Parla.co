@@ -900,5 +900,7 @@
         "type": "int"
       }
     }
-  }
+  },
+  "skinCardTitle": "Skin analysis",
+  "skinCardBody": "Analyse your skin again by answering questions."
 }

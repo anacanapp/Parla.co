@@ -122,6 +122,22 @@ class _HabitsBody extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Text(l10n.habitsScreenIntro, style: text.bodyLarge),
+          const SizedBox(height: 16),
+          SoftCard(
+            padding: EdgeInsets.zero,
+            child: ListTile(
+              key: const ValueKey('habits-skin-analysis'),
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 18,
+                vertical: 6,
+              ),
+              leading: const ParlaIcon(ParlaIconName.scan, size: 28),
+              title: Text(l10n.skinCardTitle, style: text.titleMedium),
+              subtitle: Text(l10n.skinCardBody),
+              trailing: const Icon(Icons.chevron_right),
+              onTap: () => context.go(Routes.quiz),
+            ),
+          ),
           const SizedBox(height: 20),
           RoutinesSection(
             answers: answers,

@@ -441,5 +441,7 @@
   "recipeIngredients": "Tərkib",
   "recipeSteps": "Hazırlanması",
   "recipeAddAll": "Tərkibi alış siyahısına əlavə et",
-  "recipeAdded": "{count} məhsul alış siyahısına əlavə olundu."
+  "recipeAdded": "{count} məhsul alış siyahısına əlavə olundu.",
+  "skinCardTitle": "Dəri analizi",
+  "skinCardBody": "Suallara cavab verərək dərini yenidən təhlil et."
 }

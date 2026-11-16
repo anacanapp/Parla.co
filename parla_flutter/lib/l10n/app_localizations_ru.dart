@@ -1538,4 +1538,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String recipeAdded(int count) {
     return 'В список покупок добавлено: $count.';
   }
+
+  @override
+  String get skinCardTitle => 'Анализ кожи';
+
+  @override
+  String get skinCardBody => 'Проанализируй кожу заново, ответив на вопросы.';
 }
