@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/foundation.dart';
 import 'package:flutter/widgets.dart';
 import 'package:parla_client/parla_client.dart';
@@ -105,6 +107,30 @@ class ServerpodParlaApi implements ParlaApi {
   @override
   Future<void> saveCareList(String json) =>
       _guard(() => _client.careList.saveCareList(json));
+
+  @override
+  Future<List<PublishedItem>> publishedContent(String kind) => _guard(() async {
+    final rows = await _client.content.published(kind);
+    return [
+      for (final r in rows)
+        PublishedItem(
+          id: r.id,
+          kind: r.kind,
+          slug: r.slug,
+          category: r.category,
+          data: (jsonDecode(r.json) as Map).cast<String, Object?>(),
+          publishedAt: r.publishedAt,
+          reviewedAt: r.reviewedAt,
+        ),
+    ];
+  });
+
+  @override
+  Future<String?> myNutrition() => _guard(_client.nutrition.myNutrition);
+
+  @override
+  Future<void> saveNutrition(String json) =>
+      _guard(() => _client.nutrition.saveNutrition(json));
 
   @override
   Future<String?> mySport() => _guard(_client.sport.mySport);

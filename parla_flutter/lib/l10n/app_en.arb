@@ -802,5 +802,115 @@
   "sportBackToPlan": "Back to the plan",
   "sportQuit": "Stop workout",
   "sportPrivacySynced": "Your fitness answers are kept encrypted on our server, with a copy on this phone for offline use.",
-  "sportPrivacyDevice": "For now your fitness answers are kept only on this phone. With the updated health consent they will be kept encrypted on our server."
+  "sportPrivacyDevice": "For now your fitness answers are kept only on this phone. With the updated health consent they will be kept encrypted on our server.",
+  "discoverLatest": "New articles",
+  "discoverAll": "All",
+  "contentEmpty": "Nothing here yet. Coming soon.",
+  "contentOffline": "No connection, showing the last loaded copy.",
+  "blogMeta": "{category} · {minutes} min",
+  "@blogMeta": {
+    "placeholders": {
+      "category": {
+        "type": "String"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "blogReviewed": "Reviewed by an expert · {date}",
+  "@blogReviewed": {
+    "placeholders": {
+      "date": {
+        "type": "String"
+      }
+    }
+  },
+  "blogTips": "Quick steps",
+  "catCare": "Care",
+  "catBeauty": "Beauty",
+  "catFashion": "Fashion",
+  "catHair": "Hair",
+  "specDermatologist": "Dermatologist",
+  "specCosmetologist": "Cosmetologist",
+  "specTrainer": "Trainer",
+  "specDietitian": "Dietitian",
+  "specTrichologist": "Trichologist",
+  "expertYears": "{years} years of experience",
+  "@expertYears": {
+    "placeholders": {
+      "years": {
+        "type": "int"
+      }
+    }
+  },
+  "expertCall": "Call",
+  "expertWhatsapp": "WhatsApp",
+  "expertInstagram": "Instagram",
+  "expertsNote": "Parla only introduces experts and is not responsible for their services. You contact them directly, outside the app; Parla does not see the conversation.",
+  "nutritionHero": "Beauty starts on your plate",
+  "nutritionPlate": "Today's plate",
+  "nutritionPlateCount": "{count} of {total} groups",
+  "@nutritionPlateCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "total": {
+        "type": "int"
+      }
+    }
+  },
+  "groupVegetables": "Vegetables",
+  "groupFruit": "Fruit",
+  "groupProtein": "Protein",
+  "groupWholeGrain": "Whole grain",
+  "groupHealthyFat": "Healthy fat",
+  "groupDairy": "Dairy",
+  "nutritionWater": "Water: {count} of {goal} glasses",
+  "@nutritionWater": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "goal": {
+        "type": "int"
+      }
+    }
+  },
+  "nutritionNoCalories": "We do not count calories. Just variety: a colourful plate every day.",
+  "nutritionTip": "Today's tip for your skin",
+  "nutritionRecipes": "Beauty recipes",
+  "nutritionDisclaimer": "This is general information, not a diet or medical advice. If you have special dietary needs, talk to a dietitian.",
+  "nutritionPrivacySynced": "Your plate entries are kept encrypted on our server, with a copy on this phone for offline use.",
+  "nutritionPrivacyDevice": "For now your plate entries are kept only on this phone. With the updated health consent they will be kept encrypted on our server.",
+  "mealBreakfast": "Breakfast",
+  "mealLunch": "Lunch",
+  "mealDinner": "Dinner",
+  "mealSnack": "Snack",
+  "recipeMeta": "{meal} · {minutes} min · serves {servings}",
+  "@recipeMeta": {
+    "placeholders": {
+      "meal": {
+        "type": "String"
+      },
+      "minutes": {
+        "type": "int"
+      },
+      "servings": {
+        "type": "int"
+      }
+    }
+  },
+  "recipeIngredients": "Ingredients",
+  "recipeSteps": "Method",
+  "recipeAddAll": "Add the ingredients to my shopping list",
+  "recipeAdded": "{count} items added to your shopping list.",
+  "@recipeAdded": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

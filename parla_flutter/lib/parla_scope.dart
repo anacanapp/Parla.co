@@ -5,6 +5,8 @@ import 'habits/habit_tracker.dart';
 import 'reminders/reminder_controller.dart';
 import 'check/care_list.dart';
 import 'routines/custom_routines.dart';
+import 'discover/content_library.dart';
+import 'discover/nutrition_book.dart';
 import 'sport/sport_book.dart';
 import 'services/parla_api.dart';
 import 'state/app_settings.dart';
@@ -24,6 +26,8 @@ class ParlaScope extends InheritedWidget {
     required this.routines,
     required this.careList,
     required this.sport,
+    required this.nutrition,
+    required this.content,
     required this.ingredients,
     required super.child,
   });
@@ -53,6 +57,12 @@ class ParlaScope extends InheritedWidget {
   /// Sport answers, plan and finished workouts.
   final SportBook sport;
 
+  /// The daily plate of the nutrition tool.
+  final NutritionBook nutrition;
+
+  /// Published articles, recipes and expert profiles.
+  final ContentLibrary content;
+
   /// EU ingredient statuses shipped with the app (CosIng export).
   final IngredientDataset ingredients;
 
@@ -65,6 +75,7 @@ class ParlaScope extends InheritedWidget {
       routines.attach(id),
       careList.attach(id),
       sport.attach(id),
+      nutrition.attach(id),
     ]);
     // Own-routine ticks moved from the habit log to the routines.
     if (id != null && api.accountId == id) {
@@ -79,6 +90,7 @@ class ParlaScope extends InheritedWidget {
     routines.detach();
     careList.detach();
     sport.detach();
+    nutrition.detach();
     await reminders.detach();
   }
 
@@ -92,6 +104,8 @@ class ParlaScope extends InheritedWidget {
     careList.detach();
     await sport.erase();
     sport.detach();
+    await nutrition.erase();
+    nutrition.detach();
     await reminders.erase();
   }
 

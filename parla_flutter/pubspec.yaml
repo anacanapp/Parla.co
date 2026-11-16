@@ -48,6 +48,8 @@ dependencies:
   share_plus: ^13.3.1
   shared_preferences: ^2.5.6
   timezone: ^0.11.2
+  # Calls and WhatsApp to listed experts open the phone's own apps.
+  url_launcher: ^6.3.1
 
 dev_dependencies:
   # Used for agents to drive the app through the Dart MCP

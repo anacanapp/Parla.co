@@ -12,6 +12,8 @@ import 'parla_scope.dart';
 import 'routes.dart';
 import 'check/care_list.dart';
 import 'routines/custom_routines.dart';
+import 'discover/content_library.dart';
+import 'discover/nutrition_book.dart';
 import 'sport/sport_book.dart';
 import 'services/export_share.dart';
 import 'services/parla_api.dart';
@@ -31,6 +33,7 @@ class ParlaApp extends StatefulWidget {
     this.routineStore = const SecureHabitStore.routines(),
     this.careListStore = const SecureHabitStore.careList(),
     this.sportStore = const SecureHabitStore.sport(),
+    this.nutritionStore = const SecureHabitStore.nutrition(),
     this.reminderScheduler,
     this.ingredientDataset,
   });
@@ -50,6 +53,9 @@ class ParlaApp extends StatefulWidget {
   /// Where the phone copy of the sport answers and workouts is kept.
   final HabitStore sportStore;
 
+  /// Where the phone copy of the daily plate is kept.
+  final HabitStore nutritionStore;
+
   /// Defaults to local notifications on the device.
   final ReminderScheduler? reminderScheduler;
 
@@ -67,6 +73,14 @@ class _ParlaAppState extends State<ParlaApp> {
     store: widget.habitStore,
     clock: widget.clock,
   );
+
+  late final NutritionBook _nutrition = NutritionBook(
+    store: widget.nutritionStore,
+    api: widget.api,
+    clock: widget.clock,
+  );
+
+  late final ContentLibrary _content = ContentLibrary(widget.api);
 
   late final SportBook _sport = SportBook(
     store: widget.sportStore,
@@ -113,6 +127,8 @@ class _ParlaAppState extends State<ParlaApp> {
     _routines.dispose();
     _careList.dispose();
     _sport.dispose();
+    _nutrition.dispose();
+    _content.dispose();
     _habits.dispose();
     _router.dispose();
     super.dispose();
@@ -131,6 +147,8 @@ class _ParlaAppState extends State<ParlaApp> {
       routines: _routines,
       careList: _careList,
       sport: _sport,
+      nutrition: _nutrition,
+      content: _content,
       ingredients: widget.ingredientDataset ?? euIngredientDataset,
       child: ListenableBuilder(
         listenable: widget.settings,
