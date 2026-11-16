@@ -1,0 +1,33 @@
+name: parla_admin
+description: "Parla admin panel (web). Staff only: content, users, statistics."
+publish_to: 'none'
+version: 0.1.0+1
+
+environment:
+  sdk: '^3.12.2'
+
+resolution: workspace
+
+dependencies:
+  flutter:
+    sdk: flutter
+  cupertino_icons: ^1.0.5
+  flutter_localizations:
+    sdk: flutter
+  go_router: ^18.1.4
+  intl: any
+  parla_client:
+    path: ../parla_client
+  parla_shared:
+    path: ../parla_shared
+  qr_flutter: ^4.1.0
+  serverpod_auth_idp_flutter: 4.1.1
+  serverpod_flutter: 4.1.1
+
+dev_dependencies:
+  flutter_lints: '>=3.0.0 <7.0.0'
+  flutter_test:
+    sdk: flutter
+
+flutter:
+  uses-material-design: true

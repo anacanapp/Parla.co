@@ -120,6 +120,22 @@ Security → 2-Step Verification → App passwords), not the normal password.
 Later deploys are just step 3.3. Changes to `deploy/aws/staging` need
 `terraform apply` again (steps 1.2 and 1.4 in a new CloudShell session).
 
+### Admin panel (staging)
+
+1. `terraform apply` with the first admin's email (not secret):
+   `terraform apply -var='staff_bootstrap_email=you@example.com'`. Note the
+   outputs `admin_url`, `admin_bucket` and `admin_distribution_id`.
+2. In the GitHub environment `staging` add the variables `ADMIN_BUCKET` and
+   `ADMIN_DISTRIBUTION_ID` (from step 1).
+3. Deploy the server (3.3) so it has the new tables, then Actions →
+   **Deploy staging admin panel** → *Run workflow*.
+4. Open `admin_url`, choose *Hesabım yoxdur: qeydiyyat*, register with that
+   email and a password of at least 12 characters, then *İlk admin kimi
+   qoşul* and set up the authenticator app.
+5. Invite the rest of the team from *İşçilər*. Afterwards run `terraform
+   apply` again without the variable, so nobody else can claim the first
+   admin role.
+
 ## 4. Codemagic (once)
 
 1. Sign in at codemagic.io with GitHub and add `anacanapp/Parla.co`. The

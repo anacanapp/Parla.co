@@ -75,8 +75,9 @@ so it can move to our own servers unchanged. Setup and store steps are in
   `routine_rules.dart`) are sample content with `approved: false`. The
   rules are conservative: a missing or declined safety answer (pregnancy,
   medication) leaves retinol out instead of guessing.
-- **No admin web app.** Until there is an approval tool, expert content
-  lives in code and changes go through pull requests.
+- **Content in code for now.** Expert content lives in code and changes
+  go through pull requests until the admin panel's content phase (B)
+  moves it to the server with an expert approval step; see "Admin panel".
 
 ## Privacy rights (sprint 3)
 
@@ -225,6 +226,41 @@ wording rules and open legal questions: `docs/INGREDIENTS.md`.
   withdrawal and account deletion work as for own routines (`sport`,
   `deviceSport`).
 
+## Admin panel (`parla_admin`)
+
+The decision of 2026-11-16 replaces "no admin app": a Flutter web panel for
+the Parla team, built in phases. Phase A (this part) is sign-in, roles and
+staff accounts; content (B), users and statistics (C), and banners,
+messages and push notifications (D) follow.
+
+- **Who.** Roles `admin` (everything, including staff accounts), `editor`
+  (writes content) and `expert` (reviews and approves content in their
+  field). There is no open sign-up for the panel. An admin invites an email
+  address; the invitation code (only its SHA-256 is stored, single use, 72
+  hours) arrives by email. The first admin is the address in the
+  `staffBootstrapEmail` setting, and only while there is no staff at all.
+  The last active admin cannot be removed.
+- **Sign-in.** Email and password (at least 12 characters, enforced on the
+  server), then a TOTP code from an authenticator app in every sign-in
+  session. The check lasts 8 hours (`staff_session`). The TOTP secret is
+  sealed with a key derived from the server KEK by HKDF with its own label.
+  A used code is refused, and five wrong codes lock the account for 15
+  minutes. An admin can reset a lost authenticator. Sign-in errors do not
+  say whether the email exists.
+- **Every admin endpoint** starts with `requireStaff`, which checks the
+  role, that the member is active and that the second factor was passed in
+  this sign-in session. Every staff action goes to the audit log with ids
+  only. Deleting a staff member's account removes their panel access.
+- **No health data.** The panel never shows users' health answers,
+  routines, lists or fitness data. These are encrypted with per-user keys
+  that the panel has no way to use. User management (phase C) shows account
+  data only.
+- **Hosting.** A static build in a private S3 bucket behind its own
+  CloudFront address (`deploy/aws/staging/admin.tf`) with a strict content
+  security policy, `noindex`, and CanvasKit bundled so nothing loads from
+  Google. It is deployed by the *Deploy staging admin panel* workflow. The
+  panel is in Azerbaijani only, as it is for the team.
+
 ## Reminders
 
 - **Local notifications only** (`flutter_local_notifications`). The phone
@@ -287,7 +323,8 @@ wording rules and open legal questions: `docs/INGREDIENTS.md`.
 | Privacy policy and terms texts | — | Lawyer |
 | Apple and Google sign-in | US-01 | Needs the Apple and Google developer accounts (company registration) |
 | Production hosting, email provider and data region (staging uses AWS in Frankfurt and SMTP via info@anacan.az) | RES-1, RES-5 | After the lawyer answers the localisation questions |
-| Admin/CMS app | M8 | Dropped: expert content lives in code and is reviewed in pull requests |
+| Admin panel phases B (content, images in S3), C (users, statistics) and D (banners, messages, push notifications) | M8 | In progress; phase A done |
+| Privacy policy text for staff access, the admin panel and push notifications | — | Lawyer, before phase D |
 | Real-device test of reminders (Android 13+ permission, reboot, iOS foreground) | M7 | Before the beta |
 | Ask people who agreed to an older health consent text to agree to the current one (own routines, preferences and the shopping list stay on the phone until then) | CON-3 | Before launch, if anyone agreed to `health-2026-11-draft1`, `draft2` or `draft3` |
 | Expert review of the preference ingredient lists (`product_preferences.dart`) | — | Before launch |

@@ -109,6 +109,7 @@ resource "aws_ecs_task_definition" "server" {
       { name = "SERVERPOD_DATABASE_NAME", value = aws_db_instance.main.db_name },
       { name = "SERVERPOD_DATABASE_USER", value = aws_db_instance.main.username },
       { name = "SERVERPOD_API_SERVER_PUBLIC_HOST", value = local.public_host },
+      { name = "SERVERPOD_PASSWORD_staffBootstrapEmail", value = var.staff_bootstrap_email },
     ]
 
     secrets = local.container_secrets

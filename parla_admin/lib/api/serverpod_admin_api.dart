@@ -1,0 +1,151 @@
+import 'package:flutter/foundation.dart';
+import 'package:parla_client/parla_client.dart';
+import 'package:serverpod_auth_idp_flutter/serverpod_auth_idp_flutter.dart';
+
+import 'admin_api.dart';
+
+class ServerpodAdminApi implements AdminApi {
+  ServerpodAdminApi(this._client);
+
+  final Client _client;
+
+  @override
+  bool get isSignedIn => _client.auth.isAuthenticated;
+
+  @override
+  Listenable get authChanges => _client.auth.authInfoListenable;
+
+  @override
+  Future<StaffMe?> me() => _guard(_client.staff.me);
+
+  @override
+  Future<StaffMe> claimFirstAdmin() => _guard(_client.staff.claimFirstAdmin);
+
+  @override
+  Future<StaffMe> acceptInvite(String code) =>
+      _guard(() => _client.staff.acceptInvite(code));
+
+  @override
+  Future<TotpEnrollment> startTotp() => _guard(_client.staff.startTotp);
+
+  @override
+  Future<StaffMe> confirmTotp(String code) =>
+      _guard(() => _client.staff.confirmTotp(code));
+
+  @override
+  Future<StaffMe> verifyTotp(String code) =>
+      _guard(() => _client.staff.verifyTotp(code));
+
+  @override
+  Future<void> signOut() async {
+    try {
+      await _client.staff.endSession();
+    } on Object {
+      // The session may already be gone; sign out locally either way.
+    }
+    try {
+      await _client.auth.signOutDevice();
+    } on Object {
+      // Same as above.
+    }
+  }
+
+  @override
+  Future<List<StaffSummary>> listStaff() =>
+      _guard(_client.staffAdmin.listStaff);
+
+  @override
+  Future<List<StaffInviteSummary>> listInvites() =>
+      _guard(_client.staffAdmin.listInvites);
+
+  @override
+  Future<void> invite(String email, StaffRole role) =>
+      _guard(() => _client.staffAdmin.invite(email, role));
+
+  @override
+  Future<void> revokeInvite(int id) =>
+      _guard(() => _client.staffAdmin.revokeInvite(id));
+
+  @override
+  Future<void> setRole(UuidValue user, StaffRole role) =>
+      _guard(() => _client.staffAdmin.setRole(user, role));
+
+  @override
+  Future<void> setActive(UuidValue user, bool active) =>
+      _guard(() => _client.staffAdmin.setActive(user, active));
+
+  @override
+  Future<void> resetTotp(UuidValue user) =>
+      _guard(() => _client.staffAdmin.resetTotp(user));
+
+  @override
+  Future<void> login(String email, String password) => _auth(() async {
+    final success = await _client.emailIdp.login(
+      email: email.trim(),
+      password: password,
+    );
+    await _client.auth.updateSignedInUser(success);
+  });
+
+  @override
+  Future<UuidValue> startRegistration(String email) =>
+      _auth(() => _client.emailIdp.startRegistration(email: email.trim()));
+
+  @override
+  Future<String> verifyRegistrationCode(UuidValue requestId, String code) =>
+      _auth(
+        () => _client.emailIdp.verifyRegistrationCode(
+          accountRequestId: requestId,
+          verificationCode: code.trim(),
+        ),
+      );
+
+  @override
+  Future<void> finishRegistration(String token, String password) =>
+      _auth(() async {
+        final success = await _client.emailIdp.finishRegistration(
+          registrationToken: token,
+          password: password,
+        );
+        await _client.auth.updateSignedInUser(success);
+      });
+
+  @override
+  Future<UuidValue> startPasswordReset(String email) =>
+      _auth(() => _client.emailIdp.startPasswordReset(email: email.trim()));
+
+  @override
+  Future<String> verifyPasswordResetCode(UuidValue requestId, String code) =>
+      _auth(
+        () => _client.emailIdp.verifyPasswordResetCode(
+          passwordResetRequestId: requestId,
+          verificationCode: code.trim(),
+        ),
+      );
+
+  @override
+  Future<void> finishPasswordReset(String token, String password) => _auth(
+    () => _client.emailIdp.finishPasswordReset(
+      finishPasswordResetToken: token,
+      newPassword: password,
+    ),
+  );
+
+  /// Sign-in errors are not told apart, so a wrong password and an unknown
+  /// email look the same.
+  Future<T> _auth<T>(Future<T> Function() call) async {
+    try {
+      return await call();
+    } on Object {
+      throw const AdminError('auth.failed');
+    }
+  }
+
+  Future<T> _guard<T>(Future<T> Function() call) async {
+    try {
+      return await call();
+    } on ParlaException catch (e) {
+      throw AdminError(e.code);
+    }
+  }
+}

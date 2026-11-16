@@ -9,3 +9,4 @@ workspace:
   - parla_client
   - parla_server
   - parla_flutter
+  - parla_admin

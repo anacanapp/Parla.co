@@ -20,3 +20,18 @@ output "app_secret_name" {
 output "log_group" {
   value = aws_cloudwatch_log_group.server.name
 }
+
+output "admin_url" {
+  description = "The admin panel."
+  value       = "https://${aws_cloudfront_distribution.admin.domain_name}/"
+}
+
+output "admin_bucket" {
+  description = "GitHub variable ADMIN_BUCKET (environment staging)."
+  value       = aws_s3_bucket.admin.bucket
+}
+
+output "admin_distribution_id" {
+  description = "GitHub variable ADMIN_DISTRIBUTION_ID (environment staging)."
+  value       = aws_cloudfront_distribution.admin.id
+}
