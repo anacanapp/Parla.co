@@ -13,6 +13,10 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:parla_client/src/protocol/consent/consent_state.dart'
     as _iflgmsvc;
+import 'package:parla_client/src/protocol/content/content_admin_item.dart'
+    as _i9q5wd3k;
+import 'package:parla_client/src/protocol/content/public_content.dart'
+    as _iryaqqq7;
 import 'package:parla_client/src/protocol/products/product_summary.dart'
     as _isvy2zc1;
 import 'package:parla_client/src/protocol/quiz/quiz_answer_input.dart'
@@ -32,10 +36,15 @@ import 'common/parla_exception.dart' as _iv1d8f8b;
 import 'consent/consent_record.dart' as _it7bphsc;
 import 'consent/consent_state.dart' as _icra10er;
 import 'consent/consent_type.dart' as _i40db2a8;
+import 'content/content_admin_item.dart' as _i37db98a;
+import 'content/content_item.dart' as _ima46zjc;
+import 'content/content_status.dart' as _i5g0eai8;
+import 'content/public_content.dart' as _ikwk39jh;
 import 'health/care_list_record.dart' as _iopyqj70;
 import 'health/custom_routine_record.dart' as _idmfi0v2;
 import 'health/health_key.dart' as _ipdtgm1c;
 import 'health/health_record.dart' as _ioxvgdwn;
+import 'health/nutrition_record.dart' as _in188bse;
 import 'health/sport_record.dart' as _izi2p90l;
 import 'products/product_summary.dart' as _ikmk0g5q;
 import 'profile/member_profile.dart' as _i1iocmvy;
@@ -55,10 +64,15 @@ export 'common/parla_exception.dart';
 export 'consent/consent_record.dart';
 export 'consent/consent_state.dart';
 export 'consent/consent_type.dart';
+export 'content/content_admin_item.dart';
+export 'content/content_item.dart';
+export 'content/content_status.dart';
+export 'content/public_content.dart';
 export 'health/care_list_record.dart';
 export 'health/custom_routine_record.dart';
 export 'health/health_key.dart';
 export 'health/health_record.dart';
+export 'health/nutrition_record.dart';
 export 'health/sport_record.dart';
 export 'products/product_summary.dart';
 export 'profile/member_profile.dart';
@@ -93,10 +107,15 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_it7bphsc.ConsentRecord>,
           _isc.getType<_icra10er.ConsentState>,
           _isc.getType<_i40db2a8.ConsentType>,
+          _isc.getType<_i37db98a.ContentAdminItem>,
+          _isc.getType<_ima46zjc.ContentItem>,
+          _isc.getType<_i5g0eai8.ContentStatus>,
+          _isc.getType<_ikwk39jh.PublicContent>,
           _isc.getType<_iopyqj70.CareListRecord>,
           _isc.getType<_idmfi0v2.CustomRoutineRecord>,
           _isc.getType<_ipdtgm1c.HealthKey>,
           _isc.getType<_ioxvgdwn.HealthRecord>,
+          _isc.getType<_in188bse.NutritionRecord>,
           _isc.getType<_izi2p90l.SportRecord>,
           _isc.getType<_ikmk0g5q.ProductSummary>,
           _isc.getType<_i1iocmvy.MemberProfile>,
@@ -116,10 +135,15 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_it7bphsc.ConsentRecord?>,
           _isc.getType<_icra10er.ConsentState?>,
           _isc.getType<_i40db2a8.ConsentType?>,
+          _isc.getType<_i37db98a.ContentAdminItem?>,
+          _isc.getType<_ima46zjc.ContentItem?>,
+          _isc.getType<_i5g0eai8.ContentStatus?>,
+          _isc.getType<_ikwk39jh.PublicContent?>,
           _isc.getType<_iopyqj70.CareListRecord?>,
           _isc.getType<_idmfi0v2.CustomRoutineRecord?>,
           _isc.getType<_ipdtgm1c.HealthKey?>,
           _isc.getType<_ioxvgdwn.HealthRecord?>,
+          _isc.getType<_in188bse.NutritionRecord?>,
           _isc.getType<_izi2p90l.SportRecord?>,
           _isc.getType<_ikmk0g5q.ProductSummary?>,
           _isc.getType<_i1iocmvy.MemberProfile?>,
@@ -135,6 +159,8 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_ieq44cuc.TotpEnrollment?>,
           _isc.getType<List<String>>,
           _isc.getType<List<_iflgmsvc.ConsentState>>,
+          _isc.getType<List<_i9q5wd3k.ContentAdminItem>>,
+          _isc.getType<List<_iryaqqq7.PublicContent>>,
           _isc.getType<List<_isvy2zc1.ProductSummary>>,
           _isc.getType<List<_ikoicjb8.QuizAnswerInput>>,
           _isc.getType<List<_i48vujj3.StaffSummary>>,
@@ -151,10 +177,15 @@ class Protocol extends _isc.SerializationManager
           'ConsentRecord',
           'ConsentState',
           'ConsentType',
+          'ContentAdminItem',
+          'ContentItem',
+          'ContentStatus',
+          'PublicContent',
           'CareListRecord',
           'CustomRoutineRecord',
           'HealthKey',
           'HealthRecord',
+          'NutritionRecord',
           'SportRecord',
           'ProductSummary',
           'MemberProfile',
@@ -213,6 +244,18 @@ class Protocol extends _isc.SerializationManager
     if (t == _i40db2a8.ConsentType) {
       return _i40db2a8.ConsentType.fromJson(data) as T;
     }
+    if (t == _i37db98a.ContentAdminItem) {
+      return _i37db98a.ContentAdminItem.fromJson(data) as T;
+    }
+    if (t == _ima46zjc.ContentItem) {
+      return _ima46zjc.ContentItem.fromJson(data) as T;
+    }
+    if (t == _i5g0eai8.ContentStatus) {
+      return _i5g0eai8.ContentStatus.fromJson(data) as T;
+    }
+    if (t == _ikwk39jh.PublicContent) {
+      return _ikwk39jh.PublicContent.fromJson(data) as T;
+    }
     if (t == _iopyqj70.CareListRecord) {
       return _iopyqj70.CareListRecord.fromJson(data) as T;
     }
@@ -224,6 +267,9 @@ class Protocol extends _isc.SerializationManager
     }
     if (t == _ioxvgdwn.HealthRecord) {
       return _ioxvgdwn.HealthRecord.fromJson(data) as T;
+    }
+    if (t == _in188bse.NutritionRecord) {
+      return _in188bse.NutritionRecord.fromJson(data) as T;
     }
     if (t == _izi2p90l.SportRecord) {
       return _izi2p90l.SportRecord.fromJson(data) as T;
@@ -286,6 +332,21 @@ class Protocol extends _isc.SerializationManager
     if (t == _isc.getType<_i40db2a8.ConsentType?>()) {
       return (data != null ? _i40db2a8.ConsentType.fromJson(data) : null) as T;
     }
+    if (t == _isc.getType<_i37db98a.ContentAdminItem?>()) {
+      return (data != null ? _i37db98a.ContentAdminItem.fromJson(data) : null)
+          as T;
+    }
+    if (t == _isc.getType<_ima46zjc.ContentItem?>()) {
+      return (data != null ? _ima46zjc.ContentItem.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_i5g0eai8.ContentStatus?>()) {
+      return (data != null ? _i5g0eai8.ContentStatus.fromJson(data) : null)
+          as T;
+    }
+    if (t == _isc.getType<_ikwk39jh.PublicContent?>()) {
+      return (data != null ? _ikwk39jh.PublicContent.fromJson(data) : null)
+          as T;
+    }
     if (t == _isc.getType<_iopyqj70.CareListRecord?>()) {
       return (data != null ? _iopyqj70.CareListRecord.fromJson(data) : null)
           as T;
@@ -301,6 +362,10 @@ class Protocol extends _isc.SerializationManager
     }
     if (t == _isc.getType<_ioxvgdwn.HealthRecord?>()) {
       return (data != null ? _ioxvgdwn.HealthRecord.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_in188bse.NutritionRecord?>()) {
+      return (data != null ? _in188bse.NutritionRecord.fromJson(data) : null)
+          as T;
     }
     if (t == _isc.getType<_izi2p90l.SportRecord?>()) {
       return (data != null ? _izi2p90l.SportRecord.fromJson(data) : null) as T;
@@ -355,6 +420,18 @@ class Protocol extends _isc.SerializationManager
               .toList()
           as T;
     }
+    if (t == List<_i9q5wd3k.ContentAdminItem>) {
+      return (data as List)
+              .map((e) => deserialize<_i9q5wd3k.ContentAdminItem>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_iryaqqq7.PublicContent>) {
+      return (data as List)
+              .map((e) => deserialize<_iryaqqq7.PublicContent>(e))
+              .toList()
+          as T;
+    }
     if (t == List<_isvy2zc1.ProductSummary>) {
       return (data as List)
               .map((e) => deserialize<_isvy2zc1.ProductSummary>(e))
@@ -400,10 +477,15 @@ class Protocol extends _isc.SerializationManager
       _it7bphsc.ConsentRecord => 'ConsentRecord',
       _icra10er.ConsentState => 'ConsentState',
       _i40db2a8.ConsentType => 'ConsentType',
+      _i37db98a.ContentAdminItem => 'ContentAdminItem',
+      _ima46zjc.ContentItem => 'ContentItem',
+      _i5g0eai8.ContentStatus => 'ContentStatus',
+      _ikwk39jh.PublicContent => 'PublicContent',
       _iopyqj70.CareListRecord => 'CareListRecord',
       _idmfi0v2.CustomRoutineRecord => 'CustomRoutineRecord',
       _ipdtgm1c.HealthKey => 'HealthKey',
       _ioxvgdwn.HealthRecord => 'HealthRecord',
+      _in188bse.NutritionRecord => 'NutritionRecord',
       _izi2p90l.SportRecord => 'SportRecord',
       _ikmk0g5q.ProductSummary => 'ProductSummary',
       _i1iocmvy.MemberProfile => 'MemberProfile',
@@ -443,6 +525,14 @@ class Protocol extends _isc.SerializationManager
         return 'ConsentState';
       case _i40db2a8.ConsentType():
         return 'ConsentType';
+      case _i37db98a.ContentAdminItem():
+        return 'ContentAdminItem';
+      case _ima46zjc.ContentItem():
+        return 'ContentItem';
+      case _i5g0eai8.ContentStatus():
+        return 'ContentStatus';
+      case _ikwk39jh.PublicContent():
+        return 'PublicContent';
       case _iopyqj70.CareListRecord():
         return 'CareListRecord';
       case _idmfi0v2.CustomRoutineRecord():
@@ -451,6 +541,8 @@ class Protocol extends _isc.SerializationManager
         return 'HealthKey';
       case _ioxvgdwn.HealthRecord():
         return 'HealthRecord';
+      case _in188bse.NutritionRecord():
+        return 'NutritionRecord';
       case _izi2p90l.SportRecord():
         return 'SportRecord';
       case _ikmk0g5q.ProductSummary():
@@ -517,6 +609,18 @@ class Protocol extends _isc.SerializationManager
     if (dataClassName == 'ConsentType') {
       return deserialize<_i40db2a8.ConsentType>(data['data']);
     }
+    if (dataClassName == 'ContentAdminItem') {
+      return deserialize<_i37db98a.ContentAdminItem>(data['data']);
+    }
+    if (dataClassName == 'ContentItem') {
+      return deserialize<_ima46zjc.ContentItem>(data['data']);
+    }
+    if (dataClassName == 'ContentStatus') {
+      return deserialize<_i5g0eai8.ContentStatus>(data['data']);
+    }
+    if (dataClassName == 'PublicContent') {
+      return deserialize<_ikwk39jh.PublicContent>(data['data']);
+    }
     if (dataClassName == 'CareListRecord') {
       return deserialize<_iopyqj70.CareListRecord>(data['data']);
     }
@@ -528,6 +632,9 @@ class Protocol extends _isc.SerializationManager
     }
     if (dataClassName == 'HealthRecord') {
       return deserialize<_ioxvgdwn.HealthRecord>(data['data']);
+    }
+    if (dataClassName == 'NutritionRecord') {
+      return deserialize<_in188bse.NutritionRecord>(data['data']);
     }
     if (dataClassName == 'SportRecord') {
       return deserialize<_izi2p90l.SportRecord>(data['data']);

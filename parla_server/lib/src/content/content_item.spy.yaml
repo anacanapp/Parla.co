@@ -1,0 +1,32 @@
+### Content written in the admin panel: an article, a recipe or an expert
+### profile ([kind] is a ContentKind name from parla_shared).
+### [draftJson] is the working copy; [publishedJson] is what the app shows,
+### set only by publishing, so editing never changes live content. Experts'
+### profiles may be published only after their written consent is recorded.
+class: ContentItem
+table: content_item
+fields:
+  kind: String
+  slug: String
+  category: String
+  status: ContentStatus
+  draftJson: String
+  publishedJson: String?
+  reviewedBy: UuidValue?
+  reviewedAt: DateTime?
+  reviewNote: String?
+  ### When the published copy was reviewed (shown as "reviewed by an expert").
+  publishedReviewedAt: DateTime?
+  consentRecordedAt: DateTime?
+  ### Where the expert's written consent is kept (a reference, not the
+  ### document itself).
+  consentNote: String?
+  createdBy: UuidValue
+  updatedBy: UuidValue
+  createdAt: DateTime
+  updatedAt: DateTime
+  publishedAt: DateTime?
+indexes:
+  content_item_slug_idx:
+    fields: kind, slug
+    unique: true

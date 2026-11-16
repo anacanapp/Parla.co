@@ -19,6 +19,19 @@ jwtRefresh:
 consent:
   - current:
   - decide:
+contentAdmin:
+  - list:
+  - create:
+  - saveDraft:
+  - submitForReview:
+  - approve:
+  - returnToWriter:
+  - recordConsent:
+  - publish:
+  - unpublish:
+  - delete:
+content:
+  - published:
 product:
   - search:
 profile:
@@ -30,6 +43,9 @@ quiz:
 careList:
   - myCareList:
   - saveCareList:
+nutrition:
+  - myNutrition:
+  - saveNutrition:
 routine:
   - myRoutines:
   - saveRoutines:

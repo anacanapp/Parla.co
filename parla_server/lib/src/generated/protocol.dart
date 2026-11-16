@@ -13,6 +13,10 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:parla_server/src/generated/consent/consent_state.dart'
     as _ianfun2u;
+import 'package:parla_server/src/generated/content/content_admin_item.dart'
+    as _itdeiy4d;
+import 'package:parla_server/src/generated/content/public_content.dart'
+    as _ixzwgpmi;
 import 'package:parla_server/src/generated/products/product_summary.dart'
     as _ivq5jofi;
 import 'package:parla_server/src/generated/quiz/quiz_answer_input.dart'
@@ -33,10 +37,15 @@ import 'common/parla_exception.dart' as _iv1d8f8b;
 import 'consent/consent_record.dart' as _it7bphsc;
 import 'consent/consent_state.dart' as _icra10er;
 import 'consent/consent_type.dart' as _i40db2a8;
+import 'content/content_admin_item.dart' as _i37db98a;
+import 'content/content_item.dart' as _ima46zjc;
+import 'content/content_status.dart' as _i5g0eai8;
+import 'content/public_content.dart' as _ikwk39jh;
 import 'health/care_list_record.dart' as _iopyqj70;
 import 'health/custom_routine_record.dart' as _idmfi0v2;
 import 'health/health_key.dart' as _ipdtgm1c;
 import 'health/health_record.dart' as _ioxvgdwn;
+import 'health/nutrition_record.dart' as _in188bse;
 import 'health/sport_record.dart' as _izi2p90l;
 import 'products/product_summary.dart' as _ikmk0g5q;
 import 'profile/member_profile.dart' as _i1iocmvy;
@@ -56,10 +65,15 @@ export 'common/parla_exception.dart';
 export 'consent/consent_record.dart';
 export 'consent/consent_state.dart';
 export 'consent/consent_type.dart';
+export 'content/content_admin_item.dart';
+export 'content/content_item.dart';
+export 'content/content_status.dart';
+export 'content/public_content.dart';
 export 'health/care_list_record.dart';
 export 'health/custom_routine_record.dart';
 export 'health/health_key.dart';
 export 'health/health_record.dart';
+export 'health/nutrition_record.dart';
 export 'health/sport_record.dart';
 export 'products/product_summary.dart';
 export 'profile/member_profile.dart';
@@ -93,10 +107,15 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_it7bphsc.ConsentRecord>,
           _is.getType<_icra10er.ConsentState>,
           _is.getType<_i40db2a8.ConsentType>,
+          _is.getType<_i37db98a.ContentAdminItem>,
+          _is.getType<_ima46zjc.ContentItem>,
+          _is.getType<_i5g0eai8.ContentStatus>,
+          _is.getType<_ikwk39jh.PublicContent>,
           _is.getType<_iopyqj70.CareListRecord>,
           _is.getType<_idmfi0v2.CustomRoutineRecord>,
           _is.getType<_ipdtgm1c.HealthKey>,
           _is.getType<_ioxvgdwn.HealthRecord>,
+          _is.getType<_in188bse.NutritionRecord>,
           _is.getType<_izi2p90l.SportRecord>,
           _is.getType<_ikmk0g5q.ProductSummary>,
           _is.getType<_i1iocmvy.MemberProfile>,
@@ -116,10 +135,15 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_it7bphsc.ConsentRecord?>,
           _is.getType<_icra10er.ConsentState?>,
           _is.getType<_i40db2a8.ConsentType?>,
+          _is.getType<_i37db98a.ContentAdminItem?>,
+          _is.getType<_ima46zjc.ContentItem?>,
+          _is.getType<_i5g0eai8.ContentStatus?>,
+          _is.getType<_ikwk39jh.PublicContent?>,
           _is.getType<_iopyqj70.CareListRecord?>,
           _is.getType<_idmfi0v2.CustomRoutineRecord?>,
           _is.getType<_ipdtgm1c.HealthKey?>,
           _is.getType<_ioxvgdwn.HealthRecord?>,
+          _is.getType<_in188bse.NutritionRecord?>,
           _is.getType<_izi2p90l.SportRecord?>,
           _is.getType<_ikmk0g5q.ProductSummary?>,
           _is.getType<_i1iocmvy.MemberProfile?>,
@@ -135,6 +159,8 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_ieq44cuc.TotpEnrollment?>,
           _is.getType<List<String>>,
           _is.getType<List<_ianfun2u.ConsentState>>,
+          _is.getType<List<_itdeiy4d.ContentAdminItem>>,
+          _is.getType<List<_ixzwgpmi.PublicContent>>,
           _is.getType<List<_ivq5jofi.ProductSummary>>,
           _is.getType<List<_iak2pevv.QuizAnswerInput>>,
           _is.getType<List<_i0twq8uu.StaffSummary>>,
@@ -152,10 +178,15 @@ class Protocol extends _is.DatabaseSerializationManager
           'ConsentRecord',
           'ConsentState',
           'ConsentType',
+          'ContentAdminItem',
+          'ContentItem',
+          'ContentStatus',
+          'PublicContent',
           'CareListRecord',
           'CustomRoutineRecord',
           'HealthKey',
           'HealthRecord',
+          'NutritionRecord',
           'SportRecord',
           'ProductSummary',
           'MemberProfile',
@@ -386,6 +417,144 @@ class Protocol extends _is.DatabaseSerializationManager
           ],
           type: 'btree',
           isUnique: false,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _isp.TableDefinition(
+      name: 'content_item',
+      dartName: 'ContentItem',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'kind',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'slug',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'category',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'status',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'protocol:ContentStatus',
+        ),
+        _isp.ColumnDefinition(
+          name: 'draftJson',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'publishedJson',
+          columnType: _isp.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'reviewedBy',
+          columnType: _isp.ColumnType.uuid,
+          isNullable: true,
+          dartType: 'UuidValue?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'reviewedAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: true,
+          dartType: 'DateTime?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'reviewNote',
+          columnType: _isp.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'publishedReviewedAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: true,
+          dartType: 'DateTime?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'consentRecordedAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: true,
+          dartType: 'DateTime?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'consentNote',
+          columnType: _isp.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'createdBy',
+          columnType: _isp.ColumnType.uuid,
+          isNullable: false,
+          dartType: 'UuidValue',
+        ),
+        _isp.ColumnDefinition(
+          name: 'updatedBy',
+          columnType: _isp.ColumnType.uuid,
+          isNullable: false,
+          dartType: 'UuidValue',
+        ),
+        _isp.ColumnDefinition(
+          name: 'createdAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+        _isp.ColumnDefinition(
+          name: 'updatedAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+        _isp.ColumnDefinition(
+          name: 'publishedAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: true,
+          dartType: 'DateTime?',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'content_item_slug_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'kind',
+            ),
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'slug',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
           isPrimary: false,
         ),
       ],
@@ -669,6 +838,68 @@ class Protocol extends _is.DatabaseSerializationManager
       indexes: [
         _isp.IndexDefinition(
           indexName: 'member_profile_auth_user_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'authUserId',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _isp.TableDefinition(
+      name: 'nutrition_record',
+      dartName: 'NutritionRecord',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'authUserId',
+          columnType: _isp.ColumnType.uuid,
+          isNullable: false,
+          dartType: 'UuidValue',
+        ),
+        _isp.ColumnDefinition(
+          name: 'ciphertext',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'nonce',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'format',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _isp.ColumnDefinition(
+          name: 'updatedAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'nutrition_record_user_idx',
           tableSpace: null,
           elements: [
             _isp.IndexElementDefinition(
@@ -1086,6 +1317,18 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _i40db2a8.ConsentType) {
       return _i40db2a8.ConsentType.fromJson(data) as T;
     }
+    if (t == _i37db98a.ContentAdminItem) {
+      return _i37db98a.ContentAdminItem.fromJson(data) as T;
+    }
+    if (t == _ima46zjc.ContentItem) {
+      return _ima46zjc.ContentItem.fromJson(data) as T;
+    }
+    if (t == _i5g0eai8.ContentStatus) {
+      return _i5g0eai8.ContentStatus.fromJson(data) as T;
+    }
+    if (t == _ikwk39jh.PublicContent) {
+      return _ikwk39jh.PublicContent.fromJson(data) as T;
+    }
     if (t == _iopyqj70.CareListRecord) {
       return _iopyqj70.CareListRecord.fromJson(data) as T;
     }
@@ -1097,6 +1340,9 @@ class Protocol extends _is.DatabaseSerializationManager
     }
     if (t == _ioxvgdwn.HealthRecord) {
       return _ioxvgdwn.HealthRecord.fromJson(data) as T;
+    }
+    if (t == _in188bse.NutritionRecord) {
+      return _in188bse.NutritionRecord.fromJson(data) as T;
     }
     if (t == _izi2p90l.SportRecord) {
       return _izi2p90l.SportRecord.fromJson(data) as T;
@@ -1159,6 +1405,21 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _is.getType<_i40db2a8.ConsentType?>()) {
       return (data != null ? _i40db2a8.ConsentType.fromJson(data) : null) as T;
     }
+    if (t == _is.getType<_i37db98a.ContentAdminItem?>()) {
+      return (data != null ? _i37db98a.ContentAdminItem.fromJson(data) : null)
+          as T;
+    }
+    if (t == _is.getType<_ima46zjc.ContentItem?>()) {
+      return (data != null ? _ima46zjc.ContentItem.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_i5g0eai8.ContentStatus?>()) {
+      return (data != null ? _i5g0eai8.ContentStatus.fromJson(data) : null)
+          as T;
+    }
+    if (t == _is.getType<_ikwk39jh.PublicContent?>()) {
+      return (data != null ? _ikwk39jh.PublicContent.fromJson(data) : null)
+          as T;
+    }
     if (t == _is.getType<_iopyqj70.CareListRecord?>()) {
       return (data != null ? _iopyqj70.CareListRecord.fromJson(data) : null)
           as T;
@@ -1174,6 +1435,10 @@ class Protocol extends _is.DatabaseSerializationManager
     }
     if (t == _is.getType<_ioxvgdwn.HealthRecord?>()) {
       return (data != null ? _ioxvgdwn.HealthRecord.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_in188bse.NutritionRecord?>()) {
+      return (data != null ? _in188bse.NutritionRecord.fromJson(data) : null)
+          as T;
     }
     if (t == _is.getType<_izi2p90l.SportRecord?>()) {
       return (data != null ? _izi2p90l.SportRecord.fromJson(data) : null) as T;
@@ -1228,6 +1493,18 @@ class Protocol extends _is.DatabaseSerializationManager
               .toList()
           as T;
     }
+    if (t == List<_itdeiy4d.ContentAdminItem>) {
+      return (data as List)
+              .map((e) => deserialize<_itdeiy4d.ContentAdminItem>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_ixzwgpmi.PublicContent>) {
+      return (data as List)
+              .map((e) => deserialize<_ixzwgpmi.PublicContent>(e))
+              .toList()
+          as T;
+    }
     if (t == List<_ivq5jofi.ProductSummary>) {
       return (data as List)
               .map((e) => deserialize<_ivq5jofi.ProductSummary>(e))
@@ -1273,10 +1550,15 @@ class Protocol extends _is.DatabaseSerializationManager
       _it7bphsc.ConsentRecord => 'ConsentRecord',
       _icra10er.ConsentState => 'ConsentState',
       _i40db2a8.ConsentType => 'ConsentType',
+      _i37db98a.ContentAdminItem => 'ContentAdminItem',
+      _ima46zjc.ContentItem => 'ContentItem',
+      _i5g0eai8.ContentStatus => 'ContentStatus',
+      _ikwk39jh.PublicContent => 'PublicContent',
       _iopyqj70.CareListRecord => 'CareListRecord',
       _idmfi0v2.CustomRoutineRecord => 'CustomRoutineRecord',
       _ipdtgm1c.HealthKey => 'HealthKey',
       _ioxvgdwn.HealthRecord => 'HealthRecord',
+      _in188bse.NutritionRecord => 'NutritionRecord',
       _izi2p90l.SportRecord => 'SportRecord',
       _ikmk0g5q.ProductSummary => 'ProductSummary',
       _i1iocmvy.MemberProfile => 'MemberProfile',
@@ -1316,6 +1598,14 @@ class Protocol extends _is.DatabaseSerializationManager
         return 'ConsentState';
       case _i40db2a8.ConsentType():
         return 'ConsentType';
+      case _i37db98a.ContentAdminItem():
+        return 'ContentAdminItem';
+      case _ima46zjc.ContentItem():
+        return 'ContentItem';
+      case _i5g0eai8.ContentStatus():
+        return 'ContentStatus';
+      case _ikwk39jh.PublicContent():
+        return 'PublicContent';
       case _iopyqj70.CareListRecord():
         return 'CareListRecord';
       case _idmfi0v2.CustomRoutineRecord():
@@ -1324,6 +1614,8 @@ class Protocol extends _is.DatabaseSerializationManager
         return 'HealthKey';
       case _ioxvgdwn.HealthRecord():
         return 'HealthRecord';
+      case _in188bse.NutritionRecord():
+        return 'NutritionRecord';
       case _izi2p90l.SportRecord():
         return 'SportRecord';
       case _ikmk0g5q.ProductSummary():
@@ -1394,6 +1686,18 @@ class Protocol extends _is.DatabaseSerializationManager
     if (dataClassName == 'ConsentType') {
       return deserialize<_i40db2a8.ConsentType>(data['data']);
     }
+    if (dataClassName == 'ContentAdminItem') {
+      return deserialize<_i37db98a.ContentAdminItem>(data['data']);
+    }
+    if (dataClassName == 'ContentItem') {
+      return deserialize<_ima46zjc.ContentItem>(data['data']);
+    }
+    if (dataClassName == 'ContentStatus') {
+      return deserialize<_i5g0eai8.ContentStatus>(data['data']);
+    }
+    if (dataClassName == 'PublicContent') {
+      return deserialize<_ikwk39jh.PublicContent>(data['data']);
+    }
     if (dataClassName == 'CareListRecord') {
       return deserialize<_iopyqj70.CareListRecord>(data['data']);
     }
@@ -1405,6 +1709,9 @@ class Protocol extends _is.DatabaseSerializationManager
     }
     if (dataClassName == 'HealthRecord') {
       return deserialize<_ioxvgdwn.HealthRecord>(data['data']);
+    }
+    if (dataClassName == 'NutritionRecord') {
+      return deserialize<_in188bse.NutritionRecord>(data['data']);
     }
     if (dataClassName == 'SportRecord') {
       return deserialize<_izi2p90l.SportRecord>(data['data']);
@@ -1498,6 +1805,8 @@ class Protocol extends _is.DatabaseSerializationManager
         return _ioa77d8b.AuditLogEntry.t;
       case _it7bphsc.ConsentRecord:
         return _it7bphsc.ConsentRecord.t;
+      case _ima46zjc.ContentItem:
+        return _ima46zjc.ContentItem.t;
       case _iopyqj70.CareListRecord:
         return _iopyqj70.CareListRecord.t;
       case _idmfi0v2.CustomRoutineRecord:
@@ -1506,6 +1815,8 @@ class Protocol extends _is.DatabaseSerializationManager
         return _ipdtgm1c.HealthKey.t;
       case _ioxvgdwn.HealthRecord:
         return _ioxvgdwn.HealthRecord.t;
+      case _in188bse.NutritionRecord:
+        return _in188bse.NutritionRecord.t;
       case _izi2p90l.SportRecord:
         return _izi2p90l.SportRecord.t;
       case _i1iocmvy.MemberProfile:

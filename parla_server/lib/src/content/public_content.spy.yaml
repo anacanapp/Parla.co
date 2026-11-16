@@ -1,0 +1,10 @@
+### A published content item as the app reads it.
+class: PublicContent
+fields:
+  id: int
+  kind: String
+  slug: String
+  category: String
+  json: String
+  reviewedAt: DateTime?
+  publishedAt: DateTime

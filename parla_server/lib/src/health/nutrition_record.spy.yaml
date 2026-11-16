@@ -1,0 +1,17 @@
+### The user's daily plate entries (food groups per day, no amounts), one
+### row per user. [ciphertext] is AES-256-GCM
+### under the same data key as the health answers, with the user id bound
+### in as associated data. Stored only with a health consent whose text
+### covers it; deleted with the consent.
+class: NutritionRecord
+table: nutrition_record
+fields:
+  authUserId: UuidValue
+  ciphertext: String
+  nonce: String
+  format: int
+  updatedAt: DateTime
+indexes:
+  nutrition_record_user_idx:
+    fields: authUserId
+    unique: true

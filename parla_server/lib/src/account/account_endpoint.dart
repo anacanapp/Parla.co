@@ -46,6 +46,7 @@ class AccountEndpoint extends Endpoint {
     final routines = await store.readRoutines(session, userId);
     final careList = await store.readCareList(session, userId);
     final sport = await store.readSport(session, userId);
+    final nutrition = await store.readNutrition(session, userId);
 
     await writeAudit(
       session,
@@ -101,6 +102,7 @@ class AccountEndpoint extends Endpoint {
       'customRoutines': routines == null ? null : jsonDecode(routines),
       'careList': careList == null ? null : jsonDecode(careList),
       'sport': sport == null ? null : jsonDecode(sport),
+      'nutrition': nutrition == null ? null : jsonDecode(nutrition),
     });
   }
 

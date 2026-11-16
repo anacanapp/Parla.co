@@ -224,6 +224,49 @@ const List<ConsentText> consentTextHistory = [
           'within 24 hours.',
     },
   ),
+  // Adds the daily plate of the nutrition tool (2026-11-16).
+  ConsentText(
+    kind: ConsentKind.health,
+    version: 'health-2026-11-draft5',
+    bodies: {
+      'az':
+          'Dəri vəziyyətləri, allergiyalar, hamiləlik və qəbul etdiyim dərman '
+          'kateqoriyaları haqqında cavablarımın, özüm yaratdığım rutinlərin və '
+          'onların gündəlik qeydlərinin, məhsul seçimlərimin, yoxladığım '
+          'məhsulların və alış siyahımın, idman sorğusuna cavablarımın '
+          '(hamiləlik, zədələr, məqsədlər) və etdiyim məşqlərin, həmçinin '
+          'gündəlik boşqab qeydlərimin yalnız mənə fərdi və təhlükəsiz qulluq, '
+          'idman və qidalanma planı qurmaq və saxlamaq üçün emal olunmasına '
+          'açıq razılıq verirəm. Bu məlumatlar şifrələnmiş saxlanılır, üçüncü '
+          'tərəflərə verilmir və analitikada istifadə olunmur. Razılığı '
+          'istənilən vaxt Parametrlər → Məxfilik bölməsində geri götürə bilərəm; '
+          'bu halda həmin məlumatlar 24 saat ərzində serverdən silinir.',
+      'ru':
+          'Я даю явное согласие на обработку моих ответов о состоянии кожи, '
+          'аллергиях, беременности и категориях принимаемых лекарств, созданных '
+          'мной рутин и отметок об их выполнении, моих предпочтений по '
+          'продуктам, проверенных мной продуктов и списка покупок, моих ответов '
+          'в спортивной анкете (беременность, травмы, цели) и выполненных '
+          'тренировок, а также моих ежедневных записей о тарелке исключительно '
+          'для составления и хранения персонального и безопасного плана ухода, '
+          'тренировок и питания. Эти данные хранятся в зашифрованном виде, не '
+          'передаются третьим лицам и не используются в аналитике. Я могу '
+          'отозвать согласие в любой момент в разделе Настройки → '
+          'Конфиденциальность; в этом случае данные удаляются с сервера в '
+          'течение 24 часов.',
+      'en':
+          'I give explicit consent to the processing of my answers about skin '
+          'conditions, allergies, pregnancy and the categories of medicines I '
+          'take, of the routines I create and their daily ticks, of my product '
+          'preferences, the products I check and my shopping list, of my answers '
+          'to the fitness questions (pregnancy, injuries, goals) and the '
+          'workouts I do, and of my daily plate entries, solely to build and '
+          'keep a personal and safe care, workout and nutrition plan. This data '
+          'is stored encrypted, is not shared with third parties and is not used '
+          'for analytics. I can withdraw consent at any time in Settings → '
+          'Privacy; the data is then deleted from the server within 24 hours.',
+    },
+  ),
 ];
 
 /// Health consent versions that cover the user's own routines and their
@@ -233,6 +276,7 @@ const healthVersionsCoveringOwnRoutines = {
   'health-2026-11-draft2',
   'health-2026-11-draft3',
   'health-2026-11-draft4',
+  'health-2026-11-draft5',
 };
 
 /// Health consent versions that cover product preferences, checked
@@ -240,10 +284,17 @@ const healthVersionsCoveringOwnRoutines = {
 const healthVersionsCoveringCareList = {
   'health-2026-11-draft3',
   'health-2026-11-draft4',
+  'health-2026-11-draft5',
 };
 
 /// Health consent versions that cover the sport answers and workout log.
-const healthVersionsCoveringSport = {'health-2026-11-draft4'};
+const healthVersionsCoveringSport = {
+  'health-2026-11-draft4',
+  'health-2026-11-draft5',
+};
+
+/// Health consent versions that cover the daily plate.
+const healthVersionsCoveringNutrition = {'health-2026-11-draft5'};
 
 /// The version currently shown for [kind].
 ConsentText currentConsentText(ConsentKind kind) =>

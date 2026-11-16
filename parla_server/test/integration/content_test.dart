@@ -1,0 +1,315 @@
+import 'dart:convert';
+
+import 'package:parla_server/src/auth/verification_code_sender.dart';
+import 'package:parla_server/src/content/content_admin_endpoint.dart';
+import 'package:parla_server/src/generated/protocol.dart';
+import 'package:parla_server/src/staff/staff_guard.dart';
+import 'package:parla_server/src/staff/totp.dart';
+import 'package:serverpod_auth_idp_server/core.dart';
+import 'package:test/test.dart';
+
+import 'test_tools/serverpod_test_tools.dart';
+
+Matcher _error(String code) =>
+    isA<ParlaException>().having((e) => e.code, 'code', code);
+
+Map<String, String> _l(String s) => {
+  'az': '$s az',
+  'ru': '$s ru',
+  'en': '$s en',
+};
+
+final _article = jsonEncode({
+  'title': _l('Qış'),
+  'summary': _l('Qısa'),
+  'body': _l('Mətn'),
+  'minutes': 4,
+});
+
+final _expert = jsonEncode({
+  'name': 'Dr. Test',
+  'workplace': _l('Klinika'),
+  'city': _l('Bakı'),
+  'years': 8,
+  'whatsapp': '+994501234567',
+});
+
+void main() {
+  withServerpod('Given the content flow', (sessionBuilder, endpoints) {
+    var n = 0;
+
+    Future<TestSessionBuilder> staff(String email, StaffRole role) async {
+      final db = sessionBuilder.build();
+      final user = await const AuthUsers().create(db);
+      await EmailAccount.db.insertRow(
+        db,
+        EmailAccount(authUserId: user.id, email: email, passwordHash: 'x'),
+      );
+      final s = sessionBuilder.copyWith(
+        authentication: AuthenticationOverride.authenticationInfo(
+          user.id.toString(),
+          {},
+          authId: 'content-${n++}',
+        ),
+      );
+      if (email.startsWith('first-admin')) {
+        await endpoints.staff.claimFirstAdmin(s);
+      } else {
+        await endpoints.staff.acceptInvite(
+          s,
+          DevelopmentCodeSender.lastStaffInviteCode!,
+        );
+      }
+      final e = await endpoints.staff.startTotp(s);
+      await endpoints.staff.confirmTotp(
+        s,
+        await Totp.code(
+          Totp.fromBase32(e.secret),
+          Totp.stepAt(DateTime.now()),
+        ),
+      );
+      return s;
+    }
+
+    Future<
+      ({
+        TestSessionBuilder admin,
+        TestSessionBuilder editor,
+        TestSessionBuilder expert,
+      })
+    >
+    team() async {
+      final admin = await staff('first-admin@example.com', StaffRole.admin);
+      await endpoints.staffAdmin.invite(
+        admin,
+        'editor@example.com',
+        StaffRole.editor,
+      );
+      final editor = await staff('editor@example.com', StaffRole.editor);
+      await endpoints.staffAdmin.invite(
+        admin,
+        'expert@example.com',
+        StaffRole.expert,
+      );
+      final expert = await staff('expert@example.com', StaffRole.expert);
+      return (admin: admin, editor: editor, expert: expert);
+    }
+
+    test('an article goes draft, review, approval, publishing', () async {
+      final t = await team();
+      final item = await endpoints.contentAdmin.create(
+        t.editor,
+        'article',
+        'qis-deri',
+        'care',
+      );
+      // Incomplete drafts may be saved but not sent for review.
+      await endpoints.contentAdmin.saveDraft(
+        t.editor,
+        item.id,
+        jsonEncode({
+          'title': {'az': 'Qış'},
+        }),
+        'care',
+      );
+      await expectLater(
+        endpoints.contentAdmin.submitForReview(t.editor, item.id),
+        throwsA(_error(ContentErrors.incomplete)),
+      );
+      await endpoints.contentAdmin.saveDraft(
+        t.editor,
+        item.id,
+        _article,
+        'care',
+      );
+      // Not approved yet: cannot be published.
+      await expectLater(
+        endpoints.contentAdmin.publish(t.editor, item.id),
+        throwsA(_error(ContentErrors.wrongStatus)),
+      );
+      await endpoints.contentAdmin.submitForReview(t.editor, item.id);
+      // Editors cannot approve; experts can.
+      await expectLater(
+        endpoints.contentAdmin.approve(t.editor, item.id),
+        throwsA(_error(StaffErrors.forbidden)),
+      );
+      await endpoints.contentAdmin.approve(t.expert, item.id);
+      final published = await endpoints.contentAdmin.publish(
+        t.editor,
+        item.id,
+      );
+      expect(published.status, ContentStatus.published);
+      expect(published.live, isTrue);
+
+      final public = await endpoints.content.published(
+        sessionBuilder,
+        'article',
+      );
+      expect(public.single.slug, 'qis-deri');
+      expect(public.single.reviewedAt, isNotNull);
+      expect(public.single.json, _article);
+    });
+
+    test('editing a live article keeps the published copy until the next '
+        'review and publishing', () async {
+      final t = await team();
+      final item = await endpoints.contentAdmin.create(
+        t.editor,
+        'article',
+        'spf',
+        'care',
+      );
+      await endpoints.contentAdmin.saveDraft(
+        t.editor,
+        item.id,
+        _article,
+        'care',
+      );
+      await endpoints.contentAdmin.submitForReview(t.editor, item.id);
+      await endpoints.contentAdmin.approve(t.expert, item.id);
+      await endpoints.contentAdmin.publish(t.editor, item.id);
+
+      final changed = jsonEncode({
+        ...jsonDecode(_article) as Map,
+        'minutes': 5,
+      });
+      final draft = await endpoints.contentAdmin.saveDraft(
+        t.editor,
+        item.id,
+        changed,
+        'care',
+      );
+      expect(draft.status, ContentStatus.draft);
+      expect(draft.live, isTrue);
+      final public = await endpoints.content.published(
+        sessionBuilder,
+        'article',
+      );
+      expect(public.single.json, _article);
+    });
+
+    test('an expert returns a draft with a note', () async {
+      final t = await team();
+      final item = await endpoints.contentAdmin.create(
+        t.editor,
+        'article',
+        'note',
+        'hair',
+      );
+      await endpoints.contentAdmin.saveDraft(
+        t.editor,
+        item.id,
+        _article,
+        'hair',
+      );
+      await endpoints.contentAdmin.submitForReview(t.editor, item.id);
+      final back = await endpoints.contentAdmin.returnToWriter(
+        t.expert,
+        item.id,
+        'Mənbə əlavə edin',
+      );
+      expect(back.status, ContentStatus.draft);
+      expect(back.reviewNote, 'Mənbə əlavə edin');
+    });
+
+    test('expert profiles need the recorded consent to be published', () async {
+      final t = await team();
+      final item = await endpoints.contentAdmin.create(
+        t.editor,
+        'expert',
+        'dr-test',
+        'dermatologist',
+      );
+      await endpoints.contentAdmin.saveDraft(
+        t.editor,
+        item.id,
+        _expert,
+        'dermatologist',
+      );
+      await expectLater(
+        endpoints.contentAdmin.publish(t.editor, item.id),
+        throwsA(_error(ContentErrors.consentMissing)),
+      );
+      await expectLater(
+        endpoints.contentAdmin.recordConsent(t.editor, item.id, 'ref'),
+        throwsA(_error(StaffErrors.forbidden)),
+      );
+      await endpoints.contentAdmin.recordConsent(
+        t.admin,
+        item.id,
+        'Razılıq forması #12, ofis seyfi',
+      );
+      await endpoints.contentAdmin.publish(t.editor, item.id);
+      final public = await endpoints.content.published(
+        sessionBuilder,
+        'expert',
+      );
+      expect(jsonDecode(public.single.json)['whatsapp'], '+994501234567');
+      expect(public.single.reviewedAt, isNull);
+
+      await endpoints.contentAdmin.unpublish(t.admin, item.id);
+      expect(
+        await endpoints.content.published(sessionBuilder, 'expert'),
+        isEmpty,
+      );
+    });
+
+    test('invalid content, slugs and categories are refused', () async {
+      final t = await team();
+      await expectLater(
+        endpoints.contentAdmin.create(t.editor, 'article', 'Bad Slug', 'care'),
+        throwsA(_error(ContentErrors.invalid)),
+      );
+      await expectLater(
+        endpoints.contentAdmin.create(t.editor, 'article', 'ok', 'cars'),
+        throwsA(_error(ContentErrors.invalid)),
+      );
+      final item = await endpoints.contentAdmin.create(
+        t.editor,
+        'recipe',
+        'yulaf',
+        'breakfast',
+      );
+      await expectLater(
+        endpoints.contentAdmin.create(t.editor, 'recipe', 'yulaf', 'lunch'),
+        throwsA(_error(ContentErrors.slugTaken)),
+      );
+      await expectLater(
+        endpoints.contentAdmin.saveDraft(
+          t.editor,
+          item.id,
+          jsonEncode({'calories': 400}),
+          'breakfast',
+        ),
+        throwsA(_error(ContentErrors.invalid)),
+      );
+      // Experts may not write.
+      await expectLater(
+        endpoints.contentAdmin.create(t.expert, 'article', 'x', 'care'),
+        throwsA(_error(StaffErrors.forbidden)),
+      );
+    });
+
+    test(
+      'the public list needs no sign-in and holds only published items',
+      () async {
+        final t = await team();
+        await endpoints.contentAdmin.create(
+          t.editor,
+          'article',
+          'draft',
+          'care',
+        );
+        expect(
+          await endpoints.content.published(sessionBuilder, 'article'),
+          isEmpty,
+        );
+        final rows = await AuditLogEntry.db.find(
+          sessionBuilder.build(),
+          where: (t) => t.action.equals('content.created'),
+        );
+        expect(rows, hasLength(1));
+      },
+    );
+  });
+}
