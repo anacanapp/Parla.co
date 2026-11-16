@@ -168,6 +168,51 @@ void main() {
     expect(MediaRules.imageOf({}), isNull);
   });
 
+  test('catalogue texts: known ids only, defaults are valid drafts', () {
+    for (final kind in [
+      ContentKind.preference,
+      ContentKind.exercise,
+      ContentKind.step,
+    ]) {
+      expect(kind.isCatalogue, isTrue);
+      final ids = ContentRules.catalogueIds(kind);
+      expect(ids, isNotEmpty);
+      expect(ContentRules.isValidSlug(kind, ids.first), isTrue);
+      expect(ContentRules.isValidSlug(kind, 'made-up-id'), isFalse);
+      expect(ContentRules.categoriesFor(kind), ['catalogue']);
+      for (final id in ids) {
+        final defaults = ContentRules.catalogueDefaults(kind, id);
+        expect(defaults, isNotEmpty, reason: '$kind $id has no text');
+        expect(
+          _p(kind, defaults, complete: false),
+          isEmpty,
+          reason: '$kind $id',
+        );
+      }
+    }
+    expect(ContentKind.article.isCatalogue, isFalse);
+    expect(
+      ContentRules.isValidSlug(ContentKind.article, 'fragrance_free'),
+      isFalse,
+    );
+    // Only exercises take an image; logic fields are refused.
+    expect(
+      _p(ContentKind.step, {'title': _l('x'), 'image': 3}),
+      contains('image.unknown'),
+    );
+    expect(
+      _p(ContentKind.preference, {
+        'name': _l('x'),
+        'contains': ['parfum'],
+      }),
+      contains('contains.unknown'),
+    );
+    expect(
+      _p(ContentKind.exercise, {'name': _l('x'), 'how': _l('y'), 'image': 3}),
+      isEmpty,
+    );
+  });
+
   test('slugs and picking a language', () {
     expect(ContentRules.isSlug('qis-ayl-ari-deri'), isTrue);
     expect(ContentRules.isSlug('Bad Slug'), isFalse);

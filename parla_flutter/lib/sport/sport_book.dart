@@ -1,5 +1,6 @@
 import 'package:parla_shared/parla_shared.dart';
 
+import '../discover/content_library.dart';
 import '../habits/habit_log.dart';
 import '../services/parla_api.dart';
 import '../sync/synced_document.dart';
@@ -30,7 +31,9 @@ class SportBook extends SyncedDocument {
   SportAnswers? get answers => _answers;
 
   /// The plan for the current answers, or `null` before the questions.
-  SportPlan? get plan => _answers == null ? null : planSport(_answers!);
+  SportPlan? get plan => _answers == null
+      ? null
+      : planSport(_answers!, exclude: ContentLibrary.hiddenIds('exercise'));
 
   /// Timer signals on (music plays from the user's own app); off means
   /// vibration only.

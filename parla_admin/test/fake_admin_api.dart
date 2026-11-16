@@ -209,6 +209,12 @@ class FakeAdminApi implements AdminApi {
     images.removeWhere((m) => m.id == id);
   }
 
+  @override
+  Future<ContentAdminItem> setContentHidden(int id, bool hidden) async {
+    calls.add('hidden:$id:$hidden');
+    return _put(_find(id).copyWith(hidden: hidden));
+  }
+
   /// What [importSheet] adds: (kind, slug, category, json).
   List<(String, String, String, String)> sheet = [];
 
@@ -228,6 +234,7 @@ class FakeAdminApi implements AdminApi {
           draftJson: json,
           live: false,
           consentRecorded: false,
+          hidden: false,
           updatedAt: DateTime.utc(2026, 11, 16),
         ),
       );
@@ -261,6 +268,7 @@ class FakeAdminApi implements AdminApi {
         draftJson: '{}',
         live: false,
         consentRecorded: false,
+        hidden: false,
         updatedAt: DateTime.utc(2026, 11, 16),
       ),
     );

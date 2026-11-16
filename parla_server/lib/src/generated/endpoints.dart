@@ -749,6 +749,32 @@ class Endpoints extends _is.EndpointDispatch {
                   (endpoints['contentAdmin'] as _if39e6se.ContentAdminEndpoint)
                       .importSheet(session),
         ),
+        'setHidden': _is.MethodConnector(
+          name: 'setHidden',
+          params: {
+            'id': _is.ParameterDescription(
+              name: 'id',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+            'hidden': _is.ParameterDescription(
+              name: 'hidden',
+              type: _is.getType<bool>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['contentAdmin'] as _if39e6se.ContentAdminEndpoint)
+                      .setHidden(
+                        session,
+                        params['id'],
+                        params['hidden'],
+                      ),
+        ),
         'delete': _is.MethodConnector(
           name: 'delete',
           params: {

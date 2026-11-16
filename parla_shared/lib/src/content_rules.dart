@@ -8,7 +8,29 @@ library;
 
 import 'dart:convert';
 
-enum ContentKind { article, recipe, expert }
+import 'product_preferences.dart';
+import 'routine_rules.dart';
+import 'sport_rules.dart';
+import 'texts/exercise_draft_texts.dart';
+import 'texts/exercise_sheet_texts.dart';
+import 'texts/preference_texts.dart';
+import 'texts/routine_step_texts.dart';
+
+enum ContentKind {
+  article,
+  recipe,
+  expert,
+
+  /// Texts of the app's own catalogues (B2b-2). The items, their logic and
+  /// their safety rules stay in code; the panel edits only the texts, the
+  /// exercise image and whether the app shows the item.
+  preference,
+  exercise,
+  step;
+
+  bool get isCatalogue =>
+      this == preference || this == exercise || this == step;
+}
 
 abstract final class ContentRules {
   static const languages = ['az', 'ru', 'en'];
@@ -79,11 +101,76 @@ abstract final class ContentRules {
   static bool isSlug(String value) =>
       value.length <= 80 && _slug.hasMatch(value);
 
+  /// The single category of catalogue texts.
+  static const catalogueCategory = 'catalogue';
+
+  /// Every id of a catalogue kind, as defined in code.
+  static List<String> catalogueIds(ContentKind kind) => switch (kind) {
+    ContentKind.preference => [for (final p in productPreferences) p.id],
+    ContentKind.exercise => [for (final e in exerciseCatalogue) e.id],
+    ContentKind.step => [for (final s in routineStepCatalogue) s.id],
+    _ => const [],
+  };
+
+  /// Whether [slug] may name an item of [kind]: a known id for catalogue
+  /// kinds, a well-formed slug otherwise.
+  static bool isValidSlug(ContentKind kind, String slug) =>
+      kind.isCatalogue ? catalogueIds(kind).contains(slug) : isSlug(slug);
+
+  /// The texts the app ships with for a catalogue item, in the content
+  /// format (the panel's starting point).
+  static Map<String, Object?> catalogueDefaults(ContentKind kind, String id) {
+    Map<String, String>? three(List<String>? v) => v == null
+        ? null
+        : {
+            for (var i = 0; i < languages.length && i < v.length; i++)
+              if (v[i].trim().isNotEmpty) languages[i]: v[i],
+          };
+    switch (kind) {
+      case ContentKind.preference:
+        final t = preferenceTexts[id];
+        if (t == null) return {};
+        return {'name': ?three(t[0]), 'hint': ?three(t[1])};
+      case ContentKind.exercise:
+        final t = exerciseSheetTexts[id];
+        if (t != null) {
+          final caution = three(t[2]);
+          return {
+            'name': ?three(t[0]),
+            'how': ?three(t[1]),
+            if (caution != null && caution.isNotEmpty) 'caution': caution,
+          };
+        }
+        final draft = {
+          for (final l in languages) l: ?exerciseDraftTexts[l]?[id],
+        };
+        if (draft.isEmpty) return {};
+        return {
+          'name': {for (final e in draft.entries) e.key: e.value[0]},
+          'how': {for (final e in draft.entries) e.key: e.value[1]},
+        };
+      case ContentKind.step:
+        final t = routineStepTexts[id];
+        if (t == null) return {};
+        final tip = three(t[2]);
+        return {
+          'title': ?three(t[0]),
+          'how': ?three(t[1]),
+          if (tip != null && tip.isNotEmpty) 'tip': tip,
+        };
+      default:
+        return {};
+    }
+  }
+
   /// The categories allowed for [kind].
   static List<String> categoriesFor(ContentKind kind) => switch (kind) {
     ContentKind.article => articleCategories,
     ContentKind.recipe => recipeMeals,
     ContentKind.expert => expertSpecialties,
+    ContentKind.preference ||
+    ContentKind.exercise ||
+    ContentKind.step => const [catalogueCategory],
   };
 
   /// Problems with [encoded] as content of [kind]; empty when it is valid.
@@ -236,6 +323,20 @@ abstract final class ContentRules {
             allergens.toSet().length != allergens.length) {
           out.add('allergens.invalid');
         }
+      case ContentKind.preference:
+        only({'name', 'hint'});
+        text('name', 80);
+        text('hint', 400);
+      case ContentKind.exercise:
+        only({'name', 'how', 'caution', 'image'});
+        text('name', 80);
+        text('how', 600);
+        text('caution', 400, required: false);
+      case ContentKind.step:
+        only({'title', 'how', 'tip'});
+        text('title', 80);
+        text('how', 600);
+        text('tip', 400, required: false);
       case ContentKind.expert:
         only({
           'name',

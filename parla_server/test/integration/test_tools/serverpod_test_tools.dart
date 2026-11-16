@@ -1224,6 +1224,41 @@ class _ContentAdminEndpoint {
     });
   }
 
+  _ida.Future<_itdeiy4d.ContentAdminItem> setHidden(
+    _ist.TestSessionBuilder sessionBuilder,
+    int id,
+    bool hidden,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'contentAdmin',
+            method: 'setHidden',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'contentAdmin',
+          methodName: 'setHidden',
+          parameters: _ist.testObjectToJson({
+            'id': id,
+            'hidden': hidden,
+          }),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<_itdeiy4d.ContentAdminItem>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
   _ida.Future<void> delete(
     _ist.TestSessionBuilder sessionBuilder,
     int id,

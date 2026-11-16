@@ -39,7 +39,8 @@ abstract class ContentItem
     required this.createdAt,
     required this.updatedAt,
     this.publishedAt,
-  });
+    bool? hidden,
+  }) : hidden = hidden ?? false;
 
   factory ContentItem({
     int? id,
@@ -60,6 +61,7 @@ abstract class ContentItem
     required DateTime createdAt,
     required DateTime updatedAt,
     DateTime? publishedAt,
+    bool? hidden,
   }) = _ContentItemImpl;
 
   factory ContentItem.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -112,6 +114,9 @@ abstract class ContentItem
           : _isc.DateTimeJsonExtension.fromJson(
               jsonSerialization['publishedAt'],
             ),
+      hidden: jsonSerialization['hidden'] == null
+          ? null
+          : _isc.BoolJsonExtension.fromJson(jsonSerialization['hidden']),
     );
   }
 
@@ -157,6 +162,10 @@ abstract class ContentItem
 
   DateTime? publishedAt;
 
+  /// Catalogue items only: the app hides the item. Takes effect at once,
+  /// without review, so a problem can be stopped quickly.
+  bool hidden;
+
   /// Returns a shallow copy of this [ContentItem]
   /// with some or all fields replaced by the given arguments.
   @_isc.useResult
@@ -179,6 +188,7 @@ abstract class ContentItem
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? publishedAt = const _isc.$UndefinedDateTime(),
+    bool? hidden,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -204,6 +214,7 @@ abstract class ContentItem
       'createdAt': createdAt.toJson(),
       'updatedAt': updatedAt.toJson(),
       if (publishedAt != null) 'publishedAt': publishedAt?.toJson(),
+      'hidden': hidden,
     };
   }
 
@@ -231,6 +242,7 @@ abstract class ContentItem
       'createdAt': createdAt.toJson(),
       'updatedAt': updatedAt.toJson(),
       if (publishedAt != null) 'publishedAt': publishedAt?.toJson(),
+      'hidden': hidden,
     };
   }
 
@@ -262,6 +274,7 @@ class _ContentItemImpl extends ContentItem {
     required DateTime createdAt,
     required DateTime updatedAt,
     DateTime? publishedAt,
+    bool? hidden,
   }) : super._(
          id: id,
          kind: kind,
@@ -281,6 +294,7 @@ class _ContentItemImpl extends ContentItem {
          createdAt: createdAt,
          updatedAt: updatedAt,
          publishedAt: publishedAt,
+         hidden: hidden,
        );
 
   /// Returns a shallow copy of this [ContentItem]
@@ -306,6 +320,7 @@ class _ContentItemImpl extends ContentItem {
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? publishedAt = const _isc.$UndefinedDateTime(),
+    bool? hidden,
   }) {
     return ContentItem(
       id: id is int? ? id : this.id,
@@ -338,6 +353,7 @@ class _ContentItemImpl extends ContentItem {
       publishedAt: publishedAt is _isc.UndefinedSentinel
           ? this.publishedAt
           : publishedAt,
+      hidden: hidden ?? this.hidden,
     );
   }
 }

@@ -2,8 +2,8 @@ import 'dart:ui';
 
 import 'package:parla_shared/parla_shared.dart';
 
+import '../discover/content_library.dart';
 import '../ui/brand.dart';
-import 'routine_step_texts.dart';
 
 /// Morning or evening care routine.
 enum RoutineKind { morning, evening }
@@ -46,17 +46,23 @@ int _index(String language) => switch (language) {
 /// by a dermatologist yet, so the badge never shows for it.
 List<RoutineStep> routineSteps(List<String> ids, String language) {
   final i = _index(language);
+  final hidden = ContentLibrary.hiddenIds('step');
+  String text(String id, String key, String fallback) =>
+      ContentLibrary.catalogueText('step', id, key, language) ?? fallback;
   return [
     for (final id in ids)
-      if (routineStepTexts[id] case final t?)
-        RoutineStep(
-          id: id,
-          title: t[0][i],
-          meta: t[1][i],
-          tip: t[2][i],
-          minutes: int.tryParse(t[4][0]) ?? 1,
-          tile: _tile(id),
-        ),
+      if (!hidden.contains(id))
+        if (routineStepTexts[id] case final t?)
+          RoutineStep(
+            id: id,
+            title: text(id, 'title', t[0][i]),
+            meta: text(id, 'how', t[1][i]),
+            tip: ContentLibrary.catalogueData('step', id) != null
+                ? text(id, 'tip', '')
+                : t[2][i],
+            minutes: int.tryParse(t[4][0]) ?? 1,
+            tile: _tile(id),
+          ),
   ];
 }
 

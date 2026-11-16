@@ -89,6 +89,34 @@ class _ContentScreenState extends State<ContentScreen> {
     }
   }
 
+  ContentKind get _kind => ContentKind.values.byName(widget.kind);
+
+  /// Opens a catalogue item, creating its row with the app's own texts the
+  /// first time.
+  Future<void> _openCatalogue(String id) async {
+    final existing = _items?.where((i) => i.slug == id).firstOrNull;
+    if (existing != null) {
+      context.go('/content/${widget.kind}/${existing.id}');
+      return;
+    }
+    try {
+      final api = widget.state.api;
+      final created = await api.createContent(
+        widget.kind,
+        id,
+        ContentRules.catalogueCategory,
+      );
+      await api.saveContent(
+        created.id,
+        jsonEncode(ContentRules.catalogueDefaults(_kind, id)),
+        ContentRules.catalogueCategory,
+      );
+      if (mounted) context.go('/content/${widget.kind}/${created.id}');
+    } on Object catch (e) {
+      if (mounted) _snack(context, errorText(e));
+    }
+  }
+
   Future<void> _create() async {
     final kind = ContentKind.values.byName(widget.kind);
     final slug = TextEditingController();
@@ -155,6 +183,26 @@ class _ContentScreenState extends State<ContentScreen> {
     }
   }
 
+  Widget _catalogueTile(String id, List<ContentAdminItem> items) {
+    final item = items.where((i) => i.slug == id).firstOrNull;
+    return ListTile(
+      key: ValueKey('catalogue-$id'),
+      title: Text(item == null ? _defaultTitle(_kind, id) : _title(item)),
+      subtitle: Text(
+        [
+          id,
+          if (item == null) 'tətbiqdəki mətn',
+          if (item?.live ?? false) 'canlı',
+          if (item?.hidden ?? false) 'gizli',
+        ].join(' · '),
+      ),
+      trailing: item == null
+          ? null
+          : Chip(label: Text(statusLabel(item.status))),
+      onTap: () => _openCatalogue(id),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
@@ -171,7 +219,8 @@ class _ContentScreenState extends State<ContentScreen> {
               ),
             ),
             if (widget.state.me?.role == StaffRole.admin &&
-                widget.kind != ContentKind.expert.name) ...[
+                (_kind == ContentKind.article ||
+                    _kind == ContentKind.recipe)) ...[
               OutlinedButton.icon(
                 key: const ValueKey('content-import'),
                 onPressed: _importSheet,
@@ -180,7 +229,7 @@ class _ContentScreenState extends State<ContentScreen> {
               ),
               const SizedBox(width: 8),
             ],
-            if (_canWrite(widget.state))
+            if (_canWrite(widget.state) && !_kind.isCatalogue)
               FilledButton.icon(
                 key: const ValueKey('content-new'),
                 onPressed: _create,
@@ -209,8 +258,27 @@ class _ContentScreenState extends State<ContentScreen> {
         if (_error != null) Text(errorText(_error!)),
         if (items == null && _error == null)
           const Center(child: CircularProgressIndicator()),
-        if (items != null && items.isEmpty) const Text('Hələ heç nə yoxdur.'),
-        if (items != null && items.isNotEmpty)
+        if (_kind.isCatalogue && items != null)
+          Text(
+            'Burada yalnız mətnlər${_kind == ContentKind.exercise ? ', şəkil' : ''} '
+            'və tətbiqdə göstərmək/gizlətmək dəyişir. Qaydalar və '
+            'təhlükəsizlik şərtləri kodda qalır.',
+            style: Theme.of(context).textTheme.bodySmall,
+          ),
+        if (_kind.isCatalogue && items != null)
+          Card(
+            elevation: 0,
+            color: AdminColors.white,
+            child: Column(
+              children: [
+                for (final id in ContentRules.catalogueIds(_kind))
+                  _catalogueTile(id, items),
+              ],
+            ),
+          ),
+        if (!_kind.isCatalogue && items != null && items.isEmpty)
+          const Text('Hələ heç nə yoxdur.'),
+        if (!_kind.isCatalogue && items != null && items.isNotEmpty)
           Card(
             elevation: 0,
             color: AdminColors.white,
@@ -237,6 +305,12 @@ class _ContentScreenState extends State<ContentScreen> {
       ],
     );
   }
+}
+
+String _defaultTitle(ContentKind kind, String id) {
+  final d = ContentRules.catalogueDefaults(kind, id);
+  final v = ContentRules.pick(d['title'] ?? d['name'], 'az');
+  return v.isEmpty ? id : v;
 }
 
 String _title(ContentAdminItem item) {
@@ -267,6 +341,20 @@ class _Field {
 }
 
 const _fields = <String, List<_Field>>{
+  'preference': [
+    _Field('name', 'Ad', _FieldType.line),
+    _Field('hint', 'Nəyi yoxlayır (neytral izah)', _FieldType.multiline),
+  ],
+  'exercise': [
+    _Field('name', 'Ad', _FieldType.line),
+    _Field('how', 'Necə edilir', _FieldType.multiline),
+    _Field('caution', 'Ehtiyat (nə vaxt etməməli)', _FieldType.multiline),
+  ],
+  'step': [
+    _Field('title', 'Ad', _FieldType.line),
+    _Field('how', 'Necə edilir', _FieldType.multiline),
+    _Field('tip', 'Məsləhət', _FieldType.multiline),
+  ],
   'article': [
     _Field('title', 'Başlıq', _FieldType.line),
     _Field('summary', 'Qısa təsvir', _FieldType.multiline),
@@ -797,24 +885,44 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
               ),
             ),
           const SizedBox(height: 12),
-          DropdownButtonFormField<String>(
-            key: const ValueKey('content-category'),
-            initialValue: _category,
-            decoration: const InputDecoration(labelText: 'Kateqoriya'),
-            items: [
-              for (final c in ContentRules.categoriesFor(_kind))
-                DropdownMenuItem(value: c, child: Text(categoryLabel(c))),
-            ],
-            onChanged: writer ? (v) => setState(() => _category = v!) : null,
-          ),
+          if (!_kind.isCatalogue)
+            DropdownButtonFormField<String>(
+              key: const ValueKey('content-category'),
+              initialValue: _category,
+              decoration: const InputDecoration(labelText: 'Kateqoriya'),
+              items: [
+                for (final c in ContentRules.categoriesFor(_kind))
+                  DropdownMenuItem(value: c, child: Text(categoryLabel(c))),
+              ],
+              onChanged: writer ? (v) => setState(() => _category = v!) : null,
+            ),
           const SizedBox(height: 16),
-          ImageField(
-            api: _api,
-            imageId: _imageId,
-            enabled: writer,
-            onChanged: (id) => setState(() => _imageId = id),
-          ),
-          const SizedBox(height: 16),
+          if (_kind.isCatalogue)
+            SwitchListTile(
+              key: const ValueKey('content-hidden'),
+              contentPadding: EdgeInsets.zero,
+              title: const Text('Tətbiqdə gizlət'),
+              subtitle: const Text(
+                'Dərhal təsir edir, yoxlama tələb etmir. Gizli element '
+                'tətbiqdə təklif olunmur.',
+              ),
+              value: item.hidden,
+              onChanged: writer && !_busy
+                  ? (v) => _do(
+                      () => _api.setContentHidden(item.id, v),
+                      v ? 'Gizlədildi.' : 'Yenidən göstərilir.',
+                    )
+                  : null,
+            ),
+          if (_kind != ContentKind.preference && _kind != ContentKind.step) ...[
+            ImageField(
+              api: _api,
+              imageId: _imageId,
+              enabled: writer,
+              onChanged: (id) => setState(() => _imageId = id),
+            ),
+            const SizedBox(height: 16),
+          ],
           for (final f in _defs.where((f) => !f.localized)) ...[
             if (f.type == _FieldType.allergens)
               _allergenChips(writer)

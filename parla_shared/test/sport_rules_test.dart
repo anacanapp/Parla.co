@@ -65,6 +65,22 @@ void main() {
     expect(planSport(_a(minutes: 15)).workouts.first.items, hasLength(5));
   });
 
+  test('exercises hidden by the team are never picked', () {
+    final all = planSport(_a(days: 5, minutes: 40));
+    final used = {
+      for (final w in all.workouts)
+        for (final i in w.items) i.exercise.id,
+    };
+    final hide = used.take(3).toSet();
+    final plan = planSport(_a(days: 5, minutes: 40), exclude: hide);
+    for (final w in plan.workouts) {
+      expect(w.items, isNotEmpty);
+      for (final i in w.items) {
+        expect(hide, isNot(contains(i.exercise.id)));
+      }
+    }
+  });
+
   test('chosen areas come first', () {
     final plan = planSport(_a(areas: {'arms'}, dumbbells: true));
     final first = plan.workouts.first.items.take(3);

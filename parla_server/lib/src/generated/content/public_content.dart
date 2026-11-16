@@ -26,6 +26,7 @@ abstract class PublicContent
     this.reviewedAt,
     required this.publishedAt,
     this.image,
+    required this.hidden,
   });
 
   factory PublicContent({
@@ -37,6 +38,7 @@ abstract class PublicContent
     DateTime? reviewedAt,
     required DateTime publishedAt,
     _ium6b0ir.PublicImage? image,
+    required bool hidden,
   }) = _PublicContentImpl;
 
   factory PublicContent.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -57,6 +59,7 @@ abstract class PublicContent
           : _i19kjxmt.Protocol().deserialize<_ium6b0ir.PublicImage>(
               jsonSerialization['image'],
             ),
+      hidden: _is.BoolJsonExtension.fromJson(jsonSerialization['hidden']),
     );
   }
 
@@ -77,6 +80,9 @@ abstract class PublicContent
   /// The item's image, when it has a published one.
   _ium6b0ir.PublicImage? image;
 
+  /// Catalogue items the app must not show.
+  bool hidden;
+
   /// Returns a shallow copy of this [PublicContent]
   /// with some or all fields replaced by the given arguments.
   @_is.useResult
@@ -89,6 +95,7 @@ abstract class PublicContent
     DateTime? reviewedAt = const _is.$UndefinedDateTime(),
     DateTime? publishedAt,
     _ium6b0ir.PublicImage? image = const _UndefinedPublicContent$image(),
+    bool? hidden,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -102,6 +109,7 @@ abstract class PublicContent
       if (reviewedAt != null) 'reviewedAt': reviewedAt?.toJson(),
       'publishedAt': publishedAt.toJson(),
       if (image != null) 'image': image?.toJson(),
+      'hidden': hidden,
     };
   }
 
@@ -117,6 +125,7 @@ abstract class PublicContent
       if (reviewedAt != null) 'reviewedAt': reviewedAt?.toJson(),
       'publishedAt': publishedAt.toJson(),
       if (image != null) 'image': image?.toJsonForProtocol(),
+      'hidden': hidden,
     };
   }
 
@@ -141,6 +150,7 @@ class _PublicContentImpl extends PublicContent {
     DateTime? reviewedAt,
     required DateTime publishedAt,
     _ium6b0ir.PublicImage? image,
+    required bool hidden,
   }) : super._(
          id: id,
          kind: kind,
@@ -150,6 +160,7 @@ class _PublicContentImpl extends PublicContent {
          reviewedAt: reviewedAt,
          publishedAt: publishedAt,
          image: image,
+         hidden: hidden,
        );
 
   /// Returns a shallow copy of this [PublicContent]
@@ -165,6 +176,7 @@ class _PublicContentImpl extends PublicContent {
     DateTime? reviewedAt = const _is.$UndefinedDateTime(),
     DateTime? publishedAt,
     _ium6b0ir.PublicImage? image = const _UndefinedPublicContent$image(),
+    bool? hidden,
   }) {
     return PublicContent(
       id: id ?? this.id,
@@ -177,6 +189,7 @@ class _PublicContentImpl extends PublicContent {
           : reviewedAt,
       publishedAt: publishedAt ?? this.publishedAt,
       image: image is _is.UndefinedSentinel ? this.image?.copyWith() : image,
+      hidden: hidden ?? this.hidden,
     );
   }
 }

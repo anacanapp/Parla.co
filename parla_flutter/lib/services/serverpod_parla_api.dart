@@ -130,6 +130,7 @@ class ServerpodParlaApi implements ParlaApi {
             ),
             _ => null,
           },
+          hidden: r.hidden,
         ),
     ];
   });

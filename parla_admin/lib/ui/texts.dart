@@ -60,6 +60,9 @@ String statusLabel(ContentStatus s) => switch (s) {
 String kindLabel(String kind) => switch (kind) {
   'article' => 'Bloqlar',
   'recipe' => 'Reseptlər',
+  'preference' => 'Seçimlər',
+  'exercise' => 'Məşqlər',
+  'step' => 'Addımlar',
   _ => 'Mütəxəssislər',
 };
 
@@ -78,6 +81,7 @@ String categoryLabel(String id) => switch (id) {
   'trainer' => 'Məşqçi',
   'dietitian' => 'Dietoloq',
   'trichologist' => 'Trixoloq',
+  'catalogue' => 'Tətbiqin kataloqu',
   _ => id,
 };
 

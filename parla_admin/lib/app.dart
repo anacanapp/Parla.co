@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:parla_shared/parla_shared.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 
@@ -113,8 +114,8 @@ GoRouter _buildRouter(StaffState state) => GoRouter(
         GoRoute(
           path: '/content/:kind',
           redirect: (_, route) =>
-              const {'article', 'recipe', 'expert'}.contains(
-                route.pathParameters['kind'],
+              ContentKind.values.any(
+                (k) => k.name == route.pathParameters['kind'],
               )
               ? null
               : '/content/article',
