@@ -70,6 +70,8 @@ jobs:
           done
           # 32-byte key-encryption key for health data (base64).
           echo "SERVERPOD_PASSWORD_healthKek=$(openssl rand -base64 32)" >> "$GITHUB_ENV"
+          # The address that may claim the first admin role in the tests.
+          echo "SERVERPOD_PASSWORD_staffBootstrapEmail=first-admin@example.com" >> "$GITHUB_ENV"
       - name: Check generated code is up to date
         working-directory: parla_server
         run: |

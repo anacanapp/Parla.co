@@ -1,0 +1,6 @@
+### What the admin panel needs to know about the signed-in staff member.
+class: StaffMe
+fields:
+  role: StaffRole
+  totpEnrolled: bool
+  verified: bool

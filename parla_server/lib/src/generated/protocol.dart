@@ -17,6 +17,10 @@ import 'package:parla_server/src/generated/products/product_summary.dart'
     as _ivq5jofi;
 import 'package:parla_server/src/generated/quiz/quiz_answer_input.dart'
     as _iak2pevv;
+import 'package:parla_server/src/generated/staff/staff_invite_summary.dart'
+    as _ioscq55w;
+import 'package:parla_server/src/generated/staff/staff_summary.dart'
+    as _i0twq8uu;
 import 'package:serverpod/protocol.dart' as _isp;
 import 'package:serverpod/serverpod.dart' as _is;
 import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
@@ -38,6 +42,14 @@ import 'products/product_summary.dart' as _ikmk0g5q;
 import 'profile/member_profile.dart' as _i1iocmvy;
 import 'quiz/quiz_answer.dart' as _ih1qnypb;
 import 'quiz/quiz_answer_input.dart' as _ilw6ope9;
+import 'staff/staff_invite.dart' as _ig710w64;
+import 'staff/staff_invite_summary.dart' as _igjtjhuj;
+import 'staff/staff_me.dart' as _i0yb5pr1;
+import 'staff/staff_member.dart' as _ihm1xmqc;
+import 'staff/staff_role.dart' as _imtqbwe6;
+import 'staff/staff_session.dart' as _igu3u6o0;
+import 'staff/staff_summary.dart' as _iminry28;
+import 'staff/totp_enrollment.dart' as _ieq44cuc;
 export 'account/deleted_account.dart';
 export 'audit/audit_log_entry.dart';
 export 'common/parla_exception.dart';
@@ -53,6 +65,14 @@ export 'products/product_summary.dart';
 export 'profile/member_profile.dart';
 export 'quiz/quiz_answer.dart';
 export 'quiz/quiz_answer_input.dart';
+export 'staff/staff_invite.dart';
+export 'staff/staff_invite_summary.dart';
+export 'staff/staff_me.dart';
+export 'staff/staff_member.dart';
+export 'staff/staff_role.dart';
+export 'staff/staff_session.dart';
+export 'staff/staff_summary.dart';
+export 'staff/totp_enrollment.dart';
 
 class Protocol extends _is.DatabaseSerializationManager
     implements _is.DatabaseProtocolDeserializationProvider {
@@ -82,6 +102,14 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_i1iocmvy.MemberProfile>,
           _is.getType<_ih1qnypb.QuizAnswer>,
           _is.getType<_ilw6ope9.QuizAnswerInput>,
+          _is.getType<_ig710w64.StaffInvite>,
+          _is.getType<_igjtjhuj.StaffInviteSummary>,
+          _is.getType<_i0yb5pr1.StaffMe>,
+          _is.getType<_ihm1xmqc.StaffMember>,
+          _is.getType<_imtqbwe6.StaffRole>,
+          _is.getType<_igu3u6o0.StaffSession>,
+          _is.getType<_iminry28.StaffSummary>,
+          _is.getType<_ieq44cuc.TotpEnrollment>,
           _is.getType<_ioqa84oy.DeletedAccount?>,
           _is.getType<_ioa77d8b.AuditLogEntry?>,
           _is.getType<_iv1d8f8b.ParlaException?>,
@@ -97,10 +125,20 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_i1iocmvy.MemberProfile?>,
           _is.getType<_ih1qnypb.QuizAnswer?>,
           _is.getType<_ilw6ope9.QuizAnswerInput?>,
+          _is.getType<_ig710w64.StaffInvite?>,
+          _is.getType<_igjtjhuj.StaffInviteSummary?>,
+          _is.getType<_i0yb5pr1.StaffMe?>,
+          _is.getType<_ihm1xmqc.StaffMember?>,
+          _is.getType<_imtqbwe6.StaffRole?>,
+          _is.getType<_igu3u6o0.StaffSession?>,
+          _is.getType<_iminry28.StaffSummary?>,
+          _is.getType<_ieq44cuc.TotpEnrollment?>,
           _is.getType<List<String>>,
           _is.getType<List<_ianfun2u.ConsentState>>,
           _is.getType<List<_ivq5jofi.ProductSummary>>,
           _is.getType<List<_iak2pevv.QuizAnswerInput>>,
+          _is.getType<List<_i0twq8uu.StaffSummary>>,
+          _is.getType<List<_ioscq55w.StaffInviteSummary>>,
         ],
         modules: const [
           _iais.Protocol.new,
@@ -123,6 +161,14 @@ class Protocol extends _is.DatabaseSerializationManager
           'MemberProfile',
           'QuizAnswer',
           'QuizAnswerInput',
+          'StaffInvite',
+          'StaffInviteSummary',
+          'StaffMe',
+          'StaffMember',
+          'StaffRole',
+          'StaffSession',
+          'StaffSummary',
+          'TotpEnrollment',
         ],
       );
 
@@ -765,6 +811,234 @@ class Protocol extends _is.DatabaseSerializationManager
       ],
       managed: true,
     ),
+    _isp.TableDefinition(
+      name: 'staff_invite',
+      dartName: 'StaffInvite',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'email',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'role',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'protocol:StaffRole',
+        ),
+        _isp.ColumnDefinition(
+          name: 'codeHash',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'invitedBy',
+          columnType: _isp.ColumnType.uuid,
+          isNullable: false,
+          dartType: 'UuidValue',
+        ),
+        _isp.ColumnDefinition(
+          name: 'expiresAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+        _isp.ColumnDefinition(
+          name: 'usedAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: true,
+          dartType: 'DateTime?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'createdAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'staff_invite_email_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'email',
+            ),
+          ],
+          type: 'btree',
+          isUnique: false,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _isp.TableDefinition(
+      name: 'staff_member',
+      dartName: 'StaffMember',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'authUserId',
+          columnType: _isp.ColumnType.uuid,
+          isNullable: false,
+          dartType: 'UuidValue',
+        ),
+        _isp.ColumnDefinition(
+          name: 'role',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'protocol:StaffRole',
+        ),
+        _isp.ColumnDefinition(
+          name: 'active',
+          columnType: _isp.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+        ),
+        _isp.ColumnDefinition(
+          name: 'totpSecret',
+          columnType: _isp.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'totpNonce',
+          columnType: _isp.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'totpConfirmedAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: true,
+          dartType: 'DateTime?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'lastTotpStep',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: true,
+          dartType: 'int?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'failedTotp',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _isp.ColumnDefinition(
+          name: 'lockedUntil',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: true,
+          dartType: 'DateTime?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'invitedBy',
+          columnType: _isp.ColumnType.uuid,
+          isNullable: true,
+          dartType: 'UuidValue?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'createdAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'staff_member_user_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'authUserId',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _isp.TableDefinition(
+      name: 'staff_session',
+      dartName: 'StaffSession',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'authUserId',
+          columnType: _isp.ColumnType.uuid,
+          isNullable: false,
+          dartType: 'UuidValue',
+        ),
+        _isp.ColumnDefinition(
+          name: 'authId',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'verifiedAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+        _isp.ColumnDefinition(
+          name: 'expiresAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'staff_session_auth_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'authId',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
     ..._iais.Protocol.targetTableDefinitions,
     ..._iacs.Protocol.targetTableDefinitions,
     ..._isp.Protocol.targetTableDefinitions,
@@ -839,6 +1113,30 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _ilw6ope9.QuizAnswerInput) {
       return _ilw6ope9.QuizAnswerInput.fromJson(data) as T;
     }
+    if (t == _ig710w64.StaffInvite) {
+      return _ig710w64.StaffInvite.fromJson(data) as T;
+    }
+    if (t == _igjtjhuj.StaffInviteSummary) {
+      return _igjtjhuj.StaffInviteSummary.fromJson(data) as T;
+    }
+    if (t == _i0yb5pr1.StaffMe) {
+      return _i0yb5pr1.StaffMe.fromJson(data) as T;
+    }
+    if (t == _ihm1xmqc.StaffMember) {
+      return _ihm1xmqc.StaffMember.fromJson(data) as T;
+    }
+    if (t == _imtqbwe6.StaffRole) {
+      return _imtqbwe6.StaffRole.fromJson(data) as T;
+    }
+    if (t == _igu3u6o0.StaffSession) {
+      return _igu3u6o0.StaffSession.fromJson(data) as T;
+    }
+    if (t == _iminry28.StaffSummary) {
+      return _iminry28.StaffSummary.fromJson(data) as T;
+    }
+    if (t == _ieq44cuc.TotpEnrollment) {
+      return _ieq44cuc.TotpEnrollment.fromJson(data) as T;
+    }
     if (t == _is.getType<_ioqa84oy.DeletedAccount?>()) {
       return (data != null ? _ioqa84oy.DeletedAccount.fromJson(data) : null)
           as T;
@@ -895,6 +1193,32 @@ class Protocol extends _is.DatabaseSerializationManager
       return (data != null ? _ilw6ope9.QuizAnswerInput.fromJson(data) : null)
           as T;
     }
+    if (t == _is.getType<_ig710w64.StaffInvite?>()) {
+      return (data != null ? _ig710w64.StaffInvite.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_igjtjhuj.StaffInviteSummary?>()) {
+      return (data != null ? _igjtjhuj.StaffInviteSummary.fromJson(data) : null)
+          as T;
+    }
+    if (t == _is.getType<_i0yb5pr1.StaffMe?>()) {
+      return (data != null ? _i0yb5pr1.StaffMe.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_ihm1xmqc.StaffMember?>()) {
+      return (data != null ? _ihm1xmqc.StaffMember.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_imtqbwe6.StaffRole?>()) {
+      return (data != null ? _imtqbwe6.StaffRole.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_igu3u6o0.StaffSession?>()) {
+      return (data != null ? _igu3u6o0.StaffSession.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_iminry28.StaffSummary?>()) {
+      return (data != null ? _iminry28.StaffSummary.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_ieq44cuc.TotpEnrollment?>()) {
+      return (data != null ? _ieq44cuc.TotpEnrollment.fromJson(data) : null)
+          as T;
+    }
     if (t == List<String>) {
       return (data as List).map((e) => deserialize<String>(e)).toList() as T;
     }
@@ -913,6 +1237,18 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == List<_iak2pevv.QuizAnswerInput>) {
       return (data as List)
               .map((e) => deserialize<_iak2pevv.QuizAnswerInput>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i0twq8uu.StaffSummary>) {
+      return (data as List)
+              .map((e) => deserialize<_i0twq8uu.StaffSummary>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_ioscq55w.StaffInviteSummary>) {
+      return (data as List)
+              .map((e) => deserialize<_ioscq55w.StaffInviteSummary>(e))
               .toList()
           as T;
     }
@@ -946,6 +1282,14 @@ class Protocol extends _is.DatabaseSerializationManager
       _i1iocmvy.MemberProfile => 'MemberProfile',
       _ih1qnypb.QuizAnswer => 'QuizAnswer',
       _ilw6ope9.QuizAnswerInput => 'QuizAnswerInput',
+      _ig710w64.StaffInvite => 'StaffInvite',
+      _igjtjhuj.StaffInviteSummary => 'StaffInviteSummary',
+      _i0yb5pr1.StaffMe => 'StaffMe',
+      _ihm1xmqc.StaffMember => 'StaffMember',
+      _imtqbwe6.StaffRole => 'StaffRole',
+      _igu3u6o0.StaffSession => 'StaffSession',
+      _iminry28.StaffSummary => 'StaffSummary',
+      _ieq44cuc.TotpEnrollment => 'TotpEnrollment',
       _ => null,
     };
   }
@@ -990,6 +1334,22 @@ class Protocol extends _is.DatabaseSerializationManager
         return 'QuizAnswer';
       case _ilw6ope9.QuizAnswerInput():
         return 'QuizAnswerInput';
+      case _ig710w64.StaffInvite():
+        return 'StaffInvite';
+      case _igjtjhuj.StaffInviteSummary():
+        return 'StaffInviteSummary';
+      case _i0yb5pr1.StaffMe():
+        return 'StaffMe';
+      case _ihm1xmqc.StaffMember():
+        return 'StaffMember';
+      case _imtqbwe6.StaffRole():
+        return 'StaffRole';
+      case _igu3u6o0.StaffSession():
+        return 'StaffSession';
+      case _iminry28.StaffSummary():
+        return 'StaffSummary';
+      case _ieq44cuc.TotpEnrollment():
+        return 'TotpEnrollment';
     }
     className = _iais.Protocol().getClassNameForObject(data);
     if (className != null) {
@@ -1061,6 +1421,30 @@ class Protocol extends _is.DatabaseSerializationManager
     if (dataClassName == 'QuizAnswerInput') {
       return deserialize<_ilw6ope9.QuizAnswerInput>(data['data']);
     }
+    if (dataClassName == 'StaffInvite') {
+      return deserialize<_ig710w64.StaffInvite>(data['data']);
+    }
+    if (dataClassName == 'StaffInviteSummary') {
+      return deserialize<_igjtjhuj.StaffInviteSummary>(data['data']);
+    }
+    if (dataClassName == 'StaffMe') {
+      return deserialize<_i0yb5pr1.StaffMe>(data['data']);
+    }
+    if (dataClassName == 'StaffMember') {
+      return deserialize<_ihm1xmqc.StaffMember>(data['data']);
+    }
+    if (dataClassName == 'StaffRole') {
+      return deserialize<_imtqbwe6.StaffRole>(data['data']);
+    }
+    if (dataClassName == 'StaffSession') {
+      return deserialize<_igu3u6o0.StaffSession>(data['data']);
+    }
+    if (dataClassName == 'StaffSummary') {
+      return deserialize<_iminry28.StaffSummary>(data['data']);
+    }
+    if (dataClassName == 'TotpEnrollment') {
+      return deserialize<_ieq44cuc.TotpEnrollment>(data['data']);
+    }
     if (dataClassName.startsWith('serverpod_auth_idp.')) {
       return _iais.Protocol().deserializeByClassName({
         ...data,
@@ -1128,6 +1512,12 @@ class Protocol extends _is.DatabaseSerializationManager
         return _i1iocmvy.MemberProfile.t;
       case _ih1qnypb.QuizAnswer:
         return _ih1qnypb.QuizAnswer.t;
+      case _ig710w64.StaffInvite:
+        return _ig710w64.StaffInvite.t;
+      case _ihm1xmqc.StaffMember:
+        return _ihm1xmqc.StaffMember.t;
+      case _igu3u6o0.StaffSession:
+        return _igu3u6o0.StaffSession.t;
     }
     return null;
   }

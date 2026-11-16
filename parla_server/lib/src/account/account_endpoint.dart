@@ -120,6 +120,17 @@ class AccountEndpoint extends Endpoint {
       await HealthStore.of(
         session,
       ).erase(session, userId, transaction: transaction);
+      // A staff member's panel access ends with the account.
+      await StaffSession.db.deleteWhere(
+        session,
+        where: (t) => t.authUserId.equals(userId),
+        transaction: transaction,
+      );
+      await StaffMember.db.deleteWhere(
+        session,
+        where: (t) => t.authUserId.equals(userId),
+        transaction: transaction,
+      );
       await QuizAnswer.db.deleteWhere(
         session,
         where: (t) => t.authUserId.equals(userId),

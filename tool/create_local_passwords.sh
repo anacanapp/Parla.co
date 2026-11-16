@@ -28,6 +28,7 @@ test:
   database: '$(secret)'
   healthKek: '$(kek)'
   pseudonymPepper: '$(secret)'
+  staffBootstrapEmail: 'first-admin@example.com'
   emailSecretHashPepper: '$(secret)'
   jwtHmacSha512PrivateKey: '$(secret)'
   jwtRefreshTokenHashPepper: '$(secret)'

@@ -22,6 +22,14 @@ import 'package:parla_client/src/protocol/profile/member_profile.dart'
     as _isrsmpwu;
 import 'package:parla_client/src/protocol/quiz/quiz_answer_input.dart'
     as _ikoicjb8;
+import 'package:parla_client/src/protocol/staff/staff_invite_summary.dart'
+    as _ivj2ydpk;
+import 'package:parla_client/src/protocol/staff/staff_me.dart' as _i7hd0p59;
+import 'package:parla_client/src/protocol/staff/staff_role.dart' as _ibknl9pl;
+import 'package:parla_client/src/protocol/staff/staff_summary.dart'
+    as _i48vujj3;
+import 'package:parla_client/src/protocol/staff/totp_enrollment.dart'
+    as _i8ipqfqe;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
     as _iacc;
 import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
@@ -614,6 +622,150 @@ class EndpointSport extends _isc.EndpointRef {
   );
 }
 
+/// Staff accounts, for admins only (second factor required).
+/// {@category Endpoint}
+class EndpointStaffAdmin extends _isc.EndpointRef {
+  EndpointStaffAdmin(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'staffAdmin';
+
+  _ida.Future<List<_i48vujj3.StaffSummary>> listStaff() =>
+      caller.callServerEndpoint<List<_i48vujj3.StaffSummary>>(
+        'staffAdmin',
+        'listStaff',
+        {},
+      );
+
+  _ida.Future<List<_ivj2ydpk.StaffInviteSummary>> listInvites() =>
+      caller.callServerEndpoint<List<_ivj2ydpk.StaffInviteSummary>>(
+        'staffAdmin',
+        'listInvites',
+        {},
+      );
+
+  /// Emails a one-time code that lets [email] join with [role].
+  _ida.Future<void> invite(
+    String email,
+    _ibknl9pl.StaffRole role,
+  ) => caller.callServerEndpoint<void>(
+    'staffAdmin',
+    'invite',
+    {
+      'email': email,
+      'role': role,
+    },
+  );
+
+  _ida.Future<void> revokeInvite(int inviteId) =>
+      caller.callServerEndpoint<void>(
+        'staffAdmin',
+        'revokeInvite',
+        {'inviteId': inviteId},
+      );
+
+  _ida.Future<void> setRole(
+    _isc.UuidValue authUserId,
+    _ibknl9pl.StaffRole role,
+  ) => caller.callServerEndpoint<void>(
+    'staffAdmin',
+    'setRole',
+    {
+      'authUserId': authUserId,
+      'role': role,
+    },
+  );
+
+  _ida.Future<void> setActive(
+    _isc.UuidValue authUserId,
+    bool active,
+  ) => caller.callServerEndpoint<void>(
+    'staffAdmin',
+    'setActive',
+    {
+      'authUserId': authUserId,
+      'active': active,
+    },
+  );
+
+  /// Clears the authenticator of a staff member who lost their phone; they
+  /// set it up again at the next sign-in.
+  _ida.Future<void> resetTotp(_isc.UuidValue authUserId) =>
+      caller.callServerEndpoint<void>(
+        'staffAdmin',
+        'resetTotp',
+        {'authUserId': authUserId},
+      );
+}
+
+/// Joining the admin panel and the second factor. Any signed-in account
+/// can call these; they only ever act on the caller's own staff row.
+/// {@category Endpoint}
+class EndpointStaff extends _isc.EndpointRef {
+  EndpointStaff(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'staff';
+
+  /// The caller's staff state, or `null` for someone who is not staff.
+  _ida.Future<_i7hd0p59.StaffMe?> me() =>
+      caller.callServerEndpoint<_i7hd0p59.StaffMe?>(
+        'staff',
+        'me',
+        {},
+      );
+
+  /// Turns an invitation for the caller's email into a staff role.
+  _ida.Future<_i7hd0p59.StaffMe> acceptInvite(String code) =>
+      caller.callServerEndpoint<_i7hd0p59.StaffMe>(
+        'staff',
+        'acceptInvite',
+        {'code': code},
+      );
+
+  /// The first admin: allowed only while there is no staff at all, and
+  /// only for the email in the `staffBootstrapEmail` password.
+  _ida.Future<_i7hd0p59.StaffMe> claimFirstAdmin() =>
+      caller.callServerEndpoint<_i7hd0p59.StaffMe>(
+        'staff',
+        'claimFirstAdmin',
+        {},
+      );
+
+  /// Starts setting up the authenticator app. Replaces an unconfirmed
+  /// secret; refused once a secret is confirmed (an admin resets it).
+  _ida.Future<_i8ipqfqe.TotpEnrollment> startTotp() =>
+      caller.callServerEndpoint<_i8ipqfqe.TotpEnrollment>(
+        'staff',
+        'startTotp',
+        {},
+      );
+
+  /// Confirms the authenticator app with a first code and verifies this
+  /// sign-in session.
+  _ida.Future<_i7hd0p59.StaffMe> confirmTotp(String code) =>
+      caller.callServerEndpoint<_i7hd0p59.StaffMe>(
+        'staff',
+        'confirmTotp',
+        {'code': code},
+      );
+
+  /// The second factor for this sign-in session.
+  _ida.Future<_i7hd0p59.StaffMe> verifyTotp(String code) =>
+      caller.callServerEndpoint<_i7hd0p59.StaffMe>(
+        'staff',
+        'verifyTotp',
+        {'code': code},
+      );
+
+  /// Ends the second-factor check of this sign-in session.
+  _ida.Future<void> endSession() => caller.callServerEndpoint<void>(
+    'staff',
+    'endSession',
+    {},
+  );
+}
+
 class Modules {
   Modules(Client client) {
     serverpod_auth_idp = _iaic.Caller(client);
@@ -662,6 +814,8 @@ class Client extends _isc.ServerpodClientShared {
     careList = EndpointCareList(this);
     routine = EndpointRoutine(this);
     sport = EndpointSport(this);
+    staffAdmin = EndpointStaffAdmin(this);
+    staff = EndpointStaff(this);
     modules = Modules(this);
   }
 
@@ -685,6 +839,10 @@ class Client extends _isc.ServerpodClientShared {
 
   late final EndpointSport sport;
 
+  late final EndpointStaffAdmin staffAdmin;
+
+  late final EndpointStaff staff;
+
   late final Modules modules;
 
   @override
@@ -699,6 +857,8 @@ class Client extends _isc.ServerpodClientShared {
     'careList': careList,
     'routine': routine,
     'sport': sport,
+    'staffAdmin': staffAdmin,
+    'staff': staff,
   };
 
   @override
