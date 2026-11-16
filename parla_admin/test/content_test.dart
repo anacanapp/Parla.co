@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:parla_admin/api/admin_api.dart';
 import 'package:parla_admin/app.dart';
+import 'package:parla_shared/parla_shared.dart';
 
 import 'fake_admin_api.dart';
 
@@ -116,5 +117,75 @@ void main() {
     await _tap(tester, find.byKey(const ValueKey('content-publish')));
     expect(find.text('canlı'), findsWidgets);
     expect((await api.listContent('expert')).single.live, isTrue);
+  });
+
+  testWidgets('admins import the sheet once; editors do not see the button', (
+    tester,
+  ) async {
+    final api = await _pump(tester, StaffRole.admin);
+    api.sheet = [
+      (
+        'article',
+        'winter',
+        'body',
+        jsonEncode({
+          'title': {'az': 'Qış'},
+          'body': {'az': '${ContentRules.planMarker}: sil]\n## Başlıq'},
+          'sources': ['https://www.aad.org/a'],
+        }),
+      ),
+    ];
+    await _tap(tester, find.text('Məzmun'));
+    await _tap(tester, find.byKey(const ValueKey('content-import')));
+    await _tap(tester, find.byKey(const ValueKey('import-yes')));
+    expect(find.text('1 yazı qaralama kimi əlavə olundu.'), findsOneWidget);
+    expect(find.text('Qış'), findsOneWidget);
+    expect(find.textContaining('Bədən'), findsOneWidget);
+
+    await _tap(tester, find.byKey(const ValueKey('content-import')));
+    await _tap(tester, find.byKey(const ValueKey('import-yes')));
+    expect(find.text('0 yazı qaralama kimi əlavə olundu.'), findsOneWidget);
+
+    await _tap(tester, find.text('Qış'));
+    expect(find.byKey(const ValueKey('content-plan-left')), findsOneWidget);
+    final sources = tester.widget<TextField>(
+      find.byKey(const ValueKey('field-sources')),
+    );
+    expect(sources.controller!.text, 'https://www.aad.org/a');
+  });
+
+  testWidgets('editors do not see the import button', (tester) async {
+    await _pump(tester, StaffRole.editor);
+    await _tap(tester, find.text('Məzmun'));
+    expect(find.byKey(const ValueKey('content-import')), findsNothing);
+  });
+
+  testWidgets('recipe allergens: none must be chosen on purpose', (
+    tester,
+  ) async {
+    final api = await _pump(tester, StaffRole.editor);
+    await _tap(tester, find.text('Məzmun'));
+    await _tap(tester, find.text('Reseptlər'));
+    await _tap(tester, find.byKey(const ValueKey('content-new')));
+    await tester.enterText(find.byKey(const ValueKey('new-slug')), 'oats');
+    await _tap(tester, find.byKey(const ValueKey('new-create')));
+
+    Map<String, Object?> saved() {
+      final call = api.calls.lastWhere((c) => c.startsWith('save:'));
+      return jsonDecode(call.substring(call.indexOf('{')))
+          as Map<String, Object?>;
+    }
+
+    await _tap(tester, find.byKey(const ValueKey('content-save')));
+    expect(saved().containsKey('allergens'), isFalse);
+
+    await _tap(tester, find.byKey(const ValueKey('allergen-none')));
+    await _tap(tester, find.byKey(const ValueKey('content-save')));
+    expect(saved()['allergens'], isEmpty);
+
+    await _tap(tester, find.byKey(const ValueKey('allergen-milk')));
+    await _tap(tester, find.byKey(const ValueKey('allergen-gluten')));
+    await _tap(tester, find.byKey(const ValueKey('content-save')));
+    expect(saved()['allergens'], ['gluten', 'milk']);
   });
 }

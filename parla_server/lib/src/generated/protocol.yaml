@@ -29,6 +29,7 @@ contentAdmin:
   - recordConsent:
   - publish:
   - unpublish:
+  - importSheet:
   - delete:
 content:
   - published:

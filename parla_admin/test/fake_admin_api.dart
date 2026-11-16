@@ -154,6 +154,33 @@ class FakeAdminApi implements AdminApi {
     return item;
   }
 
+  /// What [importSheet] adds: (kind, slug, category, json).
+  List<(String, String, String, String)> sheet = [];
+
+  @override
+  Future<int> importSheet() async {
+    calls.add('import');
+    var added = 0;
+    for (final (kind, slug, category, json) in sheet) {
+      if (content.any((c) => c.kind == kind && c.slug == slug)) continue;
+      _put(
+        ContentAdminItem(
+          id: _nextId++,
+          kind: kind,
+          slug: slug,
+          category: category,
+          status: ContentStatus.draft,
+          draftJson: json,
+          live: false,
+          consentRecorded: false,
+          updatedAt: DateTime.utc(2026, 11, 16),
+        ),
+      );
+      added++;
+    }
+    return added;
+  }
+
   @override
   Future<List<ContentAdminItem>> listContent(String kind) async => [
     for (final c in content)

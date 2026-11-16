@@ -1544,4 +1544,60 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get skinCardBody => 'Проанализируй кожу заново, ответив на вопросы.';
+
+  @override
+  String get catBody => 'Тело';
+
+  @override
+  String get blogSources => 'Источники';
+
+  @override
+  String recipeAllergens(String list) {
+    return 'Содержит: $list';
+  }
+
+  @override
+  String get recipeNoAllergens => 'Нет ни одного из 14 основных аллергенов.';
+
+  @override
+  String get allergenGluten => 'глютен';
+
+  @override
+  String get allergenCrustaceans => 'ракообразные';
+
+  @override
+  String get allergenEgg => 'яйца';
+
+  @override
+  String get allergenFish => 'рыба';
+
+  @override
+  String get allergenPeanuts => 'арахис';
+
+  @override
+  String get allergenSoy => 'соя';
+
+  @override
+  String get allergenMilk => 'молоко';
+
+  @override
+  String get allergenNuts => 'орехи';
+
+  @override
+  String get allergenCelery => 'сельдерей';
+
+  @override
+  String get allergenMustard => 'горчица';
+
+  @override
+  String get allergenSesame => 'кунжут';
+
+  @override
+  String get allergenSulphites => 'сульфиты';
+
+  @override
+  String get allergenLupin => 'люпин';
+
+  @override
+  String get allergenMolluscs => 'моллюски';
 }

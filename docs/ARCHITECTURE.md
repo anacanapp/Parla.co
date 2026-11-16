@@ -320,8 +320,27 @@ draft content until the named expert reviews it.
 - C2 (done): the quiz, the routine steps and the rules (see "Quiz
   content and routine rules"). Step texts are in
   `lib/home/routine_step_texts.dart`.
-- C3 (next): recipes and blog titles imported into the admin panel as
-  "in review" drafts.
+- C3 (done): the 12 blog articles and 20 recipes are in
+  `parla_server/lib/src/content/content_seed.dart`, generated from the
+  sheet. An admin imports them with **Cədvəldən idxal et** in the panel
+  (`contentAdmin.importSheet`).
+  - Everything arrives as a **draft** and nothing is published.
+  - Existing slugs are skipped, so running it again never overwrites edits.
+    Each added item is audited (`content.imported`).
+  - Article bodies are empty in the sheet. The Azerbaijani body gets the
+    "Yazı planı" (main message, ## sections, cautions, reviewer, word
+    count) behind the marker `[Yazı planı`. An article cannot go to review
+    while the marker is still in the text (`body.plan_left`).
+  - The sheet's source links become the article field `sources` (https
+    only, at most 10), shown at the end of the article. A body paragraph
+    starting with `## ` is shown as a heading.
+  - Recipes get the new field `allergens`: ids from the EU list of 14
+    allergens (Regulation 1169/2011, Annex II). Review needs it, and an
+    empty list ("none of the 14") has to be chosen on purpose. The app
+    shows "Contains: …". The sheet's legumes and fish count as protein on
+    the plate.
+  - Articles have the new category `body`. The expert placeholders in the
+    sheet are not imported: they have no real data or consent yet.
 
 ## Discover (B2a)
 
@@ -401,6 +420,7 @@ draft content until the named expert reviews it.
 | Real-device test of reminders (Android 13+ permission, reboot, iOS foreground) | M7 | Before the beta |
 | Ask people who agreed to an older health consent text to agree to the current one (own routines, preferences and the shopping list stay on the phone until then) | CON-3 | Before launch, if anyone agreed to `health-2026-11-draft1` to `draft4` |
 | Expert review of the preference ingredient lists (`product_preferences.dart`) | — | Before launch |
+| Dietitian check of the imported recipes, their plate groups and allergens; dermatologist writing/review of the imported articles | — | Before publishing them |
 | Trainer or physiotherapist review of the exercises, numbers and safety rules (`sport_rules.dart`, `exercise_text.dart`) | — | Before launch |
 | Licensed exercise photos (shown by exercise id) | — | When the photos arrive |
 | Optional on-device photo skin analysis (kept on branch `skin-photo`, not merged) | — | Postponed; needs lawyer approval and a DPIA, plus dermatologist review, before it returns |

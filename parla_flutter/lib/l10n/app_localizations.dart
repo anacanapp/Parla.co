@@ -2763,6 +2763,114 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Analyse your skin again by answering questions.'**
   String get skinCardBody;
+
+  /// No description provided for @catBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Body'**
+  String get catBody;
+
+  /// No description provided for @blogSources.
+  ///
+  /// In en, this message translates to:
+  /// **'Sources'**
+  String get blogSources;
+
+  /// No description provided for @recipeAllergens.
+  ///
+  /// In en, this message translates to:
+  /// **'Contains: {list}'**
+  String recipeAllergens(String list);
+
+  /// No description provided for @recipeNoAllergens.
+  ///
+  /// In en, this message translates to:
+  /// **'None of the 14 main allergens.'**
+  String get recipeNoAllergens;
+
+  /// No description provided for @allergenGluten.
+  ///
+  /// In en, this message translates to:
+  /// **'gluten'**
+  String get allergenGluten;
+
+  /// No description provided for @allergenCrustaceans.
+  ///
+  /// In en, this message translates to:
+  /// **'crustaceans'**
+  String get allergenCrustaceans;
+
+  /// No description provided for @allergenEgg.
+  ///
+  /// In en, this message translates to:
+  /// **'egg'**
+  String get allergenEgg;
+
+  /// No description provided for @allergenFish.
+  ///
+  /// In en, this message translates to:
+  /// **'fish'**
+  String get allergenFish;
+
+  /// No description provided for @allergenPeanuts.
+  ///
+  /// In en, this message translates to:
+  /// **'peanuts'**
+  String get allergenPeanuts;
+
+  /// No description provided for @allergenSoy.
+  ///
+  /// In en, this message translates to:
+  /// **'soy'**
+  String get allergenSoy;
+
+  /// No description provided for @allergenMilk.
+  ///
+  /// In en, this message translates to:
+  /// **'milk'**
+  String get allergenMilk;
+
+  /// No description provided for @allergenNuts.
+  ///
+  /// In en, this message translates to:
+  /// **'tree nuts'**
+  String get allergenNuts;
+
+  /// No description provided for @allergenCelery.
+  ///
+  /// In en, this message translates to:
+  /// **'celery'**
+  String get allergenCelery;
+
+  /// No description provided for @allergenMustard.
+  ///
+  /// In en, this message translates to:
+  /// **'mustard'**
+  String get allergenMustard;
+
+  /// No description provided for @allergenSesame.
+  ///
+  /// In en, this message translates to:
+  /// **'sesame'**
+  String get allergenSesame;
+
+  /// No description provided for @allergenSulphites.
+  ///
+  /// In en, this message translates to:
+  /// **'sulphites'**
+  String get allergenSulphites;
+
+  /// No description provided for @allergenLupin.
+  ///
+  /// In en, this message translates to:
+  /// **'lupin'**
+  String get allergenLupin;
+
+  /// No description provided for @allergenMolluscs.
+  ///
+  /// In en, this message translates to:
+  /// **'molluscs'**
+  String get allergenMolluscs;
 }
 
 class _AppLocalizationsDelegate

@@ -60,6 +60,7 @@ String categoryLabel(String id) => switch (id) {
   'beauty' => 'Gözəllik',
   'fashion' => 'Moda',
   'hair' => 'Saç',
+  'body' => 'Bədən',
   'breakfast' => 'Səhər yeməyi',
   'lunch' => 'Nahar',
   'dinner' => 'Şam yeməyi',
@@ -69,6 +70,24 @@ String categoryLabel(String id) => switch (id) {
   'trainer' => 'Məşqçi',
   'dietitian' => 'Dietoloq',
   'trichologist' => 'Trixoloq',
+  _ => id,
+};
+
+String allergenLabel(String id) => switch (id) {
+  'gluten' => 'Qlüten',
+  'crustaceans' => 'Xərçəngkimilər',
+  'egg' => 'Yumurta',
+  'fish' => 'Balıq',
+  'peanuts' => 'Yer fındığı',
+  'soy' => 'Soya',
+  'milk' => 'Süd',
+  'nuts' => 'Qoz-fındıq',
+  'celery' => 'Kərəviz',
+  'mustard' => 'Xardal',
+  'sesame' => 'Küncüt',
+  'sulphites' => 'Sulfitlər',
+  'lupin' => 'Lüpin',
+  'molluscs' => 'Molyusklar',
   _ => id,
 };
 

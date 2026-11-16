@@ -11,6 +11,7 @@ String categoryText(AppLocalizations l10n, String id) => switch (id) {
   'beauty' => l10n.catBeauty,
   'fashion' => l10n.catFashion,
   'hair' => l10n.catHair,
+  'body' => l10n.catBody,
   'breakfast' => l10n.mealBreakfast,
   'lunch' => l10n.mealLunch,
   'dinner' => l10n.mealDinner,
@@ -20,6 +21,24 @@ String categoryText(AppLocalizations l10n, String id) => switch (id) {
   'trainer' => l10n.specTrainer,
   'dietitian' => l10n.specDietitian,
   'trichologist' => l10n.specTrichologist,
+  _ => id,
+};
+
+String allergenText(AppLocalizations l10n, String id) => switch (id) {
+  'gluten' => l10n.allergenGluten,
+  'crustaceans' => l10n.allergenCrustaceans,
+  'egg' => l10n.allergenEgg,
+  'fish' => l10n.allergenFish,
+  'peanuts' => l10n.allergenPeanuts,
+  'soy' => l10n.allergenSoy,
+  'milk' => l10n.allergenMilk,
+  'nuts' => l10n.allergenNuts,
+  'celery' => l10n.allergenCelery,
+  'mustard' => l10n.allergenMustard,
+  'sesame' => l10n.allergenSesame,
+  'sulphites' => l10n.allergenSulphites,
+  'lupin' => l10n.allergenLupin,
+  'molluscs' => l10n.allergenMolluscs,
   _ => id,
 };
 
