@@ -1538,4 +1538,127 @@ class AppLocalizationsRu extends AppLocalizations {
   String recipeAdded(int count) {
     return 'В список покупок добавлено: $count.';
   }
+
+  @override
+  String get skinTitle => 'Анализ кожи';
+
+  @override
+  String get skinIntro =>
+      'Кожу лица можно проанализировать двумя способами. Результат подстроит твой уход и подбор средств.';
+
+  @override
+  String get skinByQuestions => 'Ответить на вопросы';
+
+  @override
+  String get skinByQuestionsBody => 'Около 3 минут. Самый точный способ.';
+
+  @override
+  String get skinByPhoto => 'По фото без макияжа';
+
+  @override
+  String get skinByPhotoBody =>
+      'Фото даёт первую подсказку, потом ты проверяешь её в вопросах. Фото не покидает телефон.';
+
+  @override
+  String get skinNotMedical =>
+      'Это только для косметического ухода, не медицинский осмотр и не диагноз. Если что-то беспокоит, обратись к врачу.';
+
+  @override
+  String get skinNoticeTitle => 'О фото';
+
+  @override
+  String get skinNoticeDevice =>
+      'Фото анализируется только в памяти этого телефона. Оно не отправляется на сервер, не сохраняется, не попадает в галерею и удаляется сразу после анализа.';
+
+  @override
+  String get skinNoticeWhat =>
+      'Смотрим только на блеск, покраснение и текстуру. Мы не распознаём лицо и не определяем, кто ты.';
+
+  @override
+  String get skinNoticeAccuracy =>
+      'Результат приблизительный: свет и камера могут его менять. На следующем шаге его можно проверить и изменить.';
+
+  @override
+  String get skinNoticeHow =>
+      'Снимай без макияжа, лицом к дневному свету, убрав волосы с лица.';
+
+  @override
+  String get skinNoticeAgree =>
+      'Я прочитала и согласна на анализ по фото в этот раз.';
+
+  @override
+  String get skinTakePhoto => 'Сделать фото';
+
+  @override
+  String get skinAnalysing => 'Анализируем…';
+
+  @override
+  String get skinRetakeTitle => 'Давай переснимем';
+
+  @override
+  String get skinRetake => 'Переснять';
+
+  @override
+  String get skinUseQuestions => 'Продолжить с вопросами';
+
+  @override
+  String get skinProblemDark => 'Фото слишком тёмное.';
+
+  @override
+  String get skinProblemBright => 'На фото слишком много света.';
+
+  @override
+  String get skinProblemBlurry => 'Фото размыто. Держи телефон неподвижно.';
+
+  @override
+  String get skinProblemUnreadable => 'Не удалось прочитать фото.';
+
+  @override
+  String get skinResultTitle => 'Первая подсказка';
+
+  @override
+  String get skinResultIntro =>
+      'Вот первая подсказка по фото. Это не диагноз: в вопросах эти ответы будут уже выбраны, и ты можешь их изменить.';
+
+  @override
+  String get skinResultType => 'Тип кожи';
+
+  @override
+  String get skinResultTypeUnknown => 'По фото неясно, выберешь в вопросах.';
+
+  @override
+  String get skinResultConcerns => 'На что можно обратить внимание';
+
+  @override
+  String get skinResultNoConcerns => 'На фото ничего особенного не выделилось.';
+
+  @override
+  String get skinResultDeleted => 'Фото уже удалено и нигде не сохранено.';
+
+  @override
+  String get skinContinue => 'Проверить в вопросах';
+
+  @override
+  String get skinCameraTitle => 'Фото';
+
+  @override
+  String get skinCameraHint => 'Помести лицо в овал.';
+
+  @override
+  String get skinCameraShoot => 'Сделать фото';
+
+  @override
+  String get skinCameraFailed =>
+      'Не удалось открыть камеру. Можно дать разрешение в настройках телефона или продолжить с вопросами.';
+
+  @override
+  String get skinCardTitle => 'Анализ кожи';
+
+  @override
+  String get skinCardBody =>
+      'Проанализируй кожу заново: вопросами или по фото без макияжа.';
+
+  @override
+  String get quizPrefillNote =>
+      'Подсказки по фото уже выбраны. Их можно изменить.';
 }

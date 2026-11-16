@@ -1512,4 +1512,127 @@ class AppLocalizationsAz extends AppLocalizations {
   String recipeAdded(int count) {
     return '$count məhsul alış siyahısına əlavə olundu.';
   }
+
+  @override
+  String get skinTitle => 'Dəri analizi';
+
+  @override
+  String get skinIntro =>
+      'Üz dərini iki yolla təhlil edə bilərsən. Nəticə rutinini və məhsul seçimlərini fərdiləşdirir.';
+
+  @override
+  String get skinByQuestions => 'Suallara cavab ver';
+
+  @override
+  String get skinByQuestionsBody => 'Təxminən 3 dəqiqə. Ən dəqiq yol.';
+
+  @override
+  String get skinByPhoto => 'Makiyajsız foto ilə';
+
+  @override
+  String get skinByPhotoBody =>
+      'Foto ilkin təklif verir, sonra suallarla yoxlayırsan. Foto telefondan çıxmır.';
+
+  @override
+  String get skinNotMedical =>
+      'Bu, yalnız kosmetik qulluq üçündür, tibbi müayinə və ya diaqnoz deyil. Dəri ilə bağlı narahatlığın varsa, həkimə müraciət et.';
+
+  @override
+  String get skinNoticeTitle => 'Foto barədə';
+
+  @override
+  String get skinNoticeDevice =>
+      'Foto yalnız bu telefonda, yaddaşda təhlil olunur. Serverə göndərilmir, saxlanmır, qalereyaya düşmür və təhlildən dərhal sonra silinir.';
+
+  @override
+  String get skinNoticeWhat =>
+      'Yalnız parıltıya, qızartıya və dəri səthinə baxırıq. Üzünü tanımırıq, kim olduğunu müəyyən etmirik.';
+
+  @override
+  String get skinNoticeAccuracy =>
+      'Nəticə təxminidir: işıq və kamera onu dəyişə bilər. Növbəti addımda yoxlayıb dəyişə bilərsən.';
+
+  @override
+  String get skinNoticeHow =>
+      'Makiyajsız, üzü gün işığına tərəf, saçı üzdən çəkərək çək.';
+
+  @override
+  String get skinNoticeAgree => 'Oxudum və bu dəfə foto ilə təhlilə razıyam.';
+
+  @override
+  String get skinTakePhoto => 'Şəkil çək';
+
+  @override
+  String get skinAnalysing => 'Təhlil olunur…';
+
+  @override
+  String get skinRetakeTitle => 'Yenidən çəkək';
+
+  @override
+  String get skinRetake => 'Yenidən çək';
+
+  @override
+  String get skinUseQuestions => 'Suallarla davam et';
+
+  @override
+  String get skinProblemDark => 'Şəkil çox qaranlıqdır.';
+
+  @override
+  String get skinProblemBright => 'Şəkildə işıq çox güclüdür.';
+
+  @override
+  String get skinProblemBlurry => 'Şəkil bulanıqdır. Telefonu sabit saxla.';
+
+  @override
+  String get skinProblemUnreadable => 'Şəkli oxuya bilmədik.';
+
+  @override
+  String get skinResultTitle => 'İlkin təklif';
+
+  @override
+  String get skinResultIntro =>
+      'Fotoya görə ilkin təklifimiz budur. Bu, diaqnoz deyil: suallarda bunlar artıq seçilmiş olacaq, istədiyini dəyişə bilərsən.';
+
+  @override
+  String get skinResultType => 'Dəri tipi';
+
+  @override
+  String get skinResultTypeUnknown =>
+      'Fotodan aydın deyil, suallarda seçərsən.';
+
+  @override
+  String get skinResultConcerns => 'Diqqət edə biləcəyin';
+
+  @override
+  String get skinResultNoConcerns => 'Fotoda xüsusi bir şey seçilmədi.';
+
+  @override
+  String get skinResultDeleted => 'Foto artıq silindi, heç yerdə saxlanmayıb.';
+
+  @override
+  String get skinContinue => 'Suallarda yoxla';
+
+  @override
+  String get skinCameraTitle => 'Foto';
+
+  @override
+  String get skinCameraHint => 'Üzünü oval çərçivəyə yerləşdir.';
+
+  @override
+  String get skinCameraShoot => 'Şəkil çək';
+
+  @override
+  String get skinCameraFailed =>
+      'Kameranı aça bilmədik. İcazəni telefon ayarlarından verə və ya suallarla davam edə bilərsən.';
+
+  @override
+  String get skinCardTitle => 'Dəri analizi';
+
+  @override
+  String get skinCardBody =>
+      'Suallarla və ya makiyajsız foto ilə dərini yenidən təhlil et.';
+
+  @override
+  String get quizPrefillNote =>
+      'Fotodan gələn təkliflər artıq seçilib. İstədiyini dəyişə bilərsən.';
 }

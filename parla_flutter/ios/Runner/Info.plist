@@ -8,6 +8,8 @@
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>ITSAppUsesNonExemptEncryption</key>
 	<false/>
+	<key>NSCameraUsageDescription</key>
+	<string>For the optional skin analysis. The photo is analysed on your phone only and is never saved or sent.</string>
 	<key>CFBundleDisplayName</key>
 	<string>Parla</string>
 	<key>CFBundleExecutable</key>

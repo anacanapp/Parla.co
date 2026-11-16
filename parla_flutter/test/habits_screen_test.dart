@@ -162,6 +162,11 @@ void main() {
     tester,
   ) async {
     await _pumpHabits(tester);
+    await tester.scrollUntilVisible(
+      find.text('6 of 8 glasses'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
     expect(find.text('6 of 8 glasses'), findsOneWidget);
     await _tap(tester, find.bySemanticsLabel('Add a glass'));
     expect(find.text('7 of 8 glasses'), findsOneWidget);

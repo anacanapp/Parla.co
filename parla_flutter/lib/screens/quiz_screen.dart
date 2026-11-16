@@ -19,7 +19,11 @@ enum _Stage { loading, intro, question, healthGate, redFlag, result }
 /// Warning-sign answers stay on the device; they only decide whether the
 /// "see a doctor" screen (M-12) appears.
 class QuizScreen extends StatefulWidget {
-  const QuizScreen({super.key});
+  const QuizScreen({super.key, this.prefill = const {}});
+
+  /// Answers to pre-select, e.g. from the on-device photo analysis. They
+  /// are only suggestions: the user still confirms each question.
+  final Map<String, List<String>> prefill;
 
   @override
   State<QuizScreen> createState() => _QuizScreenState();
@@ -49,6 +53,15 @@ class _QuizScreenState extends State<QuizScreen> {
   @override
   void initState() {
     super.initState();
+    for (final MapEntry(:key, :value) in widget.prefill.entries) {
+      final q = quizQuestion(key);
+      if (q == null) continue;
+      final known = [
+        for (final id in value)
+          if (q.option(id) != null) id,
+      ];
+      if (known.isNotEmpty) _chosen[key] = known;
+    }
     WidgetsBinding.instance.addPostFrameCallback((_) => _load());
   }
 
@@ -216,6 +229,14 @@ class _QuizScreenState extends State<QuizScreen> {
         ],
         children: [
           Text(l10n.quizIntroBody),
+          if (_chosen.isNotEmpty) ...[
+            const SizedBox(height: 12),
+            Text(
+              l10n.quizPrefillNote,
+              key: const ValueKey('quiz-prefill-note'),
+              style: Theme.of(context).textTheme.bodyMedium,
+            ),
+          ],
           const SizedBox(height: 24),
           const Center(child: _BigSmile()),
         ],
