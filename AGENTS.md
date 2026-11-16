@@ -9,10 +9,6 @@ data. Key rules:
   and are used by both the server and the app. Change them there only.
 - Never add a model field from the do-not-collect list (name, phone, full birth
   date, location, advertising id, photos, weight, height).
-  The optional face photo of the skin analysis is not collected either: it
-  is analysed in memory on the phone only (`parla_flutter/lib/skin/`) and
-  must never be stored, sent, logged, exported or put in a model. Keep
-  everything under `lib/skin/` free of network and storage code.
 - `consent_record` and `audit_log` are append-only. Audit rows hold ids only.
   The only allowed update is replacing a deleted user's id with its pseudonym
   in `account.deleteAccount`.

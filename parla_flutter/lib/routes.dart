@@ -8,7 +8,6 @@ import 'sport/sport_quiz_screen.dart';
 import 'sport/sport_screen.dart';
 import 'sport/workout_screen.dart';
 import 'screens/age_screen.dart';
-import 'skin/skin_analysis_screen.dart';
 import 'screens/consent_screen.dart';
 import 'screens/coming_soon_screens.dart';
 import 'screens/country_screen.dart';
@@ -41,7 +40,6 @@ abstract final class Routes {
   static const habits = '/habits'; // M-17, M-18
   static const reminders = '/habits/reminders'; // Part of M-26
   static const routineBuilder = '/habits/builder'; // Own routine (step 2)
-  static const skinAnalysis = '/habits/skin'; // Questions or on-device photo
   static const products = '/products'; // M-20, M-22
   static const productDetail = '/products/detail'; // M-21, M-23
   static const shoppingList = '/products/list'; // Shopping list (step 3)
@@ -73,18 +71,7 @@ GoRouter buildRouter() => GoRouter(
     GoRoute(path: Routes.signIn, builder: (_, _) => const SignInScreen()),
     GoRoute(path: Routes.country, builder: (_, _) => const CountryScreen()),
     GoRoute(path: Routes.consents, builder: (_, _) => const ConsentScreen()),
-    GoRoute(
-      path: Routes.quiz,
-      builder: (_, state) => QuizScreen(
-        prefill: state.extra is Map<String, List<String>>
-            ? state.extra! as Map<String, List<String>>
-            : const {},
-      ),
-    ),
-    GoRoute(
-      path: Routes.skinAnalysis,
-      builder: (_, _) => const SkinAnalysisScreen(),
-    ),
+    GoRoute(path: Routes.quiz, builder: (_, _) => const QuizScreen()),
     GoRoute(path: Routes.home, builder: (_, _) => const HomeScreen()),
     GoRoute(path: Routes.habits, builder: (_, _) => const HabitsScreen()),
     GoRoute(

@@ -135,7 +135,7 @@ class _HabitsBody extends StatelessWidget {
               title: Text(l10n.skinCardTitle, style: text.titleMedium),
               subtitle: Text(l10n.skinCardBody),
               trailing: const Icon(Icons.chevron_right),
-              onTap: () => context.go(Routes.skinAnalysis),
+              onTap: () => context.go(Routes.quiz),
             ),
           ),
           const SizedBox(height: 20),

@@ -5,9 +5,6 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <!-- Release builds talk to the Parla server. -->
     <uses-permission android:name="android.permission.INTERNET"/>
-    <!-- Optional skin analysis: one photo, analysed on the phone only. -->
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-feature android:name="android.hardware.camera" android:required="false"/>
     <application
         android:label="parla"
         android:name="${applicationName}"

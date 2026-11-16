@@ -386,33 +386,6 @@ draft content until the named expert reviews it.
   with the health consent; see "Habits (sprint 4)" and "Care routines and
   own routines".
 
-## Skin analysis (questions or on-device photo)
-
-The Routine tab has a "Skin analysis" card with two paths:
-
-- **Questions**: the normal quiz.
-- **Photo** (optional): one make-up-free front-camera photo, analysed only
-  in the phone's memory (`parla_flutter/lib/skin/`).
-  - A per-use notice with an unticked "I agree" box comes first.
-  - The camera writes a temporary file; it is read into memory and deleted
-    at once. The bytes are dropped after the analysis. The photo is never
-    saved to the gallery, sent to the server, logged, put in the export or
-    stored anywhere. `lib/skin/` has no network or storage code, and a test
-    checks its imports.
-  - The analysis (`skin_photo_analysis.dart`, pure Dart, run in an isolate)
-    reads only an oval in the middle of the picture: shine in the T-zone and
-    on the cheeks, cheek redness compared with the forehead, and fine cheek
-    texture. It checks light and sharpness first and asks for a retake.
-    There is no face recognition or identification.
-  - The result is a cosmetic first suggestion only: a `skin_type`
-    (oily, combination or normal; never dry, which a photo cannot show) and
-    the concerns `redness` and `pores`. No diagnoses, condition names or
-    scores. It pre-selects these answers in the quiz, where the user
-    confirms or changes them; only the confirmed quiz answers are saved, as
-    before.
-  - The thresholds are drafts tuned on synthetic images and must be checked
-    on real photos with varied skin tones before release.
-
 ## Not done yet (tracked, not forgotten)
 
 | Item | Checklist | Planned |
@@ -430,8 +403,7 @@ The Routine tab has a "Skin analysis" card with two paths:
 | Expert review of the preference ingredient lists (`product_preferences.dart`) | — | Before launch |
 | Trainer or physiotherapist review of the exercises, numbers and safety rules (`sport_rules.dart`, `exercise_text.dart`) | — | Before launch |
 | Licensed exercise photos (shown by exercise id) | — | When the photos arrive |
-| Lawyer approval and DPIA for the on-device photo skin analysis (store privacy labels, whether the notice is enough without a consent record) | — | Before the photo path is released |
-| Dermatologist review of the photo suggestions and wording, and threshold check on real photos with varied skin tones and lighting | — | Before the photo path is released |
+| Optional on-device photo skin analysis (kept on branch `skin-photo`, not merged) | — | Postponed; needs lawyer approval and a DPIA, plus dermatologist review, before it returns |
 | Barcode scanning | — | Later step |
 
 ## Known environment issue
