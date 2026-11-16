@@ -1,0 +1,8 @@
+### Where a content item's working copy is in the review flow.
+enum: ContentStatus
+serialized: byName
+values:
+  - draft
+  - inReview
+  - approved
+  - published

@@ -79,6 +79,49 @@ class ServerpodAdminApi implements AdminApi {
       _guard(() => _client.staffAdmin.resetTotp(user));
 
   @override
+  Future<List<ContentAdminItem>> listContent(String kind) =>
+      _guard(() => _client.contentAdmin.list(kind));
+
+  @override
+  Future<ContentAdminItem> createContent(
+    String kind,
+    String slug,
+    String category,
+  ) => _guard(() => _client.contentAdmin.create(kind, slug, category));
+
+  @override
+  Future<ContentAdminItem> saveContent(int id, String json, String category) =>
+      _guard(() => _client.contentAdmin.saveDraft(id, json, category));
+
+  @override
+  Future<ContentAdminItem> submitContent(int id) =>
+      _guard(() => _client.contentAdmin.submitForReview(id));
+
+  @override
+  Future<ContentAdminItem> approveContent(int id) =>
+      _guard(() => _client.contentAdmin.approve(id));
+
+  @override
+  Future<ContentAdminItem> returnContent(int id, String note) =>
+      _guard(() => _client.contentAdmin.returnToWriter(id, note));
+
+  @override
+  Future<ContentAdminItem> recordConsent(int id, String reference) =>
+      _guard(() => _client.contentAdmin.recordConsent(id, reference));
+
+  @override
+  Future<ContentAdminItem> publishContent(int id) =>
+      _guard(() => _client.contentAdmin.publish(id));
+
+  @override
+  Future<ContentAdminItem> unpublishContent(int id) =>
+      _guard(() => _client.contentAdmin.unpublish(id));
+
+  @override
+  Future<void> deleteContent(int id) =>
+      _guard(() => _client.contentAdmin.delete(id));
+
+  @override
   Future<void> login(String email, String password) => _auth(() async {
     final success = await _client.emailIdp.login(
       email: email.trim(),

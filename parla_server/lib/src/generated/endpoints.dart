@@ -24,10 +24,13 @@ import '../account/account_endpoint.dart' as _it9bm8zx;
 import '../auth/email_idp_endpoint.dart' as _iuc1hd5t;
 import '../auth/jwt_refresh_endpoint.dart' as _inwq3ztq;
 import '../consent/consent_endpoint.dart' as _iu5xf735;
+import '../content/content_admin_endpoint.dart' as _if39e6se;
+import '../content/content_endpoint.dart' as _ib9irne6;
 import '../products/product_endpoint.dart' as _i6m7gswv;
 import '../profile/profile_endpoint.dart' as _i6ky944g;
 import '../quiz/quiz_endpoint.dart' as _iskif4sw;
 import '../routines/care_list_endpoint.dart' as _itrne0fi;
+import '../routines/nutrition_endpoint.dart' as _idep3gni;
 import '../routines/routine_endpoint.dart' as _ifrtvzp2;
 import '../routines/sport_endpoint.dart' as _iv36jnzl;
 import '../staff/staff_admin_endpoint.dart' as _i73k1848;
@@ -61,6 +64,18 @@ class Endpoints extends _is.EndpointDispatch {
           'consent',
           null,
         ),
+      'contentAdmin': _if39e6se.ContentAdminEndpoint()
+        ..initialize(
+          server,
+          'contentAdmin',
+          null,
+        ),
+      'content': _ib9irne6.ContentEndpoint()
+        ..initialize(
+          server,
+          'content',
+          null,
+        ),
       'product': _i6m7gswv.ProductEndpoint()
         ..initialize(
           server,
@@ -83,6 +98,12 @@ class Endpoints extends _is.EndpointDispatch {
         ..initialize(
           server,
           'careList',
+          null,
+        ),
+      'nutrition': _idep3gni.NutritionEndpoint()
+        ..initialize(
+          server,
+          'nutrition',
           null,
         ),
       'routine': _ifrtvzp2.RoutineEndpoint()
@@ -489,6 +510,273 @@ class Endpoints extends _is.EndpointDispatch {
         ),
       },
     );
+    connectors['contentAdmin'] = _is.EndpointConnector(
+      name: 'contentAdmin',
+      endpoint: endpoints['contentAdmin']!,
+      methodConnectors: {
+        'list': _is.MethodConnector(
+          name: 'list',
+          params: {
+            'kind': _is.ParameterDescription(
+              name: 'kind',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['contentAdmin'] as _if39e6se.ContentAdminEndpoint)
+                      .list(
+                        session,
+                        params['kind'],
+                      ),
+        ),
+        'create': _is.MethodConnector(
+          name: 'create',
+          params: {
+            'kind': _is.ParameterDescription(
+              name: 'kind',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+            'slug': _is.ParameterDescription(
+              name: 'slug',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+            'category': _is.ParameterDescription(
+              name: 'category',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['contentAdmin'] as _if39e6se.ContentAdminEndpoint)
+                      .create(
+                        session,
+                        params['kind'],
+                        params['slug'],
+                        params['category'],
+                      ),
+        ),
+        'saveDraft': _is.MethodConnector(
+          name: 'saveDraft',
+          params: {
+            'id': _is.ParameterDescription(
+              name: 'id',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+            'json': _is.ParameterDescription(
+              name: 'json',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+            'category': _is.ParameterDescription(
+              name: 'category',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['contentAdmin'] as _if39e6se.ContentAdminEndpoint)
+                      .saveDraft(
+                        session,
+                        params['id'],
+                        params['json'],
+                        params['category'],
+                      ),
+        ),
+        'submitForReview': _is.MethodConnector(
+          name: 'submitForReview',
+          params: {
+            'id': _is.ParameterDescription(
+              name: 'id',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['contentAdmin'] as _if39e6se.ContentAdminEndpoint)
+                      .submitForReview(
+                        session,
+                        params['id'],
+                      ),
+        ),
+        'approve': _is.MethodConnector(
+          name: 'approve',
+          params: {
+            'id': _is.ParameterDescription(
+              name: 'id',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['contentAdmin'] as _if39e6se.ContentAdminEndpoint)
+                      .approve(
+                        session,
+                        params['id'],
+                      ),
+        ),
+        'returnToWriter': _is.MethodConnector(
+          name: 'returnToWriter',
+          params: {
+            'id': _is.ParameterDescription(
+              name: 'id',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+            'note': _is.ParameterDescription(
+              name: 'note',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['contentAdmin'] as _if39e6se.ContentAdminEndpoint)
+                      .returnToWriter(
+                        session,
+                        params['id'],
+                        params['note'],
+                      ),
+        ),
+        'recordConsent': _is.MethodConnector(
+          name: 'recordConsent',
+          params: {
+            'id': _is.ParameterDescription(
+              name: 'id',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+            'reference': _is.ParameterDescription(
+              name: 'reference',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['contentAdmin'] as _if39e6se.ContentAdminEndpoint)
+                      .recordConsent(
+                        session,
+                        params['id'],
+                        params['reference'],
+                      ),
+        ),
+        'publish': _is.MethodConnector(
+          name: 'publish',
+          params: {
+            'id': _is.ParameterDescription(
+              name: 'id',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['contentAdmin'] as _if39e6se.ContentAdminEndpoint)
+                      .publish(
+                        session,
+                        params['id'],
+                      ),
+        ),
+        'unpublish': _is.MethodConnector(
+          name: 'unpublish',
+          params: {
+            'id': _is.ParameterDescription(
+              name: 'id',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['contentAdmin'] as _if39e6se.ContentAdminEndpoint)
+                      .unpublish(
+                        session,
+                        params['id'],
+                      ),
+        ),
+        'delete': _is.MethodConnector(
+          name: 'delete',
+          params: {
+            'id': _is.ParameterDescription(
+              name: 'id',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['contentAdmin'] as _if39e6se.ContentAdminEndpoint)
+                      .delete(
+                        session,
+                        params['id'],
+                      ),
+        ),
+      },
+    );
+    connectors['content'] = _is.EndpointConnector(
+      name: 'content',
+      endpoint: endpoints['content']!,
+      methodConnectors: {
+        'published': _is.MethodConnector(
+          name: 'published',
+          params: {
+            'kind': _is.ParameterDescription(
+              name: 'kind',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['content'] as _ib9irne6.ContentEndpoint).published(
+                    session,
+                    params['kind'],
+                  ),
+        ),
+      },
+    );
     connectors['product'] = _is.EndpointConnector(
       name: 'product',
       endpoint: endpoints['product']!,
@@ -632,6 +920,41 @@ class Endpoints extends _is.EndpointDispatch {
                 Map<String, dynamic> params,
               ) async => (endpoints['careList'] as _itrne0fi.CareListEndpoint)
                   .saveCareList(
+                    session,
+                    params['json'],
+                  ),
+        ),
+      },
+    );
+    connectors['nutrition'] = _is.EndpointConnector(
+      name: 'nutrition',
+      endpoint: endpoints['nutrition']!,
+      methodConnectors: {
+        'myNutrition': _is.MethodConnector(
+          name: 'myNutrition',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['nutrition'] as _idep3gni.NutritionEndpoint)
+                  .myNutrition(session),
+        ),
+        'saveNutrition': _is.MethodConnector(
+          name: 'saveNutrition',
+          params: {
+            'json': _is.ParameterDescription(
+              name: 'json',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['nutrition'] as _idep3gni.NutritionEndpoint)
+                  .saveNutrition(
                     session,
                     params['json'],
                   ),

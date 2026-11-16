@@ -16,6 +16,10 @@ import 'package:parla_client/src/protocol/consent/consent_state.dart'
     as _iflgmsvc;
 import 'package:parla_client/src/protocol/consent/consent_type.dart'
     as _ibhb6xek;
+import 'package:parla_client/src/protocol/content/content_admin_item.dart'
+    as _i9q5wd3k;
+import 'package:parla_client/src/protocol/content/public_content.dart'
+    as _iryaqqq7;
 import 'package:parla_client/src/protocol/products/product_summary.dart'
     as _isvy2zc1;
 import 'package:parla_client/src/protocol/profile/member_profile.dart'
@@ -440,6 +444,140 @@ class EndpointConsent extends _isc.EndpointRef {
   );
 }
 
+/// Writing, reviewing and publishing content in the admin panel.
+///
+/// Flow: an editor saves a draft and sends it for review; an expert
+/// approves it or returns it with a note; an editor or admin publishes the
+/// approved copy. Expert profiles need no review but need the expert's
+/// written consent recorded by an admin. Every step is audited.
+/// {@category Endpoint}
+class EndpointContentAdmin extends _isc.EndpointRef {
+  EndpointContentAdmin(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'contentAdmin';
+
+  _ida.Future<List<_i9q5wd3k.ContentAdminItem>> list(String kind) =>
+      caller.callServerEndpoint<List<_i9q5wd3k.ContentAdminItem>>(
+        'contentAdmin',
+        'list',
+        {'kind': kind},
+      );
+
+  _ida.Future<_i9q5wd3k.ContentAdminItem> create(
+    String kind,
+    String slug,
+    String category,
+  ) => caller.callServerEndpoint<_i9q5wd3k.ContentAdminItem>(
+    'contentAdmin',
+    'create',
+    {
+      'kind': kind,
+      'slug': slug,
+      'category': category,
+    },
+  );
+
+  /// Saves the working copy. Changing an item in review or approved sends
+  /// it back to draft: the next version needs its own review.
+  _ida.Future<_i9q5wd3k.ContentAdminItem> saveDraft(
+    int id,
+    String json,
+    String category,
+  ) => caller.callServerEndpoint<_i9q5wd3k.ContentAdminItem>(
+    'contentAdmin',
+    'saveDraft',
+    {
+      'id': id,
+      'json': json,
+      'category': category,
+    },
+  );
+
+  _ida.Future<_i9q5wd3k.ContentAdminItem> submitForReview(int id) =>
+      caller.callServerEndpoint<_i9q5wd3k.ContentAdminItem>(
+        'contentAdmin',
+        'submitForReview',
+        {'id': id},
+      );
+
+  /// An expert approves the working copy as it is now.
+  _ida.Future<_i9q5wd3k.ContentAdminItem> approve(int id) =>
+      caller.callServerEndpoint<_i9q5wd3k.ContentAdminItem>(
+        'contentAdmin',
+        'approve',
+        {'id': id},
+      );
+
+  /// An expert sends it back to the writer with a note.
+  _ida.Future<_i9q5wd3k.ContentAdminItem> returnToWriter(
+    int id,
+    String note,
+  ) => caller.callServerEndpoint<_i9q5wd3k.ContentAdminItem>(
+    'contentAdmin',
+    'returnToWriter',
+    {
+      'id': id,
+      'note': note,
+    },
+  );
+
+  /// Records that the expert gave written consent to be listed, with a
+  /// reference to where the signed document is kept.
+  _ida.Future<_i9q5wd3k.ContentAdminItem> recordConsent(
+    int id,
+    String reference,
+  ) => caller.callServerEndpoint<_i9q5wd3k.ContentAdminItem>(
+    'contentAdmin',
+    'recordConsent',
+    {
+      'id': id,
+      'reference': reference,
+    },
+  );
+
+  /// Makes the working copy live. Articles and recipes must be approved by
+  /// an expert; expert profiles need the recorded consent.
+  _ida.Future<_i9q5wd3k.ContentAdminItem> publish(int id) =>
+      caller.callServerEndpoint<_i9q5wd3k.ContentAdminItem>(
+        'contentAdmin',
+        'publish',
+        {'id': id},
+      );
+
+  _ida.Future<_i9q5wd3k.ContentAdminItem> unpublish(int id) =>
+      caller.callServerEndpoint<_i9q5wd3k.ContentAdminItem>(
+        'contentAdmin',
+        'unpublish',
+        {'id': id},
+      );
+
+  /// Deletes an item that is not live (admins only).
+  _ida.Future<void> delete(int id) => caller.callServerEndpoint<void>(
+    'contentAdmin',
+    'delete',
+    {'id': id},
+  );
+}
+
+/// Published content for the app. No sign-in needed and nothing personal:
+/// articles, recipes and expert profiles the team has published.
+/// {@category Endpoint}
+class EndpointContent extends _isc.EndpointRef {
+  EndpointContent(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'content';
+
+  /// Published items of [kind] (a ContentKind name), newest first.
+  _ida.Future<List<_iryaqqq7.PublicContent>> published(String kind) =>
+      caller.callServerEndpoint<List<_iryaqqq7.PublicContent>>(
+        'content',
+        'published',
+        {'kind': kind},
+      );
+}
+
 /// Product search (M-20). Signed-in users only for now, which also limits
 /// load on Open Beauty Facts; guests get it with the guest flow.
 /// {@category Endpoint}
@@ -552,6 +690,36 @@ class EndpointCareList extends _isc.EndpointRef {
       caller.callServerEndpoint<void>(
         'careList',
         'saveCareList',
+        {'json': json},
+      );
+}
+
+/// The user's daily plate entries (which food groups each day; no
+/// calories or amounts), kept encrypted in `nutrition_record` and only with
+/// a health consent whose text covers them
+/// ([healthVersionsCoveringNutrition]).
+///
+/// Saves are not written to the audit log, like own routines.
+/// {@category Endpoint}
+class EndpointNutrition extends _isc.EndpointRef {
+  EndpointNutrition(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'nutrition';
+
+  /// The stored plate entries as JSON, or `null` when there are none or
+  /// the covering health consent is not granted.
+  _ida.Future<String?> myNutrition() => caller.callServerEndpoint<String?>(
+    'nutrition',
+    'myNutrition',
+    {},
+  );
+
+  /// Replaces the stored plate entries with [json].
+  _ida.Future<void> saveNutrition(String json) =>
+      caller.callServerEndpoint<void>(
+        'nutrition',
+        'saveNutrition',
         {'json': json},
       );
 }
@@ -808,10 +976,13 @@ class Client extends _isc.ServerpodClientShared {
     emailIdp = EndpointEmailIdp(this);
     jwtRefresh = EndpointJwtRefresh(this);
     consent = EndpointConsent(this);
+    contentAdmin = EndpointContentAdmin(this);
+    content = EndpointContent(this);
     product = EndpointProduct(this);
     profile = EndpointProfile(this);
     quiz = EndpointQuiz(this);
     careList = EndpointCareList(this);
+    nutrition = EndpointNutrition(this);
     routine = EndpointRoutine(this);
     sport = EndpointSport(this);
     staffAdmin = EndpointStaffAdmin(this);
@@ -827,6 +998,10 @@ class Client extends _isc.ServerpodClientShared {
 
   late final EndpointConsent consent;
 
+  late final EndpointContentAdmin contentAdmin;
+
+  late final EndpointContent content;
+
   late final EndpointProduct product;
 
   late final EndpointProfile profile;
@@ -834,6 +1009,8 @@ class Client extends _isc.ServerpodClientShared {
   late final EndpointQuiz quiz;
 
   late final EndpointCareList careList;
+
+  late final EndpointNutrition nutrition;
 
   late final EndpointRoutine routine;
 
@@ -851,10 +1028,13 @@ class Client extends _isc.ServerpodClientShared {
     'emailIdp': emailIdp,
     'jwtRefresh': jwtRefresh,
     'consent': consent,
+    'contentAdmin': contentAdmin,
+    'content': content,
     'product': product,
     'profile': profile,
     'quiz': quiz,
     'careList': careList,
+    'nutrition': nutrition,
     'routine': routine,
     'sport': sport,
     'staffAdmin': staffAdmin,

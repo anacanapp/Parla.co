@@ -1,0 +1,14 @@
+### A content item as the admin panel shows it.
+class: ContentAdminItem
+fields:
+  id: int
+  kind: String
+  slug: String
+  category: String
+  status: ContentStatus
+  draftJson: String
+  live: bool
+  reviewedAt: DateTime?
+  reviewNote: String?
+  consentRecorded: bool
+  updatedAt: DateTime

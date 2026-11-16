@@ -8,6 +8,8 @@ export 'package:parla_client/parla_client.dart'
         StaffSummary,
         StaffInviteSummary,
         TotpEnrollment,
+        ContentAdminItem,
+        ContentStatus,
         UuidValue;
 
 /// A rule the server refused, with its stable code.
@@ -45,6 +47,22 @@ abstract interface class AdminApi {
   Future<void> setRole(UuidValue user, StaffRole role);
   Future<void> setActive(UuidValue user, bool active);
   Future<void> resetTotp(UuidValue user);
+
+  // Content (phase B1). [kind] is a ContentKind name.
+  Future<List<ContentAdminItem>> listContent(String kind);
+  Future<ContentAdminItem> createContent(
+    String kind,
+    String slug,
+    String category,
+  );
+  Future<ContentAdminItem> saveContent(int id, String json, String category);
+  Future<ContentAdminItem> submitContent(int id);
+  Future<ContentAdminItem> approveContent(int id);
+  Future<ContentAdminItem> returnContent(int id, String note);
+  Future<ContentAdminItem> recordConsent(int id, String reference);
+  Future<ContentAdminItem> publishContent(int id);
+  Future<ContentAdminItem> unpublishContent(int id);
+  Future<void> deleteContent(int id);
 
   /// Email and password. Throws [AdminError] `auth.failed` when refused.
   Future<void> login(String email, String password);

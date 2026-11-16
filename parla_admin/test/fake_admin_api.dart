@@ -141,4 +141,92 @@ class FakeAdminApi implements AdminApi {
   Future<void> finishPasswordReset(String token, String pw) async {
     password = pw;
   }
+
+  final content = <ContentAdminItem>[];
+  var _nextId = 1;
+
+  ContentAdminItem _find(int id) => content.firstWhere((c) => c.id == id);
+
+  ContentAdminItem _put(ContentAdminItem item) {
+    content
+      ..removeWhere((c) => c.id == item.id)
+      ..add(item);
+    return item;
+  }
+
+  @override
+  Future<List<ContentAdminItem>> listContent(String kind) async => [
+    for (final c in content)
+      if (c.kind == kind) c,
+  ];
+
+  @override
+  Future<ContentAdminItem> createContent(
+    String kind,
+    String slug,
+    String category,
+  ) async {
+    if (!RegExp(r'^[a-z0-9-]+$').hasMatch(slug)) {
+      throw const AdminError('content.invalid');
+    }
+    return _put(
+      ContentAdminItem(
+        id: _nextId++,
+        kind: kind,
+        slug: slug,
+        category: category,
+        status: ContentStatus.draft,
+        draftJson: '{}',
+        live: false,
+        consentRecorded: false,
+        updatedAt: DateTime.utc(2026, 11, 16),
+      ),
+    );
+  }
+
+  @override
+  Future<ContentAdminItem> saveContent(
+    int id,
+    String json,
+    String category,
+  ) async {
+    calls.add('save:$id:$json');
+    return _put(
+      _find(id).copyWith(
+        draftJson: json,
+        category: category,
+        status: ContentStatus.draft,
+      ),
+    );
+  }
+
+  @override
+  Future<ContentAdminItem> submitContent(int id) async =>
+      _put(_find(id).copyWith(status: ContentStatus.inReview));
+
+  @override
+  Future<ContentAdminItem> approveContent(int id) async =>
+      _put(_find(id).copyWith(status: ContentStatus.approved));
+
+  @override
+  Future<ContentAdminItem> returnContent(int id, String note) async => _put(
+    _find(id).copyWith(status: ContentStatus.draft, reviewNote: note),
+  );
+
+  @override
+  Future<ContentAdminItem> recordConsent(int id, String reference) async =>
+      _put(_find(id).copyWith(consentRecorded: true));
+
+  @override
+  Future<ContentAdminItem> publishContent(int id) async => _put(
+    _find(id).copyWith(status: ContentStatus.published, live: true),
+  );
+
+  @override
+  Future<ContentAdminItem> unpublishContent(int id) async =>
+      _put(_find(id).copyWith(status: ContentStatus.draft, live: false));
+
+  @override
+  Future<void> deleteContent(int id) async =>
+      content.removeWhere((c) => c.id == id);
 }
