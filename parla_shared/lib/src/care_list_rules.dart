@@ -22,7 +22,7 @@ abstract final class CareListRules {
   static const maxBytes = 64 * 1024;
 
   static const areas = {'face', 'hair', 'body', 'other'};
-  static const origins = {'own', 'routine', 'check'};
+  static const origins = {'own', 'routine', 'check', 'recipe'};
   static const sources = {'parla', 'openbeautyfacts'};
 
   static final _id = RegExp(r'^[a-z0-9]{1,16}$');

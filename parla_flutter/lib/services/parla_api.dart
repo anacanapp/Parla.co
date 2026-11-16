@@ -40,6 +40,61 @@ class ProductResult {
   final String? sourceUrl;
 }
 
+/// A published article, recipe or expert profile.
+class PublishedItem {
+  const PublishedItem({
+    required this.id,
+    required this.kind,
+    required this.slug,
+    required this.category,
+    required this.data,
+    required this.publishedAt,
+    this.reviewedAt,
+  });
+
+  factory PublishedItem.fromJson(Map<String, Object?> json) => PublishedItem(
+    id: (json['id']! as num).toInt(),
+    kind: json['kind']! as String,
+    slug: json['slug']! as String,
+    category: json['category']! as String,
+    data: (json['data']! as Map).cast<String, Object?>(),
+    publishedAt: DateTime.parse(json['publishedAt']! as String),
+    reviewedAt: json['reviewedAt'] == null
+        ? null
+        : DateTime.parse(json['reviewedAt']! as String),
+  );
+
+  final int id;
+  final String kind;
+  final String slug;
+  final String category;
+  final Map<String, Object?> data;
+  final DateTime publishedAt;
+
+  /// When an expert reviewed it, or `null` (expert profiles).
+  final DateTime? reviewedAt;
+
+  Map<String, Object?> toJson() => {
+    'id': id,
+    'kind': kind,
+    'slug': slug,
+    'category': category,
+    'data': data,
+    'publishedAt': publishedAt.toIso8601String(),
+    if (reviewedAt != null) 'reviewedAt': reviewedAt!.toIso8601String(),
+  };
+
+  /// A localized text field in [language] (Azerbaijani as fallback).
+  String text(String key, String language) =>
+      ContentRules.pick(data[key], language);
+
+  /// A localized list field in [language].
+  List<String> lines(String key, String language) => [
+    for (final e in (data[key] as List? ?? const []))
+      ContentRules.pick(e, language),
+  ];
+}
+
 /// Everything the screens need from the backend.
 ///
 /// Screens depend on this interface, not on the generated Serverpod client,
@@ -101,6 +156,15 @@ abstract interface class ParlaApi {
 
   /// Replaces the stored sport document. Needs the health consent.
   Future<void> saveSport(String json);
+
+  /// Published content of [kind] (no sign-in needed).
+  Future<List<PublishedItem>> publishedContent(String kind);
+
+  /// The daily plate entries as JSON (see `NutritionRules`), or `null`.
+  Future<String?> myNutrition();
+
+  /// Replaces the stored plate entries. Needs the health consent.
+  Future<void> saveNutrition(String json);
 
   /// The current decision for every consent (M-28).
   Future<Map<ConsentKind, bool>> consentStates();

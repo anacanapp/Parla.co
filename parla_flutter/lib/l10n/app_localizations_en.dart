@@ -1417,4 +1417,161 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get sportPrivacyDevice =>
       'For now your fitness answers are kept only on this phone. With the updated health consent they will be kept encrypted on our server.';
+
+  @override
+  String get discoverLatest => 'New articles';
+
+  @override
+  String get discoverAll => 'All';
+
+  @override
+  String get contentEmpty => 'Nothing here yet. Coming soon.';
+
+  @override
+  String get contentOffline => 'No connection, showing the last loaded copy.';
+
+  @override
+  String blogMeta(String category, int minutes) {
+    return '$category · $minutes min';
+  }
+
+  @override
+  String blogReviewed(String date) {
+    return 'Reviewed by an expert · $date';
+  }
+
+  @override
+  String get blogTips => 'Quick steps';
+
+  @override
+  String get catCare => 'Care';
+
+  @override
+  String get catBeauty => 'Beauty';
+
+  @override
+  String get catFashion => 'Fashion';
+
+  @override
+  String get catHair => 'Hair';
+
+  @override
+  String get specDermatologist => 'Dermatologist';
+
+  @override
+  String get specCosmetologist => 'Cosmetologist';
+
+  @override
+  String get specTrainer => 'Trainer';
+
+  @override
+  String get specDietitian => 'Dietitian';
+
+  @override
+  String get specTrichologist => 'Trichologist';
+
+  @override
+  String expertYears(int years) {
+    return '$years years of experience';
+  }
+
+  @override
+  String get expertCall => 'Call';
+
+  @override
+  String get expertWhatsapp => 'WhatsApp';
+
+  @override
+  String get expertInstagram => 'Instagram';
+
+  @override
+  String get expertsNote =>
+      'Parla only introduces experts and is not responsible for their services. You contact them directly, outside the app; Parla does not see the conversation.';
+
+  @override
+  String get nutritionHero => 'Beauty starts on your plate';
+
+  @override
+  String get nutritionPlate => 'Today\'s plate';
+
+  @override
+  String nutritionPlateCount(int count, int total) {
+    return '$count of $total groups';
+  }
+
+  @override
+  String get groupVegetables => 'Vegetables';
+
+  @override
+  String get groupFruit => 'Fruit';
+
+  @override
+  String get groupProtein => 'Protein';
+
+  @override
+  String get groupWholeGrain => 'Whole grain';
+
+  @override
+  String get groupHealthyFat => 'Healthy fat';
+
+  @override
+  String get groupDairy => 'Dairy';
+
+  @override
+  String nutritionWater(int count, int goal) {
+    return 'Water: $count of $goal glasses';
+  }
+
+  @override
+  String get nutritionNoCalories =>
+      'We do not count calories. Just variety: a colourful plate every day.';
+
+  @override
+  String get nutritionTip => 'Today\'s tip for your skin';
+
+  @override
+  String get nutritionRecipes => 'Beauty recipes';
+
+  @override
+  String get nutritionDisclaimer =>
+      'This is general information, not a diet or medical advice. If you have special dietary needs, talk to a dietitian.';
+
+  @override
+  String get nutritionPrivacySynced =>
+      'Your plate entries are kept encrypted on our server, with a copy on this phone for offline use.';
+
+  @override
+  String get nutritionPrivacyDevice =>
+      'For now your plate entries are kept only on this phone. With the updated health consent they will be kept encrypted on our server.';
+
+  @override
+  String get mealBreakfast => 'Breakfast';
+
+  @override
+  String get mealLunch => 'Lunch';
+
+  @override
+  String get mealDinner => 'Dinner';
+
+  @override
+  String get mealSnack => 'Snack';
+
+  @override
+  String recipeMeta(String meal, int minutes, int servings) {
+    return '$meal · $minutes min · serves $servings';
+  }
+
+  @override
+  String get recipeIngredients => 'Ingredients';
+
+  @override
+  String get recipeSteps => 'Method';
+
+  @override
+  String get recipeAddAll => 'Add the ingredients to my shopping list';
+
+  @override
+  String recipeAdded(int count) {
+    return '$count items added to your shopping list.';
+  }
 }

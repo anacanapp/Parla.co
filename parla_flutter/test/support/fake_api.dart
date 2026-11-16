@@ -52,6 +52,7 @@ class FakeApi implements ParlaApi {
         routines = null;
         careList = null;
         sport = null;
+        nutrition = null;
       }
     }
   }
@@ -111,6 +112,35 @@ class FakeApi implements ParlaApi {
     }
     careListSaves++;
     careList = json;
+  }
+
+  /// Published content per kind.
+  final published = <String, List<PublishedItem>>{};
+  Object? contentError;
+
+  @override
+  Future<List<PublishedItem>> publishedContent(String kind) async {
+    if (contentError != null) throw contentError!;
+    return published[kind] ?? const [];
+  }
+
+  /// The plate entries as the server keeps them.
+  String? nutrition;
+
+  @override
+  Future<String?> myNutrition() async {
+    if (routineError != null) throw routineError!;
+    return healthConsent ? nutrition : null;
+  }
+
+  @override
+  Future<void> saveNutrition(String json) async {
+    if (routineError != null) throw routineError!;
+    if (!healthConsent) throw const ApiError('consent.health_required');
+    if (!NutritionRules.isValid(json)) {
+      throw const ApiError('nutrition.invalid');
+    }
+    nutrition = json;
   }
 
   /// The sport document as the server keeps it.
@@ -174,6 +204,7 @@ class FakeApi implements ParlaApi {
     routines = null;
     careList = null;
     sport = null;
+    nutrition = null;
   }
 
   /// Products every search returns; [productError] makes search fail.

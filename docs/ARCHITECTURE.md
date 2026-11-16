@@ -279,8 +279,24 @@ messages and push notifications (D) follow.
   no calories, weights or amounts. It is stored like the other documents,
   encrypted in `nutrition_record`, only with a health consent that covers
   it (`healthVersionsCoveringNutrition`, from `health-2026-11-draft5`), and
-  checked against `NutritionRules` (90 days). The app screens arrive in
-  phase B2.
+  checked against `NutritionRules` (90 days).
+- **Screens (B2a).** The nutrition tool shows today's plate (six groups),
+  today's water from the habits, a daily skin tip and the published
+  recipes. The tips in `lib/discover/skin_tips.dart` are sample content
+  that needs the expert review. A recipe's ingredients can be added to the
+  shopping list (origin `recipe`). The tool says that it is general
+  information, not a diet or medical advice.
+
+## Discover (B2a)
+
+- Blogs (with category filter), the article (with "reviewed by an expert"
+  and the date when an expert approved it), experts (with specialty
+  filter) and nutrition all read the published content
+  (`ContentLibrary`). The last copy is kept in the app preferences, so it
+  shows offline; it is public content, nothing personal.
+- Experts: *Call*, *WhatsApp* and *Instagram* open the phone's own apps
+  (`url_launcher`). Parla only introduces experts, does not see the
+  conversation and says so on the screen.
 
 ## Reminders
 
@@ -344,7 +360,7 @@ messages and push notifications (D) follow.
 | Privacy policy and terms texts | — | Lawyer |
 | Apple and Google sign-in | US-01 | Needs the Apple and Google developer accounts (company registration) |
 | Production hosting, email provider and data region (staging uses AWS in Frankfurt and SMTP via info@anacan.az) | RES-1, RES-5 | After the lawyer answers the localisation questions |
-| Admin panel phases B2 (Discover screens, plate, images in S3, moving preferences/exercises/steps to the panel), C (users, statistics) and D (banners, messages, push notifications) | M8 | In progress; A and B1 done |
+| Admin panel phases B2b (images in S3, moving preferences/exercises/steps to the panel), C (users, statistics) and D (banners, messages, push notifications) | M8 | In progress; A, B1 and B2a done |
 | Privacy policy text for staff access, the admin panel and push notifications | — | Lawyer, before phase D |
 | Real-device test of reminders (Android 13+ permission, reboot, iOS foreground) | M7 | Before the beta |
 | Ask people who agreed to an older health consent text to agree to the current one (own routines, preferences and the shopping list stay on the phone until then) | CON-3 | Before launch, if anyone agreed to `health-2026-11-draft1` to `draft4` |

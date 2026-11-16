@@ -1395,4 +1395,162 @@ class AppLocalizationsAz extends AppLocalizations {
   @override
   String get sportPrivacyDevice =>
       'İdman cavabların hələlik yalnız bu telefonda saxlanılır. Yenilənmiş sağlamlıq razılığı ilə serverdə şifrəli saxlanılacaq.';
+
+  @override
+  String get discoverLatest => 'Yeni yazılar';
+
+  @override
+  String get discoverAll => 'Hamısı';
+
+  @override
+  String get contentEmpty => 'Hələ yazı yoxdur. Tezliklə burada olacaq.';
+
+  @override
+  String get contentOffline =>
+      'İnternet yoxdur, son yüklənmiş nüsxə göstərilir.';
+
+  @override
+  String blogMeta(String category, int minutes) {
+    return '$category · $minutes dəq';
+  }
+
+  @override
+  String blogReviewed(String date) {
+    return 'Mütəxəssis yoxlayıb · $date';
+  }
+
+  @override
+  String get blogTips => 'Qısa addımlar';
+
+  @override
+  String get catCare => 'Qulluq';
+
+  @override
+  String get catBeauty => 'Gözəllik';
+
+  @override
+  String get catFashion => 'Moda';
+
+  @override
+  String get catHair => 'Saç';
+
+  @override
+  String get specDermatologist => 'Dermatoloq';
+
+  @override
+  String get specCosmetologist => 'Kosmetoloq';
+
+  @override
+  String get specTrainer => 'Məşqçi';
+
+  @override
+  String get specDietitian => 'Dietoloq';
+
+  @override
+  String get specTrichologist => 'Trixoloq';
+
+  @override
+  String expertYears(int years) {
+    return '$years il təcrübə';
+  }
+
+  @override
+  String get expertCall => 'Zəng et';
+
+  @override
+  String get expertWhatsapp => 'WhatsApp';
+
+  @override
+  String get expertInstagram => 'Instagram';
+
+  @override
+  String get expertsNote =>
+      'Parla mütəxəssisləri yalnız tanış edir, onların xidmətlərinə görə məsuliyyət daşımır. Əlaqə tətbiqdən kənarda, birbaşa mütəxəssislə qurulur; Parla söhbəti görmür.';
+
+  @override
+  String get nutritionHero => 'Gözəllik boşqabdan başlayır';
+
+  @override
+  String get nutritionPlate => 'Bu günün boşqabı';
+
+  @override
+  String nutritionPlateCount(int count, int total) {
+    return '$count / $total qrup';
+  }
+
+  @override
+  String get groupVegetables => 'Tərəvəz';
+
+  @override
+  String get groupFruit => 'Meyvə';
+
+  @override
+  String get groupProtein => 'Protein';
+
+  @override
+  String get groupWholeGrain => 'Tam taxıl';
+
+  @override
+  String get groupHealthyFat => 'Sağlam yağ';
+
+  @override
+  String get groupDairy => 'Süd məhsulu';
+
+  @override
+  String nutritionWater(int count, int goal) {
+    return 'Su: $count / $goal stəkan';
+  }
+
+  @override
+  String get nutritionNoCalories =>
+      'Kalori saymırıq. Sadəcə müxtəliflik: hər gün rəngli boşqab.';
+
+  @override
+  String get nutritionTip => 'Dəri üçün günün ipucu';
+
+  @override
+  String get nutritionRecipes => 'Gözəllik reseptləri';
+
+  @override
+  String get nutritionDisclaimer =>
+      'Ümumi məlumatdır, pəhriz və ya tibbi tövsiyə deyil. Xüsusi qidalanma ehtiyacın varsa, dietoloqla məsləhətləş.';
+
+  @override
+  String get nutritionPrivacySynced =>
+      'Boşqab qeydlərin serverdə şifrəli saxlanılır, bu telefonda isə oflayn üçün nüsxəsi qalır.';
+
+  @override
+  String get nutritionPrivacyDevice =>
+      'Boşqab qeydlərin hələlik yalnız bu telefonda saxlanılır. Yenilənmiş sağlamlıq razılığı ilə serverdə şifrəli saxlanılacaq.';
+
+  @override
+  String get mealBreakfast => 'Səhər yeməyi';
+
+  @override
+  String get mealLunch => 'Nahar';
+
+  @override
+  String get mealDinner => 'Şam yeməyi';
+
+  @override
+  String get mealSnack => 'Qəlyanaltı';
+
+  @override
+  String recipeMeta(String meal, int minutes, int servings) {
+    return '$meal · $minutes dəq · $servings nəfər';
+  }
+
+  @override
+  String get recipeIngredients => 'Tərkib';
+
+  @override
+  String get recipeSteps => 'Hazırlanması';
+
+  @override
+  String get recipeAddAll => 'Tərkibi alış siyahısına əlavə et';
+
+  @override
+  String recipeAdded(int count) {
+    return '$count məhsul alış siyahısına əlavə olundu.';
+  }
 }

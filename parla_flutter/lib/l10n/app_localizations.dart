@@ -2547,6 +2547,282 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'For now your fitness answers are kept only on this phone. With the updated health consent they will be kept encrypted on our server.'**
   String get sportPrivacyDevice;
+
+  /// No description provided for @discoverLatest.
+  ///
+  /// In en, this message translates to:
+  /// **'New articles'**
+  String get discoverLatest;
+
+  /// No description provided for @discoverAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get discoverAll;
+
+  /// No description provided for @contentEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing here yet. Coming soon.'**
+  String get contentEmpty;
+
+  /// No description provided for @contentOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'No connection, showing the last loaded copy.'**
+  String get contentOffline;
+
+  /// No description provided for @blogMeta.
+  ///
+  /// In en, this message translates to:
+  /// **'{category} · {minutes} min'**
+  String blogMeta(String category, int minutes);
+
+  /// No description provided for @blogReviewed.
+  ///
+  /// In en, this message translates to:
+  /// **'Reviewed by an expert · {date}'**
+  String blogReviewed(String date);
+
+  /// No description provided for @blogTips.
+  ///
+  /// In en, this message translates to:
+  /// **'Quick steps'**
+  String get blogTips;
+
+  /// No description provided for @catCare.
+  ///
+  /// In en, this message translates to:
+  /// **'Care'**
+  String get catCare;
+
+  /// No description provided for @catBeauty.
+  ///
+  /// In en, this message translates to:
+  /// **'Beauty'**
+  String get catBeauty;
+
+  /// No description provided for @catFashion.
+  ///
+  /// In en, this message translates to:
+  /// **'Fashion'**
+  String get catFashion;
+
+  /// No description provided for @catHair.
+  ///
+  /// In en, this message translates to:
+  /// **'Hair'**
+  String get catHair;
+
+  /// No description provided for @specDermatologist.
+  ///
+  /// In en, this message translates to:
+  /// **'Dermatologist'**
+  String get specDermatologist;
+
+  /// No description provided for @specCosmetologist.
+  ///
+  /// In en, this message translates to:
+  /// **'Cosmetologist'**
+  String get specCosmetologist;
+
+  /// No description provided for @specTrainer.
+  ///
+  /// In en, this message translates to:
+  /// **'Trainer'**
+  String get specTrainer;
+
+  /// No description provided for @specDietitian.
+  ///
+  /// In en, this message translates to:
+  /// **'Dietitian'**
+  String get specDietitian;
+
+  /// No description provided for @specTrichologist.
+  ///
+  /// In en, this message translates to:
+  /// **'Trichologist'**
+  String get specTrichologist;
+
+  /// No description provided for @expertYears.
+  ///
+  /// In en, this message translates to:
+  /// **'{years} years of experience'**
+  String expertYears(int years);
+
+  /// No description provided for @expertCall.
+  ///
+  /// In en, this message translates to:
+  /// **'Call'**
+  String get expertCall;
+
+  /// No description provided for @expertWhatsapp.
+  ///
+  /// In en, this message translates to:
+  /// **'WhatsApp'**
+  String get expertWhatsapp;
+
+  /// No description provided for @expertInstagram.
+  ///
+  /// In en, this message translates to:
+  /// **'Instagram'**
+  String get expertInstagram;
+
+  /// No description provided for @expertsNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Parla only introduces experts and is not responsible for their services. You contact them directly, outside the app; Parla does not see the conversation.'**
+  String get expertsNote;
+
+  /// No description provided for @nutritionHero.
+  ///
+  /// In en, this message translates to:
+  /// **'Beauty starts on your plate'**
+  String get nutritionHero;
+
+  /// No description provided for @nutritionPlate.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s plate'**
+  String get nutritionPlate;
+
+  /// No description provided for @nutritionPlateCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} of {total} groups'**
+  String nutritionPlateCount(int count, int total);
+
+  /// No description provided for @groupVegetables.
+  ///
+  /// In en, this message translates to:
+  /// **'Vegetables'**
+  String get groupVegetables;
+
+  /// No description provided for @groupFruit.
+  ///
+  /// In en, this message translates to:
+  /// **'Fruit'**
+  String get groupFruit;
+
+  /// No description provided for @groupProtein.
+  ///
+  /// In en, this message translates to:
+  /// **'Protein'**
+  String get groupProtein;
+
+  /// No description provided for @groupWholeGrain.
+  ///
+  /// In en, this message translates to:
+  /// **'Whole grain'**
+  String get groupWholeGrain;
+
+  /// No description provided for @groupHealthyFat.
+  ///
+  /// In en, this message translates to:
+  /// **'Healthy fat'**
+  String get groupHealthyFat;
+
+  /// No description provided for @groupDairy.
+  ///
+  /// In en, this message translates to:
+  /// **'Dairy'**
+  String get groupDairy;
+
+  /// No description provided for @nutritionWater.
+  ///
+  /// In en, this message translates to:
+  /// **'Water: {count} of {goal} glasses'**
+  String nutritionWater(int count, int goal);
+
+  /// No description provided for @nutritionNoCalories.
+  ///
+  /// In en, this message translates to:
+  /// **'We do not count calories. Just variety: a colourful plate every day.'**
+  String get nutritionNoCalories;
+
+  /// No description provided for @nutritionTip.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s tip for your skin'**
+  String get nutritionTip;
+
+  /// No description provided for @nutritionRecipes.
+  ///
+  /// In en, this message translates to:
+  /// **'Beauty recipes'**
+  String get nutritionRecipes;
+
+  /// No description provided for @nutritionDisclaimer.
+  ///
+  /// In en, this message translates to:
+  /// **'This is general information, not a diet or medical advice. If you have special dietary needs, talk to a dietitian.'**
+  String get nutritionDisclaimer;
+
+  /// No description provided for @nutritionPrivacySynced.
+  ///
+  /// In en, this message translates to:
+  /// **'Your plate entries are kept encrypted on our server, with a copy on this phone for offline use.'**
+  String get nutritionPrivacySynced;
+
+  /// No description provided for @nutritionPrivacyDevice.
+  ///
+  /// In en, this message translates to:
+  /// **'For now your plate entries are kept only on this phone. With the updated health consent they will be kept encrypted on our server.'**
+  String get nutritionPrivacyDevice;
+
+  /// No description provided for @mealBreakfast.
+  ///
+  /// In en, this message translates to:
+  /// **'Breakfast'**
+  String get mealBreakfast;
+
+  /// No description provided for @mealLunch.
+  ///
+  /// In en, this message translates to:
+  /// **'Lunch'**
+  String get mealLunch;
+
+  /// No description provided for @mealDinner.
+  ///
+  /// In en, this message translates to:
+  /// **'Dinner'**
+  String get mealDinner;
+
+  /// No description provided for @mealSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Snack'**
+  String get mealSnack;
+
+  /// No description provided for @recipeMeta.
+  ///
+  /// In en, this message translates to:
+  /// **'{meal} · {minutes} min · serves {servings}'**
+  String recipeMeta(String meal, int minutes, int servings);
+
+  /// No description provided for @recipeIngredients.
+  ///
+  /// In en, this message translates to:
+  /// **'Ingredients'**
+  String get recipeIngredients;
+
+  /// No description provided for @recipeSteps.
+  ///
+  /// In en, this message translates to:
+  /// **'Method'**
+  String get recipeSteps;
+
+  /// No description provided for @recipeAddAll.
+  ///
+  /// In en, this message translates to:
+  /// **'Add the ingredients to my shopping list'**
+  String get recipeAddAll;
+
+  /// No description provided for @recipeAdded.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} items added to your shopping list.'**
+  String recipeAdded(int count);
 }
 
 class _AppLocalizationsDelegate

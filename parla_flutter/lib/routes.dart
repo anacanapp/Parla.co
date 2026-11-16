@@ -2,6 +2,7 @@ import 'package:go_router/go_router.dart';
 
 import 'check/shop_screen.dart';
 import 'check/shopping_list_screen.dart';
+import 'discover/discover_screens.dart';
 import 'routines/routine_builder_screen.dart';
 import 'sport/sport_quiz_screen.dart';
 import 'sport/sport_screen.dart';
@@ -47,6 +48,11 @@ abstract final class Routes {
   static const sportQuiz = '/sport/quiz'; // Sport questions
   static const workout = '/sport/workout'; // One workout, id as `extra`
   static const discover = '/discover'; // Blogs, experts, lists (step 5)
+  static const blog = '/discover/blog';
+  static const blogPost = '/discover/blog/post'; // Slug as `extra`
+  static const experts = '/discover/experts';
+  static const nutrition = '/discover/nutrition';
+  static const recipe = '/discover/recipe'; // Slug as `extra`
   static const guest = '/guest'; // Guest placeholder
   static const privacy = '/privacy'; // M-25, M-27, M-28
   static const legal = '/privacy/legal'; // M-34
@@ -110,6 +116,22 @@ GoRouter buildRouter() => GoRouter(
       builder: (_, state) => WorkoutScreen(workoutId: state.extra! as String),
     ),
     GoRoute(path: Routes.discover, builder: (_, _) => const DiscoverScreen()),
+    GoRoute(path: Routes.blog, builder: (_, _) => const BlogListScreen()),
+    GoRoute(
+      path: Routes.blogPost,
+      redirect: (_, state) => state.extra is String ? null : Routes.blog,
+      builder: (_, state) => BlogPostScreen(slug: state.extra! as String),
+    ),
+    GoRoute(path: Routes.experts, builder: (_, _) => const ExpertsScreen()),
+    GoRoute(
+      path: Routes.nutrition,
+      builder: (_, _) => const NutritionScreen(),
+    ),
+    GoRoute(
+      path: Routes.recipe,
+      redirect: (_, state) => state.extra is String ? null : Routes.nutrition,
+      builder: (_, state) => RecipeScreen(slug: state.extra! as String),
+    ),
     GoRoute(path: Routes.guest, builder: (_, _) => const GuestScreen()),
     GoRoute(path: Routes.privacy, builder: (_, _) => const PrivacyScreen()),
     GoRoute(path: Routes.legal, builder: (_, _) => const LegalScreen()),

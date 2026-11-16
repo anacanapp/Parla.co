@@ -1422,4 +1422,162 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get sportPrivacyDevice =>
       'Пока твои ответы о спорте хранятся только на этом телефоне. С обновлённым согласием на данные о здоровье они будут храниться на сервере в зашифрованном виде.';
+
+  @override
+  String get discoverLatest => 'Новые статьи';
+
+  @override
+  String get discoverAll => 'Все';
+
+  @override
+  String get contentEmpty => 'Пока ничего нет. Скоро здесь появится.';
+
+  @override
+  String get contentOffline =>
+      'Нет интернета, показана последняя загруженная версия.';
+
+  @override
+  String blogMeta(String category, int minutes) {
+    return '$category · $minutes мин';
+  }
+
+  @override
+  String blogReviewed(String date) {
+    return 'Проверено специалистом · $date';
+  }
+
+  @override
+  String get blogTips => 'Короткие шаги';
+
+  @override
+  String get catCare => 'Уход';
+
+  @override
+  String get catBeauty => 'Красота';
+
+  @override
+  String get catFashion => 'Мода';
+
+  @override
+  String get catHair => 'Волосы';
+
+  @override
+  String get specDermatologist => 'Дерматолог';
+
+  @override
+  String get specCosmetologist => 'Косметолог';
+
+  @override
+  String get specTrainer => 'Тренер';
+
+  @override
+  String get specDietitian => 'Диетолог';
+
+  @override
+  String get specTrichologist => 'Трихолог';
+
+  @override
+  String expertYears(int years) {
+    return 'Опыт $years лет';
+  }
+
+  @override
+  String get expertCall => 'Позвонить';
+
+  @override
+  String get expertWhatsapp => 'WhatsApp';
+
+  @override
+  String get expertInstagram => 'Instagram';
+
+  @override
+  String get expertsNote =>
+      'Parla только знакомит со специалистами и не отвечает за их услуги. Связь идёт вне приложения, напрямую со специалистом; Parla не видит переписку.';
+
+  @override
+  String get nutritionHero => 'Красота начинается с тарелки';
+
+  @override
+  String get nutritionPlate => 'Тарелка дня';
+
+  @override
+  String nutritionPlateCount(int count, int total) {
+    return '$count из $total групп';
+  }
+
+  @override
+  String get groupVegetables => 'Овощи';
+
+  @override
+  String get groupFruit => 'Фрукты';
+
+  @override
+  String get groupProtein => 'Белок';
+
+  @override
+  String get groupWholeGrain => 'Цельные злаки';
+
+  @override
+  String get groupHealthyFat => 'Полезные жиры';
+
+  @override
+  String get groupDairy => 'Молочное';
+
+  @override
+  String nutritionWater(int count, int goal) {
+    return 'Вода: $count из $goal стаканов';
+  }
+
+  @override
+  String get nutritionNoCalories =>
+      'Мы не считаем калории. Просто разнообразие: каждый день яркая тарелка.';
+
+  @override
+  String get nutritionTip => 'Совет дня для кожи';
+
+  @override
+  String get nutritionRecipes => 'Бьюти-рецепты';
+
+  @override
+  String get nutritionDisclaimer =>
+      'Это общая информация, а не диета или медицинская рекомендация. Если у тебя особые потребности в питании, посоветуйся с диетологом.';
+
+  @override
+  String get nutritionPrivacySynced =>
+      'Твои записи о тарелке хранятся на сервере в зашифрованном виде, а на этом телефоне остаётся копия для работы без сети.';
+
+  @override
+  String get nutritionPrivacyDevice =>
+      'Пока твои записи о тарелке хранятся только на этом телефоне. С обновлённым согласием на данные о здоровье они будут храниться на сервере в зашифрованном виде.';
+
+  @override
+  String get mealBreakfast => 'Завтрак';
+
+  @override
+  String get mealLunch => 'Обед';
+
+  @override
+  String get mealDinner => 'Ужин';
+
+  @override
+  String get mealSnack => 'Перекус';
+
+  @override
+  String recipeMeta(String meal, int minutes, int servings) {
+    return '$meal · $minutes мин · $servings порц.';
+  }
+
+  @override
+  String get recipeIngredients => 'Ингредиенты';
+
+  @override
+  String get recipeSteps => 'Приготовление';
+
+  @override
+  String get recipeAddAll => 'Добавить ингредиенты в список покупок';
+
+  @override
+  String recipeAdded(int count) {
+    return 'В список покупок добавлено: $count.';
+  }
 }
