@@ -1,108 +1,111 @@
-/// Turns quiz answers into a routine (PRD M4).
+/// Turns quiz answers into face, hair and body routines (PRD M4).
 ///
-/// SAMPLE RULES, NOT EXPERT-APPROVED. The safety rules are deliberately
-/// conservative: when an answer that matters for safety is missing or
-/// declined, the riskier step is left out rather than guessed.
+/// The steps and rules come from the content sheet ("rutin_addimlari",
+/// "rutin_qaydalari"); see `routine_content.dart`. DRAFT, NOT
+/// EXPERT-APPROVED.
+///
+/// How the rules apply (the sheet's priority note):
+/// 1. Every matching "add" rule adds its steps (the base rules match
+///    everyone).
+/// 2. Every matching "remove" rule removes its steps, and removing always
+///    wins over adding.
+/// 3. Safety is conservative: a step marked unsafe in pregnancy is left out
+///    unless the pregnancy answer is "no", so a skipped or declined answer
+///    also leaves it out. If the medication question is not answered, the
+///    actives a prescription would rule out are left out too. Steps not
+///    suited to sensitive skin are left out when the skin reacts often.
+/// 4. "Reduce" and "note" rules do not change the steps; their notes are
+///    shown with the routine, and their preferences are suggested for
+///    Check.
 library;
 
 import 'quiz.dart';
 
-/// Why a step was left out. Shown to the user so the routine is explainable.
-enum RoutineExclusion {
-  /// Retinoid skipped: pregnant, breastfeeding, or pregnancy not answered.
-  retinoidPregnancy,
+part 'routine_content.dart';
 
-  /// Retinoid skipped: takes a retinoid or prescription skin medicine, or
-  /// did not answer the medication question.
-  retinoidMedication,
-
-  /// Retinoid and vitamin C skipped for reactive or sensitive skin.
-  sensitiveSkin,
-}
-
-/// Step ids for each part of the day, in order.
-class RoutinePlan {
-  const RoutinePlan({
-    required this.morning,
-    required this.evening,
-    this.exclusions = const {},
-  });
-
-  final List<String> morning;
-  final List<String> evening;
-  final Set<RoutineExclusion> exclusions;
-}
-
-/// The plan for someone who has not taken the quiz.
-const RoutinePlan defaultRoutinePlan = RoutinePlan(
-  morning: ['cleanser', 'moisturiser', 'sunscreen'],
-  evening: ['cleanser-pm', 'night-cream'],
-);
-
-RoutinePlan planRoutine(QuizAnswers a) {
-  final minimal = a.has('routine_time', 'minimal');
-  final sensitive =
-      a.has('skin_sensitivity', 'often') ||
-      a.has('conditions', 'rosacea') ||
-      a.has('conditions', 'eczema');
-  final exclusions = <RoutineExclusion>{};
-
-  final moisturiser = a.has('skin_type', 'oily')
-      ? 'moisturiser-light'
-      : a.has('skin_type', 'dry')
-      ? 'moisturiser-rich'
-      : 'moisturiser';
-
-  final morning = <String>['cleanser'];
-  if (!minimal) {
-    if (sensitive) {
-      morning.add('soothing-serum');
-      exclusions.add(RoutineExclusion.sensitiveSkin);
-    } else {
-      morning.add('vitamin-c');
-    }
-  }
-  morning
-    ..add(moisturiser)
-    ..add('sunscreen');
-
-  final wantsRetinoid = const [
-    'fewer_breakouts',
-    'even_tone',
-    'glow',
-  ].any((goal) => a.has('skin_goals', goal));
-
-  final evening = <String>['makeup-off', 'cleanser-pm'];
-  if (wantsRetinoid && !minimal) {
-    final pregnancySafe = a.has('pregnancy', 'no');
-    final medicationSafe =
-        a.answered('medication') &&
-        !a.has('medication', 'oral_retinoid') &&
-        !a.has('medication', 'prescription_cream');
-    if (!pregnancySafe) exclusions.add(RoutineExclusion.retinoidPregnancy);
-    if (!medicationSafe) exclusions.add(RoutineExclusion.retinoidMedication);
-    if (sensitive) exclusions.add(RoutineExclusion.sensitiveSkin);
-    if (pregnancySafe && medicationSafe && !sensitive) {
-      evening.add('retinoid-pm');
-    }
-  }
-  evening.add('night-cream');
-  if (!minimal) evening.add('lip-balm');
-
-  return RoutinePlan(
-    morning: morning,
-    evening: evening,
-    exclusions: exclusions,
-  );
-}
-
-/// The three care areas of the Routine tab.
 enum RoutineArea { face, hair, body }
 
-/// When a step is done: every morning, every evening, or once a week.
 enum RoutineSlot { morning, evening, weekly }
 
-/// Steps of one care area per slot, in order. Any slot may be empty.
+/// When a step is done, as the sheet says it.
+enum StepTime {
+  morning,
+  evening,
+  both,
+  weekly,
+
+  /// On hair-wash days: every morning for daily washers, else weekly.
+  washDay,
+}
+
+/// One care step's facts (texts live in the app).
+class RoutineStepInfo {
+  const RoutineStepInfo(
+    this.id,
+    this.area,
+    this.time,
+    this.order, {
+    this.pregnancyUnsafe = false,
+    this.sensitiveOk = true,
+  });
+
+  final String id;
+  final RoutineArea area;
+  final StepTime time;
+
+  /// Order within the area and part of the day.
+  final int order;
+
+  /// Left out in pregnancy, breastfeeding, when trying to conceive, and
+  /// when the pregnancy question is not answered "no".
+  final bool pregnancyUnsafe;
+
+  /// Suitable for skin that reacts often.
+  final bool sensitiveOk;
+}
+
+enum RuleAction { add, remove, reduce, note }
+
+/// One routine rule: when [question] (null: everyone) has one of
+/// [answers], do [action] to [steps]; [preferences] are Check filters the
+/// rule suggests.
+class RoutineRule {
+  const RoutineRule(
+    this.id, {
+    required this.question,
+    required this.answers,
+    required this.action,
+    required this.steps,
+    required this.preferences,
+    required this.note,
+  });
+
+  final String id;
+  final String? question;
+  final Set<String> answers;
+  final RuleAction action;
+  final List<String> steps;
+  final List<String> preferences;
+
+  /// Shown to the user, per language.
+  final Map<String, String> note;
+
+  bool matches(QuizAnswers? a) {
+    final q = question;
+    if (q == null) return true;
+    if (a == null) return false;
+    return answers.any((x) => a.has(q, x));
+  }
+}
+
+RoutineStepInfo? routineStepInfo(String id) {
+  for (final s in routineStepCatalogue) {
+    if (s.id == id) return s;
+  }
+  return null;
+}
+
+/// Steps for each part of the day in one area.
 class AreaPlan {
   const AreaPlan({
     this.morning = const [],
@@ -114,7 +117,7 @@ class AreaPlan {
   final List<String> evening;
   final List<String> weekly;
 
-  List<String> slot(RoutineSlot slot) => switch (slot) {
+  List<String> slot(RoutineSlot s) => switch (s) {
     RoutineSlot.morning => morning,
     RoutineSlot.evening => evening,
     RoutineSlot.weekly => weekly,
@@ -123,60 +126,119 @@ class AreaPlan {
   bool get isEmpty => morning.isEmpty && evening.isEmpty && weekly.isEmpty;
 }
 
-/// Hair care from the hair answers (SAMPLE RULES, NOT EXPERT-APPROVED).
-///
-/// Without answers (no quiz yet) the basic wash-day routine is used.
-/// Washing is a weekly slot: how often people wash differs a lot, so the
-/// app asks for it once a week rather than prescribing a frequency.
-AreaPlan planHair(QuizAnswers? a) {
-  bool has(String id, String option) => a?.has(id, option) ?? false;
-  final textured = has('hair_type', 'curly') || has('hair_type', 'coily');
-  final dry = has('hair_concerns', 'dryness');
-  final frizz = has('hair_concerns', 'frizz');
-  final breakage = has('hair_concerns', 'breakage');
-  final oily = has('hair_concerns', 'oiliness');
+/// The routine for some answers: the plan per area, the notes of the
+/// matching rules (beyond the base ones) and the suggested Check filters.
+class RoutineResult {
+  const RoutineResult(this.plans, this.notes, this.preferences);
 
-  final morning = <String>['hair-detangle'];
-  if ((textured || dry || frizz) && !oily) morning.add('hair-leave-in');
+  final Map<RoutineArea, AreaPlan> plans;
 
-  final evening = <String>[if (breakage || textured) 'hair-night-protect'];
+  /// Matching rules that explain the routine (not the base rules), in the
+  /// sheet's order.
+  final List<RoutineRule> notes;
 
-  final weekly = <String>['hair-wash', 'hair-conditioner'];
-  if (dry || breakage || textured) weekly.add('hair-mask');
-  if (oily) weekly.add('hair-scalp-care');
-
-  return AreaPlan(morning: morning, evening: evening, weekly: weekly);
+  /// Check filter ids the answers suggest.
+  final Set<String> preferences;
 }
 
-/// Body care (SAMPLE RULES, NOT EXPERT-APPROVED).
-///
-/// The quiz has no body questions yet, so everyone gets the same basic
-/// routine; sensitive skin skips the scrub and outdoor days add sunscreen.
-AreaPlan planBody(QuizAnswers? a) {
-  bool has(String id, String option) => a?.has(id, option) ?? false;
-  final sensitive =
-      has('skin_sensitivity', 'often') ||
-      has('conditions', 'eczema') ||
-      has('conditions', 'psoriasis');
-  return AreaPlan(
-    morning: [
-      'body-shower',
-      if (!has('sun_exposure', 'indoors')) 'body-sunscreen',
-    ],
-    evening: const ['body-lotion'],
-    weekly: [if (!sensitive) 'body-scrub', 'body-hands-feet'],
+const _pregnancySafe = 'no';
+
+/// Removed when the medication question is not answered (as for a
+/// prescription skin medicine).
+const _unansweredMedicationRemoves = {
+  'retinoid-pm',
+  'face-bha-pm',
+  'face-exfoliant-weekly',
+};
+
+/// Builds the routine for [answers] (`null`: before the quiz, base routine
+/// only).
+RoutineResult buildRoutine(QuizAnswers? answers) {
+  final chosen = <String>{};
+  final removed = <String>{};
+  final notes = <RoutineRule>[];
+  final preferences = <String>{};
+  for (final rule in routineRuleList) {
+    if (!rule.matches(answers)) continue;
+    switch (rule.action) {
+      case RuleAction.add:
+        chosen.addAll(rule.steps);
+      case RuleAction.remove:
+        removed.addAll(rule.steps);
+      case RuleAction.reduce || RuleAction.note:
+        break;
+    }
+    preferences.addAll(rule.preferences);
+    if (rule.question != null) notes.add(rule);
+  }
+  final a = answers;
+  if (a != null) {
+    if (!a.answered('medications')) {
+      removed.addAll(_unansweredMedicationRemoves);
+    }
+  }
+  final pregnancyOk = a != null && a.has('pregnancy', _pregnancySafe);
+  final reactive = a != null && a.has('sensitivity', 'often');
+  final washDaily = a != null && a.has('wash_frequency', 'daily');
+
+  final steps = [
+    for (final s in routineStepCatalogue)
+      if (chosen.contains(s.id) &&
+          !removed.contains(s.id) &&
+          (pregnancyOk || !s.pregnancyUnsafe) &&
+          (!reactive || s.sensitiveOk))
+        s,
+  ];
+
+  AreaPlan plan(RoutineArea area) {
+    final mine = steps.where((s) => s.area == area).toList()
+      ..sort((x, y) => x.order.compareTo(y.order));
+    List<String> at(bool Function(RoutineStepInfo) when) => [
+      for (final s in mine)
+        if (when(s)) s.id,
+    ];
+    return AreaPlan(
+      morning: at(
+        (s) =>
+            s.time == StepTime.morning ||
+            s.time == StepTime.both ||
+            (s.time == StepTime.washDay && washDaily),
+      ),
+      evening: at((s) => s.time == StepTime.evening || s.time == StepTime.both),
+      weekly: at(
+        (s) =>
+            s.time == StepTime.weekly ||
+            (s.time == StepTime.washDay && !washDaily),
+      ),
+    );
+  }
+
+  return RoutineResult(
+    {for (final area in RoutineArea.values) area: plan(area)},
+    notes,
+    preferences,
   );
 }
 
-/// The face plan as an [AreaPlan] (face has no weekly steps yet).
-AreaPlan facePlan(QuizAnswers? a) {
-  final plan = a == null ? defaultRoutinePlan : planRoutine(a);
-  return AreaPlan(morning: plan.morning, evening: plan.evening);
+/// The plan for [area] (`null` answers: base routine).
+AreaPlan planArea(RoutineArea area, QuizAnswers? a) =>
+    buildRoutine(a).plans[area]!;
+
+/// Face steps for the morning and evening (the Today screen).
+class RoutinePlan {
+  const RoutinePlan({required this.morning, required this.evening});
+
+  final List<String> morning;
+  final List<String> evening;
 }
 
-/// The plan for [area].
-AreaPlan planArea(RoutineArea area, QuizAnswers? a) => switch (area) {
-  RoutineArea.face => facePlan(a),
-  RoutineArea.hair => planHair(a),
-  RoutineArea.body => planBody(a),
-};
+RoutinePlan planRoutine(QuizAnswers a) {
+  final face = planArea(RoutineArea.face, a);
+  return RoutinePlan(morning: face.morning, evening: face.evening);
+}
+
+/// The plan for someone who has not taken the quiz.
+final RoutinePlan defaultRoutinePlan = () {
+  final face = planArea(RoutineArea.face, null);
+  return RoutinePlan(morning: face.morning, evening: face.evening);
+}();

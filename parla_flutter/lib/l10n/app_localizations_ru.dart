@@ -371,22 +371,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get resultHair => 'Волосы';
 
   @override
-  String get resultGoals => 'Цели';
+  String get resultGoals => 'Что беспокоит';
 
   @override
   String get resultSeeRoutine => 'Показать мой уход';
-
-  @override
-  String get resultExclusionPregnancy =>
-      'Мы не добавили ретинол: не рекомендуем его при беременности, кормлении грудью или если на этот вопрос нет ответа.';
-
-  @override
-  String get resultExclusionMedication =>
-      'Мы не добавили ретинол: вопрос о лекарствах без ответа или вы используете препарат для кожи по рецепту. Посоветуйтесь с врачом.';
-
-  @override
-  String get resultExclusionSensitive =>
-      'Для чувствительной кожи мы выбрали успокаивающие шаги вместо активных средств.';
 
   @override
   String get homeQuizTitle => 'Давайте настроим уход под вас';
@@ -400,10 +388,6 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String get error_consent_health_required =>
       'Для этих ответов нужно согласие на данные о здоровье.';
-
-  @override
-  String get resultExclusionRetinoidBoth =>
-      'Мы не добавили ретинол: без ответов о беременности и лекарствах мы его не рекомендуем.';
 
   @override
   String get privacyTitle => 'Центр конфиденциальности';

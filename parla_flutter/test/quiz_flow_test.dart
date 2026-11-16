@@ -61,14 +61,24 @@ Future<void> _answer(WidgetTester tester, List<String> options) async {
   );
 }
 
+/// The questions that are not health questions, in the quiz's order.
 Future<void> _answerCore(WidgetTester tester) async {
-  await _answer(tester, ['Comfortable: neither oily nor dry']);
-  await _answer(tester, ['Almost never']);
-  await _answer(tester, ['A natural glow']);
-  await _answer(tester, ['Wavy']);
-  await _answer(tester, ['Nothing']);
-  await _answer(tester, ['5–10 minutes']);
-  await _answer(tester, ['A mix']);
+  await _answer(tester, ['Normal, comfortable']); // skin type
+  await _answer(tester, ['Almost never']); // sensitivity
+  await _answer(tester, ['Fine lines']); // concerns
+  await _answer(tester, ['Less than an hour']); // sun
+  await _answer(tester, ['No']); // makeup and SPF
+  await _answer(tester, ['Standard: 4–5 steps']); // routine level
+  await _answer(tester, ['A few times']); // actives
+  await _answer(tester, ['No preference']); // fragrance
+  await _answer(tester, ['Normal']); // body skin
+  await _answer(tester, ['Nothing']); // body concerns
+  await _answer(tester, ['Wavy']); // hair type
+  await _answer(tester, ['Normal']); // scalp
+  await _answer(tester, ['Nothing']); // hair concerns
+  await _answer(tester, ['Rarely or never']); // heat styling
+  await _answer(tester, ['Every 2–3 days']); // washing
+  await _answer(tester, ['No']); // treated hair
 }
 
 void main() {
@@ -87,15 +97,7 @@ void main() {
     final sent = api.savedQuizAnswers.single;
     expect(sent.chosen.keys, isNot(contains('pregnancy')));
     expect(sent.chosen.keys, isNot(contains('warning_signs')));
-    expect(sent.of('skin_goals'), ['glow']);
-
-    // Without the health answers the routine leaves retinol out and says
-    // so once.
-    expect(find.textContaining('We left out retinol'), findsOneWidget);
-    expect(
-      find.textContaining('without answers about pregnancy and medicines'),
-      findsOneWidget,
-    );
+    expect(sent.of('concerns'), ['fine_lines']);
   });
 
   testWidgets('agreeing at the gate grants the health consent with the '
@@ -111,21 +113,22 @@ void main() {
       currentConsentText(ConsentKind.health).version,
     );
 
-    await _answer(tester, ['None of these']); // conditions
-    await _answer(tester, ['Nickel']); // allergies
     await _answer(tester, ['No']); // pregnancy
-    await _answer(tester, ['None of these']); // medication
+    await _answer(tester, ['No']); // medications
+    await _answer(tester, ['Lanolin']); // allergies
     await _answer(tester, ['None of these']); // warning signs
 
     final sent = api.savedQuizAnswers.single;
     expect(sent.of('pregnancy'), ['no']);
-    expect(sent.of('allergies'), ['nickel']);
+    expect(sent.of('allergies'), ['lanolin']);
     expect(find.text('Your routine is ready'), findsOneWidget);
-    expect(find.textContaining('We left out retinol'), findsNothing);
+    // The lanolin rule explains itself (draft texts from the sheet).
+    expect(find.textContaining('Lanolin is flagged'), findsOneWidget);
 
     await _tap(tester, find.text('Show my routine'));
     await _tap(tester, find.text('Evening'));
-    expect(find.text('Retinol (evening)'), findsOneWidget);
+    // Safe answers and fine lines: the retinoid is in the evening.
+    expect(find.text('Retinoid / retinol'), findsOneWidget);
   });
 
   testWidgets('a health question can be declined', (tester) async {
@@ -134,10 +137,9 @@ void main() {
     // Consent already granted: no gate.
     expect(find.text('A few sensitive questions'), findsNothing);
 
-    await _answer(tester, ['None of these']); // conditions
-    await _answer(tester, ['None of these']); // allergies
     await _tap(tester, find.text("I'd rather not answer")); // pregnancy
-    await _answer(tester, ['None of these']); // medication
+    await _answer(tester, ['No']); // medications
+    await _answer(tester, ['None']); // allergies
     await _answer(tester, ['None of these']); // warning signs
 
     final sent = api.savedQuizAnswers.single;
@@ -169,14 +171,12 @@ void main() {
     final next = find.widgetWithText(FilledButton, 'Next');
     expect(tester.widget<FilledButton>(next).onPressed, isNull);
 
-    await _answer(tester, ['Comfortable: neither oily nor dry']);
+    await _answer(tester, ['Normal, comfortable']);
     await _answer(tester, ['Almost never']);
-    await _answer(tester, ['A natural glow']);
-    await _answer(tester, ['Wavy']);
 
-    await _tap(tester, find.text('Dryness'));
-    await _tap(tester, find.text('Frizz'));
-    await _tap(tester, find.text('Nothing'));
+    await _tap(tester, find.text('Redness'));
+    await _tap(tester, find.text('Enlarged pores'));
+    await _tap(tester, find.text('Nothing in particular'));
     final selected = tester
         .widgetList<Semantics>(find.byType(Semantics))
         .where((s) => s.properties.selected == true)
@@ -216,7 +216,14 @@ void main() {
           expect(tester.takeException(), isNull);
         }
 
-        for (final q in quizQuestions) {
+        // The order the quiz asks: other questions, then health, then
+        // warning signs.
+        final order = [
+          ...quizQuestions.where((q) => !q.sensitive && q.stored),
+          ...quizQuestions.where((q) => q.sensitive),
+          ...quizQuestions.where((q) => !q.stored),
+        ];
+        for (final q in order) {
           collect();
           if (q.sensitive && !api.healthConsent) {
             // The consent gate before the first health question.

@@ -374,22 +374,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resultHair => 'Hair';
 
   @override
-  String get resultGoals => 'Goals';
+  String get resultGoals => 'Concerns';
 
   @override
   String get resultSeeRoutine => 'Show my routine';
-
-  @override
-  String get resultExclusionPregnancy =>
-      'We left out retinol: we don\'t suggest it during pregnancy or breastfeeding, or when this question isn\'t answered.';
-
-  @override
-  String get resultExclusionMedication =>
-      'We left out retinol: the medication question is unanswered or you use a prescription skin medicine. Talk to your doctor.';
-
-  @override
-  String get resultExclusionSensitive =>
-      'For sensitive skin we chose soothing steps instead of active ingredients.';
 
   @override
   String get homeQuizTitle => 'Let\'s personalise your routine';
@@ -403,10 +391,6 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get error_consent_health_required =>
       'These answers need the health consent.';
-
-  @override
-  String get resultExclusionRetinoidBoth =>
-      'We left out retinol: we don\'t suggest it without answers about pregnancy and medicines.';
 
   @override
   String get privacyTitle => 'Privacy centre';

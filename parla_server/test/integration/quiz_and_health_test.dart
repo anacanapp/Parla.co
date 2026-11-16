@@ -44,14 +44,14 @@ void main() {
       final session = _as(sessionBuilder, alice);
       await endpoints.quiz.saveAnswers(session, [
         _answer('skin_type', ['dry']),
-        _answer('skin_goals', ['hydration', 'glow']),
+        _answer('concerns', ['dryness', 'pores']),
       ]);
       final answers = await endpoints.quiz.myAnswers(session);
       expect(
         {for (final a in answers) a.questionId: a.optionIds},
         {
           'skin_type': ['dry'],
-          'skin_goals': ['hydration', 'glow'],
+          'concerns': ['dryness', 'pores'],
         },
       );
     });
@@ -88,14 +88,14 @@ void main() {
       await grantHealth(alice);
       final session = _as(sessionBuilder, alice);
       await endpoints.quiz.saveAnswers(session, [
-        _answer('conditions', ['rosacea']),
+        _answer('allergies', ['lanolin']),
         _answer('pregnancy', ['pregnant']),
-        _answer('medication', [], declined: true),
+        _answer('medications', [], declined: true),
       ]);
 
       final db = sessionBuilder.build();
       final record = (await HealthRecord.db.find(db)).single;
-      expect(record.ciphertext, isNot(contains('rosacea')));
+      expect(record.ciphertext, isNot(contains('lanolin')));
       expect(record.ciphertext, isNot(contains('pregnant')));
       expect(await HealthKey.db.find(db), hasLength(1));
       expect(await QuizAnswer.db.find(db), isEmpty);
@@ -104,9 +104,9 @@ void main() {
         for (final a in await endpoints.quiz.myAnswers(session))
           a.questionId: a,
       };
-      expect(answers['conditions']!.optionIds, ['rosacea']);
+      expect(answers['allergies']!.optionIds, ['lanolin']);
       expect(answers['pregnancy']!.optionIds, ['pregnant']);
-      expect(answers['medication']!.declined, isTrue);
+      expect(answers['medications']!.declined, isTrue);
     });
 
     test('later health answers merge with earlier ones', () async {
@@ -116,7 +116,7 @@ void main() {
         _answer('pregnancy', ['no']),
       ]);
       await endpoints.quiz.saveAnswers(session, [
-        _answer('allergies', ['nickel']),
+        _answer('allergies', ['fragrance']),
       ]);
       final ids = (await endpoints.quiz.myAnswers(
         session,

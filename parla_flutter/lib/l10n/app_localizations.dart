@@ -745,7 +745,7 @@ abstract class AppLocalizations {
   /// No description provided for @resultGoals.
   ///
   /// In en, this message translates to:
-  /// **'Goals'**
+  /// **'Concerns'**
   String get resultGoals;
 
   /// No description provided for @resultSeeRoutine.
@@ -753,24 +753,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Show my routine'**
   String get resultSeeRoutine;
-
-  /// No description provided for @resultExclusionPregnancy.
-  ///
-  /// In en, this message translates to:
-  /// **'We left out retinol: we don\'t suggest it during pregnancy or breastfeeding, or when this question isn\'t answered.'**
-  String get resultExclusionPregnancy;
-
-  /// No description provided for @resultExclusionMedication.
-  ///
-  /// In en, this message translates to:
-  /// **'We left out retinol: the medication question is unanswered or you use a prescription skin medicine. Talk to your doctor.'**
-  String get resultExclusionMedication;
-
-  /// No description provided for @resultExclusionSensitive.
-  ///
-  /// In en, this message translates to:
-  /// **'For sensitive skin we chose soothing steps instead of active ingredients.'**
-  String get resultExclusionSensitive;
 
   /// No description provided for @homeQuizTitle.
   ///
@@ -795,12 +777,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'These answers need the health consent.'**
   String get error_consent_health_required;
-
-  /// No description provided for @resultExclusionRetinoidBoth.
-  ///
-  /// In en, this message translates to:
-  /// **'We left out retinol: we don\'t suggest it without answers about pregnancy and medicines.'**
-  String get resultExclusionRetinoidBoth;
 
   /// No description provided for @privacyTitle.
   ///

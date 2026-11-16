@@ -18,9 +18,9 @@ import 'support/text_sizes.dart';
 /// Quiz answers that produce the standard four-step routine.
 const _standardAnswers = QuizAnswers(
   chosen: {
-    'skin_type': ['normal'],
-    'skin_sensitivity': ['rarely'],
-    'routine_time': ['standard'],
+    'skin_type': ['oily'],
+    'sensitivity': ['never'],
+    'routine_level': ['standard'],
   },
 );
 
@@ -82,9 +82,9 @@ Future<void> _scrollThrough(WidgetTester tester) async {
 void main() {
   const steps = [
     'Gentle cleanser',
-    'Vitamin C serum',
+    'Niacinamide serum',
     'Moisturiser',
-    'Sunscreen',
+    'Sunscreen SPF 30+',
   ];
 
   Finder summary(int done) =>
@@ -118,7 +118,7 @@ void main() {
     expect(find.text('3 steps to go'), findsOneWidget);
     expect(find.text('About 3 min left'), findsOneWidget);
 
-    await tick(tester, 'Vitamin C serum');
+    await tick(tester, 'Niacinamide serum');
     await tick(tester, 'Moisturiser');
     await _toTop(tester);
     expect(find.text('1 step to go'), findsOneWidget);
@@ -142,11 +142,14 @@ void main() {
 
   testWidgets('a step can be unticked', (tester) async {
     await _pumpHome(tester);
-    await tick(tester, 'Sunscreen');
+    await tick(tester, 'Sunscreen SPF 30+');
     await _toTop(tester);
     expect(summary(1), findsOneWidget);
 
-    await _tap(tester, find.bySemanticsLabel('Sunscreen: done, tap to undo'));
+    await _tap(
+      tester,
+      find.bySemanticsLabel('Sunscreen SPF 30+: done, tap to undo'),
+    );
     await _toTop(tester);
     expect(summary(0), findsOneWidget);
   });
@@ -157,7 +160,7 @@ void main() {
     await _pumpHome(tester);
     await _tap(tester, find.text('Evening'));
     expect(find.text('EVENING ROUTINE'), findsOneWidget);
-    expect(find.text('Remove make-up'), findsOneWidget);
+    expect(find.text('Evening cleanser'), findsOneWidget);
   });
 
   testWidgets('in the evening the evening routine opens first', (
@@ -174,7 +177,7 @@ void main() {
     expect(find.text("Let's personalise your routine"), findsOneWidget);
     expect(find.bySemanticsLabel('Gentle cleanser: mark as done'), findsOne);
     expect(
-      find.bySemanticsLabel('Vitamin C serum: mark as done'),
+      find.bySemanticsLabel('Niacinamide serum: mark as done'),
       findsNothing,
     );
     await _tap(tester, find.text('Start the quiz'));
@@ -216,7 +219,7 @@ void main() {
     expect(saved['days'], {
       '2026-11-12': {
         'water': 2,
-        'morningDone': ['cleanser'],
+        'morningDone': ['face-cleanser-am'],
       },
     });
 

@@ -363,22 +363,10 @@ class AppLocalizationsAz extends AppLocalizations {
   String get resultHair => 'Saç';
 
   @override
-  String get resultGoals => 'Məqsədlər';
+  String get resultGoals => 'Narahatlıqlar';
 
   @override
   String get resultSeeRoutine => 'Rutinimi göstər';
-
-  @override
-  String get resultExclusionPregnancy =>
-      'Retinol əlavə etmədik: hamiləlik və əmizdirmə dövründə, ya da bu suala cavab olmayanda onu tövsiyə etmirik.';
-
-  @override
-  String get resultExclusionMedication =>
-      'Retinol əlavə etmədik: dərman sualı cavabsızdır və ya həkimin yazdığı dəri preparatından istifadə edirsiniz. Həkiminizlə məsləhətləşin.';
-
-  @override
-  String get resultExclusionSensitive =>
-      'Həssas dəri üçün aktiv maddələr əvəzinə sakitləşdirici addımlar seçdik.';
 
   @override
   String get homeQuizTitle => 'Rutininizi fərdiləşdirək';
@@ -392,10 +380,6 @@ class AppLocalizationsAz extends AppLocalizations {
   @override
   String get error_consent_health_required =>
       'Bu cavablar üçün sağlamlıq razılığı lazımdır.';
-
-  @override
-  String get resultExclusionRetinoidBoth =>
-      'Retinol əlavə etmədik: hamiləlik və dərmanlarla bağlı cavablar olmadan onu tövsiyə etmirik.';
 
   @override
   String get privacyTitle => 'Məxfilik mərkəzi';

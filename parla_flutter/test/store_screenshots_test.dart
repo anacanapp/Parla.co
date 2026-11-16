@@ -35,8 +35,8 @@ final _today = DateTime(2026, 11, 12, 9);
 const _answers = QuizAnswers(
   chosen: {
     'skin_type': ['combination'],
-    'skin_sensitivity': ['rarely'],
-    'routine_time': ['standard'],
+    'sensitivity': ['never'],
+    'routine_level': ['standard'],
   },
 );
 
@@ -83,11 +83,15 @@ MemoryHabitStore _store() {
       ..water = v.$1
       ..sleepHours = v.$2
       ..moveMinutes = v.$3;
-    if (ago != 0) d.morningDone.add('cleanser');
-    if (ago.isOdd) d.eveningDone.add('makeup-off');
+    if (ago != 0) d.morningDone.add('face-cleanser-am');
+    if (ago.isOdd) d.eveningDone.add('face-cleanser-pm');
   });
   log.day(_today)
-    ..morningDone.addAll(['cleanser', 'vitamin-c', 'moisturiser'])
+    ..morningDone.addAll([
+      'face-cleanser-am',
+      'face-vitamin-c',
+      'face-moisturiser',
+    ])
     ..moveMinutes = 20;
   return MemoryHabitStore()..data['user-1'] = jsonEncode(log.toJson());
 }

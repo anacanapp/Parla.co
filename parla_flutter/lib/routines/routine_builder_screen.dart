@@ -13,17 +13,15 @@ import '../ui/parla_icons.dart';
 import 'custom_routines.dart';
 import 'routine_section.dart';
 
-/// Ready step titles for [area] in [language]: the basic plan's steps and
-/// every sample step of that area.
-List<String> stepSuggestions(RoutineArea area, String language) {
-  final ids = <String>{
-    for (final slot in RoutineSlot.values) ...planArea(area, null).slot(slot),
-    if (area != RoutineArea.face)
-      for (final id in knownStepIds(language))
-        if (id.startsWith('${area.name}-')) id,
-  };
-  return [for (final s in routineSteps(ids.toList(), language)) s.title];
-}
+/// Ready step titles for [area] in [language]: every care step of that
+/// area from the content sheet.
+List<String> stepSuggestions(RoutineArea area, String language) => [
+  for (final s in routineSteps([
+    for (final info in routineStepCatalogue)
+      if (info.area == area) info.id,
+  ], language))
+    s.title,
+];
 
 /// Makes or edits one of the user's own routines. The name and steps are
 /// free text: they are kept encrypted (on the server only with the health
