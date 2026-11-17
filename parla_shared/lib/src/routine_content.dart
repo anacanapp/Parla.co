@@ -289,9 +289,9 @@ final routineRuleList = <RoutineRule>[
     steps: [],
     preferences: ['fragrance_free'],
     note: _t(
-      "“Yoxla” bölməsində “Ətirsiz” seçimini avtomatik aktiv edirik.",
-      "В «Проверить» автоматически включаем фильтр «Без отдушек».",
-      "We switch on the Fragrance-free filter in Check.",
+      "“Yoxla” bölməsində “Ətirsiz” seçimini təklif edirik.",
+      "В «Проверить» предлагаем фильтр «Без отдушек».",
+      "We suggest the Fragrance-free filter in Check.",
     ),
   ),
   RoutineRule(
