@@ -38,6 +38,10 @@ import 'package:parla_client/src/protocol/staff/staff_summary.dart'
 import 'package:parla_client/src/protocol/staff/totp_enrollment.dart'
     as _i8ipqfqe;
 import 'package:parla_client/src/protocol/stats/stats_report.dart' as _iod6dk31;
+import 'package:parla_client/src/protocol/support/support_entry.dart'
+    as _iv2bnak3;
+import 'package:parla_client/src/protocol/support/support_thread_summary.dart'
+    as _ici4godl;
 import 'package:parla_client/src/protocol/users/user_admin_view.dart'
     as _i8wvbfgy;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
@@ -501,7 +505,8 @@ class EndpointContentAdmin extends _isc.EndpointRef {
         {'id': id},
       );
 
-  /// An expert approves the working copy as it is now.
+  /// The reviewer approves the working copy as it is now: an expert, or an
+  /// admin for the team's own banners ([ContentRules.reviewerRole]).
   _ida.Future<_i9q5wd3k.ContentAdminItem> approve(int id) =>
       caller.callServerEndpoint<_i9q5wd3k.ContentAdminItem>(
         'contentAdmin',
@@ -509,7 +514,7 @@ class EndpointContentAdmin extends _isc.EndpointRef {
         {'id': id},
       );
 
-  /// An expert sends it back to the writer with a note.
+  /// The reviewer sends it back to the writer with a note.
   _ida.Future<_i9q5wd3k.ContentAdminItem> returnToWriter(
     int id,
     String note,
@@ -1061,6 +1066,81 @@ class EndpointStatsAdmin extends _isc.EndpointRef {
       );
 }
 
+/// Support conversations in the admin panel (support role and admins). The
+/// list shows no message text; opening a conversation is audited.
+/// {@category Endpoint}
+class EndpointSupportAdmin extends _isc.EndpointRef {
+  EndpointSupportAdmin(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'supportAdmin';
+
+  _ida.Future<List<_ici4godl.SupportThreadSummary>> threads() =>
+      caller.callServerEndpoint<List<_ici4godl.SupportThreadSummary>>(
+        'supportAdmin',
+        'threads',
+        {},
+      );
+
+  _ida.Future<List<_iv2bnak3.SupportEntry>> open(int threadId) =>
+      caller.callServerEndpoint<List<_iv2bnak3.SupportEntry>>(
+        'supportAdmin',
+        'open',
+        {'threadId': threadId},
+      );
+
+  _ida.Future<void> reply(
+    int threadId,
+    String text,
+  ) => caller.callServerEndpoint<void>(
+    'supportAdmin',
+    'reply',
+    {
+      'threadId': threadId,
+      'text': text,
+    },
+  );
+
+  _ida.Future<void> close(int threadId) => caller.callServerEndpoint<void>(
+    'supportAdmin',
+    'close',
+    {'threadId': threadId},
+  );
+}
+
+/// The user's own conversation with the Parla team. Messages are stored
+/// encrypted and deleted 12 months after the last message or with the
+/// account.
+/// {@category Endpoint}
+class EndpointSupport extends _isc.EndpointRef {
+  EndpointSupport(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'support';
+
+  /// The conversation, oldest first (empty when none). Marks the team's
+  /// replies as read.
+  _ida.Future<List<_iv2bnak3.SupportEntry>> myMessages() =>
+      caller.callServerEndpoint<List<_iv2bnak3.SupportEntry>>(
+        'support',
+        'myMessages',
+        {},
+      );
+
+  /// Whether the team replied and the user has not read it yet.
+  _ida.Future<bool> hasUnreadReply() => caller.callServerEndpoint<bool>(
+    'support',
+    'hasUnreadReply',
+    {},
+  );
+
+  _ida.Future<void> send(String text) => caller.callServerEndpoint<void>(
+    'support',
+    'send',
+    {'text': text},
+  );
+}
+
 /// App accounts in the admin panel (admins only): look one up by its exact
 /// email, block or unblock it, or delete it on the user's request. Shows
 /// account data and consent decisions only, never health data. Every
@@ -1167,6 +1247,8 @@ class Client extends _isc.ServerpodClientShared {
     staff = EndpointStaff(this);
     activity = EndpointActivity(this);
     statsAdmin = EndpointStatsAdmin(this);
+    supportAdmin = EndpointSupportAdmin(this);
+    support = EndpointSupport(this);
     userAdmin = EndpointUserAdmin(this);
     modules = Modules(this);
   }
@@ -1207,6 +1289,10 @@ class Client extends _isc.ServerpodClientShared {
 
   late final EndpointStatsAdmin statsAdmin;
 
+  late final EndpointSupportAdmin supportAdmin;
+
+  late final EndpointSupport support;
+
   late final EndpointUserAdmin userAdmin;
 
   late final Modules modules;
@@ -1231,6 +1317,8 @@ class Client extends _isc.ServerpodClientShared {
     'staff': staff,
     'activity': activity,
     'statsAdmin': statsAdmin,
+    'supportAdmin': supportAdmin,
+    'support': support,
     'userAdmin': userAdmin,
   };
 

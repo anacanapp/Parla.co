@@ -125,6 +125,21 @@ final _published = <String, List<PublishedItem>>{
       },
     ),
   ],
+  'message': [
+    PublishedItem(
+      id: 30,
+      kind: 'message',
+      slug: 'nutrition-open',
+      category: 'announcement',
+      publishedAt: DateTime.utc(2026, 11, 10),
+      data: {
+        'title': _l('Nutrition is open'),
+        'body': _l('Try the plate.'),
+        'startsOn': '2026-11-01',
+        'endsOn': '2026-11-30',
+      },
+    ),
+  ],
   'recipe': [
     PublishedItem(
       id: 3,
@@ -323,6 +338,44 @@ void main() {
     await _open(tester);
     await _tap(tester, find.byKey(const ValueKey('banner-new-recipes')));
     expect(find.text('Oats en'), findsOneWidget);
+  });
+
+  testWidgets('messages: announcements, and a support conversation', (
+    tester,
+  ) async {
+    final app = await _open(tester);
+    app.api
+      ..support.add(
+        SupportItem(
+          fromTeam: true,
+          text: 'Hello from the team',
+          at: DateTime.utc(2026, 11, 15),
+        ),
+      )
+      ..supportUnread = true;
+    // Back to the home tab: the button shows the unread reply.
+    await tester.tap(
+      find
+          .descendant(
+            of: find.byType(ParlaNavBar),
+            matching: find.byType(InkWell),
+          )
+          .at(0),
+    );
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('home-messages-dot')), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('home-messages')));
+    expect(find.text('Nutrition is open en'), findsOneWidget);
+    expect(find.text('Hello from the team'), findsOneWidget);
+    expect(find.textContaining('stored encrypted'), findsOneWidget);
+
+    await tester.enterText(
+      find.byKey(const ValueKey('support-text')),
+      'My skin feels tight',
+    );
+    await _tap(tester, find.byKey(const ValueKey('support-send')));
+    expect(app.api.support.last.text, 'My skin feels tight');
+    expect(find.text('My skin feels tight'), findsOneWidget);
   });
 
   testWidgets('content shows in Russian, and the last copy shows offline', (

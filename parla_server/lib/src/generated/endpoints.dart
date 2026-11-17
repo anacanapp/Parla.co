@@ -39,6 +39,8 @@ import '../staff/staff_admin_endpoint.dart' as _i73k1848;
 import '../staff/staff_endpoint.dart' as _ig11nxnn;
 import '../stats/activity_endpoint.dart' as _ilkw5wl2;
 import '../stats/stats_admin_endpoint.dart' as _ih5y3t9b;
+import '../support/support_admin_endpoint.dart' as _imhcxpvz;
+import '../support/support_endpoint.dart' as _iqxms0ns;
 import '../users/user_admin_endpoint.dart' as _i20m5nkn;
 
 class Endpoints extends _is.EndpointDispatch {
@@ -151,6 +153,18 @@ class Endpoints extends _is.EndpointDispatch {
         ..initialize(
           server,
           'statsAdmin',
+          null,
+        ),
+      'supportAdmin': _imhcxpvz.SupportAdminEndpoint()
+        ..initialize(
+          server,
+          'supportAdmin',
+          null,
+        ),
+      'support': _iqxms0ns.SupportEndpoint()
+        ..initialize(
+          server,
+          'support',
           null,
         ),
       'userAdmin': _i20m5nkn.UserAdminEndpoint()
@@ -1509,6 +1523,134 @@ class Endpoints extends _is.EndpointDispatch {
               ) async =>
                   (endpoints['statsAdmin'] as _ih5y3t9b.StatsAdminEndpoint)
                       .report(session),
+        ),
+      },
+    );
+    connectors['supportAdmin'] = _is.EndpointConnector(
+      name: 'supportAdmin',
+      endpoint: endpoints['supportAdmin']!,
+      methodConnectors: {
+        'threads': _is.MethodConnector(
+          name: 'threads',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['supportAdmin'] as _imhcxpvz.SupportAdminEndpoint)
+                      .threads(session),
+        ),
+        'open': _is.MethodConnector(
+          name: 'open',
+          params: {
+            'threadId': _is.ParameterDescription(
+              name: 'threadId',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['supportAdmin'] as _imhcxpvz.SupportAdminEndpoint)
+                      .open(
+                        session,
+                        params['threadId'],
+                      ),
+        ),
+        'reply': _is.MethodConnector(
+          name: 'reply',
+          params: {
+            'threadId': _is.ParameterDescription(
+              name: 'threadId',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+            'text': _is.ParameterDescription(
+              name: 'text',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['supportAdmin'] as _imhcxpvz.SupportAdminEndpoint)
+                      .reply(
+                        session,
+                        params['threadId'],
+                        params['text'],
+                      ),
+        ),
+        'close': _is.MethodConnector(
+          name: 'close',
+          params: {
+            'threadId': _is.ParameterDescription(
+              name: 'threadId',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['supportAdmin'] as _imhcxpvz.SupportAdminEndpoint)
+                      .close(
+                        session,
+                        params['threadId'],
+                      ),
+        ),
+      },
+    );
+    connectors['support'] = _is.EndpointConnector(
+      name: 'support',
+      endpoint: endpoints['support']!,
+      methodConnectors: {
+        'myMessages': _is.MethodConnector(
+          name: 'myMessages',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['support'] as _iqxms0ns.SupportEndpoint)
+                  .myMessages(session),
+        ),
+        'hasUnreadReply': _is.MethodConnector(
+          name: 'hasUnreadReply',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['support'] as _iqxms0ns.SupportEndpoint)
+                  .hasUnreadReply(session),
+        ),
+        'send': _is.MethodConnector(
+          name: 'send',
+          params: {
+            'text': _is.ParameterDescription(
+              name: 'text',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['support'] as _iqxms0ns.SupportEndpoint).send(
+                    session,
+                    params['text'],
+                  ),
         ),
       },
     );

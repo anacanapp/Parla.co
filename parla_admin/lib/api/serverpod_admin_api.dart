@@ -172,6 +172,22 @@ class ServerpodAdminApi implements AdminApi {
       _guard(() => _client.userAdmin.deleteOnRequest(userId, confirmEmail));
 
   @override
+  Future<List<SupportThreadSummary>> supportThreads() =>
+      _guard(_client.supportAdmin.threads);
+
+  @override
+  Future<List<SupportEntry>> openSupportThread(int id) =>
+      _guard(() => _client.supportAdmin.open(id));
+
+  @override
+  Future<void> replySupport(int id, String text) =>
+      _guard(() => _client.supportAdmin.reply(id, text));
+
+  @override
+  Future<void> closeSupportThread(int id) =>
+      _guard(() => _client.supportAdmin.close(id));
+
+  @override
   Future<StatsReport> statsReport() => _guard(_client.statsAdmin.report);
 
   @override

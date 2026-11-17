@@ -31,7 +31,10 @@ enum ContentKind {
 
   /// A card on the Today or Discover screen (admin phase D1). With a
   /// `sponsor` it is a brand's paid campaign, always labelled as an ad.
-  banner;
+  banner,
+
+  /// An announcement from the team in the app's Messages (phase D2).
+  message;
 
   bool get isCatalogue =>
       this == preference || this == exercise || this == step;
@@ -143,14 +146,16 @@ abstract final class ContentRules {
   /// Which staff role approves [kind]: brand campaigns and all other
   /// content are approved by an expert; the team's own banners by an admin.
   static String reviewerRole(ContentKind kind, Map<String, Object?> json) =>
-      kind == ContentKind.banner && !isSponsored(json) ? 'admin' : 'expert';
+      adminPublishesDirectly(kind, json) ? 'admin' : 'expert';
 
   /// Whether an admin may publish without a separate approval: only the
   /// team's own (not sponsored) banners.
   static bool adminPublishesDirectly(
     ContentKind kind,
     Map<String, Object?> json,
-  ) => kind == ContentKind.banner && !isSponsored(json);
+  ) =>
+      kind == ContentKind.message ||
+      (kind == ContentKind.banner && !isSponsored(json));
 
   /// Whether a published banner shows today for [language] and [country]
   /// (`null` when unknown: then only banners for every country show).
@@ -250,6 +255,7 @@ abstract final class ContentRules {
     ContentKind.exercise ||
     ContentKind.step => const [catalogueCategory],
     ContentKind.banner => bannerPlacements,
+    ContentKind.message => const ['announcement'],
   };
 
   /// Problems with [encoded] as content of [kind]; empty when it is valid.
@@ -430,10 +436,6 @@ abstract final class ContentRules {
         });
         text('title', 80);
         text('body', 200, required: false);
-        final link = json['link'];
-        if (link != null && (link is! String || !isBannerLink(link))) {
-          out.add('link.invalid');
-        }
         final sponsor = json['sponsor'];
         if (sponsor != null &&
             (sponsor is! String ||
@@ -441,35 +443,20 @@ abstract final class ContentRules {
                 sponsor.length > 60)) {
           out.add('sponsor.invalid');
         }
-        final starts = json['startsOn'];
-        final ends = json['endsOn'];
-        for (final (key, v) in [('startsOn', starts), ('endsOn', ends)]) {
-          if (v == null) {
-            if (complete) out.add('$key.missing');
-          } else if (v is! String || !_day.hasMatch(v)) {
-            out.add('$key.invalid');
-          }
-        }
-        if (starts is String &&
-            ends is String &&
-            _day.hasMatch(starts) &&
-            _day.hasMatch(ends) &&
-            ends.compareTo(starts) < 0) {
-          out.add('endsOn.before_start');
-        }
-        final langs = json['languages'];
-        if (langs != null &&
-            (langs is! List || !langs.every(languages.contains))) {
-          out.add('languages.invalid');
-        }
-        final countries = json['countries'];
-        if (countries != null &&
-            (countries is! List ||
-                !countries.every(
-                  (c) => c is String && markets.any((m) => m.countryCode == c),
-                ))) {
-          out.add('countries.invalid');
-        }
+        _schedule(json, complete, out);
+      case ContentKind.message:
+        only({
+          'title',
+          'body',
+          'link',
+          'startsOn',
+          'endsOn',
+          'languages',
+          'countries',
+        });
+        text('title', 80);
+        text('body', 2000);
+        _schedule(json, complete, out);
       case ContentKind.expert:
         only({
           'name',
@@ -510,6 +497,46 @@ abstract final class ContentRules {
         }
     }
     return out;
+  }
+
+  /// Link, dates, languages and countries of banners and messages.
+  static void _schedule(
+    Map<String, Object?> json,
+    bool complete,
+    List<String> out,
+  ) {
+    final link = json['link'];
+    if (link != null && (link is! String || !isBannerLink(link))) {
+      out.add('link.invalid');
+    }
+    final starts = json['startsOn'];
+    final ends = json['endsOn'];
+    for (final (key, v) in [('startsOn', starts), ('endsOn', ends)]) {
+      if (v == null) {
+        if (complete) out.add('$key.missing');
+      } else if (v is! String || !_day.hasMatch(v)) {
+        out.add('$key.invalid');
+      }
+    }
+    if (starts is String &&
+        ends is String &&
+        _day.hasMatch(starts) &&
+        _day.hasMatch(ends) &&
+        ends.compareTo(starts) < 0) {
+      out.add('endsOn.before_start');
+    }
+    final langs = json['languages'];
+    if (langs != null && (langs is! List || !langs.every(languages.contains))) {
+      out.add('languages.invalid');
+    }
+    final countries = json['countries'];
+    if (countries != null &&
+        (countries is! List ||
+            !countries.every(
+              (c) => c is String && markets.any((m) => m.countryCode == c),
+            ))) {
+      out.add('countries.invalid');
+    }
   }
 
   static void _localized(

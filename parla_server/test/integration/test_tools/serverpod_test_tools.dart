@@ -40,6 +40,10 @@ import 'package:parla_server/src/generated/staff/totp_enrollment.dart'
     as _iuuxdif3;
 import 'package:parla_server/src/generated/stats/stats_report.dart'
     as _i1ypnd10;
+import 'package:parla_server/src/generated/support/support_entry.dart'
+    as _iexc7wsp;
+import 'package:parla_server/src/generated/support/support_thread_summary.dart'
+    as _i41nkhg5;
 import 'package:parla_server/src/generated/users/user_admin_view.dart'
     as _icn9yhex;
 import 'package:serverpod/serverpod.dart' as _is;
@@ -217,6 +221,10 @@ class TestEndpoints {
 
   late final _StatsAdminEndpoint statsAdmin;
 
+  late final _SupportAdminEndpoint supportAdmin;
+
+  late final _SupportEndpoint support;
+
   late final _UserAdminEndpoint userAdmin;
 }
 
@@ -296,6 +304,14 @@ class _InternalTestEndpoints extends TestEndpoints
       serializationManager,
     );
     statsAdmin = _StatsAdminEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    supportAdmin = _SupportAdminEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    support = _SupportEndpoint(
       endpoints,
       serializationManager,
     );
@@ -2548,6 +2564,246 @@ class _StatsAdminEndpoint {
                   _localCallContext.arguments,
                 )
                 as _ida.Future<_i1ypnd10.StatsReport>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
+class _SupportAdminEndpoint {
+  _SupportAdminEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _is.EndpointDispatch _endpointDispatch;
+
+  final _is.SerializationManager _serializationManager;
+
+  _ida.Future<List<_i41nkhg5.SupportThreadSummary>> threads(
+    _ist.TestSessionBuilder sessionBuilder,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'supportAdmin',
+            method: 'threads',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'supportAdmin',
+          methodName: 'threads',
+          parameters: _ist.testObjectToJson({}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<List<_i41nkhg5.SupportThreadSummary>>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _ida.Future<List<_iexc7wsp.SupportEntry>> open(
+    _ist.TestSessionBuilder sessionBuilder,
+    int threadId,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'supportAdmin',
+            method: 'open',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'supportAdmin',
+          methodName: 'open',
+          parameters: _ist.testObjectToJson({'threadId': threadId}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<List<_iexc7wsp.SupportEntry>>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _ida.Future<void> reply(
+    _ist.TestSessionBuilder sessionBuilder,
+    int threadId,
+    String text,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'supportAdmin',
+            method: 'reply',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'supportAdmin',
+          methodName: 'reply',
+          parameters: _ist.testObjectToJson({
+            'threadId': threadId,
+            'text': text,
+          }),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<void>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _ida.Future<void> close(
+    _ist.TestSessionBuilder sessionBuilder,
+    int threadId,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'supportAdmin',
+            method: 'close',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'supportAdmin',
+          methodName: 'close',
+          parameters: _ist.testObjectToJson({'threadId': threadId}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<void>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
+class _SupportEndpoint {
+  _SupportEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _is.EndpointDispatch _endpointDispatch;
+
+  final _is.SerializationManager _serializationManager;
+
+  _ida.Future<List<_iexc7wsp.SupportEntry>> myMessages(
+    _ist.TestSessionBuilder sessionBuilder,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'support',
+            method: 'myMessages',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'support',
+          methodName: 'myMessages',
+          parameters: _ist.testObjectToJson({}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<List<_iexc7wsp.SupportEntry>>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _ida.Future<bool> hasUnreadReply(
+    _ist.TestSessionBuilder sessionBuilder,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'support',
+            method: 'hasUnreadReply',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'support',
+          methodName: 'hasUnreadReply',
+          parameters: _ist.testObjectToJson({}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<bool>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _ida.Future<void> send(
+    _ist.TestSessionBuilder sessionBuilder,
+    String text,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'support',
+            method: 'send',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'support',
+          methodName: 'send',
+          parameters: _ist.testObjectToJson({'text': text}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<void>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

@@ -1605,4 +1605,41 @@ class AppLocalizationsRu extends AppLocalizations {
   String bannerAd(String brand) {
     return 'Реклама · $brand';
   }
+
+  @override
+  String get messagesTitle => 'Сообщения';
+
+  @override
+  String get messagesButton => 'Сообщения';
+
+  @override
+  String get messagesButtonUnread => 'Сообщения, есть новый ответ';
+
+  @override
+  String get messagesFromParla => 'От Parla';
+
+  @override
+  String get messagesNone => 'Пока нет объявлений.';
+
+  @override
+  String get supportTitle => 'Поддержка';
+
+  @override
+  String get supportIntro =>
+      'Напиши вопрос, команда Parla ответит. Сообщения хранятся в зашифрованном виде и удаляются через 12 месяцев после последнего. Мы не даём медицинских советов: в срочных или серьёзных случаях обратись к врачу.';
+
+  @override
+  String get supportHint => 'Твоё сообщение';
+
+  @override
+  String get supportSend => 'Отправить';
+
+  @override
+  String get supportYou => 'Ты';
+
+  @override
+  String get supportTeam => 'Команда Parla';
+
+  @override
+  String get supportSent => 'Отправлено.';
 }

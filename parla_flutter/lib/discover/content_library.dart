@@ -23,6 +23,7 @@ class ContentLibrary extends ChangeNotifier {
     'exercise',
     'step',
     'banner',
+    'message',
   ];
   static const catalogueKinds = ['preference', 'exercise', 'step'];
 
@@ -88,7 +89,7 @@ class ContentLibrary extends ChangeNotifier {
   /// Loads the catalogue texts, hidden flags and banners (at app start).
   Future<void> loadCatalogue() async {
     await Future.wait([
-      for (final k in [...catalogueKinds, 'banner']) _load(k),
+      for (final k in [...catalogueKinds, 'banner', 'message']) _load(k),
     ]);
   }
 

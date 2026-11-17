@@ -354,6 +354,45 @@ class _Field {
 }
 
 const _fields = <String, List<_Field>>{
+  'message': [
+    _Field('title', 'Başlıq', _FieldType.line),
+    _Field('body', 'Mətn', _FieldType.multiline),
+    _Field(
+      'link',
+      'Keçid (istəyə görə)',
+      _FieldType.plain,
+      localized: false,
+      help:
+          'Ekran: home, routine, check, sport, discover, blog, nutrition, '
+          'experts; və ya article:slug, recipe:slug.',
+    ),
+    _Field(
+      'startsOn',
+      'Görünmə başlanğıcı (YYYY-AA-GG)',
+      _FieldType.plain,
+      localized: false,
+    ),
+    _Field(
+      'endsOn',
+      'Görünmə sonu (YYYY-AA-GG)',
+      _FieldType.plain,
+      localized: false,
+    ),
+    _Field(
+      'languages',
+      'Dillər (heç biri seçilməsə: hamısı)',
+      _FieldType.multi,
+      localized: false,
+      options: ['az', 'ru', 'en'],
+    ),
+    _Field(
+      'countries',
+      'Ölkələr (heç biri seçilməsə: hamısı)',
+      _FieldType.multi,
+      localized: false,
+      options: ['AZ', 'TR', 'KZ', 'UZ'],
+    ),
+  ],
   'banner': [
     _Field('title', 'Başlıq', _FieldType.line),
     _Field('body', 'Qısa mətn', _FieldType.multiline),

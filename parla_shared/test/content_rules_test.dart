@@ -310,6 +310,38 @@ void main() {
     });
   });
 
+  test('messages: team announcements, admin publishes directly', () {
+    final message = {
+      'title': _l('Yenilik'),
+      'body': _l('Qidalanma bölməsi açıldı.'),
+      'startsOn': '2026-12-01',
+      'endsOn': '2026-12-31',
+      'link': 'nutrition',
+    };
+    expect(_p(ContentKind.message, message), isEmpty);
+    expect(ContentRules.reviewerRole(ContentKind.message, message), 'admin');
+    expect(
+      ContentRules.adminPublishesDirectly(ContentKind.message, message),
+      isTrue,
+    );
+    expect(
+      _p(ContentKind.message, {...message, 'sponsor': 'Brand'}),
+      contains('sponsor.unknown'),
+    );
+    expect(
+      _p(ContentKind.message, {...message, 'link': 'https://x.az'}),
+      contains('link.invalid'),
+    );
+    expect(
+      ContentRules.bannerVisible(
+        message,
+        DateTime(2026, 12, 2),
+        language: 'az',
+      ),
+      isTrue,
+    );
+  });
+
   test('slugs and picking a language', () {
     expect(ContentRules.isSlug('qis-ayl-ari-deri'), isTrue);
     expect(ContentRules.isSlug('Bad Slug'), isFalse);
