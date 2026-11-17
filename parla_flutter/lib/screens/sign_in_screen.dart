@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../discover/content_library.dart';
 import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
 import '../routes.dart';
@@ -15,6 +16,7 @@ class SignInScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     try {
       final profile = await scope.api.myProfile();
+      ContentLibrary.country = profile?.countryCode;
       if (!context.mounted) return;
       if (profile != null) {
         context.go(Routes.home);

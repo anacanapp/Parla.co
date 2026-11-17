@@ -2871,6 +2871,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'molluscs'**
   String get allergenMolluscs;
+
+  /// No description provided for @bannerAd.
+  ///
+  /// In en, this message translates to:
+  /// **'Ad · {brand}'**
+  String bannerAd(String brand);
 }
 
 class _AppLocalizationsDelegate

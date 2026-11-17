@@ -501,7 +501,8 @@ class EndpointContentAdmin extends _isc.EndpointRef {
         {'id': id},
       );
 
-  /// An expert approves the working copy as it is now.
+  /// The reviewer approves the working copy as it is now: an expert, or an
+  /// admin for the team's own banners ([ContentRules.reviewerRole]).
   _ida.Future<_i9q5wd3k.ContentAdminItem> approve(int id) =>
       caller.callServerEndpoint<_i9q5wd3k.ContentAdminItem>(
         'contentAdmin',
@@ -509,7 +510,7 @@ class EndpointContentAdmin extends _isc.EndpointRef {
         {'id': id},
       );
 
-  /// An expert sends it back to the writer with a note.
+  /// The reviewer sends it back to the writer with a note.
   _ida.Future<_i9q5wd3k.ContentAdminItem> returnToWriter(
     int id,
     String note,

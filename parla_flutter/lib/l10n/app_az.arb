@@ -461,5 +461,6 @@
   "allergenSesame": "küncüt",
   "allergenSulphites": "sulfitlər",
   "allergenLupin": "lüpin",
-  "allergenMolluscs": "molyusklar"
+  "allergenMolluscs": "molyusklar",
+  "bannerAd": "Reklam · {brand}"
 }

@@ -461,5 +461,6 @@
   "allergenSesame": "кунжут",
   "allergenSulphites": "сульфиты",
   "allergenLupin": "люпин",
-  "allergenMolluscs": "моллюски"
+  "allergenMolluscs": "моллюски",
+  "bannerAd": "Реклама · {brand}"
 }

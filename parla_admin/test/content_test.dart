@@ -278,4 +278,33 @@ void main() {
     await _tap(tester, find.byKey(const ValueKey('catalogue-fragrance_free')));
     expect(find.byKey(const ValueKey('image-field')), findsNothing);
   });
+
+  testWidgets('banners: admins publish their own; brand ads need review', (
+    tester,
+  ) async {
+    final api = await _pump(tester, StaffRole.admin);
+    await _tap(tester, find.text('Məzmun'));
+    await _tap(tester, find.text('Bannerlər'));
+    await _tap(tester, find.byKey(const ValueKey('content-new')));
+    await tester.enterText(find.byKey(const ValueKey('new-slug')), 'qidalanma');
+    await _tap(tester, find.byKey(const ValueKey('new-create')));
+
+    await _type(tester, 'field-title-az', 'Yeni bölmə');
+    await _type(tester, 'field-link', 'nutrition');
+    await _type(tester, 'field-startsOn', '2026-12-01');
+    await _type(tester, 'field-endsOn', '2026-12-31');
+    await _tap(tester, find.byKey(const ValueKey('multi-languages-az')));
+    await _tap(tester, find.byKey(const ValueKey('content-save')));
+    final saved = api.calls.lastWhere((c) => c.startsWith('save:'));
+    final json = jsonDecode(saved.substring(saved.indexOf('{'))) as Map;
+    expect(json['languages'], ['az']);
+    expect(json.containsKey('countries'), isFalse);
+    // The team's own banner: the admin may publish without a review.
+    expect(find.byKey(const ValueKey('content-publish')), findsOneWidget);
+    expect(find.byKey(const ValueKey('banner-ad-note')), findsNothing);
+
+    await _type(tester, 'field-sponsor', 'Brand X');
+    expect(find.byKey(const ValueKey('banner-ad-note')), findsOneWidget);
+    expect(find.byKey(const ValueKey('content-publish')), findsNothing);
+  });
 }
