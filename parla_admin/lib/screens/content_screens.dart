@@ -143,6 +143,7 @@ class _ContentScreenState extends State<ContentScreen> {
                 const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
                   key: const ValueKey('new-category'),
+                  isExpanded: true,
                   initialValue: category,
                   decoration: const InputDecoration(labelText: 'Kateqoriya'),
                   items: [
@@ -239,13 +240,17 @@ class _ContentScreenState extends State<ContentScreen> {
           ],
         ),
         const SizedBox(height: 12),
-        SegmentedButton<String>(
-          segments: [
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
             for (final k in ContentKind.values)
-              ButtonSegment(value: k.name, label: Text(kindLabel(k.name))),
+              ChoiceChip(
+                label: Text(kindLabel(k.name)),
+                selected: k.name == widget.kind,
+                onSelected: (_) => context.go('/content/${k.name}'),
+              ),
           ],
-          selected: {widget.kind},
-          onSelectionChanged: (s) => context.go('/content/${s.first}'),
         ),
         const SizedBox(height: 8),
         Text(
@@ -354,6 +359,33 @@ class _Field {
 }
 
 const _fields = <String, List<_Field>>{
+  'push': [
+    _Field('title', 'Başlıq (ən çox 60 simvol)', _FieldType.line),
+    _Field('body', 'Mətn (ən çox 180 simvol)', _FieldType.multiline),
+    _Field(
+      'link',
+      'Keçid (istəyə görə)',
+      _FieldType.plain,
+      localized: false,
+      help:
+          'Toxunanda açılan ekran: home, routine, check, sport, discover, '
+          'blog, nutrition, experts, messages; və ya article:slug.',
+    ),
+    _Field(
+      'languages',
+      'Dillər (heç biri seçilməsə: hamısı)',
+      _FieldType.multi,
+      localized: false,
+      options: ['az', 'ru', 'en'],
+    ),
+    _Field(
+      'countries',
+      'Ölkələr (heç biri seçilməsə: hamısı)',
+      _FieldType.multi,
+      localized: false,
+      options: ['AZ', 'TR', 'KZ', 'UZ'],
+    ),
+  ],
   'message': [
     _Field('title', 'Başlıq', _FieldType.line),
     _Field('body', 'Mətn', _FieldType.multiline),
@@ -797,6 +829,31 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
     );
   }
 
+  Future<bool> _confirmPush() async =>
+      await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Push göndərilsin?'),
+          content: const Text(
+            'Yalnız marketinq razılığı verən və bildirişləri açan '
+            'istifadəçilərə, seçilmiş dil və ölkələrə bir dəfə göndərilir. '
+            'Geri almaq olmur. Mətndə şəxsi məlumat olmamalıdır.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Ləğv et'),
+            ),
+            FilledButton(
+              key: const ValueKey('push-confirm'),
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Göndər'),
+            ),
+          ],
+        ),
+      ) ??
+      false;
+
   Future<String?> _ask(String title, String label) async {
     final c = TextEditingController();
     final value = await showDialog<String>(
@@ -922,8 +979,16 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           key: const ValueKey('content-publish'),
           onPressed: _busy
               ? null
-              : () => _do(() => _api.publishContent(item.id), 'Dərc olundu.'),
-          child: const Text('Dərc et'),
+              : () async {
+                  if (_kind == ContentKind.push && !await _confirmPush()) {
+                    return;
+                  }
+                  await _do(
+                    () => _api.publishContent(item.id),
+                    _kind == ContentKind.push ? 'Göndərildi.' : 'Dərc olundu.',
+                  );
+                },
+          child: Text(_kind == ContentKind.push ? 'Göndər' : 'Dərc et'),
         ),
       if (writer && item.live)
         OutlinedButton(
@@ -1025,6 +1090,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           if (!_kind.isCatalogue)
             DropdownButtonFormField<String>(
               key: const ValueKey('content-category'),
+              isExpanded: true,
               initialValue: _category,
               decoration: const InputDecoration(labelText: 'Kateqoriya'),
               items: [
@@ -1051,7 +1117,13 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
                     )
                   : null,
             ),
-          if (_kind != ContentKind.preference && _kind != ContentKind.step) ...[
+          if (const {
+            ContentKind.article,
+            ContentKind.recipe,
+            ContentKind.expert,
+            ContentKind.exercise,
+            ContentKind.banner,
+          }.contains(_kind)) ...[
             ImageField(
               api: _api,
               imageId: _imageId,

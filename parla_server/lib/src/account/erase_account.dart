@@ -50,6 +50,11 @@ Future<UuidValue> eraseAccount(
     );
     await eraseActivityMarks(session, userId, transaction: transaction);
     await eraseSupport(session, userId, transaction: transaction);
+    await DeviceToken.db.deleteWhere(
+      session,
+      where: (t) => t.authUserId.equals(userId),
+      transaction: transaction,
+    );
 
     final consents = await ConsentRecord.db.find(
       session,

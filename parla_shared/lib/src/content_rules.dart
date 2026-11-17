@@ -34,7 +34,11 @@ enum ContentKind {
   banner,
 
   /// An announcement from the team in the app's Messages (phase D2).
-  message;
+  message,
+
+  /// A push notification campaign (phase D3), sent once on publishing to
+  /// accounts with the marketing consent.
+  push;
 
   bool get isCatalogue =>
       this == preference || this == exercise || this == step;
@@ -122,6 +126,7 @@ abstract final class ContentRules {
     'blog',
     'nutrition',
     'experts',
+    'messages',
   ];
 
   static final _day = RegExp(r'^\d{4}-\d{2}-\d{2}$');
@@ -155,6 +160,7 @@ abstract final class ContentRules {
     Map<String, Object?> json,
   ) =>
       kind == ContentKind.message ||
+      kind == ContentKind.push ||
       (kind == ContentKind.banner && !isSponsored(json));
 
   /// Whether a published banner shows today for [language] and [country]
@@ -256,6 +262,7 @@ abstract final class ContentRules {
     ContentKind.step => const [catalogueCategory],
     ContentKind.banner => bannerPlacements,
     ContentKind.message => const ['announcement'],
+    ContentKind.push => const ['marketing'],
   };
 
   /// Problems with [encoded] as content of [kind]; empty when it is valid.
@@ -444,6 +451,28 @@ abstract final class ContentRules {
           out.add('sponsor.invalid');
         }
         _schedule(json, complete, out);
+      case ContentKind.push:
+        only({'title', 'body', 'link', 'languages', 'countries'});
+        text('title', 60);
+        text('body', 180);
+        final pushLink = json['link'];
+        if (pushLink != null &&
+            (pushLink is! String || !isBannerLink(pushLink))) {
+          out.add('link.invalid');
+        }
+        final langs = json['languages'];
+        if (langs != null &&
+            (langs is! List || !langs.every(languages.contains))) {
+          out.add('languages.invalid');
+        }
+        final countries = json['countries'];
+        if (countries != null &&
+            (countries is! List ||
+                !countries.every(
+                  (c) => c is String && markets.any((m) => m.countryCode == c),
+                ))) {
+          out.add('countries.invalid');
+        }
       case ContentKind.message:
         only({
           'title',

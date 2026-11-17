@@ -41,6 +41,7 @@ data "aws_iam_policy_document" "execution_secrets" {
     actions = ["secretsmanager:GetSecretValue"]
     resources = [
       aws_secretsmanager_secret.app.arn,
+      aws_secretsmanager_secret.fcm.arn,
       aws_db_instance.main.master_user_secret[0].secret_arn,
     ]
   }
@@ -77,6 +78,10 @@ locals {
       name      = "SERVERPOD_PASSWORD_${key}"
       valueFrom = "${aws_secretsmanager_secret.app.arn}:${key}::"
     }],
+    var.enable_push ? [{
+      name      = "SERVERPOD_PASSWORD_fcmServiceAccount"
+      valueFrom = aws_secretsmanager_secret.fcm.arn
+    }] : [],
   )
 }
 

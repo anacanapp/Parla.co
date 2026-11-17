@@ -146,6 +146,16 @@ class FakeApi implements ParlaApi {
   @override
   Future<bool> hasUnreadSupportReply() async => supportUnread;
 
+  /// Push tokens registered for this account.
+  final Set<String> pushTokens = {};
+
+  @override
+  Future<void> registerPush(String token, String platform) async =>
+      pushTokens.add(token);
+
+  @override
+  Future<void> unregisterPush(String token) async => pushTokens.remove(token);
+
   @override
   Future<void> markActive() async => activeMarks++;
 

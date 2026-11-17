@@ -4,6 +4,7 @@ import 'package:serverpod/serverpod.dart';
 
 import '../generated/protocol.dart';
 import '../stats/activity.dart';
+import '../push/push.dart';
 import '../support/support.dart';
 
 /// Retention periods (data map; proposals pending legal review).
@@ -75,11 +76,13 @@ Timer scheduleDailyRetention(Serverpod pod) {
       final result = await runRetention(session);
       final days = await rollUpActivity(session);
       final support = await expireSupport(session);
+      final tokens = await expireTokens(session);
       session.log(
         'Retention: ${result.auditRows} audit rows, '
         '${result.consentRows} consent rows, '
         '${result.deletedAccounts} deleted accounts expired, '
-        '$days activity days counted, $support support threads expired.',
+        '$days activity days counted, $support support threads and '
+        '$tokens push tokens expired.',
         level: LogLevel.info,
       );
     } on Object catch (error, stackTrace) {

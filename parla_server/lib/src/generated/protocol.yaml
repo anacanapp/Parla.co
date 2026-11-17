@@ -45,6 +45,9 @@ product:
 profile:
   - me:
   - create:
+push:
+  - register:
+  - unregister:
 quiz:
   - saveAnswers:
   - myAnswers:

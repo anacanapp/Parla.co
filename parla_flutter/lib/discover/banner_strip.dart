@@ -10,28 +10,38 @@ import '../ui/brand.dart';
 import 'content_library.dart';
 import 'discover_widgets.dart';
 
-/// Opens a banner's in-app link.
-void openBannerLink(BuildContext context, String? link) {
-  if (link == null || !ContentRules.isBannerLink(link)) return;
+/// The route and `extra` of an in-app link (banners, messages, push), or
+/// `null` for an unknown link.
+(String, Object?)? linkRoute(String? link) {
+  if (link == null || !ContentRules.isBannerLink(link)) return null;
   final i = link.indexOf(':');
   if (i > 0) {
     final slug = link.substring(i + 1);
-    context.go(
+    return (
       link.startsWith('article:') ? Routes.blogPost : Routes.recipe,
-      extra: slug,
+      slug,
     );
-    return;
   }
-  context.go(switch (link) {
-    'home' => Routes.home,
-    'routine' => Routes.habits,
-    'check' => Routes.products,
-    'sport' => Routes.sport,
-    'blog' => Routes.blog,
-    'nutrition' => Routes.nutrition,
-    'experts' => Routes.experts,
-    _ => Routes.discover,
-  });
+  return (
+    switch (link) {
+      'home' => Routes.home,
+      'routine' => Routes.habits,
+      'check' => Routes.products,
+      'sport' => Routes.sport,
+      'blog' => Routes.blog,
+      'nutrition' => Routes.nutrition,
+      'experts' => Routes.experts,
+      'messages' => Routes.messages,
+      _ => Routes.discover,
+    },
+    null,
+  );
+}
+
+/// Opens a banner's in-app link.
+void openBannerLink(BuildContext context, String? link) {
+  final route = linkRoute(link);
+  if (route != null) context.go(route.$1, extra: route.$2);
 }
 
 /// The banners published for [placement] that show today in the user's

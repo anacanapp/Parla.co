@@ -30,6 +30,7 @@ import '../content/content_endpoint.dart' as _ib9irne6;
 import '../media/media_admin_endpoint.dart' as _inr2v3fa;
 import '../products/product_endpoint.dart' as _i6m7gswv;
 import '../profile/profile_endpoint.dart' as _i6ky944g;
+import '../push/push_endpoint.dart' as _ii21ahkp;
 import '../quiz/quiz_endpoint.dart' as _iskif4sw;
 import '../routines/care_list_endpoint.dart' as _itrne0fi;
 import '../routines/nutrition_endpoint.dart' as _idep3gni;
@@ -99,6 +100,12 @@ class Endpoints extends _is.EndpointDispatch {
         ..initialize(
           server,
           'profile',
+          null,
+        ),
+      'push': _ii21ahkp.PushEndpoint()
+        ..initialize(
+          server,
+          'push',
           null,
         ),
       'quiz': _iskif4sw.QuizEndpoint()
@@ -1065,6 +1072,55 @@ class Endpoints extends _is.EndpointDispatch {
                     birthdayPassedThisYear: params['birthdayPassedThisYear'],
                     countryCode: params['countryCode'],
                     language: params['language'],
+                  ),
+        ),
+      },
+    );
+    connectors['push'] = _is.EndpointConnector(
+      name: 'push',
+      endpoint: endpoints['push']!,
+      methodConnectors: {
+        'register': _is.MethodConnector(
+          name: 'register',
+          params: {
+            'token': _is.ParameterDescription(
+              name: 'token',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+            'platform': _is.ParameterDescription(
+              name: 'platform',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['push'] as _ii21ahkp.PushEndpoint).register(
+                session,
+                params['token'],
+                params['platform'],
+              ),
+        ),
+        'unregister': _is.MethodConnector(
+          name: 'unregister',
+          params: {
+            'token': _is.ParameterDescription(
+              name: 'token',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['push'] as _ii21ahkp.PushEndpoint).unregister(
+                    session,
+                    params['token'],
                   ),
         ),
       },

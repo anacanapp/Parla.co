@@ -7,6 +7,7 @@ import '../discover/content_library.dart';
 import '../discover/discover_widgets.dart';
 import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
+import '../push/push_client.dart';
 import '../routes.dart';
 import '../services/parla_api.dart';
 import '../ui/brand.dart';
@@ -28,6 +29,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
   bool _busy = false;
   bool _started = false;
 
+  /// Whether this phone has notifications on (`null` until read).
+  bool? _push;
+
   @override
   void didChangeDependencies() {
     super.didChangeDependencies();
@@ -42,8 +46,36 @@ class _MessagesScreenState extends State<MessagesScreen> {
     super.dispose();
   }
 
+  Future<void> _togglePush(bool on) async {
+    final client = PushService.client;
+    if (client == null) return;
+    final l10n = AppLocalizations.of(context);
+    final api = ParlaScope.of(context).api;
+    try {
+      if (on) {
+        if (!await client.requestPermission()) {
+          if (mounted) showError(context, l10n.pushDenied);
+          return;
+        }
+        final token = await client.token();
+        if (token == null) return;
+        await api.registerPush(token, client.platform);
+        await PushPrefs.setToken(token);
+      } else {
+        final token = await PushPrefs.token();
+        if (token != null) await api.unregisterPush(token);
+        await PushPrefs.setToken(null);
+      }
+      if (mounted) setState(() => _push = on);
+    } on Object catch (error) {
+      if (mounted) showError(context, errorMessage(l10n, error));
+    }
+  }
+
   Future<void> _load() async {
     final api = ParlaScope.of(context).api;
+    final token = await PushPrefs.token();
+    if (mounted) setState(() => _push = token != null);
     try {
       final items = await api.supportMessages();
       if (mounted) setState(() => _support = items);
@@ -84,6 +116,22 @@ class _MessagesScreenState extends State<MessagesScreen> {
       title: l10n.messagesTitle,
       onBack: () => context.go(Routes.home),
       children: [
+        if (PushService.client != null && _push != null)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Material(
+              color: ParlaColors.white,
+              borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
+              clipBehavior: Clip.antiAlias,
+              child: SwitchListTile(
+                key: const ValueKey('push-switch'),
+                title: Text(l10n.pushTitle),
+                subtitle: Text(l10n.pushBody),
+                value: _push!,
+                onChanged: _togglePush,
+              ),
+            ),
+          ),
         Semantics(
           header: true,
           child: Text(l10n.messagesFromParla, style: text.titleLarge),

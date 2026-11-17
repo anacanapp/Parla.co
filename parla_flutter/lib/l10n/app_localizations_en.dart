@@ -1636,4 +1636,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get supportSent => 'Sent.';
+
+  @override
+  String get pushTitle => 'Notifications';
+
+  @override
+  String get pushBody =>
+      'Get told when support replies. With the marketing consent you\'ll also get Parla news. You can turn this off any time.';
+
+  @override
+  String get pushDenied =>
+      'Notifications are not allowed. You can turn them on in your phone settings.';
 }
