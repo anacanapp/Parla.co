@@ -27,6 +27,10 @@ import 'package:parla_client/src/protocol/staff/staff_invite_summary.dart'
     as _ivj2ydpk;
 import 'package:parla_client/src/protocol/staff/staff_summary.dart'
     as _i48vujj3;
+import 'package:parla_client/src/protocol/support/support_entry.dart'
+    as _iv2bnak3;
+import 'package:parla_client/src/protocol/support/support_thread_summary.dart'
+    as _ici4godl;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
     as _iacc;
 import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
@@ -53,6 +57,7 @@ import 'media/media_asset.dart' as _ijjfwapm;
 import 'media/public_image.dart' as _ig6ant5g;
 import 'products/product_summary.dart' as _ikmk0g5q;
 import 'profile/member_profile.dart' as _i1iocmvy;
+import 'push/device_token.dart' as _iqu8ign5;
 import 'quiz/quiz_answer.dart' as _ih1qnypb;
 import 'quiz/quiz_answer_input.dart' as _ilw6ope9;
 import 'staff/staff_invite.dart' as _ig710w64;
@@ -68,6 +73,10 @@ import 'stats/daily_active_mark.dart' as _ipxxg0d2;
 import 'stats/stats_count.dart' as _iu0qh84b;
 import 'stats/stats_group.dart' as _imrurtjq;
 import 'stats/stats_report.dart' as _i9vgpxbr;
+import 'support/support_entry.dart' as _iaeay4r3;
+import 'support/support_message.dart' as _izh8ly96;
+import 'support/support_thread.dart' as _iq87yxf7;
+import 'support/support_thread_summary.dart' as _idy4xhr0;
 import 'users/user_admin_view.dart' as _i06wcc3f;
 export 'account/deleted_account.dart';
 export 'audit/audit_log_entry.dart';
@@ -90,6 +99,7 @@ export 'media/media_asset.dart';
 export 'media/public_image.dart';
 export 'products/product_summary.dart';
 export 'profile/member_profile.dart';
+export 'push/device_token.dart';
 export 'quiz/quiz_answer.dart';
 export 'quiz/quiz_answer_input.dart';
 export 'staff/staff_invite.dart';
@@ -105,6 +115,10 @@ export 'stats/daily_active_mark.dart';
 export 'stats/stats_count.dart';
 export 'stats/stats_group.dart';
 export 'stats/stats_report.dart';
+export 'support/support_entry.dart';
+export 'support/support_message.dart';
+export 'support/support_thread.dart';
+export 'support/support_thread_summary.dart';
 export 'users/user_admin_view.dart';
 export 'client.dart';
 
@@ -142,6 +156,7 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_ig6ant5g.PublicImage>,
           _isc.getType<_ikmk0g5q.ProductSummary>,
           _isc.getType<_i1iocmvy.MemberProfile>,
+          _isc.getType<_iqu8ign5.DeviceToken>,
           _isc.getType<_ih1qnypb.QuizAnswer>,
           _isc.getType<_ilw6ope9.QuizAnswerInput>,
           _isc.getType<_ig710w64.StaffInvite>,
@@ -157,6 +172,10 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_iu0qh84b.StatsCount>,
           _isc.getType<_imrurtjq.StatsGroup>,
           _isc.getType<_i9vgpxbr.StatsReport>,
+          _isc.getType<_iaeay4r3.SupportEntry>,
+          _isc.getType<_izh8ly96.SupportMessage>,
+          _isc.getType<_iq87yxf7.SupportThread>,
+          _isc.getType<_idy4xhr0.SupportThreadSummary>,
           _isc.getType<_i06wcc3f.UserAdminView>,
           _isc.getType<_ioqa84oy.DeletedAccount?>,
           _isc.getType<_ioa77d8b.AuditLogEntry?>,
@@ -179,6 +198,7 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_ig6ant5g.PublicImage?>,
           _isc.getType<_ikmk0g5q.ProductSummary?>,
           _isc.getType<_i1iocmvy.MemberProfile?>,
+          _isc.getType<_iqu8ign5.DeviceToken?>,
           _isc.getType<_ih1qnypb.QuizAnswer?>,
           _isc.getType<_ilw6ope9.QuizAnswerInput?>,
           _isc.getType<_ig710w64.StaffInvite?>,
@@ -194,6 +214,10 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_iu0qh84b.StatsCount?>,
           _isc.getType<_imrurtjq.StatsGroup?>,
           _isc.getType<_i9vgpxbr.StatsReport?>,
+          _isc.getType<_iaeay4r3.SupportEntry?>,
+          _isc.getType<_izh8ly96.SupportMessage?>,
+          _isc.getType<_iq87yxf7.SupportThread?>,
+          _isc.getType<_idy4xhr0.SupportThreadSummary?>,
           _isc.getType<_i06wcc3f.UserAdminView?>,
           _isc.getType<List<String>>,
           _isc.getType<List<_iu0qh84b.StatsCount>>,
@@ -207,6 +231,8 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<List<_ikoicjb8.QuizAnswerInput>>,
           _isc.getType<List<_i48vujj3.StaffSummary>>,
           _isc.getType<List<_ivj2ydpk.StaffInviteSummary>>,
+          _isc.getType<List<_ici4godl.SupportThreadSummary>>,
+          _isc.getType<List<_iv2bnak3.SupportEntry>>,
         ],
         modules: const [
           _iaic.Protocol.new,
@@ -234,6 +260,7 @@ class Protocol extends _isc.SerializationManager
           'PublicImage',
           'ProductSummary',
           'MemberProfile',
+          'DeviceToken',
           'QuizAnswer',
           'QuizAnswerInput',
           'StaffInvite',
@@ -249,6 +276,10 @@ class Protocol extends _isc.SerializationManager
           'StatsCount',
           'StatsGroup',
           'StatsReport',
+          'SupportEntry',
+          'SupportMessage',
+          'SupportThread',
+          'SupportThreadSummary',
           'UserAdminView',
         ],
       );
@@ -340,6 +371,9 @@ class Protocol extends _isc.SerializationManager
     if (t == _i1iocmvy.MemberProfile) {
       return _i1iocmvy.MemberProfile.fromJson(data) as T;
     }
+    if (t == _iqu8ign5.DeviceToken) {
+      return _iqu8ign5.DeviceToken.fromJson(data) as T;
+    }
     if (t == _ih1qnypb.QuizAnswer) {
       return _ih1qnypb.QuizAnswer.fromJson(data) as T;
     }
@@ -384,6 +418,18 @@ class Protocol extends _isc.SerializationManager
     }
     if (t == _i9vgpxbr.StatsReport) {
       return _i9vgpxbr.StatsReport.fromJson(data) as T;
+    }
+    if (t == _iaeay4r3.SupportEntry) {
+      return _iaeay4r3.SupportEntry.fromJson(data) as T;
+    }
+    if (t == _izh8ly96.SupportMessage) {
+      return _izh8ly96.SupportMessage.fromJson(data) as T;
+    }
+    if (t == _iq87yxf7.SupportThread) {
+      return _iq87yxf7.SupportThread.fromJson(data) as T;
+    }
+    if (t == _idy4xhr0.SupportThreadSummary) {
+      return _idy4xhr0.SupportThreadSummary.fromJson(data) as T;
     }
     if (t == _i06wcc3f.UserAdminView) {
       return _i06wcc3f.UserAdminView.fromJson(data) as T;
@@ -466,6 +512,9 @@ class Protocol extends _isc.SerializationManager
       return (data != null ? _i1iocmvy.MemberProfile.fromJson(data) : null)
           as T;
     }
+    if (t == _isc.getType<_iqu8ign5.DeviceToken?>()) {
+      return (data != null ? _iqu8ign5.DeviceToken.fromJson(data) : null) as T;
+    }
     if (t == _isc.getType<_ih1qnypb.QuizAnswer?>()) {
       return (data != null ? _ih1qnypb.QuizAnswer.fromJson(data) : null) as T;
     }
@@ -515,6 +564,23 @@ class Protocol extends _isc.SerializationManager
     }
     if (t == _isc.getType<_i9vgpxbr.StatsReport?>()) {
       return (data != null ? _i9vgpxbr.StatsReport.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_iaeay4r3.SupportEntry?>()) {
+      return (data != null ? _iaeay4r3.SupportEntry.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_izh8ly96.SupportMessage?>()) {
+      return (data != null ? _izh8ly96.SupportMessage.fromJson(data) : null)
+          as T;
+    }
+    if (t == _isc.getType<_iq87yxf7.SupportThread?>()) {
+      return (data != null ? _iq87yxf7.SupportThread.fromJson(data) : null)
+          as T;
+    }
+    if (t == _isc.getType<_idy4xhr0.SupportThreadSummary?>()) {
+      return (data != null
+              ? _idy4xhr0.SupportThreadSummary.fromJson(data)
+              : null)
+          as T;
     }
     if (t == _isc.getType<_i06wcc3f.UserAdminView?>()) {
       return (data != null ? _i06wcc3f.UserAdminView.fromJson(data) : null)
@@ -589,6 +655,18 @@ class Protocol extends _isc.SerializationManager
               .toList()
           as T;
     }
+    if (t == List<_ici4godl.SupportThreadSummary>) {
+      return (data as List)
+              .map((e) => deserialize<_ici4godl.SupportThreadSummary>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_iv2bnak3.SupportEntry>) {
+      return (data as List)
+              .map((e) => deserialize<_iv2bnak3.SupportEntry>(e))
+              .toList()
+          as T;
+    }
     final modules = deserializationMetadata.modulesForDeserialization(
       t,
       className: rawDataClassName,
@@ -625,6 +703,7 @@ class Protocol extends _isc.SerializationManager
       _ig6ant5g.PublicImage => 'PublicImage',
       _ikmk0g5q.ProductSummary => 'ProductSummary',
       _i1iocmvy.MemberProfile => 'MemberProfile',
+      _iqu8ign5.DeviceToken => 'DeviceToken',
       _ih1qnypb.QuizAnswer => 'QuizAnswer',
       _ilw6ope9.QuizAnswerInput => 'QuizAnswerInput',
       _ig710w64.StaffInvite => 'StaffInvite',
@@ -640,6 +719,10 @@ class Protocol extends _isc.SerializationManager
       _iu0qh84b.StatsCount => 'StatsCount',
       _imrurtjq.StatsGroup => 'StatsGroup',
       _i9vgpxbr.StatsReport => 'StatsReport',
+      _iaeay4r3.SupportEntry => 'SupportEntry',
+      _izh8ly96.SupportMessage => 'SupportMessage',
+      _iq87yxf7.SupportThread => 'SupportThread',
+      _idy4xhr0.SupportThreadSummary => 'SupportThreadSummary',
       _i06wcc3f.UserAdminView => 'UserAdminView',
       _ => null,
     };
@@ -697,6 +780,8 @@ class Protocol extends _isc.SerializationManager
         return 'ProductSummary';
       case _i1iocmvy.MemberProfile():
         return 'MemberProfile';
+      case _iqu8ign5.DeviceToken():
+        return 'DeviceToken';
       case _ih1qnypb.QuizAnswer():
         return 'QuizAnswer';
       case _ilw6ope9.QuizAnswerInput():
@@ -727,6 +812,14 @@ class Protocol extends _isc.SerializationManager
         return 'StatsGroup';
       case _i9vgpxbr.StatsReport():
         return 'StatsReport';
+      case _iaeay4r3.SupportEntry():
+        return 'SupportEntry';
+      case _izh8ly96.SupportMessage():
+        return 'SupportMessage';
+      case _iq87yxf7.SupportThread():
+        return 'SupportThread';
+      case _idy4xhr0.SupportThreadSummary():
+        return 'SupportThreadSummary';
       case _i06wcc3f.UserAdminView():
         return 'UserAdminView';
     }
@@ -814,6 +907,9 @@ class Protocol extends _isc.SerializationManager
     if (dataClassName == 'MemberProfile') {
       return deserialize<_i1iocmvy.MemberProfile>(data['data']);
     }
+    if (dataClassName == 'DeviceToken') {
+      return deserialize<_iqu8ign5.DeviceToken>(data['data']);
+    }
     if (dataClassName == 'QuizAnswer') {
       return deserialize<_ih1qnypb.QuizAnswer>(data['data']);
     }
@@ -858,6 +954,18 @@ class Protocol extends _isc.SerializationManager
     }
     if (dataClassName == 'StatsReport') {
       return deserialize<_i9vgpxbr.StatsReport>(data['data']);
+    }
+    if (dataClassName == 'SupportEntry') {
+      return deserialize<_iaeay4r3.SupportEntry>(data['data']);
+    }
+    if (dataClassName == 'SupportMessage') {
+      return deserialize<_izh8ly96.SupportMessage>(data['data']);
+    }
+    if (dataClassName == 'SupportThread') {
+      return deserialize<_iq87yxf7.SupportThread>(data['data']);
+    }
+    if (dataClassName == 'SupportThreadSummary') {
+      return deserialize<_idy4xhr0.SupportThreadSummary>(data['data']);
     }
     if (dataClassName == 'UserAdminView') {
       return deserialize<_i06wcc3f.UserAdminView>(data['data']);

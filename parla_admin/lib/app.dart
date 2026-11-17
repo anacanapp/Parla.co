@@ -7,6 +7,7 @@ import 'api/admin_api.dart';
 import 'screens/auth_screens.dart';
 import 'screens/content_screens.dart';
 import 'screens/stats_screen.dart';
+import 'screens/support_screen.dart';
 import 'screens/users_screen.dart';
 import 'screens/home_shell.dart';
 import 'screens/staff_screen.dart';
@@ -67,7 +68,8 @@ GoRouter _buildRouter(StaffState state) => GoRouter(
     final gatePaths = {..._stagePaths.values, '/loading'};
     if (gatePaths.contains(path)) return '/overview';
     final section = adminSections.where((s) => path.startsWith(s.path));
-    if (section.isNotEmpty && section.first.adminOnly && !state.isAdmin) {
+    final roles = section.isEmpty ? null : section.first.roles;
+    if (roles != null && !roles.contains(state.me?.role)) {
       return '/overview';
     }
     return null;
@@ -145,12 +147,14 @@ GoRouter _buildRouter(StaffState state) => GoRouter(
         ),
         GoRoute(
           path: '/messages',
-          builder: (_, _) => const ComingSection(
-            title: 'Ünsiyyət',
-            body:
-                'Bannerlər və kampaniyalar, mesaj qutusu və push '
-                'bildirişlər. D mərhələsində gəlir.',
-          ),
+          redirect: (_, _) =>
+              const {
+                StaffRole.admin,
+                StaffRole.support,
+              }.contains(state.me?.role)
+              ? null
+              : '/overview',
+          builder: (_, _) => SupportScreen(state: state),
         ),
         GoRoute(
           path: '/staff',

@@ -213,6 +213,160 @@ void main() {
     );
   });
 
+  group('banners', () {
+    final banner = {
+      'title': _l('Yeni bölmə'),
+      'link': 'nutrition',
+      'startsOn': '2026-12-01',
+      'endsOn': '2026-12-31',
+    };
+
+    test('valid banners, links and dates', () {
+      expect(_p(ContentKind.banner, banner), isEmpty);
+      expect(ContentRules.categoriesFor(ContentKind.banner), [
+        'today',
+        'discover',
+      ]);
+      for (final ok in ['blog', 'article:qis-deri', 'recipe:berry-oats']) {
+        expect(ContentRules.isBannerLink(ok), isTrue, reason: ok);
+      }
+      for (final bad in [
+        'https://shop.example.com',
+        'article:Bad Slug',
+        'settings',
+        'video:x',
+      ]) {
+        expect(ContentRules.isBannerLink(bad), isFalse, reason: bad);
+        expect(
+          _p(ContentKind.banner, {...banner, 'link': bad}),
+          contains('link.invalid'),
+        );
+      }
+      expect(
+        _p(ContentKind.banner, {...banner, 'endsOn': '2026-11-30'}),
+        contains('endsOn.before_start'),
+      );
+      expect(
+        _p(ContentKind.banner, {...banner}..remove('endsOn')),
+        contains('endsOn.missing'),
+      );
+      expect(
+        _p(ContentKind.banner, {
+          ...banner,
+          'countries': ['XX'],
+        }),
+        contains('countries.invalid'),
+      );
+      // No targeting by health or quiz answers.
+      expect(
+        _p(ContentKind.banner, {...banner, 'skinType': 'dry'}),
+        contains('skinType.unknown'),
+      );
+    });
+
+    test('brand campaigns need an expert; own banners an admin', () {
+      expect(ContentRules.reviewerRole(ContentKind.banner, banner), 'admin');
+      expect(
+        ContentRules.adminPublishesDirectly(ContentKind.banner, banner),
+        isTrue,
+      );
+      final ad = {...banner, 'sponsor': 'Brand X'};
+      expect(ContentRules.isSponsored(ad), isTrue);
+      expect(ContentRules.reviewerRole(ContentKind.banner, ad), 'expert');
+      expect(
+        ContentRules.adminPublishesDirectly(ContentKind.banner, ad),
+        isFalse,
+      );
+      expect(ContentRules.reviewerRole(ContentKind.article, {}), 'expert');
+      expect(
+        _p(ContentKind.banner, {...banner, 'sponsor': ' '}),
+        contains('sponsor.invalid'),
+      );
+    });
+
+    test('dates, language and country decide visibility on the phone', () {
+      bool on(
+        Map<String, Object?> j,
+        DateTime d, {
+        String lang = 'az',
+        String? c,
+      }) => ContentRules.bannerVisible(j, d, language: lang, country: c);
+      expect(on(banner, DateTime(2026, 12, 1)), isTrue);
+      expect(on(banner, DateTime(2026, 12, 31)), isTrue);
+      expect(on(banner, DateTime(2026, 11, 30)), isFalse);
+      expect(on(banner, DateTime(2027, 1, 1)), isFalse);
+      final ru = {
+        ...banner,
+        'languages': ['ru'],
+      };
+      expect(on(ru, DateTime(2026, 12, 5)), isFalse);
+      expect(on(ru, DateTime(2026, 12, 5), lang: 'ru'), isTrue);
+      final az = {
+        ...banner,
+        'countries': ['AZ'],
+      };
+      expect(on(az, DateTime(2026, 12, 5)), isFalse); // country unknown
+      expect(on(az, DateTime(2026, 12, 5), c: 'AZ'), isTrue);
+    });
+  });
+
+  test('messages: team announcements, admin publishes directly', () {
+    final message = {
+      'title': _l('Yenilik'),
+      'body': _l('Qidalanma bölməsi açıldı.'),
+      'startsOn': '2026-12-01',
+      'endsOn': '2026-12-31',
+      'link': 'nutrition',
+    };
+    expect(_p(ContentKind.message, message), isEmpty);
+    expect(ContentRules.reviewerRole(ContentKind.message, message), 'admin');
+    expect(
+      ContentRules.adminPublishesDirectly(ContentKind.message, message),
+      isTrue,
+    );
+    expect(
+      _p(ContentKind.message, {...message, 'sponsor': 'Brand'}),
+      contains('sponsor.unknown'),
+    );
+    expect(
+      _p(ContentKind.message, {...message, 'link': 'https://x.az'}),
+      contains('link.invalid'),
+    );
+    expect(
+      ContentRules.bannerVisible(
+        message,
+        DateTime(2026, 12, 2),
+        language: 'az',
+      ),
+      isTrue,
+    );
+  });
+
+  test('push campaigns: short texts, in-app links, no dates or images', () {
+    final push = {
+      'title': _l('Yeni reseptlər'),
+      'body': _l('Qidalanma bölməsinə bax'),
+      'link': 'messages',
+      'languages': ['az'],
+    };
+    expect(_p(ContentKind.push, push), isEmpty);
+    expect(ContentRules.adminPublishesDirectly(ContentKind.push, push), isTrue);
+    expect(
+      _p(ContentKind.push, {...push, 'title': _l('x' * 61)}),
+      contains('title.az.invalid'),
+    );
+    for (final extra in ['image', 'startsOn', 'sponsor']) {
+      expect(
+        _p(ContentKind.push, {...push, extra: 'x'}),
+        contains('$extra.unknown'),
+      );
+    }
+    expect(
+      _p(ContentKind.push, {...push, 'link': 'https://x.az'}),
+      contains('link.invalid'),
+    );
+  });
+
   test('slugs and picking a language', () {
     expect(ContentRules.isSlug('qis-ayl-ari-deri'), isTrue);
     expect(ContentRules.isSlug('Bad Slug'), isFalse);

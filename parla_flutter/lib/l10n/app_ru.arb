@@ -461,5 +461,21 @@
   "allergenSesame": "кунжут",
   "allergenSulphites": "сульфиты",
   "allergenLupin": "люпин",
-  "allergenMolluscs": "моллюски"
+  "allergenMolluscs": "моллюски",
+  "bannerAd": "Реклама · {brand}",
+  "messagesTitle": "Сообщения",
+  "messagesButton": "Сообщения",
+  "messagesButtonUnread": "Сообщения, есть новый ответ",
+  "messagesFromParla": "От Parla",
+  "messagesNone": "Пока нет объявлений.",
+  "supportTitle": "Поддержка",
+  "supportIntro": "Напиши вопрос, команда Parla ответит. Сообщения хранятся в зашифрованном виде и удаляются через 12 месяцев после последнего. Мы не даём медицинских советов: в срочных или серьёзных случаях обратись к врачу.",
+  "supportHint": "Твоё сообщение",
+  "supportSend": "Отправить",
+  "supportYou": "Ты",
+  "supportTeam": "Команда Parla",
+  "supportSent": "Отправлено.",
+  "pushTitle": "Уведомления",
+  "pushBody": "Узнаешь, когда поддержка ответит. С согласием на маркетинг придут и новости Parla. Можно выключить в любой момент.",
+  "pushDenied": "Уведомления не разрешены. Их можно включить в настройках телефона."
 }

@@ -143,6 +143,7 @@ class _ContentScreenState extends State<ContentScreen> {
                 const SizedBox(height: 12),
                 DropdownButtonFormField<String>(
                   key: const ValueKey('new-category'),
+                  isExpanded: true,
                   initialValue: category,
                   decoration: const InputDecoration(labelText: 'Kateqoriya'),
                   items: [
@@ -239,13 +240,17 @@ class _ContentScreenState extends State<ContentScreen> {
           ],
         ),
         const SizedBox(height: 12),
-        SegmentedButton<String>(
-          segments: [
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
             for (final k in ContentKind.values)
-              ButtonSegment(value: k.name, label: Text(kindLabel(k.name))),
+              ChoiceChip(
+                label: Text(kindLabel(k.name)),
+                selected: k.name == widget.kind,
+                onSelected: (_) => context.go('/content/${k.name}'),
+              ),
           ],
-          selected: {widget.kind},
-          onSelectionChanged: (s) => context.go('/content/${s.first}'),
         ),
         const SizedBox(height: 8),
         Text(
@@ -329,10 +334,23 @@ enum _FieldType {
   allergens,
   urls,
   plain,
+
+  /// A set of codes from [_Field.options] (empty means "all").
+  multi,
 }
 
 class _Field {
-  const _Field(this.key, this.label, this.type, {this.localized = true});
+  const _Field(
+    this.key,
+    this.label,
+    this.type, {
+    this.localized = true,
+    this.options = const [],
+    this.help,
+  });
+
+  final List<String> options;
+  final String? help;
 
   final String key;
   final String label;
@@ -341,6 +359,119 @@ class _Field {
 }
 
 const _fields = <String, List<_Field>>{
+  'push': [
+    _Field('title', 'Başlıq (ən çox 60 simvol)', _FieldType.line),
+    _Field('body', 'Mətn (ən çox 180 simvol)', _FieldType.multiline),
+    _Field(
+      'link',
+      'Keçid (istəyə görə)',
+      _FieldType.plain,
+      localized: false,
+      help:
+          'Toxunanda açılan ekran: home, routine, check, sport, discover, '
+          'blog, nutrition, experts, messages; və ya article:slug.',
+    ),
+    _Field(
+      'languages',
+      'Dillər (heç biri seçilməsə: hamısı)',
+      _FieldType.multi,
+      localized: false,
+      options: ['az', 'ru', 'en'],
+    ),
+    _Field(
+      'countries',
+      'Ölkələr (heç biri seçilməsə: hamısı)',
+      _FieldType.multi,
+      localized: false,
+      options: ['AZ', 'TR', 'KZ', 'UZ'],
+    ),
+  ],
+  'message': [
+    _Field('title', 'Başlıq', _FieldType.line),
+    _Field('body', 'Mətn', _FieldType.multiline),
+    _Field(
+      'link',
+      'Keçid (istəyə görə)',
+      _FieldType.plain,
+      localized: false,
+      help:
+          'Ekran: home, routine, check, sport, discover, blog, nutrition, '
+          'experts; və ya article:slug, recipe:slug.',
+    ),
+    _Field(
+      'startsOn',
+      'Görünmə başlanğıcı (YYYY-AA-GG)',
+      _FieldType.plain,
+      localized: false,
+    ),
+    _Field(
+      'endsOn',
+      'Görünmə sonu (YYYY-AA-GG)',
+      _FieldType.plain,
+      localized: false,
+    ),
+    _Field(
+      'languages',
+      'Dillər (heç biri seçilməsə: hamısı)',
+      _FieldType.multi,
+      localized: false,
+      options: ['az', 'ru', 'en'],
+    ),
+    _Field(
+      'countries',
+      'Ölkələr (heç biri seçilməsə: hamısı)',
+      _FieldType.multi,
+      localized: false,
+      options: ['AZ', 'TR', 'KZ', 'UZ'],
+    ),
+  ],
+  'banner': [
+    _Field('title', 'Başlıq', _FieldType.line),
+    _Field('body', 'Qısa mətn', _FieldType.multiline),
+    _Field(
+      'link',
+      'Keçid',
+      _FieldType.plain,
+      localized: false,
+      help:
+          'Ekran: home, routine, check, sport, discover, blog, nutrition, '
+          'experts; və ya article:slug, recipe:slug. Xarici link olmur.',
+    ),
+    _Field(
+      'sponsor',
+      'Brend (yalnız ödənişli kampaniya üçün)',
+      _FieldType.plain,
+      localized: false,
+      help:
+          'Doldurulsa banner "Reklam" nişanı ilə çıxır və ekspert təsdiqi lazımdır.',
+    ),
+    _Field(
+      'startsOn',
+      'Başlama tarixi (YYYY-AA-GG)',
+      _FieldType.plain,
+      localized: false,
+    ),
+    _Field(
+      'endsOn',
+      'Bitmə tarixi (YYYY-AA-GG)',
+      _FieldType.plain,
+      localized: false,
+    ),
+    _Field(
+      'languages',
+      'Dillər (heç biri seçilməsə: hamısı)',
+      _FieldType.multi,
+      localized: false,
+      options: ['az', 'ru', 'en'],
+    ),
+    _Field(
+      'countries',
+      'Ölkələr (heç biri seçilməsə: hamısı)',
+      _FieldType.multi,
+      localized: false,
+      options: ['AZ', 'TR', 'KZ', 'UZ'],
+    ),
+  ],
   'preference': [
     _Field('name', 'Ad', _FieldType.line),
     _Field('hint', 'Nəyi yoxlayır (neytral izah)', _FieldType.multiline),
@@ -441,6 +572,9 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
 
   int? _imageId;
 
+  /// Values of [_FieldType.multi] fields.
+  final Map<String, Set<String>> _multi = {};
+
   /// `null` until chosen; empty means "none of the 14 allergens".
   Set<String>? _allergens;
   final Map<String, TextEditingController> _plain = {};
@@ -454,7 +588,9 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
   void initState() {
     super.initState();
     for (final f in _defs) {
-      if (f.type == _FieldType.groups || f.type == _FieldType.allergens) {
+      if (f.type == _FieldType.groups ||
+          f.type == _FieldType.allergens ||
+          f.type == _FieldType.multi) {
         continue;
       }
       if (f.localized) {
@@ -509,6 +645,10 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           _groups
             ..clear()
             ..addAll((json['groups'] as List? ?? const []).cast<String>());
+        case _FieldType.multi:
+          _multi[f.key] = {
+            ...(json[f.key] as List? ?? const []).cast<String>(),
+          };
         case _FieldType.allergens:
           final v = json['allergens'];
           _allergens = v is List ? v.cast<String>().toSet() : null;
@@ -577,6 +717,14 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
             out['groups'] = [
               for (final g in ContentRules.plateGroups)
                 if (_groups.contains(g)) g,
+            ];
+          }
+        case _FieldType.multi:
+          final chosen = _multi[f.key] ?? const {};
+          if (chosen.isNotEmpty) {
+            out[f.key] = [
+              for (final o in f.options)
+                if (chosen.contains(o)) o,
             ];
           }
         case _FieldType.allergens:
@@ -681,6 +829,31 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
     );
   }
 
+  Future<bool> _confirmPush() async =>
+      await showDialog<bool>(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text('Push göndərilsin?'),
+          content: const Text(
+            'Yalnız marketinq razılığı verən və bildirişləri açan '
+            'istifadəçilərə, seçilmiş dil və ölkələrə bir dəfə göndərilir. '
+            'Geri almaq olmur. Mətndə şəxsi məlumat olmamalıdır.',
+          ),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.of(context).pop(false),
+              child: const Text('Ləğv et'),
+            ),
+            FilledButton(
+              key: const ValueKey('push-confirm'),
+              onPressed: () => Navigator.of(context).pop(true),
+              child: const Text('Göndər'),
+            ),
+          ],
+        ),
+      ) ??
+      false;
+
   Future<String?> _ask(String title, String label) async {
     final c = TextEditingController();
     final value = await showDialog<String>(
@@ -727,7 +900,12 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
     final role = widget.state.me!.role;
     final writer = role == StaffRole.admin || role == StaffRole.editor;
     final expertKind = _kind == ContentKind.expert;
+    final draft = jsonDecode(_json()) as Map<String, Object?>;
     final problems = ContentRules.problems(_kind, _json(), complete: true);
+    final reviewer = ContentRules.reviewerRole(_kind, draft) == role.name;
+    final direct =
+        role == StaffRole.admin &&
+        ContentRules.adminPublishesDirectly(_kind, draft);
 
     final actions = <Widget>[
       if (writer)
@@ -752,8 +930,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
                 ),
           child: const Text('Yoxlamaya göndər'),
         ),
-      if (role == StaffRole.expert &&
-          item.status == ContentStatus.inReview) ...[
+      if (reviewer && item.status == ContentStatus.inReview) ...[
         FilledButton(
           key: const ValueKey('content-approve'),
           onPressed: _busy
@@ -797,13 +974,21 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
       if (writer &&
           (expertKind
               ? item.consentRecorded
-              : item.status == ContentStatus.approved))
+              : item.status == ContentStatus.approved || direct))
         FilledButton(
           key: const ValueKey('content-publish'),
           onPressed: _busy
               ? null
-              : () => _do(() => _api.publishContent(item.id), 'Dərc olundu.'),
-          child: const Text('Dərc et'),
+              : () async {
+                  if (_kind == ContentKind.push && !await _confirmPush()) {
+                    return;
+                  }
+                  await _do(
+                    () => _api.publishContent(item.id),
+                    _kind == ContentKind.push ? 'Göndərildi.' : 'Dərc olundu.',
+                  );
+                },
+          child: Text(_kind == ContentKind.push ? 'Göndər' : 'Dərc et'),
         ),
       if (writer && item.live)
         OutlinedButton(
@@ -859,6 +1044,23 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
               ],
             ],
           ),
+          if (_kind == ContentKind.banner &&
+              ContentRules.isSponsored(
+                jsonDecode(_json()) as Map<String, Object?>,
+              ))
+            const Card(
+              key: ValueKey('banner-ad-note'),
+              color: AdminColors.cream,
+              child: ListTile(
+                leading: Icon(Icons.campaign_outlined),
+                title: Text('Brend kampaniyası (reklam)'),
+                subtitle: Text(
+                  'Tətbiqdə "Reklam" nişanı və brendin adı ilə çıxır. '
+                  'Ekspert yoxlayıb təsdiqləməlidir: "zərərli" sözü, bal və '
+                  'ya sağlamlıq vədi olmamalıdır. Hədəf yalnız dil və ölkədir.',
+                ),
+              ),
+            ),
           if (item.reviewNote != null && item.reviewNote!.isNotEmpty)
             Card(
               color: AdminColors.cream,
@@ -888,6 +1090,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           if (!_kind.isCatalogue)
             DropdownButtonFormField<String>(
               key: const ValueKey('content-category'),
+              isExpanded: true,
               initialValue: _category,
               decoration: const InputDecoration(labelText: 'Kateqoriya'),
               items: [
@@ -914,7 +1117,13 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
                     )
                   : null,
             ),
-          if (_kind != ContentKind.preference && _kind != ContentKind.step) ...[
+          if (const {
+            ContentKind.article,
+            ContentKind.recipe,
+            ContentKind.expert,
+            ContentKind.exercise,
+            ContentKind.banner,
+          }.contains(_kind)) ...[
             ImageField(
               api: _api,
               imageId: _imageId,
@@ -924,7 +1133,31 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
             const SizedBox(height: 16),
           ],
           for (final f in _defs.where((f) => !f.localized)) ...[
-            if (f.type == _FieldType.allergens)
+            if (f.type == _FieldType.multi)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(f.label),
+                  Wrap(
+                    spacing: 8,
+                    children: [
+                      for (final o in f.options)
+                        FilterChip(
+                          key: ValueKey('multi-${f.key}-$o'),
+                          label: Text(o),
+                          selected: _multi[f.key]?.contains(o) ?? false,
+                          onSelected: writer
+                              ? (on) => setState(() {
+                                  final set = _multi[f.key] ??= {};
+                                  on ? set.add(o) : set.remove(o);
+                                })
+                              : null,
+                        ),
+                    ],
+                  ),
+                ],
+              )
+            else if (f.type == _FieldType.allergens)
               _allergenChips(writer)
             else if (f.type == _FieldType.groups)
               Wrap(
@@ -955,7 +1188,11 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
                     : TextInputType.text,
                 minLines: f.type == _FieldType.urls ? 2 : 1,
                 maxLines: f.type == _FieldType.urls ? 10 : 1,
-                decoration: InputDecoration(labelText: f.label),
+                decoration: InputDecoration(
+                  labelText: f.label,
+                  helperText: f.help,
+                  helperMaxLines: 3,
+                ),
                 onChanged: (_) => setState(() {}),
               ),
             const SizedBox(height: 12),

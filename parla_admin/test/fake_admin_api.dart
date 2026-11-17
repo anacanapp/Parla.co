@@ -246,6 +246,37 @@ class FakeAdminApi implements AdminApi {
 
   StatsReport? stats;
 
+  final Map<int, List<SupportEntry>> supportByThread = {};
+  final List<SupportThreadSummary> threads = [];
+
+  @override
+  Future<List<SupportThreadSummary>> supportThreads() async => List.of(threads);
+
+  @override
+  Future<List<SupportEntry>> openSupportThread(int id) async {
+    calls.add('openSupport:$id');
+    return List.of(supportByThread[id] ?? const []);
+  }
+
+  @override
+  Future<void> replySupport(int id, String text) async {
+    calls.add('reply:$id:$text');
+    (supportByThread[id] ??= []).add(
+      SupportEntry(
+        fromStaff: true,
+        text: text,
+        createdAt: DateTime.utc(2026, 11, 17),
+      ),
+    );
+  }
+
+  @override
+  Future<void> closeSupportThread(int id) async {
+    calls.add('close:$id');
+    final i = threads.indexWhere((t) => t.id == id);
+    threads[i] = threads[i].copyWith(open: false);
+  }
+
   @override
   Future<StatsReport> statsReport() async => stats!;
 
@@ -342,9 +373,12 @@ class FakeAdminApi implements AdminApi {
       _put(_find(id).copyWith(consentRecorded: true));
 
   @override
-  Future<ContentAdminItem> publishContent(int id) async => _put(
-    _find(id).copyWith(status: ContentStatus.published, live: true),
-  );
+  Future<ContentAdminItem> publishContent(int id) async {
+    calls.add('publish:$id');
+    return _put(
+      _find(id).copyWith(status: ContentStatus.published, live: true),
+    );
+  }
 
   @override
   Future<ContentAdminItem> unpublishContent(int id) async =>

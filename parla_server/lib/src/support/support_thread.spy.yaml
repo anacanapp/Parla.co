@@ -1,0 +1,16 @@
+### One user's conversation with the Parla team (one per account). The
+### messages are in [SupportMessage], encrypted. Deleted with the account
+### and 12 months after the last message.
+class: SupportThread
+table: support_thread
+fields:
+  authUserId: UuidValue
+  open: bool
+  unreadByStaff: bool
+  unreadByUser: bool
+  createdAt: DateTime
+  lastMessageAt: DateTime
+indexes:
+  support_thread_user_idx:
+    fields: authUserId
+    unique: true
