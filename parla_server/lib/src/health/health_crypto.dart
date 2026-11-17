@@ -9,9 +9,9 @@ import 'package:cryptography/cryptography.dart';
 /// Only the wrapped DEK is stored. Deleting it makes the user's health data
 /// unreadable everywhere, backups included.
 ///
-/// The KEK comes from `passwords.yaml` (`healthKek`, 32 bytes, base64) in
-/// development and tests. Production should hold it in a KMS of the data
-/// region; swapping the source only touches [HealthCrypto.fromBase64].
+/// The KEK comes from `passwords.yaml` (`healthKek`, 32 bytes, base64).
+/// Where AWS KMS is configured, new data keys are wrapped by KMS instead
+/// and older ones move there on first use (see `health_kms.dart`).
 class HealthCrypto {
   HealthCrypto(List<int> kek, {this.kekVersion = 1})
     : _kek = SecretKey(List.unmodifiable(kek)) {
