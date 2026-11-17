@@ -6,7 +6,7 @@
     <!-- Release builds talk to the Parla server. -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <application
-        android:label="parla"
+        android:label="Parla"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
