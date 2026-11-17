@@ -83,6 +83,7 @@ class PublishedItem {
     required this.publishedAt,
     this.reviewedAt,
     this.image,
+    this.hidden = false,
   });
 
   factory PublishedItem.fromJson(Map<String, Object?> json) => PublishedItem(
@@ -100,6 +101,7 @@ class PublishedItem {
             (json['image']! as Map).cast<String, Object?>(),
           )
         : null,
+    hidden: json['hidden'] == true,
   );
 
   final int id;
@@ -115,6 +117,9 @@ class PublishedItem {
   /// The published image, or `null`.
   final ContentImageRef? image;
 
+  /// Catalogue items the team hid: the app does not offer them.
+  final bool hidden;
+
   Map<String, Object?> toJson() => {
     'id': id,
     'kind': kind,
@@ -124,6 +129,7 @@ class PublishedItem {
     'publishedAt': publishedAt.toIso8601String(),
     if (reviewedAt != null) 'reviewedAt': reviewedAt!.toIso8601String(),
     if (image != null) 'image': image!.toJson(),
+    if (hidden) 'hidden': true,
   };
 
   /// A localized text field in [language] (Azerbaijani as fallback).

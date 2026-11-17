@@ -289,6 +289,27 @@ class ContentAdminEndpoint extends Endpoint {
     return added;
   }
 
+  /// Hides or shows a catalogue item in the app at once (no review: it
+  /// only removes the item from what the app offers).
+  Future<ContentAdminItem> setHidden(
+    Session session,
+    int id,
+    bool hidden,
+  ) async {
+    final staff = await requireStaff(session, roles: _writers);
+    final row = await _get(session, id);
+    if (!_kind(row.kind).isCatalogue) {
+      throw ParlaException(code: ContentErrors.wrongStatus);
+    }
+    return _set(
+      session,
+      staff,
+      row,
+      hidden ? 'content.hidden' : 'content.shown',
+      (r) => r.copyWith(hidden: hidden),
+    );
+  }
+
   /// Deletes an item that is not live (admins only).
   Future<void> delete(Session session, int id) async {
     final staff = await requireStaff(session, roles: {StaffRole.admin});
@@ -308,7 +329,7 @@ class ContentAdminEndpoint extends Endpoint {
   }
 
   static void _checkMeta(ContentKind kind, String slug, String category) {
-    if (!ContentRules.isSlug(slug) ||
+    if (!ContentRules.isValidSlug(kind, slug) ||
         !ContentRules.categoriesFor(kind).contains(category)) {
       throw ParlaException(code: ContentErrors.invalid);
     }
@@ -390,6 +411,7 @@ class ContentAdminEndpoint extends Endpoint {
     reviewedAt: r.reviewedAt,
     reviewNote: r.reviewNote,
     consentRecorded: r.consentRecordedAt != null,
+    hidden: r.hidden,
     updatedAt: r.updatedAt,
   );
 }

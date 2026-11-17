@@ -160,6 +160,10 @@ class ServerpodAdminApi implements AdminApi {
       _guard(() => _client.mediaAdmin.delete(id));
 
   @override
+  Future<ContentAdminItem> setContentHidden(int id, bool hidden) =>
+      _guard(() => _client.contentAdmin.setHidden(id, hidden));
+
+  @override
   Future<int> importSheet() => _guard(() => _client.contentAdmin.importSheet());
 
   @override

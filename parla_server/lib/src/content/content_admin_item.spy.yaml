@@ -11,4 +11,5 @@ fields:
   reviewedAt: DateTime?
   reviewNote: String?
   consentRecorded: bool
+  hidden: bool
   updatedAt: DateTime

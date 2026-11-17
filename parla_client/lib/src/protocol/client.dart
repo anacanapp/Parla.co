@@ -564,6 +564,20 @@ class EndpointContentAdmin extends _isc.EndpointRef {
     {},
   );
 
+  /// Hides or shows a catalogue item in the app at once (no review: it
+  /// only removes the item from what the app offers).
+  _ida.Future<_i9q5wd3k.ContentAdminItem> setHidden(
+    int id,
+    bool hidden,
+  ) => caller.callServerEndpoint<_i9q5wd3k.ContentAdminItem>(
+    'contentAdmin',
+    'setHidden',
+    {
+      'id': id,
+      'hidden': hidden,
+    },
+  );
+
   /// Deletes an item that is not live (admins only).
   _ida.Future<void> delete(int id) => caller.callServerEndpoint<void>(
     'contentAdmin',
@@ -581,7 +595,9 @@ class EndpointContent extends _isc.EndpointRef {
   @override
   String get name => 'content';
 
-  /// Published items of [kind] (a ContentKind name), newest first.
+  /// Published items of [kind] (a ContentKind name), newest first. For
+  /// catalogue kinds this also lists hidden items, so the app can leave
+  /// them out.
   _ida.Future<List<_iryaqqq7.PublicContent>> published(String kind) =>
       caller.callServerEndpoint<List<_iryaqqq7.PublicContent>>(
         'content',

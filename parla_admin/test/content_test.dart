@@ -246,4 +246,36 @@ void main() {
     await _tap(tester, find.byKey(ValueKey('library-${api.images.single.id}')));
     expect(find.text('Krem qabı'), findsOneWidget);
   });
+
+  testWidgets('catalogue texts start from the app texts; hiding is direct', (
+    tester,
+  ) async {
+    final api = await _pump(tester, StaffRole.editor);
+    await _tap(tester, find.text('Məzmun'));
+    await _tap(tester, find.text('Məşqlər'));
+    expect(find.byKey(const ValueKey('content-new')), findsNothing);
+    expect(find.text('tətbiqdəki mətn'), findsNothing);
+    expect(find.textContaining('tətbiqdəki mətn'), findsWidgets);
+
+    await _tap(tester, find.byKey(const ValueKey('catalogue-squat')));
+    final saved = api.calls.lastWhere((c) => c.startsWith('save:'));
+    final json = jsonDecode(saved.substring(saved.indexOf('{'))) as Map;
+    expect(
+      json,
+      ContentRules.catalogueDefaults(ContentKind.exercise, 'squat'),
+    );
+    expect(find.byKey(const ValueKey('field-name-az')), findsOneWidget);
+    expect(find.byKey(const ValueKey('image-field')), findsOneWidget);
+    expect(find.byKey(const ValueKey('content-category')), findsNothing);
+
+    await _tap(tester, find.byKey(const ValueKey('content-hidden')));
+    expect(api.calls.last, startsWith('hidden:'));
+    expect(api.calls.last, endsWith(':true'));
+
+    // Preferences and steps have no image.
+    await _tap(tester, find.text('Məzmun'));
+    await _tap(tester, find.text('Seçimlər'));
+    await _tap(tester, find.byKey(const ValueKey('catalogue-fragrance_free')));
+    expect(find.byKey(const ValueKey('image-field')), findsNothing);
+  });
 }

@@ -363,5 +363,95 @@ void main() {
         );
       }
     });
+
+    test('catalogue texts: known ids, review flow, hiding at once', () async {
+      final t = await team();
+      await expectLater(
+        endpoints.contentAdmin.create(
+          t.editor,
+          'preference',
+          'made-up',
+          'catalogue',
+        ),
+        throwsA(_error(ContentErrors.invalid)),
+      );
+      final item = await endpoints.contentAdmin.create(
+        t.editor,
+        'preference',
+        'fragrance_free',
+        'catalogue',
+      );
+      // Logic fields are not editable here.
+      await expectLater(
+        endpoints.contentAdmin.saveDraft(
+          t.editor,
+          item.id,
+          jsonEncode({
+            'name': _l('Ətirsiz'),
+            'contains': ['parfum'],
+          }),
+          'catalogue',
+        ),
+        throwsA(_error(ContentErrors.invalid)),
+      );
+      await endpoints.contentAdmin.saveDraft(
+        t.editor,
+        item.id,
+        jsonEncode({'name': _l('Ətirsiz'), 'hint': _l('Ətir yoxdur')}),
+        'catalogue',
+      );
+      await endpoints.contentAdmin.submitForReview(t.editor, item.id);
+      await endpoints.contentAdmin.approve(t.expert, item.id);
+      await endpoints.contentAdmin.publish(t.editor, item.id);
+      var public = await endpoints.content.published(
+        sessionBuilder,
+        'preference',
+      );
+      expect(public.single.hidden, isFalse);
+      expect(
+        jsonDecode(public.single.json),
+        containsPair('name', _l('Ətirsiz')),
+      );
+
+      // Hiding needs no review and also lists unpublished items.
+      final other = await endpoints.contentAdmin.create(
+        t.editor,
+        'step',
+        'face-toner',
+        'catalogue',
+      );
+      await expectLater(
+        endpoints.contentAdmin.setHidden(t.expert, other.id, true),
+        throwsA(_error(StaffErrors.forbidden)),
+      );
+      final hidden = await endpoints.contentAdmin.setHidden(
+        t.editor,
+        other.id,
+        true,
+      );
+      expect(hidden.hidden, isTrue);
+      public = await endpoints.content.published(sessionBuilder, 'step');
+      expect(public.single.slug, 'face-toner');
+      expect(public.single.hidden, isTrue);
+      expect(public.single.json, '{}');
+
+      await endpoints.contentAdmin.setHidden(t.editor, other.id, false);
+      expect(
+        await endpoints.content.published(sessionBuilder, 'step'),
+        isEmpty,
+      );
+
+      // Articles cannot be hidden this way.
+      final article = await endpoints.contentAdmin.create(
+        t.editor,
+        'article',
+        'qis',
+        'care',
+      );
+      await expectLater(
+        endpoints.contentAdmin.setHidden(t.editor, article.id, true),
+        throwsA(_error(ContentErrors.wrongStatus)),
+      );
+    });
   });
 }

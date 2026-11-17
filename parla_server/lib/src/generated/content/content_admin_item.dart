@@ -27,6 +27,7 @@ abstract class ContentAdminItem
     this.reviewedAt,
     this.reviewNote,
     required this.consentRecorded,
+    required this.hidden,
     required this.updatedAt,
   });
 
@@ -41,6 +42,7 @@ abstract class ContentAdminItem
     DateTime? reviewedAt,
     String? reviewNote,
     required bool consentRecorded,
+    required bool hidden,
     required DateTime updatedAt,
   }) = _ContentAdminItemImpl;
 
@@ -62,6 +64,7 @@ abstract class ContentAdminItem
       consentRecorded: _is.BoolJsonExtension.fromJson(
         jsonSerialization['consentRecorded'],
       ),
+      hidden: _is.BoolJsonExtension.fromJson(jsonSerialization['hidden']),
       updatedAt: _is.DateTimeJsonExtension.fromJson(
         jsonSerialization['updatedAt'],
       ),
@@ -88,6 +91,8 @@ abstract class ContentAdminItem
 
   bool consentRecorded;
 
+  bool hidden;
+
   DateTime updatedAt;
 
   /// Returns a shallow copy of this [ContentAdminItem]
@@ -104,6 +109,7 @@ abstract class ContentAdminItem
     DateTime? reviewedAt = const _is.$UndefinedDateTime(),
     String? reviewNote,
     bool? consentRecorded,
+    bool? hidden,
     DateTime? updatedAt,
   });
   @override
@@ -120,6 +126,7 @@ abstract class ContentAdminItem
       if (reviewedAt != null) 'reviewedAt': reviewedAt?.toJson(),
       if (reviewNote != null) 'reviewNote': reviewNote,
       'consentRecorded': consentRecorded,
+      'hidden': hidden,
       'updatedAt': updatedAt.toJson(),
     };
   }
@@ -138,6 +145,7 @@ abstract class ContentAdminItem
       if (reviewedAt != null) 'reviewedAt': reviewedAt?.toJson(),
       if (reviewNote != null) 'reviewNote': reviewNote,
       'consentRecorded': consentRecorded,
+      'hidden': hidden,
       'updatedAt': updatedAt.toJson(),
     };
   }
@@ -162,6 +170,7 @@ class _ContentAdminItemImpl extends ContentAdminItem {
     DateTime? reviewedAt,
     String? reviewNote,
     required bool consentRecorded,
+    required bool hidden,
     required DateTime updatedAt,
   }) : super._(
          id: id,
@@ -174,6 +183,7 @@ class _ContentAdminItemImpl extends ContentAdminItem {
          reviewedAt: reviewedAt,
          reviewNote: reviewNote,
          consentRecorded: consentRecorded,
+         hidden: hidden,
          updatedAt: updatedAt,
        );
 
@@ -192,6 +202,7 @@ class _ContentAdminItemImpl extends ContentAdminItem {
     DateTime? reviewedAt = const _is.$UndefinedDateTime(),
     Object? reviewNote = _Undefined,
     bool? consentRecorded,
+    bool? hidden,
     DateTime? updatedAt,
   }) {
     return ContentAdminItem(
@@ -207,6 +218,7 @@ class _ContentAdminItemImpl extends ContentAdminItem {
           : reviewedAt,
       reviewNote: reviewNote is String? ? reviewNote : this.reviewNote,
       consentRecorded: consentRecorded ?? this.consentRecorded,
+      hidden: hidden ?? this.hidden,
       updatedAt: updatedAt ?? this.updatedAt,
     );
   }

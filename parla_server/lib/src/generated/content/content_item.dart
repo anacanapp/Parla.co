@@ -40,7 +40,8 @@ abstract class ContentItem
     required this.createdAt,
     required this.updatedAt,
     this.publishedAt,
-  });
+    bool? hidden,
+  }) : hidden = hidden ?? false;
 
   factory ContentItem({
     int? id,
@@ -61,6 +62,7 @@ abstract class ContentItem
     required DateTime createdAt,
     required DateTime updatedAt,
     DateTime? publishedAt,
+    bool? hidden,
   }) = _ContentItemImpl;
 
   factory ContentItem.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -111,6 +113,9 @@ abstract class ContentItem
           : _is.DateTimeJsonExtension.fromJson(
               jsonSerialization['publishedAt'],
             ),
+      hidden: jsonSerialization['hidden'] == null
+          ? null
+          : _is.BoolJsonExtension.fromJson(jsonSerialization['hidden']),
     );
   }
 
@@ -158,6 +163,10 @@ abstract class ContentItem
 
   DateTime? publishedAt;
 
+  /// Catalogue items only: the app hides the item. Takes effect at once,
+  /// without review, so a problem can be stopped quickly.
+  bool hidden;
+
   @override
   _is.Table<int?> get table => t;
 
@@ -183,6 +192,7 @@ abstract class ContentItem
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? publishedAt = const _is.$UndefinedDateTime(),
+    bool? hidden,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -208,6 +218,7 @@ abstract class ContentItem
       'createdAt': createdAt.toJson(),
       'updatedAt': updatedAt.toJson(),
       if (publishedAt != null) 'publishedAt': publishedAt?.toJson(),
+      'hidden': hidden,
     };
   }
 
@@ -235,6 +246,7 @@ abstract class ContentItem
       'createdAt': createdAt.toJson(),
       'updatedAt': updatedAt.toJson(),
       if (publishedAt != null) 'publishedAt': publishedAt?.toJson(),
+      'hidden': hidden,
     };
   }
 
@@ -288,6 +300,7 @@ class _ContentItemImpl extends ContentItem {
     required DateTime createdAt,
     required DateTime updatedAt,
     DateTime? publishedAt,
+    bool? hidden,
   }) : super._(
          id: id,
          kind: kind,
@@ -307,6 +320,7 @@ class _ContentItemImpl extends ContentItem {
          createdAt: createdAt,
          updatedAt: updatedAt,
          publishedAt: publishedAt,
+         hidden: hidden,
        );
 
   /// Returns a shallow copy of this [ContentItem]
@@ -332,6 +346,7 @@ class _ContentItemImpl extends ContentItem {
     DateTime? createdAt,
     DateTime? updatedAt,
     DateTime? publishedAt = const _is.$UndefinedDateTime(),
+    bool? hidden,
   }) {
     return ContentItem(
       id: id is int? ? id : this.id,
@@ -364,6 +379,7 @@ class _ContentItemImpl extends ContentItem {
       publishedAt: publishedAt is _is.UndefinedSentinel
           ? this.publishedAt
           : publishedAt,
+      hidden: hidden ?? this.hidden,
     );
   }
 }
@@ -470,6 +486,11 @@ class ContentItemUpdateTable extends _is.UpdateTable<ContentItemTable> {
         table.publishedAt,
         value,
       );
+
+  _is.ColumnValue<bool, bool> hidden(bool value) => _is.ColumnValue(
+    table.hidden,
+    value,
+  );
 }
 
 class ContentItemTable extends _is.Table<int?> {
@@ -544,6 +565,11 @@ class ContentItemTable extends _is.Table<int?> {
       'publishedAt',
       this,
     );
+    hidden = _is.ColumnBool(
+      'hidden',
+      this,
+      hasDefault: true,
+    );
   }
 
   late final ContentItemUpdateTable updateTable;
@@ -585,6 +611,10 @@ class ContentItemTable extends _is.Table<int?> {
 
   late final _is.ColumnDateTime publishedAt;
 
+  /// Catalogue items only: the app hides the item. Takes effect at once,
+  /// without review, so a problem can be stopped quickly.
+  late final _is.ColumnBool hidden;
+
   @override
   List<_is.Column> get columns => [
     id,
@@ -605,6 +635,7 @@ class ContentItemTable extends _is.Table<int?> {
     createdAt,
     updatedAt,
     publishedAt,
+    hidden,
   ];
 }
 

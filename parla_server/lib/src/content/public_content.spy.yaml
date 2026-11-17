@@ -10,3 +10,5 @@ fields:
   publishedAt: DateTime
   ### The item's image, when it has a published one.
   image: PublicImage?
+  ### Catalogue items the app must not show.
+  hidden: bool

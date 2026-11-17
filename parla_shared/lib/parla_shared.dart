@@ -18,6 +18,10 @@ export 'src/product_preferences.dart';
 export 'src/quiz.dart';
 export 'src/routine_rules.dart';
 export 'src/sport_rules.dart';
+export 'src/texts/exercise_draft_texts.dart';
+export 'src/texts/exercise_sheet_texts.dart';
+export 'src/texts/preference_texts.dart';
+export 'src/texts/routine_step_texts.dart';
 
 /// The ingredient statuses shipped with this version.
 final euIngredientDataset = IngredientDataset(

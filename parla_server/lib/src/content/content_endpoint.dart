@@ -13,33 +13,38 @@ class ContentEndpoint extends Endpoint {
   @override
   bool get requireLogin => false;
 
-  /// Published items of [kind] (a ContentKind name), newest first.
+  /// Published items of [kind] (a ContentKind name), newest first. For
+  /// catalogue kinds this also lists hidden items, so the app can leave
+  /// them out.
   Future<List<PublicContent>> published(Session session, String kind) async {
     final rows = await ContentItem.db.find(
       session,
-      where: (t) => t.kind.equals(kind) & t.publishedJson.notEquals(null),
+      where: (t) =>
+          t.kind.equals(kind) &
+          (t.publishedJson.notEquals(null) | t.hidden.equals(true)),
       orderByList: (t) => [t.publishedAt.desc()],
-      limit: 200,
+      limit: 500,
     );
-    final ids = {
-      for (final r in rows)
-        ?MediaRules.imageOf(
-          jsonDecode(r.publishedJson!) as Map<String, Object?>,
-        ),
-    };
-    final images = ids.isEmpty
-        ? const <int, MediaAsset>{}
-        : {
-            for (final a in await MediaAsset.db.find(
-              session,
-              where: (t) => t.id.inSet(ids) & t.public.equals(true),
-            ))
-              a.id!: a,
-          };
-    PublicImage? imageFor(ContentItem r) {
-      final id = MediaRules.imageOf(
-        jsonDecode(r.publishedJson!) as Map<String, Object?>,
+    int? imageId(ContentItem r) => MediaRules.imageOf(
+      jsonDecode(r.publishedJson ?? '{}') as Map<String, Object?>,
+    );
+    final ids = <int>{};
+    for (final r in rows) {
+      final id = imageId(r);
+      if (id != null) ids.add(id);
+    }
+    final images = <int, MediaAsset>{};
+    if (ids.isNotEmpty) {
+      final found = await MediaAsset.db.find(
+        session,
+        where: (t) => t.id.inSet(ids) & t.public.equals(true),
       );
+      for (final a in found) {
+        images[a.id!] = a;
+      }
+    }
+    PublicImage? imageFor(ContentItem r) {
+      final id = imageId(r);
       final a = id == null ? null : images[id];
       final url = a == null ? null : Media.instance.publicUrl(a.key);
       if (a == null || url == null) return null;
@@ -58,10 +63,11 @@ class ContentEndpoint extends Endpoint {
           kind: r.kind,
           slug: r.slug,
           category: r.category,
-          json: r.publishedJson!,
+          json: r.publishedJson ?? '{}',
           reviewedAt: r.publishedReviewedAt,
-          publishedAt: r.publishedAt!,
+          publishedAt: r.publishedAt ?? r.updatedAt,
           image: imageFor(r),
+          hidden: r.hidden,
         ),
     ];
   }

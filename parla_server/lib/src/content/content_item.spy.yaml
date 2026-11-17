@@ -26,6 +26,9 @@ fields:
   createdAt: DateTime
   updatedAt: DateTime
   publishedAt: DateTime?
+  ### Catalogue items only: the app hides the item. Takes effect at once,
+  ### without review, so a problem can be stopped quickly.
+  hidden: bool, default=false
 indexes:
   content_item_slug_idx:
     fields: kind, slug

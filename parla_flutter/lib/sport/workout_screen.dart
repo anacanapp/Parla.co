@@ -5,6 +5,8 @@ import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parla_shared/parla_shared.dart';
 
+import '../discover/content_library.dart';
+import '../discover/discover_widgets.dart';
 import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
 import '../routes.dart';
@@ -224,6 +226,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     final language = Localizations.localeOf(context).languageCode;
     final item = w.items[_index];
     final (name, how) = exerciseText(item.exercise.id, language);
+    final image = ContentLibrary.current
+        ?.find('exercise', item.exercise.id)
+        ?.image;
     final resting = _phase == _Phase.rest;
     final reps = item.exercise.mode == ExerciseMode.reps;
     String? nextName;
@@ -239,23 +244,34 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           style: text.labelMedium?.copyWith(color: ParlaColors.muted),
         ),
         const SizedBox(height: 8),
-        // Placeholder until licensed exercise photos arrive.
-        Container(
-          height: 160,
-          decoration: BoxDecoration(
-            color: resting ? ParlaColors.sky : ParlaColors.sportBlue,
-            borderRadius: BorderRadius.circular(24),
-          ),
-          alignment: Alignment.center,
-          padding: const EdgeInsets.all(16),
-          child: ExcludeSemantics(
-            child: ParlaIcon(
-              resting ? ParlaIconName.moon : ParlaIconName.dumbbell,
-              size: 56,
-              color: resting ? ParlaColors.espresso : ParlaColors.white,
+        // The licensed photo the team published, else a placeholder.
+        if (image != null && !resting)
+          SizedBox(
+            height: 200,
+            child: ContentImage(
+              key: const ValueKey('workout-image'),
+              image: image,
+              radius: 24,
+              aspectRatio: image.aspectRatio,
+            ),
+          )
+        else
+          Container(
+            height: 160,
+            decoration: BoxDecoration(
+              color: resting ? ParlaColors.sky : ParlaColors.sportBlue,
+              borderRadius: BorderRadius.circular(24),
+            ),
+            alignment: Alignment.center,
+            padding: const EdgeInsets.all(16),
+            child: ExcludeSemantics(
+              child: ParlaIcon(
+                resting ? ParlaIconName.moon : ParlaIconName.dumbbell,
+                size: 56,
+                color: resting ? ParlaColors.espresso : ParlaColors.white,
+              ),
             ),
           ),
-        ),
         const SizedBox(height: 16),
         Semantics(
           header: true,

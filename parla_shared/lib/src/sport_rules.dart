@@ -421,7 +421,9 @@ class SportPlan {
 }
 
 /// Builds the weekly plan for [a].
-SportPlan planSport(SportAnswers a) {
+/// The weekly plan for [a]. Exercises in [exclude] (hidden by the team in
+/// the admin panel) are never picked.
+SportPlan planSport(SportAnswers a, {Set<String> exclude = const {}}) {
   if (a.doctorLimit) return const SportPlan([], blocked: true);
   final gentle = a.pregnancy != 'no';
   final avoid = {...a.injuries, if (gentle) _p};
@@ -442,6 +444,7 @@ SportPlan planSport(SportAnswers a) {
   };
 
   bool allowed(Exercise e) =>
+      !exclude.contains(e.id) &&
       e.level <= level &&
       (!e.dumbbells || a.dumbbells) &&
       e.avoid.intersection(avoid).isEmpty;

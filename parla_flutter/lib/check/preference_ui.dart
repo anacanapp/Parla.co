@@ -3,8 +3,8 @@ import 'package:parla_shared/parla_shared.dart';
 
 import '../l10n/app_localizations.dart';
 import '../ui/brand.dart';
+import '../discover/content_library.dart';
 import 'care_list.dart';
-import 'preference_texts.dart';
 
 int _lang(AppLocalizations l10n) => switch (l10n.localeName) {
   'ru' => 1,
@@ -15,10 +15,13 @@ int _lang(AppLocalizations l10n) => switch (l10n.localeName) {
 /// Label of a product preference (from the content sheet); the id itself
 /// for one this version has no text for.
 String preferenceLabel(AppLocalizations l10n, String id) =>
-    preferenceTexts[id]?[0][_lang(l10n)] ?? id;
+    ContentLibrary.catalogueText('preference', id, 'name', l10n.localeName) ??
+    preferenceTexts[id]?[0][_lang(l10n)] ??
+    id;
 
 /// What a preference checks, in neutral words, or `null`.
 String? preferenceHint(AppLocalizations l10n, String id) =>
+    ContentLibrary.catalogueText('preference', id, 'hint', l10n.localeName) ??
     preferenceTexts[id]?[1][_lang(l10n)];
 
 /// Lets the user pick her preferences; saves them to [book].
@@ -32,6 +35,7 @@ Future<void> editPreferences(BuildContext context, CareListBook book) async {
       builder: (context, setState) {
         final l10n = AppLocalizations.of(context);
         final text = Theme.of(context).textTheme;
+        final hidden = ContentLibrary.hiddenIds('preference');
         return SafeArea(
           child: SingleChildScrollView(
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 16),
@@ -47,27 +51,28 @@ Future<void> editPreferences(BuildContext context, CareListBook book) async {
                 ),
                 const SizedBox(height: 8),
                 for (final p in productPreferences)
-                  CheckboxListTile(
-                    key: ValueKey('pref-${p.id}'),
-                    contentPadding: EdgeInsets.zero,
-                    value: picked.contains(p.id),
-                    onChanged: (on) => setState(() {
-                      if (on ?? false) {
-                        picked.add(p.id);
-                      } else {
-                        picked.remove(p.id);
-                      }
-                    }),
-                    title: Text(preferenceLabel(l10n, p.id)),
-                    subtitle: preferenceHint(l10n, p.id) == null
-                        ? null
-                        : Text(
-                            preferenceHint(l10n, p.id)!,
-                            style: text.bodySmall?.copyWith(
-                              color: ParlaColors.muted,
+                  if (!hidden.contains(p.id))
+                    CheckboxListTile(
+                      key: ValueKey('pref-${p.id}'),
+                      contentPadding: EdgeInsets.zero,
+                      value: picked.contains(p.id),
+                      onChanged: (on) => setState(() {
+                        if (on ?? false) {
+                          picked.add(p.id);
+                        } else {
+                          picked.remove(p.id);
+                        }
+                      }),
+                      title: Text(preferenceLabel(l10n, p.id)),
+                      subtitle: preferenceHint(l10n, p.id) == null
+                          ? null
+                          : Text(
+                              preferenceHint(l10n, p.id)!,
+                              style: text.bodySmall?.copyWith(
+                                color: ParlaColors.muted,
+                              ),
                             ),
-                          ),
-                  ),
+                    ),
                 const SizedBox(height: 12),
                 FilledButton(
                   key: const ValueKey('prefs-save'),

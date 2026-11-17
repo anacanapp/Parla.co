@@ -109,6 +109,8 @@ class _ParlaAppState extends State<ParlaApp> {
   @override
   void initState() {
     super.initState();
+    // Team texts and hidden flags for preferences, exercises and steps.
+    _content.loadCatalogue();
     _language = widget.settings.language;
     widget.settings.addListener(_onSettings);
   }

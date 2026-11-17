@@ -65,6 +65,9 @@ abstract interface class AdminApi {
   Future<ContentAdminItem> unpublishContent(int id);
   Future<void> deleteContent(int id);
 
+  /// Hides or shows a catalogue item in the app at once.
+  Future<ContentAdminItem> setContentHidden(int id, bool hidden);
+
   /// Imports the content sheet's articles and recipes as drafts (admins);
   /// returns how many were added.
   Future<int> importSheet();

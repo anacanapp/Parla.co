@@ -376,6 +376,35 @@ panel (`parla_admin/lib/media/`) and stored by the server
   written consent must cover the photo (lawyer to confirm the form). Images
   showing anyone else need their written permission, noted as the licence.
 
+## Catalogue texts in the admin panel (B2b-2)
+
+The texts of product preferences, exercises and routine steps can be
+edited in the panel (tabs **Seçimlər**, **Məşqlər**, **Addımlar**). They
+are content items of the kinds `preference`, `exercise` and `step`, whose
+slug is the catalogue id from code.
+
+- **What the panel changes:**
+  - Preferences: name and hint.
+  - Exercises: name, how-to, caution and one image.
+  - Steps: title, how-to and tip.
+- **What stays in code:** which items exist, ingredient lists, rule
+  conditions, doses and safety flags (pregnancy, sensitivity, injuries).
+  These change only through a PR with tests (`ContentRules` refuses other
+  fields).
+- **Starting point:** an item opened for the first time starts from the
+  app's own texts, which now live in `parla_shared/lib/src/texts/` so the
+  panel can read them.
+- **Review:** texts go through the normal review: an expert approves, then
+  they are published. The app uses the published texts and falls back to
+  its own when there are none or it is offline. It keeps the last copy.
+- **Hiding:** *Tətbiqdə gizlət* takes effect at once and needs no review.
+  Hidden preferences are not offered and not applied, but stay saved for
+  the user. Hidden steps leave the routine and the builder suggestions.
+  Hidden exercises are never put into a plan (`planSport(exclude:)`).
+- **Loading:** the app loads catalogue texts at start
+  (`ContentLibrary.loadCatalogue`). This is public content and nothing
+  personal is sent.
+
 ## Discover (B2a)
 
 - Blogs (with category filter), the article (with "reviewed by an expert"
@@ -449,7 +478,7 @@ panel (`parla_admin/lib/media/`) and stored by the server
 | Privacy policy and terms texts | — | Lawyer |
 | Apple and Google sign-in | US-01 | Needs the Apple and Google developer accounts (company registration) |
 | Production hosting, email provider and data region (staging uses AWS in Frankfurt and SMTP via info@anacan.az) | RES-1, RES-5 | After the lawyer answers the localisation questions |
-| Admin panel phases B2b (images in S3, moving preferences/exercises/steps to the panel), C (users, statistics) and D (banners, messages, push notifications) | M8 | In progress; A, B1 and B2a done |
+| Admin panel phases C (users, statistics) and D (banners, messages, push notifications) | M8 | In progress; A, B1, B2a and B2b done |
 | Privacy policy text for staff access, the admin panel and push notifications | — | Lawyer, before phase D |
 | Real-device test of reminders (Android 13+ permission, reboot, iOS foreground) | M7 | Before the beta |
 | Ask people who agreed to an older health consent text to agree to the current one (own routines, preferences and the shopping list stay on the phone until then) | CON-3 | Before launch, if anyone agreed to `health-2026-11-draft1` to `draft4` |

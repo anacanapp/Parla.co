@@ -3,6 +3,7 @@ import 'dart:math';
 import 'package:parla_shared/parla_shared.dart';
 
 import '../habits/habit_log.dart';
+import '../discover/content_library.dart';
 import '../services/parla_api.dart';
 import '../sync/synced_document.dart';
 
@@ -114,11 +115,16 @@ class CareListBook extends SyncedDocument {
   @override
   Future<void> sendRemote(ParlaApi api, String json) => api.saveCareList(json);
 
-  /// Picked preference ids this version knows, in display order.
-  List<String> get preferences => [
-    for (final p in productPreferences)
-      if (_preferences.contains(p.id)) p.id,
-  ];
+  /// Picked preference ids this version knows and the team has not
+  /// hidden, in display order. Hidden ones stay saved and come back when
+  /// shown again.
+  List<String> get preferences {
+    final hidden = ContentLibrary.hiddenIds('preference');
+    return [
+      for (final p in productPreferences)
+        if (_preferences.contains(p.id) && !hidden.contains(p.id)) p.id,
+    ];
+  }
 
   List<RecentProduct> get recent => List.unmodifiable(_recent);
   List<ShoppingItem> get shopping => List.unmodifiable(_shopping);

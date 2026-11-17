@@ -555,6 +555,13 @@ class Protocol extends _is.DatabaseSerializationManager
           isNullable: true,
           dartType: 'DateTime?',
         ),
+        _isp.ColumnDefinition(
+          name: 'hidden',
+          columnType: _isp.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+          columnDefault: 'false',
+        ),
       ],
       foreignKeys: [],
       indexes: [
