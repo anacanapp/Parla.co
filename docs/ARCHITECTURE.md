@@ -510,12 +510,42 @@ slug is the catalogue id from code.
   with the health consent; see "Habits (sprint 4)" and "Care routines and
   own routines".
 
+## Health data keys in KMS (ENC-3)
+
+Each user's data key (DEK) is wrapped by the AWS KMS key `alias/<name>-health`
+when the server has `PARLA_HEALTH_KMS_KEY_ID` (`kekVersion` 2). The key
+material never leaves KMS.
+- **Account binding:** every call passes the encryption context
+  `parla:user = <account id>`, and the task role may use the key only with
+  that context.
+- **Caching:** unwrapped keys stay in memory for at most 5 minutes to limit
+  KMS calls.
+- **Older keys:** keys wrapped by the KEK from the secrets (`kekVersion` 1)
+  are moved to KMS the first time they are used.
+- **Deletion:** deleting the `health_key` row still shreds a user's health
+  data.
+- **The KEK in the secrets is still needed:** for `kekVersion` 1 keys not
+  used since, and for the HKDF-derived keys of staff TOTP secrets and
+  support messages. Moving those to KMS as well is a follow-up.
+- **Local development and tests** keep the KEK.
+
+## Append-only consent and audit tables (AUD-2)
+
+At start-up the server installs PostgreSQL triggers (`append_only.dart`,
+idempotent).
+- **audit_log:** only `actorId` / `objectId` may change (a deleted
+  account's pseudonym), and only rows older than 365 days may be deleted.
+- **consent_record:** only `authUserId` may change (pseudonym), and only
+  rows of accounts deleted more than 3 years ago may be deleted.
+- **Everything else:** every other `UPDATE` or `DELETE` is refused by the
+  database itself, whatever the application does.
+- **Times:** the triggers use the database clock. A separate restricted
+  database role for the server is still open for production.
+
 ## Not done yet (tracked, not forgotten)
 
 | Item | Checklist | Planned |
 | --- | --- | --- |
-| KMS for the health KEK in the production data region | ENC-3 | With the production hosting decision |
-| Database-level append-only enforcement for `consent_record` and `audit_log` (restricted DB role) | AUD-2 | With the production database setup |
 | Re-ask the pregnancy question after 12 months | RET-2 | With habit and health data history |
 | Privacy policy and terms texts | — | Lawyer |
 | Apple and Google sign-in | US-01 | Needs the Apple and Google developer accounts (company registration) |
@@ -531,6 +561,8 @@ slug is the catalogue id from code.
 | Licensed exercise photos (shown by exercise id) | — | When the photos arrive |
 | Optional on-device photo skin analysis (kept on branch `skin-photo`, not merged) | — | Postponed; needs lawyer approval and a DPIA, plus dermatologist review, before it returns |
 | Expert consent form to cover the profile photo; permission wording for people shown in content images | — | Lawyer, before publishing expert photos |
+| Restricted database role for the server (no DDL; triggers stay owned by an admin role) | AUD-2 | With the production database setup |
+| Move the HKDF-derived keys (staff TOTP, support messages) to KMS and retire the KEK once all health keys are on KMS | ENC-3 | After all `kekVersion` 1 keys have moved |
 | Barcode scanning | — | Later step |
 
 ## Known environment issue

@@ -5,7 +5,9 @@ import 'package:serverpod_auth_idp_server/providers/email.dart';
 
 import 'src/account/retention.dart';
 import 'src/auth/verification_code_sender.dart';
+import 'src/audit/append_only.dart';
 import 'src/generated/serverpod.dart';
+import 'src/health/health_kms.dart';
 import 'src/media/media_store.dart';
 import 'src/media/s3_media_store.dart';
 
@@ -58,8 +60,27 @@ void run(List<String> args) async {
   );
 
   Media.instance = mediaFor(pod.runMode, Platform.environment);
+  // Health data keys wrapped by AWS KMS when configured (ENC-3).
+  final kmsKey = Platform.environment['PARLA_HEALTH_KMS_KEY_ID'];
+  if (kmsKey != null && kmsKey.isNotEmpty) {
+    HealthKms.wrapper = AwsKmsKeyWrapper(
+      keyId: kmsKey,
+      region:
+          Platform.environment['PARLA_MEDIA_REGION'] ??
+          Platform.environment['AWS_REGION'] ??
+          'eu-central-1',
+    );
+  }
 
   await pod.start();
+
+  // Append-only consent and audit tables at the database level (AUD-2).
+  final guardSession = await pod.createSession(enableLogging: false);
+  try {
+    await installAppendOnlyGuards(guardSession);
+  } finally {
+    await guardSession.close();
+  }
 
   // Deletes data past its retention period once a day (RET-1, RET-2).
   if (pod.runMode != ServerpodRunMode.test) {
