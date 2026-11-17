@@ -1655,6 +1655,18 @@ class AppLocalizationsRu extends AppLocalizations {
       'Уведомления не разрешены. Их можно включить в настройках телефона.';
 
   @override
+  String get checkSuggestTitle => 'По твоему тесту';
+
+  @override
+  String get checkSuggestBody =>
+      'По ответам теста тебе могут подойти эти фильтры. Добавлять или нет — решаешь ты.';
+
+  @override
+  String checkSuggestAdd(String name) {
+    return 'Добавить: $name';
+  }
+
+  @override
   String get consentRefreshCardTitle => 'Текст согласия обновлён';
 
   @override

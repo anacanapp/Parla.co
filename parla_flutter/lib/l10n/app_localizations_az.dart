@@ -1629,6 +1629,18 @@ class AppLocalizationsAz extends AppLocalizations {
       'Bildirişlərə icazə verilmədi. Telefonun ayarlarından aça bilərsən.';
 
   @override
+  String get checkSuggestTitle => 'Testinə görə təklif';
+
+  @override
+  String get checkSuggestBody =>
+      'Test cavablarına görə bu seçimlər sənə uyğun ola bilər. Əlavə edib-etməmək sənin qərarındır.';
+
+  @override
+  String checkSuggestAdd(String name) {
+    return '$name əlavə et';
+  }
+
+  @override
   String get consentRefreshCardTitle => 'Razılıq mətni yeniləndi';
 
   @override

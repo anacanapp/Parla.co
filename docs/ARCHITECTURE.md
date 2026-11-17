@@ -592,8 +592,16 @@ card shows: `today` (home) or `discover`.
   with the health consent; see "Habits (sprint 4)" and "Care routines and
   own routines".
 
-## Renewing an older health consent (CON-3)
+## Suggested Check preferences
 
+The routine rules name product preferences for some quiz answers (for
+example fragrance-free with sensitive skin, lanolin-free with a lanolin
+allergy). The Check screen works them out **on the phone** from the user's
+quiz answers (`buildRoutine(answers).preferences`) and shows them as
+"Suggested from your quiz". Nothing is turned on by itself: the user adds
+each one, and hidden preferences are never suggested.
+
+## Renewing an older health consent (CON-3)
 When the granted health consent is an older text version (for example
 `health-2026-11-draft1` to `draft4`), Today shows a card. The next screen
 shows the current text with **I agree** and **Not now**.

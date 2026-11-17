@@ -951,6 +951,16 @@
   "pushTitle": "Notifications",
   "pushBody": "Get told when support replies. With the marketing consent you'll also get Parla news. You can turn this off any time.",
   "pushDenied": "Notifications are not allowed. You can turn them on in your phone settings.",
+  "checkSuggestTitle": "Suggested from your quiz",
+  "checkSuggestBody": "Based on your quiz answers, these filters may suit you. Adding them is up to you.",
+  "checkSuggestAdd": "Add {name}",
+  "@checkSuggestAdd": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
+  },
   "consentRefreshCardTitle": "The consent text was updated",
   "consentRefreshCardBody": "There is a new version of the health data consent. If you read and agree, your routines, lists, sport and nutrition entries are also kept encrypted on the server. If not, they stay on this phone only.",
   "consentRefreshOpen": "Read",

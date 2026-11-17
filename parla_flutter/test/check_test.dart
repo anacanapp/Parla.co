@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:parla_shared/parla_shared.dart';
 import 'package:parla/app.dart';
 import 'package:parla/habits/habit_store.dart';
 import 'package:parla/home/widgets/home_cards.dart';
@@ -111,6 +112,39 @@ Map<String, Object?> _local(MemoryHabitStore store) =>
     jsonDecode(store.data['user-1']!) as Map<String, Object?>;
 
 void main() {
+  testWidgets('quiz answers suggest preferences; the user adds them', (
+    tester,
+  ) async {
+    final api = FakeApi()
+      ..signedIn = true
+      ..profile = const ProfileSummary(countryCode: 'AZ', language: 'en')
+      ..products = const [_cream]
+      ..quizAnswers = const QuizAnswers(
+        chosen: {
+          'sensitivity': ['often'],
+        },
+        declined: {},
+      );
+    final app = await _open(tester, api: api);
+    await tester.scrollUntilVisible(
+      find.byKey(const ValueKey('check-suggestions')),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.textContaining('up to you'), findsOneWidget);
+    await tester.tap(find.byKey(const ValueKey('suggest-fragrance_free')));
+    await tester.pumpAndSettle();
+    // Added: shown among the preferences and no longer suggested.
+    expect(find.byKey(const ValueKey('check-suggestions')), findsNothing);
+    expect(find.text('Fragrance-free'), findsOneWidget);
+    expect(app.store.data.values.single, contains('fragrance_free'));
+  });
+
+  testWidgets('without a quiz nothing is suggested', (tester) async {
+    await _open(tester);
+    expect(find.byKey(const ValueKey('check-suggestions')), findsNothing);
+  });
+
   testWidgets('preferences are picked and shown as chips', (tester) async {
     final app = await _open(tester);
     expect(

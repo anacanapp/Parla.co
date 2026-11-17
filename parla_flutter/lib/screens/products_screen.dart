@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parla_shared/parla_shared.dart';
 
+import '../discover/content_library.dart';
 import '../check/care_list.dart';
 import '../check/ingredient_texts.dart';
 import '../check/preference_ui.dart';
@@ -30,6 +31,34 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
   List<ProductResult>? _results;
   bool _busy = false;
   String? _hint;
+
+  /// Preferences the routine rules suggest for the user's quiz answers,
+  /// worked out on the phone. Empty until loaded or without a quiz.
+  Set<String> _suggested = const {};
+  bool _loadedSuggestions = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_loadedSuggestions) return;
+    _loadedSuggestions = true;
+    _loadSuggestions();
+  }
+
+  Future<void> _loadSuggestions() async {
+    try {
+      final answers = await ParlaScope.of(context).api.myQuizAnswers();
+      if (answers == null || !mounted) return;
+      final known = {for (final p in productPreferences) p.id};
+      setState(
+        () => _suggested = buildRoutine(
+          answers,
+        ).preferences.where(known.contains).toSet(),
+      );
+    } on Object {
+      // Offline or no quiz: no suggestions.
+    }
+  }
 
   @override
   void dispose() {
@@ -194,6 +223,45 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
           )
         else
           PreferenceChips(ids: book.preferences),
+        if (_suggested
+                .difference(book.preferences.toSet())
+                .difference(ContentLibrary.hiddenIds('preference'))
+            case final open when open.isNotEmpty) ...[
+          const SizedBox(height: 12),
+          SoftCard(
+            key: const ValueKey('check-suggestions'),
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(l10n.checkSuggestTitle, style: text.titleMedium),
+                const SizedBox(height: 4),
+                Text(l10n.checkSuggestBody, style: text.bodySmall),
+                const SizedBox(height: 8),
+                Wrap(
+                  spacing: 8,
+                  runSpacing: 8,
+                  children: [
+                    for (final p in productPreferences)
+                      if (open.contains(p.id))
+                        ActionChip(
+                          key: ValueKey('suggest-${p.id}'),
+                          avatar: const Icon(Icons.add, size: 18),
+                          label: Text(preferenceLabel(l10n, p.id)),
+                          tooltip: l10n.checkSuggestAdd(
+                            preferenceLabel(l10n, p.id),
+                          ),
+                          onPressed: () => book.setPreferences({
+                            ...book.preferences,
+                            p.id,
+                          }),
+                        ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ],
         if (book.recent.isNotEmpty) ...[
           const SizedBox(height: 24),
           Wrap(
