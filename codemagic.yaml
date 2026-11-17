@@ -5,8 +5,8 @@
 # - Team settings → Code signing identities → Android keystores:
 #   upload keystore with reference name "parla_upload".
 # - Environment variable groups:
-#   - "parla_staging": SERVER_URL (the server_url output of
-#     deploy/aws/staging, e.g. https://xxxx.cloudfront.net/), and for push
+#   - "parla_prod": SERVER_URL=https://parla.anacan.az/ (the server_url
+#     output of deploy/aws/prod), and for push
 #     notifications FIREBASE_API_KEY, FIREBASE_PROJECT_ID,
 #     FIREBASE_SENDER_ID, FIREBASE_ANDROID_APP_ID, FIREBASE_IOS_APP_ID
 #     (Firebase app settings; not secret, but kept out of the repository).
@@ -43,7 +43,7 @@ workflows:
       android_signing:
         - parla_upload
       groups:
-        - parla_staging
+        - parla_prod
     scripts:
       - *get_packages
       - *tests
@@ -71,7 +71,7 @@ workflows:
       android_signing:
         - parla_upload
       groups:
-        - parla_staging
+        - parla_prod
         - google_play
       vars:
         PACKAGE_NAME: com.atlasoon.parla
@@ -114,7 +114,7 @@ workflows:
       xcode: latest
       cocoapods: default
       groups:
-        - parla_staging
+        - parla_prod
         # APP_STORE_CONNECT_ISSUER_ID, APP_STORE_CONNECT_KEY_IDENTIFIER,
         # APP_STORE_CONNECT_PRIVATE_KEY (secure), CERTIFICATE_PRIVATE_KEY
         # (secure). Read by the CLI tools below and by publishing.

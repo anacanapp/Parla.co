@@ -1,4 +1,4 @@
-# Staging (test) environment of the Parla server on AWS, Frankfurt.
+# Production environment of the Parla server on AWS, Frankfurt.
 # Setup and day-to-day use: docs/RELEASE.md.
 
 terraform {
@@ -11,7 +11,7 @@ terraform {
     }
   }
 
-  # State lives in an S3 bucket of the same account; deploy/aws/init-staging.sh
+  # State lives in an S3 bucket of the same account; deploy/aws/init-prod.sh
   # creates the bucket and passes its name here. The state holds no secret
   # values: every secret is created outside Terraform.
   backend "s3" {}
@@ -23,7 +23,7 @@ provider "aws" {
   default_tags {
     tags = {
       Project     = "parla"
-      Environment = "staging"
+      Environment = "prod"
       ManagedBy   = "terraform"
     }
   }

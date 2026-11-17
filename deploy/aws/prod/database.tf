@@ -39,13 +39,15 @@ resource "aws_db_instance" "main" {
   parameter_group_name   = aws_db_parameter_group.main.name
   vpc_security_group_ids = [aws_security_group.db.id]
   publicly_accessible    = false
-  multi_az               = false
+  multi_az               = var.db_multi_az
 
-  # Encrypted automatic backups, kept 7 days in this region.
-  backup_retention_period = 7
-  backup_window           = "01:00-02:00"
-  maintenance_window      = "sun:02:30-sun:03:30"
-  copy_tags_to_snapshot   = true
+  # Encrypted automatic backups with point-in-time restore, kept in this
+  # region (var.db_backup_days).
+  backup_retention_period  = var.db_backup_days
+  delete_automated_backups = false
+  backup_window            = "01:00-02:00"
+  maintenance_window       = "sun:02:30-sun:03:30"
+  copy_tags_to_snapshot    = true
 
   auto_minor_version_upgrade = true
   deletion_protection        = true
