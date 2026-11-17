@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:parla_server/src/auth/verification_code_sender.dart';
 import 'package:parla_server/src/content/content_admin_endpoint.dart';
+import 'package:parla_server/src/content/content_seed_import.dart';
 import 'package:parla_server/src/generated/protocol.dart';
 import 'package:parla_server/src/staff/staff_guard.dart';
 import 'package:parla_server/src/staff/totp.dart';
@@ -311,5 +312,56 @@ void main() {
         expect(rows, hasLength(1));
       },
     );
+
+    test('the sheet import adds drafts once and keeps edits', () async {
+      final t = await team();
+      await expectLater(
+        endpoints.contentAdmin.importSheet(t.editor),
+        throwsA(_error(StaffErrors.forbidden)),
+      );
+      final added = await endpoints.contentAdmin.importSheet(t.admin);
+      expect(added, contentSeed.length);
+      final recipes = await endpoints.contentAdmin.list(t.admin, 'recipe');
+      final articles = await endpoints.contentAdmin.list(t.admin, 'article');
+      expect(recipes.length + articles.length, contentSeed.length);
+      expect(
+        [...recipes, ...articles].every((i) => i.status == ContentStatus.draft),
+        isTrue,
+      );
+      expect([...recipes, ...articles].any((i) => i.live), isFalse);
+
+      // An edited draft survives a second import.
+      final oats = recipes.firstWhere((i) => i.slug == 'berry-oats');
+      final edited = jsonEncode({
+        ...jsonDecode(oats.draftJson) as Map<String, Object?>,
+        'minutes': 12,
+      });
+      await endpoints.contentAdmin.saveDraft(
+        t.editor,
+        oats.id,
+        edited,
+        'breakfast',
+      );
+      expect(await endpoints.contentAdmin.importSheet(t.admin), 0);
+      final again = await endpoints.contentAdmin.list(t.admin, 'recipe');
+      expect(
+        jsonDecode(again.firstWhere((i) => i.slug == 'berry-oats').draftJson),
+        containsPair('minutes', 12),
+      );
+
+      // Articles still hold their writing plan, so they cannot go to review.
+      final winter = articles.firstWhere((i) => i.slug == 'winter-dry-skin');
+      await expectLater(
+        endpoints.contentAdmin.submitForReview(t.editor, winter.id),
+        throwsA(_error(ContentErrors.incomplete)),
+      );
+      // Nothing imported is public.
+      for (final kind in ['article', 'recipe']) {
+        expect(
+          await endpoints.content.published(sessionBuilder, kind),
+          isEmpty,
+        );
+      }
+    });
   });
 }

@@ -1538,4 +1538,60 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get skinCardBody => 'Analyse your skin again by answering questions.';
+
+  @override
+  String get catBody => 'Body';
+
+  @override
+  String get blogSources => 'Sources';
+
+  @override
+  String recipeAllergens(String list) {
+    return 'Contains: $list';
+  }
+
+  @override
+  String get recipeNoAllergens => 'None of the 14 main allergens.';
+
+  @override
+  String get allergenGluten => 'gluten';
+
+  @override
+  String get allergenCrustaceans => 'crustaceans';
+
+  @override
+  String get allergenEgg => 'egg';
+
+  @override
+  String get allergenFish => 'fish';
+
+  @override
+  String get allergenPeanuts => 'peanuts';
+
+  @override
+  String get allergenSoy => 'soy';
+
+  @override
+  String get allergenMilk => 'milk';
+
+  @override
+  String get allergenNuts => 'tree nuts';
+
+  @override
+  String get allergenCelery => 'celery';
+
+  @override
+  String get allergenMustard => 'mustard';
+
+  @override
+  String get allergenSesame => 'sesame';
+
+  @override
+  String get allergenSulphites => 'sulphites';
+
+  @override
+  String get allergenLupin => 'lupin';
+
+  @override
+  String get allergenMolluscs => 'molluscs';
 }

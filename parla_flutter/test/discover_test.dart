@@ -33,9 +33,10 @@ final _published = <String, List<PublishedItem>>{
       data: {
         'title': _l('Winter skin'),
         'summary': _l('Why skin dries'),
-        'body': _l('First paragraph.\n\nSecond paragraph.'),
+        'body': _l('First paragraph.\n\n## Habits\n\nSecond paragraph.'),
         'minutes': 4,
         'tips': [_l('Lukewarm water'), _l('Moisturise')],
+        'sources': ['https://www.aad.org/dry-skin'],
       },
     ),
     PublishedItem(
@@ -70,6 +71,7 @@ final _published = <String, List<PublishedItem>>{
           {'name': _l('Berries'), 'amount': _l('1 handful')},
         ],
         'steps': [_l('Mix'), _l('Top')],
+        'allergens': ['gluten', 'milk'],
       },
     ),
   ],
@@ -166,6 +168,13 @@ void main() {
 
   testWidgets('blogs: newest on Discover, filter, the article with its '
       'expert review and steps', (tester) async {
+    final opened = <Uri>[];
+    final original = ExpertsScreen.launcher;
+    ExpertsScreen.launcher = (uri) async {
+      opened.add(uri);
+      return true;
+    };
+    addTearDown(() => ExpertsScreen.launcher = original);
     await _open(tester);
     expect(find.text('New articles'), findsOneWidget);
     await _tap(tester, find.text('Blogs').first);
@@ -181,6 +190,15 @@ void main() {
     expect(find.text('Second paragraph. en'), findsOneWidget);
     expect(find.textContaining('Reviewed by an expert'), findsOneWidget);
     expect(find.text('Moisturise en'), findsOneWidget);
+    // "## " starts a heading; sources open in the browser.
+    expect(find.text('Habits'), findsOneWidget);
+    expect(find.textContaining('##'), findsNothing);
+    await _tap(
+      tester,
+      find.byKey(const ValueKey('blog-source-https://www.aad.org/dry-skin')),
+    );
+    expect(opened, [Uri.parse('https://www.aad.org/dry-skin')]);
+    expect(find.text('aad.org'), findsOneWidget);
   });
 
   testWidgets('content shows in Russian, and the last copy shows offline', (
@@ -247,6 +265,7 @@ void main() {
     await _tap(tester, find.byKey(const ValueKey('recipe-oats')));
     expect(find.text('Oats en'), findsOneWidget);
     expect(find.text('4 tbsp en'), findsOneWidget);
+    expect(find.text('Contains: gluten, milk'), findsOneWidget);
     await _tap(tester, find.byKey(const ValueKey('recipe-add')));
     expect(find.text('2 items added to your shopping list.'), findsOneWidget);
     final list = jsonDecode(app.careList.data['user-1']!) as Map;

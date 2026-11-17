@@ -122,6 +122,9 @@ class ServerpodAdminApi implements AdminApi {
       _guard(() => _client.contentAdmin.delete(id));
 
   @override
+  Future<int> importSheet() => _guard(() => _client.contentAdmin.importSheet());
+
+  @override
   Future<void> login(String email, String password) => _auth(() async {
     final success = await _client.emailIdp.login(
       email: email.trim(),

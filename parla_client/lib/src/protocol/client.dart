@@ -552,6 +552,15 @@ class EndpointContentAdmin extends _isc.EndpointRef {
         {'id': id},
       );
 
+  /// Imports the articles and recipes of the content sheet as drafts
+  /// (admins only). Slugs that already exist are skipped, so running it
+  /// again never overwrites the team's edits. Returns how many were added.
+  _ida.Future<int> importSheet() => caller.callServerEndpoint<int>(
+    'contentAdmin',
+    'importSheet',
+    {},
+  );
+
   /// Deletes an item that is not live (admins only).
   _ida.Future<void> delete(int id) => caller.callServerEndpoint<void>(
     'contentAdmin',

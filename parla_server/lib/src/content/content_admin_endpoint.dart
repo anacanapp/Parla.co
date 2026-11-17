@@ -4,6 +4,7 @@ import 'package:serverpod/serverpod.dart';
 import '../audit/audit.dart';
 import '../generated/protocol.dart';
 import '../staff/staff_guard.dart';
+import 'content_seed_import.dart';
 
 /// Error codes of the content flow. The panel translates them.
 abstract final class ContentErrors {
@@ -234,6 +235,40 @@ class ContentAdminEndpoint extends Endpoint {
         publishedAt: null,
       ),
     );
+  }
+
+  /// Imports the articles and recipes of the content sheet as drafts
+  /// (admins only). Slugs that already exist are skipped, so running it
+  /// again never overwrites the team's edits. Returns how many were added.
+  Future<int> importSheet(Session session) async {
+    final staff = await requireStaff(session, roles: {StaffRole.admin});
+    var added = 0;
+    for (final seed in contentSeed) {
+      if (seed.problems.isNotEmpty) continue;
+      final exists = await ContentItem.db.findFirstRow(
+        session,
+        where: (t) => t.kind.equals(seed.kind) & t.slug.equals(seed.slug),
+      );
+      if (exists != null) continue;
+      final now = DateTime.now().toUtc();
+      final row = await ContentItem.db.insertRow(
+        session,
+        ContentItem(
+          kind: seed.kind,
+          slug: seed.slug,
+          category: seed.category,
+          status: ContentStatus.draft,
+          draftJson: seed.json,
+          createdBy: staff.authUserId,
+          updatedBy: staff.authUserId,
+          createdAt: now,
+          updatedAt: now,
+        ),
+      );
+      await _audit(session, staff, 'content.imported', row);
+      added++;
+    }
+    return added;
   }
 
   /// Deletes an item that is not live (admins only).

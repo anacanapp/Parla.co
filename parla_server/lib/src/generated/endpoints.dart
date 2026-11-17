@@ -730,6 +730,17 @@ class Endpoints extends _is.EndpointDispatch {
                         params['id'],
                       ),
         ),
+        'importSheet': _is.MethodConnector(
+          name: 'importSheet',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['contentAdmin'] as _if39e6se.ContentAdminEndpoint)
+                      .importSheet(session),
+        ),
         'delete': _is.MethodConnector(
           name: 'delete',
           params: {

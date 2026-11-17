@@ -13,7 +13,13 @@ enum ContentKind { article, recipe, expert }
 abstract final class ContentRules {
   static const languages = ['az', 'ru', 'en'];
 
-  static const articleCategories = ['care', 'beauty', 'fashion', 'hair'];
+  static const articleCategories = [
+    'care',
+    'beauty',
+    'fashion',
+    'hair',
+    'body',
+  ];
   static const recipeMeals = ['breakfast', 'lunch', 'dinner', 'snack'];
   static const plateGroups = [
     'vegetables',
@@ -23,6 +29,34 @@ abstract final class ContentRules {
     'healthy_fat',
     'dairy',
   ];
+
+  /// The 14 allergens food labels must name in the EU (Regulation
+  /// 1169/2011, Annex II). A recipe lists the ones it contains; an empty
+  /// list means "none of these" and must be chosen explicitly.
+  static const recipeAllergens = [
+    'gluten',
+    'crustaceans',
+    'egg',
+    'fish',
+    'peanuts',
+    'soy',
+    'milk',
+    'nuts',
+    'celery',
+    'mustard',
+    'sesame',
+    'sulphites',
+    'lupin',
+    'molluscs',
+  ];
+
+  /// Starts the writing plan put into imported article drafts. An article
+  /// that still contains it cannot go to review.
+  static const planMarker = '[Yazı planı';
+
+  static const maxSources = 10;
+  static final _source = RegExp(r'^https://[^\s]{4,500}$');
+
   static const expertSpecialties = [
     'dermatologist',
     'cosmetologist',
@@ -114,12 +148,25 @@ abstract final class ContentRules {
 
     switch (kind) {
       case ContentKind.article:
-        only({'title', 'summary', 'body', 'minutes', 'tips'});
+        only({'title', 'summary', 'body', 'minutes', 'tips', 'sources'});
         text('title', maxTitle);
         text('summary', maxSummary);
         text('body', maxBody);
         number('minutes', 1, 60);
         list('tips', maxItem, required: false);
+        final body = json['body'];
+        if (complete &&
+            body is Map &&
+            body.values.any((v) => v is String && v.contains(planMarker))) {
+          out.add('body.plan_left');
+        }
+        final sources = json['sources'];
+        if (sources != null &&
+            (sources is! List ||
+                sources.length > maxSources ||
+                !sources.every((s) => s is String && _source.hasMatch(s)))) {
+          out.add('sources.invalid');
+        }
       case ContentKind.recipe:
         only({
           'title',
@@ -129,6 +176,7 @@ abstract final class ContentRules {
           'ingredients',
           'steps',
           'note',
+          'allergens',
         });
         text('title', maxTitle);
         number('minutes', 1, 240);
@@ -168,6 +216,14 @@ abstract final class ContentRules {
         }
         list('steps', maxItem);
         text('note', maxSummary, required: false);
+        final allergens = json['allergens'];
+        if (allergens == null) {
+          if (complete) out.add('allergens.missing');
+        } else if (allergens is! List ||
+            !allergens.every(recipeAllergens.contains) ||
+            allergens.toSet().length != allergens.length) {
+          out.add('allergens.invalid');
+        }
       case ContentKind.expert:
         only({
           'name',

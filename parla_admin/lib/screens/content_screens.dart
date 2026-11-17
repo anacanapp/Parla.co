@@ -55,6 +55,39 @@ class _ContentScreenState extends State<ContentScreen> {
     }
   }
 
+  Future<void> _importSheet() async {
+    final yes = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Cədvəldən idxal'),
+        content: const Text(
+          'Məzmun cədvəlindəki bloqlar və reseptlər qaralama kimi əlavə '
+          'olunur. Artıq olan yazılara toxunulmur, heç nə dərc olunmur.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Ləğv et'),
+          ),
+          FilledButton(
+            key: const ValueKey('import-yes'),
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('İdxal et'),
+          ),
+        ],
+      ),
+    );
+    if (yes != true) return;
+    try {
+      final added = await widget.state.api.importSheet();
+      if (!mounted) return;
+      _snack(context, '$added yazı qaralama kimi əlavə olundu.');
+      await _load();
+    } on Object catch (e) {
+      if (mounted) _snack(context, errorText(e));
+    }
+  }
+
   Future<void> _create() async {
     final kind = ContentKind.values.byName(widget.kind);
     final slug = TextEditingController();
@@ -136,6 +169,16 @@ class _ContentScreenState extends State<ContentScreen> {
                 child: Text('Məzmun', style: text.headlineMedium),
               ),
             ),
+            if (widget.state.me?.role == StaffRole.admin &&
+                widget.kind != ContentKind.expert.name) ...[
+              OutlinedButton.icon(
+                key: const ValueKey('content-import'),
+                onPressed: _importSheet,
+                icon: const Icon(Icons.table_view_outlined),
+                label: const Text('Cədvəldən idxal et'),
+              ),
+              const SizedBox(width: 8),
+            ],
             if (_canWrite(widget.state))
               FilledButton.icon(
                 key: const ValueKey('content-new'),
@@ -202,7 +245,16 @@ String _title(ContentAdminItem item) {
   return value.isEmpty ? '(adsız)' : value;
 }
 
-enum _FieldType { line, multiline, lines, number, groups, plain }
+enum _FieldType {
+  line,
+  multiline,
+  lines,
+  number,
+  groups,
+  allergens,
+  urls,
+  plain,
+}
 
 class _Field {
   const _Field(this.key, this.label, this.type, {this.localized = true});
@@ -220,6 +272,12 @@ const _fields = <String, List<_Field>>{
     _Field('body', 'Mətn', _FieldType.multiline),
     _Field('tips', 'Addımlar (hər sətir bir addım)', _FieldType.lines),
     _Field('minutes', 'Oxuma vaxtı (dəq)', _FieldType.number, localized: false),
+    _Field(
+      'sources',
+      'Mənbələr (hər sətir bir https:// link)',
+      _FieldType.urls,
+      localized: false,
+    ),
   ],
   'recipe': [
     _Field('title', 'Başlıq', _FieldType.line),
@@ -238,6 +296,7 @@ const _fields = <String, List<_Field>>{
     _Field('minutes', 'Vaxt (dəq)', _FieldType.number, localized: false),
     _Field('servings', 'Nəfər', _FieldType.number, localized: false),
     _Field('groups', 'Boşqab qrupları', _FieldType.groups, localized: false),
+    _Field('allergens', 'Allergenlər', _FieldType.allergens, localized: false),
   ],
   'expert': [
     _Field('name', 'Ad Soyad', _FieldType.plain, localized: false),
@@ -290,6 +349,9 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
   bool _busy = false;
   String _category = '';
   final Set<String> _groups = {};
+
+  /// `null` until chosen; empty means "none of the 14 allergens".
+  Set<String>? _allergens;
   final Map<String, TextEditingController> _plain = {};
   final Map<String, Map<String, TextEditingController>> _localized = {};
 
@@ -301,7 +363,9 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
   void initState() {
     super.initState();
     for (final f in _defs) {
-      if (f.type == _FieldType.groups) continue;
+      if (f.type == _FieldType.groups || f.type == _FieldType.allergens) {
+        continue;
+      }
       if (f.localized) {
         _localized[f.key] = {
           for (final l in ContentRules.languages) l: TextEditingController(),
@@ -353,6 +417,11 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           _groups
             ..clear()
             ..addAll((json['groups'] as List? ?? const []).cast<String>());
+        case _FieldType.allergens:
+          final v = json['allergens'];
+          _allergens = v is List ? v.cast<String>().toSet() : null;
+        case _FieldType.urls:
+          _plain[f.key]!.text = (json[f.key] as List? ?? const []).join('\n');
         case _FieldType.number || _FieldType.plain:
           final v = json[f.key];
           _plain[f.key]!.text = v == null ? '' : '$v';
@@ -418,6 +487,20 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
                 if (_groups.contains(g)) g,
             ];
           }
+        case _FieldType.allergens:
+          final a = _allergens;
+          if (a != null) {
+            out['allergens'] = [
+              for (final id in ContentRules.recipeAllergens)
+                if (a.contains(id)) id,
+            ];
+          }
+        case _FieldType.urls:
+          final urls = [
+            for (final line in _plain[f.key]!.text.split('\n'))
+              if (line.trim().isNotEmpty) line.trim(),
+          ];
+          if (urls.isNotEmpty) out[f.key] = urls;
         case _FieldType.number:
           final v = int.tryParse(_plain[f.key]!.text.trim());
           if (v != null) out[f.key] = v;
@@ -465,6 +548,44 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
     } finally {
       if (mounted) setState(() => _busy = false);
     }
+  }
+
+  Widget _allergenChips(bool writer) {
+    final chosen = _allergens;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        const Text('Allergenlər (AB-nin 14 allergeni)'),
+        const SizedBox(height: 6),
+        Wrap(
+          spacing: 8,
+          runSpacing: 4,
+          children: [
+            FilterChip(
+              key: const ValueKey('allergen-none'),
+              label: const Text('Heç biri'),
+              selected: chosen != null && chosen.isEmpty,
+              onSelected: writer
+                  ? (on) => setState(() => _allergens = on ? {} : null)
+                  : null,
+            ),
+            for (final a in ContentRules.recipeAllergens)
+              FilterChip(
+                key: ValueKey('allergen-$a'),
+                label: Text(allergenLabel(a)),
+                selected: chosen?.contains(a) ?? false,
+                onSelected: writer
+                    ? (on) => setState(() {
+                        final next = {...?_allergens};
+                        on ? next.add(a) : next.remove(a);
+                        _allergens = next.isEmpty ? null : next;
+                      })
+                    : null,
+              ),
+          ],
+        ),
+      ],
+    );
   }
 
   Future<String?> _ask(String title, String label) async {
@@ -654,6 +775,22 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
                 subtitle: Text(item.reviewNote!),
               ),
             ),
+          if (_localized['body']?.values.any(
+                (c) => c.text.contains(ContentRules.planMarker),
+              ) ??
+              false)
+            const Card(
+              key: ValueKey('content-plan-left'),
+              color: AdminColors.cream,
+              child: ListTile(
+                leading: Icon(Icons.edit_note),
+                title: Text('Mətndə yazı planı var'),
+                subtitle: Text(
+                  'Başlıqların altını doldurun və yoxlamaya göndərməzdən '
+                  'əvvəl "[Yazı planı" blokunu silin.',
+                ),
+              ),
+            ),
           const SizedBox(height: 12),
           DropdownButtonFormField<String>(
             key: const ValueKey('content-category'),
@@ -667,7 +804,9 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           ),
           const SizedBox(height: 16),
           for (final f in _defs.where((f) => !f.localized)) ...[
-            if (f.type == _FieldType.groups)
+            if (f.type == _FieldType.allergens)
+              _allergenChips(writer)
+            else if (f.type == _FieldType.groups)
               Wrap(
                 spacing: 8,
                 children: [
@@ -691,7 +830,11 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
                 enabled: writer,
                 keyboardType: f.type == _FieldType.number
                     ? TextInputType.number
+                    : f.type == _FieldType.urls
+                    ? TextInputType.multiline
                     : TextInputType.text,
+                minLines: f.type == _FieldType.urls ? 2 : 1,
+                maxLines: f.type == _FieldType.urls ? 10 : 1,
                 decoration: InputDecoration(labelText: f.label),
                 onChanged: (_) => setState(() {}),
               ),

@@ -902,5 +902,30 @@
     }
   },
   "skinCardTitle": "Skin analysis",
-  "skinCardBody": "Analyse your skin again by answering questions."
+  "skinCardBody": "Analyse your skin again by answering questions.",
+  "catBody": "Body",
+  "blogSources": "Sources",
+  "recipeAllergens": "Contains: {list}",
+  "recipeNoAllergens": "None of the 14 main allergens.",
+  "allergenGluten": "gluten",
+  "allergenCrustaceans": "crustaceans",
+  "allergenEgg": "egg",
+  "allergenFish": "fish",
+  "allergenPeanuts": "peanuts",
+  "allergenSoy": "soy",
+  "allergenMilk": "milk",
+  "allergenNuts": "tree nuts",
+  "allergenCelery": "celery",
+  "allergenMustard": "mustard",
+  "allergenSesame": "sesame",
+  "allergenSulphites": "sulphites",
+  "allergenLupin": "lupin",
+  "allergenMolluscs": "molluscs",
+  "@recipeAllergens": {
+    "placeholders": {
+      "list": {
+        "type": "String"
+      }
+    }
+  }
 }

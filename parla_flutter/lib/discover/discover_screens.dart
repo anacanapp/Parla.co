@@ -85,6 +85,10 @@ class BlogPostScreen extends StatelessWidget {
         .split(RegExp(r'\n\s*\n'))
         .where((p) => p.trim().isNotEmpty);
     final tips = item.lines('tips', language);
+    final sources = <Uri>[
+      for (final s in (item.data['sources'] as List? ?? const []))
+        if (s is String && s.startsWith('https://')) ?Uri.tryParse(s),
+    ];
     return SubPage(
       title: categoryText(l10n, item.category),
       onBack: back,
@@ -120,7 +124,16 @@ class BlogPostScreen extends StatelessWidget {
         ],
         const SizedBox(height: 16),
         for (final p in paragraphs) ...[
-          Text(p.trim(), style: text.bodyLarge),
+          if (p.trim().startsWith('## '))
+            Semantics(
+              header: true,
+              child: Text(
+                p.trim().substring(3).trim(),
+                style: text.titleLarge,
+              ),
+            )
+          else
+            Text(p.trim(), style: text.bodyLarge),
           const SizedBox(height: 12),
         ],
         if (tips.isNotEmpty) ...[
@@ -151,6 +164,21 @@ class BlogPostScreen extends StatelessWidget {
               ],
             ),
           ),
+        ],
+        if (sources.isNotEmpty) ...[
+          const SizedBox(height: 20),
+          Text(l10n.blogSources, style: text.titleMedium),
+          const SizedBox(height: 4),
+          for (final uri in sources)
+            Align(
+              alignment: AlignmentDirectional.centerStart,
+              child: TextButton.icon(
+                key: ValueKey('blog-source-$uri'),
+                onPressed: () => ExpertsScreen.launcher(uri),
+                icon: const Icon(Icons.open_in_new, size: 16),
+                label: Text(uri.host.replaceFirst('www.', '')),
+              ),
+            ),
         ],
       ],
     );
@@ -519,6 +547,7 @@ class RecipeScreen extends StatelessWidget {
     ];
     final steps = r.lines('steps', language);
     final groups = (r.data['groups'] as List? ?? const []).cast<String>();
+    final allergens = (r.data['allergens'] as List?)?.cast<String>();
     return SubPage(
       title: l10n.discoverNutrition,
       onBack: back,
@@ -540,6 +569,18 @@ class RecipeScreen extends StatelessWidget {
             for (final g in groups) Chip(label: Text(groupText(l10n, g))),
           ],
         ),
+        if (allergens != null) ...[
+          const SizedBox(height: 8),
+          Text(
+            allergens.isEmpty
+                ? l10n.recipeNoAllergens
+                : l10n.recipeAllergens(
+                    allergens.map((a) => allergenText(l10n, a)).join(', '),
+                  ),
+            key: const ValueKey('recipe-allergens'),
+            style: text.bodyMedium?.copyWith(fontWeight: FontWeight.w600),
+          ),
+        ],
         const SizedBox(height: 16),
         Text(l10n.recipeIngredients, style: text.titleLarge),
         const SizedBox(height: 6),

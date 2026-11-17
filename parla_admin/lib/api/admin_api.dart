@@ -64,6 +64,10 @@ abstract interface class AdminApi {
   Future<ContentAdminItem> unpublishContent(int id);
   Future<void> deleteContent(int id);
 
+  /// Imports the content sheet's articles and recipes as drafts (admins);
+  /// returns how many were added.
+  Future<int> importSheet();
+
   /// Email and password. Throws [AdminError] `auth.failed` when refused.
   Future<void> login(String email, String password);
 

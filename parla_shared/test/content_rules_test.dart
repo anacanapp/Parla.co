@@ -29,6 +29,7 @@ void main() {
       {'name': _l('Yulaf'), 'amount': _l('4 qaşıq')},
     ],
     'steps': [_l('Qarışdır')],
+    'allergens': ['gluten', 'milk'],
   };
   final expert = {
     'name': 'Dr. Test',
@@ -73,6 +74,65 @@ void main() {
     );
     final noContact = Map.of(expert)..remove('whatsapp');
     expect(_p(ContentKind.expert, noContact), contains('contact.missing'));
+  });
+
+  test('recipes must name their allergens, or none explicitly', () {
+    expect(
+      _p(ContentKind.recipe, {...recipe}..remove('allergens')),
+      contains('allergens.missing'),
+    );
+    expect(
+      _p(ContentKind.recipe, {...recipe}..remove('allergens'), complete: false),
+      isEmpty,
+    );
+    expect(_p(ContentKind.recipe, {...recipe, 'allergens': []}), isEmpty);
+    expect(
+      _p(ContentKind.recipe, {
+        ...recipe,
+        'allergens': ['milk', 'milk'],
+      }),
+      contains('allergens.invalid'),
+    );
+    expect(
+      _p(ContentKind.recipe, {
+        ...recipe,
+        'allergens': ['chocolate'],
+      }),
+      contains('allergens.invalid'),
+    );
+    expect(ContentRules.recipeAllergens, hasLength(14));
+  });
+
+  test('articles: body category, https sources and no plan left over', () {
+    expect(ContentRules.categoriesFor(ContentKind.article), contains('body'));
+    expect(
+      _p(ContentKind.article, {
+        ...article,
+        'sources': ['https://www.aad.org/public/everyday-care'],
+      }),
+      isEmpty,
+    );
+    for (final bad in [
+      ['http://example.com/page'],
+      ['https://has space.org'],
+      'https://not-a-list.org',
+      List.filled(11, 'https://example.org/a'),
+    ]) {
+      expect(
+        _p(ContentKind.article, {...article, 'sources': bad}),
+        contains('sources.invalid'),
+        reason: '$bad',
+      );
+    }
+    final planned = {
+      ...article,
+      'body': {
+        ...?(article['body'] as Map<String, String>?),
+        'az': '${ContentRules.planMarker}: sil]\n## Başlıq',
+      },
+    };
+    expect(_p(ContentKind.article, planned, complete: false), isEmpty);
+    expect(_p(ContentKind.article, planned), contains('body.plan_left'));
   });
 
   test('slugs and picking a language', () {

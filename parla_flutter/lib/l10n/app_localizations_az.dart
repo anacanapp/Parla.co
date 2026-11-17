@@ -1518,4 +1518,60 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get skinCardBody => 'Suallara cavab verərək dərini yenidən təhlil et.';
+
+  @override
+  String get catBody => 'Bədən';
+
+  @override
+  String get blogSources => 'Mənbələr';
+
+  @override
+  String recipeAllergens(String list) {
+    return 'Tərkibində: $list';
+  }
+
+  @override
+  String get recipeNoAllergens => '14 əsas allergendən heç biri yoxdur.';
+
+  @override
+  String get allergenGluten => 'qlüten';
+
+  @override
+  String get allergenCrustaceans => 'xərçəngkimilər';
+
+  @override
+  String get allergenEgg => 'yumurta';
+
+  @override
+  String get allergenFish => 'balıq';
+
+  @override
+  String get allergenPeanuts => 'yer fındığı';
+
+  @override
+  String get allergenSoy => 'soya';
+
+  @override
+  String get allergenMilk => 'süd';
+
+  @override
+  String get allergenNuts => 'qoz-fındıq';
+
+  @override
+  String get allergenCelery => 'kərəviz';
+
+  @override
+  String get allergenMustard => 'xardal';
+
+  @override
+  String get allergenSesame => 'küncüt';
+
+  @override
+  String get allergenSulphites => 'sulfitlər';
+
+  @override
+  String get allergenLupin => 'lüpin';
+
+  @override
+  String get allergenMolluscs => 'molyusklar';
 }
