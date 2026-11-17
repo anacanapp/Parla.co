@@ -5,6 +5,7 @@ import '../audit/audit.dart';
 import '../generated/protocol.dart';
 import '../health/health_store.dart';
 import '../stats/activity.dart';
+import '../support/support.dart';
 import 'pseudonym.dart';
 
 /// Deletes the account [userId] (checklist DEL-1, DEL-2), by the user in
@@ -48,6 +49,12 @@ Future<UuidValue> eraseAccount(
       transaction: transaction,
     );
     await eraseActivityMarks(session, userId, transaction: transaction);
+    await eraseSupport(session, userId, transaction: transaction);
+    await DeviceToken.db.deleteWhere(
+      session,
+      where: (t) => t.authUserId.equals(userId),
+      transaction: transaction,
+    );
 
     final consents = await ConsentRecord.db.find(
       session,

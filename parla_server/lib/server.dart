@@ -8,6 +8,7 @@ import 'src/auth/verification_code_sender.dart';
 import 'src/generated/serverpod.dart';
 import 'src/media/media_store.dart';
 import 'src/media/s3_media_store.dart';
+import 'src/push/push_sender.dart';
 
 /// The starting point of the Parla server.
 void run(List<String> args) async {
@@ -58,6 +59,10 @@ void run(List<String> args) async {
   );
 
   Media.instance = mediaFor(pod.runMode, Platform.environment);
+  // Push notifications only when the Firebase service account is set
+  // (Terraform var.enable_push); otherwise nothing leaves the server.
+  final fcm = pod.getPassword('fcmServiceAccount');
+  if (fcm != null && fcm.isNotEmpty) Push.sender = FcmPushSender(fcm);
 
   await pod.start();
 

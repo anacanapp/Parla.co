@@ -8,40 +8,48 @@ import '../ui/theme.dart';
 
 /// One section of the panel's navigation.
 class AdminSection {
-  const AdminSection(
-    this.path,
-    this.label,
-    this.icon, {
-    this.adminOnly = false,
-    this.notExpert = false,
-  });
+  const AdminSection(this.path, this.label, this.icon, {this.roles});
 
   final String path;
   final String label;
   final IconData icon;
-  final bool adminOnly;
 
-  /// Hidden from the expert role.
-  final bool notExpert;
+  /// Roles that see the section; `null` means every role.
+  final Set<StaffRole>? roles;
 }
 
 const adminSections = [
   AdminSection('/overview', 'Ümumi', Icons.dashboard_outlined),
-  AdminSection('/content', 'Məzmun', Icons.article_outlined),
+  AdminSection(
+    '/content',
+    'Məzmun',
+    Icons.article_outlined,
+    roles: {StaffRole.admin, StaffRole.editor, StaffRole.expert},
+  ),
   AdminSection(
     '/users',
     'İstifadəçilər',
     Icons.people_outline,
-    adminOnly: true,
+    roles: {StaffRole.admin},
   ),
   AdminSection(
     '/stats',
     'Statistika',
     Icons.insights_outlined,
-    notExpert: true,
+    roles: {StaffRole.admin, StaffRole.editor},
   ),
-  AdminSection('/messages', 'Ünsiyyət', Icons.campaign_outlined),
-  AdminSection('/staff', 'İşçilər', Icons.badge_outlined, adminOnly: true),
+  AdminSection(
+    '/messages',
+    'Dəstək',
+    Icons.support_agent_outlined,
+    roles: {StaffRole.admin, StaffRole.support},
+  ),
+  AdminSection(
+    '/staff',
+    'İşçilər',
+    Icons.badge_outlined,
+    roles: {StaffRole.admin},
+  ),
 ];
 
 /// The panel frame: a side navigation and the current section.
@@ -61,9 +69,7 @@ class HomeShell extends StatelessWidget {
   Widget build(BuildContext context) {
     final sections = [
       for (final s in adminSections)
-        if ((!s.adminOnly || state.isAdmin) &&
-            (!s.notExpert || state.me?.role != StaffRole.expert))
-          s,
+        if (s.roles == null || s.roles!.contains(state.me?.role)) s,
     ];
     final index = sections
         .indexWhere((s) => location.startsWith(s.path))

@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:parla/app.dart';
 import 'package:parla/discover/discover_screens.dart';
 import 'package:parla/discover/discover_widgets.dart';
+import 'package:parla/push/push_client.dart';
 import 'package:parla/habits/habit_store.dart';
 import 'package:parla/home/widgets/parla_nav_bar.dart';
 import 'package:parla/services/parla_api.dart';
@@ -57,6 +59,86 @@ final _published = <String, List<PublishedItem>>{
         'summary': _l('12 pieces'),
         'body': _l('Text.'),
         'minutes': 3,
+      },
+    ),
+  ],
+  'banner': [
+    PublishedItem(
+      id: 20,
+      kind: 'banner',
+      slug: 'new-recipes',
+      category: 'discover',
+      publishedAt: DateTime.utc(2026, 11, 10),
+      data: {
+        'title': _l('New recipes'),
+        'link': 'recipe:oats',
+        'startsOn': '2026-11-01',
+        'endsOn': '2026-11-30',
+      },
+    ),
+    PublishedItem(
+      id: 21,
+      kind: 'banner',
+      slug: 'brand-x',
+      category: 'discover',
+      publishedAt: DateTime.utc(2026, 11, 10),
+      data: {
+        'title': _l('Brand X cream'),
+        'sponsor': 'Brand X',
+        'startsOn': '2026-11-01',
+        'endsOn': '2026-11-30',
+      },
+    ),
+    PublishedItem(
+      id: 22,
+      kind: 'banner',
+      slug: 'expired',
+      category: 'discover',
+      publishedAt: DateTime.utc(2026, 10, 1),
+      data: {
+        'title': _l('Old news'),
+        'startsOn': '2026-10-01',
+        'endsOn': '2026-10-31',
+      },
+    ),
+    PublishedItem(
+      id: 23,
+      kind: 'banner',
+      slug: 'russian-only',
+      category: 'discover',
+      publishedAt: DateTime.utc(2026, 11, 10),
+      data: {
+        'title': _l('For Russian'),
+        'languages': ['ru'],
+        'startsOn': '2026-11-01',
+        'endsOn': '2026-11-30',
+      },
+    ),
+    PublishedItem(
+      id: 24,
+      kind: 'banner',
+      slug: 'today-only',
+      category: 'today',
+      publishedAt: DateTime.utc(2026, 11, 10),
+      data: {
+        'title': _l('On Today'),
+        'startsOn': '2026-11-01',
+        'endsOn': '2026-11-30',
+      },
+    ),
+  ],
+  'message': [
+    PublishedItem(
+      id: 30,
+      kind: 'message',
+      slug: 'nutrition-open',
+      category: 'announcement',
+      publishedAt: DateTime.utc(2026, 11, 10),
+      data: {
+        'title': _l('Nutrition is open'),
+        'body': _l('Try the plate.'),
+        'startsOn': '2026-11-01',
+        'endsOn': '2026-11-30',
       },
     ),
   ],
@@ -175,6 +257,23 @@ final _pixel = base64Decode(
   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
 );
 
+class _FakePush implements PushClient {
+  bool allow = true;
+  final links = StreamController<String>.broadcast();
+
+  @override
+  String get platform => 'android';
+
+  @override
+  Future<bool> requestPermission() async => allow;
+
+  @override
+  Future<String?> token() async => 'phone-token';
+
+  @override
+  Stream<String> get openedLinks => links.stream;
+}
+
 void main() {
   setUp(() {
     SharedPreferences.setMockInitialValues({});
@@ -227,6 +326,107 @@ void main() {
     );
     expect(opened, [Uri.parse('https://www.aad.org/dry-skin')]);
     expect(find.text('aad.org'), findsOneWidget);
+  });
+
+  testWidgets('banners: dates and language decide on the phone; ads are '
+      'labelled; links open in the app', (tester) async {
+    await _open(tester);
+    expect(find.text('New recipes en'), findsOneWidget);
+    expect(find.text('Brand X cream en'), findsOneWidget);
+    expect(find.text('Ad · Brand X'), findsOneWidget);
+    expect(find.text('Old news en'), findsNothing);
+    expect(find.text('For Russian en'), findsNothing);
+    expect(find.text('On Today en'), findsNothing);
+    // The Today banner shows on the home screen.
+    await tester.tap(
+      find
+          .descendant(
+            of: find.byType(ParlaNavBar),
+            matching: find.byType(InkWell),
+          )
+          .at(0),
+    );
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.text('On Today en'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.text('On Today en'), findsOneWidget);
+    // A banner opens its in-app link.
+    await _open(tester);
+    await _tap(tester, find.byKey(const ValueKey('banner-new-recipes')));
+    expect(find.text('Oats en'), findsOneWidget);
+  });
+
+  testWidgets('messages: announcements, and a support conversation', (
+    tester,
+  ) async {
+    final app = await _open(tester);
+    app.api
+      ..support.add(
+        SupportItem(
+          fromTeam: true,
+          text: 'Hello from the team',
+          at: DateTime.utc(2026, 11, 15),
+        ),
+      )
+      ..supportUnread = true;
+    // Back to the home tab: the button shows the unread reply.
+    await tester.tap(
+      find
+          .descendant(
+            of: find.byType(ParlaNavBar),
+            matching: find.byType(InkWell),
+          )
+          .at(0),
+    );
+    await tester.pumpAndSettle();
+    expect(find.byKey(const ValueKey('home-messages-dot')), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('home-messages')));
+    expect(find.text('Nutrition is open en'), findsOneWidget);
+    expect(find.text('Hello from the team'), findsOneWidget);
+    expect(find.textContaining('stored encrypted'), findsOneWidget);
+
+    await tester.enterText(
+      find.byKey(const ValueKey('support-text')),
+      'My skin feels tight',
+    );
+    await _tap(tester, find.byKey(const ValueKey('support-send')));
+    expect(app.api.support.last.text, 'My skin feels tight');
+    expect(find.text('My skin feels tight'), findsOneWidget);
+  });
+
+  testWidgets('notifications: on and off from Messages; a tapped '
+      'notification opens its link', (tester) async {
+    final push = _FakePush();
+    PushService.client = push;
+    addTearDown(() => PushService.client = null);
+    final app = await _open(tester);
+    await tester.tap(
+      find
+          .descendant(
+            of: find.byType(ParlaNavBar),
+            matching: find.byType(InkWell),
+          )
+          .at(0),
+    );
+    await tester.pumpAndSettle();
+    await _tap(tester, find.byKey(const ValueKey('home-messages')));
+    await _tap(tester, find.byKey(const ValueKey('push-switch')));
+    expect(app.api.pushTokens, {'phone-token'});
+    await _tap(tester, find.byKey(const ValueKey('push-switch')));
+    expect(app.api.pushTokens, isEmpty);
+
+    // Permission refused: nothing is registered.
+    push.allow = false;
+    await _tap(tester, find.byKey(const ValueKey('push-switch')));
+    expect(app.api.pushTokens, isEmpty);
+    expect(find.textContaining('not allowed'), findsOneWidget);
+
+    push.links.add('nutrition');
+    await tester.pumpAndSettle();
+    expect(find.text('0 of 6 groups'), findsOneWidget);
   });
 
   testWidgets('content shows in Russian, and the last copy shows offline', (

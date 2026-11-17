@@ -15,10 +15,13 @@ import 'package:serverpod_client/serverpod_client.dart' as _isc;
 /// What a staff member may do in the admin panel.
 /// admin: everything, including staff accounts. editor: writes content.
 /// expert: reviews and approves content in their field.
+/// support: reads and answers users' support messages (may hold health
+/// details; every opening is audited).
 enum StaffRole implements _isc.SerializableModel {
   admin,
   editor,
-  expert;
+  expert,
+  support;
 
   static StaffRole fromJson(String name) {
     switch (name) {
@@ -28,6 +31,8 @@ enum StaffRole implements _isc.SerializableModel {
         return StaffRole.editor;
       case 'expert':
         return StaffRole.expert;
+      case 'support':
+        return StaffRole.support;
       default:
         throw ArgumentError('Value "$name" cannot be converted to "StaffRole"');
     }

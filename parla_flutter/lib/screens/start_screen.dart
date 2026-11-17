@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../discover/content_library.dart';
 import '../parla_scope.dart';
 import '../routes.dart';
 
@@ -30,6 +31,7 @@ class _StartScreenState extends State<StartScreen> {
     } else {
       try {
         final profile = await scope.api.myProfile();
+        ContentLibrary.country = profile?.countryCode;
         target = profile == null ? Routes.age : Routes.home;
       } on Object {
         target = Routes.welcome;

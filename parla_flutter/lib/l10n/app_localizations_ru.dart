@@ -1602,6 +1602,59 @@ class AppLocalizationsRu extends AppLocalizations {
   String get allergenMolluscs => 'моллюски';
 
   @override
+  String bannerAd(String brand) {
+    return 'Реклама · $brand';
+  }
+
+  @override
+  String get messagesTitle => 'Сообщения';
+
+  @override
+  String get messagesButton => 'Сообщения';
+
+  @override
+  String get messagesButtonUnread => 'Сообщения, есть новый ответ';
+
+  @override
+  String get messagesFromParla => 'От Parla';
+
+  @override
+  String get messagesNone => 'Пока нет объявлений.';
+
+  @override
+  String get supportTitle => 'Поддержка';
+
+  @override
+  String get supportIntro =>
+      'Напиши вопрос, команда Parla ответит. Сообщения хранятся в зашифрованном виде и удаляются через 12 месяцев после последнего. Мы не даём медицинских советов: в срочных или серьёзных случаях обратись к врачу.';
+
+  @override
+  String get supportHint => 'Твоё сообщение';
+
+  @override
+  String get supportSend => 'Отправить';
+
+  @override
+  String get supportYou => 'Ты';
+
+  @override
+  String get supportTeam => 'Команда Parla';
+
+  @override
+  String get supportSent => 'Отправлено.';
+
+  @override
+  String get pushTitle => 'Уведомления';
+
+  @override
+  String get pushBody =>
+      'Узнаешь, когда поддержка ответит. С согласием на маркетинг придут и новости Parla. Можно выключить в любой момент.';
+
+  @override
+  String get pushDenied =>
+      'Уведомления не разрешены. Их можно включить в настройках телефона.';
+
+  @override
   String get checkSuggestTitle => 'По твоему тесту';
 
   @override

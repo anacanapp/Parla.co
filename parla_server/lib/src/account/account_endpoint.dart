@@ -6,6 +6,7 @@ import 'package:serverpod_auth_idp_server/core.dart';
 import '../audit/audit.dart';
 import '../generated/protocol.dart';
 import '../health/health_store.dart';
+import '../support/support.dart';
 import 'erase_account.dart';
 
 /// Export format version, written into every export.
@@ -47,6 +48,13 @@ class AccountEndpoint extends Endpoint {
     final careList = await store.readCareList(session, userId);
     final sport = await store.readSport(session, userId);
     final nutrition = await store.readNutrition(session, userId);
+    final supportThread = await SupportThread.db.findFirstRow(
+      session,
+      where: (t) => t.authUserId.equals(userId),
+    );
+    final support = supportThread == null
+        ? const <SupportEntry>[]
+        : await readSupportThread(session, supportThread);
 
     await writeAudit(
       session,
@@ -103,6 +111,14 @@ class AccountEndpoint extends Endpoint {
       'careList': careList == null ? null : jsonDecode(careList),
       'sport': sport == null ? null : jsonDecode(sport),
       'nutrition': nutrition == null ? null : jsonDecode(nutrition),
+      'supportMessages': [
+        for (final m in support)
+          {
+            'from': m.fromStaff ? 'parla' : 'me',
+            'text': m.text,
+            'at': m.createdAt.toIso8601String(),
+          },
+      ],
     });
   }
 
