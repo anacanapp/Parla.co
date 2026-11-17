@@ -5,6 +5,7 @@ import 'package:serverpod/serverpod.dart';
 
 import '../generated/protocol.dart';
 import 'health_crypto.dart';
+import 'health_kms.dart';
 
 /// Reads, writes and erases a user's encrypted health answers and own
 /// routines. Both are sealed with the user's data key.
@@ -12,13 +13,52 @@ import 'health_crypto.dart';
 /// Callers must check the health consent first (checklist CON-2); this
 /// class only stores what it is given.
 class HealthStore {
-  HealthStore(this._crypto);
+  HealthStore(this._crypto, [this._kms]);
 
-  /// The store for the running server, keyed from `passwords.yaml`.
-  factory HealthStore.of(Session session) =>
-      HealthStore(HealthCrypto.fromBase64(session.passwords['healthKek']));
+  /// The store for the running server: data keys wrapped by KMS when it is
+  /// configured ([HealthKms.wrapper]), else by the KEK from the secrets.
+  /// Keys wrapped by the KEK (`kekVersion` 1) are moved to KMS (`kekVersion`
+  /// 2) the next time they are used.
+  factory HealthStore.of(Session session) => HealthStore(
+    HealthCrypto.fromBase64(session.passwords['healthKek']),
+    HealthKms.wrapper,
+  );
+
+  /// `kekVersion` of data keys wrapped by KMS.
+  static const kmsVersion = 2;
 
   final HealthCrypto _crypto;
+  final KmsKeyWrapper? _kms;
+
+  /// Unwraps [key]; moves a KEK-wrapped key to KMS when KMS is configured.
+  Future<List<int>> _unwrapKey(
+    Session session,
+    HealthKey key,
+    Transaction? transaction,
+  ) async {
+    final kms = _kms;
+    if (key.kekVersion == kmsVersion) {
+      if (kms == null) {
+        throw StateError('A data key is wrapped by KMS but KMS is not set.');
+      }
+      return kms.unwrap(key.wrappedKey, key.authUserId);
+    }
+    final dataKey = await _crypto.unwrap(
+      Sealed(ciphertext: key.wrappedKey, nonce: key.nonce),
+    );
+    if (kms != null) {
+      await HealthKey.db.updateRow(
+        session,
+        key.copyWith(
+          wrappedKey: await kms.wrap(dataKey, key.authUserId),
+          nonce: 'kms',
+          kekVersion: kmsVersion,
+        ),
+        transaction: transaction,
+      );
+    }
+    return dataKey;
+  }
 
   /// The user's health answers by question id, or empty when there are none.
   Future<Map<String, QuizAnswerInput>> read(
@@ -38,9 +78,7 @@ class HealthStore {
     );
     if (key == null || record == null) return {};
 
-    final dataKey = await _crypto.unwrap(
-      Sealed(ciphertext: key.wrappedKey, nonce: key.nonce),
-    );
+    final dataKey = await _unwrapKey(session, key, transaction);
     final json = await _crypto.open(
       dataKey,
       Sealed(ciphertext: record.ciphertext, nonce: record.nonce),
@@ -397,9 +435,7 @@ class HealthStore {
       transaction: transaction,
     );
     if (key == null) return null;
-    final dataKey = await _crypto.unwrap(
-      Sealed(ciphertext: key.wrappedKey, nonce: key.nonce),
-    );
+    final dataKey = await _unwrapKey(session, key, transaction);
     return _crypto.open(
       dataKey,
       Sealed(ciphertext: ciphertext, nonce: nonce),
@@ -418,19 +454,18 @@ class HealthStore {
       where: (t) => t.authUserId.equals(userId),
       transaction: transaction,
     );
-    if (key != null) {
-      return _crypto.unwrap(
-        Sealed(ciphertext: key.wrappedKey, nonce: key.nonce),
-      );
-    }
+    if (key != null) return _unwrapKey(session, key, transaction);
     final created = await _crypto.newDataKey();
+    final kms = _kms;
     await HealthKey.db.insertRow(
       session,
       HealthKey(
         authUserId: userId,
-        wrappedKey: created.wrapped.ciphertext,
-        nonce: created.wrapped.nonce,
-        kekVersion: _crypto.kekVersion,
+        wrappedKey: kms == null
+            ? created.wrapped.ciphertext
+            : await kms.wrap(created.dataKey, userId),
+        nonce: kms == null ? created.wrapped.nonce : 'kms',
+        kekVersion: kms == null ? _crypto.kekVersion : kmsVersion,
         createdAt: DateTime.now().toUtc(),
       ),
       transaction: transaction,

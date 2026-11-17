@@ -57,8 +57,8 @@ resource "aws_iam_role_policy" "execution_secrets" {
   policy = data.aws_iam_policy_document.execution_secrets.json
 }
 
-# The server's own AWS access: the media bucket (media.tf). KMS for the
-# health KEK will be granted here too (privacy checklist ENC-3).
+# The server's own AWS access: the media bucket (media.tf) and the health
+# data key KMS key (kms.tf, ENC-3).
 resource "aws_iam_role" "task" {
   name               = "${var.name}-task"
   assume_role_policy = data.aws_iam_policy_document.ecs_tasks_assume.json
@@ -117,6 +117,7 @@ resource "aws_ecs_task_definition" "server" {
       { name = "SERVERPOD_PASSWORD_staffBootstrapEmail", value = var.staff_bootstrap_email },
       { name = "PARLA_MEDIA_BUCKET", value = aws_s3_bucket.media.bucket },
       { name = "PARLA_MEDIA_REGION", value = var.region },
+      { name = "PARLA_HEALTH_KMS_KEY_ID", value = aws_kms_key.health.arn },
       { name = "PARLA_MEDIA_PUBLIC_URL", value = "https://${aws_cloudfront_distribution.media.domain_name}" },
     ]
 
