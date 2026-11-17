@@ -25,6 +25,9 @@ dependencies:
   serverpod_flutter: 4.1.1
   file_picker: ^13.4.0
   image: ^4.13.1
+  flutter_markdown_plus: ^1.0.12
+  html: ^0.15.7
+  web: ^1.1.2
 
 dev_dependencies:
   flutter_lints: '>=3.0.0 <7.0.0'

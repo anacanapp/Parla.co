@@ -28,10 +28,11 @@ class ContentEndpoint extends Endpoint {
     int? imageId(ContentItem r) => MediaRules.imageOf(
       jsonDecode(r.publishedJson ?? '{}') as Map<String, Object?>,
     );
+    Map<String, Object?> data(ContentItem r) =>
+        jsonDecode(r.publishedJson ?? '{}') as Map<String, Object?>;
     final ids = <int>{};
     for (final r in rows) {
-      final id = imageId(r);
-      if (id != null) ids.add(id);
+      ids.addAll(MediaRules.imageIdsOf(data(r)));
     }
     final images = <int, MediaAsset>{};
     if (ids.isNotEmpty) {
@@ -43,12 +44,12 @@ class ContentEndpoint extends Endpoint {
         images[a.id!] = a;
       }
     }
-    PublicImage? imageFor(ContentItem r) {
-      final id = imageId(r);
+    PublicImage? publicImage(int? id) {
       final a = id == null ? null : images[id];
       final url = a == null ? null : Media.instance.publicUrl(a.key);
       if (a == null || url == null) return null;
       return PublicImage(
+        id: id,
         url: url,
         pixelWidth: a.pixelWidth,
         pixelHeight: a.pixelHeight,
@@ -66,7 +67,11 @@ class ContentEndpoint extends Endpoint {
           json: r.publishedJson ?? '{}',
           reviewedAt: r.publishedReviewedAt,
           publishedAt: r.publishedAt ?? r.updatedAt,
-          image: imageFor(r),
+          image: publicImage(imageId(r)),
+          inlineImages: [
+            for (final id in ContentRules.inlineImageIds(data(r)))
+              ?publicImage(id),
+          ],
           hidden: r.hidden,
         ),
     ];

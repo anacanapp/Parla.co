@@ -26,6 +26,7 @@ abstract class PublicContent
     this.reviewedAt,
     required this.publishedAt,
     this.image,
+    this.inlineImages,
     required this.hidden,
   });
 
@@ -38,6 +39,7 @@ abstract class PublicContent
     DateTime? reviewedAt,
     required DateTime publishedAt,
     _ium6b0ir.PublicImage? image,
+    List<_ium6b0ir.PublicImage>? inlineImages,
     required bool hidden,
   }) = _PublicContentImpl;
 
@@ -58,6 +60,11 @@ abstract class PublicContent
           ? null
           : _i19kjxmt.Protocol().deserialize<_ium6b0ir.PublicImage>(
               jsonSerialization['image'],
+            ),
+      inlineImages: jsonSerialization['inlineImages'] == null
+          ? null
+          : _i19kjxmt.Protocol().deserialize<List<_ium6b0ir.PublicImage>>(
+              jsonSerialization['inlineImages'],
             ),
       hidden: _is.BoolJsonExtension.fromJson(jsonSerialization['hidden']),
     );
@@ -80,6 +87,9 @@ abstract class PublicContent
   /// The item's image, when it has a published one.
   _ium6b0ir.PublicImage? image;
 
+  /// Published images used inside an article's body.
+  List<_ium6b0ir.PublicImage>? inlineImages;
+
   /// Catalogue items the app must not show.
   bool hidden;
 
@@ -95,6 +105,8 @@ abstract class PublicContent
     DateTime? reviewedAt = const _is.$UndefinedDateTime(),
     DateTime? publishedAt,
     _ium6b0ir.PublicImage? image = const _UndefinedPublicContent$image(),
+    List<_ium6b0ir.PublicImage>? inlineImages =
+        const _is.$UndefinedList<_ium6b0ir.PublicImage>(),
     bool? hidden,
   });
   @override
@@ -109,6 +121,8 @@ abstract class PublicContent
       if (reviewedAt != null) 'reviewedAt': reviewedAt?.toJson(),
       'publishedAt': publishedAt.toJson(),
       if (image != null) 'image': image?.toJson(),
+      if (inlineImages != null)
+        'inlineImages': inlineImages?.toJson(valueToJson: (v) => v.toJson()),
       'hidden': hidden,
     };
   }
@@ -125,6 +139,10 @@ abstract class PublicContent
       if (reviewedAt != null) 'reviewedAt': reviewedAt?.toJson(),
       'publishedAt': publishedAt.toJson(),
       if (image != null) 'image': image?.toJsonForProtocol(),
+      if (inlineImages != null)
+        'inlineImages': inlineImages?.toJson(
+          valueToJson: (v) => v.toJsonForProtocol(),
+        ),
       'hidden': hidden,
     };
   }
@@ -150,6 +168,7 @@ class _PublicContentImpl extends PublicContent {
     DateTime? reviewedAt,
     required DateTime publishedAt,
     _ium6b0ir.PublicImage? image,
+    List<_ium6b0ir.PublicImage>? inlineImages,
     required bool hidden,
   }) : super._(
          id: id,
@@ -160,6 +179,7 @@ class _PublicContentImpl extends PublicContent {
          reviewedAt: reviewedAt,
          publishedAt: publishedAt,
          image: image,
+         inlineImages: inlineImages,
          hidden: hidden,
        );
 
@@ -176,6 +196,8 @@ class _PublicContentImpl extends PublicContent {
     DateTime? reviewedAt = const _is.$UndefinedDateTime(),
     DateTime? publishedAt,
     _ium6b0ir.PublicImage? image = const _UndefinedPublicContent$image(),
+    List<_ium6b0ir.PublicImage>? inlineImages =
+        const _is.$UndefinedList<_ium6b0ir.PublicImage>(),
     bool? hidden,
   }) {
     return PublicContent(
@@ -189,6 +211,9 @@ class _PublicContentImpl extends PublicContent {
           : reviewedAt,
       publishedAt: publishedAt ?? this.publishedAt,
       image: image is _is.UndefinedSentinel ? this.image?.copyWith() : image,
+      inlineImages: inlineImages is _is.UndefinedSentinel
+          ? this.inlineImages?.map((e0) => e0.copyWith()).toList()
+          : inlineImages,
       hidden: hidden ?? this.hidden,
     );
   }

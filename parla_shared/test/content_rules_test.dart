@@ -367,6 +367,61 @@ void main() {
     );
   });
 
+  test('articles: Markdown links and images, hashtags per language', () {
+    final md = {
+      ...article,
+      'body': {
+        ...?(article['body'] as Map<String, String>?),
+        'az':
+            '## Başlıq\n\n**Qalın** və [mənbə](https://aad.org).\n\n'
+            '![Krem qabı](media:12)\n\n![İkinci](media:7 "başlıq")',
+      },
+      'tags': {
+        'az': ['quruDəri', 'qış'],
+        'ru': ['сухаяКожа'],
+      },
+    };
+    expect(_p(ContentKind.article, md), isEmpty);
+    expect(ContentRules.inlineImageIds(md), {12, 7});
+    expect(MediaRules.imageIdsOf({...md, 'image': 3}), {3, 12, 7});
+
+    Map<String, Object?> withBody(String az) => {
+      ...article,
+      'body': {...?(article['body'] as Map<String, String>?), 'az': az},
+    };
+    expect(
+      _p(ContentKind.article, withBody('![x](https://evil.example/a.png)')),
+      contains('body.az.image_invalid'),
+    );
+    expect(
+      _p(ContentKind.article, withBody('[x](javascript:alert(1))')),
+      contains('body.az.link_invalid'),
+    );
+    expect(
+      _p(ContentKind.article, withBody('[x](http://plain.example)')),
+      contains('body.az.link_invalid'),
+    );
+    expect(
+      _p(ContentKind.article, {
+        ...article,
+        'tags': {
+          'az': ['with space'],
+        },
+      }),
+      contains('tags.az.invalid'),
+    );
+    expect(
+      _p(ContentKind.article, {
+        ...article,
+        'tags': {'az': List.filled(11, 'a')},
+      }),
+      contains('tags.az.invalid'),
+    );
+    expect(ContentRules.cleanTag(' #quru Dəri '), 'quruDəri');
+    expect(ContentRules.cleanTag('#'), isNull);
+    expect(ContentRules.cleanTag('a-b'), isNull);
+  });
+
   test('slugs and picking a language', () {
     expect(ContentRules.isSlug('qis-ayl-ari-deri'), isTrue);
     expect(ContentRules.isSlug('Bad Slug'), isFalse);

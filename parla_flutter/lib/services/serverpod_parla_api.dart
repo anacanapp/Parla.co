@@ -119,6 +119,17 @@ class ServerpodParlaApi implements ParlaApi {
   Future<void> saveCareList(String json) =>
       _guard(() => _client.careList.saveCareList(json));
 
+  static ContentImageRef? _image(PublicImage? i) =>
+      i == null || !i.url.startsWith('https://')
+      ? null
+      : ContentImageRef(
+          id: i.id,
+          url: i.url,
+          width: i.pixelWidth,
+          height: i.pixelHeight,
+          alt: (jsonDecode(i.altJson) as Map).cast<String, Object?>(),
+        );
+
   @override
   Future<List<PublishedItem>> publishedContent(String kind) => _guard(() async {
     final rows = await _client.content.published(kind);
@@ -132,15 +143,10 @@ class ServerpodParlaApi implements ParlaApi {
           data: (jsonDecode(r.json) as Map).cast<String, Object?>(),
           publishedAt: r.publishedAt,
           reviewedAt: r.reviewedAt,
-          image: switch (r.image) {
-            final i? when i.url.startsWith('https://') => ContentImageRef(
-              url: i.url,
-              width: i.pixelWidth,
-              height: i.pixelHeight,
-              alt: (jsonDecode(i.altJson) as Map).cast<String, Object?>(),
-            ),
-            _ => null,
-          },
+          image: _image(r.image),
+          inlineImages: [
+            for (final i in r.inlineImages ?? const <PublicImage>[]) ?_image(i),
+          ],
           hidden: r.hidden,
         ),
     ];

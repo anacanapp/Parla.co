@@ -16,8 +16,7 @@ Future<Set<int>> usedImageIds(Session session, {bool drafts = false}) async {
       if (json == null) continue;
       final decoded = jsonDecode(json);
       if (decoded is Map<String, Object?>) {
-        final id = MediaRules.imageOf(decoded);
-        if (id != null) out.add(id);
+        out.addAll(MediaRules.imageIdsOf(decoded));
       }
     }
   }

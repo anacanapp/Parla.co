@@ -89,6 +89,38 @@ abstract final class ContentRules {
   static const planMarker = '[Yazı planı';
 
   static const maxSources = 10;
+
+  /// Hashtags per language on an article (stored without "#").
+  static const maxTags = 10;
+  static final _tag = RegExp(r'^[\p{L}\p{N}_]{1,30}$', unicode: true);
+
+  /// Normalises a typed hashtag: drops "#" and spaces; `null` if invalid.
+  static String? cleanTag(String raw) {
+    final t = raw.trim().replaceFirst(RegExp(r'^#+'), '').replaceAll(' ', '');
+    return _tag.hasMatch(t) ? t : null;
+  }
+
+  /// Markdown links and images: `[text](target)` / `![alt](target)`.
+  static final _markdownLink = RegExp(r'(!?)\[[^\]]*\]\(([^)\s]*)[^)]*\)');
+
+  /// An image uploaded in the panel, used inside an article body.
+  static final _mediaRef = RegExp(r'^media:([1-9][0-9]{0,9})$');
+
+  /// Ids of images used inside article bodies (`![alt](media:12)`).
+  static Set<int> inlineImageIds(Map<String, Object?> json) {
+    final out = <int>{};
+    final body = json['body'];
+    if (body is! Map) return out;
+    for (final v in body.values) {
+      if (v is! String) continue;
+      for (final m in _markdownLink.allMatches(v)) {
+        final ref = _mediaRef.firstMatch(m.group(2)!.trim());
+        if (ref != null) out.add(int.parse(ref.group(1)!));
+      }
+    }
+    return out;
+  }
+
   static final _source = RegExp(r'^https://[^\s]{4,500}$');
 
   static const expertSpecialties = [
@@ -338,6 +370,7 @@ abstract final class ContentRules {
           'tips',
           'sources',
           'image',
+          'tags',
         });
         text('title', maxTitle);
         text('summary', maxSummary);
@@ -349,6 +382,39 @@ abstract final class ContentRules {
             body is Map &&
             body.values.any((v) => v is String && v.contains(planMarker))) {
           out.add('body.plan_left');
+        }
+        if (body is Map) {
+          for (final e in body.entries) {
+            final v = e.value;
+            if (v is! String) continue;
+            for (final m in _markdownLink.allMatches(v)) {
+              final isImage = m.group(1) == '!';
+              final target = m.group(2)!.trim();
+              if (isImage && !_mediaRef.hasMatch(target)) {
+                out.add('body.${e.key}.image_invalid');
+              } else if (!isImage &&
+                  !target.startsWith('https://') &&
+                  !_mediaRef.hasMatch(target)) {
+                out.add('body.${e.key}.link_invalid');
+              }
+            }
+          }
+        }
+        final tags = json['tags'];
+        if (tags != null) {
+          if (tags is! Map) {
+            out.add('tags.invalid');
+          } else {
+            for (final e in tags.entries) {
+              final v = e.value;
+              if (!languages.contains(e.key) ||
+                  v is! List ||
+                  v.length > maxTags ||
+                  !v.every((t) => t is String && _tag.hasMatch(t))) {
+                out.add('tags.${e.key}.invalid');
+              }
+            }
+          }
         }
         final sources = json['sources'];
         if (sources != null &&

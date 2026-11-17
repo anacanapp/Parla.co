@@ -5,6 +5,8 @@ import 'package:go_router/go_router.dart';
 import 'package:parla_shared/parla_shared.dart';
 
 import '../api/admin_api.dart';
+import '../markdown/html_to_markdown.dart';
+import '../markdown/markdown_field.dart';
 import '../media/image_field.dart';
 import '../staff_session.dart';
 import '../ui/texts.dart';
@@ -337,6 +339,12 @@ enum _FieldType {
 
   /// A set of codes from [_Field.options] (empty means "all").
   multi,
+
+  /// Article text in Markdown with toolbar and preview.
+  markdown,
+
+  /// Hashtags per language, typed as "#one #two".
+  tags,
 }
 
 class _Field {
@@ -489,7 +497,12 @@ const _fields = <String, List<_Field>>{
   'article': [
     _Field('title', 'Başlıq', _FieldType.line),
     _Field('summary', 'Qısa təsvir', _FieldType.multiline),
-    _Field('body', 'Mətn', _FieldType.multiline),
+    _Field(
+      'tags',
+      'Heşteqlər (məs. #quruDəri #qış; ən çox 10)',
+      _FieldType.tags,
+    ),
+    _Field('body', 'Mətn', _FieldType.markdown),
     _Field('tips', 'Addımlar (hər sətir bir addım)', _FieldType.lines),
     _Field('minutes', 'Oxuma vaxtı (dəq)', _FieldType.number, localized: false),
     _Field(
@@ -665,7 +678,15 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
               _ => lines(json[f.key], l),
             };
           }
-        case _FieldType.line || _FieldType.multiline:
+        case _FieldType.tags:
+          final v = json[f.key];
+          for (final l in ContentRules.languages) {
+            final list = v is Map ? (v[l] as List? ?? const []) : const [];
+            _localized[f.key]![l]!.text = [
+              for (final t in list) '#$t',
+            ].join(' ');
+          }
+        case _FieldType.line || _FieldType.multiline || _FieldType.markdown:
           final v = json[f.key];
           for (final l in ContentRules.languages) {
             _localized[f.key]![l]!.text = v is Map
@@ -766,6 +787,26 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
         case _FieldType.lines:
           final items = zip(f.key);
           if (items.isNotEmpty) out[f.key] = items;
+        case _FieldType.tags:
+          final byLang = <String, List<String>>{};
+          for (final l in ContentRules.languages) {
+            final tags = <String>[];
+            for (final raw in _localized[f.key]![l]!.text.split(
+              RegExp(r'[\s,]+'),
+            )) {
+              final t = ContentRules.cleanTag(raw);
+              if (t != null && !tags.contains(t)) tags.add(t);
+            }
+            if (tags.isNotEmpty) byLang[l] = tags;
+          }
+          if (byLang.isNotEmpty) out[f.key] = byLang;
+        case _FieldType.markdown:
+          final v = {
+            for (final l in ContentRules.languages)
+              if (_localized[f.key]![l]!.text.trim().isNotEmpty)
+                l: cleanMarkdown(_localized[f.key]![l]!.text),
+          };
+          if (v.isNotEmpty) out[f.key] = v;
         case _FieldType.line || _FieldType.multiline:
           final v = loc(f.key);
           if (v != null) out[f.key] = v;
@@ -1213,15 +1254,24 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
                     padding: const EdgeInsets.only(top: 16),
                     children: [
                       for (final f in _defs.where((f) => f.localized)) ...[
-                        TextField(
-                          key: ValueKey('field-${f.key}-$lang'),
-                          controller: _localized[f.key]![lang],
-                          enabled: writer,
-                          minLines: f.type == _FieldType.line ? 1 : 3,
-                          maxLines: f.type == _FieldType.line ? 1 : 12,
-                          decoration: InputDecoration(labelText: f.label),
-                          onChanged: (_) => setState(() {}),
-                        ),
+                        if (f.type == _FieldType.markdown)
+                          MarkdownField(
+                            fieldKey: '${f.key}-$lang',
+                            controller: _localized[f.key]![lang]!,
+                            api: _api,
+                            enabled: writer,
+                            onChanged: () => setState(() {}),
+                          )
+                        else
+                          TextField(
+                            key: ValueKey('field-${f.key}-$lang'),
+                            controller: _localized[f.key]![lang],
+                            enabled: writer,
+                            minLines: f.type == _FieldType.line ? 1 : 3,
+                            maxLines: f.type == _FieldType.line ? 1 : 12,
+                            decoration: InputDecoration(labelText: f.label),
+                            onChanged: (_) => setState(() {}),
+                          ),
                         const SizedBox(height: 12),
                       ],
                     ],

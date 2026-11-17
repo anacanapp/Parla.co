@@ -94,12 +94,12 @@ class ContentAdminEndpoint extends Endpoint {
     if (ContentRules.problems(k, json).isNotEmpty) {
       throw ParlaException(code: ContentErrors.invalid);
     }
-    final imageId = MediaRules.imageOf(
+    for (final imageId in MediaRules.imageIdsOf(
       jsonDecode(json) as Map<String, Object?>,
-    );
-    if (imageId != null &&
-        await MediaAsset.db.findById(session, imageId) == null) {
-      throw ParlaException(code: ContentErrors.invalid);
+    )) {
+      if (await MediaAsset.db.findById(session, imageId) == null) {
+        throw ParlaException(code: ContentErrors.invalid);
+      }
     }
     final updated = await ContentItem.db.updateRow(
       session,
@@ -364,17 +364,19 @@ class ContentAdminEndpoint extends Endpoint {
   /// The draft's image must exist with a licence and alt text in all three
   /// languages before it can go live.
   static Future<void> _checkImage(Session session, String json) async {
-    final id = MediaRules.imageOf(jsonDecode(json) as Map<String, Object?>);
-    if (id == null) return;
-    final asset = await MediaAsset.db.findById(session, id);
-    if (asset == null ||
-        MediaRules.problems(
-          license: asset.license,
-          source: asset.source,
-          altJson: asset.altJson,
-          complete: true,
-        ).isNotEmpty) {
-      throw ParlaException(code: ContentErrors.imageIncomplete);
+    for (final id in MediaRules.imageIdsOf(
+      jsonDecode(json) as Map<String, Object?>,
+    )) {
+      final asset = await MediaAsset.db.findById(session, id);
+      if (asset == null ||
+          MediaRules.problems(
+            license: asset.license,
+            source: asset.source,
+            altJson: asset.altJson,
+            complete: true,
+          ).isNotEmpty) {
+        throw ParlaException(code: ContentErrors.imageIncomplete);
+      }
     }
   }
 

@@ -1,6 +1,8 @@
 ### A published image as the app reads it.
 class: PublicImage
 fields:
+  ### The image's id (`media:<id>` inside article bodies).
+  id: int?
   url: String
   pixelWidth: int
   pixelHeight: int

@@ -54,6 +54,13 @@ abstract final class MediaRules {
     return out;
   }
 
+  /// Every image content [json] uses: the cover and images inside an
+  /// article's body.
+  static Set<int> imageIdsOf(Map<String, Object?> json) => {
+    ?imageOf(json),
+    ...ContentRules.inlineImageIds(json),
+  };
+
   /// The image id in content [json], or `null`.
   static int? imageOf(Map<String, Object?> json) {
     final v = json['image'];

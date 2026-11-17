@@ -276,5 +276,89 @@ void main() {
       expect(store.objects, isEmpty);
       expect(await endpoints.mediaAdmin.list(t.admin), isEmpty);
     });
+
+    test(
+      'images inside an article body are checked and published too',
+      () async {
+        final t = await team();
+        final cover = await endpoints.mediaAdmin.upload(
+          t.editor,
+          _photo(),
+          'Own photo',
+          null,
+          jsonEncode(_l('Örtük')),
+        );
+        final inline = await endpoints.mediaAdmin.upload(
+          t.editor,
+          _photo(),
+          'Own photo',
+          null,
+          jsonEncode({'az': 'Addım'}),
+        );
+        final item = await endpoints.contentAdmin.create(
+          t.editor,
+          'article',
+          'addimlar',
+          'care',
+        );
+        await expectLater(
+          endpoints.contentAdmin.saveDraft(
+            t.editor,
+            item.id,
+            jsonEncode({
+              'body': {'az': '![x](media:99999)'},
+            }),
+            'care',
+          ),
+          throwsA(_error(ContentErrors.invalid)),
+        );
+        final body = _l('Mətn');
+        body['az'] = '## Addımlar\n\n![Addım](media:${inline.id})\n\nSon.';
+        await endpoints.contentAdmin.saveDraft(
+          t.editor,
+          item.id,
+          jsonEncode({
+            'title': _l('Addımlar'),
+            'summary': _l('Qısa'),
+            'body': body,
+            'minutes': 3,
+            'image': cover.id,
+            'tags': {
+              'az': ['qulluq'],
+            },
+          }),
+          'care',
+        );
+        await endpoints.contentAdmin.submitForReview(t.editor, item.id);
+        await endpoints.contentAdmin.approve(t.expert, item.id);
+        // The inline image lacks ru/en alt text.
+        await expectLater(
+          endpoints.contentAdmin.publish(t.editor, item.id),
+          throwsA(_error(ContentErrors.imageIncomplete)),
+        );
+        await endpoints.mediaAdmin.update(
+          t.editor,
+          inline.id,
+          'Own photo',
+          null,
+          jsonEncode(_l('Addım')),
+        );
+        await endpoints.contentAdmin.publish(t.editor, item.id);
+        final public = (await endpoints.content.published(
+          sessionBuilder,
+          'article',
+        )).single;
+        expect(public.image!.id, cover.id);
+        expect(public.inlineImages!.single.id, inline.id);
+        expect(
+          public.inlineImages!.single.url,
+          startsWith('https://media.test/'),
+        );
+        expect(
+          store.objects.keys.where((k) => k.startsWith('public/')),
+          hasLength(2),
+        );
+      },
+    );
   });
 }

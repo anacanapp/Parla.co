@@ -44,6 +44,7 @@ class ProductResult {
 /// A published image: where to load it and its alt text per language.
 class ContentImageRef {
   const ContentImageRef({
+    this.id,
     required this.url,
     required this.width,
     required this.height,
@@ -52,12 +53,15 @@ class ContentImageRef {
 
   factory ContentImageRef.fromJson(Map<String, Object?> json) =>
       ContentImageRef(
+        id: (json['id'] as num?)?.toInt(),
         url: json['url']! as String,
         width: (json['width']! as num).toInt(),
         height: (json['height']! as num).toInt(),
         alt: (json['alt']! as Map).cast<String, Object?>(),
       );
 
+  /// The image id, used by `![alt](media:<id>)` in article bodies.
+  final int? id;
   final String url;
   final int width;
   final int height;
@@ -66,6 +70,7 @@ class ContentImageRef {
   double get aspectRatio => height == 0 ? 1 : width / height;
 
   Map<String, Object?> toJson() => {
+    if (id != null) 'id': id,
     'url': url,
     'width': width,
     'height': height,
@@ -97,6 +102,7 @@ class PublishedItem {
     this.reviewedAt,
     this.image,
     this.hidden = false,
+    this.inlineImages = const [],
   });
 
   factory PublishedItem.fromJson(Map<String, Object?> json) => PublishedItem(
@@ -115,6 +121,10 @@ class PublishedItem {
           )
         : null,
     hidden: json['hidden'] == true,
+    inlineImages: [
+      for (final i in (json['inlineImages'] as List? ?? const []))
+        ContentImageRef.fromJson((i as Map).cast<String, Object?>()),
+    ],
   );
 
   final int id;
@@ -133,6 +143,16 @@ class PublishedItem {
   /// Catalogue items the team hid: the app does not offer them.
   final bool hidden;
 
+  /// Images used inside an article's body.
+  final List<ContentImageRef> inlineImages;
+
+  /// The article's hashtags in [language] (without "#").
+  List<String> tags(String language) {
+    final t = data['tags'];
+    if (t is! Map) return const [];
+    return ((t[language] as List?) ?? const []).cast<String>();
+  }
+
   Map<String, Object?> toJson() => {
     'id': id,
     'kind': kind,
@@ -143,6 +163,8 @@ class PublishedItem {
     if (reviewedAt != null) 'reviewedAt': reviewedAt!.toIso8601String(),
     if (image != null) 'image': image!.toJson(),
     if (hidden) 'hidden': true,
+    if (inlineImages.isNotEmpty)
+      'inlineImages': [for (final i in inlineImages) i.toJson()],
   };
 
   /// A localized text field in [language] (Azerbaijani as fallback).

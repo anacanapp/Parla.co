@@ -12,10 +12,14 @@ import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
 import 'discover_widgets.dart';
 import 'skin_tips.dart';
+import 'article_body.dart';
 
 /// Blogs: category chips and the published articles.
 class BlogListScreen extends StatefulWidget {
-  const BlogListScreen({super.key});
+  const BlogListScreen({super.key, this.tag});
+
+  /// Show only articles with this hashtag (in the user's language).
+  final String? tag;
 
   @override
   State<BlogListScreen> createState() => _BlogListScreenState();
@@ -23,17 +27,20 @@ class BlogListScreen extends StatefulWidget {
 
 class _BlogListScreenState extends State<BlogListScreen> {
   String? _category;
+  late String? _tag = widget.tag;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final library = ParlaScope.of(context).content;
+    final language = Localizations.localeOf(context).languageCode;
     return ListenableBuilder(
       listenable: library,
       builder: (context, _) {
         final items = library
             .items('article')
             .where((i) => _category == null || i.category == _category)
+            .where((i) => _tag == null || i.tags(language).contains(_tag))
             .toList();
         return SubPage(
           title: l10n.discoverBlogs,
@@ -44,6 +51,22 @@ class _BlogListScreenState extends State<BlogListScreen> {
               selected: _category,
               onChanged: (c) => setState(() => _category = c),
             ),
+            if (_tag != null) ...[
+              const SizedBox(height: 8),
+              Align(
+                alignment: AlignmentDirectional.centerStart,
+                child: InputChip(
+                  key: const ValueKey('active-tag'),
+                  label: Text('#$_tag'),
+                  deleteIcon: const Icon(
+                    Icons.close,
+                    key: ValueKey('active-tag-clear'),
+                    size: 18,
+                  ),
+                  onDeleted: () => setState(() => _tag = null),
+                ),
+              ),
+            ],
             const SizedBox(height: 12),
             if (library.offline) _OfflineNote(),
             if (items.isEmpty) const EmptyNote(),
@@ -80,10 +103,6 @@ class BlogPostScreen extends StatelessWidget {
       );
     }
     final minutes = (item.data['minutes'] as num?)?.toInt() ?? 1;
-    final paragraphs = item
-        .text('body', language)
-        .split(RegExp(r'\n\s*\n'))
-        .where((p) => p.trim().isNotEmpty);
     final tips = item.lines('tips', language);
     final sources = <Uri>[
       for (final s in (item.data['sources'] as List? ?? const []))
@@ -111,6 +130,13 @@ class BlogPostScreen extends StatelessWidget {
           const SizedBox(height: 12),
           ContentImage(image: image, aspectRatio: 16 / 9),
         ],
+        if (item.tags(language) case final tags when tags.isNotEmpty) ...[
+          const SizedBox(height: 10),
+          ArticleTags(
+            tags: tags,
+            onTap: (t) => context.go(Routes.blog, extra: t),
+          ),
+        ],
         if (item.reviewedAt != null) ...[
           const SizedBox(height: 8),
           Row(
@@ -127,19 +153,8 @@ class BlogPostScreen extends StatelessWidget {
           ),
         ],
         const SizedBox(height: 16),
-        for (final p in paragraphs) ...[
-          if (p.trim().startsWith('## '))
-            Semantics(
-              header: true,
-              child: Text(
-                p.trim().substring(3).trim(),
-                style: text.titleLarge,
-              ),
-            )
-          else
-            Text(p.trim(), style: text.bodyLarge),
-          const SizedBox(height: 12),
-        ],
+        ArticleBody(item: item, markdown: item.text('body', language)),
+        const SizedBox(height: 12),
         if (tips.isNotEmpty) ...[
           const SizedBox(height: 4),
           Container(

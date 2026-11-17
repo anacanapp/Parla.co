@@ -124,7 +124,12 @@ GoRouter buildRouter() => GoRouter(
       builder: (_, state) => WorkoutScreen(workoutId: state.extra! as String),
     ),
     GoRoute(path: Routes.discover, builder: (_, _) => const DiscoverScreen()),
-    GoRoute(path: Routes.blog, builder: (_, _) => const BlogListScreen()),
+    GoRoute(
+      path: Routes.blog,
+      builder: (_, state) => BlogListScreen(
+        tag: state.extra is String ? state.extra! as String : null,
+      ),
+    ),
     GoRoute(
       path: Routes.blogPost,
       redirect: (_, state) => state.extra is String ? null : Routes.blog,
