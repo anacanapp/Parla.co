@@ -927,5 +927,15 @@
         "type": "String"
       }
     }
+  },
+  "checkSuggestTitle": "Suggested from your quiz",
+  "checkSuggestBody": "Based on your quiz answers, these filters may suit you. Adding them is up to you.",
+  "checkSuggestAdd": "Add {name}",
+  "@checkSuggestAdd": {
+    "placeholders": {
+      "name": {
+        "type": "String"
+      }
+    }
   }
 }

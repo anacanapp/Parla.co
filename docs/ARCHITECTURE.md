@@ -510,6 +510,15 @@ slug is the catalogue id from code.
   with the health consent; see "Habits (sprint 4)" and "Care routines and
   own routines".
 
+## Suggested Check preferences
+
+The routine rules name product preferences for some quiz answers (for
+example fragrance-free with sensitive skin, lanolin-free with a lanolin
+allergy). The Check screen works them out **on the phone** from the user's
+quiz answers (`buildRoutine(answers).preferences`) and shows them as
+"Suggested from your quiz". Nothing is turned on by itself: the user adds
+each one, and hidden preferences are never suggested.
+
 ## Not done yet (tracked, not forgotten)
 
 | Item | Checklist | Planned |

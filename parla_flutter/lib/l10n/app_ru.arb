@@ -461,5 +461,8 @@
   "allergenSesame": "кунжут",
   "allergenSulphites": "сульфиты",
   "allergenLupin": "люпин",
-  "allergenMolluscs": "моллюски"
+  "allergenMolluscs": "моллюски",
+  "checkSuggestTitle": "По твоему тесту",
+  "checkSuggestBody": "По ответам теста тебе могут подойти эти фильтры. Добавлять или нет — решаешь ты.",
+  "checkSuggestAdd": "Добавить: {name}"
 }

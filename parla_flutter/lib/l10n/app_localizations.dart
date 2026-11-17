@@ -2871,6 +2871,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'molluscs'**
   String get allergenMolluscs;
+
+  /// No description provided for @checkSuggestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Suggested from your quiz'**
+  String get checkSuggestTitle;
+
+  /// No description provided for @checkSuggestBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Based on your quiz answers, these filters may suit you. Adding them is up to you.'**
+  String get checkSuggestBody;
+
+  /// No description provided for @checkSuggestAdd.
+  ///
+  /// In en, this message translates to:
+  /// **'Add {name}'**
+  String checkSuggestAdd(String name);
 }
 
 class _AppLocalizationsDelegate

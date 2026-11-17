@@ -1600,4 +1600,16 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get allergenMolluscs => 'моллюски';
+
+  @override
+  String get checkSuggestTitle => 'По твоему тесту';
+
+  @override
+  String get checkSuggestBody =>
+      'По ответам теста тебе могут подойти эти фильтры. Добавлять или нет — решаешь ты.';
+
+  @override
+  String checkSuggestAdd(String name) {
+    return 'Добавить: $name';
+  }
 }

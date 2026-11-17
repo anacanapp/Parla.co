@@ -1574,4 +1574,16 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get allergenMolluscs => 'molyusklar';
+
+  @override
+  String get checkSuggestTitle => 'Testinə görə təklif';
+
+  @override
+  String get checkSuggestBody =>
+      'Test cavablarına görə bu seçimlər sənə uyğun ola bilər. Əlavə edib-etməmək sənin qərarındır.';
+
+  @override
+  String checkSuggestAdd(String name) {
+    return '$name əlavə et';
+  }
 }

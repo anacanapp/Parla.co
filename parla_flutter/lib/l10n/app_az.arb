@@ -461,5 +461,8 @@
   "allergenSesame": "küncüt",
   "allergenSulphites": "sulfitlər",
   "allergenLupin": "lüpin",
-  "allergenMolluscs": "molyusklar"
+  "allergenMolluscs": "molyusklar",
+  "checkSuggestTitle": "Testinə görə təklif",
+  "checkSuggestBody": "Test cavablarına görə bu seçimlər sənə uyğun ola bilər. Əlavə edib-etməmək sənin qərarındır.",
+  "checkSuggestAdd": "{name} əlavə et"
 }
