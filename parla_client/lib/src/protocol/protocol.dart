@@ -63,6 +63,12 @@ import 'staff/staff_role.dart' as _imtqbwe6;
 import 'staff/staff_session.dart' as _igu3u6o0;
 import 'staff/staff_summary.dart' as _iminry28;
 import 'staff/totp_enrollment.dart' as _ieq44cuc;
+import 'stats/daily_active_count.dart' as _iphzj4es;
+import 'stats/daily_active_mark.dart' as _ipxxg0d2;
+import 'stats/stats_count.dart' as _iu0qh84b;
+import 'stats/stats_group.dart' as _imrurtjq;
+import 'stats/stats_report.dart' as _i9vgpxbr;
+import 'users/user_admin_view.dart' as _i06wcc3f;
 export 'account/deleted_account.dart';
 export 'audit/audit_log_entry.dart';
 export 'common/parla_exception.dart';
@@ -94,6 +100,12 @@ export 'staff/staff_role.dart';
 export 'staff/staff_session.dart';
 export 'staff/staff_summary.dart';
 export 'staff/totp_enrollment.dart';
+export 'stats/daily_active_count.dart';
+export 'stats/daily_active_mark.dart';
+export 'stats/stats_count.dart';
+export 'stats/stats_group.dart';
+export 'stats/stats_report.dart';
+export 'users/user_admin_view.dart';
 export 'client.dart';
 
 class Protocol extends _isc.SerializationManager
@@ -140,6 +152,12 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_igu3u6o0.StaffSession>,
           _isc.getType<_iminry28.StaffSummary>,
           _isc.getType<_ieq44cuc.TotpEnrollment>,
+          _isc.getType<_iphzj4es.DailyActiveCount>,
+          _isc.getType<_ipxxg0d2.DailyActiveMark>,
+          _isc.getType<_iu0qh84b.StatsCount>,
+          _isc.getType<_imrurtjq.StatsGroup>,
+          _isc.getType<_i9vgpxbr.StatsReport>,
+          _isc.getType<_i06wcc3f.UserAdminView>,
           _isc.getType<_ioqa84oy.DeletedAccount?>,
           _isc.getType<_ioa77d8b.AuditLogEntry?>,
           _isc.getType<_iv1d8f8b.ParlaException?>,
@@ -171,7 +189,16 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_igu3u6o0.StaffSession?>,
           _isc.getType<_iminry28.StaffSummary?>,
           _isc.getType<_ieq44cuc.TotpEnrollment?>,
+          _isc.getType<_iphzj4es.DailyActiveCount?>,
+          _isc.getType<_ipxxg0d2.DailyActiveMark?>,
+          _isc.getType<_iu0qh84b.StatsCount?>,
+          _isc.getType<_imrurtjq.StatsGroup?>,
+          _isc.getType<_i9vgpxbr.StatsReport?>,
+          _isc.getType<_i06wcc3f.UserAdminView?>,
           _isc.getType<List<String>>,
+          _isc.getType<List<_iu0qh84b.StatsCount>>,
+          _isc.getType<List<_imrurtjq.StatsGroup>>,
+          _isc.getType<List<_icra10er.ConsentState>>,
           _isc.getType<List<_iflgmsvc.ConsentState>>,
           _isc.getType<List<_i9q5wd3k.ContentAdminItem>>,
           _isc.getType<List<_iryaqqq7.PublicContent>>,
@@ -217,6 +244,12 @@ class Protocol extends _isc.SerializationManager
           'StaffSession',
           'StaffSummary',
           'TotpEnrollment',
+          'DailyActiveCount',
+          'DailyActiveMark',
+          'StatsCount',
+          'StatsGroup',
+          'StatsReport',
+          'UserAdminView',
         ],
       );
 
@@ -337,6 +370,24 @@ class Protocol extends _isc.SerializationManager
     if (t == _ieq44cuc.TotpEnrollment) {
       return _ieq44cuc.TotpEnrollment.fromJson(data) as T;
     }
+    if (t == _iphzj4es.DailyActiveCount) {
+      return _iphzj4es.DailyActiveCount.fromJson(data) as T;
+    }
+    if (t == _ipxxg0d2.DailyActiveMark) {
+      return _ipxxg0d2.DailyActiveMark.fromJson(data) as T;
+    }
+    if (t == _iu0qh84b.StatsCount) {
+      return _iu0qh84b.StatsCount.fromJson(data) as T;
+    }
+    if (t == _imrurtjq.StatsGroup) {
+      return _imrurtjq.StatsGroup.fromJson(data) as T;
+    }
+    if (t == _i9vgpxbr.StatsReport) {
+      return _i9vgpxbr.StatsReport.fromJson(data) as T;
+    }
+    if (t == _i06wcc3f.UserAdminView) {
+      return _i06wcc3f.UserAdminView.fromJson(data) as T;
+    }
     if (t == _isc.getType<_ioqa84oy.DeletedAccount?>()) {
       return (data != null ? _ioqa84oy.DeletedAccount.fromJson(data) : null)
           as T;
@@ -448,8 +499,47 @@ class Protocol extends _isc.SerializationManager
       return (data != null ? _ieq44cuc.TotpEnrollment.fromJson(data) : null)
           as T;
     }
+    if (t == _isc.getType<_iphzj4es.DailyActiveCount?>()) {
+      return (data != null ? _iphzj4es.DailyActiveCount.fromJson(data) : null)
+          as T;
+    }
+    if (t == _isc.getType<_ipxxg0d2.DailyActiveMark?>()) {
+      return (data != null ? _ipxxg0d2.DailyActiveMark.fromJson(data) : null)
+          as T;
+    }
+    if (t == _isc.getType<_iu0qh84b.StatsCount?>()) {
+      return (data != null ? _iu0qh84b.StatsCount.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_imrurtjq.StatsGroup?>()) {
+      return (data != null ? _imrurtjq.StatsGroup.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_i9vgpxbr.StatsReport?>()) {
+      return (data != null ? _i9vgpxbr.StatsReport.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_i06wcc3f.UserAdminView?>()) {
+      return (data != null ? _i06wcc3f.UserAdminView.fromJson(data) : null)
+          as T;
+    }
     if (t == List<String>) {
       return (data as List).map((e) => deserialize<String>(e)).toList() as T;
+    }
+    if (t == List<_iu0qh84b.StatsCount>) {
+      return (data as List)
+              .map((e) => deserialize<_iu0qh84b.StatsCount>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_imrurtjq.StatsGroup>) {
+      return (data as List)
+              .map((e) => deserialize<_imrurtjq.StatsGroup>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_icra10er.ConsentState>) {
+      return (data as List)
+              .map((e) => deserialize<_icra10er.ConsentState>(e))
+              .toList()
+          as T;
     }
     if (t == List<_iflgmsvc.ConsentState>) {
       return (data as List)
@@ -545,6 +635,12 @@ class Protocol extends _isc.SerializationManager
       _igu3u6o0.StaffSession => 'StaffSession',
       _iminry28.StaffSummary => 'StaffSummary',
       _ieq44cuc.TotpEnrollment => 'TotpEnrollment',
+      _iphzj4es.DailyActiveCount => 'DailyActiveCount',
+      _ipxxg0d2.DailyActiveMark => 'DailyActiveMark',
+      _iu0qh84b.StatsCount => 'StatsCount',
+      _imrurtjq.StatsGroup => 'StatsGroup',
+      _i9vgpxbr.StatsReport => 'StatsReport',
+      _i06wcc3f.UserAdminView => 'UserAdminView',
       _ => null,
     };
   }
@@ -621,6 +717,18 @@ class Protocol extends _isc.SerializationManager
         return 'StaffSummary';
       case _ieq44cuc.TotpEnrollment():
         return 'TotpEnrollment';
+      case _iphzj4es.DailyActiveCount():
+        return 'DailyActiveCount';
+      case _ipxxg0d2.DailyActiveMark():
+        return 'DailyActiveMark';
+      case _iu0qh84b.StatsCount():
+        return 'StatsCount';
+      case _imrurtjq.StatsGroup():
+        return 'StatsGroup';
+      case _i9vgpxbr.StatsReport():
+        return 'StatsReport';
+      case _i06wcc3f.UserAdminView():
+        return 'UserAdminView';
     }
     className = _iaic.Protocol().getClassNameForObject(data);
     if (className != null) {
@@ -735,6 +843,24 @@ class Protocol extends _isc.SerializationManager
     }
     if (dataClassName == 'TotpEnrollment') {
       return deserialize<_ieq44cuc.TotpEnrollment>(data['data']);
+    }
+    if (dataClassName == 'DailyActiveCount') {
+      return deserialize<_iphzj4es.DailyActiveCount>(data['data']);
+    }
+    if (dataClassName == 'DailyActiveMark') {
+      return deserialize<_ipxxg0d2.DailyActiveMark>(data['data']);
+    }
+    if (dataClassName == 'StatsCount') {
+      return deserialize<_iu0qh84b.StatsCount>(data['data']);
+    }
+    if (dataClassName == 'StatsGroup') {
+      return deserialize<_imrurtjq.StatsGroup>(data['data']);
+    }
+    if (dataClassName == 'StatsReport') {
+      return deserialize<_i9vgpxbr.StatsReport>(data['data']);
+    }
+    if (dataClassName == 'UserAdminView') {
+      return deserialize<_i06wcc3f.UserAdminView>(data['data']);
     }
     if (dataClassName.startsWith('serverpod_auth_idp.')) {
       return _iaic.Protocol().deserializeByClassName({

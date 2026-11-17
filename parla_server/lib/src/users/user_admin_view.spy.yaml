@@ -1,0 +1,12 @@
+### An app account as the admin panel shows it: account data and consent
+### decisions only, never health data or the birth year.
+class: UserAdminView
+fields:
+  userId: UuidValue
+  email: String
+  registeredAt: DateTime?
+  countryCode: String?
+  language: String?
+  blocked: bool
+  isStaff: bool
+  consents: List<ConsentState>

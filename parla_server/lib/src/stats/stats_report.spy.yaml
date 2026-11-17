@@ -1,0 +1,6 @@
+### Anonymous aggregate statistics for the admin panel.
+class: StatsReport
+fields:
+  generatedAt: DateTime
+  minGroupSize: int
+  groups: List<StatsGroup>

@@ -160,6 +160,21 @@ class ServerpodAdminApi implements AdminApi {
       _guard(() => _client.mediaAdmin.delete(id));
 
   @override
+  Future<UserAdminView?> findUser(String email) =>
+      _guard(() => _client.userAdmin.find(email));
+
+  @override
+  Future<UserAdminView> setUserBlocked(UuidValue userId, bool blocked) =>
+      _guard(() => _client.userAdmin.setBlocked(userId, blocked));
+
+  @override
+  Future<void> deleteUserOnRequest(UuidValue userId, String confirmEmail) =>
+      _guard(() => _client.userAdmin.deleteOnRequest(userId, confirmEmail));
+
+  @override
+  Future<StatsReport> statsReport() => _guard(_client.statsAdmin.report);
+
+  @override
   Future<ContentAdminItem> setContentHidden(int id, bool hidden) =>
       _guard(() => _client.contentAdmin.setHidden(id, hidden));
 

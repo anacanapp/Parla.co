@@ -31,6 +31,9 @@ String errorText(Object error) {
     'media.not_image' =>
       'Fayl JPEG, PNG və ya WebP şəkli deyil, ya da 1 MB-dan böyükdür.',
     'media.in_use' => 'Bu şəkil hələ bir yazıda istifadə olunur.',
+    'users.not_found' => 'Hesab tapılmadı.',
+    'users.confirm_mismatch' => 'Təsdiq üçün yazılan e-poçt uyğun gəlmir.',
+    'users.is_staff' => 'Bu, işçi hesabıdır. İşçilər bölməsində idarə olunur.',
     'auth.short_password' => 'Şifrə ən azı 12 simvol olmalıdır.',
     'auth.failed' =>
       'Alınmadı. E-poçtu, şifrəni və ya kodu yoxlayın və yenidən cəhd edin.',

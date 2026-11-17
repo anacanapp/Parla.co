@@ -6,6 +6,8 @@ import 'package:go_router/go_router.dart';
 import 'api/admin_api.dart';
 import 'screens/auth_screens.dart';
 import 'screens/content_screens.dart';
+import 'screens/stats_screen.dart';
+import 'screens/users_screen.dart';
 import 'screens/home_shell.dart';
 import 'screens/staff_screen.dart';
 import 'staff_session.dart';
@@ -132,21 +134,14 @@ GoRouter _buildRouter(StaffState state) => GoRouter(
         ),
         GoRoute(
           path: '/users',
-          builder: (_, _) => const ComingSection(
-            title: 'İstifadəçilər',
-            body:
-                'Hesab məlumatı, razılıqlar, bloklama, sorğu ilə ixrac və '
-                'silmə. Sağlamlıq məlumatı görünmür. C mərhələsində gəlir.',
-          ),
+          redirect: (_, _) => state.isAdmin ? null : '/overview',
+          builder: (_, _) => UsersScreen(state: state),
         ),
         GoRoute(
           path: '/stats',
-          builder: (_, _) => const ComingSection(
-            title: 'Statistika',
-            body:
-                'Yalnız toplu, anonim rəqəmlər; 10 nəfərdən az qruplar '
-                'gizlədilir. C mərhələsində gəlir.',
-          ),
+          redirect: (_, _) =>
+              state.me?.role == StaffRole.expert ? '/overview' : null,
+          builder: (_, _) => StatsScreen(state: state),
         ),
         GoRoute(
           path: '/messages',

@@ -1,0 +1,13 @@
+### Today's "this account opened the app" marks. [mark] is a keyed hash of
+### the day and the account id, never the id itself; the nightly job turns
+### the marks of past days into one number ([DailyActiveCount]) and deletes
+### them, so no mark is older than about two days.
+class: DailyActiveMark
+table: daily_active_mark
+fields:
+  day: String
+  mark: String
+indexes:
+  daily_active_mark_idx:
+    fields: day, mark
+    unique: true

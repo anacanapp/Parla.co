@@ -37,6 +37,9 @@ import 'package:parla_client/src/protocol/staff/staff_summary.dart'
     as _i48vujj3;
 import 'package:parla_client/src/protocol/staff/totp_enrollment.dart'
     as _i8ipqfqe;
+import 'package:parla_client/src/protocol/stats/stats_report.dart' as _iod6dk31;
+import 'package:parla_client/src/protocol/users/user_admin_view.dart'
+    as _i8wvbfgy;
 import 'package:serverpod_auth_core_client/serverpod_auth_core_client.dart'
     as _iacc;
 import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
@@ -63,14 +66,8 @@ class EndpointAccount extends _isc.EndpointRef {
     {},
   );
 
-  /// Deletes the caller's account (checklist DEL-1, DEL-2).
-  ///
-  /// In one transaction: health data, own routines, care list, sport
-  /// document and their key
-  /// (crypto-shredding), quiz
-  /// answers, profile and the sign-in account with its sessions and tokens
-  /// are deleted. Consent records and audit rows are kept as proof but
-  /// their user id is replaced by a pseudonym.
+  /// Deletes the caller's account (checklist DEL-1, DEL-2); see
+  /// [eraseAccount].
   _ida.Future<void> deleteAccount() => caller.callServerEndpoint<void>(
     'account',
     'deleteAccount',
@@ -1029,6 +1026,91 @@ class EndpointStaff extends _isc.EndpointRef {
   );
 }
 
+/// The app reports once a day that it was opened, for the anonymous daily
+/// active count. Counted only with the analytics consent. Nothing but a
+/// keyed hash is stored, and only until the nightly total is made.
+/// {@category Endpoint}
+class EndpointActivity extends _isc.EndpointRef {
+  EndpointActivity(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'activity';
+
+  _ida.Future<void> markActive() => caller.callServerEndpoint<void>(
+    'activity',
+    'markActive',
+    {},
+  );
+}
+
+/// Anonymous aggregate statistics for the admin panel (admins and
+/// editors). Only counts leave the server, groups under [minGroupSize] are
+/// hidden, and health answers (encrypted) are never counted.
+/// {@category Endpoint}
+class EndpointStatsAdmin extends _isc.EndpointRef {
+  EndpointStatsAdmin(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'statsAdmin';
+
+  _ida.Future<_iod6dk31.StatsReport> report() =>
+      caller.callServerEndpoint<_iod6dk31.StatsReport>(
+        'statsAdmin',
+        'report',
+        {},
+      );
+}
+
+/// App accounts in the admin panel (admins only): look one up by its exact
+/// email, block or unblock it, or delete it on the user's request. Shows
+/// account data and consent decisions only, never health data. Every
+/// look-up and action is audited (ids only).
+/// {@category Endpoint}
+class EndpointUserAdmin extends _isc.EndpointRef {
+  EndpointUserAdmin(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'userAdmin';
+
+  /// The account with exactly this email, or `null`. There is no list or
+  /// partial search on purpose.
+  _ida.Future<_i8wvbfgy.UserAdminView?> find(String email) =>
+      caller.callServerEndpoint<_i8wvbfgy.UserAdminView?>(
+        'userAdmin',
+        'find',
+        {'email': email},
+      );
+
+  /// Blocks or unblocks sign-in. Blocking also ends the user's sessions;
+  /// no data is deleted.
+  _ida.Future<_i8wvbfgy.UserAdminView> setBlocked(
+    _isc.UuidValue userId,
+    bool blocked,
+  ) => caller.callServerEndpoint<_i8wvbfgy.UserAdminView>(
+    'userAdmin',
+    'setBlocked',
+    {
+      'userId': userId,
+      'blocked': blocked,
+    },
+  );
+
+  /// Deletes the account on the user's request (for example by email), with
+  /// the same deletion as in the app. [confirmEmail] must repeat the
+  /// account's email.
+  _ida.Future<void> deleteOnRequest(
+    _isc.UuidValue userId,
+    String confirmEmail,
+  ) => caller.callServerEndpoint<void>(
+    'userAdmin',
+    'deleteOnRequest',
+    {
+      'userId': userId,
+      'confirmEmail': confirmEmail,
+    },
+  );
+}
+
 class Modules {
   Modules(Client client) {
     serverpod_auth_idp = _iaic.Caller(client);
@@ -1083,6 +1165,9 @@ class Client extends _isc.ServerpodClientShared {
     sport = EndpointSport(this);
     staffAdmin = EndpointStaffAdmin(this);
     staff = EndpointStaff(this);
+    activity = EndpointActivity(this);
+    statsAdmin = EndpointStatsAdmin(this);
+    userAdmin = EndpointUserAdmin(this);
     modules = Modules(this);
   }
 
@@ -1118,6 +1203,12 @@ class Client extends _isc.ServerpodClientShared {
 
   late final EndpointStaff staff;
 
+  late final EndpointActivity activity;
+
+  late final EndpointStatsAdmin statsAdmin;
+
+  late final EndpointUserAdmin userAdmin;
+
   late final Modules modules;
 
   @override
@@ -1138,6 +1229,9 @@ class Client extends _isc.ServerpodClientShared {
     'sport': sport,
     'staffAdmin': staffAdmin,
     'staff': staff,
+    'activity': activity,
+    'statsAdmin': statsAdmin,
+    'userAdmin': userAdmin,
   };
 
   @override

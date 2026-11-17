@@ -80,7 +80,19 @@ class ParlaScope extends InheritedWidget {
     // Own-routine ticks moved from the habit log to the routines.
     if (id != null && api.accountId == id) {
       await routines.adoptTicks(habits.takeOwnRoutineTicks());
+      _markActiveOncePerDay();
     }
+  }
+
+  static String? _markedDay;
+
+  /// Once a day per app run; failures are ignored (it is only a count).
+  void _markActiveOncePerDay() {
+    final now = clock();
+    final day = '${now.year}-${now.month}-${now.day}|${identityHashCode(api)}';
+    if (_markedDay == day) return;
+    _markedDay = day;
+    api.markActive().catchError((Object _) {});
   }
 
   /// Sign-out: forgets the account's on-device data in memory and cancels

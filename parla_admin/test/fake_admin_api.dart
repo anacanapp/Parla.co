@@ -215,6 +215,40 @@ class FakeAdminApi implements AdminApi {
     return _put(_find(id).copyWith(hidden: hidden));
   }
 
+  /// App accounts by email, for the users section.
+  final Map<String, UserAdminView> users = {};
+
+  @override
+  Future<UserAdminView?> findUser(String email) async {
+    calls.add('findUser:$email');
+    return users[email.trim().toLowerCase()];
+  }
+
+  @override
+  Future<UserAdminView> setUserBlocked(UuidValue userId, bool blocked) async {
+    calls.add('block:$userId:$blocked');
+    final e = users.entries.firstWhere((e) => e.value.userId == userId);
+    return users[e.key] = e.value.copyWith(blocked: blocked);
+  }
+
+  @override
+  Future<void> deleteUserOnRequest(
+    UuidValue userId,
+    String confirmEmail,
+  ) async {
+    final e = users.entries.firstWhere((e) => e.value.userId == userId);
+    if (e.key != confirmEmail.trim().toLowerCase()) {
+      throw const AdminError('users.confirm_mismatch');
+    }
+    calls.add('deleteUser:$userId');
+    users.remove(e.key);
+  }
+
+  StatsReport? stats;
+
+  @override
+  Future<StatsReport> statsReport() async => stats!;
+
   /// What [importSheet] adds: (kind, slug, category, json).
   List<(String, String, String, String)> sheet = [];
 

@@ -11,6 +11,12 @@ export 'package:parla_client/parla_client.dart'
         ContentAdminItem,
         ContentStatus,
         MediaAdminItem,
+        UserAdminView,
+        ConsentState,
+        ConsentType,
+        StatsReport,
+        StatsGroup,
+        StatsCount,
         UuidValue;
 
 /// A rule the server refused, with its stable code.
@@ -64,6 +70,14 @@ abstract interface class AdminApi {
   Future<ContentAdminItem> publishContent(int id);
   Future<ContentAdminItem> unpublishContent(int id);
   Future<void> deleteContent(int id);
+
+  // Users (phase C, admins only). Exact email look-up only.
+  Future<UserAdminView?> findUser(String email);
+  Future<UserAdminView> setUserBlocked(UuidValue userId, bool blocked);
+  Future<void> deleteUserOnRequest(UuidValue userId, String confirmEmail);
+
+  // Anonymous statistics (phase C).
+  Future<StatsReport> statsReport();
 
   /// Hides or shows a catalogue item in the app at once.
   Future<ContentAdminItem> setContentHidden(int id, bool hidden);

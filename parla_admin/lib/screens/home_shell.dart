@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../api/admin_api.dart';
 import '../staff_session.dart';
 import '../ui/texts.dart';
 import '../ui/theme.dart';
@@ -12,12 +13,16 @@ class AdminSection {
     this.label,
     this.icon, {
     this.adminOnly = false,
+    this.notExpert = false,
   });
 
   final String path;
   final String label;
   final IconData icon;
   final bool adminOnly;
+
+  /// Hidden from the expert role.
+  final bool notExpert;
 }
 
 const adminSections = [
@@ -29,7 +34,12 @@ const adminSections = [
     Icons.people_outline,
     adminOnly: true,
   ),
-  AdminSection('/stats', 'Statistika', Icons.insights_outlined),
+  AdminSection(
+    '/stats',
+    'Statistika',
+    Icons.insights_outlined,
+    notExpert: true,
+  ),
   AdminSection('/messages', 'Ünsiyyət', Icons.campaign_outlined),
   AdminSection('/staff', 'İşçilər', Icons.badge_outlined, adminOnly: true),
 ];
@@ -51,7 +61,9 @@ class HomeShell extends StatelessWidget {
   Widget build(BuildContext context) {
     final sections = [
       for (final s in adminSections)
-        if (!s.adminOnly || state.isAdmin) s,
+        if ((!s.adminOnly || state.isAdmin) &&
+            (!s.notExpert || state.me?.role != StaffRole.expert))
+          s,
     ];
     final index = sections
         .indexWhere((s) => location.startsWith(s.path))

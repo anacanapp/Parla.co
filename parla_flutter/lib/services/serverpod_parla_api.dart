@@ -139,6 +139,9 @@ class ServerpodParlaApi implements ParlaApi {
   Future<String?> myNutrition() => _guard(_client.nutrition.myNutrition);
 
   @override
+  Future<void> markActive() => _guard(_client.activity.markActive);
+
+  @override
   Future<void> saveNutrition(String json) =>
       _guard(() => _client.nutrition.saveNutrition(json));
 

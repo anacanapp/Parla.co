@@ -38,6 +38,10 @@ import 'package:parla_server/src/generated/staff/staff_summary.dart'
     as _i0twq8uu;
 import 'package:parla_server/src/generated/staff/totp_enrollment.dart'
     as _iuuxdif3;
+import 'package:parla_server/src/generated/stats/stats_report.dart'
+    as _i1ypnd10;
+import 'package:parla_server/src/generated/users/user_admin_view.dart'
+    as _icn9yhex;
 import 'package:serverpod/serverpod.dart' as _is;
 import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
     as _iacs;
@@ -208,6 +212,12 @@ class TestEndpoints {
   late final _StaffAdminEndpoint staffAdmin;
 
   late final _StaffEndpoint staff;
+
+  late final _ActivityEndpoint activity;
+
+  late final _StatsAdminEndpoint statsAdmin;
+
+  late final _UserAdminEndpoint userAdmin;
 }
 
 class _InternalTestEndpoints extends TestEndpoints
@@ -278,6 +288,18 @@ class _InternalTestEndpoints extends TestEndpoints
       serializationManager,
     );
     staff = _StaffEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    activity = _ActivityEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    statsAdmin = _StatsAdminEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    userAdmin = _UserAdminEndpoint(
       endpoints,
       serializationManager,
     );
@@ -2438,6 +2460,198 @@ class _StaffEndpoint {
           endpointPath: 'staff',
           methodName: 'endSession',
           parameters: _ist.testObjectToJson({}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<void>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
+class _ActivityEndpoint {
+  _ActivityEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _is.EndpointDispatch _endpointDispatch;
+
+  final _is.SerializationManager _serializationManager;
+
+  _ida.Future<void> markActive(_ist.TestSessionBuilder sessionBuilder) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'activity',
+            method: 'markActive',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'activity',
+          methodName: 'markActive',
+          parameters: _ist.testObjectToJson({}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<void>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
+class _StatsAdminEndpoint {
+  _StatsAdminEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _is.EndpointDispatch _endpointDispatch;
+
+  final _is.SerializationManager _serializationManager;
+
+  _ida.Future<_i1ypnd10.StatsReport> report(
+    _ist.TestSessionBuilder sessionBuilder,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'statsAdmin',
+            method: 'report',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'statsAdmin',
+          methodName: 'report',
+          parameters: _ist.testObjectToJson({}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<_i1ypnd10.StatsReport>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
+class _UserAdminEndpoint {
+  _UserAdminEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _is.EndpointDispatch _endpointDispatch;
+
+  final _is.SerializationManager _serializationManager;
+
+  _ida.Future<_icn9yhex.UserAdminView?> find(
+    _ist.TestSessionBuilder sessionBuilder,
+    String email,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'userAdmin',
+            method: 'find',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'userAdmin',
+          methodName: 'find',
+          parameters: _ist.testObjectToJson({'email': email}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<_icn9yhex.UserAdminView?>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _ida.Future<_icn9yhex.UserAdminView> setBlocked(
+    _ist.TestSessionBuilder sessionBuilder,
+    _is.UuidValue userId,
+    bool blocked,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'userAdmin',
+            method: 'setBlocked',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'userAdmin',
+          methodName: 'setBlocked',
+          parameters: _ist.testObjectToJson({
+            'userId': userId,
+            'blocked': blocked,
+          }),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<_icn9yhex.UserAdminView>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _ida.Future<void> deleteOnRequest(
+    _ist.TestSessionBuilder sessionBuilder,
+    _is.UuidValue userId,
+    String confirmEmail,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'userAdmin',
+            method: 'deleteOnRequest',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'userAdmin',
+          methodName: 'deleteOnRequest',
+          parameters: _ist.testObjectToJson({
+            'userId': userId,
+            'confirmEmail': confirmEmail,
+          }),
           serializationManager: _serializationManager,
         );
         var _localReturnValue =

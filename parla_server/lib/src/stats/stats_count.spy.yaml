@@ -1,0 +1,6 @@
+### One bucket of an anonymous statistic. [count] is null when fewer than
+### the minimum group size (shown as "<10").
+class: StatsCount
+fields:
+  label: String
+  count: int?
