@@ -173,4 +173,28 @@ void main() {
     expect(plan.morning, planArea(RoutineArea.face, _a(_candidate)).morning);
     expect(defaultRoutinePlan.morning, contains('face-sunscreen-am'));
   });
+
+  test('pregnancy suggests the retinoid-free preference', () {
+    for (final answer in ['pregnant', 'breastfeeding', 'trying']) {
+      final result = buildRoutine(
+        QuizAnswers(
+          chosen: {
+            'pregnancy': [answer],
+          },
+          declined: const {},
+        ),
+      );
+      expect(result.preferences, contains('retinoid_free'), reason: answer);
+    }
+    final no = buildRoutine(
+      const QuizAnswers(
+        chosen: {
+          'pregnancy': ['no'],
+          'medications': ['none'],
+        },
+        declined: {},
+      ),
+    );
+    expect(no.preferences, isNot(contains('retinoid_free')));
+  });
 }

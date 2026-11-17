@@ -55,9 +55,9 @@ const preferenceTexts = <String, List<List<String>>>{
   'retinoid_free': [
     ["Retinoidsiz", "Без ретиноидов", "Retinoid-free"],
     [
-      "A vitamini törəmələri olmasın. Hamiləlik, əmizdirmə və hamiləlik planlaşdırılan dövrdə bu seçim avtomatik aktivləşir.",
-      "Без производных витамина A. Автоматически включается при беременности, грудном вскармливании и планировании.",
-      "No vitamin A derivatives. Turns on automatically when pregnant, breastfeeding or trying to conceive.",
+      "A vitamini törəmələri olmasın. Hamiləlik, əmizdirmə və hamiləlik planlaşdırılan dövrdə bu seçimi təklif edirik.",
+      "Без производных витамина A. Предлагаем этот фильтр при беременности, грудном вскармливании и планировании.",
+      "No vitamin A derivatives. We suggest it when pregnant, breastfeeding or trying to conceive.",
     ],
   ],
   'preservative_alert': [
