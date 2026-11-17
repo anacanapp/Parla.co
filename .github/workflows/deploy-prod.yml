@@ -1,0 +1,62 @@
+name: Deploy production server
+
+# Started by hand (Actions -> Deploy production server -> Run workflow).
+# Builds the server image, which also holds the admin panel (served at
+# /admin/), pushes it to ECR and restarts the service on AWS. No AWS key is
+# stored in GitHub: the job takes the deploy role through OIDC, which only
+# jobs in the "production" environment may do. Add required reviewers to
+# that environment so every deploy is approved.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  id-token: write
+
+concurrency:
+  group: deploy-prod
+  cancel-in-progress: false
+
+env:
+  AWS_REGION: eu-central-1
+  ECR_REPOSITORY: parla-prod/server
+  ECS_CLUSTER: parla-prod
+  ECS_SERVICE: parla-prod-server
+  SERVER_URL: https://parla.anacan.az/
+
+jobs:
+  deploy:
+    name: Build and deploy
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_DEPLOY_ROLE_ARN }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - id: ecr
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Build and push the image
+        env:
+          IMAGE: ${{ steps.ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}
+        run: |
+          docker build -f parla_server/Dockerfile -t "$IMAGE:$GITHUB_SHA" -t "$IMAGE:prod" .
+          docker push "$IMAGE:$GITHUB_SHA"
+          docker push "$IMAGE:prod"
+
+      - name: Restart the service with the new image
+        run: |
+          aws ecs update-service --cluster "$ECS_CLUSTER" --service "$ECS_SERVICE" \
+            --force-new-deployment >/dev/null
+          aws ecs wait services-stable --cluster "$ECS_CLUSTER" --services "$ECS_SERVICE"
+
+      - name: Check the server, the panel and the security headers
+        run: |
+          curl -fsS --retry 5 --retry-delay 10 "${SERVER_URL}readyz"
+          curl -fsS -o /dev/null "${SERVER_URL}admin/"
+          curl -fsSI "${SERVER_URL}admin/" | grep -i '^content-security-policy:'
+          curl -fsSI "${SERVER_URL}admin/" | grep -i '^strict-transport-security:'

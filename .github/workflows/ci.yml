@@ -123,7 +123,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: deploy/aws/staging
+        working-directory: deploy/aws/prod
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3
@@ -132,3 +132,15 @@ jobs:
       - run: terraform fmt -check -recursive
       - run: terraform init -backend=false
       - run: terraform validate
+
+  server-image:
+    name: Build server image
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      # The production image: server plus the admin panel under web/admin.
+      - run: docker build -f parla_server/Dockerfile -t parla-server:ci .
+      - name: The panel is in the image, built for /admin/
+        run: |
+          docker run --rm --entrypoint sh parla-server:ci -c \
+            'test -f web/admin/index.html && grep -q "<base href=\"/admin/\">" web/admin/index.html'

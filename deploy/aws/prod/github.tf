@@ -1,7 +1,7 @@
-# Lets the "Deploy staging server" GitHub workflow deploy without any
+# Lets the "Deploy production server" GitHub workflow deploy without any
 # stored AWS key: GitHub proves the workflow's identity with a short-lived
-# OIDC token, and only jobs in the repository's "staging" environment may
-# take this role.
+# OIDC token, and only jobs in the repository's "production" environment
+# may take this role.
 
 locals {
   github_oidc_url = "https://token.actions.githubusercontent.com"
@@ -37,7 +37,7 @@ data "aws_iam_policy_document" "deploy_assume" {
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:${var.github_repository}:environment:staging"]
+      values   = ["repo:${var.github_repository}:environment:production"]
     }
   }
 }

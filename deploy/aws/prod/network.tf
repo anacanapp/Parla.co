@@ -4,18 +4,17 @@
 #   pulls, Secrets Manager, SMTP, Open Beauty Facts) and gets a public IP for
 #   that instead of a NAT gateway (about 35 USD a month). Its security group
 #   accepts no inbound traffic except from the load balancer.
-# - Private subnets: the database and the internal load balancer. They have
-#   no route to the internet.
+# - Private subnets: the database only. They have no route to the internet.
+# - The public load balancer (alb.tf) sits in the public subnets.
 
 resource "aws_vpc" "main" {
-  cidr_block           = "10.40.0.0/16"
+  cidr_block           = "10.41.0.0/16"
   enable_dns_support   = true
   enable_dns_hostnames = true
 
   tags = { Name = var.name }
 }
 
-# Also required by CloudFront VPC origins.
 resource "aws_internet_gateway" "main" {
   vpc_id = aws_vpc.main.id
   tags   = { Name = var.name }
@@ -71,7 +70,7 @@ resource "aws_route_table_association" "private" {
 
 resource "aws_security_group" "alb" {
   name        = "${var.name}-alb"
-  description = "Internal load balancer, reached only through CloudFront"
+  description = "Public load balancer: HTTPS, and HTTP only to redirect"
   vpc_id      = aws_vpc.main.id
 }
 
@@ -87,45 +86,38 @@ resource "aws_security_group" "db" {
   vpc_id      = aws_vpc.main.id
 }
 
-# CloudFront's VPC origin reaches the internal load balancer from the
-# security group AWS creates with the first VPC origin in this VPC
-# ("CloudFront-VPCOrigins-Service-SG"). Only that group may connect; the
-# load balancer has no public address either way.
-data "aws_security_group" "cloudfront_vpc_origins" {
-  vpc_id = aws_vpc.main.id
-  name   = "CloudFront-VPCOrigins-Service-SG"
-
-  depends_on = [aws_cloudfront_vpc_origin.alb]
+resource "aws_vpc_security_group_ingress_rule" "alb_public" {
+  for_each          = toset(["80", "443"])
+  security_group_id = aws_security_group.alb.id
+  description       = each.value == "80" ? "HTTP, redirected to HTTPS" : "HTTPS"
+  cidr_ipv4         = "0.0.0.0/0"
+  ip_protocol       = "tcp"
+  from_port         = tonumber(each.value)
+  to_port           = tonumber(each.value)
 }
 
-resource "aws_vpc_security_group_ingress_rule" "alb_http" {
-  security_group_id            = aws_security_group.alb.id
-  description                  = "CloudFront VPC origin"
-  referenced_security_group_id = data.aws_security_group.cloudfront_vpc_origins.id
-  ip_protocol                  = "tcp"
-  from_port                    = 80
-  to_port                      = 80
-}
-
+# 8080: API server. 8082: web server (admin panel and published images).
 resource "aws_vpc_security_group_egress_rule" "alb_to_app" {
+  for_each                     = toset(["8080", "8082"])
   security_group_id            = aws_security_group.alb.id
   referenced_security_group_id = aws_security_group.app.id
   ip_protocol                  = "tcp"
-  from_port                    = 8080
-  to_port                      = 8080
+  from_port                    = tonumber(each.value)
+  to_port                      = tonumber(each.value)
 }
 
 resource "aws_vpc_security_group_ingress_rule" "app_from_alb" {
+  for_each                     = toset(["8080", "8082"])
   security_group_id            = aws_security_group.app.id
   referenced_security_group_id = aws_security_group.alb.id
   ip_protocol                  = "tcp"
-  from_port                    = 8080
-  to_port                      = 8080
+  from_port                    = tonumber(each.value)
+  to_port                      = tonumber(each.value)
 }
 
 resource "aws_vpc_security_group_egress_rule" "app_https" {
   security_group_id = aws_security_group.app.id
-  description       = "ECR, Secrets Manager, CloudWatch, Open Beauty Facts"
+  description       = "ECR, Secrets Manager, KMS, S3, CloudWatch, FCM, Open Beauty Facts"
   cidr_ipv4         = "0.0.0.0/0"
   ip_protocol       = "tcp"
   from_port         = 443

@@ -18,14 +18,19 @@ move personal data to a provider and country that the legal review has not
 approved. The template's Serverpod Cloud deploy workflow, cloud storage and
 cloud email sender were removed.
 
-**Test environment (staging).** The server runs as a Docker container on
-AWS ECS Fargate in Frankfurt with an RDS PostgreSQL database in Frankfurt,
-behind CloudFront (HTTPS) and an internal load balancer; the database,
-secrets and logs are encrypted with a KMS key (`deploy/aws/staging`, in
-Terraform). Sign-in codes go out by SMTP from info@anacan.az
-(`SmtpCodeSender`). The image is configured only by environment variables,
-so it can move to our own servers unchanged. Setup and store steps are in
-`docs/RELEASE.md`; builds run on Codemagic (`codemagic.yaml`).
+**Production (prod).** One public address, `https://parla.anacan.az/`
+(DNS at Cloudflare, "DNS only", so Cloudflare never sees the traffic).
+AWS WAF and a public load balancer in Frankfurt end HTTPS with an ACM
+certificate and send `/admin` and `/media/*` to the server's web server
+and everything else to its API server; both run in one Docker container
+on ECS Fargate, with RDS PostgreSQL in private subnets. There is no
+CloudFront and no third-party CDN. The database, secrets and logs are
+encrypted with a KMS key (`deploy/aws/prod`, in Terraform). Sign-in codes
+go out by SMTP from info@anacan.az (`SmtpCodeSender`). The image is
+configured only by environment variables, so it can move to our own
+servers unchanged. Setup and store steps are in `docs/RELEASE.md`; builds
+run on Codemagic (`codemagic.yaml`). Sign-ups stay closed until the legal
+and expert checks in `docs/RELEASE.md` are done.
 
 ## Data rules in code
 
@@ -283,11 +288,14 @@ messages and push notifications (D) follow.
   where the expert's signed consent is kept before they can be published.
   The app reads published items from `content.published` (no sign-in,
   nothing personal). Every step is audited.
-- **Hosting.** A static build in a private S3 bucket behind its own
-  CloudFront address (`deploy/aws/staging/admin.tf`) with a strict content
-  security policy, `noindex`, and CanvasKit bundled so nothing loads from
-  Google. It is deployed by the *Deploy staging admin panel* workflow. The
-  panel is in Azerbaijani only, as it is for the team.
+- **Hosting.** The server serves the panel at `/admin/` from the same
+  image (`parla_server/lib/src/web/web_routes.dart`; the Dockerfile
+  builds it with `--base-href /admin/`). Same origin as the API, so no
+  CORS; the panel finds the API from its own address
+  (`sameOriginServerUrl`). Strict content security policy
+  (`connect-src 'self'`, `frame-ancestors 'none'`), `noindex`, and
+  CanvasKit bundled so nothing loads from Google. The panel is in
+  Azerbaijani only, as it is for the team.
 
 ## Nutrition (plate)
 
@@ -358,18 +366,22 @@ panel (`parla_admin/lib/media/`) and stored by the server
   must exist in az, ru and en before content that uses it can be published
   (`content.image_incomplete`).
 - **Storage:**
-  - A private S3 bucket (`deploy/aws/staging/media.tf`). The server uses
+  - A private S3 bucket (`deploy/aws/prod/media.tf`). The server uses
     the ECS task role, with no access keys, and its own SigV4 signer tested
     against AWS's examples.
   - Uploads stay under `uploads/`. `syncPublicMedia` copies an image to
     `public/` only while published content uses it, and removes the copy
     when nothing published does.
-  - CloudFront serves `public/` only. Local development and tests keep
-    images in memory.
+  - The bucket has no public access at all. The server serves the
+    `public/` copies itself at `/media/<id>.jpg` (`PublicMedia`): only
+    UUID names, a small in-memory cache that `syncPublicMedia` clears
+    when an image is taken off, and a one-hour browser cache, so a
+    removed image (for example an expert's photo) disappears within the
+    hour. Local development and tests keep images in memory.
 - **App:** `PublicContent.image` gives the URL, size and alt text. The app
   shows it with the alt text as its screen-reader label, and shows nothing
-  if it fails to load. Images come from AWS like the API does; no new
-  processor is involved.
+  if it fails to load. Images come from our own server like the API; no
+  new processor is involved.
 - **Deletion:** only admins can delete an image, and only if no draft or
   published content uses it. Uploads, edits and deletions are audited.
 - **People in images:** expert photos are the expert's personal data. The
@@ -499,8 +511,8 @@ card shows: `today` (home) or `discover`.
 **Provider**
 - Firebase Cloud Messaging (FCM): a new processor, Google. The server
   sends with the HTTP v1 API and a service account kept in AWS Secrets
-  Manager (`parla-staging/fcm`, stored by
-  `deploy/aws/put-staging-fcm-secret.sh`).
+  Manager (`parla-prod/fcm`, stored by
+  `deploy/aws/put-prod-fcm-secret.sh`).
 - The server reads the secret only with `var.enable_push`.
 - The app gets its Firebase settings from build defines (`FIREBASE_*`,
   Codemagic). Without them the build has no push and initialises nothing.
@@ -683,7 +695,8 @@ idempotent).
 | Re-ask the pregnancy question after 12 months | RET-2 | With habit and health data history |
 | Privacy policy and terms texts | — | Lawyer |
 | Apple and Google sign-in | US-01 | Needs the Apple and Google developer accounts (company registration) |
-| Production hosting, email provider and data region (staging uses AWS in Frankfurt and SMTP via info@anacan.az) | RES-1, RES-5 | After the lawyer answers the localisation questions |
+| Data region confirmed by the lawyer (prod runs in AWS Frankfurt, email by SMTP via info@anacan.az) | RES-1, RES-5 | Before sign-ups open |
+| Closed beta: sign-ups only with an invite code, until the legal and expert checks are done | — | Before the first beta build |
 | Push setup: Firebase project, APNs key in Firebase, Push Notifications capability for the App ID, Codemagic FIREBASE_* variables, the FCM secret and `enable_push` | — | You, before testing push |
 | Privacy policy and processor list: Firebase (Google) for push, the marketing push under the marketing consent | — | Lawyer, before push is used |
 | Privacy policy: support conversations (purpose, encryption, 12-month retention, support role), announcements | — | Lawyer, before the beta |
