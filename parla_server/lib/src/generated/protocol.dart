@@ -17,6 +17,8 @@ import 'package:parla_server/src/generated/content/content_admin_item.dart'
     as _itdeiy4d;
 import 'package:parla_server/src/generated/content/public_content.dart'
     as _ixzwgpmi;
+import 'package:parla_server/src/generated/media/media_admin_item.dart'
+    as _i0szydc4;
 import 'package:parla_server/src/generated/products/product_summary.dart'
     as _ivq5jofi;
 import 'package:parla_server/src/generated/quiz/quiz_answer_input.dart'
@@ -47,6 +49,9 @@ import 'health/health_key.dart' as _ipdtgm1c;
 import 'health/health_record.dart' as _ioxvgdwn;
 import 'health/nutrition_record.dart' as _in188bse;
 import 'health/sport_record.dart' as _izi2p90l;
+import 'media/media_admin_item.dart' as _if8q33w5;
+import 'media/media_asset.dart' as _ijjfwapm;
+import 'media/public_image.dart' as _ig6ant5g;
 import 'products/product_summary.dart' as _ikmk0g5q;
 import 'profile/member_profile.dart' as _i1iocmvy;
 import 'quiz/quiz_answer.dart' as _ih1qnypb;
@@ -75,6 +80,9 @@ export 'health/health_key.dart';
 export 'health/health_record.dart';
 export 'health/nutrition_record.dart';
 export 'health/sport_record.dart';
+export 'media/media_admin_item.dart';
+export 'media/media_asset.dart';
+export 'media/public_image.dart';
 export 'products/product_summary.dart';
 export 'profile/member_profile.dart';
 export 'quiz/quiz_answer.dart';
@@ -117,6 +125,9 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_ioxvgdwn.HealthRecord>,
           _is.getType<_in188bse.NutritionRecord>,
           _is.getType<_izi2p90l.SportRecord>,
+          _is.getType<_if8q33w5.MediaAdminItem>,
+          _is.getType<_ijjfwapm.MediaAsset>,
+          _is.getType<_ig6ant5g.PublicImage>,
           _is.getType<_ikmk0g5q.ProductSummary>,
           _is.getType<_i1iocmvy.MemberProfile>,
           _is.getType<_ih1qnypb.QuizAnswer>,
@@ -145,6 +156,9 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_ioxvgdwn.HealthRecord?>,
           _is.getType<_in188bse.NutritionRecord?>,
           _is.getType<_izi2p90l.SportRecord?>,
+          _is.getType<_if8q33w5.MediaAdminItem?>,
+          _is.getType<_ijjfwapm.MediaAsset?>,
+          _is.getType<_ig6ant5g.PublicImage?>,
           _is.getType<_ikmk0g5q.ProductSummary?>,
           _is.getType<_i1iocmvy.MemberProfile?>,
           _is.getType<_ih1qnypb.QuizAnswer?>,
@@ -161,6 +175,7 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<List<_ianfun2u.ConsentState>>,
           _is.getType<List<_itdeiy4d.ContentAdminItem>>,
           _is.getType<List<_ixzwgpmi.PublicContent>>,
+          _is.getType<List<_i0szydc4.MediaAdminItem>>,
           _is.getType<List<_ivq5jofi.ProductSummary>>,
           _is.getType<List<_iak2pevv.QuizAnswerInput>>,
           _is.getType<List<_i0twq8uu.StaffSummary>>,
@@ -188,6 +203,9 @@ class Protocol extends _is.DatabaseSerializationManager
           'HealthRecord',
           'NutritionRecord',
           'SportRecord',
+          'MediaAdminItem',
+          'MediaAsset',
+          'PublicImage',
           'ProductSummary',
           'MemberProfile',
           'QuizAnswer',
@@ -791,6 +809,98 @@ class Protocol extends _is.DatabaseSerializationManager
       managed: true,
     ),
     _isp.TableDefinition(
+      name: 'media_asset',
+      dartName: 'MediaAsset',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'key',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'pixelWidth',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _isp.ColumnDefinition(
+          name: 'pixelHeight',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _isp.ColumnDefinition(
+          name: 'bytes',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _isp.ColumnDefinition(
+          name: 'license',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'source',
+          columnType: _isp.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'altJson',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'public',
+          columnType: _isp.ColumnType.boolean,
+          isNullable: false,
+          dartType: 'bool',
+        ),
+        _isp.ColumnDefinition(
+          name: 'createdBy',
+          columnType: _isp.ColumnType.uuid,
+          isNullable: false,
+          dartType: 'UuidValue',
+        ),
+        _isp.ColumnDefinition(
+          name: 'createdAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'media_asset_key_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'key',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _isp.TableDefinition(
       name: 'member_profile',
       dartName: 'MemberProfile',
       schema: 'public',
@@ -1347,6 +1457,15 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _izi2p90l.SportRecord) {
       return _izi2p90l.SportRecord.fromJson(data) as T;
     }
+    if (t == _if8q33w5.MediaAdminItem) {
+      return _if8q33w5.MediaAdminItem.fromJson(data) as T;
+    }
+    if (t == _ijjfwapm.MediaAsset) {
+      return _ijjfwapm.MediaAsset.fromJson(data) as T;
+    }
+    if (t == _ig6ant5g.PublicImage) {
+      return _ig6ant5g.PublicImage.fromJson(data) as T;
+    }
     if (t == _ikmk0g5q.ProductSummary) {
       return _ikmk0g5q.ProductSummary.fromJson(data) as T;
     }
@@ -1443,6 +1562,16 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _is.getType<_izi2p90l.SportRecord?>()) {
       return (data != null ? _izi2p90l.SportRecord.fromJson(data) : null) as T;
     }
+    if (t == _is.getType<_if8q33w5.MediaAdminItem?>()) {
+      return (data != null ? _if8q33w5.MediaAdminItem.fromJson(data) : null)
+          as T;
+    }
+    if (t == _is.getType<_ijjfwapm.MediaAsset?>()) {
+      return (data != null ? _ijjfwapm.MediaAsset.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_ig6ant5g.PublicImage?>()) {
+      return (data != null ? _ig6ant5g.PublicImage.fromJson(data) : null) as T;
+    }
     if (t == _is.getType<_ikmk0g5q.ProductSummary?>()) {
       return (data != null ? _ikmk0g5q.ProductSummary.fromJson(data) : null)
           as T;
@@ -1505,6 +1634,12 @@ class Protocol extends _is.DatabaseSerializationManager
               .toList()
           as T;
     }
+    if (t == List<_i0szydc4.MediaAdminItem>) {
+      return (data as List)
+              .map((e) => deserialize<_i0szydc4.MediaAdminItem>(e))
+              .toList()
+          as T;
+    }
     if (t == List<_ivq5jofi.ProductSummary>) {
       return (data as List)
               .map((e) => deserialize<_ivq5jofi.ProductSummary>(e))
@@ -1560,6 +1695,9 @@ class Protocol extends _is.DatabaseSerializationManager
       _ioxvgdwn.HealthRecord => 'HealthRecord',
       _in188bse.NutritionRecord => 'NutritionRecord',
       _izi2p90l.SportRecord => 'SportRecord',
+      _if8q33w5.MediaAdminItem => 'MediaAdminItem',
+      _ijjfwapm.MediaAsset => 'MediaAsset',
+      _ig6ant5g.PublicImage => 'PublicImage',
       _ikmk0g5q.ProductSummary => 'ProductSummary',
       _i1iocmvy.MemberProfile => 'MemberProfile',
       _ih1qnypb.QuizAnswer => 'QuizAnswer',
@@ -1618,6 +1756,12 @@ class Protocol extends _is.DatabaseSerializationManager
         return 'NutritionRecord';
       case _izi2p90l.SportRecord():
         return 'SportRecord';
+      case _if8q33w5.MediaAdminItem():
+        return 'MediaAdminItem';
+      case _ijjfwapm.MediaAsset():
+        return 'MediaAsset';
+      case _ig6ant5g.PublicImage():
+        return 'PublicImage';
       case _ikmk0g5q.ProductSummary():
         return 'ProductSummary';
       case _i1iocmvy.MemberProfile():
@@ -1715,6 +1859,15 @@ class Protocol extends _is.DatabaseSerializationManager
     }
     if (dataClassName == 'SportRecord') {
       return deserialize<_izi2p90l.SportRecord>(data['data']);
+    }
+    if (dataClassName == 'MediaAdminItem') {
+      return deserialize<_if8q33w5.MediaAdminItem>(data['data']);
+    }
+    if (dataClassName == 'MediaAsset') {
+      return deserialize<_ijjfwapm.MediaAsset>(data['data']);
+    }
+    if (dataClassName == 'PublicImage') {
+      return deserialize<_ig6ant5g.PublicImage>(data['data']);
     }
     if (dataClassName == 'ProductSummary') {
       return deserialize<_ikmk0g5q.ProductSummary>(data['data']);
@@ -1819,6 +1972,8 @@ class Protocol extends _is.DatabaseSerializationManager
         return _in188bse.NutritionRecord.t;
       case _izi2p90l.SportRecord:
         return _izi2p90l.SportRecord.t;
+      case _ijjfwapm.MediaAsset:
+        return _ijjfwapm.MediaAsset.t;
       case _i1iocmvy.MemberProfile:
         return _i1iocmvy.MemberProfile.t;
       case _ih1qnypb.QuizAnswer:

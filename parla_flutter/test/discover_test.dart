@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:parla/app.dart';
 import 'package:parla/discover/discover_screens.dart';
+import 'package:parla/discover/discover_widgets.dart';
 import 'package:parla/habits/habit_store.dart';
 import 'package:parla/home/widgets/parla_nav_bar.dart';
 import 'package:parla/services/parla_api.dart';
@@ -30,6 +31,12 @@ final _published = <String, List<PublishedItem>>{
       category: 'care',
       publishedAt: DateTime.utc(2026, 11, 10),
       reviewedAt: DateTime.utc(2026, 11, 9),
+      image: ContentImageRef(
+        url: 'https://media.test/winter.jpg',
+        width: 1600,
+        height: 900,
+        alt: _l('A jar of cream'),
+      ),
       data: {
         'title': _l('Winter skin'),
         'summary': _l('Why skin dries'),
@@ -163,8 +170,26 @@ Future<void> _tap(WidgetTester tester, Finder finder) async {
   await tester.pumpAndSettle();
 }
 
+// A 1×1 PNG.
+final _pixel = base64Decode(
+  'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
+);
+
 void main() {
-  setUp(() => SharedPreferences.setMockInitialValues({}));
+  setUp(() {
+    SharedPreferences.setMockInitialValues({});
+    ContentImage.provider = (_) => MemoryImage(_pixel);
+  });
+
+  test('a published item keeps its image in the offline copy', () {
+    final item = _published['article']!.first;
+    final back = PublishedItem.fromJson(
+      jsonDecode(jsonEncode(item.toJson())) as Map<String, Object?>,
+    );
+    expect(back.image!.url, 'https://media.test/winter.jpg');
+    expect(back.image!.aspectRatio, closeTo(16 / 9, 0.01));
+    expect(back.image!.alt['en'], 'A jar of cream en');
+  });
 
   testWidgets('blogs: newest on Discover, filter, the article with its '
       'expert review and steps', (tester) async {
@@ -185,7 +210,10 @@ void main() {
     expect(find.text('Winter skin en'), findsNothing);
     await _tap(tester, find.byKey(const ValueKey('cat-all')));
 
+    // The cover shows on the card and the page, with its alt text.
+    expect(find.bySemanticsLabel(RegExp('A jar of cream en')), findsWidgets);
     await _tap(tester, find.byKey(const ValueKey('article-winter')));
+    expect(find.bySemanticsLabel(RegExp('A jar of cream en')), findsOneWidget);
     expect(find.text('First paragraph.'), findsOneWidget);
     expect(find.text('Second paragraph. en'), findsOneWidget);
     expect(find.textContaining('Reviewed by an expert'), findsOneWidget);

@@ -1,0 +1,7 @@
+### A published image as the app reads it.
+class: PublicImage
+fields:
+  url: String
+  pixelWidth: int
+  pixelHeight: int
+  altJson: String

@@ -8,3 +8,5 @@ fields:
   json: String
   reviewedAt: DateTime?
   publishedAt: DateTime
+  ### The item's image, when it has a published one.
+  image: PublicImage?

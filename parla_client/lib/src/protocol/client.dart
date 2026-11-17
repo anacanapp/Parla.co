@@ -11,6 +11,7 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:async' as _ida;
+import 'dart:typed_data' as _idt;
 import 'package:http/http.dart' as _i85jenna;
 import 'package:parla_client/src/protocol/consent/consent_state.dart'
     as _iflgmsvc;
@@ -20,6 +21,8 @@ import 'package:parla_client/src/protocol/content/content_admin_item.dart'
     as _i9q5wd3k;
 import 'package:parla_client/src/protocol/content/public_content.dart'
     as _iryaqqq7;
+import 'package:parla_client/src/protocol/media/media_admin_item.dart'
+    as _izgab4v7;
 import 'package:parla_client/src/protocol/products/product_summary.dart'
     as _isvy2zc1;
 import 'package:parla_client/src/protocol/profile/member_profile.dart'
@@ -587,6 +590,73 @@ class EndpointContent extends _isc.EndpointRef {
       );
 }
 
+/// Images for content, uploaded in the admin panel. Every upload is
+/// re-encoded on the server (no metadata kept) and stored privately; the
+/// app sees an image only while published content uses it.
+/// {@category Endpoint}
+class EndpointMediaAdmin extends _isc.EndpointRef {
+  EndpointMediaAdmin(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'mediaAdmin';
+
+  _ida.Future<_izgab4v7.MediaAdminItem> upload(
+    _idt.ByteData data,
+    String license,
+    String? source,
+    String altJson,
+  ) => caller.callServerEndpoint<_izgab4v7.MediaAdminItem>(
+    'mediaAdmin',
+    'upload',
+    {
+      'data': data,
+      'license': license,
+      'source': source,
+      'altJson': altJson,
+    },
+  );
+
+  _ida.Future<List<_izgab4v7.MediaAdminItem>> list() =>
+      caller.callServerEndpoint<List<_izgab4v7.MediaAdminItem>>(
+        'mediaAdmin',
+        'list',
+        {},
+      );
+
+  /// The stored (cleaned) image, for the panel's preview.
+  _ida.Future<_idt.ByteData> preview(int id) =>
+      caller.callServerEndpoint<_idt.ByteData>(
+        'mediaAdmin',
+        'preview',
+        {'id': id},
+      );
+
+  /// Changes the licence, source or alt text. Applies to the app at once
+  /// when the image is already published.
+  _ida.Future<_izgab4v7.MediaAdminItem> update(
+    int id,
+    String license,
+    String? source,
+    String altJson,
+  ) => caller.callServerEndpoint<_izgab4v7.MediaAdminItem>(
+    'mediaAdmin',
+    'update',
+    {
+      'id': id,
+      'license': license,
+      'source': source,
+      'altJson': altJson,
+    },
+  );
+
+  /// Deletes an image no content uses (admins only).
+  _ida.Future<void> delete(int id) => caller.callServerEndpoint<void>(
+    'mediaAdmin',
+    'delete',
+    {'id': id},
+  );
+}
+
 /// Product search (M-20). Signed-in users only for now, which also limits
 /// load on Open Beauty Facts; guests get it with the guest flow.
 /// {@category Endpoint}
@@ -987,6 +1057,7 @@ class Client extends _isc.ServerpodClientShared {
     consent = EndpointConsent(this);
     contentAdmin = EndpointContentAdmin(this);
     content = EndpointContent(this);
+    mediaAdmin = EndpointMediaAdmin(this);
     product = EndpointProduct(this);
     profile = EndpointProfile(this);
     quiz = EndpointQuiz(this);
@@ -1010,6 +1081,8 @@ class Client extends _isc.ServerpodClientShared {
   late final EndpointContentAdmin contentAdmin;
 
   late final EndpointContent content;
+
+  late final EndpointMediaAdmin mediaAdmin;
 
   late final EndpointProduct product;
 
@@ -1039,6 +1112,7 @@ class Client extends _isc.ServerpodClientShared {
     'consent': consent,
     'contentAdmin': contentAdmin,
     'content': content,
+    'mediaAdmin': mediaAdmin,
     'product': product,
     'profile': profile,
     'quiz': quiz,

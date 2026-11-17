@@ -23,6 +23,14 @@ String errorText(Object error) {
     'content.slug_taken' => 'Bu slug artıq istifadə olunur.',
     'content.wrong_status' => 'Bu addım indiki statusda mümkün deyil.',
     'content.consent_missing' => 'Mütəxəssisin yazılı razılığı qeyd olunmayıb.',
+    'content.image_incomplete' =>
+      'Şəklin lisenziyası və ya 3 dildə alternativ mətni çatışmır.',
+    'media.not_found' => 'Şəkil tapılmadı.',
+    'media.invalid' =>
+      'Şəkil məlumatı düzgün deyil (lisenziya və ya alternativ mətn).',
+    'media.not_image' =>
+      'Fayl JPEG, PNG və ya WebP şəkli deyil, ya da 1 MB-dan böyükdür.',
+    'media.in_use' => 'Bu şəkil hələ bir yazıda istifadə olunur.',
     'auth.short_password' => 'Şifrə ən azı 12 simvol olmalıdır.',
     'auth.failed' =>
       'Alınmadı. E-poçtu, şifrəni və ya kodu yoxlayın və yenidən cəhd edin.',

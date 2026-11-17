@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
+import 'package:parla_shared/parla_shared.dart';
+
 import '../l10n/app_localizations.dart';
 import '../services/parla_api.dart';
 import '../ui/brand.dart';
@@ -93,6 +95,48 @@ class SubPage extends StatelessWidget {
 }
 
 /// An article in a list: category, reading time, title, summary.
+/// A published image with its alt text; nothing when it cannot load.
+class ContentImage extends StatelessWidget {
+  const ContentImage({
+    super.key,
+    required this.image,
+    this.radius = ParlaSpace.cardRadius,
+    this.aspectRatio,
+  });
+
+  final ContentImageRef image;
+  final double radius;
+
+  /// Fixed shape, or `null` for the image's own.
+  final double? aspectRatio;
+
+  /// Loads an image from its URL. Replaced in tests.
+  static ImageProvider Function(String url) provider = NetworkImage.new;
+
+  @override
+  Widget build(BuildContext context) {
+    final language = Localizations.localeOf(context).languageCode;
+    final alt = ContentRules.pick(image.alt, language);
+    return Semantics(
+      image: true,
+      label: alt,
+      child: ClipRRect(
+        borderRadius: BorderRadius.circular(radius),
+        child: AspectRatio(
+          aspectRatio: aspectRatio ?? image.aspectRatio,
+          child: Image(
+            image: provider(image.url),
+            fit: BoxFit.cover,
+            excludeFromSemantics: true,
+            errorBuilder: (_, _, _) =>
+                const ColoredBox(color: ParlaColors.line),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class ArticleCard extends StatelessWidget {
   const ArticleCard({super.key, required this.item, required this.onTap});
 
@@ -119,6 +163,10 @@ class ArticleCard extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                if (item.image case final image?) ...[
+                  ContentImage(image: image, aspectRatio: 16 / 9),
+                  const SizedBox(height: 10),
+                ],
                 Text(
                   l10n
                       .blogMeta(categoryText(l10n, item.category), minutes)

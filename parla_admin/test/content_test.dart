@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:image/image.dart' as img;
 import 'package:parla_admin/api/admin_api.dart';
 import 'package:parla_admin/app.dart';
+import 'package:parla_admin/media/image_field.dart';
 import 'package:parla_shared/parla_shared.dart';
 
 import 'fake_admin_api.dart';
@@ -187,5 +189,61 @@ void main() {
     await _tap(tester, find.byKey(const ValueKey('allergen-gluten')));
     await _tap(tester, find.byKey(const ValueKey('content-save')));
     expect(saved()['allergens'], ['gluten', 'milk']);
+  });
+
+  testWidgets('an editor uploads a shrunk image with licence and alt text', (
+    tester,
+  ) async {
+    final big = img.Image(width: 3200, height: 1600);
+    img.fill(big, color: img.ColorRgb8(200, 150, 120));
+    final file = img.encodePng(big);
+    final original = pickImageFile;
+    pickImageFile = () async => file;
+    addTearDown(() => pickImageFile = original);
+
+    final api = await _pump(tester, StaffRole.editor);
+    await _tap(tester, find.text('Məzmun'));
+    await _tap(tester, find.byKey(const ValueKey('content-new')));
+    await tester.enterText(find.byKey(const ValueKey('new-slug')), 'krem');
+    await _tap(tester, find.byKey(const ValueKey('new-create')));
+
+    await _tap(tester, find.byKey(const ValueKey('image-upload')));
+    // A licence is required.
+    await _tap(tester, find.byKey(const ValueKey('image-save')));
+    expect(find.byKey(const ValueKey('image-error')), findsOneWidget);
+    await tester.enterText(
+      find.byKey(const ValueKey('image-license')),
+      'Öz fotomuz',
+    );
+    await tester.enterText(
+      find.byKey(const ValueKey('image-alt-az')),
+      'Krem qabı',
+    );
+    await _tap(tester, find.byKey(const ValueKey('image-save')));
+
+    final upload = api.calls.singleWhere((c) => c.startsWith('upload:'));
+    expect(upload, contains(':Öz fotomuz:'));
+    // Shrunk to at most 1600 px and re-encoded as JPEG before upload.
+    final sent = img.decodeJpg(api.imageBytes.values.single)!;
+    expect((sent.width, sent.height), (1600, 800));
+    expect(find.text('Krem qabı'), findsOneWidget);
+    expect(find.byKey(const ValueKey('image-missing')), findsOneWidget);
+
+    await _tap(tester, find.byKey(const ValueKey('content-save')));
+    final saved = api.calls.lastWhere((c) => c.startsWith('save:'));
+    final json = jsonDecode(saved.substring(saved.indexOf('{'))) as Map;
+    expect(json['image'], api.images.single.id);
+
+    await _tap(tester, find.byKey(const ValueKey('image-remove')));
+    await _tap(tester, find.byKey(const ValueKey('content-save')));
+    final again = api.calls.lastWhere((c) => c.startsWith('save:'));
+    expect(
+      jsonDecode(again.substring(again.indexOf('{'))),
+      isNot(contains('image')),
+    );
+
+    await _tap(tester, find.byKey(const ValueKey('image-library')));
+    await _tap(tester, find.byKey(ValueKey('library-${api.images.single.id}')));
+    expect(find.text('Krem qabı'), findsOneWidget);
   });
 }

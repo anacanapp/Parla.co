@@ -10,7 +10,9 @@
 // ignore_for_file: invalid_use_of_internal_member
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:parla_client/src/protocol/protocol.dart' as _id6y4bzp;
 import 'package:serverpod_client/serverpod_client.dart' as _isc;
+import '../media/public_image.dart' as _ium6b0ir;
 
 /// A published content item as the app reads it.
 abstract class PublicContent
@@ -23,6 +25,7 @@ abstract class PublicContent
     required this.json,
     this.reviewedAt,
     required this.publishedAt,
+    this.image,
   });
 
   factory PublicContent({
@@ -33,6 +36,7 @@ abstract class PublicContent
     required String json,
     DateTime? reviewedAt,
     required DateTime publishedAt,
+    _ium6b0ir.PublicImage? image,
   }) = _PublicContentImpl;
 
   factory PublicContent.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -50,6 +54,11 @@ abstract class PublicContent
       publishedAt: _isc.DateTimeJsonExtension.fromJson(
         jsonSerialization['publishedAt'],
       ),
+      image: jsonSerialization['image'] == null
+          ? null
+          : _id6y4bzp.Protocol().deserialize<_ium6b0ir.PublicImage>(
+              jsonSerialization['image'],
+            ),
     );
   }
 
@@ -67,6 +76,9 @@ abstract class PublicContent
 
   DateTime publishedAt;
 
+  /// The item's image, when it has a published one.
+  _ium6b0ir.PublicImage? image;
+
   /// Returns a shallow copy of this [PublicContent]
   /// with some or all fields replaced by the given arguments.
   @_isc.useResult
@@ -78,6 +90,7 @@ abstract class PublicContent
     String? json,
     DateTime? reviewedAt = const _isc.$UndefinedDateTime(),
     DateTime? publishedAt,
+    _ium6b0ir.PublicImage? image = const _UndefinedPublicContent$image(),
   });
   @override
   Map<String, dynamic> toJson() {
@@ -90,6 +103,7 @@ abstract class PublicContent
       'json': json,
       if (reviewedAt != null) 'reviewedAt': reviewedAt?.toJson(),
       'publishedAt': publishedAt.toJson(),
+      if (image != null) 'image': image?.toJson(),
     };
   }
 
@@ -104,6 +118,7 @@ abstract class PublicContent
       'json': json,
       if (reviewedAt != null) 'reviewedAt': reviewedAt?.toJson(),
       'publishedAt': publishedAt.toJson(),
+      if (image != null) 'image': image?.toJsonForProtocol(),
     };
   }
 
@@ -111,6 +126,11 @@ abstract class PublicContent
   String toString() {
     return _isc.SerializationManager.encode(this);
   }
+}
+
+class _UndefinedPublicContent$image extends _isc.UndefinedSentinel
+    implements _ium6b0ir.PublicImage {
+  const _UndefinedPublicContent$image();
 }
 
 class _PublicContentImpl extends PublicContent {
@@ -122,6 +142,7 @@ class _PublicContentImpl extends PublicContent {
     required String json,
     DateTime? reviewedAt,
     required DateTime publishedAt,
+    _ium6b0ir.PublicImage? image,
   }) : super._(
          id: id,
          kind: kind,
@@ -130,6 +151,7 @@ class _PublicContentImpl extends PublicContent {
          json: json,
          reviewedAt: reviewedAt,
          publishedAt: publishedAt,
+         image: image,
        );
 
   /// Returns a shallow copy of this [PublicContent]
@@ -144,6 +166,7 @@ class _PublicContentImpl extends PublicContent {
     String? json,
     DateTime? reviewedAt = const _isc.$UndefinedDateTime(),
     DateTime? publishedAt,
+    _ium6b0ir.PublicImage? image = const _UndefinedPublicContent$image(),
   }) {
     return PublicContent(
       id: id ?? this.id,
@@ -155,6 +178,7 @@ class _PublicContentImpl extends PublicContent {
           ? this.reviewedAt
           : reviewedAt,
       publishedAt: publishedAt ?? this.publishedAt,
+      image: image is _isc.UndefinedSentinel ? this.image?.copyWith() : image,
     );
   }
 }

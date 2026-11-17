@@ -29,7 +29,7 @@ database:
   requireSsl: true
   maxConnectionCount: 10
 
-maxRequestSize: 524288 # The maximum size of requests allowed in bytes
+maxRequestSize: 1572864 # The maximum size of requests allowed in bytes (images up to 1 MiB, base64)
 
 sessionLogs:
   # Keep session logs in the container log (CloudWatch, Frankfurt, 30 days)

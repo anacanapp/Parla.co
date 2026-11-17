@@ -35,3 +35,8 @@ output "admin_distribution_id" {
   description = "GitHub variable ADMIN_DISTRIBUTION_ID (environment staging)."
   value       = aws_cloudfront_distribution.admin.id
 }
+
+output "media_url" {
+  description = "Where the app loads published images from."
+  value       = "https://${aws_cloudfront_distribution.media.domain_name}/"
+}

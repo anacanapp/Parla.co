@@ -10,6 +10,7 @@
 // ignore_for_file: invalid_use_of_internal_member
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'dart:typed_data' as _idt;
 import 'package:parla_server/src/generated/consent/consent_type.dart'
     as _i1w7mn9k;
 import 'package:parla_server/src/generated/quiz/quiz_answer_input.dart'
@@ -26,6 +27,7 @@ import '../auth/jwt_refresh_endpoint.dart' as _inwq3ztq;
 import '../consent/consent_endpoint.dart' as _iu5xf735;
 import '../content/content_admin_endpoint.dart' as _if39e6se;
 import '../content/content_endpoint.dart' as _ib9irne6;
+import '../media/media_admin_endpoint.dart' as _inr2v3fa;
 import '../products/product_endpoint.dart' as _i6m7gswv;
 import '../profile/profile_endpoint.dart' as _i6ky944g;
 import '../quiz/quiz_endpoint.dart' as _iskif4sw;
@@ -74,6 +76,12 @@ class Endpoints extends _is.EndpointDispatch {
         ..initialize(
           server,
           'content',
+          null,
+        ),
+      'mediaAdmin': _inr2v3fa.MediaAdminEndpoint()
+        ..initialize(
+          server,
+          'mediaAdmin',
           null,
         ),
       'product': _i6m7gswv.ProductEndpoint()
@@ -785,6 +793,139 @@ class Endpoints extends _is.EndpointDispatch {
                     session,
                     params['kind'],
                   ),
+        ),
+      },
+    );
+    connectors['mediaAdmin'] = _is.EndpointConnector(
+      name: 'mediaAdmin',
+      endpoint: endpoints['mediaAdmin']!,
+      methodConnectors: {
+        'upload': _is.MethodConnector(
+          name: 'upload',
+          params: {
+            'data': _is.ParameterDescription(
+              name: 'data',
+              type: _is.getType<_idt.ByteData>(),
+              nullable: false,
+            ),
+            'license': _is.ParameterDescription(
+              name: 'license',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+            'source': _is.ParameterDescription(
+              name: 'source',
+              type: _is.getType<String?>(),
+              nullable: true,
+            ),
+            'altJson': _is.ParameterDescription(
+              name: 'altJson',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['mediaAdmin'] as _inr2v3fa.MediaAdminEndpoint)
+                      .upload(
+                        session,
+                        params['data'],
+                        params['license'],
+                        params['source'],
+                        params['altJson'],
+                      ),
+        ),
+        'list': _is.MethodConnector(
+          name: 'list',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['mediaAdmin'] as _inr2v3fa.MediaAdminEndpoint)
+                      .list(session),
+        ),
+        'preview': _is.MethodConnector(
+          name: 'preview',
+          params: {
+            'id': _is.ParameterDescription(
+              name: 'id',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['mediaAdmin'] as _inr2v3fa.MediaAdminEndpoint)
+                      .preview(
+                        session,
+                        params['id'],
+                      ),
+        ),
+        'update': _is.MethodConnector(
+          name: 'update',
+          params: {
+            'id': _is.ParameterDescription(
+              name: 'id',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+            'license': _is.ParameterDescription(
+              name: 'license',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+            'source': _is.ParameterDescription(
+              name: 'source',
+              type: _is.getType<String?>(),
+              nullable: true,
+            ),
+            'altJson': _is.ParameterDescription(
+              name: 'altJson',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['mediaAdmin'] as _inr2v3fa.MediaAdminEndpoint)
+                      .update(
+                        session,
+                        params['id'],
+                        params['license'],
+                        params['source'],
+                        params['altJson'],
+                      ),
+        ),
+        'delete': _is.MethodConnector(
+          name: 'delete',
+          params: {
+            'id': _is.ParameterDescription(
+              name: 'id',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['mediaAdmin'] as _inr2v3fa.MediaAdminEndpoint)
+                      .delete(
+                        session,
+                        params['id'],
+                      ),
         ),
       },
     );

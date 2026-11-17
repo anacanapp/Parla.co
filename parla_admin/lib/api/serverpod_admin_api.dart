@@ -122,6 +122,44 @@ class ServerpodAdminApi implements AdminApi {
       _guard(() => _client.contentAdmin.delete(id));
 
   @override
+  Future<MediaAdminItem> uploadImage(
+    Uint8List bytes,
+    String license,
+    String? source,
+    String altJson,
+  ) => _guard(
+    () => _client.mediaAdmin.upload(
+      ByteData.sublistView(bytes),
+      license,
+      source,
+      altJson,
+    ),
+  );
+
+  @override
+  Future<List<MediaAdminItem>> listImages() => _guard(_client.mediaAdmin.list);
+
+  @override
+  Future<Uint8List> imagePreview(int id) async {
+    final data = await _guard(() => _client.mediaAdmin.preview(id));
+    return data.buffer.asUint8List(data.offsetInBytes, data.lengthInBytes);
+  }
+
+  @override
+  Future<MediaAdminItem> updateImage(
+    int id,
+    String license,
+    String? source,
+    String altJson,
+  ) => _guard(
+    () => _client.mediaAdmin.update(id, license, source, altJson),
+  );
+
+  @override
+  Future<void> deleteImage(int id) =>
+      _guard(() => _client.mediaAdmin.delete(id));
+
+  @override
   Future<int> importSheet() => _guard(() => _client.contentAdmin.importSheet());
 
   @override
