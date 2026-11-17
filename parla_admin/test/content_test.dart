@@ -1,10 +1,12 @@
 import 'dart:convert';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:image/image.dart' as img;
 import 'package:parla_admin/api/admin_api.dart';
 import 'package:parla_admin/app.dart';
+import 'package:parla_admin/markdown/markdown_field.dart';
 import 'package:parla_admin/media/image_field.dart';
 import 'package:parla_shared/parla_shared.dart';
 
@@ -328,5 +330,63 @@ void main() {
     await _tap(tester, find.byKey(const ValueKey('content-publish')));
     await _tap(tester, find.byKey(const ValueKey('push-confirm')));
     expect(api.calls.where((c) => c.startsWith('publish')), hasLength(1));
+  });
+
+  testWidgets('blog: paste from Google Docs, hashtags, inline image, preview', (
+    tester,
+  ) async {
+    final original = readRichClipboard;
+    readRichClipboard = () async =>
+        '<b style="font-weight:normal"><h2><span>Qış qaydaları</span></h2>'
+        '<p><span>Su </span><span style="font-weight:700">ılıq</span>'
+        '<span> olsun.</span></p><ul><li><p>Krem</p></li></ul></b>';
+    addTearDown(() => readRichClipboard = original);
+
+    final api = await _pump(tester, StaffRole.editor);
+    api.images.add(
+      MediaAdminItem(
+        id: 77,
+        pixelWidth: 40,
+        pixelHeight: 30,
+        bytes: 10,
+        license: 'Öz fotomuz',
+        altJson: jsonEncode({'az': 'Krem qabı'}),
+        public: false,
+        createdAt: DateTime.utc(2026, 11, 17),
+      ),
+    );
+    api.imageBytes[77] = Uint8List.fromList(
+      img.encodePng(img.Image(width: 2, height: 2)),
+    );
+    await _tap(tester, find.text('Məzmun'));
+    await _tap(tester, find.byKey(const ValueKey('content-new')));
+    await tester.enterText(find.byKey(const ValueKey('new-slug')), 'qis');
+    await _tap(tester, find.byKey(const ValueKey('new-create')));
+
+    await _type(tester, 'field-title-az', 'Qışda dəri');
+    await _type(tester, 'field-tags-az', '#quruDəri, qış #quruDəri bad-tag');
+    await _tap(tester, find.byKey(const ValueKey('md-paste-body-az')));
+    await _tap(tester, find.byKey(const ValueKey('md-image-body-az')));
+    await _tap(tester, find.byKey(const ValueKey('image-library')).last);
+    await _tap(tester, find.byKey(const ValueKey('library-77')));
+
+    await _tap(tester, find.byKey(const ValueKey('content-save')));
+    final saved = api.calls.lastWhere((c) => c.startsWith('save:'));
+    final json = jsonDecode(saved.substring(saved.indexOf('{'))) as Map;
+    final body = (json['body'] as Map)['az'] as String;
+    expect(body, contains('### Qış qaydaları'));
+    expect(body, contains('Su **ılıq** olsun.'));
+    expect(body, contains('- Krem'));
+    expect(body, contains('![](media:77)'));
+    expect(json['tags'], {
+      'az': ['quruDəri', 'qış'],
+    });
+
+    await _tap(tester, find.byKey(const ValueKey('md-preview-body-az')));
+    expect(
+      find.byKey(const ValueKey('md-preview-box-body-az')),
+      findsOneWidget,
+    );
+    expect(find.text('Qış qaydaları'), findsOneWidget);
   });
 }

@@ -645,6 +645,37 @@ idempotent).
 - **Times:** the triggers use the database clock. A separate restricted
   database role for the server is still open for production.
 
+## Blog articles: Markdown, Google Docs, images and hashtags
+
+**Text**
+- An article's text is Markdown: headings, bold, italic, lists, quotes and
+  https links. Raw HTML is never rendered.
+- `ContentRules` refuses links that are not https and images that are not
+  the team's own uploads (`![alt](media:<id>)`).
+
+**Admin panel**
+- The editor has **Google Docs-dan yapışdır**: it reads the clipboard's
+  HTML (the browser may ask for permission) and turns it into Markdown
+  (`parla_admin/lib/markdown/html_to_markdown.dart`).
+  - Kept: headings, bold, italic, lists, links.
+  - Unwrapped: Google's link redirect.
+  - Dropped: styles, images and unsafe links.
+- Every save tidies invisible characters, "●" bullets and extra blank
+  lines.
+- **Şəkil əlavə et** uploads or picks an image and inserts
+  `![](media:<id>)`. Images from Google Docs are not taken over.
+- **Önizləmə** shows the result.
+
+**Images and hashtags**
+- Inline images follow the same rules as covers: a licence, alt text in
+  az/ru/en before publishing, and a public copy only while published
+  (`MediaRules.imageIdsOf`). `PublicContent.inlineImages` gives the app
+  their URLs.
+- Hashtags are per language (`tags: {az: [...], ru: [...]}`, at most 10,
+  letters, digits and `_`).
+- The app shows the user's language's tags under the title; tapping one
+  lists the articles with that tag.
+
 ## Not done yet (tracked, not forgotten)
 
 | Item | Checklist | Planned |

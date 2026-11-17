@@ -219,6 +219,8 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_iq87yxf7.SupportThread?>,
           _isc.getType<_idy4xhr0.SupportThreadSummary?>,
           _isc.getType<_i06wcc3f.UserAdminView?>,
+          _isc.getType<List<_ig6ant5g.PublicImage>>,
+          _isc.getType<List<_ig6ant5g.PublicImage>?>,
           _isc.getType<List<String>>,
           _isc.getType<List<_iu0qh84b.StatsCount>>,
           _isc.getType<List<_imrurtjq.StatsGroup>>,
@@ -584,6 +586,20 @@ class Protocol extends _isc.SerializationManager
     }
     if (t == _isc.getType<_i06wcc3f.UserAdminView?>()) {
       return (data != null ? _i06wcc3f.UserAdminView.fromJson(data) : null)
+          as T;
+    }
+    if (t == List<_ig6ant5g.PublicImage>) {
+      return (data as List)
+              .map((e) => deserialize<_ig6ant5g.PublicImage>(e))
+              .toList()
+          as T;
+    }
+    if (t == _isc.getType<List<_ig6ant5g.PublicImage>?>()) {
+      return (data != null
+              ? (data as List)
+                    .map((e) => deserialize<_ig6ant5g.PublicImage>(e))
+                    .toList()
+              : null)
           as T;
     }
     if (t == List<String>) {

@@ -27,6 +27,36 @@ Map<String, String> _l(String s) => {
 final _published = <String, List<PublishedItem>>{
   'article': [
     PublishedItem(
+      id: 40,
+      kind: 'article',
+      slug: 'markdown',
+      category: 'care',
+      publishedAt: DateTime.utc(2026, 11, 12),
+      inlineImages: const [
+        ContentImageRef(
+          id: 9,
+          url: 'https://media.test/inline.jpg',
+          width: 800,
+          height: 600,
+          alt: {'en': 'A step photo'},
+        ),
+      ],
+      data: {
+        'title': _l('Markdown post'),
+        'summary': _l('Formatted'),
+        'body': {
+          'en':
+              '## Steps\n\nWater should be **lukewarm**.\n\n- Cream\n- SPF\n\n'
+              '![A step](media:9)\n\n[Source](https://aad.org/x)',
+        },
+        'minutes': 3,
+        'tags': {
+          'en': ['drySkin', 'winter'],
+          'az': ['quruDəri'],
+        },
+      },
+    ),
+    PublishedItem(
       id: 1,
       kind: 'article',
       slug: 'winter',
@@ -281,7 +311,7 @@ void main() {
   });
 
   test('a published item keeps its image in the offline copy', () {
-    final item = _published['article']!.first;
+    final item = _published['article']!.firstWhere((i) => i.slug == 'winter');
     final back = PublishedItem.fromJson(
       jsonDecode(jsonEncode(item.toJson())) as Map<String, Object?>,
     );
@@ -427,6 +457,47 @@ void main() {
     push.links.add('nutrition');
     await tester.pumpAndSettle();
     expect(find.text('0 of 6 groups'), findsOneWidget);
+  });
+
+  testWidgets('articles: Markdown, inline images, links and hashtags', (
+    tester,
+  ) async {
+    final opened = <Uri>[];
+    final original = ExpertsScreen.launcher;
+    ExpertsScreen.launcher = (uri) async {
+      opened.add(uri);
+      return true;
+    };
+    addTearDown(() => ExpertsScreen.launcher = original);
+    await _open(tester);
+    await _tap(tester, find.text('Blogs').first);
+    await _tap(tester, find.byKey(const ValueKey('article-markdown')));
+    expect(find.text('Steps'), findsOneWidget);
+    expect(find.textContaining('**'), findsNothing);
+    expect(find.textContaining('Cream'), findsOneWidget);
+    expect(find.bySemanticsLabel(RegExp('A step photo')), findsWidgets);
+    await _tap(tester, find.textContaining('Source'));
+    expect(opened, [Uri.parse('https://aad.org/x')]);
+
+    // Hashtags in the user's language; tapping one filters the list.
+    expect(find.text('#quruDəri'), findsNothing);
+    await _tap(tester, find.byKey(const ValueKey('tag-winter')));
+    expect(find.byKey(const ValueKey('active-tag')), findsOneWidget);
+    expect(find.text('Markdown post en'), findsOneWidget);
+    expect(find.text('Winter skin en'), findsNothing);
+    await _tap(tester, find.byKey(const ValueKey('active-tag-clear')));
+    expect(find.text('Winter skin en'), findsOneWidget);
+  });
+
+  test('inline images and tags survive the offline copy', () {
+    final item = _published['article']!.firstWhere(
+      (i) => i.slug == 'markdown',
+    );
+    final back = PublishedItem.fromJson(
+      jsonDecode(jsonEncode(item.toJson())) as Map<String, Object?>,
+    );
+    expect(back.inlineImages.single.id, 9);
+    expect(back.tags('en'), ['drySkin', 'winter']);
   });
 
   testWidgets('content shows in Russian, and the last copy shows offline', (

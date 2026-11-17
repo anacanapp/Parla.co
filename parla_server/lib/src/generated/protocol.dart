@@ -219,6 +219,8 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_iq87yxf7.SupportThread?>,
           _is.getType<_idy4xhr0.SupportThreadSummary?>,
           _is.getType<_i06wcc3f.UserAdminView?>,
+          _is.getType<List<_ig6ant5g.PublicImage>>,
+          _is.getType<List<_ig6ant5g.PublicImage>?>,
           _is.getType<List<String>>,
           _is.getType<List<_iu0qh84b.StatsCount>>,
           _is.getType<List<_imrurtjq.StatsGroup>>,
@@ -2059,6 +2061,20 @@ class Protocol extends _is.DatabaseSerializationManager
     }
     if (t == _is.getType<_i06wcc3f.UserAdminView?>()) {
       return (data != null ? _i06wcc3f.UserAdminView.fromJson(data) : null)
+          as T;
+    }
+    if (t == List<_ig6ant5g.PublicImage>) {
+      return (data as List)
+              .map((e) => deserialize<_ig6ant5g.PublicImage>(e))
+              .toList()
+          as T;
+    }
+    if (t == _is.getType<List<_ig6ant5g.PublicImage>?>()) {
+      return (data != null
+              ? (data as List)
+                    .map((e) => deserialize<_ig6ant5g.PublicImage>(e))
+                    .toList()
+              : null)
           as T;
     }
     if (t == List<String>) {

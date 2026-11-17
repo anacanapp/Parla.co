@@ -16,6 +16,7 @@ import 'package:serverpod/serverpod.dart' as _is;
 abstract class PublicImage
     implements _is.SerializableModel, _is.ProtocolSerialization {
   PublicImage._({
+    this.id,
     required this.url,
     required this.pixelWidth,
     required this.pixelHeight,
@@ -23,6 +24,7 @@ abstract class PublicImage
   });
 
   factory PublicImage({
+    int? id,
     required String url,
     required int pixelWidth,
     required int pixelHeight,
@@ -31,12 +33,16 @@ abstract class PublicImage
 
   factory PublicImage.fromJson(Map<String, dynamic> jsonSerialization) {
     return PublicImage(
+      id: jsonSerialization['id'] as int?,
       url: jsonSerialization['url'] as String,
       pixelWidth: jsonSerialization['pixelWidth'] as int,
       pixelHeight: jsonSerialization['pixelHeight'] as int,
       altJson: jsonSerialization['altJson'] as String,
     );
   }
+
+  /// The image's id (`media:<id>` inside article bodies).
+  int? id;
 
   String url;
 
@@ -50,6 +56,7 @@ abstract class PublicImage
   /// with some or all fields replaced by the given arguments.
   @_is.useResult
   PublicImage copyWith({
+    int? id,
     String? url,
     int? pixelWidth,
     int? pixelHeight,
@@ -59,6 +66,7 @@ abstract class PublicImage
   Map<String, dynamic> toJson() {
     return {
       '__className__': 'PublicImage',
+      if (id != null) 'id': id,
       'url': url,
       'pixelWidth': pixelWidth,
       'pixelHeight': pixelHeight,
@@ -70,6 +78,7 @@ abstract class PublicImage
   Map<String, dynamic> toJsonForProtocol() {
     return {
       '__className__': 'PublicImage',
+      if (id != null) 'id': id,
       'url': url,
       'pixelWidth': pixelWidth,
       'pixelHeight': pixelHeight,
@@ -83,13 +92,17 @@ abstract class PublicImage
   }
 }
 
+class _Undefined {}
+
 class _PublicImageImpl extends PublicImage {
   _PublicImageImpl({
+    int? id,
     required String url,
     required int pixelWidth,
     required int pixelHeight,
     required String altJson,
   }) : super._(
+         id: id,
          url: url,
          pixelWidth: pixelWidth,
          pixelHeight: pixelHeight,
@@ -101,12 +114,14 @@ class _PublicImageImpl extends PublicImage {
   @_is.useResult
   @override
   PublicImage copyWith({
+    Object? id = _Undefined,
     String? url,
     int? pixelWidth,
     int? pixelHeight,
     String? altJson,
   }) {
     return PublicImage(
+      id: id is int? ? id : this.id,
       url: url ?? this.url,
       pixelWidth: pixelWidth ?? this.pixelWidth,
       pixelHeight: pixelHeight ?? this.pixelHeight,
