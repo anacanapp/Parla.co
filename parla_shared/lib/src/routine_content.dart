@@ -158,7 +158,7 @@ final routineRuleList = <RoutineRule>[
     answers: {'pregnant', 'breastfeeding', 'trying', 'prefer_not'},
     action: RuleAction.remove,
     steps: ['retinoid-pm'],
-    preferences: [],
+    preferences: ['retinoid_free'],
     note: _t(
       "Hamiləlikdə, əmizdirmədə və hamiləlik planlaşdırarkən retinoid tövsiyə olunmur.",
       "Ретиноиды не рекомендуются при беременности, грудном вскармливании и планировании.",
