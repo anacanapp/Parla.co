@@ -447,6 +447,88 @@ slug is the catalogue id from code.
   about two days. Account deletion also removes today's and yesterday's
   marks.
 
+## Banners and campaigns (admin phase D1)
+
+Banners are content items of the kind `banner`. The category is where the
+card shows: `today` (home) or `discover`.
+
+- **Fields:** title, short text, image, an in-app link (a screen, or
+  `article:slug` / `recipe:slug`; never an outside web link), start and end
+  date, and optionally languages and countries.
+- **Brand campaigns:** a banner with a `sponsor` is a paid brand campaign.
+  The app always shows it with an **"Ad · <brand>"** label.
+- **Approval** (`ContentRules.reviewerRole`):
+  - The team's own banners: an admin publishes directly. An editor's
+    banner needs an admin's approval.
+  - Brand campaigns: always an expert's approval (no "harmful" wording, no
+    scores, no health promises); an admin cannot skip it.
+  - All other content is unchanged (expert approval).
+- **Targeting on the phone:** the server sends every published banner the
+  same way. The app decides by date, language and country
+  (`ContentRules.bannerVisible`). Nothing about the user is sent for this.
+  Health and quiz answers can never be used for targeting: the model has
+  no such fields. Taps are not tracked.
+
+## Messages and support (admin phase D2)
+
+**Announcements** are content items of the kind `message`.
+- Fields: title, text, an optional in-app link, and dates, languages and
+  countries, as for banners.
+- An admin publishes directly; an editor's message needs an admin's
+  approval.
+- The app shows them under **Messages** (envelope button on Today) and
+  decides visibility on the phone. Read state is not sent anywhere.
+
+**Two-way support**
+- **Conversation:** one per account (`support_thread`, `support_message`).
+- **Encryption:** each message is sealed with AES-GCM under a key derived
+  from the server KEK (HKDF label `support-messages-v1`) and bound to the
+  account. It is not the health data key, so withdrawing the health
+  consent does not delete support messages.
+- **Who reads:** the new staff role **support** and admins. The panel list
+  shows no message text. Opening, replying and closing are audited with
+  ids only.
+- **The app says:** messages are stored encrypted and deleted 12 months
+  after the last one, and the team gives no medical advice.
+- **Retention:** conversations are deleted 12 months after the last
+  message (`expireSupport`, nightly) and with the account. They are in the
+  user's data export.
+
+## Push notifications (admin phase D3)
+
+**Provider**
+- Firebase Cloud Messaging (FCM): a new processor, Google. The server
+  sends with the HTTP v1 API and a service account kept in AWS Secrets
+  Manager (`parla-staging/fcm`, stored by
+  `deploy/aws/put-staging-fcm-secret.sh`).
+- The server reads the secret only with `var.enable_push`.
+- The app gets its Firebase settings from build defines (`FIREBASE_*`,
+  Codemagic). Without them the build has no push and initialises nothing.
+
+**Opt-in**
+- The phone's permission is asked only when the user turns
+  **Bildirişlər** on in Messages. The token (`device_token`) is stored
+  only then.
+- The token is deleted when the user turns notifications off, on sign-out,
+  with the account, when FCM reports it gone, and after 90 days unseen.
+
+**What is sent**
+- **Service notice:** when the team replies in support, the phone gets
+  "The Parla team replied", never the reply's text.
+- **Campaigns:** content items of the kind `push` (title ≤ 60, text ≤ 180,
+  in-app link, languages, countries). Sending is publishing, and it
+  happens **once**.
+  - Recipients: only accounts that currently grant the **marketing
+    consent** and whose profile language and country match. Never chosen
+    by health or quiz answers.
+  - An admin sends directly after a confirmation; an editor's campaign
+    needs an admin's approval.
+- **No personal data** in any title or text.
+
+**Not yet done**
+- Sending is synchronous and one by one. Fine for the beta; move to a
+  queue before large audiences.
+
 ## Discover (B2a)
 
 - Blogs (with category filter), the article (with "reviewed by an expert"
@@ -533,7 +615,10 @@ shows the current text with **I agree** and **Not now**.
 | Privacy policy and terms texts | — | Lawyer |
 | Apple and Google sign-in | US-01 | Needs the Apple and Google developer accounts (company registration) |
 | Production hosting, email provider and data region (staging uses AWS in Frankfurt and SMTP via info@anacan.az) | RES-1, RES-5 | After the lawyer answers the localisation questions |
-| Admin panel phase D (banners, messages, push notifications) | M8 | Next; A, B and C done |
+| Push setup: Firebase project, APNs key in Firebase, Push Notifications capability for the App ID, Codemagic FIREBASE_* variables, the FCM secret and `enable_push` | — | You, before testing push |
+| Privacy policy and processor list: Firebase (Google) for push, the marketing push under the marketing consent | — | Lawyer, before push is used |
+| Privacy policy: support conversations (purpose, encryption, 12-month retention, support role), announcements | — | Lawyer, before the beta |
+| Advertising law check for brand campaigns (Azerbaijan "Reklam haqqında" law; labelling, cosmetics claims) | — | Lawyer, before the first brand campaign |
 | Privacy policy: the daily active count under the analytics consent, staff look-ups of accounts, deletion on request | — | Lawyer, before the beta |
 | Privacy policy text for staff access, the admin panel and push notifications | — | Lawyer, before phase D |
 | Real-device test of reminders (Android 13+ permission, reboot, iOS foreground) | M7 | Before the beta |

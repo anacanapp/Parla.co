@@ -8,6 +8,7 @@ library;
 
 import 'dart:convert';
 
+import 'markets.dart';
 import 'product_preferences.dart';
 import 'routine_rules.dart';
 import 'sport_rules.dart';
@@ -26,7 +27,18 @@ enum ContentKind {
   /// exercise image and whether the app shows the item.
   preference,
   exercise,
-  step;
+  step,
+
+  /// A card on the Today or Discover screen (admin phase D1). With a
+  /// `sponsor` it is a brand's paid campaign, always labelled as an ad.
+  banner,
+
+  /// An announcement from the team in the app's Messages (phase D2).
+  message,
+
+  /// A push notification campaign (phase D3), sent once on publishing to
+  /// accounts with the marketing consent.
+  push;
 
   bool get isCatalogue =>
       this == preference || this == exercise || this == step;
@@ -101,6 +113,83 @@ abstract final class ContentRules {
   static bool isSlug(String value) =>
       value.length <= 80 && _slug.hasMatch(value);
 
+  /// Where a banner shows (its category).
+  static const bannerPlacements = ['today', 'discover'];
+
+  /// In-app places a banner may open.
+  static const bannerScreens = [
+    'home',
+    'routine',
+    'check',
+    'sport',
+    'discover',
+    'blog',
+    'nutrition',
+    'experts',
+    'messages',
+  ];
+
+  static final _day = RegExp(r'^\d{4}-\d{2}-\d{2}$');
+
+  /// Whether [link] is an allowed banner target: a screen, or
+  /// `article:<slug>` / `recipe:<slug>`. No outside web links.
+  static bool isBannerLink(String link) {
+    if (bannerScreens.contains(link)) return true;
+    final i = link.indexOf(':');
+    if (i < 0) return false;
+    final kind = link.substring(0, i);
+    return (kind == 'article' || kind == 'recipe') &&
+        isSlug(link.substring(i + 1));
+  }
+
+  /// A paid brand campaign (shown with an "Ad" label).
+  static bool isSponsored(Map<String, Object?> json) {
+    final s = json['sponsor'];
+    return s is String && s.trim().isNotEmpty;
+  }
+
+  /// Which staff role approves [kind]: brand campaigns and all other
+  /// content are approved by an expert; the team's own banners by an admin.
+  static String reviewerRole(ContentKind kind, Map<String, Object?> json) =>
+      adminPublishesDirectly(kind, json) ? 'admin' : 'expert';
+
+  /// Whether an admin may publish without a separate approval: only the
+  /// team's own (not sponsored) banners.
+  static bool adminPublishesDirectly(
+    ContentKind kind,
+    Map<String, Object?> json,
+  ) =>
+      kind == ContentKind.message ||
+      kind == ContentKind.push ||
+      (kind == ContentKind.banner && !isSponsored(json));
+
+  /// Whether a published banner shows today for [language] and [country]
+  /// (`null` when unknown: then only banners for every country show).
+  /// Targeting happens on the phone; nothing about the user is sent.
+  static bool bannerVisible(
+    Map<String, Object?> json,
+    DateTime today, {
+    required String language,
+    String? country,
+  }) {
+    final day =
+        '${today.year.toString().padLeft(4, '0')}-'
+        '${today.month.toString().padLeft(2, '0')}-'
+        '${today.day.toString().padLeft(2, '0')}';
+    final starts = json['startsOn'];
+    final ends = json['endsOn'];
+    if (starts is! String || ends is! String) return false;
+    if (day.compareTo(starts) < 0 || day.compareTo(ends) > 0) return false;
+    final languages = (json['languages'] as List?)?.cast<String>() ?? const [];
+    if (languages.isNotEmpty && !languages.contains(language)) return false;
+    final countries = (json['countries'] as List?)?.cast<String>() ?? const [];
+    if (countries.isNotEmpty &&
+        (country == null || !countries.contains(country))) {
+      return false;
+    }
+    return true;
+  }
+
   /// The single category of catalogue texts.
   static const catalogueCategory = 'catalogue';
 
@@ -171,6 +260,9 @@ abstract final class ContentRules {
     ContentKind.preference ||
     ContentKind.exercise ||
     ContentKind.step => const [catalogueCategory],
+    ContentKind.banner => bannerPlacements,
+    ContentKind.message => const ['announcement'],
+    ContentKind.push => const ['marketing'],
   };
 
   /// Problems with [encoded] as content of [kind]; empty when it is valid.
@@ -337,6 +429,63 @@ abstract final class ContentRules {
         text('title', 80);
         text('how', 600);
         text('tip', 400, required: false);
+      case ContentKind.banner:
+        only({
+          'title',
+          'body',
+          'image',
+          'link',
+          'sponsor',
+          'startsOn',
+          'endsOn',
+          'languages',
+          'countries',
+        });
+        text('title', 80);
+        text('body', 200, required: false);
+        final sponsor = json['sponsor'];
+        if (sponsor != null &&
+            (sponsor is! String ||
+                sponsor.trim().isEmpty ||
+                sponsor.length > 60)) {
+          out.add('sponsor.invalid');
+        }
+        _schedule(json, complete, out);
+      case ContentKind.push:
+        only({'title', 'body', 'link', 'languages', 'countries'});
+        text('title', 60);
+        text('body', 180);
+        final pushLink = json['link'];
+        if (pushLink != null &&
+            (pushLink is! String || !isBannerLink(pushLink))) {
+          out.add('link.invalid');
+        }
+        final langs = json['languages'];
+        if (langs != null &&
+            (langs is! List || !langs.every(languages.contains))) {
+          out.add('languages.invalid');
+        }
+        final countries = json['countries'];
+        if (countries != null &&
+            (countries is! List ||
+                !countries.every(
+                  (c) => c is String && markets.any((m) => m.countryCode == c),
+                ))) {
+          out.add('countries.invalid');
+        }
+      case ContentKind.message:
+        only({
+          'title',
+          'body',
+          'link',
+          'startsOn',
+          'endsOn',
+          'languages',
+          'countries',
+        });
+        text('title', 80);
+        text('body', 2000);
+        _schedule(json, complete, out);
       case ContentKind.expert:
         only({
           'name',
@@ -377,6 +526,46 @@ abstract final class ContentRules {
         }
     }
     return out;
+  }
+
+  /// Link, dates, languages and countries of banners and messages.
+  static void _schedule(
+    Map<String, Object?> json,
+    bool complete,
+    List<String> out,
+  ) {
+    final link = json['link'];
+    if (link != null && (link is! String || !isBannerLink(link))) {
+      out.add('link.invalid');
+    }
+    final starts = json['startsOn'];
+    final ends = json['endsOn'];
+    for (final (key, v) in [('startsOn', starts), ('endsOn', ends)]) {
+      if (v == null) {
+        if (complete) out.add('$key.missing');
+      } else if (v is! String || !_day.hasMatch(v)) {
+        out.add('$key.invalid');
+      }
+    }
+    if (starts is String &&
+        ends is String &&
+        _day.hasMatch(starts) &&
+        _day.hasMatch(ends) &&
+        ends.compareTo(starts) < 0) {
+      out.add('endsOn.before_start');
+    }
+    final langs = json['languages'];
+    if (langs != null && (langs is! List || !langs.every(languages.contains))) {
+      out.add('languages.invalid');
+    }
+    final countries = json['countries'];
+    if (countries != null &&
+        (countries is! List ||
+            !countries.every(
+              (c) => c is String && markets.any((m) => m.countryCode == c),
+            ))) {
+      out.add('countries.invalid');
+    }
   }
 
   static void _localized(

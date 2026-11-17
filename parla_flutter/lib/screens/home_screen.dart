@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:parla_shared/parla_shared.dart';
 
 import '../consent/consent_refresh.dart';
+import '../discover/banner_strip.dart';
 import '../habits/habit_sheets.dart';
 import '../habits/habit_tracker.dart';
 import '../home/home_controller.dart';
@@ -151,6 +152,8 @@ class _HomeBody extends StatelessWidget {
                     children: [
                       const _Wordmark(),
                       const Spacer(),
+                      const _MessagesButton(),
+                      const SizedBox(width: 8),
                       RoundIconButton(
                         icon: ParlaIconName.profile,
                         label: l10n.homeProfileButton,
@@ -220,7 +223,9 @@ class _HomeBody extends StatelessWidget {
                     onRestart: controller.restart,
                   ),
                 ],
-                const SizedBox(height: 22),
+                const SizedBox(height: 16),
+                const BannerStrip(placement: 'today'),
+                const SizedBox(height: 6),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
@@ -578,4 +583,61 @@ class _RowData {
   final int steps;
   final int done;
   final Color tile;
+}
+
+/// Opens Messages; a dot shows when the team replied to the user.
+class _MessagesButton extends StatefulWidget {
+  const _MessagesButton();
+
+  @override
+  State<_MessagesButton> createState() => _MessagesButtonState();
+}
+
+class _MessagesButtonState extends State<_MessagesButton> {
+  bool _unread = false;
+  bool _started = false;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_started) return;
+    _started = true;
+    ParlaScope.of(context).api.hasUnreadSupportReply().then(
+      (v) {
+        if (mounted) setState(() => _unread = v);
+      },
+      onError: (Object _) {},
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Stack(
+      clipBehavior: Clip.none,
+      children: [
+        Semantics(
+          button: true,
+          label: _unread ? l10n.messagesButtonUnread : l10n.messagesButton,
+          excludeSemantics: true,
+          child: IconButton(
+            key: const ValueKey('home-messages'),
+            style: IconButton.styleFrom(backgroundColor: ParlaColors.white),
+            onPressed: () => context.go(Routes.messages),
+            icon: const Icon(Icons.mail_outline),
+          ),
+        ),
+        if (_unread)
+          const Positioned(
+            right: 4,
+            top: 4,
+            child: CircleAvatar(
+              key: ValueKey('home-messages-dot'),
+              radius: 5,
+              backgroundColor: ParlaColors.espresso,
+            ),
+          ),
+      ],
+    );
+  }
 }

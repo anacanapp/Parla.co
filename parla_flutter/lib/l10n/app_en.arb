@@ -928,6 +928,29 @@
       }
     }
   },
+  "bannerAd": "Ad · {brand}",
+  "@bannerAd": {
+    "placeholders": {
+      "brand": {
+        "type": "String"
+      }
+    }
+  },
+  "messagesTitle": "Messages",
+  "messagesButton": "Messages",
+  "messagesButtonUnread": "Messages, new reply",
+  "messagesFromParla": "From Parla",
+  "messagesNone": "No announcements yet.",
+  "supportTitle": "Support",
+  "supportIntro": "Write your question and the Parla team will reply. Messages are stored encrypted and deleted 12 months after the last one. We don't give medical advice: in urgent or serious cases, see a doctor.",
+  "supportHint": "Your message",
+  "supportSend": "Send",
+  "supportYou": "You",
+  "supportTeam": "Parla team",
+  "supportSent": "Sent.",
+  "pushTitle": "Notifications",
+  "pushBody": "Get told when support replies. With the marketing consent you'll also get Parla news. You can turn this off any time.",
+  "pushDenied": "Notifications are not allowed. You can turn them on in your phone settings.",
   "consentRefreshCardTitle": "The consent text was updated",
   "consentRefreshCardBody": "There is a new version of the health data consent. If you read and agree, your routines, lists, sport and nutrition entries are also kept encrypted on the server. If not, they stay on this phone only.",
   "consentRefreshOpen": "Read",

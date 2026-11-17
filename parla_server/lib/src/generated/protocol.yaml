@@ -45,6 +45,9 @@ product:
 profile:
   - me:
   - create:
+push:
+  - register:
+  - unregister:
 quiz:
   - saveAnswers:
   - myAnswers:
@@ -80,6 +83,15 @@ activity:
   - markActive:
 statsAdmin:
   - report:
+supportAdmin:
+  - threads:
+  - open:
+  - reply:
+  - close:
+support:
+  - myMessages:
+  - hasUnreadReply:
+  - send:
 userAdmin:
   - find:
   - setBlocked:

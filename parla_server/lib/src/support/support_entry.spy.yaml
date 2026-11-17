@@ -1,0 +1,6 @@
+### A decrypted support message as the app or the panel shows it.
+class: SupportEntry
+fields:
+  fromStaff: bool
+  text: String
+  createdAt: DateTime

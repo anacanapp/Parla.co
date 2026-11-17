@@ -17,6 +17,8 @@ export 'package:parla_client/parla_client.dart'
         StatsReport,
         StatsGroup,
         StatsCount,
+        SupportThreadSummary,
+        SupportEntry,
         UuidValue;
 
 /// A rule the server refused, with its stable code.
@@ -75,6 +77,12 @@ abstract interface class AdminApi {
   Future<UserAdminView?> findUser(String email);
   Future<UserAdminView> setUserBlocked(UuidValue userId, bool blocked);
   Future<void> deleteUserOnRequest(UuidValue userId, String confirmEmail);
+
+  // Support conversations (phase D2; support role and admins).
+  Future<List<SupportThreadSummary>> supportThreads();
+  Future<List<SupportEntry>> openSupportThread(int id);
+  Future<void> replySupport(int id, String text);
+  Future<void> closeSupportThread(int id);
 
   // Anonymous statistics (phase C).
   Future<StatsReport> statsReport();

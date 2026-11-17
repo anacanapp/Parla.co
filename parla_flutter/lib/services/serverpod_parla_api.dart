@@ -153,6 +153,31 @@ class ServerpodParlaApi implements ParlaApi {
   Future<void> markActive() => _guard(_client.activity.markActive);
 
   @override
+  Future<List<SupportItem>> supportMessages() => _guard(() async {
+    final rows = await _client.support.myMessages();
+    return [
+      for (final r in rows)
+        SupportItem(fromTeam: r.fromStaff, text: r.text, at: r.createdAt),
+    ];
+  });
+
+  @override
+  Future<void> registerPush(String token, String platform) =>
+      _guard(() => _client.push.register(token, platform));
+
+  @override
+  Future<void> unregisterPush(String token) =>
+      _guard(() => _client.push.unregister(token));
+
+  @override
+  Future<void> sendSupport(String text) =>
+      _guard(() => _client.support.send(text));
+
+  @override
+  Future<bool> hasUnreadSupportReply() =>
+      _guard(_client.support.hasUnreadReply);
+
+  @override
   Future<void> saveNutrition(String json) =>
       _guard(() => _client.nutrition.saveNutrition(json));
 

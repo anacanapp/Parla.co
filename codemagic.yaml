@@ -6,7 +6,11 @@
 #   upload keystore with reference name "parla_upload".
 # - Environment variable groups:
 #   - "parla_staging": SERVER_URL (the server_url output of
-#     deploy/aws/staging, e.g. https://xxxx.cloudfront.net/)
+#     deploy/aws/staging, e.g. https://xxxx.cloudfront.net/), and for push
+#     notifications FIREBASE_API_KEY, FIREBASE_PROJECT_ID,
+#     FIREBASE_SENDER_ID, FIREBASE_ANDROID_APP_ID, FIREBASE_IOS_APP_ID
+#     (Firebase app settings; not secret, but kept out of the repository).
+#     Without them the build has no push.
 #   - "google_play": GCLOUD_SERVICE_ACCOUNT_CREDENTIALS (secure)
 #   - "app_store": APP_STORE_CONNECT_ISSUER_ID, APP_STORE_CONNECT_KEY_IDENTIFIER,
 #     APP_STORE_CONNECT_PRIVATE_KEY (secure), CERTIFICATE_PRIVATE_KEY (secure)
@@ -48,7 +52,12 @@ workflows:
           cd parla_flutter
           flutter build apk --release \
             --build-number="$BUILD_NUMBER" \
-            --dart-define=SERVER_URL="$SERVER_URL"
+            --dart-define=SERVER_URL="$SERVER_URL" \
+            --dart-define=FIREBASE_API_KEY="${FIREBASE_API_KEY:-}" \
+            --dart-define=FIREBASE_PROJECT_ID="${FIREBASE_PROJECT_ID:-}" \
+            --dart-define=FIREBASE_SENDER_ID="${FIREBASE_SENDER_ID:-}" \
+            --dart-define=FIREBASE_ANDROID_APP_ID="${FIREBASE_ANDROID_APP_ID:-}" \
+            --dart-define=FIREBASE_IOS_APP_ID="${FIREBASE_IOS_APP_ID:-}"
     artifacts:
       - parla_flutter/build/app/outputs/flutter-apk/*.apk
       - parla_flutter/build/**/outputs/**/mapping.txt
@@ -74,7 +83,12 @@ workflows:
           cd parla_flutter
           flutter build appbundle --release \
             --build-number="$BUILD_NUMBER" \
-            --dart-define=SERVER_URL="$SERVER_URL"
+            --dart-define=SERVER_URL="$SERVER_URL" \
+            --dart-define=FIREBASE_API_KEY="${FIREBASE_API_KEY:-}" \
+            --dart-define=FIREBASE_PROJECT_ID="${FIREBASE_PROJECT_ID:-}" \
+            --dart-define=FIREBASE_SENDER_ID="${FIREBASE_SENDER_ID:-}" \
+            --dart-define=FIREBASE_ANDROID_APP_ID="${FIREBASE_ANDROID_APP_ID:-}" \
+            --dart-define=FIREBASE_IOS_APP_ID="${FIREBASE_IOS_APP_ID:-}"
     artifacts:
       - parla_flutter/build/**/outputs/**/*.aab
       - parla_flutter/build/**/outputs/**/mapping.txt
@@ -130,6 +144,11 @@ workflows:
           flutter build ipa --release \
             --build-number="$BUILD_NUMBER" \
             --dart-define=SERVER_URL="$SERVER_URL" \
+            --dart-define=FIREBASE_API_KEY="${FIREBASE_API_KEY:-}" \
+            --dart-define=FIREBASE_PROJECT_ID="${FIREBASE_PROJECT_ID:-}" \
+            --dart-define=FIREBASE_SENDER_ID="${FIREBASE_SENDER_ID:-}" \
+            --dart-define=FIREBASE_ANDROID_APP_ID="${FIREBASE_ANDROID_APP_ID:-}" \
+            --dart-define=FIREBASE_IOS_APP_ID="${FIREBASE_IOS_APP_ID:-}" \
             --export-options-plist=/Users/builder/export_options.plist
     artifacts:
       - parla_flutter/build/ios/ipa/*.ipa

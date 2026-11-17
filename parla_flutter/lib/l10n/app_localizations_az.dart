@@ -1576,6 +1576,59 @@ class AppLocalizationsAz extends AppLocalizations {
   String get allergenMolluscs => 'molyusklar';
 
   @override
+  String bannerAd(String brand) {
+    return 'Reklam · $brand';
+  }
+
+  @override
+  String get messagesTitle => 'Mesajlar';
+
+  @override
+  String get messagesButton => 'Mesajlar';
+
+  @override
+  String get messagesButtonUnread => 'Mesajlar, yeni cavab var';
+
+  @override
+  String get messagesFromParla => 'Parla-dan';
+
+  @override
+  String get messagesNone => 'Hələ elan yoxdur.';
+
+  @override
+  String get supportTitle => 'Dəstək';
+
+  @override
+  String get supportIntro =>
+      'Sualını yaz, Parla komandası cavab verəcək. Mesajlar şifrələnmiş saxlanır və son mesajdan 12 ay sonra silinir. Biz tibbi məsləhət vermirik: təcili və ya ciddi halda həkimə müraciət et.';
+
+  @override
+  String get supportHint => 'Mesajın';
+
+  @override
+  String get supportSend => 'Göndər';
+
+  @override
+  String get supportYou => 'Sən';
+
+  @override
+  String get supportTeam => 'Parla komandası';
+
+  @override
+  String get supportSent => 'Göndərildi.';
+
+  @override
+  String get pushTitle => 'Bildirişlər';
+
+  @override
+  String get pushBody =>
+      'Dəstək cavab verəndə xəbər alırsan. Marketinq razılığı versən, Parla-nın yenilikləri də gəlir. İstənilən vaxt söndürə bilərsən.';
+
+  @override
+  String get pushDenied =>
+      'Bildirişlərə icazə verilmədi. Telefonun ayarlarından aça bilərsən.';
+
+  @override
   String get consentRefreshCardTitle => 'Razılıq mətni yeniləndi';
 
   @override

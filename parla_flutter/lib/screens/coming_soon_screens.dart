@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../discover/banner_strip.dart';
 import '../discover/discover_widgets.dart';
 import '../home/widgets/parla_nav_bar.dart';
 import '../l10n/app_localizations.dart';
@@ -96,6 +97,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   child: Text(l10n.discoverTitle, style: text.headlineMedium),
                 ),
                 const SizedBox(height: ParlaSpace.gap),
+                const BannerStrip(placement: 'discover'),
                 for (final (title, hint, color, route, soon) in tiles) ...[
                   Semantics(
                     container: true,

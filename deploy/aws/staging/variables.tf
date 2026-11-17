@@ -52,3 +52,13 @@ variable "staff_bootstrap_email" {
   type        = string
   default     = ""
 }
+
+variable "enable_push" {
+  description = <<-EOT
+    Pass the Firebase service account to the server (push notifications).
+    Set to true only after deploy/aws/put-staging-fcm-secret.sh has stored
+    it; otherwise the server task cannot start.
+  EOT
+  type        = bool
+  default     = false
+}
