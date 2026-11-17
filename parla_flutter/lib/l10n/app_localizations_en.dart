@@ -1647,4 +1647,16 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String get pushDenied =>
       'Notifications are not allowed. You can turn them on in your phone settings.';
+
+  @override
+  String get checkSuggestTitle => 'Suggested from your quiz';
+
+  @override
+  String get checkSuggestBody =>
+      'Based on your quiz answers, these filters may suit you. Adding them is up to you.';
+
+  @override
+  String checkSuggestAdd(String name) {
+    return 'Add $name';
+  }
 }

@@ -477,5 +477,8 @@
   "supportSent": "Göndərildi.",
   "pushTitle": "Bildirişlər",
   "pushBody": "Dəstək cavab verəndə xəbər alırsan. Marketinq razılığı versən, Parla-nın yenilikləri də gəlir. İstənilən vaxt söndürə bilərsən.",
-  "pushDenied": "Bildirişlərə icazə verilmədi. Telefonun ayarlarından aça bilərsən."
+  "pushDenied": "Bildirişlərə icazə verilmədi. Telefonun ayarlarından aça bilərsən.",
+  "checkSuggestTitle": "Testinə görə təklif",
+  "checkSuggestBody": "Test cavablarına görə bu seçimlər sənə uyğun ola bilər. Əlavə edib-etməmək sənin qərarındır.",
+  "checkSuggestAdd": "{name} əlavə et"
 }
