@@ -128,10 +128,15 @@ class ContentAdminEndpoint extends Endpoint {
     });
   }
 
-  /// An expert approves the working copy as it is now.
+  /// The reviewer approves the working copy as it is now: an expert, or an
+  /// admin for the team's own banners ([ContentRules.reviewerRole]).
   Future<ContentAdminItem> approve(Session session, int id) async {
-    final staff = await requireStaff(session, roles: {StaffRole.expert});
+    final staff = await requireStaff(
+      session,
+      roles: {StaffRole.expert, StaffRole.admin},
+    );
     final row = await _get(session, id);
+    _checkReviewer(staff, row);
     if (row.status != ContentStatus.inReview) {
       throw ParlaException(code: ContentErrors.wrongStatus);
     }
@@ -150,14 +155,18 @@ class ContentAdminEndpoint extends Endpoint {
     );
   }
 
-  /// An expert sends it back to the writer with a note.
+  /// The reviewer sends it back to the writer with a note.
   Future<ContentAdminItem> returnToWriter(
     Session session,
     int id,
     String note,
   ) async {
-    final staff = await requireStaff(session, roles: {StaffRole.expert});
+    final staff = await requireStaff(
+      session,
+      roles: {StaffRole.expert, StaffRole.admin},
+    );
     final row = await _get(session, id);
+    _checkReviewer(staff, row);
     if (row.status != ContentStatus.inReview) {
       throw ParlaException(code: ContentErrors.wrongStatus);
     }
@@ -213,7 +222,14 @@ class ContentAdminEndpoint extends Endpoint {
       if (row.consentRecordedAt == null) {
         throw ParlaException(code: ContentErrors.consentMissing);
       }
-    } else if (row.status != ContentStatus.approved) {
+    } else if (row.status != ContentStatus.approved &&
+        !(staff.role == StaffRole.admin &&
+            ContentRules.adminPublishesDirectly(
+              _kind(row.kind),
+              _draft(row),
+            ))) {
+      // Admins may publish the team's own banners directly; everything
+      // else needs its approval first.
       throw ParlaException(code: ContentErrors.wrongStatus);
     }
     await _checkImage(session, row.draftJson);
@@ -349,6 +365,16 @@ class ContentAdminEndpoint extends Endpoint {
           complete: true,
         ).isNotEmpty) {
       throw ParlaException(code: ContentErrors.imageIncomplete);
+    }
+  }
+
+  static Map<String, Object?> _draft(ContentItem row) =>
+      jsonDecode(row.draftJson) as Map<String, Object?>;
+
+  static void _checkReviewer(StaffMember staff, ContentItem row) {
+    if (ContentRules.reviewerRole(_kind(row.kind), _draft(row)) !=
+        staff.role.name) {
+      throw ParlaException(code: StaffErrors.forbidden);
     }
   }
 

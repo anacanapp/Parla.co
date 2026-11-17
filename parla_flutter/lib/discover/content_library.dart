@@ -22,8 +22,13 @@ class ContentLibrary extends ChangeNotifier {
     'preference',
     'exercise',
     'step',
+    'banner',
   ];
   static const catalogueKinds = ['preference', 'exercise', 'step'];
+
+  /// The signed-in user's country from the profile, for banner targeting
+  /// on the phone (`null` until known).
+  static String? country;
 
   /// The app's library, for the catalogue text lookups.
   static ContentLibrary? current;
@@ -80,9 +85,11 @@ class ContentLibrary extends ChangeNotifier {
     await Future.wait([for (final k in kinds) _load(k)]);
   }
 
-  /// Loads the catalogue texts and hidden flags (at app start).
+  /// Loads the catalogue texts, hidden flags and banners (at app start).
   Future<void> loadCatalogue() async {
-    await Future.wait([for (final k in catalogueKinds) _load(k)]);
+    await Future.wait([
+      for (final k in [...catalogueKinds, 'banner']) _load(k),
+    ]);
   }
 
   Future<void> _load(String kind) async {

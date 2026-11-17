@@ -447,6 +447,28 @@ slug is the catalogue id from code.
   about two days. Account deletion also removes today's and yesterday's
   marks.
 
+## Banners and campaigns (admin phase D1)
+
+Banners are content items of the kind `banner`. The category is where the
+card shows: `today` (home) or `discover`.
+
+- **Fields:** title, short text, image, an in-app link (a screen, or
+  `article:slug` / `recipe:slug`; never an outside web link), start and end
+  date, and optionally languages and countries.
+- **Brand campaigns:** a banner with a `sponsor` is a paid brand campaign.
+  The app always shows it with an **"Ad · <brand>"** label.
+- **Approval** (`ContentRules.reviewerRole`):
+  - The team's own banners: an admin publishes directly. An editor's
+    banner needs an admin's approval.
+  - Brand campaigns: always an expert's approval (no "harmful" wording, no
+    scores, no health promises); an admin cannot skip it.
+  - All other content is unchanged (expert approval).
+- **Targeting on the phone:** the server sends every published banner the
+  same way. The app decides by date, language and country
+  (`ContentRules.bannerVisible`). Nothing about the user is sent for this.
+  Health and quiz answers can never be used for targeting: the model has
+  no such fields. Taps are not tracked.
+
 ## Discover (B2a)
 
 - Blogs (with category filter), the article (with "reviewed by an expert"
@@ -520,7 +542,8 @@ slug is the catalogue id from code.
 | Privacy policy and terms texts | — | Lawyer |
 | Apple and Google sign-in | US-01 | Needs the Apple and Google developer accounts (company registration) |
 | Production hosting, email provider and data region (staging uses AWS in Frankfurt and SMTP via info@anacan.az) | RES-1, RES-5 | After the lawyer answers the localisation questions |
-| Admin panel phase D (banners, messages, push notifications) | M8 | Next; A, B and C done |
+| Admin panel phase D2 (messages and two-way support) and D3 (push notifications) | M8 | In progress; D1 (banners) done |
+| Advertising law check for brand campaigns (Azerbaijan "Reklam haqqında" law; labelling, cosmetics claims) | — | Lawyer, before the first brand campaign |
 | Privacy policy: the daily active count under the analytics consent, staff look-ups of accounts, deletion on request | — | Lawyer, before the beta |
 | Privacy policy text for staff access, the admin panel and push notifications | — | Lawyer, before phase D |
 | Real-device test of reminders (Android 13+ permission, reboot, iOS foreground) | M7 | Before the beta |

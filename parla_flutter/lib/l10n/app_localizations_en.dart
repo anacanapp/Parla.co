@@ -1594,4 +1594,9 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get allergenMolluscs => 'molluscs';
+
+  @override
+  String bannerAd(String brand) {
+    return 'Ad · $brand';
+  }
 }

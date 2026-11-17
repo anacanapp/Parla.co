@@ -66,6 +66,7 @@ String kindLabel(String kind) => switch (kind) {
   'preference' => 'Seçimlər',
   'exercise' => 'Məşqlər',
   'step' => 'Addımlar',
+  'banner' => 'Bannerlər',
   _ => 'Mütəxəssislər',
 };
 
@@ -85,6 +86,8 @@ String categoryLabel(String id) => switch (id) {
   'dietitian' => 'Dietoloq',
   'trichologist' => 'Trixoloq',
   'catalogue' => 'Tətbiqin kataloqu',
+  'today' => 'Bu gün ekranı',
+  'discover' => 'Kəşf ekranı',
   _ => id,
 };
 

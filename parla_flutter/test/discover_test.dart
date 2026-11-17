@@ -60,6 +60,71 @@ final _published = <String, List<PublishedItem>>{
       },
     ),
   ],
+  'banner': [
+    PublishedItem(
+      id: 20,
+      kind: 'banner',
+      slug: 'new-recipes',
+      category: 'discover',
+      publishedAt: DateTime.utc(2026, 11, 10),
+      data: {
+        'title': _l('New recipes'),
+        'link': 'recipe:oats',
+        'startsOn': '2026-11-01',
+        'endsOn': '2026-11-30',
+      },
+    ),
+    PublishedItem(
+      id: 21,
+      kind: 'banner',
+      slug: 'brand-x',
+      category: 'discover',
+      publishedAt: DateTime.utc(2026, 11, 10),
+      data: {
+        'title': _l('Brand X cream'),
+        'sponsor': 'Brand X',
+        'startsOn': '2026-11-01',
+        'endsOn': '2026-11-30',
+      },
+    ),
+    PublishedItem(
+      id: 22,
+      kind: 'banner',
+      slug: 'expired',
+      category: 'discover',
+      publishedAt: DateTime.utc(2026, 10, 1),
+      data: {
+        'title': _l('Old news'),
+        'startsOn': '2026-10-01',
+        'endsOn': '2026-10-31',
+      },
+    ),
+    PublishedItem(
+      id: 23,
+      kind: 'banner',
+      slug: 'russian-only',
+      category: 'discover',
+      publishedAt: DateTime.utc(2026, 11, 10),
+      data: {
+        'title': _l('For Russian'),
+        'languages': ['ru'],
+        'startsOn': '2026-11-01',
+        'endsOn': '2026-11-30',
+      },
+    ),
+    PublishedItem(
+      id: 24,
+      kind: 'banner',
+      slug: 'today-only',
+      category: 'today',
+      publishedAt: DateTime.utc(2026, 11, 10),
+      data: {
+        'title': _l('On Today'),
+        'startsOn': '2026-11-01',
+        'endsOn': '2026-11-30',
+      },
+    ),
+  ],
   'recipe': [
     PublishedItem(
       id: 3,
@@ -227,6 +292,37 @@ void main() {
     );
     expect(opened, [Uri.parse('https://www.aad.org/dry-skin')]);
     expect(find.text('aad.org'), findsOneWidget);
+  });
+
+  testWidgets('banners: dates and language decide on the phone; ads are '
+      'labelled; links open in the app', (tester) async {
+    await _open(tester);
+    expect(find.text('New recipes en'), findsOneWidget);
+    expect(find.text('Brand X cream en'), findsOneWidget);
+    expect(find.text('Ad · Brand X'), findsOneWidget);
+    expect(find.text('Old news en'), findsNothing);
+    expect(find.text('For Russian en'), findsNothing);
+    expect(find.text('On Today en'), findsNothing);
+    // The Today banner shows on the home screen.
+    await tester.tap(
+      find
+          .descendant(
+            of: find.byType(ParlaNavBar),
+            matching: find.byType(InkWell),
+          )
+          .at(0),
+    );
+    await tester.pumpAndSettle();
+    await tester.scrollUntilVisible(
+      find.text('On Today en'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.text('On Today en'), findsOneWidget);
+    // A banner opens its in-app link.
+    await _open(tester);
+    await _tap(tester, find.byKey(const ValueKey('banner-new-recipes')));
+    expect(find.text('Oats en'), findsOneWidget);
   });
 
   testWidgets('content shows in Russian, and the last copy shows offline', (

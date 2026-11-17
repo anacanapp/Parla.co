@@ -1574,4 +1574,9 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get allergenMolluscs => 'molyusklar';
+
+  @override
+  String bannerAd(String brand) {
+    return 'Reklam · $brand';
+  }
 }

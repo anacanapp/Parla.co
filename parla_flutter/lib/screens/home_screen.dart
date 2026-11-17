@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parla_shared/parla_shared.dart';
 
+import '../discover/banner_strip.dart';
 import '../habits/habit_sheets.dart';
 import '../habits/habit_tracker.dart';
 import '../home/home_controller.dart';
@@ -218,7 +219,9 @@ class _HomeBody extends StatelessWidget {
                     onRestart: controller.restart,
                   ),
                 ],
-                const SizedBox(height: 22),
+                const SizedBox(height: 16),
+                const BannerStrip(placement: 'today'),
+                const SizedBox(height: 6),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,

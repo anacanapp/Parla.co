@@ -453,5 +453,101 @@ void main() {
         throwsA(_error(ContentErrors.wrongStatus)),
       );
     });
+
+    test('banners: admins publish their own; editors need an admin; brand '
+        'campaigns need an expert', () async {
+      final t = await team();
+      Map<String, Object?> banner({String? sponsor}) => {
+        'title': _l('Yeni bölmə'),
+        'link': 'nutrition',
+        'startsOn': '2026-12-01',
+        'endsOn': '2026-12-31',
+        'sponsor': ?sponsor,
+      };
+
+      // An admin publishes the team's own banner directly.
+      final own = await endpoints.contentAdmin.create(
+        t.admin,
+        'banner',
+        'qidalanma',
+        'today',
+      );
+      await endpoints.contentAdmin.saveDraft(
+        t.admin,
+        own.id,
+        jsonEncode(banner()),
+        'today',
+      );
+      expect(
+        (await endpoints.contentAdmin.publish(t.admin, own.id)).live,
+        isTrue,
+      );
+
+      // An editor's banner needs an admin's approval; experts do not
+      // review the team's own banners.
+      final ed = await endpoints.contentAdmin.create(
+        t.editor,
+        'banner',
+        'yeni-il',
+        'discover',
+      );
+      await endpoints.contentAdmin.saveDraft(
+        t.editor,
+        ed.id,
+        jsonEncode(banner()),
+        'discover',
+      );
+      await expectLater(
+        endpoints.contentAdmin.publish(t.editor, ed.id),
+        throwsA(_error(ContentErrors.wrongStatus)),
+      );
+      await endpoints.contentAdmin.submitForReview(t.editor, ed.id);
+      await expectLater(
+        endpoints.contentAdmin.approve(t.expert, ed.id),
+        throwsA(_error(StaffErrors.forbidden)),
+      );
+      await endpoints.contentAdmin.approve(t.admin, ed.id);
+      await endpoints.contentAdmin.publish(t.editor, ed.id);
+
+      // A brand campaign: only an expert approves, and an admin cannot
+      // skip that.
+      final ad = await endpoints.contentAdmin.create(
+        t.admin,
+        'banner',
+        'brand-x',
+        'discover',
+      );
+      await endpoints.contentAdmin.saveDraft(
+        t.admin,
+        ad.id,
+        jsonEncode(banner(sponsor: 'Brand X')),
+        'discover',
+      );
+      await expectLater(
+        endpoints.contentAdmin.publish(t.admin, ad.id),
+        throwsA(_error(ContentErrors.wrongStatus)),
+      );
+      await endpoints.contentAdmin.submitForReview(t.admin, ad.id);
+      await expectLater(
+        endpoints.contentAdmin.approve(t.admin, ad.id),
+        throwsA(_error(StaffErrors.forbidden)),
+      );
+      await endpoints.contentAdmin.approve(t.expert, ad.id);
+      await endpoints.contentAdmin.publish(t.admin, ad.id);
+
+      final public = await endpoints.content.published(
+        sessionBuilder,
+        'banner',
+      );
+      expect(public.map((p) => p.slug).toSet(), {
+        'qidalanma',
+        'yeni-il',
+        'brand-x',
+      });
+      expect(
+        jsonDecode(public.singleWhere((p) => p.slug == 'brand-x').json),
+        containsPair('sponsor', 'Brand X'),
+      );
+    });
   });
 }
