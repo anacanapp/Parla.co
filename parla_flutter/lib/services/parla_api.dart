@@ -73,6 +73,19 @@ class ContentImageRef {
   };
 }
 
+/// One message of the support conversation.
+class SupportItem {
+  const SupportItem({
+    required this.fromTeam,
+    required this.text,
+    required this.at,
+  });
+
+  final bool fromTeam;
+  final String text;
+  final DateTime at;
+}
+
 class PublishedItem {
   const PublishedItem({
     required this.id,
@@ -214,6 +227,14 @@ abstract interface class ParlaApi {
   /// Tells the server the app was opened today. The server counts it only
   /// with the analytics consent, and keeps only the day's total.
   Future<void> markActive();
+
+  /// The user's support conversation, oldest first.
+  Future<List<SupportItem>> supportMessages();
+
+  Future<void> sendSupport(String text);
+
+  /// Whether the team replied and it is not read yet.
+  Future<bool> hasUnreadSupportReply();
 
   /// Replaces the stored plate entries. Needs the health consent.
   Future<void> saveNutrition(String json);

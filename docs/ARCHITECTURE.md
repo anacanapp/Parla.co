@@ -469,6 +469,31 @@ card shows: `today` (home) or `discover`.
   Health and quiz answers can never be used for targeting: the model has
   no such fields. Taps are not tracked.
 
+## Messages and support (admin phase D2)
+
+**Announcements** are content items of the kind `message`.
+- Fields: title, text, an optional in-app link, and dates, languages and
+  countries, as for banners.
+- An admin publishes directly; an editor's message needs an admin's
+  approval.
+- The app shows them under **Messages** (envelope button on Today) and
+  decides visibility on the phone. Read state is not sent anywhere.
+
+**Two-way support**
+- **Conversation:** one per account (`support_thread`, `support_message`).
+- **Encryption:** each message is sealed with AES-GCM under a key derived
+  from the server KEK (HKDF label `support-messages-v1`) and bound to the
+  account. It is not the health data key, so withdrawing the health
+  consent does not delete support messages.
+- **Who reads:** the new staff role **support** and admins. The panel list
+  shows no message text. Opening, replying and closing are audited with
+  ids only.
+- **The app says:** messages are stored encrypted and deleted 12 months
+  after the last one, and the team gives no medical advice.
+- **Retention:** conversations are deleted 12 months after the last
+  message (`expireSupport`, nightly) and with the account. They are in the
+  user's data export.
+
 ## Discover (B2a)
 
 - Blogs (with category filter), the article (with "reviewed by an expert"
@@ -542,7 +567,8 @@ card shows: `today` (home) or `discover`.
 | Privacy policy and terms texts | — | Lawyer |
 | Apple and Google sign-in | US-01 | Needs the Apple and Google developer accounts (company registration) |
 | Production hosting, email provider and data region (staging uses AWS in Frankfurt and SMTP via info@anacan.az) | RES-1, RES-5 | After the lawyer answers the localisation questions |
-| Admin panel phase D2 (messages and two-way support) and D3 (push notifications) | M8 | In progress; D1 (banners) done |
+| Admin panel phase D3 (push notifications) | M8 | In progress; D1 and D2 done |
+| Privacy policy: support conversations (purpose, encryption, 12-month retention, support role), announcements | — | Lawyer, before the beta |
 | Advertising law check for brand campaigns (Azerbaijan "Reklam haqqında" law; labelling, cosmetics claims) | — | Lawyer, before the first brand campaign |
 | Privacy policy: the daily active count under the analytics consent, staff look-ups of accounts, deletion on request | — | Lawyer, before the beta |
 | Privacy policy text for staff access, the admin panel and push notifications | — | Lawyer, before phase D |

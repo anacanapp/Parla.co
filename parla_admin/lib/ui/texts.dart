@@ -33,6 +33,9 @@ String errorText(Object error) {
     'media.in_use' => 'Bu şəkil hələ bir yazıda istifadə olunur.',
     'users.not_found' => 'Hesab tapılmadı.',
     'users.confirm_mismatch' => 'Təsdiq üçün yazılan e-poçt uyğun gəlmir.',
+    'support.empty' => 'Mesaj boşdur.',
+    'support.too_long' => 'Mesaj çox uzundur (ən çox 2000 simvol).',
+    'support.not_found' => 'Yazışma tapılmadı.',
     'users.is_staff' => 'Bu, işçi hesabıdır. İşçilər bölməsində idarə olunur.',
     'auth.short_password' => 'Şifrə ən azı 12 simvol olmalıdır.',
     'auth.failed' =>
@@ -45,12 +48,15 @@ String roleLabel(StaffRole role) => switch (role) {
   StaffRole.admin => 'Admin',
   StaffRole.editor => 'Redaktor',
   StaffRole.expert => 'Mütəxəssis',
+  StaffRole.support => 'Dəstək',
 };
 
 String roleHint(StaffRole role) => switch (role) {
   StaffRole.admin => 'Hər şey, işçi hesabları daxil',
   StaffRole.editor => 'Məzmun yazır və redaktə edir',
   StaffRole.expert => 'Öz sahəsində məzmunu yoxlayır və təsdiqləyir',
+  StaffRole.support =>
+    'İstifadəçilərin dəstək mesajlarını oxuyur və cavablayır',
 };
 
 String statusLabel(ContentStatus s) => switch (s) {
@@ -67,6 +73,7 @@ String kindLabel(String kind) => switch (kind) {
   'exercise' => 'Məşqlər',
   'step' => 'Addımlar',
   'banner' => 'Bannerlər',
+  'message' => 'Elanlar',
   _ => 'Mütəxəssislər',
 };
 
@@ -88,6 +95,7 @@ String categoryLabel(String id) => switch (id) {
   'catalogue' => 'Tətbiqin kataloqu',
   'today' => 'Bu gün ekranı',
   'discover' => 'Kəşf ekranı',
+  'announcement' => 'Elan',
   _ => id,
 };
 

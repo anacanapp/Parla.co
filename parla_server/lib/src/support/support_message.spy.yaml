@@ -1,0 +1,14 @@
+### One support message, sealed with a key derived from the server KEK and
+### bound to the thread's owner. [staffId] is set for the team's replies.
+class: SupportMessage
+table: support_message
+fields:
+  threadId: int
+  fromStaff: bool
+  staffId: UuidValue?
+  ciphertext: String
+  nonce: String
+  createdAt: DateTime
+indexes:
+  support_message_thread_idx:
+    fields: threadId

@@ -80,6 +80,15 @@ activity:
   - markActive:
 statsAdmin:
   - report:
+supportAdmin:
+  - threads:
+  - open:
+  - reply:
+  - close:
+support:
+  - myMessages:
+  - hasUnreadReply:
+  - send:
 userAdmin:
   - find:
   - setBlocked:

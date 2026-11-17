@@ -2877,6 +2877,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Ad · {brand}'**
   String bannerAd(String brand);
+
+  /// No description provided for @messagesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get messagesTitle;
+
+  /// No description provided for @messagesButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages'**
+  String get messagesButton;
+
+  /// No description provided for @messagesButtonUnread.
+  ///
+  /// In en, this message translates to:
+  /// **'Messages, new reply'**
+  String get messagesButtonUnread;
+
+  /// No description provided for @messagesFromParla.
+  ///
+  /// In en, this message translates to:
+  /// **'From Parla'**
+  String get messagesFromParla;
+
+  /// No description provided for @messagesNone.
+  ///
+  /// In en, this message translates to:
+  /// **'No announcements yet.'**
+  String get messagesNone;
+
+  /// No description provided for @supportTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Support'**
+  String get supportTitle;
+
+  /// No description provided for @supportIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Write your question and the Parla team will reply. Messages are stored encrypted and deleted 12 months after the last one. We don\'t give medical advice: in urgent or serious cases, see a doctor.'**
+  String get supportIntro;
+
+  /// No description provided for @supportHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Your message'**
+  String get supportHint;
+
+  /// No description provided for @supportSend.
+  ///
+  /// In en, this message translates to:
+  /// **'Send'**
+  String get supportSend;
+
+  /// No description provided for @supportYou.
+  ///
+  /// In en, this message translates to:
+  /// **'You'**
+  String get supportYou;
+
+  /// No description provided for @supportTeam.
+  ///
+  /// In en, this message translates to:
+  /// **'Parla team'**
+  String get supportTeam;
+
+  /// No description provided for @supportSent.
+  ///
+  /// In en, this message translates to:
+  /// **'Sent.'**
+  String get supportSent;
 }
 
 class _AppLocalizationsDelegate

@@ -129,6 +129,23 @@ class FakeApi implements ParlaApi {
 
   int activeMarks = 0;
 
+  final List<SupportItem> support = [];
+  bool supportUnread = false;
+
+  @override
+  Future<List<SupportItem>> supportMessages() async {
+    supportUnread = false;
+    return List.of(support);
+  }
+
+  @override
+  Future<void> sendSupport(String text) async => support.add(
+    SupportItem(fromTeam: false, text: text, at: DateTime.utc(2026, 11, 16)),
+  );
+
+  @override
+  Future<bool> hasUnreadSupportReply() async => supportUnread;
+
   @override
   Future<void> markActive() async => activeMarks++;
 

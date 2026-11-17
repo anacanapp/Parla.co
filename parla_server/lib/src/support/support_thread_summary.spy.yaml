@@ -1,0 +1,8 @@
+### A support conversation in the panel's list: no message text.
+class: SupportThreadSummary
+fields:
+  id: int
+  email: String
+  open: bool
+  unreadByStaff: bool
+  lastMessageAt: DateTime
