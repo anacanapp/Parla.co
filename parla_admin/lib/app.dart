@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'api/admin_api.dart';
 import 'screens/auth_screens.dart';
 import 'screens/content_screens.dart';
+import 'screens/overview_screen.dart';
 import 'screens/stats_screen.dart';
 import 'screens/support_screen.dart';
 import 'screens/users_screen.dart';
@@ -105,14 +106,7 @@ GoRouter _buildRouter(StaffState state) => GoRouter(
       routes: [
         GoRoute(
           path: '/overview',
-          builder: (_, _) => const ComingSection(
-            title: 'Ümumi',
-            body:
-                'Xoş gəldiniz. Məzmun bölməsində bloqlar, reseptlər və '
-                'mütəxəssislər idarə olunur. İstifadəçilər və statistika C '
-                'mərhələsində, bannerlər, mesajlar və push bildirişlər D '
-                'mərhələsində əlavə olunur.',
-          ),
+          builder: (_, _) => OverviewScreen(state: state),
         ),
         GoRoute(path: '/content', redirect: (_, _) => '/content/article'),
         GoRoute(

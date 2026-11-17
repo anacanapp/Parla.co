@@ -42,7 +42,7 @@ void main() {
   testWidgets('an editor writes an article in three languages and sends '
       'it for review', (tester) async {
     final api = await _pump(tester, StaffRole.editor);
-    await _tap(tester, find.text('Məzmun'));
+    await _tap(tester, _nav('Məzmun'));
     expect(find.text('Hələ heç nə yoxdur.'), findsOneWidget);
 
     await _tap(tester, find.byKey(const ValueKey('content-new')));
@@ -82,7 +82,7 @@ void main() {
     final item = await api.createContent('article', 'spf', 'care');
     await api.submitContent(item.id);
 
-    await _tap(tester, find.text('Məzmun'));
+    await _tap(tester, _nav('Məzmun'));
     // Experts cannot create.
     expect(find.byKey(const ValueKey('content-new')), findsNothing);
     await _tap(tester, find.byKey(ValueKey('content-${item.id}')));
@@ -107,7 +107,7 @@ void main() {
   ) async {
     final api = await _pump(tester, StaffRole.admin);
     final item = await api.createContent('expert', 'dr-a', 'dermatologist');
-    await _tap(tester, find.text('Məzmun'));
+    await _tap(tester, _nav('Məzmun'));
     await _tap(tester, find.text('Mütəxəssislər'));
     await _tap(tester, find.byKey(ValueKey('content-${item.id}')));
     expect(find.byKey(const ValueKey('content-publish')), findsNothing);
@@ -139,7 +139,7 @@ void main() {
         }),
       ),
     ];
-    await _tap(tester, find.text('Məzmun'));
+    await _tap(tester, _nav('Məzmun'));
     await _tap(tester, find.byKey(const ValueKey('content-import')));
     await _tap(tester, find.byKey(const ValueKey('import-yes')));
     expect(find.text('1 yazı qaralama kimi əlavə olundu.'), findsOneWidget);
@@ -160,7 +160,7 @@ void main() {
 
   testWidgets('editors do not see the import button', (tester) async {
     await _pump(tester, StaffRole.editor);
-    await _tap(tester, find.text('Məzmun'));
+    await _tap(tester, _nav('Məzmun'));
     expect(find.byKey(const ValueKey('content-import')), findsNothing);
   });
 
@@ -168,7 +168,7 @@ void main() {
     tester,
   ) async {
     final api = await _pump(tester, StaffRole.editor);
-    await _tap(tester, find.text('Məzmun'));
+    await _tap(tester, _nav('Məzmun'));
     await _tap(tester, find.text('Reseptlər'));
     await _tap(tester, find.byKey(const ValueKey('content-new')));
     await tester.enterText(find.byKey(const ValueKey('new-slug')), 'oats');
@@ -204,7 +204,7 @@ void main() {
     addTearDown(() => pickImageFile = original);
 
     final api = await _pump(tester, StaffRole.editor);
-    await _tap(tester, find.text('Məzmun'));
+    await _tap(tester, _nav('Məzmun'));
     await _tap(tester, find.byKey(const ValueKey('content-new')));
     await tester.enterText(find.byKey(const ValueKey('new-slug')), 'krem');
     await _tap(tester, find.byKey(const ValueKey('new-create')));
@@ -253,7 +253,7 @@ void main() {
     tester,
   ) async {
     final api = await _pump(tester, StaffRole.editor);
-    await _tap(tester, find.text('Məzmun'));
+    await _tap(tester, _nav('Məzmun'));
     await _tap(tester, find.text('Məşqlər'));
     expect(find.byKey(const ValueKey('content-new')), findsNothing);
     expect(find.text('tətbiqdəki mətn'), findsNothing);
@@ -275,7 +275,7 @@ void main() {
     expect(api.calls.last, endsWith(':true'));
 
     // Preferences and steps have no image.
-    await _tap(tester, find.text('Məzmun'));
+    await _tap(tester, _nav('Məzmun'));
     await _tap(tester, find.text('Seçimlər'));
     await _tap(tester, find.byKey(const ValueKey('catalogue-fragrance_free')));
     expect(find.byKey(const ValueKey('image-field')), findsNothing);
@@ -285,7 +285,7 @@ void main() {
     tester,
   ) async {
     final api = await _pump(tester, StaffRole.admin);
-    await _tap(tester, find.text('Məzmun'));
+    await _tap(tester, _nav('Məzmun'));
     await _tap(tester, find.text('Bannerlər'));
     await _tap(tester, find.byKey(const ValueKey('content-new')));
     await tester.enterText(find.byKey(const ValueKey('new-slug')), 'qidalanma');
@@ -312,7 +312,7 @@ void main() {
 
   testWidgets('push: an admin sends once after confirming', (tester) async {
     final api = await _pump(tester, StaffRole.admin);
-    await _tap(tester, find.text('Məzmun'));
+    await _tap(tester, _nav('Məzmun'));
     await _tap(tester, find.text('Push'));
     await _tap(tester, find.byKey(const ValueKey('content-new')));
     await tester.enterText(find.byKey(const ValueKey('new-slug')), 'yeni');
@@ -358,7 +358,7 @@ void main() {
     api.imageBytes[77] = Uint8List.fromList(
       img.encodePng(img.Image(width: 2, height: 2)),
     );
-    await _tap(tester, find.text('Məzmun'));
+    await _tap(tester, _nav('Məzmun'));
     await _tap(tester, find.byKey(const ValueKey('content-new')));
     await tester.enterText(find.byKey(const ValueKey('new-slug')), 'qis');
     await _tap(tester, find.byKey(const ValueKey('new-create')));
@@ -390,3 +390,9 @@ void main() {
     expect(find.text('Qış qaydaları'), findsOneWidget);
   });
 }
+
+/// A menu entry (the overview's guide cards repeat the same names).
+Finder _nav(String label) => find.descendant(
+  of: find.byType(NavigationRail),
+  matching: find.text(label),
+);
