@@ -1,0 +1,7 @@
+### A named statistic: its buckets and, for shares, the total they are out
+### of (null when suppressed).
+class: StatsGroup
+fields:
+  metric: String
+  counts: List<StatsCount>
+  total: int?

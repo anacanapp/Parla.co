@@ -127,6 +127,11 @@ class FakeApi implements ParlaApi {
   /// The plate entries as the server keeps them.
   String? nutrition;
 
+  int activeMarks = 0;
+
+  @override
+  Future<void> markActive() async => activeMarks++;
+
   @override
   Future<String?> myNutrition() async {
     if (routineError != null) throw routineError!;

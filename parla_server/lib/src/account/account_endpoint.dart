@@ -6,7 +6,7 @@ import 'package:serverpod_auth_idp_server/core.dart';
 import '../audit/audit.dart';
 import '../generated/protocol.dart';
 import '../health/health_store.dart';
-import 'pseudonym.dart';
+import 'erase_account.dart';
 
 /// Export format version, written into every export.
 const exportFormat = 'parla-export-v1';
@@ -106,109 +106,8 @@ class AccountEndpoint extends Endpoint {
     });
   }
 
-  /// Deletes the caller's account (checklist DEL-1, DEL-2).
-  ///
-  /// In one transaction: health data, own routines, care list, sport
-  /// document and their key
-  /// (crypto-shredding), quiz
-  /// answers, profile and the sign-in account with its sessions and tokens
-  /// are deleted. Consent records and audit rows are kept as proof but
-  /// their user id is replaced by a pseudonym.
-  Future<void> deleteAccount(Session session) async {
-    final userId = session.authenticated!.authUserId;
-    final pseudonym = await pseudonymFor(session, userId);
-
-    await session.db.transaction((transaction) async {
-      await HealthStore.of(
-        session,
-      ).erase(session, userId, transaction: transaction);
-      // A staff member's panel access ends with the account.
-      await StaffSession.db.deleteWhere(
-        session,
-        where: (t) => t.authUserId.equals(userId),
-        transaction: transaction,
-      );
-      await StaffMember.db.deleteWhere(
-        session,
-        where: (t) => t.authUserId.equals(userId),
-        transaction: transaction,
-      );
-      await QuizAnswer.db.deleteWhere(
-        session,
-        where: (t) => t.authUserId.equals(userId),
-        transaction: transaction,
-      );
-      await MemberProfile.db.deleteWhere(
-        session,
-        where: (t) => t.authUserId.equals(userId),
-        transaction: transaction,
-      );
-
-      final consents = await ConsentRecord.db.find(
-        session,
-        where: (t) => t.authUserId.equals(userId),
-        transaction: transaction,
-      );
-      for (final c in consents) {
-        await ConsentRecord.db.updateRow(
-          session,
-          c.copyWith(authUserId: pseudonym),
-          transaction: transaction,
-        );
-      }
-      final audit = await AuditLogEntry.db.find(
-        session,
-        where: (t) => t.actorId.equals(userId),
-        transaction: transaction,
-      );
-      for (final entry in audit) {
-        await AuditLogEntry.db.updateRow(
-          session,
-          entry.copyWith(actorId: pseudonym),
-          transaction: transaction,
-        );
-      }
-
-      final alreadyDeleted = await DeletedAccount.db.findFirstRow(
-        session,
-        where: (t) => t.pseudonym.equals(pseudonym),
-        transaction: transaction,
-      );
-      if (alreadyDeleted == null) {
-        await DeletedAccount.db.insertRow(
-          session,
-          DeletedAccount(
-            pseudonym: pseudonym,
-            deletedAt: DateTime.now().toUtc(),
-          ),
-          transaction: transaction,
-        );
-      }
-      await writeAudit(
-        session,
-        actorId: pseudonym,
-        actorRole: AuditActor.user,
-        action: 'account.deleted',
-        objectType: 'account',
-        transaction: transaction,
-      );
-
-      try {
-        await const AuthUsers().delete(
-          session,
-          authUserId: userId,
-          transaction: transaction,
-        );
-      } on AuthUserNotFoundException {
-        // Already gone (for example a retried request): nothing to delete.
-      }
-    });
-
-    // Ends the user's open connections. Short-lived access tokens expire on
-    // their own; refresh tokens were deleted with the account.
-    await session.messages.authenticationRevoked(
-      userId.toString(),
-      RevokedAuthenticationUser(),
-    );
-  }
+  /// Deletes the caller's account (checklist DEL-1, DEL-2); see
+  /// [eraseAccount].
+  Future<void> deleteAccount(Session session) =>
+      eraseAccount(session, session.authenticated!.authUserId);
 }

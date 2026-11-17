@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:serverpod/serverpod.dart';
 
 import '../generated/protocol.dart';
+import '../stats/activity.dart';
 
 /// Retention periods (data map; proposals pending legal review).
 abstract final class Retention {
@@ -71,10 +72,12 @@ Timer scheduleDailyRetention(Serverpod pod) {
     final session = await pod.createSession(enableLogging: true);
     try {
       final result = await runRetention(session);
+      final days = await rollUpActivity(session);
       session.log(
         'Retention: ${result.auditRows} audit rows, '
         '${result.consentRows} consent rows, '
-        '${result.deletedAccounts} deleted accounts expired.',
+        '${result.deletedAccounts} deleted accounts expired, '
+        '$days activity days counted.',
         level: LogLevel.info,
       );
     } on Object catch (error, stackTrace) {

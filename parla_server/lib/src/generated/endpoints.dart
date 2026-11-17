@@ -37,6 +37,9 @@ import '../routines/routine_endpoint.dart' as _ifrtvzp2;
 import '../routines/sport_endpoint.dart' as _iv36jnzl;
 import '../staff/staff_admin_endpoint.dart' as _i73k1848;
 import '../staff/staff_endpoint.dart' as _ig11nxnn;
+import '../stats/activity_endpoint.dart' as _ilkw5wl2;
+import '../stats/stats_admin_endpoint.dart' as _ih5y3t9b;
+import '../users/user_admin_endpoint.dart' as _i20m5nkn;
 
 class Endpoints extends _is.EndpointDispatch {
   @override
@@ -136,6 +139,24 @@ class Endpoints extends _is.EndpointDispatch {
         ..initialize(
           server,
           'staff',
+          null,
+        ),
+      'activity': _ilkw5wl2.ActivityEndpoint()
+        ..initialize(
+          server,
+          'activity',
+          null,
+        ),
+      'statsAdmin': _ih5y3t9b.StatsAdminEndpoint()
+        ..initialize(
+          server,
+          'statsAdmin',
+          null,
+        ),
+      'userAdmin': _i20m5nkn.UserAdminEndpoint()
+        ..initialize(
+          server,
+          'userAdmin',
           null,
         ),
     };
@@ -1455,6 +1476,114 @@ class Endpoints extends _is.EndpointDispatch {
                 Map<String, dynamic> params,
               ) async => (endpoints['staff'] as _ig11nxnn.StaffEndpoint)
                   .endSession(session),
+        ),
+      },
+    );
+    connectors['activity'] = _is.EndpointConnector(
+      name: 'activity',
+      endpoint: endpoints['activity']!,
+      methodConnectors: {
+        'markActive': _is.MethodConnector(
+          name: 'markActive',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['activity'] as _ilkw5wl2.ActivityEndpoint)
+                  .markActive(session),
+        ),
+      },
+    );
+    connectors['statsAdmin'] = _is.EndpointConnector(
+      name: 'statsAdmin',
+      endpoint: endpoints['statsAdmin']!,
+      methodConnectors: {
+        'report': _is.MethodConnector(
+          name: 'report',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['statsAdmin'] as _ih5y3t9b.StatsAdminEndpoint)
+                      .report(session),
+        ),
+      },
+    );
+    connectors['userAdmin'] = _is.EndpointConnector(
+      name: 'userAdmin',
+      endpoint: endpoints['userAdmin']!,
+      methodConnectors: {
+        'find': _is.MethodConnector(
+          name: 'find',
+          params: {
+            'email': _is.ParameterDescription(
+              name: 'email',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['userAdmin'] as _i20m5nkn.UserAdminEndpoint).find(
+                    session,
+                    params['email'],
+                  ),
+        ),
+        'setBlocked': _is.MethodConnector(
+          name: 'setBlocked',
+          params: {
+            'userId': _is.ParameterDescription(
+              name: 'userId',
+              type: _is.getType<_is.UuidValue>(),
+              nullable: false,
+            ),
+            'blocked': _is.ParameterDescription(
+              name: 'blocked',
+              type: _is.getType<bool>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['userAdmin'] as _i20m5nkn.UserAdminEndpoint)
+                  .setBlocked(
+                    session,
+                    params['userId'],
+                    params['blocked'],
+                  ),
+        ),
+        'deleteOnRequest': _is.MethodConnector(
+          name: 'deleteOnRequest',
+          params: {
+            'userId': _is.ParameterDescription(
+              name: 'userId',
+              type: _is.getType<_is.UuidValue>(),
+              nullable: false,
+            ),
+            'confirmEmail': _is.ParameterDescription(
+              name: 'confirmEmail',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['userAdmin'] as _i20m5nkn.UserAdminEndpoint)
+                  .deleteOnRequest(
+                    session,
+                    params['userId'],
+                    params['confirmEmail'],
+                  ),
         ),
       },
     );

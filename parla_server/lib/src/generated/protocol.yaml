@@ -76,3 +76,11 @@ staff:
   - confirmTotp:
   - verifyTotp:
   - endSession:
+activity:
+  - markActive:
+statsAdmin:
+  - report:
+userAdmin:
+  - find:
+  - setBlocked:
+  - deleteOnRequest:

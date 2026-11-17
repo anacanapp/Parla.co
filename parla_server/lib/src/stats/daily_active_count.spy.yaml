@@ -1,0 +1,11 @@
+### How many accounts opened the app on [day] (UTC, yyyy-mm-dd). Only the
+### total is kept.
+class: DailyActiveCount
+table: daily_active_count
+fields:
+  day: String
+  accounts: int
+indexes:
+  daily_active_count_day_idx:
+    fields: day
+    unique: true

@@ -64,6 +64,12 @@ import 'staff/staff_role.dart' as _imtqbwe6;
 import 'staff/staff_session.dart' as _igu3u6o0;
 import 'staff/staff_summary.dart' as _iminry28;
 import 'staff/totp_enrollment.dart' as _ieq44cuc;
+import 'stats/daily_active_count.dart' as _iphzj4es;
+import 'stats/daily_active_mark.dart' as _ipxxg0d2;
+import 'stats/stats_count.dart' as _iu0qh84b;
+import 'stats/stats_group.dart' as _imrurtjq;
+import 'stats/stats_report.dart' as _i9vgpxbr;
+import 'users/user_admin_view.dart' as _i06wcc3f;
 export 'account/deleted_account.dart';
 export 'audit/audit_log_entry.dart';
 export 'common/parla_exception.dart';
@@ -95,6 +101,12 @@ export 'staff/staff_role.dart';
 export 'staff/staff_session.dart';
 export 'staff/staff_summary.dart';
 export 'staff/totp_enrollment.dart';
+export 'stats/daily_active_count.dart';
+export 'stats/daily_active_mark.dart';
+export 'stats/stats_count.dart';
+export 'stats/stats_group.dart';
+export 'stats/stats_report.dart';
+export 'users/user_admin_view.dart';
 
 class Protocol extends _is.DatabaseSerializationManager
     implements _is.DatabaseProtocolDeserializationProvider {
@@ -140,6 +152,12 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_igu3u6o0.StaffSession>,
           _is.getType<_iminry28.StaffSummary>,
           _is.getType<_ieq44cuc.TotpEnrollment>,
+          _is.getType<_iphzj4es.DailyActiveCount>,
+          _is.getType<_ipxxg0d2.DailyActiveMark>,
+          _is.getType<_iu0qh84b.StatsCount>,
+          _is.getType<_imrurtjq.StatsGroup>,
+          _is.getType<_i9vgpxbr.StatsReport>,
+          _is.getType<_i06wcc3f.UserAdminView>,
           _is.getType<_ioqa84oy.DeletedAccount?>,
           _is.getType<_ioa77d8b.AuditLogEntry?>,
           _is.getType<_iv1d8f8b.ParlaException?>,
@@ -171,7 +189,16 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_igu3u6o0.StaffSession?>,
           _is.getType<_iminry28.StaffSummary?>,
           _is.getType<_ieq44cuc.TotpEnrollment?>,
+          _is.getType<_iphzj4es.DailyActiveCount?>,
+          _is.getType<_ipxxg0d2.DailyActiveMark?>,
+          _is.getType<_iu0qh84b.StatsCount?>,
+          _is.getType<_imrurtjq.StatsGroup?>,
+          _is.getType<_i9vgpxbr.StatsReport?>,
+          _is.getType<_i06wcc3f.UserAdminView?>,
           _is.getType<List<String>>,
+          _is.getType<List<_iu0qh84b.StatsCount>>,
+          _is.getType<List<_imrurtjq.StatsGroup>>,
+          _is.getType<List<_icra10er.ConsentState>>,
           _is.getType<List<_ianfun2u.ConsentState>>,
           _is.getType<List<_itdeiy4d.ContentAdminItem>>,
           _is.getType<List<_ixzwgpmi.PublicContent>>,
@@ -218,6 +245,12 @@ class Protocol extends _is.DatabaseSerializationManager
           'StaffSession',
           'StaffSummary',
           'TotpEnrollment',
+          'DailyActiveCount',
+          'DailyActiveMark',
+          'StatsCount',
+          'StatsGroup',
+          'StatsReport',
+          'UserAdminView',
         ],
       );
 
@@ -638,6 +671,98 @@ class Protocol extends _is.DatabaseSerializationManager
             _isp.IndexElementDefinition(
               type: _isp.IndexElementDefinitionType.column,
               definition: 'authUserId',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _isp.TableDefinition(
+      name: 'daily_active_count',
+      dartName: 'DailyActiveCount',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'day',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'accounts',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'daily_active_count_day_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'day',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _isp.TableDefinition(
+      name: 'daily_active_mark',
+      dartName: 'DailyActiveMark',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'day',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'mark',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'daily_active_mark_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'day',
+            ),
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'mark',
             ),
           ],
           type: 'btree',
@@ -1509,6 +1634,24 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _ieq44cuc.TotpEnrollment) {
       return _ieq44cuc.TotpEnrollment.fromJson(data) as T;
     }
+    if (t == _iphzj4es.DailyActiveCount) {
+      return _iphzj4es.DailyActiveCount.fromJson(data) as T;
+    }
+    if (t == _ipxxg0d2.DailyActiveMark) {
+      return _ipxxg0d2.DailyActiveMark.fromJson(data) as T;
+    }
+    if (t == _iu0qh84b.StatsCount) {
+      return _iu0qh84b.StatsCount.fromJson(data) as T;
+    }
+    if (t == _imrurtjq.StatsGroup) {
+      return _imrurtjq.StatsGroup.fromJson(data) as T;
+    }
+    if (t == _i9vgpxbr.StatsReport) {
+      return _i9vgpxbr.StatsReport.fromJson(data) as T;
+    }
+    if (t == _i06wcc3f.UserAdminView) {
+      return _i06wcc3f.UserAdminView.fromJson(data) as T;
+    }
     if (t == _is.getType<_ioqa84oy.DeletedAccount?>()) {
       return (data != null ? _ioqa84oy.DeletedAccount.fromJson(data) : null)
           as T;
@@ -1620,8 +1763,47 @@ class Protocol extends _is.DatabaseSerializationManager
       return (data != null ? _ieq44cuc.TotpEnrollment.fromJson(data) : null)
           as T;
     }
+    if (t == _is.getType<_iphzj4es.DailyActiveCount?>()) {
+      return (data != null ? _iphzj4es.DailyActiveCount.fromJson(data) : null)
+          as T;
+    }
+    if (t == _is.getType<_ipxxg0d2.DailyActiveMark?>()) {
+      return (data != null ? _ipxxg0d2.DailyActiveMark.fromJson(data) : null)
+          as T;
+    }
+    if (t == _is.getType<_iu0qh84b.StatsCount?>()) {
+      return (data != null ? _iu0qh84b.StatsCount.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_imrurtjq.StatsGroup?>()) {
+      return (data != null ? _imrurtjq.StatsGroup.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_i9vgpxbr.StatsReport?>()) {
+      return (data != null ? _i9vgpxbr.StatsReport.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_i06wcc3f.UserAdminView?>()) {
+      return (data != null ? _i06wcc3f.UserAdminView.fromJson(data) : null)
+          as T;
+    }
     if (t == List<String>) {
       return (data as List).map((e) => deserialize<String>(e)).toList() as T;
+    }
+    if (t == List<_iu0qh84b.StatsCount>) {
+      return (data as List)
+              .map((e) => deserialize<_iu0qh84b.StatsCount>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_imrurtjq.StatsGroup>) {
+      return (data as List)
+              .map((e) => deserialize<_imrurtjq.StatsGroup>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_icra10er.ConsentState>) {
+      return (data as List)
+              .map((e) => deserialize<_icra10er.ConsentState>(e))
+              .toList()
+          as T;
     }
     if (t == List<_ianfun2u.ConsentState>) {
       return (data as List)
@@ -1717,6 +1899,12 @@ class Protocol extends _is.DatabaseSerializationManager
       _igu3u6o0.StaffSession => 'StaffSession',
       _iminry28.StaffSummary => 'StaffSummary',
       _ieq44cuc.TotpEnrollment => 'TotpEnrollment',
+      _iphzj4es.DailyActiveCount => 'DailyActiveCount',
+      _ipxxg0d2.DailyActiveMark => 'DailyActiveMark',
+      _iu0qh84b.StatsCount => 'StatsCount',
+      _imrurtjq.StatsGroup => 'StatsGroup',
+      _i9vgpxbr.StatsReport => 'StatsReport',
+      _i06wcc3f.UserAdminView => 'UserAdminView',
       _ => null,
     };
   }
@@ -1793,6 +1981,18 @@ class Protocol extends _is.DatabaseSerializationManager
         return 'StaffSummary';
       case _ieq44cuc.TotpEnrollment():
         return 'TotpEnrollment';
+      case _iphzj4es.DailyActiveCount():
+        return 'DailyActiveCount';
+      case _ipxxg0d2.DailyActiveMark():
+        return 'DailyActiveMark';
+      case _iu0qh84b.StatsCount():
+        return 'StatsCount';
+      case _imrurtjq.StatsGroup():
+        return 'StatsGroup';
+      case _i9vgpxbr.StatsReport():
+        return 'StatsReport';
+      case _i06wcc3f.UserAdminView():
+        return 'UserAdminView';
     }
     className = _iais.Protocol().getClassNameForObject(data);
     if (className != null) {
@@ -1912,6 +2112,24 @@ class Protocol extends _is.DatabaseSerializationManager
     if (dataClassName == 'TotpEnrollment') {
       return deserialize<_ieq44cuc.TotpEnrollment>(data['data']);
     }
+    if (dataClassName == 'DailyActiveCount') {
+      return deserialize<_iphzj4es.DailyActiveCount>(data['data']);
+    }
+    if (dataClassName == 'DailyActiveMark') {
+      return deserialize<_ipxxg0d2.DailyActiveMark>(data['data']);
+    }
+    if (dataClassName == 'StatsCount') {
+      return deserialize<_iu0qh84b.StatsCount>(data['data']);
+    }
+    if (dataClassName == 'StatsGroup') {
+      return deserialize<_imrurtjq.StatsGroup>(data['data']);
+    }
+    if (dataClassName == 'StatsReport') {
+      return deserialize<_i9vgpxbr.StatsReport>(data['data']);
+    }
+    if (dataClassName == 'UserAdminView') {
+      return deserialize<_i06wcc3f.UserAdminView>(data['data']);
+    }
     if (dataClassName.startsWith('serverpod_auth_idp.')) {
       return _iais.Protocol().deserializeByClassName({
         ...data,
@@ -1991,6 +2209,10 @@ class Protocol extends _is.DatabaseSerializationManager
         return _ihm1xmqc.StaffMember.t;
       case _igu3u6o0.StaffSession:
         return _igu3u6o0.StaffSession.t;
+      case _iphzj4es.DailyActiveCount:
+        return _iphzj4es.DailyActiveCount.t;
+      case _ipxxg0d2.DailyActiveMark:
+        return _ipxxg0d2.DailyActiveMark.t;
     }
     return null;
   }

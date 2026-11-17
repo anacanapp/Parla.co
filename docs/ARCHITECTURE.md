@@ -405,6 +405,48 @@ slug is the catalogue id from code.
   (`ContentLibrary.loadCatalogue`). This is public content and nothing
   personal is sent.
 
+## Users and statistics (admin phase C)
+
+**Users** (`userAdmin`, admins only)
+- **Look-up:** by the exact email address only. There is no list and no
+  partial search. Every look-up is audited (`user.viewed`, ids only).
+- **What is shown:** email, registration date, country, language, blocked
+  state and the latest consent decisions. Never health data, quiz answers
+  or the birth year.
+- **Block / unblock:** sign-in stops and refresh tokens are revoked.
+  Nothing is deleted. Staff accounts are managed in the staff section.
+- **Delete on request:** for a user who asks by email. It runs the same
+  `eraseAccount` as deletion in the app, and the admin has to type the
+  email again. It is audited as `account.deleted_on_request` with the
+  pseudonym. Deletion now also pseudonymises audit rows that name the
+  account as their object (for example look-ups).
+
+**Statistics** (`statsAdmin`, admins and editors; not experts)
+- **Anonymous counts only:** any bucket or total under 10 is reported as
+  "<10" (`minGroupSize`).
+- **What is counted:**
+  - Accounts, sign-ups per week, age band, country, language, and deleted
+    accounts per month.
+  - Latest consent decisions.
+  - The answers to quiz questions that are not health data (health
+    answers are encrypted and never counted).
+  - How many accounts keep each tool on the server. Users without the
+    health consent keep their tools on the phone only, so they are not in
+    this count.
+- **Not yet done:** there is no complementary suppression (no protection
+  against differencing two totals). Acceptable at this size; review before
+  sharing figures outside the team.
+
+**Daily active count**
+- Once a day the app calls `activity.markActive`. The server stores a mark
+  only with the **analytics consent**.
+- The mark is an HMAC of the day and the account id with the pseudonym
+  pepper (`daily_active_mark`), never the id itself.
+- The nightly job (`rollUpActivity`) turns past days into a total
+  (`daily_active_count`) and deletes the marks, so a mark lives at most
+  about two days. Account deletion also removes today's and yesterday's
+  marks.
+
 ## Discover (B2a)
 
 - Blogs (with category filter), the article (with "reviewed by an expert"
@@ -478,7 +520,8 @@ slug is the catalogue id from code.
 | Privacy policy and terms texts | — | Lawyer |
 | Apple and Google sign-in | US-01 | Needs the Apple and Google developer accounts (company registration) |
 | Production hosting, email provider and data region (staging uses AWS in Frankfurt and SMTP via info@anacan.az) | RES-1, RES-5 | After the lawyer answers the localisation questions |
-| Admin panel phases C (users, statistics) and D (banners, messages, push notifications) | M8 | In progress; A, B1, B2a and B2b done |
+| Admin panel phase D (banners, messages, push notifications) | M8 | Next; A, B and C done |
+| Privacy policy: the daily active count under the analytics consent, staff look-ups of accounts, deletion on request | — | Lawyer, before the beta |
 | Privacy policy text for staff access, the admin panel and push notifications | — | Lawyer, before phase D |
 | Real-device test of reminders (Android 13+ permission, reboot, iOS foreground) | M7 | Before the beta |
 | Ask people who agreed to an older health consent text to agree to the current one (own routines, preferences and the shopping list stay on the phone until then) | CON-3 | Before launch, if anyone agreed to `health-2026-11-draft1` to `draft4` |

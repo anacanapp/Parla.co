@@ -211,6 +211,10 @@ abstract interface class ParlaApi {
   /// The daily plate entries as JSON (see `NutritionRules`), or `null`.
   Future<String?> myNutrition();
 
+  /// Tells the server the app was opened today. The server counts it only
+  /// with the analytics consent, and keeps only the day's total.
+  Future<void> markActive();
+
   /// Replaces the stored plate entries. Needs the health consent.
   Future<void> saveNutrition(String json);
 

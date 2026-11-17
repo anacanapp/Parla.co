@@ -189,6 +189,22 @@ void main() {
     }
   });
 
+  testWidgets('the app reports being opened once a day', (tester) async {
+    final app = await _open(tester);
+    expect(app.api.activeMarks, 1);
+    // Opening other tabs does not report again.
+    await tester.tap(
+      find
+          .descendant(
+            of: find.byType(ParlaNavBar),
+            matching: find.byType(InkWell),
+          )
+          .at(0),
+    );
+    await tester.pumpAndSettle();
+    expect(app.api.activeMarks, 1);
+  });
+
   testWidgets('the Routine tab switches between face, hair and body', (
     tester,
   ) async {
