@@ -1574,4 +1574,30 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get allergenMolluscs => 'molyusklar';
+
+  @override
+  String get consentRefreshCardTitle => 'Razılıq mətni yeniləndi';
+
+  @override
+  String get consentRefreshCardBody =>
+      'Sağlamlıq məlumatı razılığının yeni versiyası var. Oxuyub razılaşsan, rutinlərin, siyahıların, idman və qidalanma qeydlərin şifrələnmiş serverə də saxlanacaq. Razılaşmasan, onlar yalnız bu telefonda qalır.';
+
+  @override
+  String get consentRefreshOpen => 'Oxu';
+
+  @override
+  String get consentRefreshTitle => 'Sağlamlıq məlumatı razılığı';
+
+  @override
+  String get consentRefreshIntro =>
+      'Əvvəl razılaşdığın mətnin yeni versiyasıdır. Razılaşmaq könüllüdür; istənilən vaxt Məxfilik bölməsində geri götürə bilərsən.';
+
+  @override
+  String get consentRefreshAgree => 'Razıyam';
+
+  @override
+  String get consentRefreshLater => 'İndi yox';
+
+  @override
+  String get consentRefreshDone => 'Razılıq yeniləndi.';
 }

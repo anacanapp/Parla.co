@@ -927,5 +927,13 @@
         "type": "String"
       }
     }
-  }
+  },
+  "consentRefreshCardTitle": "The consent text was updated",
+  "consentRefreshCardBody": "There is a new version of the health data consent. If you read and agree, your routines, lists, sport and nutrition entries are also kept encrypted on the server. If not, they stay on this phone only.",
+  "consentRefreshOpen": "Read",
+  "consentRefreshTitle": "Health data consent",
+  "consentRefreshIntro": "This is a new version of the text you agreed to. Agreeing is voluntary; you can withdraw at any time under Privacy.",
+  "consentRefreshAgree": "I agree",
+  "consentRefreshLater": "Not now",
+  "consentRefreshDone": "Consent updated."
 }

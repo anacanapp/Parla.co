@@ -62,6 +62,17 @@ class ServerpodParlaApi implements ParlaApi {
   );
 
   @override
+  Future<String?> grantedHealthVersion() => _guard(() async {
+    final states = await _client.consent.current();
+    for (final s in states) {
+      if (s.consentType == ConsentType.health && s.granted) {
+        return s.textVersion;
+      }
+    }
+    return null;
+  });
+
+  @override
   Future<bool> hasHealthConsent() => _guard(() async {
     final states = await _client.consent.current();
     return states.any(

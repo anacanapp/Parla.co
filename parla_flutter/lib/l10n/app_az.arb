@@ -461,5 +461,13 @@
   "allergenSesame": "küncüt",
   "allergenSulphites": "sulfitlər",
   "allergenLupin": "lüpin",
-  "allergenMolluscs": "molyusklar"
+  "allergenMolluscs": "molyusklar",
+  "consentRefreshCardTitle": "Razılıq mətni yeniləndi",
+  "consentRefreshCardBody": "Sağlamlıq məlumatı razılığının yeni versiyası var. Oxuyub razılaşsan, rutinlərin, siyahıların, idman və qidalanma qeydlərin şifrələnmiş serverə də saxlanacaq. Razılaşmasan, onlar yalnız bu telefonda qalır.",
+  "consentRefreshOpen": "Oxu",
+  "consentRefreshTitle": "Sağlamlıq məlumatı razılığı",
+  "consentRefreshIntro": "Əvvəl razılaşdığın mətnin yeni versiyasıdır. Razılaşmaq könüllüdür; istənilən vaxt Məxfilik bölməsində geri götürə bilərsən.",
+  "consentRefreshAgree": "Razıyam",
+  "consentRefreshLater": "İndi yox",
+  "consentRefreshDone": "Razılıq yeniləndi."
 }

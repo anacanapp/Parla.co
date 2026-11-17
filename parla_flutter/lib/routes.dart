@@ -1,6 +1,7 @@
 import 'package:go_router/go_router.dart';
 
 import 'check/shop_screen.dart';
+import 'consent/consent_refresh.dart';
 import 'check/shopping_list_screen.dart';
 import 'discover/discover_screens.dart';
 import 'routines/routine_builder_screen.dart';
@@ -35,6 +36,7 @@ abstract final class Routes {
   static const signIn = '/sign-in'; // M-05, M-06
   static const country = '/country'; // M-07
   static const consents = '/consents'; // M-08
+  static const consentRefresh = '/consents/refresh'; // CON-3
   static const quiz = '/quiz'; // M-09 to M-13
   static const home = '/home'; // M-14
   static const habits = '/habits'; // M-17, M-18
@@ -71,6 +73,10 @@ GoRouter buildRouter() => GoRouter(
     GoRoute(path: Routes.signIn, builder: (_, _) => const SignInScreen()),
     GoRoute(path: Routes.country, builder: (_, _) => const CountryScreen()),
     GoRoute(path: Routes.consents, builder: (_, _) => const ConsentScreen()),
+    GoRoute(
+      path: Routes.consentRefresh,
+      builder: (_, _) => const ConsentRefreshScreen(),
+    ),
     GoRoute(path: Routes.quiz, builder: (_, _) => const QuizScreen()),
     GoRoute(path: Routes.home, builder: (_, _) => const HomeScreen()),
     GoRoute(path: Routes.habits, builder: (_, _) => const HabitsScreen()),

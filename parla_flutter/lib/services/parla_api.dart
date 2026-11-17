@@ -176,6 +176,10 @@ abstract interface class ParlaApi {
   /// Whether the health consent is currently granted.
   Future<bool> hasHealthConsent();
 
+  /// The health consent text version the user granted, or `null` when not
+  /// granted (CON-3: an older version is asked to be renewed).
+  Future<String?> grantedHealthVersion();
+
   /// Saves quiz answers. Only questions with `stored: true` are sent; health
   /// answers only when the health consent is granted.
   Future<void> saveQuizAnswers(QuizAnswers answers);

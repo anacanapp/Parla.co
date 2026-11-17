@@ -461,5 +461,13 @@
   "allergenSesame": "кунжут",
   "allergenSulphites": "сульфиты",
   "allergenLupin": "люпин",
-  "allergenMolluscs": "моллюски"
+  "allergenMolluscs": "моллюски",
+  "consentRefreshCardTitle": "Текст согласия обновлён",
+  "consentRefreshCardBody": "Есть новая версия согласия на данные о здоровье. Если прочитаешь и согласишься, твои рутины, списки, спорт и питание будут храниться и на сервере в зашифрованном виде. Если нет, они остаются только на этом телефоне.",
+  "consentRefreshOpen": "Прочитать",
+  "consentRefreshTitle": "Согласие на данные о здоровье",
+  "consentRefreshIntro": "Это новая версия текста, с которым ты соглашалась. Согласие добровольное; его можно отозвать в любой момент в разделе «Приватность».",
+  "consentRefreshAgree": "Согласна",
+  "consentRefreshLater": "Не сейчас",
+  "consentRefreshDone": "Согласие обновлено."
 }

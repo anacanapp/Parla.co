@@ -47,6 +47,7 @@ class FakeApi implements ParlaApi {
     consents[kind] = granted;
     if (kind == ConsentKind.health) {
       healthConsent = granted;
+      healthVersion = granted ? textVersion : null;
       if (!granted) {
         quizAnswers = null; // Mirrors the server's erase.
         routines = null;
@@ -63,6 +64,15 @@ class FakeApi implements ParlaApi {
 
   @override
   Future<bool> hasHealthConsent() async => healthConsent;
+
+  /// The granted health text version; the current one unless a test sets
+  /// an older one.
+  String? healthVersion;
+
+  @override
+  Future<String?> grantedHealthVersion() async => healthConsent
+      ? healthVersion ?? currentConsentText(ConsentKind.health).version
+      : null;
 
   @override
   Future<void> saveQuizAnswers(QuizAnswers answers) async {

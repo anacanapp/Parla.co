@@ -97,6 +97,14 @@ class ParlaScope extends InheritedWidget {
 
   /// Sign-out: forgets the account's on-device data in memory and cancels
   /// its reminders. The stored data stays for the next sign-in.
+  /// Syncs the health-consent documents again (after a consent change).
+  Future<void> resyncDocuments() => Future.wait([
+    routines.resync(),
+    careList.resync(),
+    sport.resync(),
+    nutrition.resync(),
+  ]);
+
   Future<void> detachAccount() async {
     habits.detach();
     routines.detach();
