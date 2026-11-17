@@ -1665,4 +1665,30 @@ class AppLocalizationsRu extends AppLocalizations {
   String checkSuggestAdd(String name) {
     return 'Добавить: $name';
   }
+
+  @override
+  String get consentRefreshCardTitle => 'Текст согласия обновлён';
+
+  @override
+  String get consentRefreshCardBody =>
+      'Есть новая версия согласия на данные о здоровье. Если прочитаешь и согласишься, твои рутины, списки, спорт и питание будут храниться и на сервере в зашифрованном виде. Если нет, они остаются только на этом телефоне.';
+
+  @override
+  String get consentRefreshOpen => 'Прочитать';
+
+  @override
+  String get consentRefreshTitle => 'Согласие на данные о здоровье';
+
+  @override
+  String get consentRefreshIntro =>
+      'Это новая версия текста, с которым ты соглашалась. Согласие добровольное; его можно отозвать в любой момент в разделе «Приватность».';
+
+  @override
+  String get consentRefreshAgree => 'Согласна';
+
+  @override
+  String get consentRefreshLater => 'Не сейчас';
+
+  @override
+  String get consentRefreshDone => 'Согласие обновлено.';
 }

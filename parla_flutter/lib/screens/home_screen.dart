@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parla_shared/parla_shared.dart';
 
+import '../consent/consent_refresh.dart';
 import '../discover/banner_strip.dart';
 import '../habits/habit_sheets.dart';
 import '../habits/habit_tracker.dart';
@@ -194,6 +195,7 @@ class _HomeBody extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                const ConsentRefreshCard(),
                 if (showQuizPrompt) ...[
                   _QuizPromptCard(onStart: onQuiz),
                   const SizedBox(height: 16),

@@ -1659,4 +1659,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String checkSuggestAdd(String name) {
     return 'Add $name';
   }
+
+  @override
+  String get consentRefreshCardTitle => 'The consent text was updated';
+
+  @override
+  String get consentRefreshCardBody =>
+      'There is a new version of the health data consent. If you read and agree, your routines, lists, sport and nutrition entries are also kept encrypted on the server. If not, they stay on this phone only.';
+
+  @override
+  String get consentRefreshOpen => 'Read';
+
+  @override
+  String get consentRefreshTitle => 'Health data consent';
+
+  @override
+  String get consentRefreshIntro =>
+      'This is a new version of the text you agreed to. Agreeing is voluntary; you can withdraw at any time under Privacy.';
+
+  @override
+  String get consentRefreshAgree => 'I agree';
+
+  @override
+  String get consentRefreshLater => 'Not now';
+
+  @override
+  String get consentRefreshDone => 'Consent updated.';
 }

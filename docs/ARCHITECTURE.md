@@ -601,6 +601,18 @@ quiz answers (`buildRoutine(answers).preferences`) and shows them as
 "Suggested from your quiz". Nothing is turned on by itself: the user adds
 each one, and hidden preferences are never suggested.
 
+## Renewing an older health consent (CON-3)
+When the granted health consent is an older text version (for example
+`health-2026-11-draft1` to `draft4`), Today shows a card. The next screen
+shows the current text with **I agree** and **Not now**.
+- **Not now** changes nothing. The old consent stays valid for what it
+  covered, and data it does not cover stays on the phone (the server's
+  coverage sets).
+- **I agree** records the current version as a new consent record. The
+  old record is kept unchanged (append-only). The app then syncs again, so
+  routines, lists, sport and nutrition kept on the phone are sent
+  encrypted.
+
 ## Health data keys in KMS (ENC-3)
 
 Each user's data key (DEK) is wrapped by the AWS KMS key `alias/<name>-health`
@@ -648,7 +660,6 @@ idempotent).
 | Privacy policy: the daily active count under the analytics consent, staff look-ups of accounts, deletion on request | — | Lawyer, before the beta |
 | Privacy policy text for staff access, the admin panel and push notifications | — | Lawyer, before phase D |
 | Real-device test of reminders (Android 13+ permission, reboot, iOS foreground) | M7 | Before the beta |
-| Ask people who agreed to an older health consent text to agree to the current one (own routines, preferences and the shopping list stay on the phone until then) | CON-3 | Before launch, if anyone agreed to `health-2026-11-draft1` to `draft4` |
 | Expert review of the preference ingredient lists (`product_preferences.dart`) | — | Before launch |
 | Dietitian check of the imported recipes, their plate groups and allergens; dermatologist writing/review of the imported articles | — | Before publishing them |
 | Trainer or physiotherapist review of the exercises, numbers and safety rules (`sport_rules.dart`, `exercise_text.dart`) | — | Before launch |

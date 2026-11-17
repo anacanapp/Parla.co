@@ -75,6 +75,13 @@ abstract class SyncedDocument extends ChangeNotifier {
     if (accountId != null) await _sync(accountId);
   }
 
+  /// Syncs again, for example after the user agreed to the current health
+  /// consent text (pending local changes are sent then).
+  Future<void> resync() async {
+    final id = _accountId;
+    if (id != null) await _sync(id);
+  }
+
   void detach() {
     _accountId = null;
     _reset();

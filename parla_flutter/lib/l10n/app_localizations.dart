@@ -2985,6 +2985,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add {name}'**
   String checkSuggestAdd(String name);
+
+  /// No description provided for @consentRefreshCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'The consent text was updated'**
+  String get consentRefreshCardTitle;
+
+  /// No description provided for @consentRefreshCardBody.
+  ///
+  /// In en, this message translates to:
+  /// **'There is a new version of the health data consent. If you read and agree, your routines, lists, sport and nutrition entries are also kept encrypted on the server. If not, they stay on this phone only.'**
+  String get consentRefreshCardBody;
+
+  /// No description provided for @consentRefreshOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Read'**
+  String get consentRefreshOpen;
+
+  /// No description provided for @consentRefreshTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Health data consent'**
+  String get consentRefreshTitle;
+
+  /// No description provided for @consentRefreshIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a new version of the text you agreed to. Agreeing is voluntary; you can withdraw at any time under Privacy.'**
+  String get consentRefreshIntro;
+
+  /// No description provided for @consentRefreshAgree.
+  ///
+  /// In en, this message translates to:
+  /// **'I agree'**
+  String get consentRefreshAgree;
+
+  /// No description provided for @consentRefreshLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Not now'**
+  String get consentRefreshLater;
+
+  /// No description provided for @consentRefreshDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Consent updated.'**
+  String get consentRefreshDone;
 }
 
 class _AppLocalizationsDelegate

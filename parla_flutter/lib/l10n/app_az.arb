@@ -480,5 +480,13 @@
   "pushDenied": "Bildirişlərə icazə verilmədi. Telefonun ayarlarından aça bilərsən.",
   "checkSuggestTitle": "Testinə görə təklif",
   "checkSuggestBody": "Test cavablarına görə bu seçimlər sənə uyğun ola bilər. Əlavə edib-etməmək sənin qərarındır.",
-  "checkSuggestAdd": "{name} əlavə et"
+  "checkSuggestAdd": "{name} əlavə et",
+  "consentRefreshCardTitle": "Razılıq mətni yeniləndi",
+  "consentRefreshCardBody": "Sağlamlıq məlumatı razılığının yeni versiyası var. Oxuyub razılaşsan, rutinlərin, siyahıların, idman və qidalanma qeydlərin şifrələnmiş serverə də saxlanacaq. Razılaşmasan, onlar yalnız bu telefonda qalır.",
+  "consentRefreshOpen": "Oxu",
+  "consentRefreshTitle": "Sağlamlıq məlumatı razılığı",
+  "consentRefreshIntro": "Əvvəl razılaşdığın mətnin yeni versiyasıdır. Razılaşmaq könüllüdür; istənilən vaxt Məxfilik bölməsində geri götürə bilərsən.",
+  "consentRefreshAgree": "Razıyam",
+  "consentRefreshLater": "İndi yox",
+  "consentRefreshDone": "Razılıq yeniləndi."
 }
