@@ -4,6 +4,7 @@ import 'package:serverpod_auth_idp_server/core.dart';
 import '../audit/audit.dart';
 import '../generated/protocol.dart';
 import '../staff/staff_guard.dart';
+import '../push/push.dart';
 import 'support.dart';
 
 const _roles = {StaffRole.admin, StaffRole.support};
@@ -67,6 +68,16 @@ class SupportAdminEndpoint extends Endpoint {
       thread.copyWith(unreadByStaff: false),
       clean,
       staffId: staff.authUserId,
+    );
+    final profile = await MemberProfile.db.findFirstRow(
+      session,
+      where: (t) => t.authUserId.equals(thread.authUserId),
+    );
+    // A service notice without the reply's text.
+    await pushToUser(
+      session,
+      thread.authUserId,
+      supportReplyNotice(profile?.language ?? 'az'),
     );
     await writeAudit(
       session,

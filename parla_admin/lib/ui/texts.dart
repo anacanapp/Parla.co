@@ -74,6 +74,7 @@ String kindLabel(String kind) => switch (kind) {
   'step' => 'Addımlar',
   'banner' => 'Bannerlər',
   'message' => 'Elanlar',
+  'push' => 'Push',
   _ => 'Mütəxəssislər',
 };
 
@@ -96,6 +97,7 @@ String categoryLabel(String id) => switch (id) {
   'today' => 'Bu gün ekranı',
   'discover' => 'Kəşf ekranı',
   'announcement' => 'Elan',
+  'marketing' => 'Marketinq',
   _ => id,
 };
 

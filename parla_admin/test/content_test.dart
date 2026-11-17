@@ -307,4 +307,26 @@ void main() {
     expect(find.byKey(const ValueKey('banner-ad-note')), findsOneWidget);
     expect(find.byKey(const ValueKey('content-publish')), findsNothing);
   });
+
+  testWidgets('push: an admin sends once after confirming', (tester) async {
+    final api = await _pump(tester, StaffRole.admin);
+    await _tap(tester, find.text('Məzmun'));
+    await _tap(tester, find.text('Push'));
+    await _tap(tester, find.byKey(const ValueKey('content-new')));
+    await tester.enterText(find.byKey(const ValueKey('new-slug')), 'yeni');
+    await _tap(tester, find.byKey(const ValueKey('new-create')));
+    expect(find.byKey(const ValueKey('image-field')), findsNothing);
+    await _type(tester, 'field-title-az', 'Yeni reseptlər');
+    await _type(tester, 'field-body-az', 'Bax');
+    await _tap(tester, find.byKey(const ValueKey('content-save')));
+
+    await _tap(tester, find.byKey(const ValueKey('content-publish')));
+    expect(find.textContaining('Geri almaq olmur'), findsOneWidget);
+    await _tap(tester, find.text('Ləğv et'));
+    expect(api.calls.where((c) => c.startsWith('publish')), isEmpty);
+
+    await _tap(tester, find.byKey(const ValueKey('content-publish')));
+    await _tap(tester, find.byKey(const ValueKey('push-confirm')));
+    expect(api.calls.where((c) => c.startsWith('publish')), hasLength(1));
+  });
 }

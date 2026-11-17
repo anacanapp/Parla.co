@@ -342,6 +342,31 @@ void main() {
     );
   });
 
+  test('push campaigns: short texts, in-app links, no dates or images', () {
+    final push = {
+      'title': _l('Yeni reseptlər'),
+      'body': _l('Qidalanma bölməsinə bax'),
+      'link': 'messages',
+      'languages': ['az'],
+    };
+    expect(_p(ContentKind.push, push), isEmpty);
+    expect(ContentRules.adminPublishesDirectly(ContentKind.push, push), isTrue);
+    expect(
+      _p(ContentKind.push, {...push, 'title': _l('x' * 61)}),
+      contains('title.az.invalid'),
+    );
+    for (final extra in ['image', 'startsOn', 'sponsor']) {
+      expect(
+        _p(ContentKind.push, {...push, extra: 'x'}),
+        contains('$extra.unknown'),
+      );
+    }
+    expect(
+      _p(ContentKind.push, {...push, 'link': 'https://x.az'}),
+      contains('link.invalid'),
+    );
+  });
+
   test('slugs and picking a language', () {
     expect(ContentRules.isSlug('qis-ayl-ari-deri'), isTrue);
     expect(ContentRules.isSlug('Bad Slug'), isFalse);

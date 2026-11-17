@@ -151,6 +151,14 @@ class ServerpodParlaApi implements ParlaApi {
   });
 
   @override
+  Future<void> registerPush(String token, String platform) =>
+      _guard(() => _client.push.register(token, platform));
+
+  @override
+  Future<void> unregisterPush(String token) =>
+      _guard(() => _client.push.unregister(token));
+
+  @override
   Future<void> sendSupport(String text) =>
       _guard(() => _client.support.send(text));
 

@@ -729,6 +729,34 @@ class EndpointProfile extends _isc.EndpointRef {
   );
 }
 
+/// The app turns push notifications on or off for this phone.
+/// {@category Endpoint}
+class EndpointPush extends _isc.EndpointRef {
+  EndpointPush(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'push';
+
+  _ida.Future<void> register(
+    String token,
+    String platform,
+  ) => caller.callServerEndpoint<void>(
+    'push',
+    'register',
+    {
+      'token': token,
+      'platform': platform,
+    },
+  );
+
+  /// Notifications off, or signing out on this phone.
+  _ida.Future<void> unregister(String token) => caller.callServerEndpoint<void>(
+    'push',
+    'unregister',
+    {'token': token},
+  );
+}
+
 /// Saves and returns the user's onboarding quiz answers (M-09 to M-13).
 ///
 /// Non-health answers go to `quiz_answer`; health answers are encrypted in
@@ -1238,6 +1266,7 @@ class Client extends _isc.ServerpodClientShared {
     mediaAdmin = EndpointMediaAdmin(this);
     product = EndpointProduct(this);
     profile = EndpointProfile(this);
+    push = EndpointPush(this);
     quiz = EndpointQuiz(this);
     careList = EndpointCareList(this);
     nutrition = EndpointNutrition(this);
@@ -1270,6 +1299,8 @@ class Client extends _isc.ServerpodClientShared {
   late final EndpointProduct product;
 
   late final EndpointProfile profile;
+
+  late final EndpointPush push;
 
   late final EndpointQuiz quiz;
 
@@ -1308,6 +1339,7 @@ class Client extends _isc.ServerpodClientShared {
     'mediaAdmin': mediaAdmin,
     'product': product,
     'profile': profile,
+    'push': push,
     'quiz': quiz,
     'careList': careList,
     'nutrition': nutrition,

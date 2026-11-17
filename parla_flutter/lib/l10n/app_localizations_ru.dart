@@ -1642,4 +1642,15 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get supportSent => 'Отправлено.';
+
+  @override
+  String get pushTitle => 'Уведомления';
+
+  @override
+  String get pushBody =>
+      'Узнаешь, когда поддержка ответит. С согласием на маркетинг придут и новости Parla. Можно выключить в любой момент.';
+
+  @override
+  String get pushDenied =>
+      'Уведомления не разрешены. Их можно включить в настройках телефона.';
 }

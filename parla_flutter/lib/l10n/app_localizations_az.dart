@@ -1616,4 +1616,15 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get supportSent => 'Göndərildi.';
+
+  @override
+  String get pushTitle => 'Bildirişlər';
+
+  @override
+  String get pushBody =>
+      'Dəstək cavab verəndə xəbər alırsan. Marketinq razılığı versən, Parla-nın yenilikləri də gəlir. İstənilən vaxt söndürə bilərsən.';
+
+  @override
+  String get pushDenied =>
+      'Bildirişlərə icazə verilmədi. Telefonun ayarlarından aça bilərsən.';
 }

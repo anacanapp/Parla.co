@@ -25,3 +25,14 @@ locals {
     "smtpFrom",
   ]
 }
+
+# Push notifications (admin phase D3): the Firebase service account JSON.
+# Created empty; deploy/aws/put-staging-fcm-secret.sh stores it once. The
+# server reads it only when var.enable_push is true, so the task keeps
+# starting while the secret is still empty.
+resource "aws_secretsmanager_secret" "fcm" {
+  name                    = "${var.name}/fcm"
+  description             = "Firebase service account for push (SERVERPOD_PASSWORD_fcmServiceAccount)"
+  kms_key_id              = aws_kms_key.main.arn
+  recovery_window_in_days = 7
+}

@@ -947,5 +947,8 @@
   "supportSend": "Send",
   "supportYou": "You",
   "supportTeam": "Parla team",
-  "supportSent": "Sent."
+  "supportSent": "Sent.",
+  "pushTitle": "Notifications",
+  "pushBody": "Get told when support replies. With the marketing consent you'll also get Parla news. You can turn this off any time.",
+  "pushDenied": "Notifications are not allowed. You can turn them on in your phone settings."
 }

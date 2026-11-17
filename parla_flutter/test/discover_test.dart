@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -5,6 +6,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:parla/app.dart';
 import 'package:parla/discover/discover_screens.dart';
 import 'package:parla/discover/discover_widgets.dart';
+import 'package:parla/push/push_client.dart';
 import 'package:parla/habits/habit_store.dart';
 import 'package:parla/home/widgets/parla_nav_bar.dart';
 import 'package:parla/services/parla_api.dart';
@@ -255,6 +257,23 @@ final _pixel = base64Decode(
   'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
 );
 
+class _FakePush implements PushClient {
+  bool allow = true;
+  final links = StreamController<String>.broadcast();
+
+  @override
+  String get platform => 'android';
+
+  @override
+  Future<bool> requestPermission() async => allow;
+
+  @override
+  Future<String?> token() async => 'phone-token';
+
+  @override
+  Stream<String> get openedLinks => links.stream;
+}
+
 void main() {
   setUp(() {
     SharedPreferences.setMockInitialValues({});
@@ -376,6 +395,38 @@ void main() {
     await _tap(tester, find.byKey(const ValueKey('support-send')));
     expect(app.api.support.last.text, 'My skin feels tight');
     expect(find.text('My skin feels tight'), findsOneWidget);
+  });
+
+  testWidgets('notifications: on and off from Messages; a tapped '
+      'notification opens its link', (tester) async {
+    final push = _FakePush();
+    PushService.client = push;
+    addTearDown(() => PushService.client = null);
+    final app = await _open(tester);
+    await tester.tap(
+      find
+          .descendant(
+            of: find.byType(ParlaNavBar),
+            matching: find.byType(InkWell),
+          )
+          .at(0),
+    );
+    await tester.pumpAndSettle();
+    await _tap(tester, find.byKey(const ValueKey('home-messages')));
+    await _tap(tester, find.byKey(const ValueKey('push-switch')));
+    expect(app.api.pushTokens, {'phone-token'});
+    await _tap(tester, find.byKey(const ValueKey('push-switch')));
+    expect(app.api.pushTokens, isEmpty);
+
+    // Permission refused: nothing is registered.
+    push.allow = false;
+    await _tap(tester, find.byKey(const ValueKey('push-switch')));
+    expect(app.api.pushTokens, isEmpty);
+    expect(find.textContaining('not allowed'), findsOneWidget);
+
+    push.links.add('nutrition');
+    await tester.pumpAndSettle();
+    expect(find.text('0 of 6 groups'), findsOneWidget);
   });
 
   testWidgets('content shows in Russian, and the last copy shows offline', (

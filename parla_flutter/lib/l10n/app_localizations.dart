@@ -2949,6 +2949,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sent.'**
   String get supportSent;
+
+  /// No description provided for @pushTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications'**
+  String get pushTitle;
+
+  /// No description provided for @pushBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Get told when support replies. With the marketing consent you\'ll also get Parla news. You can turn this off any time.'**
+  String get pushBody;
+
+  /// No description provided for @pushDenied.
+  ///
+  /// In en, this message translates to:
+  /// **'Notifications are not allowed. You can turn them on in your phone settings.'**
+  String get pushDenied;
 }
 
 class _AppLocalizationsDelegate

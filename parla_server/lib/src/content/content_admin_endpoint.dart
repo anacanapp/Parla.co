@@ -7,6 +7,7 @@ import '../audit/audit.dart';
 import '../generated/protocol.dart';
 import '../staff/staff_guard.dart';
 import '../media/media_sync.dart';
+import '../push/push.dart';
 import 'content_seed_import.dart';
 
 /// Error codes of the content flow. The panel translates them.
@@ -233,6 +234,11 @@ class ContentAdminEndpoint extends Endpoint {
       throw ParlaException(code: ContentErrors.wrongStatus);
     }
     await _checkImage(session, row.draftJson);
+    final isPush = row.kind == ContentKind.push.name;
+    if (isPush && row.publishedAt != null) {
+      // A push campaign is sent once; write a new one instead.
+      throw ParlaException(code: ContentErrors.wrongStatus);
+    }
     final now = DateTime.now().toUtc();
     final published = await _set(
       session,
@@ -247,6 +253,10 @@ class ContentAdminEndpoint extends Endpoint {
       ),
     );
     await syncPublicMedia(session);
+    if (isPush) {
+      final sent = await sendPushCampaign(session, _draft(row));
+      session.log('Push campaign ${row.id} sent to $sent phones.');
+    }
     return published;
   }
 

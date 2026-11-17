@@ -233,6 +233,12 @@ abstract interface class ParlaApi {
 
   Future<void> sendSupport(String text);
 
+  /// Push notifications on for this phone's [token].
+  Future<void> registerPush(String token, String platform);
+
+  /// Push notifications off (or signing out) for [token].
+  Future<void> unregisterPush(String token);
+
   /// Whether the team replied and it is not read yet.
   Future<bool> hasUnreadSupportReply();
 

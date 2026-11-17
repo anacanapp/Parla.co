@@ -1,0 +1,18 @@
+### A phone's push token (Firebase Cloud Messaging) for an account. Only
+### stored while the user has turned notifications on in the app; deleted
+### on sign-out, with the account, when FCM reports it gone, and after 90
+### days without being seen.
+class: DeviceToken
+table: device_token
+fields:
+  authUserId: UuidValue
+  token: String
+  platform: String
+  createdAt: DateTime
+  lastSeenAt: DateTime
+indexes:
+  device_token_token_idx:
+    fields: token
+    unique: true
+  device_token_user_idx:
+    fields: authUserId

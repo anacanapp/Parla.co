@@ -474,5 +474,8 @@
   "supportSend": "Göndər",
   "supportYou": "Sən",
   "supportTeam": "Parla komandası",
-  "supportSent": "Göndərildi."
+  "supportSent": "Göndərildi.",
+  "pushTitle": "Bildirişlər",
+  "pushBody": "Dəstək cavab verəndə xəbər alırsan. Marketinq razılığı versən, Parla-nın yenilikləri də gəlir. İstənilən vaxt söndürə bilərsən.",
+  "pushDenied": "Bildirişlərə icazə verilmədi. Telefonun ayarlarından aça bilərsən."
 }

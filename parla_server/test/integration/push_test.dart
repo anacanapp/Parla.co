@@ -1,0 +1,223 @@
+import 'dart:convert';
+
+import 'package:parla_server/src/auth/verification_code_sender.dart';
+import 'package:parla_server/src/content/content_admin_endpoint.dart';
+import 'package:parla_server/src/generated/protocol.dart';
+import 'package:parla_server/src/push/push.dart';
+import 'package:parla_server/src/push/push_endpoint.dart';
+import 'package:parla_server/src/push/push_sender.dart';
+import 'package:parla_server/src/staff/totp.dart';
+import 'package:parla_shared/parla_shared.dart';
+import 'package:serverpod_auth_idp_server/core.dart';
+import 'package:test/test.dart';
+
+import 'test_tools/serverpod_test_tools.dart';
+
+Matcher _error(String code) =>
+    isA<ParlaException>().having((e) => e.code, 'code', code);
+
+TestSessionBuilder _as(TestSessionBuilder builder, String userId) =>
+    builder.copyWith(
+      authentication: AuthenticationOverride.authenticationInfo(userId, {}),
+    );
+
+Map<String, String> _l(String s) => {
+  'az': '$s az',
+  'ru': '$s ru',
+  'en': '$s en',
+};
+
+void main() {
+  late RecordingPushSender sender;
+
+  setUp(() {
+    sender = RecordingPushSender();
+    Push.sender = sender;
+  });
+
+  withServerpod('Given push notifications', (sessionBuilder, endpoints) {
+    var n = 0;
+
+    Future<TestSessionBuilder> staff(String email, StaffRole role) async {
+      final db = sessionBuilder.build();
+      final user = await const AuthUsers().create(db);
+      await EmailAccount.db.insertRow(
+        db,
+        EmailAccount(authUserId: user.id, email: email, passwordHash: 'x'),
+      );
+      final s = sessionBuilder.copyWith(
+        authentication: AuthenticationOverride.authenticationInfo(
+          user.id.toString(),
+          {},
+          authId: 'push-${n++}',
+        ),
+      );
+      if (email.startsWith('first-admin')) {
+        await endpoints.staff.claimFirstAdmin(s);
+      } else {
+        await endpoints.staff.acceptInvite(
+          s,
+          DevelopmentCodeSender.lastStaffInviteCode!,
+        );
+      }
+      final e = await endpoints.staff.startTotp(s);
+      await endpoints.staff.confirmTotp(
+        s,
+        await Totp.code(
+          Totp.fromBase32(e.secret),
+          Totp.stepAt(DateTime.now()),
+        ),
+      );
+      return s;
+    }
+
+    Future<String> member(
+      String email, {
+      String language = 'az',
+      bool marketing = false,
+      String? token,
+    }) async {
+      final db = sessionBuilder.build();
+      final user = await const AuthUsers().create(db);
+      await EmailAccount.db.insertRow(
+        db,
+        EmailAccount(authUserId: user.id, email: email, passwordHash: 'x'),
+      );
+      final s = _as(sessionBuilder, user.id.toString());
+      await endpoints.profile.create(
+        s,
+        birthYear: 1995,
+        countryCode: 'AZ',
+        language: language,
+      );
+      if (marketing) {
+        await endpoints.consent.decide(
+          s,
+          consentType: ConsentType.marketing,
+          granted: true,
+          textVersion: currentConsentText(ConsentKind.marketing).version,
+          language: language,
+          source: 'app',
+        );
+      }
+      if (token != null) await endpoints.push.register(s, token, 'android');
+      return user.id.toString();
+    }
+
+    test('phones register and unregister their token', () async {
+      final id = await member('a@example.com', token: 'tok-a');
+      final s = _as(sessionBuilder, id);
+      await endpoints.push.register(s, 'tok-a', 'android'); // again: no copy
+      expect(await DeviceToken.db.find(sessionBuilder.build()), hasLength(1));
+      await expectLater(
+        endpoints.push.register(s, 'tok-b', 'windows'),
+        throwsA(_error(PushErrors.invalid)),
+      );
+      await endpoints.push.unregister(s, 'tok-a');
+      expect(await DeviceToken.db.find(sessionBuilder.build()), isEmpty);
+    });
+
+    test('a support reply sends a notice without the reply text', () async {
+      final admin = await staff('first-admin@example.com', StaffRole.admin);
+      final id = await member('b@example.com', language: 'ru', token: 'tok-b');
+      await endpoints.support.send(_as(sessionBuilder, id), 'Вопрос');
+      final thread = (await endpoints.supportAdmin.threads(admin)).single;
+      await endpoints.supportAdmin.reply(admin, thread.id, 'Секретный ответ');
+      final (token, message) = sender.sent.single;
+      expect(token, 'tok-b');
+      expect(message.body, contains('ответила'));
+      expect(message.body, isNot(contains('Секретный')));
+      expect(message.link, 'messages');
+    });
+
+    test('campaigns go once, only with the marketing consent and the '
+        'chosen languages', () async {
+      final admin = await staff('first-admin@example.com', StaffRole.admin);
+      await member('yes@example.com', marketing: true, token: 'tok-yes');
+      await member('no@example.com', token: 'tok-no');
+      await member(
+        'ru@example.com',
+        language: 'ru',
+        marketing: true,
+        token: 'tok-ru',
+      );
+      await member('gone@example.com', marketing: true, token: 'tok-gone');
+      sender.gone.add('tok-gone');
+
+      final item = await endpoints.contentAdmin.create(
+        admin,
+        'push',
+        'yeni-resept',
+        'marketing',
+      );
+      await endpoints.contentAdmin.saveDraft(
+        admin,
+        item.id,
+        jsonEncode({
+          'title': _l('Yeni reseptlər'),
+          'body': _l('Qidalanma bölməsinə bax'),
+          'link': 'nutrition',
+          'languages': ['az'],
+        }),
+        'marketing',
+      );
+      await endpoints.contentAdmin.publish(admin, item.id);
+      expect(sender.sent.map((s) => s.$1), ['tok-yes']);
+      expect(sender.sent.single.$2.title, 'Yeni reseptlər az');
+      // FCM said the token is gone: it is deleted.
+      final tokens = await DeviceToken.db.find(sessionBuilder.build());
+      expect(tokens.map((t) => t.token), isNot(contains('tok-gone')));
+
+      await expectLater(
+        endpoints.contentAdmin.publish(admin, item.id),
+        throwsA(_error(ContentErrors.wrongStatus)),
+      );
+      expect(sender.sent, hasLength(1));
+    });
+
+    test('an editor\'s campaign needs an admin', () async {
+      final admin = await staff('first-admin@example.com', StaffRole.admin);
+      await endpoints.staffAdmin.invite(
+        admin,
+        'ed@example.com',
+        StaffRole.editor,
+      );
+      final editor = await staff('ed@example.com', StaffRole.editor);
+      final item = await endpoints.contentAdmin.create(
+        editor,
+        'push',
+        'kampaniya',
+        'marketing',
+      );
+      await endpoints.contentAdmin.saveDraft(
+        editor,
+        item.id,
+        jsonEncode({'title': _l('Salam'), 'body': _l('Mətn')}),
+        'marketing',
+      );
+      await expectLater(
+        endpoints.contentAdmin.publish(editor, item.id),
+        throwsA(_error(ContentErrors.wrongStatus)),
+      );
+      await endpoints.contentAdmin.submitForReview(editor, item.id);
+      await endpoints.contentAdmin.approve(admin, item.id);
+      await endpoints.contentAdmin.publish(editor, item.id);
+    });
+
+    test('tokens go with the account and after 90 days unseen', () async {
+      final a = await member('x@example.com', token: 'tok-x');
+      await member('y@example.com', token: 'tok-y');
+      await endpoints.account.deleteAccount(_as(sessionBuilder, a));
+      final db = sessionBuilder.build();
+      expect((await DeviceToken.db.find(db)).map((t) => t.token), ['tok-y']);
+      expect(await expireTokens(db), 0);
+      expect(
+        await expireTokens(
+          db,
+          now: DateTime.now().add(const Duration(days: 91)),
+        ),
+        1,
+      );
+    });
+  });
+}

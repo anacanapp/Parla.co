@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parla_shared/parla_shared.dart';
 
+import '../push/push_client.dart';
 import '../home/widgets/home_cards.dart';
 import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
@@ -91,6 +92,16 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
 
   Future<void> _signOut() async {
     final scope = ParlaScope.of(context);
+    // This phone stops getting the account's notifications.
+    final token = await PushPrefs.token();
+    if (token != null) {
+      try {
+        await scope.api.unregisterPush(token);
+      } on Object {
+        // Offline: the token expires on the server after 90 days unseen.
+      }
+      await PushPrefs.setToken(null);
+    }
     await scope.api.signOut();
     // Habit entries and reminder settings stay on the device under this
     // account and come back when the same account signs in again.

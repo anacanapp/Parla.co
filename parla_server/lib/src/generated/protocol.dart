@@ -58,6 +58,7 @@ import 'media/media_asset.dart' as _ijjfwapm;
 import 'media/public_image.dart' as _ig6ant5g;
 import 'products/product_summary.dart' as _ikmk0g5q;
 import 'profile/member_profile.dart' as _i1iocmvy;
+import 'push/device_token.dart' as _iqu8ign5;
 import 'quiz/quiz_answer.dart' as _ih1qnypb;
 import 'quiz/quiz_answer_input.dart' as _ilw6ope9;
 import 'staff/staff_invite.dart' as _ig710w64;
@@ -99,6 +100,7 @@ export 'media/media_asset.dart';
 export 'media/public_image.dart';
 export 'products/product_summary.dart';
 export 'profile/member_profile.dart';
+export 'push/device_token.dart';
 export 'quiz/quiz_answer.dart';
 export 'quiz/quiz_answer_input.dart';
 export 'staff/staff_invite.dart';
@@ -154,6 +156,7 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_ig6ant5g.PublicImage>,
           _is.getType<_ikmk0g5q.ProductSummary>,
           _is.getType<_i1iocmvy.MemberProfile>,
+          _is.getType<_iqu8ign5.DeviceToken>,
           _is.getType<_ih1qnypb.QuizAnswer>,
           _is.getType<_ilw6ope9.QuizAnswerInput>,
           _is.getType<_ig710w64.StaffInvite>,
@@ -195,6 +198,7 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_ig6ant5g.PublicImage?>,
           _is.getType<_ikmk0g5q.ProductSummary?>,
           _is.getType<_i1iocmvy.MemberProfile?>,
+          _is.getType<_iqu8ign5.DeviceToken?>,
           _is.getType<_ih1qnypb.QuizAnswer?>,
           _is.getType<_ilw6ope9.QuizAnswerInput?>,
           _is.getType<_ig710w64.StaffInvite?>,
@@ -257,6 +261,7 @@ class Protocol extends _is.DatabaseSerializationManager
           'PublicImage',
           'ProductSummary',
           'MemberProfile',
+          'DeviceToken',
           'QuizAnswer',
           'QuizAnswerInput',
           'StaffInvite',
@@ -837,6 +842,81 @@ class Protocol extends _is.DatabaseSerializationManager
           ],
           type: 'btree',
           isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _isp.TableDefinition(
+      name: 'device_token',
+      dartName: 'DeviceToken',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'authUserId',
+          columnType: _isp.ColumnType.uuid,
+          isNullable: false,
+          dartType: 'UuidValue',
+        ),
+        _isp.ColumnDefinition(
+          name: 'token',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'platform',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'createdAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+        _isp.ColumnDefinition(
+          name: 'lastSeenAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'device_token_token_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'token',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+        _isp.IndexDefinition(
+          indexName: 'device_token_user_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'authUserId',
+            ),
+          ],
+          type: 'btree',
+          isUnique: false,
           isPrimary: false,
         ),
       ],
@@ -1766,6 +1846,9 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _i1iocmvy.MemberProfile) {
       return _i1iocmvy.MemberProfile.fromJson(data) as T;
     }
+    if (t == _iqu8ign5.DeviceToken) {
+      return _iqu8ign5.DeviceToken.fromJson(data) as T;
+    }
     if (t == _ih1qnypb.QuizAnswer) {
       return _ih1qnypb.QuizAnswer.fromJson(data) as T;
     }
@@ -1903,6 +1986,9 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _is.getType<_i1iocmvy.MemberProfile?>()) {
       return (data != null ? _i1iocmvy.MemberProfile.fromJson(data) : null)
           as T;
+    }
+    if (t == _is.getType<_iqu8ign5.DeviceToken?>()) {
+      return (data != null ? _iqu8ign5.DeviceToken.fromJson(data) : null) as T;
     }
     if (t == _is.getType<_ih1qnypb.QuizAnswer?>()) {
       return (data != null ? _ih1qnypb.QuizAnswer.fromJson(data) : null) as T;
@@ -2092,6 +2178,7 @@ class Protocol extends _is.DatabaseSerializationManager
       _ig6ant5g.PublicImage => 'PublicImage',
       _ikmk0g5q.ProductSummary => 'ProductSummary',
       _i1iocmvy.MemberProfile => 'MemberProfile',
+      _iqu8ign5.DeviceToken => 'DeviceToken',
       _ih1qnypb.QuizAnswer => 'QuizAnswer',
       _ilw6ope9.QuizAnswerInput => 'QuizAnswerInput',
       _ig710w64.StaffInvite => 'StaffInvite',
@@ -2168,6 +2255,8 @@ class Protocol extends _is.DatabaseSerializationManager
         return 'ProductSummary';
       case _i1iocmvy.MemberProfile():
         return 'MemberProfile';
+      case _iqu8ign5.DeviceToken():
+        return 'DeviceToken';
       case _ih1qnypb.QuizAnswer():
         return 'QuizAnswer';
       case _ilw6ope9.QuizAnswerInput():
@@ -2296,6 +2385,9 @@ class Protocol extends _is.DatabaseSerializationManager
     }
     if (dataClassName == 'MemberProfile') {
       return deserialize<_i1iocmvy.MemberProfile>(data['data']);
+    }
+    if (dataClassName == 'DeviceToken') {
+      return deserialize<_iqu8ign5.DeviceToken>(data['data']);
     }
     if (dataClassName == 'QuizAnswer') {
       return deserialize<_ih1qnypb.QuizAnswer>(data['data']);
@@ -2428,6 +2520,8 @@ class Protocol extends _is.DatabaseSerializationManager
         return _ijjfwapm.MediaAsset.t;
       case _i1iocmvy.MemberProfile:
         return _i1iocmvy.MemberProfile.t;
+      case _iqu8ign5.DeviceToken:
+        return _iqu8ign5.DeviceToken.t;
       case _ih1qnypb.QuizAnswer:
         return _ih1qnypb.QuizAnswer.t;
       case _ig710w64.StaffInvite:

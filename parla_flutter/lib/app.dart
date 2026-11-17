@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
@@ -12,7 +14,9 @@ import 'parla_scope.dart';
 import 'routes.dart';
 import 'check/care_list.dart';
 import 'routines/custom_routines.dart';
+import 'discover/banner_strip.dart';
 import 'discover/content_library.dart';
+import 'push/push_client.dart';
 import 'discover/nutrition_book.dart';
 import 'sport/sport_book.dart';
 import 'services/export_share.dart';
@@ -68,6 +72,7 @@ class ParlaApp extends StatefulWidget {
 
 class _ParlaAppState extends State<ParlaApp> {
   final GoRouter _router = buildRouter();
+  StreamSubscription<String>? _pushLinks;
   final OnboardingState _onboarding = OnboardingState();
   late final HabitTracker _habits = HabitTracker(
     store: widget.habitStore,
@@ -111,6 +116,11 @@ class _ParlaAppState extends State<ParlaApp> {
     super.initState();
     // Team texts and hidden flags for preferences, exercises and steps.
     _content.loadCatalogue();
+    // A tapped push notification opens its in-app link.
+    _pushLinks = PushService.client?.openedLinks.listen((link) {
+      final route = linkRoute(link);
+      if (route != null) _router.go(route.$1, extra: route.$2);
+    });
     _language = widget.settings.language;
     widget.settings.addListener(_onSettings);
   }
@@ -132,6 +142,7 @@ class _ParlaAppState extends State<ParlaApp> {
     _nutrition.dispose();
     _content.dispose();
     _habits.dispose();
+    _pushLinks?.cancel();
     _router.dispose();
     super.dispose();
   }

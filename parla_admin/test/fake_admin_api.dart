@@ -373,9 +373,12 @@ class FakeAdminApi implements AdminApi {
       _put(_find(id).copyWith(consentRecorded: true));
 
   @override
-  Future<ContentAdminItem> publishContent(int id) async => _put(
-    _find(id).copyWith(status: ContentStatus.published, live: true),
-  );
+  Future<ContentAdminItem> publishContent(int id) async {
+    calls.add('publish:$id');
+    return _put(
+      _find(id).copyWith(status: ContentStatus.published, live: true),
+    );
+  }
 
   @override
   Future<ContentAdminItem> unpublishContent(int id) async =>
