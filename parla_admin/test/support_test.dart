@@ -53,7 +53,7 @@ void main() {
       tester,
       find
           .descendant(
-            of: find.byType(NavigationRail),
+            of: find.byKey(const ValueKey('admin-nav')),
             matching: find.text('Dəstək'),
           )
           .first,
@@ -80,7 +80,7 @@ void main() {
     await _pump(tester, StaffRole.editor);
     expect(
       find.descendant(
-        of: find.byType(NavigationRail),
+        of: find.byKey(const ValueKey('admin-nav')),
         matching: find.text('Dəstək'),
       ),
       findsNothing,
@@ -91,7 +91,7 @@ void main() {
     await _pump(tester, StaffRole.admin);
     expect(
       find.descendant(
-        of: find.byType(NavigationRail),
+        of: find.byKey(const ValueKey('admin-nav')),
         matching: find.text('Dəstək'),
       ),
       findsOneWidget,

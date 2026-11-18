@@ -1,9 +1,11 @@
+import 'package:intl/intl.dart';
 import 'package:flutter/material.dart';
 
 import '../api/admin_api.dart';
 import '../staff_session.dart';
 import '../ui/texts.dart';
 import '../ui/theme.dart';
+import '../ui/widgets.dart';
 
 /// Staff accounts and open invitations (admins only).
 class StaffScreen extends StatefulWidget {
@@ -147,36 +149,29 @@ class _StaffScreenState extends State<StaffScreen> {
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
     final staff = _staff;
-    return ListView(
-      padding: const EdgeInsets.all(32),
+    return AdminPage(
+      title: 'İşçilər',
+      subtitle:
+          'İşçilər e-poçt və şifrə ilə daxil olur, 12 saatdan bir yenidən. '
+          'İşçilər istifadəçilərin sağlamlıq məlumatlarını görmür. Bütün '
+          'əməliyyatlar audit jurnalına yazılır.',
+      maxWidth: 960,
+      actions: [
+        FilledButton.icon(
+          key: const ValueKey('invite-open'),
+          onPressed: _invite,
+          icon: const Icon(Icons.person_add_alt, size: 18),
+          label: const Text('Dəvət et'),
+        ),
+      ],
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Semantics(
-                header: true,
-                child: Text('İşçilər', style: text.headlineMedium),
-              ),
-            ),
-            FilledButton.icon(
-              key: const ValueKey('invite-open'),
-              onPressed: _invite,
-              icon: const Icon(Icons.person_add_alt),
-              label: const Text('Dəvət et'),
-            ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Hər işçi daxil olarkən e-poçt, şifrə və authenticator kodu ilə '
-          'təsdiqlənir. İşçilər istifadəçilərin sağlamlıq məlumatlarını '
-          'görmür. Bütün əməliyyatlar audit jurnalına yazılır.',
-          style: text.bodyMedium?.copyWith(color: AdminColors.muted),
-        ),
-        const SizedBox(height: 24),
-        if (_error != null) Text(errorText(_error!)),
-        if (staff == null && _error == null)
-          const Center(child: CircularProgressIndicator()),
+        if (_error != null)
+          Notice(
+            tone: NoticeTone.danger,
+            icon: Icons.error_outline,
+            title: errorText(_error!),
+          ),
+        if (staff == null && _error == null) const LoadingBlock(),
         if (staff != null)
           Card(
             elevation: 0,
@@ -186,12 +181,24 @@ class _StaffScreenState extends State<StaffScreen> {
                 for (final m in staff)
                   ListTile(
                     key: ValueKey('staff-${m.authUserId}'),
+                    leading: _Avatar(m.email),
                     title: Text(m.email),
-                    subtitle: Text(
-                      [
-                        roleLabel(m.role),
-                        if (!m.active) 'deaktiv',
-                      ].join(' · '),
+                    subtitle: Padding(
+                      padding: const EdgeInsets.only(top: 6),
+                      child: Wrap(
+                        spacing: 6,
+                        runSpacing: 6,
+                        children: [
+                          Pill(
+                            roleLabel(m.role),
+                            tone: m.role == StaffRole.admin
+                                ? reviewTone
+                                : neutralTone,
+                          ),
+                          if (!m.active)
+                            const Pill('deaktiv', tone: dangerTone),
+                        ],
+                      ),
                     ),
                     trailing: PopupMenuButton<String>(
                       key: ValueKey('staff-menu-${m.authUserId}'),
@@ -249,8 +256,12 @@ class _StaffScreenState extends State<StaffScreen> {
                 for (final i in _invites)
                   ListTile(
                     key: ValueKey('invite-${i.id}'),
+                    leading: _Avatar(i.email, pending: true),
                     title: Text(i.email),
-                    subtitle: Text(roleLabel(i.role)),
+                    subtitle: Text(
+                      '${roleLabel(i.role)} · dəvət gözləyir, '
+                      '${DateFormat('dd.MM HH:mm').format(i.expiresAt.toLocal())}-dək',
+                    ),
                     trailing: IconButton(
                       tooltip: 'Dəvəti ləğv et',
                       onPressed: () => _act(
@@ -267,4 +278,29 @@ class _StaffScreenState extends State<StaffScreen> {
       ],
     );
   }
+}
+
+class _Avatar extends StatelessWidget {
+  const _Avatar(this.email, {this.pending = false});
+
+  final String email;
+  final bool pending;
+
+  @override
+  Widget build(BuildContext context) => ExcludeSemantics(
+    child: Container(
+      width: 40,
+      height: 40,
+      alignment: Alignment.center,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: pending ? AdminColors.hover : AdminColors.sunSoft,
+        border: pending ? Border.all(color: AdminColors.field) : null,
+      ),
+      child: Text(
+        email.isEmpty ? '?' : email.characters.first.toUpperCase(),
+        style: const TextStyle(fontWeight: FontWeight.w800, fontSize: 15),
+      ),
+    ),
+  );
 }

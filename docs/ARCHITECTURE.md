@@ -308,6 +308,12 @@ messages and push notifications (D) follow.
   (`connect-src 'self'`, `frame-ancestors 'none'`), `noindex`, and
   CanvasKit bundled so nothing loads from Google. The panel is in
   Azerbaijani only, as it is for the team.
+- **Look.** Parla Sun brand (`parla_admin/lib/ui/theme.dart`): sun yellow,
+  cream, espresso, Plus Jakarta Sans with Onest for Cyrillic and Playfair
+  Display Italic, all bundled (SIL OFL 1.1). Shared parts (page header,
+  cards, status pills, notices, empty states) are in `lib/ui/widgets.dart`.
+  A side navigation on wide screens, a drawer on phones. Status colours
+  differ in lightness as well as hue.
 
 ## Nutrition (plate)
 

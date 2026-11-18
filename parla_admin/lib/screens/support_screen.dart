@@ -5,6 +5,7 @@ import '../api/admin_api.dart';
 import '../staff_session.dart';
 import '../ui/texts.dart';
 import '../ui/theme.dart';
+import '../ui/widgets.dart';
 
 /// Support conversations (support role and admins). The list shows no
 /// message text; opening a conversation is recorded in the audit log.
@@ -97,122 +98,173 @@ class _SupportScreenState extends State<SupportScreen> {
     final date = DateFormat('dd.MM.yyyy HH:mm');
     final threads = _threads;
     final open = _open;
+    final narrow = MediaQuery.sizeOf(context).width < 700;
     return Padding(
-      padding: const EdgeInsets.all(32),
+      padding: EdgeInsets.symmetric(
+        horizontal: narrow ? 16 : 40,
+        vertical: narrow ? 20 : 32,
+      ),
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Semantics(
-            header: true,
-            child: Text('Dəstək', style: text.headlineMedium),
+          const PageHeader(
+            title: 'Dəstək',
+            subtitle:
+                'Mesajlarda sağlamlıq məlumatı ola bilər: yalnız lazım olanı '
+                'oxuyun, tibbi məsləhət verməyin. Hər açılış audit jurnalına '
+                'yazılır. Yazışmalar son mesajdan 12 ay sonra silinir.',
           ),
-          const SizedBox(height: 8),
-          Text(
-            'Mesajlarda sağlamlıq məlumatı ola bilər: yalnız lazım olanı '
-            'oxuyun, tibbi məsləhət verməyin. Hər açılış audit jurnalına '
-            'yazılır. Yazışmalar son mesajdan 12 ay sonra silinir.',
-            style: text.bodySmall?.copyWith(color: AdminColors.muted),
-          ),
-          const SizedBox(height: 16),
-          if (_error != null) Text(errorText(_error!)),
+          const SizedBox(height: 20),
+          if (_error != null) ...[
+            Notice(
+              tone: NoticeTone.danger,
+              icon: Icons.error_outline,
+              title: errorText(_error!),
+            ),
+            const SizedBox(height: 12),
+          ],
           Expanded(
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SizedBox(
-                  width: 360,
-                  child: threads == null
-                      ? const Center(child: CircularProgressIndicator())
-                      : threads.isEmpty
-                      ? const Text('Hələ mesaj yoxdur.')
-                      : ListView(
-                          children: [
-                            for (final t in threads)
-                              ListTile(
-                                key: ValueKey('thread-${t.id}'),
-                                selected: open?.id == t.id,
-                                leading: t.unreadByStaff
-                                    ? const Icon(Icons.mark_email_unread)
-                                    : const Icon(Icons.mail_outline),
-                                title: Text(t.email),
-                                subtitle: Text(
-                                  '${date.format(t.lastMessageAt.toLocal())}'
-                                  '${t.open ? '' : ' · bağlı'}',
+                  width: 340,
+                  child: Card(
+                    child: threads == null
+                        ? const LoadingBlock()
+                        : threads.isEmpty
+                        ? const EmptyState(
+                            title: 'Hələ mesaj yoxdur.',
+                            icon: Icons.chat_bubble_outline,
+                          )
+                        : ListView(
+                            children: [
+                              for (final t in threads)
+                                ListTile(
+                                  key: ValueKey('thread-${t.id}'),
+                                  selected: open?.id == t.id,
+                                  selectedTileColor: AdminColors.sunSoft,
+                                  selectedColor: AdminColors.espresso,
+                                  leading: t.unreadByStaff
+                                      ? const Icon(
+                                          Icons.mark_email_unread,
+                                          color: AdminColors.espresso,
+                                        )
+                                      : const Icon(Icons.mail_outline),
+                                  title: Text(
+                                    t.email,
+                                    style: TextStyle(
+                                      fontWeight: t.unreadByStaff
+                                          ? FontWeight.w800
+                                          : FontWeight.w600,
+                                    ),
+                                  ),
+                                  subtitle: Text(
+                                    '${date.format(t.lastMessageAt.toLocal())}'
+                                    '${t.open ? '' : ' · bağlı'}',
+                                  ),
+                                  onTap: () => _openThread(t),
                                 ),
-                                onTap: () => _openThread(t),
-                              ),
-                          ],
-                        ),
+                            ],
+                          ),
+                  ),
                 ),
-                const VerticalDivider(),
+                const SizedBox(width: 20),
                 Expanded(
                   child: open == null
-                      ? const Center(child: Text('Yazışma seçin.'))
-                      : Column(
-                          crossAxisAlignment: CrossAxisAlignment.stretch,
-                          children: [
-                            Text(open.email, style: text.titleMedium),
-                            const SizedBox(height: 8),
-                            Expanded(
-                              child: ListView(
-                                children: [
-                                  for (final m in _messages)
-                                    Align(
-                                      alignment: m.fromStaff
-                                          ? Alignment.centerRight
-                                          : Alignment.centerLeft,
-                                      child: Card(
-                                        color: m.fromStaff
-                                            ? AdminColors.cream
-                                            : AdminColors.white,
-                                        child: Padding(
-                                          padding: const EdgeInsets.all(10),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                m.fromStaff
-                                                    ? 'Parla'
-                                                    : 'İstifadəçi',
-                                                style: text.labelSmall,
+                      ? const Card(
+                          child: Center(
+                            child: EmptyState(
+                              title: 'Yazışma seçin.',
+                              icon: Icons.forum_outlined,
+                            ),
+                          ),
+                        )
+                      : Card(
+                          child: Padding(
+                            padding: const EdgeInsets.all(20),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.stretch,
+                              children: [
+                                Text(open.email, style: text.titleMedium),
+                                const SizedBox(height: 8),
+                                Expanded(
+                                  child: ListView(
+                                    children: [
+                                      for (final m in _messages)
+                                        Align(
+                                          alignment: m.fromStaff
+                                              ? Alignment.centerRight
+                                              : Alignment.centerLeft,
+                                          child: Container(
+                                            margin: const EdgeInsets.symmetric(
+                                              vertical: 4,
+                                            ),
+                                            constraints: const BoxConstraints(
+                                              maxWidth: 520,
+                                            ),
+                                            decoration: BoxDecoration(
+                                              color: m.fromStaff
+                                                  ? AdminColors.sunSoft
+                                                  : AdminColors.canvas,
+                                              borderRadius:
+                                                  BorderRadius.circular(
+                                                    14,
+                                                  ),
+                                              border: Border.all(
+                                                color: AdminColors.line,
                                               ),
-                                              Text(m.text),
-                                            ],
+                                            ),
+                                            child: Padding(
+                                              padding: const EdgeInsets.all(12),
+                                              child: Column(
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.start,
+                                                children: [
+                                                  Text(
+                                                    m.fromStaff
+                                                        ? 'Parla'
+                                                        : 'İstifadəçi',
+                                                    style: text.labelSmall,
+                                                  ),
+                                                  Text(m.text),
+                                                ],
+                                              ),
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    ),
-                                ],
-                              ),
-                            ),
-                            TextField(
-                              key: const ValueKey('support-reply'),
-                              controller: _reply,
-                              minLines: 2,
-                              maxLines: 6,
-                              maxLength: 2000,
-                              decoration: const InputDecoration(
-                                labelText: 'Cavab',
-                              ),
-                            ),
-                            Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              children: [
-                                TextButton(
-                                  key: const ValueKey('support-close'),
-                                  onPressed: open.open ? _close : null,
-                                  child: const Text('Bağla'),
+                                    ],
+                                  ),
                                 ),
-                                const SizedBox(width: 8),
-                                FilledButton(
-                                  key: const ValueKey('support-send'),
-                                  onPressed: _send,
-                                  child: const Text('Göndər'),
+                                TextField(
+                                  key: const ValueKey('support-reply'),
+                                  controller: _reply,
+                                  minLines: 2,
+                                  maxLines: 6,
+                                  maxLength: 2000,
+                                  decoration: const InputDecoration(
+                                    labelText: 'Cavab',
+                                  ),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    TextButton(
+                                      key: const ValueKey('support-close'),
+                                      onPressed: open.open ? _close : null,
+                                      child: const Text('Bağla'),
+                                    ),
+                                    const SizedBox(width: 8),
+                                    FilledButton(
+                                      key: const ValueKey('support-send'),
+                                      onPressed: _send,
+                                      child: const Text('Göndər'),
+                                    ),
+                                  ],
                                 ),
                               ],
                             ),
-                          ],
+                          ),
                         ),
                 ),
               ],

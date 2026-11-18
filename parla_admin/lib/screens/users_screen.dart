@@ -5,6 +5,7 @@ import '../api/admin_api.dart';
 import '../staff_session.dart';
 import '../ui/texts.dart';
 import '../ui/theme.dart';
+import '../ui/widgets.dart';
 
 String _consentLabel(ConsentType t) => switch (t) {
   ConsentType.health => 'Sağlamlıq məlumatı',
@@ -168,20 +169,13 @@ class _UsersScreenState extends State<UsersScreen> {
     final text = Theme.of(context).textTheme;
     final user = _user;
     final date = DateFormat('dd.MM.yyyy');
-    return ListView(
-      padding: const EdgeInsets.all(32),
-      children: [
-        Semantics(
-          header: true,
-          child: Text('İstifadəçilər', style: text.headlineMedium),
-        ),
-        const SizedBox(height: 8),
-        Text(
+    return AdminPage(
+      title: 'İstifadəçilər',
+      subtitle:
           'Hesabı yalnız dəqiq e-poçtla tapmaq olar; siyahı yoxdur. Hər baxış '
           'audit jurnalına yazılır. Sağlamlıq məlumatı burada görünmür.',
-          style: text.bodySmall?.copyWith(color: AdminColors.muted),
-        ),
-        const SizedBox(height: 16),
+      maxWidth: 860,
+      children: [
         Row(
           children: [
             Expanded(
@@ -203,7 +197,13 @@ class _UsersScreenState extends State<UsersScreen> {
         ),
         const SizedBox(height: 16),
         if (_searched && user == null)
-          const Text('Bu e-poçtla hesab yoxdur.', key: ValueKey('users-none')),
+          const Card(
+            child: EmptyState(
+              key: ValueKey('users-none'),
+              title: 'Bu e-poçtla hesab yoxdur.',
+              icon: Icons.person_search_outlined,
+            ),
+          ),
         if (user != null)
           Card(
             key: const ValueKey('users-card'),
@@ -220,9 +220,10 @@ class _UsersScreenState extends State<UsersScreen> {
                         child: Text(user.email, style: text.titleMedium),
                       ),
                       if (user.blocked)
-                        const Chip(
+                        const Pill(
+                          'bloklanıb',
                           key: ValueKey('users-blocked'),
-                          label: Text('bloklanıb'),
+                          tone: dangerTone,
                         ),
                       if (user.isStaff) const Chip(label: Text('işçi')),
                     ],

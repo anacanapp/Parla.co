@@ -4,7 +4,7 @@ import 'package:parla_shared/parla_shared.dart';
 import '../api/admin_api.dart';
 import '../staff_session.dart';
 import '../ui/texts.dart';
-import '../ui/theme.dart';
+import '../ui/widgets.dart';
 
 String _metricTitle(String metric) {
   if (metric.startsWith('quiz:')) {
@@ -80,60 +80,56 @@ class _StatsScreenState extends State<StatsScreen> {
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
     final r = _report;
-    return ListView(
-      padding: const EdgeInsets.all(32),
-      children: [
-        Row(
-          children: [
-            Expanded(
-              child: Semantics(
-                header: true,
-                child: Text('Statistika', style: text.headlineMedium),
-              ),
-            ),
-            IconButton(
-              tooltip: 'Yenilə',
-              onPressed: _load,
-              icon: const Icon(Icons.refresh),
-            ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        Text(
+    return AdminPage(
+      title: 'Statistika',
+      subtitle:
           'Yalnız toplu, anonim rəqəmlər. ${r?.minGroupSize ?? 10} nəfərdən az '
           'olan qruplar "<${r?.minGroupSize ?? 10}" kimi göstərilir. Sağlamlıq '
           'cavabları heç vaxt sayılmır.',
-          style: text.bodySmall?.copyWith(color: AdminColors.muted),
+      actions: [
+        OutlinedButton.icon(
+          onPressed: _load,
+          icon: const Icon(Icons.refresh, size: 18),
+          label: const Text('Yenilə'),
         ),
-        const SizedBox(height: 16),
-        if (_error != null) Text(errorText(_error!)),
-        if (r == null && _error == null)
-          const Center(child: CircularProgressIndicator()),
+      ],
+      children: [
+        if (_error != null)
+          Notice(
+            tone: NoticeTone.danger,
+            icon: Icons.error_outline,
+            title: errorText(_error!),
+          ),
+        if (r == null && _error == null) const LoadingBlock(),
         if (r != null)
-          for (final g in r.groups)
-            Card(
-              key: ValueKey('stats-${g.metric}'),
-              elevation: 0,
-              color: AdminColors.white,
-              child: Padding(
-                padding: const EdgeInsets.all(16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(_metricTitle(g.metric), style: text.titleSmall),
-                    const SizedBox(height: 8),
-                    if (g.counts.isEmpty) const Text('Hələ məlumat yoxdur.'),
-                    for (final c in g.counts)
-                      _Row(
-                        label: _label(g.metric, c.label),
-                        count: c.count,
-                        total: g.total,
-                        min: r.minGroupSize,
-                      ),
-                  ],
+          ResponsiveGrid(
+            minItemWidth: 340,
+            children: [
+              for (final g in r.groups)
+                Card(
+                  key: ValueKey('stats-${g.metric}'),
+                  child: Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(_metricTitle(g.metric), style: text.titleMedium),
+                        const SizedBox(height: 12),
+                        if (g.counts.isEmpty)
+                          Text('Hələ məlumat yoxdur.', style: text.bodySmall),
+                        for (final c in g.counts)
+                          _Row(
+                            label: _label(g.metric, c.label),
+                            count: c.count,
+                            total: g.total,
+                            min: r.minGroupSize,
+                          ),
+                      ],
+                    ),
+                  ),
                 ),
-              ),
-            ),
+            ],
+          ),
       ],
     );
   }
@@ -158,25 +154,49 @@ class _Row extends StatelessWidget {
         ? count! / total!
         : null;
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 3),
-      child: Row(
+      padding: const EdgeInsets.symmetric(vertical: 6),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(width: 280, child: Text(label)),
-          SizedBox(
-            width: 70,
-            child: Text(
-              count == null ? '<$min' : '$count',
-              textAlign: TextAlign.end,
-            ),
+          Row(
+            children: [
+              Expanded(
+                child: Text(label, style: const TextStyle(fontSize: 14)),
+              ),
+              Text(
+                count == null ? '<$min' : '$count',
+                style: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+              if (share != null) ...[
+                const SizedBox(width: 8),
+                SizedBox(
+                  width: 44,
+                  child: Text(
+                    '${(share * 100).round()}%',
+                    textAlign: TextAlign.end,
+                    style: const TextStyle(
+                      fontSize: 13,
+                      color: Color(0xFF6B6052),
+                    ),
+                  ),
+                ),
+              ],
+            ],
           ),
-          const SizedBox(width: 12),
           if (share != null) ...[
-            SizedBox(
-              width: 160,
-              child: LinearProgressIndicator(value: share.clamp(0, 1)),
+            const SizedBox(height: 6),
+            ClipRRect(
+              borderRadius: BorderRadius.circular(4),
+              child: LinearProgressIndicator(
+                value: share.clamp(0, 1),
+                minHeight: 6,
+                color: const Color(0xFF1F1A14),
+                backgroundColor: const Color(0xFFFFF3C2),
+              ),
             ),
-            const SizedBox(width: 8),
-            Text('${(share * 100).round()}%'),
           ],
         ],
       ),

@@ -97,7 +97,7 @@ void main() {
     tester,
   ) async {
     final api = await _pump(tester, api: _ready(StaffRole.admin));
-    await _tap(tester, find.text('İşçilər'));
+    await _tap(tester, find.byKey(const ValueKey('nav-staff')));
     expect(find.text('admin@parla.az'), findsOneWidget);
     expect(find.textContaining('sağlamlıq məlumatlarını görmür'), findsOne);
 
