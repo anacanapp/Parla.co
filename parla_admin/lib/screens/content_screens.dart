@@ -11,10 +11,9 @@ import '../media/image_field.dart';
 import '../staff_session.dart';
 import '../ui/texts.dart';
 import '../ui/theme.dart';
+import '../ui/widgets.dart';
 
-void _snack(BuildContext context, String text) => ScaffoldMessenger.of(context)
-  ..hideCurrentSnackBar()
-  ..showSnackBar(SnackBar(content: Text(text)));
+void _snack(BuildContext context, String text) => showToast(context, text);
 
 bool _canWrite(StaffState s) =>
     s.me?.role == StaffRole.admin || s.me?.role == StaffRole.editor;
@@ -33,6 +32,8 @@ class ContentScreen extends StatefulWidget {
 class _ContentScreenState extends State<ContentScreen> {
   List<ContentAdminItem>? _items;
   Object? _error;
+  String _query = '';
+  ContentStatus? _status;
 
   @override
   void initState() {
@@ -45,6 +46,9 @@ class _ContentScreenState extends State<ContentScreen> {
     super.didUpdateWidget(old);
     if (old.kind != widget.kind) {
       _items = null;
+      _error = null;
+      _query = '';
+      _status = null;
       _load();
     }
   }
@@ -188,128 +192,351 @@ class _ContentScreenState extends State<ContentScreen> {
 
   Widget _catalogueTile(String id, List<ContentAdminItem> items) {
     final item = items.where((i) => i.slug == id).firstOrNull;
-    return ListTile(
+    return _ContentRow(
       key: ValueKey('catalogue-$id'),
-      title: Text(item == null ? _defaultTitle(_kind, id) : _title(item)),
-      subtitle: Text(
-        [
-          id,
-          if (item == null) 'tətbiqdəki mətn',
-          if (item?.live ?? false) 'canlı',
-          if (item?.hidden ?? false) 'gizli',
-        ].join(' · '),
-      ),
-      trailing: item == null
-          ? null
-          : Chip(label: Text(statusLabel(item.status))),
+      title: item == null ? _defaultTitle(_kind, id) : _title(item),
+      subtitle: [id, if (item == null) 'tətbiqdəki mətn'].join(' · '),
+      item: item,
       onTap: () => _openCatalogue(id),
     );
+  }
+
+  bool _matches(ContentAdminItem item) {
+    if (_status != null && item.status != _status) return false;
+    final q = _query.trim().toLowerCase();
+    if (q.isEmpty) return true;
+    return _title(item).toLowerCase().contains(q) ||
+        item.slug.toLowerCase().contains(q);
   }
 
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
     final items = _items;
-    return ListView(
-      padding: const EdgeInsets.all(32),
+    final kinds = ContentKind.values;
+    final shown = items?.where(_matches).toList();
+    final catalogueIds = _kind.isCatalogue
+        ? [
+            for (final id in ContentRules.catalogueIds(_kind))
+              if (_query.trim().isEmpty ||
+                  id.contains(_query.trim().toLowerCase()) ||
+                  _defaultTitle(_kind, id).toLowerCase().contains(
+                    _query.trim().toLowerCase(),
+                  ))
+                id,
+          ]
+        : const <String>[];
+    return AdminPage(
+      title: 'Məzmun',
+      subtitle:
+          'Bloqlar, reseptlər, mütəxəssislər, bannerlər, elanlar, push və '
+          'tətbiqin kataloq mətnləri.',
+      actions: [
+        if (widget.state.me?.role == StaffRole.admin &&
+            (_kind == ContentKind.article || _kind == ContentKind.recipe))
+          OutlinedButton.icon(
+            key: const ValueKey('content-import'),
+            onPressed: _importSheet,
+            icon: const Icon(Icons.table_view_outlined, size: 18),
+            label: const Text('Cədvəldən idxal et'),
+          ),
+        if (_canWrite(widget.state) && !_kind.isCatalogue)
+          FilledButton.icon(
+            key: const ValueKey('content-new'),
+            onPressed: _create,
+            icon: const Icon(Icons.add, size: 18),
+            label: const Text('Yeni'),
+          ),
+      ],
       children: [
-        Row(
-          children: [
-            Expanded(
-              child: Semantics(
-                header: true,
-                child: Text('Məzmun', style: text.headlineMedium),
-              ),
-            ),
-            if (widget.state.me?.role == StaffRole.admin &&
-                (_kind == ContentKind.article ||
-                    _kind == ContentKind.recipe)) ...[
-              OutlinedButton.icon(
-                key: const ValueKey('content-import'),
-                onPressed: _importSheet,
-                icon: const Icon(Icons.table_view_outlined),
-                label: const Text('Cədvəldən idxal et'),
-              ),
-              const SizedBox(width: 8),
-            ],
-            if (_canWrite(widget.state) && !_kind.isCatalogue)
-              FilledButton.icon(
-                key: const ValueKey('content-new'),
-                onPressed: _create,
-                icon: const Icon(Icons.add),
-                label: const Text('Yeni'),
-              ),
-          ],
-        ),
-        const SizedBox(height: 12),
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: [
-            for (final k in ContentKind.values)
-              ChoiceChip(
-                label: Text(kindLabel(k.name)),
-                selected: k.name == widget.kind,
-                onSelected: (_) => context.go('/content/${k.name}'),
-              ),
-          ],
-        ),
-        const SizedBox(height: 8),
-        Text(
-          'Axın: redaktor yazır → mütəxəssis yoxlayır → dərc olunur. '
-          'Dərc olunmuş yazını redaktə etmək canlı mətni dəyişmir; yeni '
-          'versiya yenidən yoxlanılır.',
-          style: text.bodySmall?.copyWith(color: AdminColors.muted),
+        PillTabs(
+          labels: [for (final k in kinds) kindLabel(k.name)],
+          keys: [for (final k in kinds) ValueKey('kind-${k.name}')],
+          selected: kinds.indexOf(_kind),
+          onSelected: (i) => context.go('/content/${kinds[i].name}'),
         ),
         const SizedBox(height: 16),
-        if (_error != null) Text(errorText(_error!)),
-        if (items == null && _error == null)
-          const Center(child: CircularProgressIndicator()),
-        if (_kind.isCatalogue && items != null)
-          Text(
-            'Burada yalnız mətnlər${_kind == ContentKind.exercise ? ', şəkil' : ''} '
-            'və tətbiqdə göstərmək/gizlətmək dəyişir. Qaydalar və '
-            'təhlükəsizlik şərtləri kodda qalır.',
-            style: Theme.of(context).textTheme.bodySmall,
-          ),
-        if (_kind.isCatalogue && items != null)
-          Card(
-            elevation: 0,
-            color: AdminColors.white,
-            child: Column(
-              children: [
-                for (final id in ContentRules.catalogueIds(_kind))
-                  _catalogueTile(id, items),
-              ],
+        Wrap(
+          spacing: 10,
+          runSpacing: 10,
+          crossAxisAlignment: WrapCrossAlignment.center,
+          children: [
+            SizedBox(
+              width: 340,
+              child: TextField(
+                key: const ValueKey('content-search'),
+                onChanged: (v) => setState(() => _query = v),
+                decoration: const InputDecoration(
+                  hintText: 'Başlıq və ya slug ilə axtar',
+                  prefixIcon: Icon(Icons.search, size: 20),
+                  isDense: true,
+                ),
+              ),
+            ),
+            if (!_kind.isCatalogue)
+              SizedBox(
+                width: 220,
+                child: DropdownButtonFormField<ContentStatus?>(
+                  key: const ValueKey('content-status-filter'),
+                  initialValue: _status,
+                  isDense: true,
+                  isExpanded: true,
+                  decoration: const InputDecoration(labelText: 'Status'),
+                  items: [
+                    const DropdownMenuItem(value: null, child: Text('Hamısı')),
+                    for (final s in ContentStatus.values)
+                      DropdownMenuItem(value: s, child: Text(statusLabel(s))),
+                  ],
+                  onChanged: (v) => setState(() => _status = v),
+                ),
+              ),
+          ],
+        ),
+        const SizedBox(height: 16),
+        if (_kind.isCatalogue)
+          Padding(
+            padding: const EdgeInsets.only(bottom: 12),
+            child: Text(
+              'Burada yalnız mətnlər${_kind == ContentKind.exercise ? ', şəkil' : ''} '
+              'və tətbiqdə göstərmək/gizlətmək dəyişir. Qaydalar və '
+              'təhlükəsizlik şərtləri kodda qalır.',
+              style: text.bodySmall,
             ),
           ),
-        if (!_kind.isCatalogue && items != null && items.isEmpty)
-          const Text('Hələ heç nə yoxdur.'),
-        if (!_kind.isCatalogue && items != null && items.isNotEmpty)
+        if (_error != null)
+          Notice(
+            tone: NoticeTone.danger,
+            icon: Icons.error_outline,
+            title: errorText(_error!),
+          )
+        else if (items == null)
+          const LoadingBlock()
+        else if (_kind.isCatalogue)
           Card(
-            elevation: 0,
-            color: AdminColors.white,
             child: Column(
               children: [
-                for (final item in items)
-                  ListTile(
+                const _ContentHeaderRow(),
+                for (final id in catalogueIds) _catalogueTile(id, items),
+              ],
+            ),
+          )
+        else if (items.isEmpty)
+          Card(
+            child: EmptyState(
+              title: 'Hələ heç nə yoxdur.',
+              body: _canWrite(widget.state)
+                  ? '"Yeni" ilə ilk ${kindLabel(widget.kind).toLowerCase()} '
+                        'yazısını yaradın.'
+                  : null,
+              icon: Icons.article_outlined,
+            ),
+          )
+        else if (shown!.isEmpty)
+          const Card(
+            child: EmptyState(
+              title: 'Uyğun nəticə yoxdur',
+              body: 'Axtarışı və ya status filtrini dəyişin.',
+              icon: Icons.search_off,
+            ),
+          )
+        else
+          Card(
+            child: Column(
+              children: [
+                const _ContentHeaderRow(),
+                for (final item in shown)
+                  _ContentRow(
                     key: ValueKey('content-${item.id}'),
-                    title: Text(_title(item)),
-                    subtitle: Text(
-                      [
-                        item.slug,
-                        categoryLabel(item.category),
-                        if (item.live) 'canlı',
-                      ].join(' · '),
-                    ),
-                    trailing: Chip(label: Text(statusLabel(item.status))),
+                    title: _title(item),
+                    subtitle: [
+                      item.slug,
+                      categoryLabel(item.category),
+                    ].join(' · '),
+                    item: item,
                     onTap: () =>
                         context.go('/content/${widget.kind}/${item.id}'),
                   ),
               ],
             ),
           ),
+        if (!_kind.isCatalogue && items != null && items.isNotEmpty) ...[
+          const SizedBox(height: 14),
+          Text(
+            '${shown!.length} / ${items.length} göstərilir',
+            style: text.bodySmall,
+          ),
+        ],
       ],
+    );
+  }
+}
+
+/// Which of az, ru and en have a title (or name) in the working copy.
+Set<String> _languagesFilled(ContentAdminItem item) {
+  final json = jsonDecode(item.draftJson) as Map<String, Object?>;
+  final title = json['title'] ?? json['name'];
+  return {
+    for (final l in ContentRules.languages)
+      if (ContentRules.pick(title, l).isNotEmpty) l,
+  };
+}
+
+class _ContentHeaderRow extends StatelessWidget {
+  const _ContentHeaderRow();
+
+  @override
+  Widget build(BuildContext context) {
+    final wide = MediaQuery.sizeOf(context).width >= 1100;
+    if (!wide) return const SizedBox.shrink();
+    const style = TextStyle(
+      fontSize: 13,
+      fontWeight: FontWeight.w600,
+      color: AdminColors.muted,
+    );
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20, 12, 20, 12),
+      decoration: const BoxDecoration(
+        border: Border(bottom: BorderSide(color: AdminColors.line)),
+      ),
+      child: const Row(
+        children: [
+          Expanded(child: Text('Başlıq', style: style)),
+          SizedBox(width: 130, child: Text('Dillər', style: style)),
+          SizedBox(width: 170, child: Text('Status', style: style)),
+          SizedBox(width: 24),
+        ],
+      ),
+    );
+  }
+}
+
+/// One item in a content list.
+class _ContentRow extends StatelessWidget {
+  const _ContentRow({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.item,
+    required this.onTap,
+  });
+
+  final String title;
+  final String subtitle;
+  final ContentAdminItem? item;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final wide = MediaQuery.sizeOf(context).width >= 1100;
+    final item = this.item;
+    final filled = item == null ? null : _languagesFilled(item);
+    final badges = Wrap(
+      spacing: 6,
+      runSpacing: 6,
+      children: [
+        if (item != null) StatusPill(item.status),
+        if (item?.live ?? false) const Pill('canlı', tone: liveTone),
+        if (item?.hidden ?? false) const Pill('gizli', tone: dangerTone),
+      ],
+    );
+    final languages = filled == null
+        ? const SizedBox.shrink()
+        : Wrap(
+            runSpacing: 4,
+            children: [
+              for (final l in ContentRules.languages)
+                Padding(
+                  padding: const EdgeInsets.only(right: 4),
+                  child: Tooltip(
+                    message: filled.contains(l) ? 'Doldurulub' : 'Boşdur',
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 6,
+                        vertical: 2,
+                      ),
+                      decoration: BoxDecoration(
+                        color: filled.contains(l)
+                            ? liveTone.background
+                            : AdminColors.hover,
+                        borderRadius: BorderRadius.circular(6),
+                      ),
+                      child: Text(
+                        l.toUpperCase(),
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                          color: filled.contains(l)
+                              ? liveTone.text
+                              : AdminColors.subtle,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+            ],
+          );
+    final heading = Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+        ),
+        const SizedBox(height: 2),
+        Text(
+          subtitle,
+          style: const TextStyle(fontSize: 13, color: AdminColors.subtle),
+        ),
+      ],
+    );
+    return InkWell(
+      onTap: onTap,
+      hoverColor: AdminColors.canvas,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 14),
+        decoration: const BoxDecoration(
+          border: Border(bottom: BorderSide(color: Color(0xFFF5F0E4))),
+        ),
+        child: wide
+            ? Row(
+                children: [
+                  Expanded(child: heading),
+                  SizedBox(width: 130, child: languages),
+                  SizedBox(width: 170, child: badges),
+                  const Icon(
+                    Icons.chevron_right,
+                    size: 20,
+                    color: AdminColors.subtle,
+                  ),
+                ],
+              )
+            : Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        heading,
+                        const SizedBox(height: 8),
+                        Wrap(
+                          spacing: 8,
+                          runSpacing: 6,
+                          crossAxisAlignment: WrapCrossAlignment.center,
+                          children: [languages, badges],
+                        ),
+                      ],
+                    ),
+                  ),
+                  const Icon(
+                    Icons.chevron_right,
+                    size: 20,
+                    color: AdminColors.subtle,
+                  ),
+                ],
+              ),
+      ),
     );
   }
 }
@@ -578,6 +805,7 @@ class ContentEditorScreen extends StatefulWidget {
 
 class _ContentEditorScreenState extends State<ContentEditorScreen> {
   ContentAdminItem? _item;
+  String _lang = 'az';
   Object? _error;
   bool _busy = false;
   String _category = '';
@@ -1060,91 +1288,186 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
         ),
     ];
 
-    return DefaultTabController(
-      length: 3,
-      child: ListView(
-        padding: const EdgeInsets.all(32),
-        children: [
-          Row(
-            children: [
-              IconButton(
-                tooltip: 'Siyahıya qayıt',
-                onPressed: () => context.go('/content/${widget.kind}'),
-                icon: const Icon(Icons.arrow_back),
-              ),
-              Expanded(
-                child: Semantics(
-                  header: true,
-                  child: Text(item.slug, style: text.headlineSmall),
-                ),
-              ),
-              Chip(label: Text(statusLabel(item.status))),
-              if (item.live) ...[
-                const SizedBox(width: 8),
-                const Chip(label: Text('canlı')),
-              ],
-            ],
+    bool langEmpty(String l) => _defs
+        .where(
+          (f) =>
+              f.localized &&
+              (f.type == _FieldType.line || f.type == _FieldType.markdown),
+        )
+        .every((f) => _localized[f.key]![l]!.text.trim().isEmpty);
+    const langNames = {'az': 'Azərbaycan', 'ru': 'Русский', 'en': 'English'};
+    final languages = ContentRules.languages;
+
+    final notices = <Widget>[
+      if (_kind == ContentKind.banner &&
+          ContentRules.isSponsored(jsonDecode(_json()) as Map<String, Object?>))
+        const Notice(
+          key: ValueKey('banner-ad-note'),
+          icon: Icons.campaign_outlined,
+          title: 'Brend kampaniyası (reklam)',
+          body:
+              'Tətbiqdə "Reklam" nişanı və brendin adı ilə çıxır. Ekspert '
+              'yoxlayıb təsdiqləməlidir: "zərərli" sözü, bal və ya sağlamlıq '
+              'vədi olmamalıdır. Hədəf yalnız dil və ölkədir.',
+        ),
+      if (item.reviewNote != null && item.reviewNote!.isNotEmpty)
+        Notice(
+          tone: NoticeTone.danger,
+          icon: Icons.comment_outlined,
+          title: 'Mütəxəssisin qeydi',
+          body: item.reviewNote!,
+        ),
+      if (_localized['body']?.values.any(
+            (c) => c.text.contains(ContentRules.planMarker),
+          ) ??
+          false)
+        const Notice(
+          key: ValueKey('content-plan-left'),
+          icon: Icons.edit_note,
+          title: 'Mətndə yazı planı var',
+          body:
+              'Başlıqların altını doldurun və yoxlamaya göndərməzdən əvvəl '
+              '"[Yazı planı" blokunu silin.',
+        ),
+    ];
+
+    final localizedFields = [
+      for (final f in _defs.where((f) => f.localized)) ...[
+        if (f.type == _FieldType.markdown)
+          MarkdownField(
+            key: ValueKey('markdown-${f.key}-$_lang'),
+            fieldKey: '${f.key}-$_lang',
+            controller: _localized[f.key]![_lang]!,
+            api: _api,
+            enabled: writer,
+            onChanged: () => setState(() {}),
+          )
+        else
+          TextField(
+            key: ValueKey('field-${f.key}-$_lang'),
+            controller: _localized[f.key]![_lang],
+            enabled: writer,
+            minLines: f.type == _FieldType.line ? 1 : 3,
+            maxLines: f.type == _FieldType.line ? 1 : 12,
+            style: f.key == 'title' || f.key == 'name'
+                ? const TextStyle(fontSize: 19, fontWeight: FontWeight.w700)
+                : null,
+            decoration: InputDecoration(labelText: f.label),
+            onChanged: (_) => setState(() {}),
           ),
-          if (_kind == ContentKind.banner &&
-              ContentRules.isSponsored(
-                jsonDecode(_json()) as Map<String, Object?>,
-              ))
-            const Card(
-              key: ValueKey('banner-ad-note'),
-              color: AdminColors.cream,
-              child: ListTile(
-                leading: Icon(Icons.campaign_outlined),
-                title: Text('Brend kampaniyası (reklam)'),
-                subtitle: Text(
-                  'Tətbiqdə "Reklam" nişanı və brendin adı ilə çıxır. '
-                  'Ekspert yoxlayıb təsdiqləməlidir: "zərərli" sözü, bal və '
-                  'ya sağlamlıq vədi olmamalıdır. Hədəf yalnız dil və ölkədir.',
+        const SizedBox(height: 16),
+      ],
+    ];
+
+    final plainFields = <Widget>[
+      for (final f in _defs.where((f) => !f.localized)) ...[
+        if (f.type == _FieldType.multi)
+          _ChipGroup(
+            label: f.label,
+            children: [
+              for (final o in f.options)
+                FilterChip(
+                  key: ValueKey('multi-${f.key}-$o'),
+                  label: Text(o),
+                  selected: _multi[f.key]?.contains(o) ?? false,
+                  onSelected: writer
+                      ? (on) => setState(() {
+                          final set = _multi[f.key] ??= {};
+                          on ? set.add(o) : set.remove(o);
+                        })
+                      : null,
                 ),
-              ),
-            ),
-          if (item.reviewNote != null && item.reviewNote!.isNotEmpty)
-            Card(
-              color: AdminColors.cream,
-              child: ListTile(
-                leading: const Icon(Icons.comment_outlined),
-                title: const Text('Mütəxəssisin qeydi'),
-                subtitle: Text(item.reviewNote!),
-              ),
-            ),
-          if (_localized['body']?.values.any(
-                (c) => c.text.contains(ContentRules.planMarker),
-              ) ??
-              false)
-            const Card(
-              key: ValueKey('content-plan-left'),
-              color: AdminColors.cream,
-              child: ListTile(
-                leading: Icon(Icons.edit_note),
-                title: Text('Mətndə yazı planı var'),
-                subtitle: Text(
-                  'Başlıqların altını doldurun və yoxlamaya göndərməzdən '
-                  'əvvəl "[Yazı planı" blokunu silin.',
+            ],
+          )
+        else if (f.type == _FieldType.allergens)
+          _allergenChips(writer)
+        else if (f.type == _FieldType.groups)
+          _ChipGroup(
+            label: f.label,
+            children: [
+              for (final g in ContentRules.plateGroups)
+                FilterChip(
+                  key: ValueKey('group-$g'),
+                  label: Text(groupLabel(g)),
+                  selected: _groups.contains(g),
+                  onSelected: writer
+                      ? (on) => setState(
+                          () => on ? _groups.add(g) : _groups.remove(g),
+                        )
+                      : null,
                 ),
-              ),
+            ],
+          )
+        else
+          TextField(
+            key: ValueKey('field-${f.key}'),
+            controller: _plain[f.key],
+            enabled: writer,
+            keyboardType: f.type == _FieldType.number
+                ? TextInputType.number
+                : f.type == _FieldType.urls
+                ? TextInputType.multiline
+                : TextInputType.text,
+            minLines: f.type == _FieldType.urls ? 2 : 1,
+            maxLines: f.type == _FieldType.urls ? 10 : 1,
+            decoration: InputDecoration(
+              labelText: f.label,
+              helperText: f.help,
+              helperMaxLines: 3,
             ),
-          const SizedBox(height: 12),
-          if (!_kind.isCatalogue)
-            DropdownButtonFormField<String>(
-              key: const ValueKey('content-category'),
-              isExpanded: true,
-              initialValue: _category,
-              decoration: const InputDecoration(labelText: 'Kateqoriya'),
-              items: [
-                for (final c in ContentRules.categoriesFor(_kind))
-                  DropdownMenuItem(value: c, child: Text(categoryLabel(c))),
-              ],
-              onChanged: writer ? (v) => setState(() => _category = v!) : null,
+            onChanged: (_) => setState(() {}),
+          ),
+        const SizedBox(height: 14),
+      ],
+    ];
+
+    final main = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (final n in notices) ...[n, const SizedBox(height: 12)],
+        PillTabs(
+          labels: [for (final l in languages) langNames[l]!],
+          keys: [for (final l in languages) ValueKey('lang-$l')],
+          badges: [for (final l in languages) langEmpty(l) ? 'boş' : null],
+          selected: languages.indexOf(_lang),
+          onSelected: (i) => setState(() => _lang = languages[i]),
+        ),
+        const SizedBox(height: 16),
+        Card(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(24, 24, 24, 8),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: localizedFields,
             ),
+          ),
+        ),
+        if (problems.isNotEmpty) ...[
+          const SizedBox(height: 14),
+          Notice(
+            key: const ValueKey('content-problems'),
+            tone: NoticeTone.info,
+            icon: Icons.checklist_rounded,
+            title: 'Yoxlamaya göndərmək üçün çatışmır',
+            body:
+                '${problems.take(6).join(', ')}'
+                '${problems.length > 6 ? ' …' : ''}',
+          ),
+        ],
+      ],
+    );
+
+    final side = Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (!expertKind && !_kind.isCatalogue) ...[
+          _WorkflowCard(item: item, kind: _kind),
           const SizedBox(height: 16),
-          if (_kind.isCatalogue)
-            SwitchListTile(
+        ],
+        if (_kind.isCatalogue) ...[
+          Card(
+            child: SwitchListTile(
               key: const ValueKey('content-hidden'),
-              contentPadding: EdgeInsets.zero,
               title: const Text('Tətbiqdə gizlət'),
               subtitle: const Text(
                 'Dərhal təsir edir, yoxlama tələb etmir. Gizli element '
@@ -1158,137 +1481,273 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
                     )
                   : null,
             ),
-          if (const {
-            ContentKind.article,
-            ContentKind.recipe,
-            ContentKind.expert,
-            ContentKind.exercise,
-            ContentKind.banner,
-          }.contains(_kind)) ...[
-            ImageField(
+          ),
+          const SizedBox(height: 16),
+        ],
+        if (const {
+          ContentKind.article,
+          ContentKind.recipe,
+          ContentKind.expert,
+          ContentKind.exercise,
+          ContentKind.banner,
+        }.contains(_kind)) ...[
+          SectionCard(
+            title: 'Şəkil',
+            child: ImageField(
               api: _api,
               imageId: _imageId,
               enabled: writer,
               onChanged: (id) => setState(() => _imageId = id),
             ),
-            const SizedBox(height: 16),
-          ],
-          for (final f in _defs.where((f) => !f.localized)) ...[
-            if (f.type == _FieldType.multi)
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(f.label),
-                  Wrap(
-                    spacing: 8,
-                    children: [
-                      for (final o in f.options)
-                        FilterChip(
-                          key: ValueKey('multi-${f.key}-$o'),
-                          label: Text(o),
-                          selected: _multi[f.key]?.contains(o) ?? false,
-                          onSelected: writer
-                              ? (on) => setState(() {
-                                  final set = _multi[f.key] ??= {};
-                                  on ? set.add(o) : set.remove(o);
-                                })
-                              : null,
-                        ),
-                    ],
+          ),
+          const SizedBox(height: 16),
+        ],
+        SectionCard(
+          title: 'Parametrlər',
+          padding: const EdgeInsets.fromLTRB(20, 20, 20, 6),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              if (!_kind.isCatalogue) ...[
+                DropdownButtonFormField<String>(
+                  key: const ValueKey('content-category'),
+                  isExpanded: true,
+                  initialValue: _category,
+                  decoration: const InputDecoration(labelText: 'Kateqoriya'),
+                  items: [
+                    for (final c in ContentRules.categoriesFor(_kind))
+                      DropdownMenuItem(value: c, child: Text(categoryLabel(c))),
+                  ],
+                  onChanged: writer
+                      ? (v) => setState(() => _category = v!)
+                      : null,
+                ),
+                const SizedBox(height: 14),
+              ],
+              ...plainFields,
+              if (plainFields.isEmpty && _kind.isCatalogue)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 14),
+                  child: Text(
+                    'Qaydalar və təhlükəsizlik şərtləri kodda qalır; burada '
+                    'yalnız mətnlər dəyişir.',
+                    style: text.bodySmall,
                   ),
-                ],
-              )
-            else if (f.type == _FieldType.allergens)
-              _allergenChips(writer)
-            else if (f.type == _FieldType.groups)
-              Wrap(
-                spacing: 8,
+                ),
+            ],
+          ),
+        ),
+      ],
+    );
+
+    final narrow = MediaQuery.sizeOf(context).width < 700;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Container(
+          padding: EdgeInsets.symmetric(
+            horizontal: narrow ? 12 : 28,
+            vertical: 12,
+          ),
+          decoration: const BoxDecoration(
+            color: AdminColors.white,
+            border: Border(bottom: BorderSide(color: AdminColors.line)),
+          ),
+          child: Wrap(
+            spacing: 12,
+            runSpacing: 10,
+            crossAxisAlignment: WrapCrossAlignment.center,
+            alignment: WrapAlignment.spaceBetween,
+            children: [
+              Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  for (final g in ContentRules.plateGroups)
-                    FilterChip(
-                      key: ValueKey('group-$g'),
-                      label: Text(groupLabel(g)),
-                      selected: _groups.contains(g),
-                      onSelected: writer
-                          ? (on) => setState(
-                              () => on ? _groups.add(g) : _groups.remove(g),
+                  IconButton(
+                    tooltip: 'Siyahıya qayıt',
+                    onPressed: () => context.go('/content/${widget.kind}'),
+                    icon: const Icon(Icons.arrow_back),
+                  ),
+                  const SizedBox(width: 4),
+                  ConstrainedBox(
+                    constraints: const BoxConstraints(maxWidth: 460),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Semantics(
+                          header: true,
+                          child: Text(
+                            _title(item),
+                            style: text.titleMedium?.copyWith(fontSize: 17),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Text(
+                          '${kindLabel(widget.kind)} · ${item.slug}',
+                          style: text.bodySmall,
+                        ),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  StatusPill(item.status),
+                  if (item.live) ...[
+                    const SizedBox(width: 6),
+                    const Pill('canlı', tone: liveTone),
+                  ],
+                ],
+              ),
+              Wrap(spacing: 8, runSpacing: 8, children: actions),
+            ],
+          ),
+        ),
+        Expanded(
+          child: ListView(
+            padding: EdgeInsets.symmetric(
+              horizontal: narrow ? 16 : 28,
+              vertical: 24,
+            ),
+            children: [
+              Center(
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(maxWidth: 1320),
+                  child: LayoutBuilder(
+                    builder: (context, c) => c.maxWidth >= 980
+                        ? Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Expanded(child: main),
+                              const SizedBox(width: 24),
+                              SizedBox(width: 380, child: side),
+                            ],
+                          )
+                        : Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            children: [main, const SizedBox(height: 24), side],
+                          ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// A label above a row of chips.
+class _ChipGroup extends StatelessWidget {
+  const _ChipGroup({required this.label, required this.children});
+
+  final String label;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) => Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: [
+      Text(label, style: Theme.of(context).textTheme.titleSmall),
+      const SizedBox(height: 8),
+      Wrap(spacing: 8, runSpacing: 8, children: children),
+    ],
+  );
+}
+
+/// Where an item stands: draft, review, approved, published.
+class _WorkflowCard extends StatelessWidget {
+  const _WorkflowCard({required this.item, required this.kind});
+
+  final ContentAdminItem item;
+  final ContentKind kind;
+
+  @override
+  Widget build(BuildContext context) {
+    const order = [
+      ContentStatus.draft,
+      ContentStatus.inReview,
+      ContentStatus.approved,
+      ContentStatus.published,
+    ];
+    final at = order.indexOf(item.status);
+    return SectionCard(
+      title: 'Dərc yolu',
+      child: Column(
+        children: [
+          for (final (i, s) in order.indexed)
+            Padding(
+              padding: EdgeInsets.only(top: i == 0 ? 0 : 12),
+              child: Row(
+                children: [
+                  ExcludeSemantics(
+                    child: Container(
+                      width: 24,
+                      height: 24,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: i < at
+                            ? AdminColors.espresso
+                            : i == at
+                            ? AdminColors.sun
+                            : AdminColors.white,
+                        border: Border.all(
+                          color: i <= at
+                              ? Colors.transparent
+                              : AdminColors.field,
+                          width: 2,
+                        ),
+                      ),
+                      child: i < at
+                          ? const Icon(
+                              Icons.check,
+                              size: 14,
+                              color: AdminColors.white,
+                            )
+                          : i == at
+                          ? Container(
+                              width: 8,
+                              height: 8,
+                              decoration: const BoxDecoration(
+                                color: AdminColors.espresso,
+                                shape: BoxShape.circle,
+                              ),
                             )
                           : null,
                     ),
-                ],
-              )
-            else
-              TextField(
-                key: ValueKey('field-${f.key}'),
-                controller: _plain[f.key],
-                enabled: writer,
-                keyboardType: f.type == _FieldType.number
-                    ? TextInputType.number
-                    : f.type == _FieldType.urls
-                    ? TextInputType.multiline
-                    : TextInputType.text,
-                minLines: f.type == _FieldType.urls ? 2 : 1,
-                maxLines: f.type == _FieldType.urls ? 10 : 1,
-                decoration: InputDecoration(
-                  labelText: f.label,
-                  helperText: f.help,
-                  helperMaxLines: 3,
-                ),
-                onChanged: (_) => setState(() {}),
-              ),
-            const SizedBox(height: 12),
-          ],
-          const TabBar(
-            tabs: [
-              Tab(text: 'Azərbaycan'),
-              Tab(text: 'Русский'),
-              Tab(text: 'English'),
-            ],
-          ),
-          SizedBox(
-            height: 640,
-            child: TabBarView(
-              children: [
-                for (final lang in ContentRules.languages)
-                  ListView(
-                    padding: const EdgeInsets.only(top: 16),
-                    children: [
-                      for (final f in _defs.where((f) => f.localized)) ...[
-                        if (f.type == _FieldType.markdown)
-                          MarkdownField(
-                            fieldKey: '${f.key}-$lang',
-                            controller: _localized[f.key]![lang]!,
-                            api: _api,
-                            enabled: writer,
-                            onChanged: () => setState(() {}),
-                          )
-                        else
-                          TextField(
-                            key: ValueKey('field-${f.key}-$lang'),
-                            controller: _localized[f.key]![lang],
-                            enabled: writer,
-                            minLines: f.type == _FieldType.line ? 1 : 3,
-                            maxLines: f.type == _FieldType.line ? 1 : 12,
-                            decoration: InputDecoration(labelText: f.label),
-                            onChanged: (_) => setState(() {}),
-                          ),
-                        const SizedBox(height: 12),
-                      ],
-                    ],
                   ),
-              ],
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      statusLabel(s),
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: i == at ? FontWeight.w700 : FontWeight.w500,
+                        color: i <= at
+                            ? AdminColors.espresso
+                            : AdminColors.muted,
+                      ),
+                    ),
+                  ),
+                  if (i == at)
+                    const Text(
+                      'indi',
+                      style: TextStyle(fontSize: 13, color: AdminColors.muted),
+                    ),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(height: 12),
-          if (problems.isNotEmpty)
-            Text(
-              'Yoxlamaya göndərmək üçün çatışmır: ${problems.take(6).join(', ')}'
-              '${problems.length > 6 ? ' …' : ''}',
-              key: const ValueKey('content-problems'),
-              style: text.bodySmall?.copyWith(color: AdminColors.muted),
+          if (item.live) ...[
+            const SizedBox(height: 14),
+            const Notice(
+              tone: NoticeTone.info,
+              icon: Icons.public,
+              title: 'Tətbiqdə canlıdır',
+              body:
+                  'Redaktə canlı mətni dəyişmir; yeni versiya yenidən '
+                  'yoxlanılıb dərc olunmalıdır.',
             ),
-          const SizedBox(height: 12),
-          Wrap(spacing: 8, runSpacing: 8, children: actions),
+          ],
         ],
       ),
     );

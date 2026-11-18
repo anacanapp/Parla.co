@@ -396,6 +396,6 @@ void main() {
 
 /// A menu entry (the overview's guide cards repeat the same names).
 Finder _nav(String label) => find.descendant(
-  of: find.byType(NavigationRail),
+  of: find.byKey(const ValueKey('admin-nav')),
   matching: find.text(label),
 );

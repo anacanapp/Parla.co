@@ -8,17 +8,19 @@ import '../api/admin_api.dart';
 import '../staff_session.dart';
 import '../ui/texts.dart';
 import '../ui/theme.dart';
+import '../ui/widgets.dart';
 import 'home_shell.dart';
 
 /// What needs attention now, counted from the lists the panel already
 /// reads. Only the parts the caller's role can open.
 class _Todo {
-  const _Todo(this.label, this.count, this.path, this.key);
+  const _Todo(this.label, this.count, this.path, this.key, [this.hint]);
 
   final String label;
   final int count;
   final String path;
   final String key;
+  final String? hint;
 }
 
 /// One section of the guide: what it is for and how to use it.
@@ -153,6 +155,7 @@ class _OverviewScreenState extends State<OverviewScreen> {
               mine.length,
               '/content/${mine.isEmpty ? 'article' : mine.first.kind}',
               'todo-review',
+              'Sizin təsdiqinizə göndərilənlər',
             ),
           );
         }
@@ -162,18 +165,20 @@ class _OverviewScreenState extends State<OverviewScreen> {
               .toList();
           todos.add(
             _Todo(
-              'Təsdiqlənib, dərc gözləyir',
+              'Dərcə hazırdır',
               approved.length,
               '/content/${approved.isEmpty ? 'article' : approved.first.kind}',
               'todo-approved',
+              'Təsdiqlənib, hələ dərc olunmayıb',
             ),
           );
           todos.add(
             _Todo(
-              'Qaralama',
+              'Qaralamalar',
               items.where((i) => i.status == ContentStatus.draft).length,
               '/content/article',
               'todo-drafts',
+              'Bütün növlər üzrə',
             ),
           );
         }
@@ -182,19 +187,16 @@ class _OverviewScreenState extends State<OverviewScreen> {
         final threads = await api.supportThreads();
         todos.add(
           _Todo(
-            'Cavabsız dəstək mesajı',
+            'Cavabsız dəstək',
             threads.where((t) => t.unreadByStaff).length,
             '/messages',
             'todo-support',
+            'Oxunmamış söhbətlər',
           ),
         );
       }
     } on Object catch (e) {
-      if (mounted) {
-        ScaffoldMessenger.of(context)
-          ..hideCurrentSnackBar()
-          ..showSnackBar(SnackBar(content: Text(errorText(e))));
-      }
+      if (mounted) showToast(context, errorText(e));
     }
     if (mounted) setState(() => _todos = todos);
   }
@@ -204,95 +206,237 @@ class _OverviewScreenState extends State<OverviewScreen> {
     final text = Theme.of(context).textTheme;
     final todos = _todos;
     final guides = _guides.where((g) => _can(g.path)).toList();
-    return ListView(
-      padding: const EdgeInsets.all(32),
+    return AdminPage(
+      title: 'Xoş gəldiniz',
+      subtitle: 'Rolunuz: ${roleLabel(_role)}. ${roleHint(_role)}.',
+      actions: [
+        if (_role == StaffRole.admin || _role == StaffRole.editor)
+          FilledButton.icon(
+            onPressed: () => context.go('/content/article'),
+            icon: const Icon(Icons.edit_outlined, size: 18),
+            label: const Text('Məzmuna keç'),
+          ),
+      ],
       children: [
-        Semantics(
-          header: true,
-          child: Text('Xoş gəldiniz', style: text.headlineMedium),
-        ),
-        const SizedBox(height: 4),
-        Text(
-          'Rolunuz: ${roleLabel(_role)}. ${roleHint(_role)}.',
-          style: text.bodyMedium?.copyWith(color: AdminColors.muted),
-        ),
-        const SizedBox(height: 20),
-        Text('İndi nə gözləyir', style: text.titleLarge),
-        const SizedBox(height: 8),
         if (todos == null)
-          const LinearProgressIndicator()
-        else
-          Wrap(
-            spacing: 12,
-            runSpacing: 12,
+          const LoadingBlock()
+        else if (todos.isNotEmpty)
+          ResponsiveGrid(
+            minItemWidth: 210,
             children: [
               for (final t in todos)
-                SizedBox(
-                  width: 230,
-                  child: Card(
-                    key: ValueKey(t.key),
-                    elevation: 0,
-                    color: t.count > 0 ? AdminColors.cream : AdminColors.white,
-                    child: InkWell(
-                      onTap: () => context.go(t.path),
-                      child: Padding(
-                        padding: const EdgeInsets.all(16),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('${t.count}', style: text.headlineMedium),
-                            Text(t.label),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
+                StatCard(
+                  key: ValueKey(t.key),
+                  valueKey: ValueKey('${t.key}-count'),
+                  label: t.label,
+                  value: '${t.count}',
+                  hint: t.hint,
+                  highlight: t.count > 0,
+                  onTap: () => context.go(t.path),
                 ),
             ],
           ),
         const SizedBox(height: 28),
-        Text('Bölmələr', style: text.titleLarge),
-        const SizedBox(height: 8),
-        for (final g in guides)
-          Card(
-            key: ValueKey('guide-${g.path.substring(1)}'),
-            elevation: 0,
-            color: AdminColors.white,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+        LayoutBuilder(
+          builder: (context, c) {
+            final wide = c.maxWidth >= 900;
+            final sections = Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text('Bölmələr', style: text.titleLarge),
+                const SizedBox(height: 12),
+                for (final g in guides) ...[
+                  _GuideCard(guide: g),
+                  const SizedBox(height: 12),
+                ],
+              ],
+            );
+            final side = Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                if (_can('/content')) ...[
+                  const _FlowCard(),
+                  const SizedBox(height: 16),
+                ],
+                const Notice(
+                  tone: NoticeTone.info,
+                  icon: Icons.lock_outline,
+                  title: 'Təhlükəsizlik',
+                  body:
+                      'Şifrənizi heç kimlə paylaşmayın; 12 saatdan bir yenidən '
+                      'daxil olmaq lazımdır. Paneldəki hər dəyişiklik audit '
+                      'jurnalına yazılır. İstifadəçilərin sağlamlıq '
+                      'məlumatları paneldə görünmür.',
+                ),
+              ],
+            );
+            if (!wide) {
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [sections, const SizedBox(height: 8), side],
+              );
+            }
+            return Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(flex: 3, child: sections),
+                const SizedBox(width: 24),
+                Expanded(flex: 2, child: side),
+              ],
+            );
+          },
+        ),
+      ],
+    );
+  }
+}
+
+class _GuideCard extends StatelessWidget {
+  const _GuideCard({required this.guide});
+
+  final _Guide guide;
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    final g = guide;
+    return Card(
+      key: ValueKey('guide-${g.path.substring(1)}'),
+      child: Padding(
+        padding: const EdgeInsets.all(20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: AdminColors.sunSoft,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Icon(g.icon, size: 20, color: AdminColors.espresso),
+                ),
+                const SizedBox(width: 14),
+                Expanded(child: Text(g.title, style: text.titleMedium)),
+                OutlinedButton(
+                  onPressed: () => context.go(g.path),
+                  child: const Text('Aç'),
+                ),
+              ],
+            ),
+            const SizedBox(height: 12),
+            Text(g.text, style: text.bodyMedium),
+            if (g.steps.isNotEmpty) ...[
+              const SizedBox(height: 10),
+              for (final (i, step) in g.steps.indexed)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(g.icon),
+                      Container(
+                        width: 22,
+                        height: 22,
+                        alignment: Alignment.center,
+                        decoration: const BoxDecoration(
+                          color: AdminColors.hover,
+                          shape: BoxShape.circle,
+                        ),
+                        child: Text(
+                          '${i + 1}',
+                          style: const TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
+                      ),
                       const SizedBox(width: 10),
-                      Expanded(child: Text(g.title, style: text.titleMedium)),
-                      TextButton(
-                        onPressed: () => context.go(g.path),
-                        child: const Text('Aç'),
+                      Expanded(
+                        child: Text(
+                          step,
+                          style: text.bodyMedium?.copyWith(
+                            color: AdminColors.ink,
+                            fontSize: 14,
+                          ),
+                        ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 4),
-                  Text(g.text),
-                  for (final (i, step) in g.steps.indexed)
-                    Padding(
-                      padding: const EdgeInsets.only(top: 6, left: 4),
-                      child: Text('${i + 1}. $step', style: text.bodyMedium),
+                ),
+            ],
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// How content gets into the app, in three steps.
+class _FlowCard extends StatelessWidget {
+  const _FlowCard();
+
+  @override
+  Widget build(BuildContext context) {
+    final text = Theme.of(context).textTheme;
+    const steps = [
+      ('Redaktor', '3 dildə yazır və yoxlamaya göndərir.'),
+      ('Mütəxəssis', 'təsdiqləyir və ya qeydlə qaytarır.'),
+      ('Admin və ya redaktor', 'dərc edir: tətbiqdə görünür.'),
+    ];
+    return SectionCard(
+      title: 'Məzmun necə dərc olunur',
+      child: Column(
+        children: [
+          for (final (i, (who, what)) in steps.indexed)
+            Padding(
+              padding: EdgeInsets.only(top: i == 0 ? 0 : 14),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 28,
+                    height: 28,
+                    alignment: Alignment.center,
+                    decoration: const BoxDecoration(
+                      color: AdminColors.sun,
+                      shape: BoxShape.circle,
                     ),
+                    child: Text(
+                      '${i + 1}',
+                      style: const TextStyle(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: '$who ',
+                            style: const TextStyle(fontWeight: FontWeight.w700),
+                          ),
+                          TextSpan(text: what),
+                        ],
+                      ),
+                      style: text.bodyMedium?.copyWith(fontSize: 14),
+                    ),
+                  ),
                 ],
               ),
             ),
+          const SizedBox(height: 14),
+          Text(
+            'Dərc olunmuş yazını redaktə etmək canlı mətni dəyişmir; yeni '
+            'versiya yenidən yoxlanılır.',
+            style: text.bodySmall,
           ),
-        const SizedBox(height: 16),
-        Text(
-          'Təhlükəsizlik: şifrənizi heç kimlə paylaşmayın; 12 saatdan bir '
-          'yenidən daxil olmaq lazımdır. '
-          'Paneldə edilən hər dəyişiklik audit jurnalına yazılır.',
-          style: text.bodySmall?.copyWith(color: AdminColors.muted),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

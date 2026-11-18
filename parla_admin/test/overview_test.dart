@@ -49,16 +49,8 @@ Future<void> _pump(WidgetTester tester, StaffRole role) async {
   await tester.pumpAndSettle();
 }
 
-String _count(WidgetTester tester, String key) => tester
-    .widget<Text>(
-      find
-          .descendant(
-            of: find.byKey(ValueKey(key)),
-            matching: find.byType(Text),
-          )
-          .first,
-    )
-    .data!;
+String _count(WidgetTester tester, String key) =>
+    tester.widget<Text>(find.byKey(ValueKey('$key-count'))).data!;
 
 void main() {
   testWidgets('an admin sees every section and what waits for them', (
