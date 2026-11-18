@@ -262,6 +262,11 @@ messages and push notifications (D) follow.
   hours) arrives by email. The first admin is the address in the
   `staffBootstrapEmail` setting, and only while there is no staff at all.
   The last active admin cannot be removed.
+- **Overview.** The first page is a guide: one card per section the role
+  can open (what it is for, the steps, an "Aç" button), and counts of what
+  waits: items whose approval belongs to this role (`ContentRules.reviewerRole`),
+  approved items not yet published, drafts, and unread support threads. It
+  reads only the existing content and support lists; it shows no user data.
 - **Sign-in.** Email and password (at least 12 characters, enforced on the
   server), then a TOTP code from an authenticator app in every sign-in
   session. The check lasts 8 hours (`staff_session`). The TOTP secret is

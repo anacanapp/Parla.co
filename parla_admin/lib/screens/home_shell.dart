@@ -127,28 +127,3 @@ class HomeShell extends StatelessWidget {
     );
   }
 }
-
-/// A section that arrives in a later phase.
-class ComingSection extends StatelessWidget {
-  const ComingSection({
-    super.key,
-    required this.title,
-    required this.body,
-  });
-
-  final String title;
-  final String body;
-
-  @override
-  Widget build(BuildContext context) => ListView(
-    padding: const EdgeInsets.all(32),
-    children: [
-      Semantics(
-        header: true,
-        child: Text(title, style: Theme.of(context).textTheme.headlineMedium),
-      ),
-      const SizedBox(height: 12),
-      Text(body, style: Theme.of(context).textTheme.bodyLarge),
-    ],
-  );
-}

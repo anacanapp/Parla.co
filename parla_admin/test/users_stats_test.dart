@@ -63,7 +63,7 @@ void main() {
     tester,
   ) async {
     final api = await _pump(tester, StaffRole.admin);
-    await _tap(tester, find.text('İstifadəçilər'));
+    await _tap(tester, _nav('İstifadəçilər'));
     await tester.enterText(
       find.byKey(const ValueKey('users-email')),
       'nobody@x.az',
@@ -110,7 +110,7 @@ void main() {
   ) async {
     await _pump(tester, StaffRole.editor);
     expect(find.text('İstifadəçilər'), findsNothing);
-    await _tap(tester, find.text('Statistika'));
+    await _tap(tester, _nav('Statistika'));
     expect(find.text('40'), findsOneWidget);
     expect(find.text('<10'), findsOneWidget);
     expect(find.text('87%'), findsOneWidget);
@@ -122,3 +122,9 @@ void main() {
     expect(find.text('Statistika'), findsNothing);
   });
 }
+
+/// A menu entry (the overview's guide cards repeat the same names).
+Finder _nav(String label) => find.descendant(
+  of: find.byType(NavigationRail),
+  matching: find.text(label),
+);
