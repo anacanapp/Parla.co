@@ -16,6 +16,18 @@ variable "github_repository" {
   default     = "anacanapp/Parla.co"
 }
 
+variable "github_owner_id" {
+  description = "Numeric id of the repository owner (GitHub API: owner.id)."
+  type        = string
+  default     = "340102032"
+}
+
+variable "github_repository_id" {
+  description = "Numeric id of the repository (GitHub API: id)."
+  type        = string
+  default     = "1453947124"
+}
+
 variable "create_github_oidc_provider" {
   description = <<-EOT
     An AWS account can hold only one GitHub OIDC provider. Leave false when
