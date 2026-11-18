@@ -51,8 +51,6 @@ class _AdminAppState extends State<AdminApp> {
 const _stagePaths = {
   AdminStage.signedOut: '/sign-in',
   AdminStage.notStaff: '/join',
-  AdminStage.setupTotp: '/2fa-setup',
-  AdminStage.verifyTotp: '/2fa',
 };
 
 GoRouter _buildRouter(StaffState state) => GoRouter(
@@ -88,14 +86,6 @@ GoRouter _buildRouter(StaffState state) => GoRouter(
     GoRoute(
       path: '/join',
       builder: (_, _) => JoinScreen(state: state),
-    ),
-    GoRoute(
-      path: '/2fa-setup',
-      builder: (_, _) => TotpSetupScreen(state: state),
-    ),
-    GoRoute(
-      path: '/2fa',
-      builder: (_, _) => TotpScreen(state: state),
     ),
     ShellRoute(
       builder: (context, route, child) => HomeShell(

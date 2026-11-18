@@ -14,8 +14,8 @@ import 'package:serverpod_client/serverpod_client.dart' as _isc;
 import '../staff/staff_role.dart' as _iopxo5n5;
 
 /// A staff member of the admin panel: an existing sign-in account with a
-/// role. The TOTP secret for the second factor is sealed with a key derived
-/// from the server KEK (never stored in clear). No name or phone is kept.
+/// role. Sign-in is email and password only (decision of 2026-11-18, see
+/// docs/ARCHITECTURE.md). No name or phone is kept.
 abstract class StaffMember
     implements _isc.SerializableModel, _isc.ProtocolSerialization {
   StaffMember._({
@@ -23,12 +23,6 @@ abstract class StaffMember
     required this.authUserId,
     required this.role,
     required this.active,
-    this.totpSecret,
-    this.totpNonce,
-    this.totpConfirmedAt,
-    this.lastTotpStep,
-    required this.failedTotp,
-    this.lockedUntil,
     this.invitedBy,
     required this.createdAt,
   });
@@ -38,12 +32,6 @@ abstract class StaffMember
     required _isc.UuidValue authUserId,
     required _iopxo5n5.StaffRole role,
     required bool active,
-    String? totpSecret,
-    String? totpNonce,
-    DateTime? totpConfirmedAt,
-    int? lastTotpStep,
-    required int failedTotp,
-    DateTime? lockedUntil,
     _isc.UuidValue? invitedBy,
     required DateTime createdAt,
   }) = _StaffMemberImpl;
@@ -56,20 +44,6 @@ abstract class StaffMember
       ),
       role: _iopxo5n5.StaffRole.fromJson((jsonSerialization['role'] as String)),
       active: _isc.BoolJsonExtension.fromJson(jsonSerialization['active']),
-      totpSecret: jsonSerialization['totpSecret'] as String?,
-      totpNonce: jsonSerialization['totpNonce'] as String?,
-      totpConfirmedAt: jsonSerialization['totpConfirmedAt'] == null
-          ? null
-          : _isc.DateTimeJsonExtension.fromJson(
-              jsonSerialization['totpConfirmedAt'],
-            ),
-      lastTotpStep: jsonSerialization['lastTotpStep'] as int?,
-      failedTotp: jsonSerialization['failedTotp'] as int,
-      lockedUntil: jsonSerialization['lockedUntil'] == null
-          ? null
-          : _isc.DateTimeJsonExtension.fromJson(
-              jsonSerialization['lockedUntil'],
-            ),
       invitedBy: jsonSerialization['invitedBy'] == null
           ? null
           : _isc.UuidValueJsonExtension.fromJson(
@@ -92,19 +66,6 @@ abstract class StaffMember
 
   bool active;
 
-  String? totpSecret;
-
-  String? totpNonce;
-
-  DateTime? totpConfirmedAt;
-
-  /// The last accepted TOTP time step, so a code cannot be used twice.
-  int? lastTotpStep;
-
-  int failedTotp;
-
-  DateTime? lockedUntil;
-
   _isc.UuidValue? invitedBy;
 
   DateTime createdAt;
@@ -117,12 +78,6 @@ abstract class StaffMember
     _isc.UuidValue? authUserId,
     _iopxo5n5.StaffRole? role,
     bool? active,
-    String? totpSecret,
-    String? totpNonce,
-    DateTime? totpConfirmedAt = const _isc.$UndefinedDateTime(),
-    int? lastTotpStep,
-    int? failedTotp,
-    DateTime? lockedUntil = const _isc.$UndefinedDateTime(),
     _isc.UuidValue? invitedBy = const _isc.$UndefinedUuidValue(),
     DateTime? createdAt,
   });
@@ -134,12 +89,6 @@ abstract class StaffMember
       'authUserId': authUserId.toJson(),
       'role': role.toJson(),
       'active': active,
-      if (totpSecret != null) 'totpSecret': totpSecret,
-      if (totpNonce != null) 'totpNonce': totpNonce,
-      if (totpConfirmedAt != null) 'totpConfirmedAt': totpConfirmedAt?.toJson(),
-      if (lastTotpStep != null) 'lastTotpStep': lastTotpStep,
-      'failedTotp': failedTotp,
-      if (lockedUntil != null) 'lockedUntil': lockedUntil?.toJson(),
       if (invitedBy != null) 'invitedBy': invitedBy?.toJson(),
       'createdAt': createdAt.toJson(),
     };
@@ -153,12 +102,6 @@ abstract class StaffMember
       'authUserId': authUserId.toJson(),
       'role': role.toJson(),
       'active': active,
-      if (totpSecret != null) 'totpSecret': totpSecret,
-      if (totpNonce != null) 'totpNonce': totpNonce,
-      if (totpConfirmedAt != null) 'totpConfirmedAt': totpConfirmedAt?.toJson(),
-      if (lastTotpStep != null) 'lastTotpStep': lastTotpStep,
-      'failedTotp': failedTotp,
-      if (lockedUntil != null) 'lockedUntil': lockedUntil?.toJson(),
       if (invitedBy != null) 'invitedBy': invitedBy?.toJson(),
       'createdAt': createdAt.toJson(),
     };
@@ -178,12 +121,6 @@ class _StaffMemberImpl extends StaffMember {
     required _isc.UuidValue authUserId,
     required _iopxo5n5.StaffRole role,
     required bool active,
-    String? totpSecret,
-    String? totpNonce,
-    DateTime? totpConfirmedAt,
-    int? lastTotpStep,
-    required int failedTotp,
-    DateTime? lockedUntil,
     _isc.UuidValue? invitedBy,
     required DateTime createdAt,
   }) : super._(
@@ -191,12 +128,6 @@ class _StaffMemberImpl extends StaffMember {
          authUserId: authUserId,
          role: role,
          active: active,
-         totpSecret: totpSecret,
-         totpNonce: totpNonce,
-         totpConfirmedAt: totpConfirmedAt,
-         lastTotpStep: lastTotpStep,
-         failedTotp: failedTotp,
-         lockedUntil: lockedUntil,
          invitedBy: invitedBy,
          createdAt: createdAt,
        );
@@ -210,12 +141,6 @@ class _StaffMemberImpl extends StaffMember {
     _isc.UuidValue? authUserId,
     _iopxo5n5.StaffRole? role,
     bool? active,
-    Object? totpSecret = _Undefined,
-    Object? totpNonce = _Undefined,
-    DateTime? totpConfirmedAt = const _isc.$UndefinedDateTime(),
-    Object? lastTotpStep = _Undefined,
-    int? failedTotp,
-    DateTime? lockedUntil = const _isc.$UndefinedDateTime(),
     _isc.UuidValue? invitedBy = const _isc.$UndefinedUuidValue(),
     DateTime? createdAt,
   }) {
@@ -224,16 +149,6 @@ class _StaffMemberImpl extends StaffMember {
       authUserId: authUserId ?? this.authUserId,
       role: role ?? this.role,
       active: active ?? this.active,
-      totpSecret: totpSecret is String? ? totpSecret : this.totpSecret,
-      totpNonce: totpNonce is String? ? totpNonce : this.totpNonce,
-      totpConfirmedAt: totpConfirmedAt is _isc.UndefinedSentinel
-          ? this.totpConfirmedAt
-          : totpConfirmedAt,
-      lastTotpStep: lastTotpStep is int? ? lastTotpStep : this.lastTotpStep,
-      failedTotp: failedTotp ?? this.failedTotp,
-      lockedUntil: lockedUntil is _isc.UndefinedSentinel
-          ? this.lockedUntil
-          : lockedUntil,
       invitedBy: invitedBy is _isc.UndefinedSentinel
           ? this.invitedBy
           : invitedBy,

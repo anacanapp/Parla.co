@@ -11,9 +11,7 @@ import '../generated/protocol.dart';
 abstract final class StaffErrors {
   static const notStaff = 'staff.not_staff';
   static const inactive = 'staff.inactive';
-  static const totpRequired = 'staff.totp_required';
-  static const totpInvalid = 'staff.totp_invalid';
-  static const locked = 'staff.locked';
+  static const signInAgain = 'staff.sign_in_again';
   static const forbidden = 'staff.forbidden';
   static const inviteInvalid = 'staff.invite_invalid';
   static const already = 'staff.already';
@@ -21,12 +19,12 @@ abstract final class StaffErrors {
   static const emailInvalid = 'staff.email_invalid';
 }
 
-/// How long a second-factor check lasts.
-const staffSessionLength = Duration(hours: 8);
-
-/// Failed codes before the account is locked for [staffLockLength].
-const staffMaxFailures = 5;
-const staffLockLength = Duration(minutes: 15);
+/// How long a password sign-in lets a staff member use the panel. After
+/// that every admin call is refused until the password is entered again
+/// (a new sign-in session). There is no second factor (decision of
+/// 2026-11-18); repeated wrong passwords are limited by the email sign-in
+/// (5 per 5 minutes) and by WAF.
+const staffSignInLength = Duration(hours: 12);
 
 /// The staff row of the caller, or `null`.
 Future<StaffMember?> staffOf(Session session, {Transaction? transaction}) {
@@ -38,21 +36,20 @@ Future<StaffMember?> staffOf(Session session, {Transaction? transaction}) {
   );
 }
 
-/// Whether the caller's sign-in session passed the second factor.
-Future<bool> isStaffVerified(Session session) async {
-  final auth = session.authenticated!;
-  final row = await StaffSession.db.findFirstRow(
-    session,
-    where: (t) =>
-        t.authId.equals(auth.authId) &
-        t.authUserId.equals(auth.authUserId) &
-        (t.expiresAt > DateTime.now().toUtc()),
-  );
-  return row != null;
+/// When the caller's sign-in session (its refresh token, created by the
+/// password sign-in) stops being accepted for admin calls, or `null` when
+/// it is unknown or already expired.
+Future<DateTime?> staffSignInExpiry(Session session) async {
+  final authId = UuidValue.withValidation(session.authenticated!.authId);
+  final token = await RefreshToken.db.findById(session, authId);
+  if (token == null) return null;
+  if (token.authUserId != session.authenticated!.authUserId) return null;
+  final expires = token.createdAt.toUtc().add(staffSignInLength);
+  return expires.isAfter(DateTime.now().toUtc()) ? expires : null;
 }
 
-/// The caller as an active staff member who passed the second factor in
-/// this sign-in session and has one of [roles]. Throws otherwise. Every
+/// The caller as an active staff member, signed in with the password in the
+/// last [staffSignInLength], with one of [roles]. Throws otherwise. Every
 /// admin endpoint starts with this.
 Future<StaffMember> requireStaff(
   Session session, {
@@ -65,8 +62,8 @@ Future<StaffMember> requireStaff(
   final member = await staffOf(session);
   if (member == null) throw ParlaException(code: StaffErrors.notStaff);
   if (!member.active) throw ParlaException(code: StaffErrors.inactive);
-  if (member.totpConfirmedAt == null || !await isStaffVerified(session)) {
-    throw ParlaException(code: StaffErrors.totpRequired);
+  if (await staffSignInExpiry(session) == null) {
+    throw ParlaException(code: StaffErrors.signInAgain);
   }
   if (!roles.contains(member.role)) {
     throw ParlaException(code: StaffErrors.forbidden);

@@ -5,5 +5,4 @@ fields:
   email: String
   role: StaffRole
   active: bool
-  totpEnrolled: bool
   createdAt: DateTime

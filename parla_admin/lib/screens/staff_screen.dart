@@ -191,7 +191,6 @@ class _StaffScreenState extends State<StaffScreen> {
                       [
                         roleLabel(m.role),
                         if (!m.active) 'deaktiv',
-                        if (!m.totpEnrolled) '2FA qurulmayıb',
                       ].join(' · '),
                     ),
                     trailing: PopupMenuButton<String>(
@@ -213,16 +212,6 @@ class _StaffScreenState extends State<StaffScreen> {
                               () => _api.setActive(m.authUserId, true),
                               'Aktiv edildi.',
                             );
-                          case 'reset':
-                            if (await _confirm(
-                              '${m.email} üçün 2FA sıfırlansın? Növbəti '
-                              'girişdə yenidən quracaq.',
-                            )) {
-                              await _act(
-                                () => _api.resetTotp(m.authUserId),
-                                '2FA sıfırlandı.',
-                              );
-                            }
                           default:
                             final role = StaffRole.values.byName(action);
                             await _act(
@@ -241,10 +230,6 @@ class _StaffScreenState extends State<StaffScreen> {
                         PopupMenuItem(
                           value: m.active ? 'deactivate' : 'activate',
                           child: Text(m.active ? 'Deaktiv et' : 'Aktiv et'),
-                        ),
-                        const PopupMenuItem(
-                          value: 'reset',
-                          child: Text('2FA-nı sıfırla'),
                         ),
                       ],
                     ),

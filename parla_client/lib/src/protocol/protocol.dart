@@ -65,9 +65,7 @@ import 'staff/staff_invite_summary.dart' as _igjtjhuj;
 import 'staff/staff_me.dart' as _i0yb5pr1;
 import 'staff/staff_member.dart' as _ihm1xmqc;
 import 'staff/staff_role.dart' as _imtqbwe6;
-import 'staff/staff_session.dart' as _igu3u6o0;
 import 'staff/staff_summary.dart' as _iminry28;
-import 'staff/totp_enrollment.dart' as _ieq44cuc;
 import 'stats/daily_active_count.dart' as _iphzj4es;
 import 'stats/daily_active_mark.dart' as _ipxxg0d2;
 import 'stats/stats_count.dart' as _iu0qh84b;
@@ -107,9 +105,7 @@ export 'staff/staff_invite_summary.dart';
 export 'staff/staff_me.dart';
 export 'staff/staff_member.dart';
 export 'staff/staff_role.dart';
-export 'staff/staff_session.dart';
 export 'staff/staff_summary.dart';
-export 'staff/totp_enrollment.dart';
 export 'stats/daily_active_count.dart';
 export 'stats/daily_active_mark.dart';
 export 'stats/stats_count.dart';
@@ -164,9 +160,7 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_i0yb5pr1.StaffMe>,
           _isc.getType<_ihm1xmqc.StaffMember>,
           _isc.getType<_imtqbwe6.StaffRole>,
-          _isc.getType<_igu3u6o0.StaffSession>,
           _isc.getType<_iminry28.StaffSummary>,
-          _isc.getType<_ieq44cuc.TotpEnrollment>,
           _isc.getType<_iphzj4es.DailyActiveCount>,
           _isc.getType<_ipxxg0d2.DailyActiveMark>,
           _isc.getType<_iu0qh84b.StatsCount>,
@@ -206,9 +200,7 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_i0yb5pr1.StaffMe?>,
           _isc.getType<_ihm1xmqc.StaffMember?>,
           _isc.getType<_imtqbwe6.StaffRole?>,
-          _isc.getType<_igu3u6o0.StaffSession?>,
           _isc.getType<_iminry28.StaffSummary?>,
-          _isc.getType<_ieq44cuc.TotpEnrollment?>,
           _isc.getType<_iphzj4es.DailyActiveCount?>,
           _isc.getType<_ipxxg0d2.DailyActiveMark?>,
           _isc.getType<_iu0qh84b.StatsCount?>,
@@ -270,9 +262,7 @@ class Protocol extends _isc.SerializationManager
           'StaffMe',
           'StaffMember',
           'StaffRole',
-          'StaffSession',
           'StaffSummary',
-          'TotpEnrollment',
           'DailyActiveCount',
           'DailyActiveMark',
           'StatsCount',
@@ -397,14 +387,8 @@ class Protocol extends _isc.SerializationManager
     if (t == _imtqbwe6.StaffRole) {
       return _imtqbwe6.StaffRole.fromJson(data) as T;
     }
-    if (t == _igu3u6o0.StaffSession) {
-      return _igu3u6o0.StaffSession.fromJson(data) as T;
-    }
     if (t == _iminry28.StaffSummary) {
       return _iminry28.StaffSummary.fromJson(data) as T;
-    }
-    if (t == _ieq44cuc.TotpEnrollment) {
-      return _ieq44cuc.TotpEnrollment.fromJson(data) as T;
     }
     if (t == _iphzj4es.DailyActiveCount) {
       return _iphzj4es.DailyActiveCount.fromJson(data) as T;
@@ -540,15 +524,8 @@ class Protocol extends _isc.SerializationManager
     if (t == _isc.getType<_imtqbwe6.StaffRole?>()) {
       return (data != null ? _imtqbwe6.StaffRole.fromJson(data) : null) as T;
     }
-    if (t == _isc.getType<_igu3u6o0.StaffSession?>()) {
-      return (data != null ? _igu3u6o0.StaffSession.fromJson(data) : null) as T;
-    }
     if (t == _isc.getType<_iminry28.StaffSummary?>()) {
       return (data != null ? _iminry28.StaffSummary.fromJson(data) : null) as T;
-    }
-    if (t == _isc.getType<_ieq44cuc.TotpEnrollment?>()) {
-      return (data != null ? _ieq44cuc.TotpEnrollment.fromJson(data) : null)
-          as T;
     }
     if (t == _isc.getType<_iphzj4es.DailyActiveCount?>()) {
       return (data != null ? _iphzj4es.DailyActiveCount.fromJson(data) : null)
@@ -727,9 +704,7 @@ class Protocol extends _isc.SerializationManager
       _i0yb5pr1.StaffMe => 'StaffMe',
       _ihm1xmqc.StaffMember => 'StaffMember',
       _imtqbwe6.StaffRole => 'StaffRole',
-      _igu3u6o0.StaffSession => 'StaffSession',
       _iminry28.StaffSummary => 'StaffSummary',
-      _ieq44cuc.TotpEnrollment => 'TotpEnrollment',
       _iphzj4es.DailyActiveCount => 'DailyActiveCount',
       _ipxxg0d2.DailyActiveMark => 'DailyActiveMark',
       _iu0qh84b.StatsCount => 'StatsCount',
@@ -812,12 +787,8 @@ class Protocol extends _isc.SerializationManager
         return 'StaffMember';
       case _imtqbwe6.StaffRole():
         return 'StaffRole';
-      case _igu3u6o0.StaffSession():
-        return 'StaffSession';
       case _iminry28.StaffSummary():
         return 'StaffSummary';
-      case _ieq44cuc.TotpEnrollment():
-        return 'TotpEnrollment';
       case _iphzj4es.DailyActiveCount():
         return 'DailyActiveCount';
       case _ipxxg0d2.DailyActiveMark():
@@ -947,14 +918,8 @@ class Protocol extends _isc.SerializationManager
     if (dataClassName == 'StaffRole') {
       return deserialize<_imtqbwe6.StaffRole>(data['data']);
     }
-    if (dataClassName == 'StaffSession') {
-      return deserialize<_igu3u6o0.StaffSession>(data['data']);
-    }
     if (dataClassName == 'StaffSummary') {
       return deserialize<_iminry28.StaffSummary>(data['data']);
-    }
-    if (dataClassName == 'TotpEnrollment') {
-      return deserialize<_ieq44cuc.TotpEnrollment>(data['data']);
     }
     if (dataClassName == 'DailyActiveCount') {
       return deserialize<_iphzj4es.DailyActiveCount>(data['data']);

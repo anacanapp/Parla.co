@@ -28,11 +28,6 @@ Future<UuidValue> eraseAccount(
       session,
     ).erase(session, userId, transaction: transaction);
     // A staff member's panel access ends with the account.
-    await StaffSession.db.deleteWhere(
-      session,
-      where: (t) => t.authUserId.equals(userId),
-      transaction: transaction,
-    );
     await StaffMember.db.deleteWhere(
       session,
       where: (t) => t.authUserId.equals(userId),

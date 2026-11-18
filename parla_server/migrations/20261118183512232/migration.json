@@ -1,0 +1,166 @@
+{
+  "__className__": "serverpod.DatabaseMigration",
+  "actions": [
+    {
+      "__className__": "serverpod.DatabaseMigrationAction",
+      "type": "deleteTable",
+      "deleteTable": "staff_session"
+    },
+    {
+      "__className__": "serverpod.DatabaseMigrationAction",
+      "type": "alterTable",
+      "alterTable": {
+        "__className__": "serverpod.TableMigration",
+        "name": "staff_member",
+        "schema": "public",
+        "addColumns": [],
+        "deleteColumns": [
+          "totpSecret",
+          "totpNonce",
+          "totpConfirmedAt",
+          "lastTotpStep",
+          "failedTotp",
+          "lockedUntil"
+        ],
+        "modifyColumns": [],
+        "addIndexes": [],
+        "deleteIndexes": [],
+        "addForeignKeys": [],
+        "deleteForeignKeys": [],
+        "warnings": [
+          {
+            "__className__": "serverpod.DatabaseMigrationWarning",
+            "type": "columnDropped",
+            "message": "Column \"totpSecret\" of table \"staff_member\" will be dropped.",
+            "table": "staff_member",
+            "columns": [
+              "totpSecret"
+            ],
+            "destrucive": true
+          },
+          {
+            "__className__": "serverpod.DatabaseMigrationWarning",
+            "type": "columnDropped",
+            "message": "Column \"totpNonce\" of table \"staff_member\" will be dropped.",
+            "table": "staff_member",
+            "columns": [
+              "totpNonce"
+            ],
+            "destrucive": true
+          },
+          {
+            "__className__": "serverpod.DatabaseMigrationWarning",
+            "type": "columnDropped",
+            "message": "Column \"totpConfirmedAt\" of table \"staff_member\" will be dropped.",
+            "table": "staff_member",
+            "columns": [
+              "totpConfirmedAt"
+            ],
+            "destrucive": true
+          },
+          {
+            "__className__": "serverpod.DatabaseMigrationWarning",
+            "type": "columnDropped",
+            "message": "Column \"lastTotpStep\" of table \"staff_member\" will be dropped.",
+            "table": "staff_member",
+            "columns": [
+              "lastTotpStep"
+            ],
+            "destrucive": true
+          },
+          {
+            "__className__": "serverpod.DatabaseMigrationWarning",
+            "type": "columnDropped",
+            "message": "Column \"failedTotp\" of table \"staff_member\" will be dropped.",
+            "table": "staff_member",
+            "columns": [
+              "failedTotp"
+            ],
+            "destrucive": true
+          },
+          {
+            "__className__": "serverpod.DatabaseMigrationWarning",
+            "type": "columnDropped",
+            "message": "Column \"lockedUntil\" of table \"staff_member\" will be dropped.",
+            "table": "staff_member",
+            "columns": [
+              "lockedUntil"
+            ],
+            "destrucive": true
+          }
+        ]
+      }
+    }
+  ],
+  "warnings": [
+    {
+      "__className__": "serverpod.DatabaseMigrationWarning",
+      "type": "tableDropped",
+      "message": "Table \"staff_session\" will be dropped.",
+      "table": "staff_session",
+      "columns": [],
+      "destrucive": true
+    },
+    {
+      "__className__": "serverpod.DatabaseMigrationWarning",
+      "type": "columnDropped",
+      "message": "Column \"totpSecret\" of table \"staff_member\" will be dropped.",
+      "table": "staff_member",
+      "columns": [
+        "totpSecret"
+      ],
+      "destrucive": true
+    },
+    {
+      "__className__": "serverpod.DatabaseMigrationWarning",
+      "type": "columnDropped",
+      "message": "Column \"totpNonce\" of table \"staff_member\" will be dropped.",
+      "table": "staff_member",
+      "columns": [
+        "totpNonce"
+      ],
+      "destrucive": true
+    },
+    {
+      "__className__": "serverpod.DatabaseMigrationWarning",
+      "type": "columnDropped",
+      "message": "Column \"totpConfirmedAt\" of table \"staff_member\" will be dropped.",
+      "table": "staff_member",
+      "columns": [
+        "totpConfirmedAt"
+      ],
+      "destrucive": true
+    },
+    {
+      "__className__": "serverpod.DatabaseMigrationWarning",
+      "type": "columnDropped",
+      "message": "Column \"lastTotpStep\" of table \"staff_member\" will be dropped.",
+      "table": "staff_member",
+      "columns": [
+        "lastTotpStep"
+      ],
+      "destrucive": true
+    },
+    {
+      "__className__": "serverpod.DatabaseMigrationWarning",
+      "type": "columnDropped",
+      "message": "Column \"failedTotp\" of table \"staff_member\" will be dropped.",
+      "table": "staff_member",
+      "columns": [
+        "failedTotp"
+      ],
+      "destrucive": true
+    },
+    {
+      "__className__": "serverpod.DatabaseMigrationWarning",
+      "type": "columnDropped",
+      "message": "Column \"lockedUntil\" of table \"staff_member\" will be dropped.",
+      "table": "staff_member",
+      "columns": [
+        "lockedUntil"
+      ],
+      "destrucive": true
+    }
+  ],
+  "migrationApiVersion": 1
+}

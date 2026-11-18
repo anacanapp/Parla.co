@@ -1424,26 +1424,6 @@ class Endpoints extends _is.EndpointDispatch {
                         params['active'],
                       ),
         ),
-        'resetTotp': _is.MethodConnector(
-          name: 'resetTotp',
-          params: {
-            'authUserId': _is.ParameterDescription(
-              name: 'authUserId',
-              type: _is.getType<_is.UuidValue>(),
-              nullable: false,
-            ),
-          },
-          call:
-              (
-                _is.Session session,
-                Map<String, dynamic> params,
-              ) async =>
-                  (endpoints['staffAdmin'] as _i73k1848.StaffAdminEndpoint)
-                      .resetTotp(
-                        session,
-                        params['authUserId'],
-                      ),
-        ),
       },
     );
     connectors['staff'] = _is.EndpointConnector(
@@ -1488,64 +1468,6 @@ class Endpoints extends _is.EndpointDispatch {
                 Map<String, dynamic> params,
               ) async => (endpoints['staff'] as _ig11nxnn.StaffEndpoint)
                   .claimFirstAdmin(session),
-        ),
-        'startTotp': _is.MethodConnector(
-          name: 'startTotp',
-          params: {},
-          call:
-              (
-                _is.Session session,
-                Map<String, dynamic> params,
-              ) async => (endpoints['staff'] as _ig11nxnn.StaffEndpoint)
-                  .startTotp(session),
-        ),
-        'confirmTotp': _is.MethodConnector(
-          name: 'confirmTotp',
-          params: {
-            'code': _is.ParameterDescription(
-              name: 'code',
-              type: _is.getType<String>(),
-              nullable: false,
-            ),
-          },
-          call:
-              (
-                _is.Session session,
-                Map<String, dynamic> params,
-              ) async =>
-                  (endpoints['staff'] as _ig11nxnn.StaffEndpoint).confirmTotp(
-                    session,
-                    params['code'],
-                  ),
-        ),
-        'verifyTotp': _is.MethodConnector(
-          name: 'verifyTotp',
-          params: {
-            'code': _is.ParameterDescription(
-              name: 'code',
-              type: _is.getType<String>(),
-              nullable: false,
-            ),
-          },
-          call:
-              (
-                _is.Session session,
-                Map<String, dynamic> params,
-              ) async =>
-                  (endpoints['staff'] as _ig11nxnn.StaffEndpoint).verifyTotp(
-                    session,
-                    params['code'],
-                  ),
-        ),
-        'endSession': _is.MethodConnector(
-          name: 'endSession',
-          params: {},
-          call:
-              (
-                _is.Session session,
-                Map<String, dynamic> params,
-              ) async => (endpoints['staff'] as _ig11nxnn.StaffEndpoint)
-                  .endSession(session),
         ),
       },
     );

@@ -14,51 +14,46 @@ import 'package:serverpod/serverpod.dart' as _is;
 import '../staff/staff_role.dart' as _iopxo5n5;
 
 /// What the admin panel needs to know about the signed-in staff member.
+/// [signInExpiresAt]: 12 hours after the password sign-in; afterwards the
+/// panel asks for the password again.
 abstract class StaffMe
     implements _is.SerializableModel, _is.ProtocolSerialization {
   StaffMe._({
     required this.role,
-    required this.totpEnrolled,
-    required this.verified,
+    required this.signInExpiresAt,
   });
 
   factory StaffMe({
     required _iopxo5n5.StaffRole role,
-    required bool totpEnrolled,
-    required bool verified,
+    required DateTime signInExpiresAt,
   }) = _StaffMeImpl;
 
   factory StaffMe.fromJson(Map<String, dynamic> jsonSerialization) {
     return StaffMe(
       role: _iopxo5n5.StaffRole.fromJson((jsonSerialization['role'] as String)),
-      totpEnrolled: _is.BoolJsonExtension.fromJson(
-        jsonSerialization['totpEnrolled'],
+      signInExpiresAt: _is.DateTimeJsonExtension.fromJson(
+        jsonSerialization['signInExpiresAt'],
       ),
-      verified: _is.BoolJsonExtension.fromJson(jsonSerialization['verified']),
     );
   }
 
   _iopxo5n5.StaffRole role;
 
-  bool totpEnrolled;
-
-  bool verified;
+  DateTime signInExpiresAt;
 
   /// Returns a shallow copy of this [StaffMe]
   /// with some or all fields replaced by the given arguments.
   @_is.useResult
   StaffMe copyWith({
     _iopxo5n5.StaffRole? role,
-    bool? totpEnrolled,
-    bool? verified,
+    DateTime? signInExpiresAt,
   });
   @override
   Map<String, dynamic> toJson() {
     return {
       '__className__': 'StaffMe',
       'role': role.toJson(),
-      'totpEnrolled': totpEnrolled,
-      'verified': verified,
+      'signInExpiresAt': signInExpiresAt.toJson(),
     };
   }
 
@@ -67,8 +62,7 @@ abstract class StaffMe
     return {
       '__className__': 'StaffMe',
       'role': role.toJson(),
-      'totpEnrolled': totpEnrolled,
-      'verified': verified,
+      'signInExpiresAt': signInExpiresAt.toJson(),
     };
   }
 
@@ -81,12 +75,10 @@ abstract class StaffMe
 class _StaffMeImpl extends StaffMe {
   _StaffMeImpl({
     required _iopxo5n5.StaffRole role,
-    required bool totpEnrolled,
-    required bool verified,
+    required DateTime signInExpiresAt,
   }) : super._(
          role: role,
-         totpEnrolled: totpEnrolled,
-         verified: verified,
+         signInExpiresAt: signInExpiresAt,
        );
 
   /// Returns a shallow copy of this [StaffMe]
@@ -95,13 +87,11 @@ class _StaffMeImpl extends StaffMe {
   @override
   StaffMe copyWith({
     _iopxo5n5.StaffRole? role,
-    bool? totpEnrolled,
-    bool? verified,
+    DateTime? signInExpiresAt,
   }) {
     return StaffMe(
       role: role ?? this.role,
-      totpEnrolled: totpEnrolled ?? this.totpEnrolled,
-      verified: verified ?? this.verified,
+      signInExpiresAt: signInExpiresAt ?? this.signInExpiresAt,
     );
   }
 }

@@ -26,27 +26,11 @@ class ServerpodAdminApi implements AdminApi {
       _guard(() => _client.staff.acceptInvite(code));
 
   @override
-  Future<TotpEnrollment> startTotp() => _guard(_client.staff.startTotp);
-
-  @override
-  Future<StaffMe> confirmTotp(String code) =>
-      _guard(() => _client.staff.confirmTotp(code));
-
-  @override
-  Future<StaffMe> verifyTotp(String code) =>
-      _guard(() => _client.staff.verifyTotp(code));
-
-  @override
   Future<void> signOut() async {
-    try {
-      await _client.staff.endSession();
-    } on Object {
-      // The session may already be gone; sign out locally either way.
-    }
     try {
       await _client.auth.signOutDevice();
     } on Object {
-      // Same as above.
+      // The session may already be gone; it is signed out locally anyway.
     }
   }
 
@@ -73,10 +57,6 @@ class ServerpodAdminApi implements AdminApi {
   @override
   Future<void> setActive(UuidValue user, bool active) =>
       _guard(() => _client.staffAdmin.setActive(user, active));
-
-  @override
-  Future<void> resetTotp(UuidValue user) =>
-      _guard(() => _client.staffAdmin.resetTotp(user));
 
   @override
   Future<List<ContentAdminItem>> listContent(String kind) =>
@@ -264,6 +244,9 @@ class ServerpodAdminApi implements AdminApi {
     try {
       return await call();
     } on ParlaException catch (e) {
+      // 12 hours after the password sign-in the server refuses every admin
+      // call; signing out sends the panel back to the sign-in page.
+      if (e.code == 'staff.sign_in_again') await signOut();
       throw AdminError(e.code);
     }
   }

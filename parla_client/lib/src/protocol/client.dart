@@ -35,8 +35,6 @@ import 'package:parla_client/src/protocol/staff/staff_me.dart' as _i7hd0p59;
 import 'package:parla_client/src/protocol/staff/staff_role.dart' as _ibknl9pl;
 import 'package:parla_client/src/protocol/staff/staff_summary.dart'
     as _i48vujj3;
-import 'package:parla_client/src/protocol/staff/totp_enrollment.dart'
-    as _i8ipqfqe;
 import 'package:parla_client/src/protocol/stats/stats_report.dart' as _iod6dk31;
 import 'package:parla_client/src/protocol/support/support_entry.dart'
     as _iv2bnak3;
@@ -980,19 +978,10 @@ class EndpointStaffAdmin extends _isc.EndpointRef {
       'active': active,
     },
   );
-
-  /// Clears the authenticator of a staff member who lost their phone; they
-  /// set it up again at the next sign-in.
-  _ida.Future<void> resetTotp(_isc.UuidValue authUserId) =>
-      caller.callServerEndpoint<void>(
-        'staffAdmin',
-        'resetTotp',
-        {'authUserId': authUserId},
-      );
 }
 
-/// Joining the admin panel and the second factor. Any signed-in account
-/// can call these; they only ever act on the caller's own staff row.
+/// Joining the admin panel. Any signed-in account can call these; they only
+/// ever act on the caller's own staff row.
 /// {@category Endpoint}
 class EndpointStaff extends _isc.EndpointRef {
   EndpointStaff(_isc.EndpointCaller caller) : super(caller);
@@ -1001,6 +990,8 @@ class EndpointStaff extends _isc.EndpointRef {
   String get name => 'staff';
 
   /// The caller's staff state, or `null` for someone who is not staff.
+  /// Refused with `staff.sign_in_again` once the password sign-in is older
+  /// than 12 hours.
   _ida.Future<_i7hd0p59.StaffMe?> me() =>
       caller.callServerEndpoint<_i7hd0p59.StaffMe?>(
         'staff',
@@ -1024,39 +1015,6 @@ class EndpointStaff extends _isc.EndpointRef {
         'claimFirstAdmin',
         {},
       );
-
-  /// Starts setting up the authenticator app. Replaces an unconfirmed
-  /// secret; refused once a secret is confirmed (an admin resets it).
-  _ida.Future<_i8ipqfqe.TotpEnrollment> startTotp() =>
-      caller.callServerEndpoint<_i8ipqfqe.TotpEnrollment>(
-        'staff',
-        'startTotp',
-        {},
-      );
-
-  /// Confirms the authenticator app with a first code and verifies this
-  /// sign-in session.
-  _ida.Future<_i7hd0p59.StaffMe> confirmTotp(String code) =>
-      caller.callServerEndpoint<_i7hd0p59.StaffMe>(
-        'staff',
-        'confirmTotp',
-        {'code': code},
-      );
-
-  /// The second factor for this sign-in session.
-  _ida.Future<_i7hd0p59.StaffMe> verifyTotp(String code) =>
-      caller.callServerEndpoint<_i7hd0p59.StaffMe>(
-        'staff',
-        'verifyTotp',
-        {'code': code},
-      );
-
-  /// Ends the second-factor check of this sign-in session.
-  _ida.Future<void> endSession() => caller.callServerEndpoint<void>(
-    'staff',
-    'endSession',
-    {},
-  );
 }
 
 /// The app reports once a day that it was opened, for the anonymous daily

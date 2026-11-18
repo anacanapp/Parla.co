@@ -31,7 +31,6 @@ class StaffAdminEndpoint extends Endpoint {
           email: byUser[m.authUserId] ?? '',
           role: m.role,
           active: m.active,
-          totpEnrolled: m.totpConfirmedAt != null,
           createdAt: m.createdAt,
         ),
     ];
@@ -126,25 +125,7 @@ class StaffAdminEndpoint extends Endpoint {
         active ? 'staff.activated' : 'staff.deactivated',
         (m) => m.copyWith(active: active),
         removesAdmin: !active,
-        endSessions: !active,
       );
-
-  /// Clears the authenticator of a staff member who lost their phone; they
-  /// set it up again at the next sign-in.
-  Future<void> resetTotp(Session session, UuidValue authUserId) => _update(
-    session,
-    authUserId,
-    'staff.totp_reset',
-    (m) => m.copyWith(
-      totpSecret: null,
-      totpNonce: null,
-      totpConfirmedAt: null,
-      lastTotpStep: null,
-      failedTotp: 0,
-      lockedUntil: null,
-    ),
-    endSessions: true,
-  );
 
   Future<void> _update(
     Session session,
@@ -152,7 +133,6 @@ class StaffAdminEndpoint extends Endpoint {
     String action,
     StaffMember Function(StaffMember) change, {
     bool removesAdmin = false,
-    bool endSessions = false,
   }) async {
     final admin = await requireStaff(session, roles: {StaffRole.admin});
     await session.db.transaction((transaction) async {
@@ -175,13 +155,6 @@ class StaffAdminEndpoint extends Endpoint {
         change(member),
         transaction: transaction,
       );
-      if (endSessions) {
-        await StaffSession.db.deleteWhere(
-          session,
-          where: (t) => t.authUserId.equals(authUserId),
-          transaction: transaction,
-        );
-      }
       await writeAudit(
         session,
         actorId: admin.authUserId,

@@ -6,8 +6,8 @@ class FakeAdminApi implements AdminApi {
   final _auth = ValueNotifier<int>(0);
   bool signedIn = false;
   StaffMe? meValue;
+  AdminError? meError;
   String inviteCode = 'GOODCODE';
-  String totpCode = '123456';
   final staff = <StaffSummary>[];
   final invites = <StaffInviteSummary>[];
   final calls = <String>[];
@@ -19,7 +19,15 @@ class FakeAdminApi implements AdminApi {
   Listenable get authChanges => _auth;
 
   @override
-  Future<StaffMe?> me() async => meValue;
+  Future<StaffMe?> me() async {
+    final error = meError;
+    if (error != null) {
+      // Like the real client: an expired sign-in signs out first.
+      if (error.code == 'staff.sign_in_again') await signOut();
+      throw error;
+    }
+    return meValue;
+  }
 
   @override
   Future<StaffMe> claimFirstAdmin() async =>
@@ -32,25 +40,7 @@ class FakeAdminApi implements AdminApi {
     }
     return meValue = StaffMe(
       role: StaffRole.admin,
-      totpEnrolled: false,
-      verified: false,
-    );
-  }
-
-  @override
-  Future<TotpEnrollment> startTotp() async =>
-      TotpEnrollment(secret: 'ABCDEFGH', uri: 'otpauth://totp/x?secret=AB');
-
-  @override
-  Future<StaffMe> confirmTotp(String code) => verifyTotp(code);
-
-  @override
-  Future<StaffMe> verifyTotp(String code) async {
-    if (code != totpCode) throw const AdminError('staff.totp_invalid');
-    return meValue = StaffMe(
-      role: meValue!.role,
-      totpEnrolled: true,
-      verified: true,
+      signInExpiresAt: DateTime.now().toUtc().add(const Duration(hours: 12)),
     );
   }
 
@@ -97,9 +87,6 @@ class FakeAdminApi implements AdminApi {
   Future<void> setActive(UuidValue user, bool active) async {
     calls.add('active:$user:$active');
   }
-
-  @override
-  Future<void> resetTotp(UuidValue user) async => calls.add('reset:$user');
 
   String password = 'correct horse battery';
 

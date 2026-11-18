@@ -21,7 +21,6 @@ abstract class StaffSummary
     required this.email,
     required this.role,
     required this.active,
-    required this.totpEnrolled,
     required this.createdAt,
   });
 
@@ -30,7 +29,6 @@ abstract class StaffSummary
     required String email,
     required _iopxo5n5.StaffRole role,
     required bool active,
-    required bool totpEnrolled,
     required DateTime createdAt,
   }) = _StaffSummaryImpl;
 
@@ -42,9 +40,6 @@ abstract class StaffSummary
       email: jsonSerialization['email'] as String,
       role: _iopxo5n5.StaffRole.fromJson((jsonSerialization['role'] as String)),
       active: _isc.BoolJsonExtension.fromJson(jsonSerialization['active']),
-      totpEnrolled: _isc.BoolJsonExtension.fromJson(
-        jsonSerialization['totpEnrolled'],
-      ),
       createdAt: _isc.DateTimeJsonExtension.fromJson(
         jsonSerialization['createdAt'],
       ),
@@ -59,8 +54,6 @@ abstract class StaffSummary
 
   bool active;
 
-  bool totpEnrolled;
-
   DateTime createdAt;
 
   /// Returns a shallow copy of this [StaffSummary]
@@ -71,7 +64,6 @@ abstract class StaffSummary
     String? email,
     _iopxo5n5.StaffRole? role,
     bool? active,
-    bool? totpEnrolled,
     DateTime? createdAt,
   });
   @override
@@ -82,7 +74,6 @@ abstract class StaffSummary
       'email': email,
       'role': role.toJson(),
       'active': active,
-      'totpEnrolled': totpEnrolled,
       'createdAt': createdAt.toJson(),
     };
   }
@@ -95,7 +86,6 @@ abstract class StaffSummary
       'email': email,
       'role': role.toJson(),
       'active': active,
-      'totpEnrolled': totpEnrolled,
       'createdAt': createdAt.toJson(),
     };
   }
@@ -112,14 +102,12 @@ class _StaffSummaryImpl extends StaffSummary {
     required String email,
     required _iopxo5n5.StaffRole role,
     required bool active,
-    required bool totpEnrolled,
     required DateTime createdAt,
   }) : super._(
          authUserId: authUserId,
          email: email,
          role: role,
          active: active,
-         totpEnrolled: totpEnrolled,
          createdAt: createdAt,
        );
 
@@ -132,7 +120,6 @@ class _StaffSummaryImpl extends StaffSummary {
     String? email,
     _iopxo5n5.StaffRole? role,
     bool? active,
-    bool? totpEnrolled,
     DateTime? createdAt,
   }) {
     return StaffSummary(
@@ -140,7 +127,6 @@ class _StaffSummaryImpl extends StaffSummary {
       email: email ?? this.email,
       role: role ?? this.role,
       active: active ?? this.active,
-      totpEnrolled: totpEnrolled ?? this.totpEnrolled,
       createdAt: createdAt ?? this.createdAt,
     );
   }

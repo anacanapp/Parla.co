@@ -6,12 +6,13 @@ import 'package:parla_server/src/generated/protocol.dart';
 import 'package:parla_server/src/push/push.dart';
 import 'package:parla_server/src/push/push_endpoint.dart';
 import 'package:parla_server/src/push/push_sender.dart';
-import 'package:parla_server/src/staff/totp.dart';
 import 'package:parla_shared/parla_shared.dart';
 import 'package:serverpod_auth_idp_server/core.dart';
 import 'package:test/test.dart';
 
 import 'test_tools/serverpod_test_tools.dart';
+
+import 'staff_sign_in.dart';
 
 Matcher _error(String code) =>
     isA<ParlaException>().having((e) => e.code, 'code', code);
@@ -36,8 +37,6 @@ void main() {
   });
 
   withServerpod('Given push notifications', (sessionBuilder, endpoints) {
-    var n = 0;
-
     Future<TestSessionBuilder> staff(String email, StaffRole role) async {
       final db = sessionBuilder.build();
       final user = await const AuthUsers().create(db);
@@ -49,7 +48,7 @@ void main() {
         authentication: AuthenticationOverride.authenticationInfo(
           user.id.toString(),
           {},
-          authId: 'push-${n++}',
+          authId: await signInSession(db, user.id),
         ),
       );
       if (email.startsWith('first-admin')) {
@@ -60,14 +59,6 @@ void main() {
           DevelopmentCodeSender.lastStaffInviteCode!,
         );
       }
-      final e = await endpoints.staff.startTotp(s);
-      await endpoints.staff.confirmTotp(
-        s,
-        await Totp.code(
-          Totp.fromBase32(e.secret),
-          Totp.stepAt(DateTime.now()),
-        ),
-      );
       return s;
     }
 

@@ -66,9 +66,7 @@ import 'staff/staff_invite_summary.dart' as _igjtjhuj;
 import 'staff/staff_me.dart' as _i0yb5pr1;
 import 'staff/staff_member.dart' as _ihm1xmqc;
 import 'staff/staff_role.dart' as _imtqbwe6;
-import 'staff/staff_session.dart' as _igu3u6o0;
 import 'staff/staff_summary.dart' as _iminry28;
-import 'staff/totp_enrollment.dart' as _ieq44cuc;
 import 'stats/daily_active_count.dart' as _iphzj4es;
 import 'stats/daily_active_mark.dart' as _ipxxg0d2;
 import 'stats/stats_count.dart' as _iu0qh84b;
@@ -108,9 +106,7 @@ export 'staff/staff_invite_summary.dart';
 export 'staff/staff_me.dart';
 export 'staff/staff_member.dart';
 export 'staff/staff_role.dart';
-export 'staff/staff_session.dart';
 export 'staff/staff_summary.dart';
-export 'staff/totp_enrollment.dart';
 export 'stats/daily_active_count.dart';
 export 'stats/daily_active_mark.dart';
 export 'stats/stats_count.dart';
@@ -164,9 +160,7 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_i0yb5pr1.StaffMe>,
           _is.getType<_ihm1xmqc.StaffMember>,
           _is.getType<_imtqbwe6.StaffRole>,
-          _is.getType<_igu3u6o0.StaffSession>,
           _is.getType<_iminry28.StaffSummary>,
-          _is.getType<_ieq44cuc.TotpEnrollment>,
           _is.getType<_iphzj4es.DailyActiveCount>,
           _is.getType<_ipxxg0d2.DailyActiveMark>,
           _is.getType<_iu0qh84b.StatsCount>,
@@ -206,9 +200,7 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_i0yb5pr1.StaffMe?>,
           _is.getType<_ihm1xmqc.StaffMember?>,
           _is.getType<_imtqbwe6.StaffRole?>,
-          _is.getType<_igu3u6o0.StaffSession?>,
           _is.getType<_iminry28.StaffSummary?>,
-          _is.getType<_ieq44cuc.TotpEnrollment?>,
           _is.getType<_iphzj4es.DailyActiveCount?>,
           _is.getType<_ipxxg0d2.DailyActiveMark?>,
           _is.getType<_iu0qh84b.StatsCount?>,
@@ -271,9 +263,7 @@ class Protocol extends _is.DatabaseSerializationManager
           'StaffMe',
           'StaffMember',
           'StaffRole',
-          'StaffSession',
           'StaffSummary',
-          'TotpEnrollment',
           'DailyActiveCount',
           'DailyActiveMark',
           'StatsCount',
@@ -1498,42 +1488,6 @@ class Protocol extends _is.DatabaseSerializationManager
           dartType: 'bool',
         ),
         _isp.ColumnDefinition(
-          name: 'totpSecret',
-          columnType: _isp.ColumnType.text,
-          isNullable: true,
-          dartType: 'String?',
-        ),
-        _isp.ColumnDefinition(
-          name: 'totpNonce',
-          columnType: _isp.ColumnType.text,
-          isNullable: true,
-          dartType: 'String?',
-        ),
-        _isp.ColumnDefinition(
-          name: 'totpConfirmedAt',
-          columnType: _isp.ColumnType.timestampWithoutTimeZone,
-          isNullable: true,
-          dartType: 'DateTime?',
-        ),
-        _isp.ColumnDefinition(
-          name: 'lastTotpStep',
-          columnType: _isp.ColumnType.bigint,
-          isNullable: true,
-          dartType: 'int?',
-        ),
-        _isp.ColumnDefinition(
-          name: 'failedTotp',
-          columnType: _isp.ColumnType.bigint,
-          isNullable: false,
-          dartType: 'int',
-        ),
-        _isp.ColumnDefinition(
-          name: 'lockedUntil',
-          columnType: _isp.ColumnType.timestampWithoutTimeZone,
-          isNullable: true,
-          dartType: 'DateTime?',
-        ),
-        _isp.ColumnDefinition(
           name: 'invitedBy',
           columnType: _isp.ColumnType.uuid,
           isNullable: true,
@@ -1555,62 +1509,6 @@ class Protocol extends _is.DatabaseSerializationManager
             _isp.IndexElementDefinition(
               type: _isp.IndexElementDefinitionType.column,
               definition: 'authUserId',
-            ),
-          ],
-          type: 'btree',
-          isUnique: true,
-          isPrimary: false,
-        ),
-      ],
-      managed: true,
-    ),
-    _isp.TableDefinition(
-      name: 'staff_session',
-      dartName: 'StaffSession',
-      schema: 'public',
-      module: 'parla',
-      columns: [
-        _isp.ColumnDefinition(
-          name: 'id',
-          columnType: _isp.ColumnType.bigint,
-          isNullable: false,
-          dartType: 'int?',
-          columnDefault: 'serial',
-        ),
-        _isp.ColumnDefinition(
-          name: 'authUserId',
-          columnType: _isp.ColumnType.uuid,
-          isNullable: false,
-          dartType: 'UuidValue',
-        ),
-        _isp.ColumnDefinition(
-          name: 'authId',
-          columnType: _isp.ColumnType.text,
-          isNullable: false,
-          dartType: 'String',
-        ),
-        _isp.ColumnDefinition(
-          name: 'verifiedAt',
-          columnType: _isp.ColumnType.timestampWithoutTimeZone,
-          isNullable: false,
-          dartType: 'DateTime',
-        ),
-        _isp.ColumnDefinition(
-          name: 'expiresAt',
-          columnType: _isp.ColumnType.timestampWithoutTimeZone,
-          isNullable: false,
-          dartType: 'DateTime',
-        ),
-      ],
-      foreignKeys: [],
-      indexes: [
-        _isp.IndexDefinition(
-          indexName: 'staff_session_auth_idx',
-          tableSpace: null,
-          elements: [
-            _isp.IndexElementDefinition(
-              type: _isp.IndexElementDefinitionType.column,
-              definition: 'authId',
             ),
           ],
           type: 'btree',
@@ -1872,14 +1770,8 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _imtqbwe6.StaffRole) {
       return _imtqbwe6.StaffRole.fromJson(data) as T;
     }
-    if (t == _igu3u6o0.StaffSession) {
-      return _igu3u6o0.StaffSession.fromJson(data) as T;
-    }
     if (t == _iminry28.StaffSummary) {
       return _iminry28.StaffSummary.fromJson(data) as T;
-    }
-    if (t == _ieq44cuc.TotpEnrollment) {
-      return _ieq44cuc.TotpEnrollment.fromJson(data) as T;
     }
     if (t == _iphzj4es.DailyActiveCount) {
       return _iphzj4es.DailyActiveCount.fromJson(data) as T;
@@ -2015,15 +1907,8 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _is.getType<_imtqbwe6.StaffRole?>()) {
       return (data != null ? _imtqbwe6.StaffRole.fromJson(data) : null) as T;
     }
-    if (t == _is.getType<_igu3u6o0.StaffSession?>()) {
-      return (data != null ? _igu3u6o0.StaffSession.fromJson(data) : null) as T;
-    }
     if (t == _is.getType<_iminry28.StaffSummary?>()) {
       return (data != null ? _iminry28.StaffSummary.fromJson(data) : null) as T;
-    }
-    if (t == _is.getType<_ieq44cuc.TotpEnrollment?>()) {
-      return (data != null ? _ieq44cuc.TotpEnrollment.fromJson(data) : null)
-          as T;
     }
     if (t == _is.getType<_iphzj4es.DailyActiveCount?>()) {
       return (data != null ? _iphzj4es.DailyActiveCount.fromJson(data) : null)
@@ -2202,9 +2087,7 @@ class Protocol extends _is.DatabaseSerializationManager
       _i0yb5pr1.StaffMe => 'StaffMe',
       _ihm1xmqc.StaffMember => 'StaffMember',
       _imtqbwe6.StaffRole => 'StaffRole',
-      _igu3u6o0.StaffSession => 'StaffSession',
       _iminry28.StaffSummary => 'StaffSummary',
-      _ieq44cuc.TotpEnrollment => 'TotpEnrollment',
       _iphzj4es.DailyActiveCount => 'DailyActiveCount',
       _ipxxg0d2.DailyActiveMark => 'DailyActiveMark',
       _iu0qh84b.StatsCount => 'StatsCount',
@@ -2287,12 +2170,8 @@ class Protocol extends _is.DatabaseSerializationManager
         return 'StaffMember';
       case _imtqbwe6.StaffRole():
         return 'StaffRole';
-      case _igu3u6o0.StaffSession():
-        return 'StaffSession';
       case _iminry28.StaffSummary():
         return 'StaffSummary';
-      case _ieq44cuc.TotpEnrollment():
-        return 'TotpEnrollment';
       case _iphzj4es.DailyActiveCount():
         return 'DailyActiveCount';
       case _ipxxg0d2.DailyActiveMark():
@@ -2426,14 +2305,8 @@ class Protocol extends _is.DatabaseSerializationManager
     if (dataClassName == 'StaffRole') {
       return deserialize<_imtqbwe6.StaffRole>(data['data']);
     }
-    if (dataClassName == 'StaffSession') {
-      return deserialize<_igu3u6o0.StaffSession>(data['data']);
-    }
     if (dataClassName == 'StaffSummary') {
       return deserialize<_iminry28.StaffSummary>(data['data']);
-    }
-    if (dataClassName == 'TotpEnrollment') {
-      return deserialize<_ieq44cuc.TotpEnrollment>(data['data']);
     }
     if (dataClassName == 'DailyActiveCount') {
       return deserialize<_iphzj4es.DailyActiveCount>(data['data']);
@@ -2544,8 +2417,6 @@ class Protocol extends _is.DatabaseSerializationManager
         return _ig710w64.StaffInvite.t;
       case _ihm1xmqc.StaffMember:
         return _ihm1xmqc.StaffMember.t;
-      case _igu3u6o0.StaffSession:
-        return _igu3u6o0.StaffSession.t;
       case _iphzj4es.DailyActiveCount:
         return _iphzj4es.DailyActiveCount.t;
       case _ipxxg0d2.DailyActiveMark:
