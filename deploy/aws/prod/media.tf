@@ -62,11 +62,17 @@ resource "aws_s3_bucket_policy" "media" {
   depends_on = [aws_s3_bucket_public_access_block.media]
 }
 
-# The server stores, reads, copies and deletes images.
+# The server stores, reads, copies and deletes images. ListBucket makes S3
+# answer a missing image with 404 instead of 403, so /media/<id>.jpg of an
+# unknown or unpublished image is "not found", not a server error.
 data "aws_iam_policy_document" "task_media" {
   statement {
     actions   = ["s3:PutObject", "s3:GetObject", "s3:DeleteObject"]
     resources = ["${aws_s3_bucket.media.arn}/*"]
+  }
+  statement {
+    actions   = ["s3:ListBucket"]
+    resources = [aws_s3_bucket.media.arn]
   }
 }
 
