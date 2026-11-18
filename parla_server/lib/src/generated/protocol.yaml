@@ -70,15 +70,10 @@ staffAdmin:
   - revokeInvite:
   - setRole:
   - setActive:
-  - resetTotp:
 staff:
   - me:
   - acceptInvite:
   - claimFirstAdmin:
-  - startTotp:
-  - confirmTotp:
-  - verifyTotp:
-  - endSession:
 activity:
   - markActive:
 statsAdmin:

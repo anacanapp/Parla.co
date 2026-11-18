@@ -36,8 +36,6 @@ import 'package:parla_server/src/generated/staff/staff_me.dart' as _i6ngmf7u;
 import 'package:parla_server/src/generated/staff/staff_role.dart' as _i21eo3et;
 import 'package:parla_server/src/generated/staff/staff_summary.dart'
     as _i0twq8uu;
-import 'package:parla_server/src/generated/staff/totp_enrollment.dart'
-    as _iuuxdif3;
 import 'package:parla_server/src/generated/stats/stats_report.dart'
     as _i1ypnd10;
 import 'package:parla_server/src/generated/support/support_entry.dart'
@@ -2320,37 +2318,6 @@ class _StaffAdminEndpoint {
       }
     });
   }
-
-  _ida.Future<void> resetTotp(
-    _ist.TestSessionBuilder sessionBuilder,
-    _is.UuidValue authUserId,
-  ) async {
-    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
-      var _localUniqueSession =
-          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
-            endpoint: 'staffAdmin',
-            method: 'resetTotp',
-          );
-      try {
-        var _localCallContext = await _endpointDispatch.getMethodCallContext(
-          createSessionCallback: (_) => _localUniqueSession,
-          endpointPath: 'staffAdmin',
-          methodName: 'resetTotp',
-          parameters: _ist.testObjectToJson({'authUserId': authUserId}),
-          serializationManager: _serializationManager,
-        );
-        var _localReturnValue =
-            await (_localCallContext.method.call(
-                  _localUniqueSession,
-                  _localCallContext.arguments,
-                )
-                as _ida.Future<void>);
-        return _localReturnValue;
-      } finally {
-        await _localUniqueSession.close();
-      }
-    });
-  }
 }
 
 class _StaffEndpoint {
@@ -2447,126 +2414,6 @@ class _StaffEndpoint {
                   _localCallContext.arguments,
                 )
                 as _ida.Future<_i6ngmf7u.StaffMe>);
-        return _localReturnValue;
-      } finally {
-        await _localUniqueSession.close();
-      }
-    });
-  }
-
-  _ida.Future<_iuuxdif3.TotpEnrollment> startTotp(
-    _ist.TestSessionBuilder sessionBuilder,
-  ) async {
-    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
-      var _localUniqueSession =
-          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
-            endpoint: 'staff',
-            method: 'startTotp',
-          );
-      try {
-        var _localCallContext = await _endpointDispatch.getMethodCallContext(
-          createSessionCallback: (_) => _localUniqueSession,
-          endpointPath: 'staff',
-          methodName: 'startTotp',
-          parameters: _ist.testObjectToJson({}),
-          serializationManager: _serializationManager,
-        );
-        var _localReturnValue =
-            await (_localCallContext.method.call(
-                  _localUniqueSession,
-                  _localCallContext.arguments,
-                )
-                as _ida.Future<_iuuxdif3.TotpEnrollment>);
-        return _localReturnValue;
-      } finally {
-        await _localUniqueSession.close();
-      }
-    });
-  }
-
-  _ida.Future<_i6ngmf7u.StaffMe> confirmTotp(
-    _ist.TestSessionBuilder sessionBuilder,
-    String code,
-  ) async {
-    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
-      var _localUniqueSession =
-          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
-            endpoint: 'staff',
-            method: 'confirmTotp',
-          );
-      try {
-        var _localCallContext = await _endpointDispatch.getMethodCallContext(
-          createSessionCallback: (_) => _localUniqueSession,
-          endpointPath: 'staff',
-          methodName: 'confirmTotp',
-          parameters: _ist.testObjectToJson({'code': code}),
-          serializationManager: _serializationManager,
-        );
-        var _localReturnValue =
-            await (_localCallContext.method.call(
-                  _localUniqueSession,
-                  _localCallContext.arguments,
-                )
-                as _ida.Future<_i6ngmf7u.StaffMe>);
-        return _localReturnValue;
-      } finally {
-        await _localUniqueSession.close();
-      }
-    });
-  }
-
-  _ida.Future<_i6ngmf7u.StaffMe> verifyTotp(
-    _ist.TestSessionBuilder sessionBuilder,
-    String code,
-  ) async {
-    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
-      var _localUniqueSession =
-          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
-            endpoint: 'staff',
-            method: 'verifyTotp',
-          );
-      try {
-        var _localCallContext = await _endpointDispatch.getMethodCallContext(
-          createSessionCallback: (_) => _localUniqueSession,
-          endpointPath: 'staff',
-          methodName: 'verifyTotp',
-          parameters: _ist.testObjectToJson({'code': code}),
-          serializationManager: _serializationManager,
-        );
-        var _localReturnValue =
-            await (_localCallContext.method.call(
-                  _localUniqueSession,
-                  _localCallContext.arguments,
-                )
-                as _ida.Future<_i6ngmf7u.StaffMe>);
-        return _localReturnValue;
-      } finally {
-        await _localUniqueSession.close();
-      }
-    });
-  }
-
-  _ida.Future<void> endSession(_ist.TestSessionBuilder sessionBuilder) async {
-    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
-      var _localUniqueSession =
-          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
-            endpoint: 'staff',
-            method: 'endSession',
-          );
-      try {
-        var _localCallContext = await _endpointDispatch.getMethodCallContext(
-          createSessionCallback: (_) => _localUniqueSession,
-          endpointPath: 'staff',
-          methodName: 'endSession',
-          parameters: _ist.testObjectToJson({}),
-          serializationManager: _serializationManager,
-        );
-        var _localReturnValue =
-            await (_localCallContext.method.call(
-                  _localUniqueSession,
-                  _localCallContext.arguments,
-                )
-                as _ida.Future<void>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

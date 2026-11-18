@@ -30,7 +30,10 @@ Future<FakeAdminApi> _pump(WidgetTester tester, StaffRole role) async {
   addTearDown(tester.view.reset);
   final api = FakeAdminApi()
     ..signedIn = true
-    ..meValue = StaffMe(role: role, totpEnrolled: true, verified: true)
+    ..meValue = StaffMe(
+      role: role,
+      signInExpiresAt: DateTime.now().toUtc().add(const Duration(hours: 12)),
+    )
     ..users['leyla@example.com'] = _leyla
     ..stats = StatsReport(
       generatedAt: DateTime.utc(2026, 11, 17),

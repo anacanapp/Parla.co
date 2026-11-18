@@ -267,16 +267,23 @@ messages and push notifications (D) follow.
   waits: items whose approval belongs to this role (`ContentRules.reviewerRole`),
   approved items not yet published, drafts, and unread support threads. It
   reads only the existing content and support lists; it shows no user data.
-- **Sign-in.** Email and password (at least 12 characters, enforced on the
-  server), then a TOTP code from an authenticator app in every sign-in
-  session. The check lasts 8 hours (`staff_session`). The TOTP secret is
-  sealed with a key derived from the server KEK by HKDF with its own label.
-  A used code is refused, and five wrong codes lock the account for 15
-  minutes. An admin can reset a lost authenticator. Sign-in errors do not
-  say whether the email exists.
+- **Sign-in.** Email and password only (at least 12 characters, enforced on
+  the server). **There is no second factor: decision of 2026-11-18 by the
+  product owner**, replacing the TOTP step of phase A. Consequence: a
+  stolen or reused staff password is enough to look up users' emails,
+  delete accounts, read support messages (which may hold health details)
+  and send push campaigns. What limits it: the email sign-in allows 5 wrong
+  passwords per 5 minutes, WAF limits sign-in requests per IP address,
+  every staff action is audited, and a sign-in lasts at most 12 hours
+  (`staffSignInLength`): the server compares the age of the sign-in
+  session (its refresh token, created by the password sign-in) and refuses
+  older ones with `staff.sign_in_again`, and the panel then asks for the
+  password again. Sign-in errors do not say whether the email exists. The
+  lawyer should see this decision when the security measures (GDPR
+  Art. 32) are described.
 - **Every admin endpoint** starts with `requireStaff`, which checks the
-  role, that the member is active and that the second factor was passed in
-  this sign-in session. Every staff action goes to the audit log with ids
+  role, that the member is active and that the password sign-in of this
+  session is less than 12 hours old. Every staff action goes to the audit log with ids
   only. Deleting a staff member's account removes their panel access.
 - **No health data.** The panel never shows users' health answers,
   routines, lists or fitness data. These are encrypted with per-user keys
@@ -645,8 +652,7 @@ material never leaves KMS.
 - **Deletion:** deleting the `health_key` row still shreds a user's health
   data.
 - **The KEK in the secrets is still needed:** for `kekVersion` 1 keys not
-  used since, and for the HKDF-derived keys of staff TOTP secrets and
-  support messages. Moving those to KMS as well is a follow-up.
+  used since, and for the HKDF-derived key of support messages. Moving those to KMS as well is a follow-up.
 - **Local development and tests** keep the KEK.
 
 ## Append-only consent and audit tables (AUD-2)
@@ -708,6 +714,7 @@ idempotent).
 | Advertising law check for brand campaigns (Azerbaijan "Reklam haqqında" law; labelling, cosmetics claims) | — | Lawyer, before the first brand campaign |
 | Privacy policy: the daily active count under the analytics consent, staff look-ups of accounts, deletion on request | — | Lawyer, before the beta |
 | Privacy policy text for staff access, the admin panel and push notifications | — | Lawyer, before phase D |
+| Security measures: staff sign-in is password-only (no second factor, decision of 2026-11-18) | — | Lawyer to note in the GDPR Art. 32 description |
 | Real-device test of reminders (Android 13+ permission, reboot, iOS foreground) | M7 | Before the beta |
 | Expert review of the preference ingredient lists (`product_preferences.dart`) | — | Before launch |
 | Dietitian check of the imported recipes, their plate groups and allergens; dermatologist writing/review of the imported articles | — | Before publishing them |
@@ -716,7 +723,7 @@ idempotent).
 | Optional on-device photo skin analysis (kept on branch `skin-photo`, not merged) | — | Postponed; needs lawyer approval and a DPIA, plus dermatologist review, before it returns |
 | Expert consent form to cover the profile photo; permission wording for people shown in content images | — | Lawyer, before publishing expert photos |
 | Restricted database role for the server (no DDL; triggers stay owned by an admin role) | AUD-2 | With the production database setup |
-| Move the HKDF-derived keys (staff TOTP, support messages) to KMS and retire the KEK once all health keys are on KMS | ENC-3 | After all `kekVersion` 1 keys have moved |
+| Move the HKDF-derived key (support messages) to KMS and retire the KEK once all health keys are on KMS | ENC-3 | After all `kekVersion` 1 keys have moved |
 | Barcode scanning | — | Later step |
 
 ## Known environment issue

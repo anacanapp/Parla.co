@@ -15,8 +15,8 @@ import 'package:serverpod/serverpod.dart' as _is;
 import '../staff/staff_role.dart' as _iopxo5n5;
 
 /// A staff member of the admin panel: an existing sign-in account with a
-/// role. The TOTP secret for the second factor is sealed with a key derived
-/// from the server KEK (never stored in clear). No name or phone is kept.
+/// role. Sign-in is email and password only (decision of 2026-11-18, see
+/// docs/ARCHITECTURE.md). No name or phone is kept.
 abstract class StaffMember
     implements _is.TableRow<int?>, _is.ProtocolSerialization {
   StaffMember._({
@@ -24,12 +24,6 @@ abstract class StaffMember
     required this.authUserId,
     required this.role,
     required this.active,
-    this.totpSecret,
-    this.totpNonce,
-    this.totpConfirmedAt,
-    this.lastTotpStep,
-    required this.failedTotp,
-    this.lockedUntil,
     this.invitedBy,
     required this.createdAt,
   });
@@ -39,12 +33,6 @@ abstract class StaffMember
     required _is.UuidValue authUserId,
     required _iopxo5n5.StaffRole role,
     required bool active,
-    String? totpSecret,
-    String? totpNonce,
-    DateTime? totpConfirmedAt,
-    int? lastTotpStep,
-    required int failedTotp,
-    DateTime? lockedUntil,
     _is.UuidValue? invitedBy,
     required DateTime createdAt,
   }) = _StaffMemberImpl;
@@ -57,20 +45,6 @@ abstract class StaffMember
       ),
       role: _iopxo5n5.StaffRole.fromJson((jsonSerialization['role'] as String)),
       active: _is.BoolJsonExtension.fromJson(jsonSerialization['active']),
-      totpSecret: jsonSerialization['totpSecret'] as String?,
-      totpNonce: jsonSerialization['totpNonce'] as String?,
-      totpConfirmedAt: jsonSerialization['totpConfirmedAt'] == null
-          ? null
-          : _is.DateTimeJsonExtension.fromJson(
-              jsonSerialization['totpConfirmedAt'],
-            ),
-      lastTotpStep: jsonSerialization['lastTotpStep'] as int?,
-      failedTotp: jsonSerialization['failedTotp'] as int,
-      lockedUntil: jsonSerialization['lockedUntil'] == null
-          ? null
-          : _is.DateTimeJsonExtension.fromJson(
-              jsonSerialization['lockedUntil'],
-            ),
       invitedBy: jsonSerialization['invitedBy'] == null
           ? null
           : _is.UuidValueJsonExtension.fromJson(jsonSerialization['invitedBy']),
@@ -93,19 +67,6 @@ abstract class StaffMember
 
   bool active;
 
-  String? totpSecret;
-
-  String? totpNonce;
-
-  DateTime? totpConfirmedAt;
-
-  /// The last accepted TOTP time step, so a code cannot be used twice.
-  int? lastTotpStep;
-
-  int failedTotp;
-
-  DateTime? lockedUntil;
-
   _is.UuidValue? invitedBy;
 
   DateTime createdAt;
@@ -121,12 +82,6 @@ abstract class StaffMember
     _is.UuidValue? authUserId,
     _iopxo5n5.StaffRole? role,
     bool? active,
-    String? totpSecret,
-    String? totpNonce,
-    DateTime? totpConfirmedAt = const _is.$UndefinedDateTime(),
-    int? lastTotpStep,
-    int? failedTotp,
-    DateTime? lockedUntil = const _is.$UndefinedDateTime(),
     _is.UuidValue? invitedBy = const _is.$UndefinedUuidValue(),
     DateTime? createdAt,
   });
@@ -138,12 +93,6 @@ abstract class StaffMember
       'authUserId': authUserId.toJson(),
       'role': role.toJson(),
       'active': active,
-      if (totpSecret != null) 'totpSecret': totpSecret,
-      if (totpNonce != null) 'totpNonce': totpNonce,
-      if (totpConfirmedAt != null) 'totpConfirmedAt': totpConfirmedAt?.toJson(),
-      if (lastTotpStep != null) 'lastTotpStep': lastTotpStep,
-      'failedTotp': failedTotp,
-      if (lockedUntil != null) 'lockedUntil': lockedUntil?.toJson(),
       if (invitedBy != null) 'invitedBy': invitedBy?.toJson(),
       'createdAt': createdAt.toJson(),
     };
@@ -157,12 +106,6 @@ abstract class StaffMember
       'authUserId': authUserId.toJson(),
       'role': role.toJson(),
       'active': active,
-      if (totpSecret != null) 'totpSecret': totpSecret,
-      if (totpNonce != null) 'totpNonce': totpNonce,
-      if (totpConfirmedAt != null) 'totpConfirmedAt': totpConfirmedAt?.toJson(),
-      if (lastTotpStep != null) 'lastTotpStep': lastTotpStep,
-      'failedTotp': failedTotp,
-      if (lockedUntil != null) 'lockedUntil': lockedUntil?.toJson(),
       if (invitedBy != null) 'invitedBy': invitedBy?.toJson(),
       'createdAt': createdAt.toJson(),
     };
@@ -204,12 +147,6 @@ class _StaffMemberImpl extends StaffMember {
     required _is.UuidValue authUserId,
     required _iopxo5n5.StaffRole role,
     required bool active,
-    String? totpSecret,
-    String? totpNonce,
-    DateTime? totpConfirmedAt,
-    int? lastTotpStep,
-    required int failedTotp,
-    DateTime? lockedUntil,
     _is.UuidValue? invitedBy,
     required DateTime createdAt,
   }) : super._(
@@ -217,12 +154,6 @@ class _StaffMemberImpl extends StaffMember {
          authUserId: authUserId,
          role: role,
          active: active,
-         totpSecret: totpSecret,
-         totpNonce: totpNonce,
-         totpConfirmedAt: totpConfirmedAt,
-         lastTotpStep: lastTotpStep,
-         failedTotp: failedTotp,
-         lockedUntil: lockedUntil,
          invitedBy: invitedBy,
          createdAt: createdAt,
        );
@@ -236,12 +167,6 @@ class _StaffMemberImpl extends StaffMember {
     _is.UuidValue? authUserId,
     _iopxo5n5.StaffRole? role,
     bool? active,
-    Object? totpSecret = _Undefined,
-    Object? totpNonce = _Undefined,
-    DateTime? totpConfirmedAt = const _is.$UndefinedDateTime(),
-    Object? lastTotpStep = _Undefined,
-    int? failedTotp,
-    DateTime? lockedUntil = const _is.$UndefinedDateTime(),
     _is.UuidValue? invitedBy = const _is.$UndefinedUuidValue(),
     DateTime? createdAt,
   }) {
@@ -250,16 +175,6 @@ class _StaffMemberImpl extends StaffMember {
       authUserId: authUserId ?? this.authUserId,
       role: role ?? this.role,
       active: active ?? this.active,
-      totpSecret: totpSecret is String? ? totpSecret : this.totpSecret,
-      totpNonce: totpNonce is String? ? totpNonce : this.totpNonce,
-      totpConfirmedAt: totpConfirmedAt is _is.UndefinedSentinel
-          ? this.totpConfirmedAt
-          : totpConfirmedAt,
-      lastTotpStep: lastTotpStep is int? ? lastTotpStep : this.lastTotpStep,
-      failedTotp: failedTotp ?? this.failedTotp,
-      lockedUntil: lockedUntil is _is.UndefinedSentinel
-          ? this.lockedUntil
-          : lockedUntil,
       invitedBy: invitedBy is _is.UndefinedSentinel
           ? this.invitedBy
           : invitedBy,
@@ -289,38 +204,6 @@ class StaffMemberUpdateTable extends _is.UpdateTable<StaffMemberTable> {
     table.active,
     value,
   );
-
-  _is.ColumnValue<String, String> totpSecret(String? value) => _is.ColumnValue(
-    table.totpSecret,
-    value,
-  );
-
-  _is.ColumnValue<String, String> totpNonce(String? value) => _is.ColumnValue(
-    table.totpNonce,
-    value,
-  );
-
-  _is.ColumnValue<DateTime, DateTime> totpConfirmedAt(DateTime? value) =>
-      _is.ColumnValue(
-        table.totpConfirmedAt,
-        value,
-      );
-
-  _is.ColumnValue<int, int> lastTotpStep(int? value) => _is.ColumnValue(
-    table.lastTotpStep,
-    value,
-  );
-
-  _is.ColumnValue<int, int> failedTotp(int value) => _is.ColumnValue(
-    table.failedTotp,
-    value,
-  );
-
-  _is.ColumnValue<DateTime, DateTime> lockedUntil(DateTime? value) =>
-      _is.ColumnValue(
-        table.lockedUntil,
-        value,
-      );
 
   _is.ColumnValue<_is.UuidValue, _is.UuidValue> invitedBy(
     _is.UuidValue? value,
@@ -352,30 +235,6 @@ class StaffMemberTable extends _is.Table<int?> {
       'active',
       this,
     );
-    totpSecret = _is.ColumnString(
-      'totpSecret',
-      this,
-    );
-    totpNonce = _is.ColumnString(
-      'totpNonce',
-      this,
-    );
-    totpConfirmedAt = _is.ColumnDateTime(
-      'totpConfirmedAt',
-      this,
-    );
-    lastTotpStep = _is.ColumnInt(
-      'lastTotpStep',
-      this,
-    );
-    failedTotp = _is.ColumnInt(
-      'failedTotp',
-      this,
-    );
-    lockedUntil = _is.ColumnDateTime(
-      'lockedUntil',
-      this,
-    );
     invitedBy = _is.ColumnUuid(
       'invitedBy',
       this,
@@ -394,19 +253,6 @@ class StaffMemberTable extends _is.Table<int?> {
 
   late final _is.ColumnBool active;
 
-  late final _is.ColumnString totpSecret;
-
-  late final _is.ColumnString totpNonce;
-
-  late final _is.ColumnDateTime totpConfirmedAt;
-
-  /// The last accepted TOTP time step, so a code cannot be used twice.
-  late final _is.ColumnInt lastTotpStep;
-
-  late final _is.ColumnInt failedTotp;
-
-  late final _is.ColumnDateTime lockedUntil;
-
   late final _is.ColumnUuid invitedBy;
 
   late final _is.ColumnDateTime createdAt;
@@ -417,12 +263,6 @@ class StaffMemberTable extends _is.Table<int?> {
     authUserId,
     role,
     active,
-    totpSecret,
-    totpNonce,
-    totpConfirmedAt,
-    lastTotpStep,
-    failedTotp,
-    lockedUntil,
     invitedBy,
     createdAt,
   ];

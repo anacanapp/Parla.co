@@ -90,7 +90,7 @@ const _guides = [
     'İşçilər',
     Icons.badge_outlined,
     'Komandanı e-poçtla dəvət edin və rol verin: admin, redaktor, ekspert, '
-        'dəstək. Hər kəs 2FA qurur.',
+        'dəstək.',
     [],
   ),
 ];
@@ -287,7 +287,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
           ),
         const SizedBox(height: 16),
         Text(
-          'Təhlükəsizlik: şifrənizi və 2FA kodlarınızı heç kimlə paylaşmayın. '
+          'Təhlükəsizlik: şifrənizi heç kimlə paylaşmayın; 12 saatdan bir '
+          'yenidən daxil olmaq lazımdır. '
           'Paneldə edilən hər dəyişiklik audit jurnalına yazılır.',
           style: text.bodySmall?.copyWith(color: AdminColors.muted),
         ),

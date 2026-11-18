@@ -6,10 +6,8 @@ String errorText(Object error) {
   return switch (error.code) {
     'staff.not_staff' => 'Bu hesab admin panelinə qoşulmayıb.',
     'staff.inactive' => 'Hesabınız deaktiv edilib. Admin ilə əlaqə saxlayın.',
-    'staff.totp_required' => 'Əvvəlcə ikinci addımı (2FA) tamamlayın.',
-    'staff.totp_invalid' => 'Kod səhvdir. Tətbiqdəki yeni kodu yazın.',
-    'staff.locked' =>
-      'Çox səhv cəhd oldu. 15 dəqiqədən sonra yenidən cəhd edin.',
+    'staff.sign_in_again' =>
+      'Təhlükəsizlik üçün 12 saatdan bir şifrə ilə yenidən daxil olun.',
     'staff.forbidden' => 'Bu əməliyyat üçün icazəniz yoxdur.',
     'staff.invite_invalid' =>
       'Dəvət kodu yanlışdır, vaxtı keçib və ya başqa e-poçta aiddir.',

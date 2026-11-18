@@ -1,11 +1,11 @@
 import 'package:parla_server/src/auth/verification_code_sender.dart';
 import 'package:parla_server/src/generated/protocol.dart';
 import 'package:parla_server/src/staff/staff_guard.dart';
-import 'package:parla_server/src/staff/totp.dart';
 import 'package:serverpod/serverpod.dart';
 import 'package:serverpod_auth_idp_server/core.dart';
 import 'package:test/test.dart';
 
+import 'staff_sign_in.dart';
 import 'test_tools/serverpod_test_tools.dart';
 
 Matcher _error(String code) =>
@@ -16,13 +16,15 @@ void main() {
     sessionBuilder,
     endpoints,
   ) {
-    var sessions = 0;
-
-    /// A sign-in account with [email]; returns a session builder for a
-    /// fresh sign-in session of it.
-    Future<({String id, TestSessionBuilder Function() signIn})> account(
-      String email,
-    ) async {
+    /// A sign-in account with [email]; `signIn` returns a session builder
+    /// for a new password sign-in of it, [at] a given time (default now).
+    Future<
+      ({
+        String id,
+        Future<TestSessionBuilder> Function({DateTime? at}) signIn,
+      })
+    >
+    account(String email) async {
       final db = sessionBuilder.build();
       final user = await const AuthUsers().create(db);
       await EmailAccount.db.insertRow(
@@ -32,38 +34,31 @@ void main() {
       final id = user.id.toString();
       return (
         id: id,
-        signIn: () => sessionBuilder.copyWith(
+        signIn: ({DateTime? at}) async => sessionBuilder.copyWith(
           authentication: AuthenticationOverride.authenticationInfo(
             id,
             {},
-            authId: 'session-${sessions++}',
+            authId: await signInSession(
+              sessionBuilder.build(),
+              user.id,
+              at: at,
+            ),
           ),
         ),
       );
     }
 
-    /// Sets up the authenticator for [s] and returns its secret.
-    Future<List<int>> enrol(TestSessionBuilder s) async {
-      final enrollment = await endpoints.staff.startTotp(s);
-      final secret = Totp.fromBase32(enrollment.secret);
-      final code = await Totp.code(secret, Totp.stepAt(DateTime.now()));
-      await endpoints.staff.confirmTotp(s, code);
-      return secret;
-    }
-
-    /// The first admin, enrolled and verified in its session.
-    Future<({String id, TestSessionBuilder session, List<int> secret})>
-    firstAdmin() async {
+    /// The first admin, signed in now.
+    Future<({String id, TestSessionBuilder session})> firstAdmin() async {
       final a = await account('First-Admin@example.com');
-      final s = a.signIn();
+      final s = await a.signIn();
       await endpoints.staff.claimFirstAdmin(s);
-      final secret = await enrol(s);
-      return (id: a.id, session: s, secret: secret);
+      return (id: a.id, session: s);
     }
 
     test('someone who is not staff gets nothing', () async {
       final a = await account('user@example.com');
-      final s = a.signIn();
+      final s = await a.signIn();
       expect(await endpoints.staff.me(s), isNull);
       await expectLater(
         endpoints.staffAdmin.listStaff(s),
@@ -79,86 +74,67 @@ void main() {
       final admin = await firstAdmin();
       final me = await endpoints.staff.me(admin.session);
       expect(me!.role, StaffRole.admin);
-      expect(me.totpEnrolled, isTrue);
-      expect(me.verified, isTrue);
+      final left = me.signInExpiresAt.difference(DateTime.now().toUtc());
+      expect(left, greaterThan(const Duration(hours: 11, minutes: 59)));
+      expect(left, lessThanOrEqualTo(const Duration(hours: 12)));
 
       final again = await account('first-admin@example.com');
       await expectLater(
-        endpoints.staff.claimFirstAdmin(again.signIn()),
+        endpoints.staff.claimFirstAdmin(await again.signIn()),
         throwsA(_error(StaffErrors.inviteInvalid)),
       );
-      final secret = await StaffMember.db.findFirstRow(sessionBuilder.build());
-      expect(secret!.totpSecret, isNot(contains('=')));
     });
 
-    test(
-      'admin calls need the second factor in each sign-in session',
-      () async {
-        final admin = await firstAdmin();
-        expect(
-          await endpoints.staffAdmin.listStaff(admin.session),
-          hasLength(1),
-        );
-
-        // A new sign-in session of the same account is not verified yet.
-        final fresh = sessionBuilder.copyWith(
-          authentication: AuthenticationOverride.authenticationInfo(
-            admin.id,
-            {},
-            authId: 'other-session',
-          ),
-        );
-        await expectLater(
-          endpoints.staffAdmin.listStaff(fresh),
-          throwsA(_error(StaffErrors.totpRequired)),
-        );
-        // A code already used cannot be used again.
-        final used = await Totp.code(admin.secret, Totp.stepAt(DateTime.now()));
-        await expectLater(
-          endpoints.staff.verifyTotp(fresh, used),
-          throwsA(_error(StaffErrors.totpInvalid)),
-        );
-        final next = await Totp.code(
-          admin.secret,
-          Totp.stepAt(DateTime.now()) + 1,
-        );
-        await endpoints.staff.verifyTotp(fresh, next);
-        expect(await endpoints.staffAdmin.listStaff(fresh), hasLength(1));
-
-        await endpoints.staff.endSession(fresh);
-        await expectLater(
-          endpoints.staffAdmin.listStaff(fresh),
-          throwsA(_error(StaffErrors.totpRequired)),
-        );
-      },
-    );
-
-    test('five wrong codes lock the account for a while', () async {
+    test('the password is needed again 12 hours after signing in', () async {
       final admin = await firstAdmin();
-      final fresh = sessionBuilder.copyWith(
+      expect(await endpoints.staffAdmin.listStaff(admin.session), hasLength(1));
+
+      final a = await account('late@example.com');
+      await endpoints.staffAdmin.invite(
+        admin.session,
+        'late@example.com',
+        StaffRole.editor,
+      );
+      final code = DevelopmentCodeSender.lastStaffInviteCode!;
+      final old = await a.signIn(
+        at: DateTime.now().subtract(const Duration(hours: 12, minutes: 1)),
+      );
+      await expectLater(
+        endpoints.staff.acceptInvite(old, code),
+        throwsA(_error(StaffErrors.signInAgain)),
+      );
+      // Nothing was stored by the refused call; a fresh sign-in works.
+      final fresh = await a.signIn(
+        at: DateTime.now().subtract(const Duration(hours: 11)),
+      );
+      final me = await endpoints.staff.acceptInvite(fresh, code);
+      expect(me.role, StaffRole.editor);
+      await expectLater(
+        endpoints.staff.me(old),
+        throwsA(_error(StaffErrors.signInAgain)),
+      );
+      await expectLater(
+        endpoints.contentAdmin.list(old, 'article'),
+        throwsA(_error(StaffErrors.signInAgain)),
+      );
+    });
+
+    test("another account's sign-in session is not accepted", () async {
+      final admin = await firstAdmin();
+      final other = await account('other@example.com');
+      final borrowed = sessionBuilder.copyWith(
         authentication: AuthenticationOverride.authenticationInfo(
           admin.id,
           {},
-          authId: 'lock-session',
+          authId: await signInSession(
+            sessionBuilder.build(),
+            UuidValue.fromString(other.id),
+          ),
         ),
       );
-      for (var i = 0; i < 4; i++) {
-        await expectLater(
-          endpoints.staff.verifyTotp(fresh, '000000'),
-          throwsA(_error(StaffErrors.totpInvalid)),
-        );
-      }
       await expectLater(
-        endpoints.staff.verifyTotp(fresh, '000000'),
-        throwsA(_error(StaffErrors.locked)),
-      );
-      final good = await Totp.code(
-        admin.secret,
-        Totp.stepAt(DateTime.now()) + 1,
-      );
-      await expectLater(
-        endpoints.staff.verifyTotp(fresh, good),
-        throwsA(_error(StaffErrors.locked)),
+        endpoints.staffAdmin.listStaff(borrowed),
+        throwsA(_error(StaffErrors.signInAgain)),
       );
     });
 
@@ -177,26 +153,20 @@ void main() {
 
       final other = await account('someone@example.com');
       await expectLater(
-        endpoints.staff.acceptInvite(other.signIn(), code),
+        endpoints.staff.acceptInvite(await other.signIn(), code),
         throwsA(_error(StaffErrors.inviteInvalid)),
       );
 
       final editor = await account('editor@example.com');
-      final s = editor.signIn();
+      final s = await editor.signIn();
       final me = await endpoints.staff.acceptInvite(s, code.toLowerCase());
       expect(me.role, StaffRole.editor);
-      expect(me.totpEnrolled, isFalse);
       await expectLater(
         endpoints.staff.acceptInvite(s, code),
         throwsA(_error(StaffErrors.already)),
       );
 
-      // Editors cannot manage staff, and need the second factor first.
-      await expectLater(
-        endpoints.staffAdmin.listStaff(s),
-        throwsA(_error(StaffErrors.totpRequired)),
-      );
-      await enrol(s);
+      // Editors cannot manage staff.
       await expectLater(
         endpoints.staffAdmin.listStaff(s),
         throwsA(_error(StaffErrors.forbidden)),
@@ -223,12 +193,11 @@ void main() {
           StaffRole.expert,
         );
         final expert = await account('expert@example.com');
-        final s = expert.signIn();
+        final s = await expert.signIn();
         await endpoints.staff.acceptInvite(
           s,
           DevelopmentCodeSender.lastStaffInviteCode!,
         );
-        await enrol(s);
         final expertId = UuidValue.fromString(expert.id);
 
         await endpoints.staffAdmin.setRole(
@@ -240,39 +209,12 @@ void main() {
 
         await endpoints.staffAdmin.setActive(admin.session, expertId, false);
         expect(await endpoints.staff.me(s), isNull);
-        expect(
-          await StaffSession.db.count(
-            sessionBuilder.build(),
-            where: (t) => t.authUserId.equals(expertId),
-          ),
-          0,
+        await expectLater(
+          endpoints.staffAdmin.listStaff(s),
+          throwsA(_error(StaffErrors.inactive)),
         );
       },
     );
-
-    test('a reset authenticator must be set up again', () async {
-      final admin = await firstAdmin();
-      await endpoints.staffAdmin.invite(
-        admin.session,
-        'editor2@example.com',
-        StaffRole.editor,
-      );
-      final editor = await account('editor2@example.com');
-      final s = editor.signIn();
-      await endpoints.staff.acceptInvite(
-        s,
-        DevelopmentCodeSender.lastStaffInviteCode!,
-      );
-      await enrol(s);
-      await endpoints.staffAdmin.resetTotp(
-        admin.session,
-        UuidValue.fromString(editor.id),
-      );
-      final me = await endpoints.staff.me(s);
-      expect(me!.totpEnrolled, isFalse);
-      expect(me.verified, isFalse);
-      await enrol(s);
-    });
 
     test('every staff action is audited with ids only', () async {
       final admin = await firstAdmin();
@@ -289,7 +231,6 @@ void main() {
         rows.map((r) => r.action),
         containsAll([
           'staff.first_admin',
-          'staff.totp_enrolled',
           'staff.invited',
         ]),
       );
@@ -304,7 +245,6 @@ void main() {
         final admin = await firstAdmin();
         await endpoints.account.deleteAccount(admin.session);
         expect(await StaffMember.db.count(sessionBuilder.build()), 0);
-        expect(await StaffSession.db.count(sessionBuilder.build()), 0);
       },
     );
   });

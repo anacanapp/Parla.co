@@ -174,8 +174,8 @@ session).
 1. Open `https://parla.anacan.az/admin/`, choose *Hesabım yoxdur:
    qeydiyyat*, register with the `staff_bootstrap_email` address and a
    password of at least 12 characters, and enter the code from the email.
-2. Choose *İlk admin kimi qoşul* and set up the authenticator app (scan
-   the QR code, enter a code).
+2. Choose *İlk admin kimi qoşul*. There is no second factor; the panel
+   asks for the password again every 12 hours.
 3. Invite the rest of the team from *İşçilər*.
 4. Run `terraform apply` again **without** `staff_bootstrap_email`, so
    nobody else can claim the first admin role.

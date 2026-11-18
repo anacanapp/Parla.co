@@ -19,14 +19,16 @@ Future<FakeAdminApi> _pump(WidgetTester tester, {FakeAdminApi? api}) async {
 
 FakeAdminApi _ready(StaffRole role) => FakeAdminApi()
   ..signedIn = true
-  ..meValue = StaffMe(role: role, totpEnrolled: true, verified: true)
+  ..meValue = StaffMe(
+    role: role,
+    signInExpiresAt: DateTime.now().toUtc().add(const Duration(hours: 12)),
+  )
   ..staff.add(
     StaffSummary(
       authUserId: _adminId,
       email: 'admin@parla.az',
       role: StaffRole.admin,
       active: true,
-      totpEnrolled: true,
       createdAt: DateTime.utc(2026, 11, 16),
     ),
   );
@@ -37,8 +39,9 @@ Future<void> _tap(WidgetTester tester, Finder finder) async {
 }
 
 void main() {
-  testWidgets('a new staff member signs in, joins with the invitation and '
-      'sets up the authenticator', (tester) async {
+  testWidgets('a new staff member registers and joins with the invitation', (
+    tester,
+  ) async {
     final api = await _pump(tester);
     expect(find.byKey(const ValueKey('auth-submit')), findsOneWidget);
 
@@ -67,34 +70,20 @@ void main() {
       'goodcode',
     );
     await _tap(tester, find.byKey(const ValueKey('invite-accept')));
-    expect(find.text('İkinci addım (2FA)'), findsOneWidget);
-    expect(find.text('ABCDEFGH'), findsOneWidget);
-
-    await tester.enterText(find.byKey(const ValueKey('totp-code')), '000000');
-    await _tap(tester, find.byKey(const ValueKey('totp-submit')));
-    expect(find.textContaining('Kod səhvdir'), findsOneWidget);
-
-    await tester.enterText(find.byKey(const ValueKey('totp-code')), '123456');
-    await _tap(tester, find.byKey(const ValueKey('totp-submit')));
     expect(find.textContaining('Xoş gəldiniz'), findsOneWidget);
-    expect(api.meValue!.verified, isTrue);
+    expect(api.meValue!.role, StaffRole.admin);
   });
 
-  testWidgets('an enrolled member enters the code at every sign-in', (
+  testWidgets('after 12 hours the panel asks for the password again', (
     tester,
   ) async {
     final api = FakeAdminApi()
       ..signedIn = true
-      ..meValue = StaffMe(
-        role: StaffRole.editor,
-        totpEnrolled: true,
-        verified: false,
-      );
+      ..meError = const AdminError('staff.sign_in_again');
     await _pump(tester, api: api);
-    expect(find.text('Təsdiq kodu'), findsOneWidget);
-    await tester.enterText(find.byKey(const ValueKey('totp-code')), '123456');
-    await _tap(tester, find.byKey(const ValueKey('totp-submit')));
-    expect(find.textContaining('Xoş gəldiniz'), findsOneWidget);
+    expect(find.byKey(const ValueKey('auth-submit')), findsOneWidget);
+    expect(find.byKey(const ValueKey('sign-in-notice')), findsOneWidget);
+    expect(api.signedIn, isFalse);
   });
 
   testWidgets('editors do not see users or staff', (tester) async {

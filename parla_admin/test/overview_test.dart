@@ -25,7 +25,10 @@ Future<void> _pump(WidgetTester tester, StaffRole role) async {
   addTearDown(tester.view.reset);
   final api = FakeAdminApi()
     ..signedIn = true
-    ..meValue = StaffMe(role: role, totpEnrolled: true, verified: true);
+    ..meValue = StaffMe(
+      role: role,
+      signInExpiresAt: DateTime.now().toUtc().add(const Duration(hours: 12)),
+    );
   api.content.addAll([
     // An article waits for an expert, a team banner for an admin.
     _item(1, 'article', ContentStatus.inReview),

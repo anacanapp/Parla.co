@@ -3,26 +3,27 @@ import 'package:serverpod_auth_idp_server/core.dart';
 
 import '../audit/audit.dart';
 import '../generated/protocol.dart';
-import '../health/health_crypto.dart';
-import 'staff_crypto.dart';
 import 'staff_guard.dart';
-import 'totp.dart';
 
-/// Joining the admin panel and the second factor. Any signed-in account
-/// can call these; they only ever act on the caller's own staff row.
+/// Joining the admin panel. Any signed-in account can call these; they only
+/// ever act on the caller's own staff row.
 class StaffEndpoint extends Endpoint {
   @override
   bool get requireLogin => true;
 
   /// The caller's staff state, or `null` for someone who is not staff.
+  /// Refused with `staff.sign_in_again` once the password sign-in is older
+  /// than 12 hours.
   Future<StaffMe?> me(Session session) async {
     final member = await staffOf(session);
     if (member == null || !member.active) return null;
-    return StaffMe(
-      role: member.role,
-      totpEnrolled: member.totpConfirmedAt != null,
-      verified: await isStaffVerified(session),
-    );
+    return _me(session, member.role);
+  }
+
+  Future<StaffMe> _me(Session session, StaffRole role) async {
+    final expires = await staffSignInExpiry(session);
+    if (expires == null) throw ParlaException(code: StaffErrors.signInAgain);
+    return StaffMe(role: role, signInExpiresAt: expires);
   }
 
   /// Turns an invitation for the caller's email into a staff role.
@@ -57,7 +58,6 @@ class StaffEndpoint extends Endpoint {
           authUserId: userId,
           role: invite.role,
           active: true,
-          failedTotp: 0,
           invitedBy: invite.invitedBy,
           createdAt: now,
         ),
@@ -72,7 +72,7 @@ class StaffEndpoint extends Endpoint {
         objectId: userId.toString(),
         transaction: transaction,
       );
-      return StaffMe(role: invite.role, totpEnrolled: false, verified: false);
+      return _me(session, invite.role);
     });
   }
 
@@ -95,7 +95,6 @@ class StaffEndpoint extends Endpoint {
           authUserId: userId,
           role: StaffRole.admin,
           active: true,
-          failedTotp: 0,
           createdAt: DateTime.now().toUtc(),
         ),
         transaction: transaction,
@@ -109,155 +108,7 @@ class StaffEndpoint extends Endpoint {
         objectId: userId.toString(),
         transaction: transaction,
       );
-      return StaffMe(
-        role: StaffRole.admin,
-        totpEnrolled: false,
-        verified: false,
-      );
-    });
-  }
-
-  /// Starts setting up the authenticator app. Replaces an unconfirmed
-  /// secret; refused once a secret is confirmed (an admin resets it).
-  Future<TotpEnrollment> startTotp(Session session) async {
-    final member = await _activeMember(session);
-    if (member.totpConfirmedAt != null) {
-      throw ParlaException(code: StaffErrors.already);
-    }
-    final secret = Totp.newSecret();
-    final sealed = await (await StaffCrypto.of(
-      session,
-    )).seal(secret, member.authUserId);
-    await StaffMember.db.updateRow(
-      session,
-      member.copyWith(totpSecret: sealed.ciphertext, totpNonce: sealed.nonce),
-    );
-    final encoded = Totp.base32(secret);
-    return TotpEnrollment(
-      secret: encoded,
-      uri: Totp.uri(encoded, await callerEmail(session) ?? 'staff'),
-    );
-  }
-
-  /// Confirms the authenticator app with a first code and verifies this
-  /// sign-in session.
-  Future<StaffMe> confirmTotp(Session session, String code) async {
-    final member = await _activeMember(session);
-    if (member.totpConfirmedAt != null || member.totpSecret == null) {
-      throw ParlaException(code: StaffErrors.totpRequired);
-    }
-    await _check(session, member, code, enrolling: true);
-    return StaffMe(role: member.role, totpEnrolled: true, verified: true);
-  }
-
-  /// The second factor for this sign-in session.
-  Future<StaffMe> verifyTotp(Session session, String code) async {
-    final member = await _activeMember(session);
-    if (member.totpConfirmedAt == null) {
-      throw ParlaException(code: StaffErrors.totpRequired);
-    }
-    await _check(session, member, code, enrolling: false);
-    return StaffMe(role: member.role, totpEnrolled: true, verified: true);
-  }
-
-  /// Ends the second-factor check of this sign-in session.
-  Future<void> endSession(Session session) async {
-    final auth = session.authenticated!;
-    await StaffSession.db.deleteWhere(
-      session,
-      where: (t) => t.authId.equals(auth.authId),
-    );
-  }
-
-  Future<StaffMember> _activeMember(Session session) async {
-    final member = await staffOf(session);
-    if (member == null) throw ParlaException(code: StaffErrors.notStaff);
-    if (!member.active) throw ParlaException(code: StaffErrors.inactive);
-    return member;
-  }
-
-  Future<void> _check(
-    Session session,
-    StaffMember member,
-    String code, {
-    required bool enrolling,
-  }) async {
-    final now = DateTime.now().toUtc();
-    final lockedUntil = member.lockedUntil;
-    if (lockedUntil != null && lockedUntil.isAfter(now)) {
-      throw ParlaException(code: StaffErrors.locked);
-    }
-    final secret = await (await StaffCrypto.of(session)).open(
-      Sealed(ciphertext: member.totpSecret!, nonce: member.totpNonce!),
-      member.authUserId,
-    );
-    final step = await Totp.verify(
-      secret,
-      code,
-      now,
-      lastStep: member.lastTotpStep,
-    );
-    if (step == null) {
-      final failures = member.failedTotp + 1;
-      await StaffMember.db.updateRow(
-        session,
-        member.copyWith(
-          failedTotp: failures >= staffMaxFailures ? 0 : failures,
-          lockedUntil: failures >= staffMaxFailures
-              ? now.add(staffLockLength)
-              : member.lockedUntil,
-        ),
-      );
-      await writeAudit(
-        session,
-        actorId: member.authUserId,
-        actorRole: AuditActor.staff,
-        action: 'staff.totp_failed',
-        objectType: 'staff_member',
-        objectId: member.authUserId.toString(),
-      );
-      throw ParlaException(
-        code: failures >= staffMaxFailures
-            ? StaffErrors.locked
-            : StaffErrors.totpInvalid,
-      );
-    }
-    final authId = session.authenticated!.authId;
-    await session.db.transaction((transaction) async {
-      await StaffMember.db.updateRow(
-        session,
-        member.copyWith(
-          lastTotpStep: step,
-          failedTotp: 0,
-          lockedUntil: null,
-          totpConfirmedAt: member.totpConfirmedAt ?? now,
-        ),
-        transaction: transaction,
-      );
-      await StaffSession.db.deleteWhere(
-        session,
-        where: (t) => t.authId.equals(authId),
-        transaction: transaction,
-      );
-      await StaffSession.db.insertRow(
-        session,
-        StaffSession(
-          authUserId: member.authUserId,
-          authId: authId,
-          verifiedAt: now,
-          expiresAt: now.add(staffSessionLength),
-        ),
-        transaction: transaction,
-      );
-      await writeAudit(
-        session,
-        actorId: member.authUserId,
-        actorRole: AuditActor.staff,
-        action: enrolling ? 'staff.totp_enrolled' : 'staff.verified',
-        objectType: 'staff_member',
-        objectId: member.authUserId.toString(),
-        transaction: transaction,
-      );
+      return _me(session, StaffRole.admin);
     });
   }
 }

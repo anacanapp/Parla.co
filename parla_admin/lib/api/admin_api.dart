@@ -7,7 +7,6 @@ export 'package:parla_client/parla_client.dart'
         StaffMe,
         StaffSummary,
         StaffInviteSummary,
-        TotpEnrollment,
         ContentAdminItem,
         ContentStatus,
         MediaAdminItem,
@@ -42,11 +41,8 @@ abstract interface class AdminApi {
   Future<StaffMe?> me();
   Future<StaffMe> claimFirstAdmin();
   Future<StaffMe> acceptInvite(String code);
-  Future<TotpEnrollment> startTotp();
-  Future<StaffMe> confirmTotp(String code);
-  Future<StaffMe> verifyTotp(String code);
 
-  /// Ends the second-factor check and signs out of this browser.
+  /// Signs out of this browser.
   Future<void> signOut();
 
   Future<List<StaffSummary>> listStaff();
@@ -55,7 +51,6 @@ abstract interface class AdminApi {
   Future<void> revokeInvite(int id);
   Future<void> setRole(UuidValue user, StaffRole role);
   Future<void> setActive(UuidValue user, bool active);
-  Future<void> resetTotp(UuidValue user);
 
   // Content (phase B1). [kind] is a ContentKind name.
   Future<List<ContentAdminItem>> listContent(String kind);
