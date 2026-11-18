@@ -11,6 +11,7 @@ import 'src/health/health_kms.dart';
 import 'src/media/media_store.dart';
 import 'src/media/s3_media_store.dart';
 import 'src/push/push_sender.dart';
+import 'src/web/web_routes.dart';
 
 /// The starting point of the Parla server.
 void run(List<String> args) async {
@@ -76,6 +77,9 @@ void run(List<String> args) async {
   // (Terraform var.enable_push); otherwise nothing leaves the server.
   final fcm = pod.getPassword('fcmServiceAccount');
   if (fcm != null && fcm.isNotEmpty) Push.sender = FcmPushSender(fcm);
+
+  // Admin panel and published images on the web server (production).
+  addWebRoutes(pod);
 
   await pod.start();
 

@@ -1,6 +1,6 @@
 # The Parla server as one always-on Fargate task: the daily retention job
 # runs inside the server and must keep running. The task runs the image
-# tagged "staging"; the deploy workflow pushes a new one and restarts it.
+# tagged "prod"; the deploy workflow pushes a new one and restarts it.
 
 resource "aws_ecs_cluster" "main" {
   name = var.name
@@ -67,7 +67,6 @@ resource "aws_iam_role" "task" {
 # --- Task and service -------------------------------------------------------
 
 locals {
-  public_host = aws_cloudfront_distribution.main.domain_name
 
   container_secrets = concat(
     [{
@@ -101,24 +100,29 @@ resource "aws_ecs_task_definition" "server" {
 
   container_definitions = jsonencode([{
     name      = "server"
-    image     = "${aws_ecr_repository.server.repository_url}:staging"
+    image     = "${aws_ecr_repository.server.repository_url}:prod"
     essential = true
 
-    portMappings = [{ containerPort = 8080, protocol = "tcp" }]
+    # 8080: API server. 8082: web server (admin panel, published images).
+    portMappings = [
+      { containerPort = 8080, protocol = "tcp" },
+      { containerPort = 8082, protocol = "tcp" },
+    ]
 
     environment = [
-      { name = "runmode", value = "staging" },
+      { name = "runmode", value = "production" },
       { name = "flags", value = "--apply-migrations" },
       { name = "SERVERPOD_DATABASE_HOST", value = aws_db_instance.main.address },
       { name = "SERVERPOD_DATABASE_PORT", value = tostring(aws_db_instance.main.port) },
       { name = "SERVERPOD_DATABASE_NAME", value = aws_db_instance.main.db_name },
       { name = "SERVERPOD_DATABASE_USER", value = aws_db_instance.main.username },
-      { name = "SERVERPOD_API_SERVER_PUBLIC_HOST", value = local.public_host },
+      { name = "SERVERPOD_API_SERVER_PUBLIC_HOST", value = var.domain },
+      { name = "SERVERPOD_WEB_SERVER_PUBLIC_HOST", value = var.domain },
       { name = "SERVERPOD_PASSWORD_staffBootstrapEmail", value = var.staff_bootstrap_email },
       { name = "PARLA_MEDIA_BUCKET", value = aws_s3_bucket.media.bucket },
       { name = "PARLA_MEDIA_REGION", value = var.region },
       { name = "PARLA_HEALTH_KMS_KEY_ID", value = aws_kms_key.health.arn },
-      { name = "PARLA_MEDIA_PUBLIC_URL", value = "https://${aws_cloudfront_distribution.media.domain_name}" },
+      { name = "PARLA_MEDIA_PUBLIC_URL", value = "https://${var.domain}/media" },
     ]
 
     secrets = local.container_secrets
@@ -144,8 +148,9 @@ resource "aws_ecs_service" "server" {
   launch_type      = "FARGATE"
   platform_version = "LATEST"
 
-  # Never two servers at once (one retention job): a deploy stops the old
-  # task before starting the new one, a short pause that is fine in testing.
+  # Never two servers at once (one retention job, one image cache): a
+  # deploy stops the old task before starting the new one, so the service
+  # is away for about two minutes. Deploy at quiet hours.
   deployment_minimum_healthy_percent = 0
   deployment_maximum_percent         = 100
   health_check_grace_period_seconds  = 120
@@ -162,10 +167,16 @@ resource "aws_ecs_service" "server" {
   }
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.server.arn
+    target_group_arn = aws_lb_target_group.api.arn
     container_name   = "server"
     container_port   = 8080
   }
 
-  depends_on = [aws_lb_listener.http]
+  load_balancer {
+    target_group_arn = aws_lb_target_group.web.arn
+    container_name   = "server"
+    container_port   = 8082
+  }
+
+  depends_on = [aws_lb_listener_rule.api, aws_lb_listener_rule.web]
 }

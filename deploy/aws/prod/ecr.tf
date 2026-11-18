@@ -1,6 +1,6 @@
 resource "aws_ecr_repository" "server" {
   name                 = "${var.name}/server"
-  image_tag_mutability = "MUTABLE" # The service runs the "staging" tag.
+  image_tag_mutability = "MUTABLE" # The service runs the "prod" tag.
   force_delete         = false
 
   image_scanning_configuration {

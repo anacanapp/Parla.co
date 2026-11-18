@@ -4,6 +4,7 @@ import 'package:parla_shared/parla_shared.dart';
 import 'package:serverpod/serverpod.dart';
 
 import '../generated/protocol.dart';
+import '../web/public_media.dart';
 import 'media_store.dart';
 
 /// Ids of the images content uses: in published copies, and with [drafts]
@@ -40,6 +41,7 @@ Future<void> syncPublicMedia(Session session) async {
       await store.copy(Media.privateKey(a.key), Media.publicKey(a.key));
     } else {
       await store.delete(Media.publicKey(a.key));
+      PublicMedia.instance.forget(a.key);
     }
     await MediaAsset.db.updateRow(session, a.copyWith(public: shouldBePublic));
   }

@@ -4,10 +4,10 @@
 # there (Actions -> Upload file). The file is deleted afterwards; never
 # commit it or send it in chat.
 #
-# Usage: deploy/aws/put-staging-fcm-secret.sh path/to/service-account.json
+# Usage: deploy/aws/put-prod-fcm-secret.sh path/to/service-account.json
 set -euo pipefail
 
-secret=parla-staging/fcm
+secret=parla-prod/fcm
 region=eu-central-1
 file=${1:?path to the service account JSON}
 

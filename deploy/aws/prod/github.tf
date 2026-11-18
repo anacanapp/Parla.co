@@ -1,9 +1,11 @@
-# Lets the "Deploy staging server" GitHub workflow deploy without any
+# Lets the "Deploy production server" GitHub workflow deploy without any
 # stored AWS key: GitHub proves the workflow's identity with a short-lived
-# OIDC token, and only jobs in the repository's "staging" environment may
-# take this role.
+# OIDC token, and only jobs in the repository's "production" environment
+# may take this role.
 
 locals {
+  github_owner    = split("/", var.github_repository)[0]
+  github_repo     = split("/", var.github_repository)[1]
   github_oidc_url = "https://token.actions.githubusercontent.com"
   github_oidc_arn = (var.create_github_oidc_provider
     ? aws_iam_openid_connect_provider.github[0].arn
@@ -37,7 +39,12 @@ data "aws_iam_policy_document" "deploy_assume" {
     condition {
       test     = "StringEquals"
       variable = "token.actions.githubusercontent.com:sub"
-      values   = ["repo:${var.github_repository}:environment:staging"]
+      # GitHub puts the immutable owner and repository ids in the subject
+      # ("repo:owner@<id>/name@<id>:..."), so a repository deleted and
+      # re-created under the same name cannot take this role.
+      values = [
+        "repo:${local.github_owner}@${var.github_owner_id}/${local.github_repo}@${var.github_repository_id}:environment:production",
+      ]
     }
   }
 }

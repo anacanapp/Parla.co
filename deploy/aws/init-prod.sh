@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Prepares Terraform for the staging environment, once per shell (e.g. AWS
+# Prepares Terraform for the production environment, once per shell (e.g. AWS
 # CloudShell): creates the private, versioned S3 bucket that holds the
 # Terraform state if it does not exist yet, then runs `terraform init`.
 #
-# Usage, from the repository root: deploy/aws/init-staging.sh
+# Usage, from the repository root: deploy/aws/init-prod.sh
 set -euo pipefail
 
 region=eu-central-1
@@ -24,8 +24,8 @@ if ! aws s3api head-bucket --bucket "$bucket" 2>/dev/null; then
   echo "created state bucket $bucket"
 fi
 
-terraform -chdir="$(dirname "$0")/staging" init \
+terraform -chdir="$(dirname "$0")/prod" init \
   -backend-config="bucket=${bucket}" \
-  -backend-config="key=staging.tfstate" \
+  -backend-config="key=prod.tfstate" \
   -backend-config="region=${region}" \
   -backend-config="use_lockfile=true"

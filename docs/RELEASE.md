@@ -6,54 +6,83 @@ the first upload).
 
 ```
 GitHub ──► Codemagic ──► Play internal testing / TestFlight ──► testers
-   │                         │ app talks to
+   │                         │ app talks to https://parla.anacan.az/
    │ deploy workflow         ▼
+   │      Cloudflare DNS ("DNS only", no proxy)
+   │                         ▼
    └──────────► AWS Frankfurt (eu-central-1):
-                CloudFront (HTTPS) ──► internal load balancer ──► ECS Fargate server
-                                                                   │
-                                     RDS PostgreSQL (private) ◄────┘
+                WAF ──► load balancer (HTTPS, ACM certificate) ──► ECS Fargate server
+                          /          → API server (8080)            │  ▲
+                          /admin/    → web server (8082): panel     │  │ private
+                          /media/*   → web server (8082): images    │  S3 media bucket
+                                     RDS PostgreSQL (private) ◄─────┘
                 └── sign-in codes by SMTP from info@anacan.az
 ```
 
 Nothing is tied to AWS. The server is a plain Docker image configured only
 by environment variables, so moving to our own servers means running the
-same image with new variables.
+same image with new variables. The image also holds the admin panel.
 
-## Privacy and legal checks before inviting testers
+## Privacy and legal checks before opening sign-ups
 
-- Testers are real people and may enter real health answers. Staging is
-  therefore treated like production for data protection.
+The environment is called **prod** and is meant for real users (beta).
+Sign-ups stay closed until these are done:
+
+- The lawyer's privacy policy and terms, and the final consent texts (a new
+  version in `parla_shared`; the current ones are drafts).
+- The lawyer's answer on data localisation: health data of Azerbaijani
+  citizens stored in Frankfurt.
+- The expert reviews (dermatologist, dietitian, trainer); see "Not done
+  yet" in `docs/ARCHITECTURE.md`.
+
+What the setup already does:
+
 - Everything runs in AWS **eu-central-1 (Frankfurt)**: server, database,
-  backups (7 days), secrets and logs (30 days). The database, its backups,
-  the secrets and the logs are encrypted with one KMS key that AWS rotates
-  yearly. The database has no public address; the load balancer is
-  internal and only CloudFront reaches it, over AWS's own network.
+  backups (14 days, point-in-time restore), images, secrets and logs (30
+  days). The database, its backups, the secrets and the logs are encrypted
+  with one KMS key that AWS rotates yearly; health data keys are wrapped by
+  a second KMS key. The database and the media bucket have no public
+  access.
+- HTTPS ends at the load balancer in Frankfurt. Cloudflare only answers DNS
+  ("DNS only"), so it never sees the traffic. HSTS, `nosniff` and
+  `X-Frame-Options: DENY` are on every response; the panel has a strict
+  content security policy (`connect-src 'self'`) and `noindex`.
+- AWS WAF blocks known bad addresses and common attacks and limits sign-in
+  requests per IP address (protects the info@anacan.az mailbox). No WAF or
+  load balancer access logs are kept, because they would store visitors' IP
+  addresses; only counts in CloudWatch metrics.
 - AWS's data processing addendum (GDPR DPA) is part of the AWS Service
   Terms and applies automatically; keep a copy for the processor list
   (AWS Artifact → Agreements).
-- CloudFront serves the HTTPS address from AWS edge locations; requests
-  pass through them but nothing is cached (caching is off).
-- The anacan.az mailbox provider processes testers' email addresses: note
+- Cloudflare (DNS only) is not a processor of users' data, but list it with
+  the domain setup.
+- The anacan.az mailbox provider processes users' email addresses: note
   which provider it is and where it stores mail.
-- Tell testers it is a test version and their data may be deleted.
-- Open for the lawyer: Azerbaijani data localisation (testers in AZ, data in
-  Germany), and whether `ITSAppUsesNonExemptEncryption = false` is right
-  (the app itself only uses HTTPS and the phone's secure storage).
-- Update the processor list in the privacy policy draft: AWS instead of
-  Google Cloud and Supabase.
+- Open for the lawyer: whether `ITSAppUsesNonExemptEncryption = false` is
+  right (the app itself only uses HTTPS and the phone's secure storage).
 
 ## 1. AWS: infrastructure (once)
 
-Everything is described in Terraform in `deploy/aws/staging`: network,
-KMS key, RDS PostgreSQL 16, Secrets Manager secret, ECR, ECS Fargate,
-internal load balancer, CloudFront and the GitHub deploy role. Running it
-creates paid resources, roughly 45–55 USD a month (load balancer ~18,
-database ~15, server ~10, rest small).
+Everything is described in Terraform in `deploy/aws/prod`: network, KMS
+keys, RDS PostgreSQL 16, Secrets Manager secrets, the private media
+bucket, ECR, ECS Fargate, the public load balancer with its certificate,
+WAF and the GitHub deploy role. It costs roughly 85–90 USD a month (load
+balancer ~22, public IPv4 addresses ~11, server ~20, database ~18, WAF
+~10–12, the rest small); with `db_multi_az=true` about 105.
+
+Production choices (variables in `variables.tf`):
+
+| Setting | Value | Why |
+| --- | --- | --- |
+| `db_multi_az` | `false` | Beta size; an in-place change later |
+| `db_backup_days` | `14` | Point-in-time restore for two weeks |
+| Deletion protection | on (database and load balancer) | No accidental `destroy` |
+| `task_cpu` / `task_memory` | 512 / 1024 | The server also serves the panel and images |
+| `enable_waf` | `true` | See above |
 
 1. Sign in to the Anacan App AWS account with a user that may create IAM
    roles, switch the region to **Europe (Frankfurt) eu-central-1** and open
-   **CloudShell** (the terminal icon in the top bar). No AWS key is needed
-   on your own computer.
+   **CloudShell** (the terminal icon in the top bar).
 2. Install Terraform and get the code:
    ```bash
    sudo yum install -y yum-utils
@@ -67,83 +96,96 @@ database ~15, server ~10, rest small).
    ```bash
    git clone https://github.com/anacanapp/Parla.co.git && cd Parla.co
    ```
-3. Check whether the account already has a GitHub identity provider (IAM →
-   Identity providers → `token.actions.githubusercontent.com`). If it does,
-   add `-var create_github_oidc_provider=false` to both commands in step 4.
-4. Create the state bucket and the infrastructure:
+3. Create the state bucket (if missing) and initialise:
    ```bash
-   deploy/aws/init-staging.sh
+   deploy/aws/init-prod.sh
+   ```
+4. **First the certificate.** It needs a DNS record at Cloudflare before
+   the rest can be created:
+   ```bash
+   terraform -chdir=deploy/aws/prod apply -target=aws_acm_certificate.main
    ```
    ```bash
-   terraform -chdir=deploy/aws/staging apply
+   terraform -chdir=deploy/aws/prod output certificate_validation_record
    ```
-   Read the plan, answer `yes`. It takes 15–20 minutes (the database and
-   CloudFront are slow to create). At the end it prints `server_url`,
-   `deploy_role_arn` and the other outputs; `terraform -chdir=deploy/aws/staging output`
-   shows them again. The server task keeps failing until steps 2 and 3
-   have run: there is no image and no secret yet.
+   In Cloudflare → anacan.az → DNS, add that record: type `CNAME`, the
+   `name` and `value` exactly as printed (Cloudflare may shorten the name
+   to the part before `.anacan.az`), proxy status **DNS only** (grey
+   cloud). Keep it for good: ACM uses it for every renewal.
+5. **Then everything else**, with the first admin's email (not secret):
+   ```bash
+   terraform -chdir=deploy/aws/prod apply -var='staff_bootstrap_email=you@example.com'
+   ```
+   It waits until ACM has validated the certificate, then takes 15–20
+   minutes (the database is slow to create). At the end it prints the
+   outputs; `terraform -chdir=deploy/aws/prod output` shows them again.
+6. In Cloudflare add `parla` as `CNAME` → `load_balancer_dns_name`, **DNS
+   only**. Cloudflare's proxy must stay off: it would end TLS outside AWS.
+
+The server task keeps failing until steps 2 and 3 have run: there is no
+image and no secret yet.
 
 ## 2. Secrets (once)
 
 In the same CloudShell:
 
 ```bash
-deploy/aws/put-staging-secrets.sh
+deploy/aws/put-prod-secrets.sh
 ```
 
-It generates the keys (JWT, peppers, the health data key) and asks for the
-SMTP settings without showing them. The database password is never asked
-for: RDS created it and keeps it in Secrets Manager. The script refuses to
-overwrite an existing value, because a new health data key would make
-every stored health answer unreadable.
+It generates new keys (JWT, peppers, the health data key) and asks for the
+SMTP settings without showing them. With `--smtp-from-staging` it copies
+the SMTP settings from the old `parla-staging/app` secret instead, without
+showing them. The database password is never asked for: RDS created it and
+keeps it in Secrets Manager. The script refuses to overwrite an existing
+value, because a new health data key would make every stored health
+answer unreadable.
 
 SMTP for info@anacan.az: from the anacan.az mail provider you need the SMTP
 host, port (587 or 465) and a password. With Google Workspace use
 `smtp.gmail.com`, port 587 and an **app password** (Google account →
 Security → 2-Step Verification → App passwords), not the normal password.
 
+Push notifications (later): `deploy/aws/put-prod-fcm-secret.sh` with the
+Firebase service account file, then `terraform apply` with
+`-var=enable_push=true`.
+
 ## 3. Deploys from GitHub
 
 1. GitHub → the repository → Settings → Environments → **New environment**
-   named `staging`. Under *Deployment protection rules* you can require your
+   named `production`. Under *Deployment protection rules* require your
    own approval for each deploy.
-2. In that environment add the **variables** (not secrets; neither is
-   sensitive):
-   - `AWS_DEPLOY_ROLE_ARN` = `deploy_role_arn` from step 1.4.
-   - `STAGING_SERVER_URL` = `server_url` from step 1.4.
-3. Actions → **Deploy staging server** → *Run workflow* (branch `main`). It
-   builds the image, pushes it, restarts the server and checks that
-   `server_url` + `readyz` answers. On first start the server creates its
-   tables (`--apply-migrations`).
-4. Logs: CloudWatch → Log groups → `/parla-staging/server`.
+2. In that environment add the **variable** (not a secret)
+   `AWS_DEPLOY_ROLE_ARN` = `deploy_role_arn` from step 1.5.
+3. Actions → **Deploy production server** → *Run workflow* (branch
+   `main`). It builds the image (server and admin panel), pushes it,
+   restarts the server and checks `/readyz`, `/admin/` and the security
+   headers. On first start the server creates its tables
+   (`--apply-migrations`). The service is away for about two minutes
+   during a deploy (never two servers at once), so deploy at quiet hours.
+4. Logs: CloudWatch → Log groups → `/parla-prod/server`.
 
-Later deploys are just step 3.3. Changes to `deploy/aws/staging` need
-`terraform apply` again (steps 1.2 and 1.4 in a new CloudShell session).
+Later deploys are just step 3.3. Changes to `deploy/aws/prod` need
+`terraform apply` again (steps 1.2, 1.3 and 1.5 in a new CloudShell
+session).
 
-### Admin panel (staging)
+### The first admin
 
-1. `terraform apply` with the first admin's email (not secret):
-   `terraform apply -var='staff_bootstrap_email=you@example.com'`. Note the
-   outputs `admin_url`, `admin_bucket` and `admin_distribution_id`.
-2. In the GitHub environment `staging` add the variables `ADMIN_BUCKET` and
-   `ADMIN_DISTRIBUTION_ID` (from step 1).
-3. Deploy the server (3.3) so it has the new tables, then Actions →
-   **Deploy staging admin panel** → *Run workflow*.
-4. Open `admin_url`, choose *Hesabım yoxdur: qeydiyyat*, register with that
-   email and a password of at least 12 characters, then *İlk admin kimi
-   qoşul* and set up the authenticator app.
-5. Invite the rest of the team from *İşçilər*. Afterwards run `terraform
-   apply` again without the variable, so nobody else can claim the first
-   admin role.
+1. Open `https://parla.anacan.az/admin/`, choose *Hesabım yoxdur:
+   qeydiyyat*, register with the `staff_bootstrap_email` address and a
+   password of at least 12 characters, and enter the code from the email.
+2. Choose *İlk admin kimi qoşul* and set up the authenticator app (scan
+   the QR code, enter a code).
+3. Invite the rest of the team from *İşçilər*.
+4. Run `terraform apply` again **without** `staff_bootstrap_email`, so
+   nobody else can claim the first admin role.
 
-### Content images (staging)
+### Content images
 
-`terraform apply` (any run after this change) also creates the private
-media bucket and its CloudFront address (output `media_url`) and gives the
-server's task role access to that bucket only. No access key is created or
-stored: the server uses the role's temporary credentials. Deploy the server
-afterwards so it picks up the new `PARLA_MEDIA_*` settings. Until then,
-uploads in the panel fail with an error and nothing is lost.
+Images uploaded in the panel are kept in the private media bucket; the
+server reads it with its task role (no access key exists) and serves the
+images of published content at `https://parla.anacan.az/media/<id>.jpg`.
+Unpublished images are never reachable.
 
 ## 4. Codemagic (once)
 
@@ -173,7 +215,7 @@ uploads in the panel fail with an error and nothing is lost.
    key must be kept: a new one would create a new certificate, and Apple
    allows only a few.
 5. **Environment variable groups:**
-   - `parla_staging`: `SERVER_URL` = `server_url` from step 1.4 (with the
+   - `parla_prod`: `SERVER_URL` = `https://parla.anacan.az/` (with the
      trailing `/`).
    - `google_play`: `GCLOUD_SERVICE_ACCOUNT_CREDENTIALS` (secure) = the
      JSON key from step 6.3.
@@ -187,7 +229,7 @@ uploads in the panel fail with an error and nothing is lost.
 
 ## Android test APK (quickest way onto a phone)
 
-Needs only step 4.2 (keystore `parla_upload`) and the `parla_staging`
+Needs only step 4.2 (keystore `parla_upload`) and the `parla_prod`
 group with `SERVER_URL`; no Play Console.
 
 1. Codemagic → Parla → **Start new build** → branch `main`, workflow
@@ -263,8 +305,8 @@ and the privacy policy and support URLs once the pages are public.
 ## Moving to our own servers later
 
 Run the same Docker image (`parla_server/Dockerfile`) with
-`runmode=staging` or `production`, set the `SERVERPOD_*` variables and
-`SERVERPOD_PASSWORD_*` secrets listed in `deploy/aws/staging/ecs.tf` and
+`runmode=production`, set the `SERVERPOD_*` variables and
+`SERVERPOD_PASSWORD_*` secrets listed in `deploy/aws/prod/ecs.tf` and
 `secrets.tf`, point it at any PostgreSQL 16+ (a `pg_dump` from RDS moves the
 data; keep the same `healthKek`, or health answers become unreadable), and
 change `SERVER_URL` in Codemagic.
