@@ -36,8 +36,12 @@ import 'package:parla_server/src/generated/staff/staff_me.dart' as _i6ngmf7u;
 import 'package:parla_server/src/generated/staff/staff_role.dart' as _i21eo3et;
 import 'package:parla_server/src/generated/staff/staff_summary.dart'
     as _i0twq8uu;
+import 'package:parla_server/src/generated/stats/dashboard_report.dart'
+    as _iv8i28a3;
 import 'package:parla_server/src/generated/stats/stats_report.dart'
     as _i1ypnd10;
+import 'package:parla_server/src/generated/stats/usage_report.dart'
+    as _iw4kyb5s;
 import 'package:parla_server/src/generated/support/support_entry.dart'
     as _iexc7wsp;
 import 'package:parla_server/src/generated/support/support_thread_summary.dart'
@@ -219,6 +223,8 @@ class TestEndpoints {
 
   late final _ActivityEndpoint activity;
 
+  late final _DashboardAdminEndpoint dashboardAdmin;
+
   late final _StatsAdminEndpoint statsAdmin;
 
   late final _SupportAdminEndpoint supportAdmin;
@@ -304,6 +310,10 @@ class _InternalTestEndpoints extends TestEndpoints
       serializationManager,
     );
     activity = _ActivityEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    dashboardAdmin = _DashboardAdminEndpoint(
       endpoints,
       serializationManager,
     );
@@ -2453,6 +2463,79 @@ class _ActivityEndpoint {
                   _localCallContext.arguments,
                 )
                 as _ida.Future<void>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _ida.Future<bool> report(
+    _ist.TestSessionBuilder sessionBuilder,
+    _iw4kyb5s.UsageReport report,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'activity',
+            method: 'report',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'activity',
+          methodName: 'report',
+          parameters: _ist.testObjectToJson({'report': report}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<bool>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
+class _DashboardAdminEndpoint {
+  _DashboardAdminEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _is.EndpointDispatch _endpointDispatch;
+
+  final _is.SerializationManager _serializationManager;
+
+  _ida.Future<_iv8i28a3.DashboardReport> report(
+    _ist.TestSessionBuilder sessionBuilder,
+    int days,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'dashboardAdmin',
+            method: 'report',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'dashboardAdmin',
+          methodName: 'report',
+          parameters: _ist.testObjectToJson({'days': days}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<_iv8i28a3.DashboardReport>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

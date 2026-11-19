@@ -1,0 +1,7 @@
+### A batch of counts from the app (see UsageRules): keys are
+### "event|target", values how many times. Nothing names the account.
+class: UsageReport
+fields:
+  ### UsagePlatform name.
+  platform: String
+  counts: Map<String, int>

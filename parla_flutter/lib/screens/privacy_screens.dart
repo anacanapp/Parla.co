@@ -78,6 +78,7 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
         textVersion: currentConsentText(kind).version,
         language: scope.settings.language ?? defaultLanguage,
       );
+      if (kind == ConsentKind.analytics) scope.usage.setEnabled(granted);
       if (mounted) setState(() => _consents = {..._consents!, kind: granted});
     } on Object catch (error) {
       if (mounted) showError(context, errorMessage(l10n, error));

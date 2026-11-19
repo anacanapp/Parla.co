@@ -10,15 +10,15 @@ const minGroupSize = 10;
 
 int? _safe(int n) => n < minGroupSize ? null : n;
 
-/// Anonymous aggregate statistics for the admin panel (admins and
-/// editors). Only counts leave the server, groups under [minGroupSize] are
+/// Anonymous aggregate statistics for the admin panel (admins only).
+/// Only counts leave the server, groups under [minGroupSize] are
 /// hidden, and health answers (encrypted) are never counted.
 class StatsAdminEndpoint extends Endpoint {
   @override
   bool get requireLogin => true;
 
   Future<StatsReport> report(Session session) async {
-    await requireStaff(session, roles: {StaffRole.admin, StaffRole.editor});
+    await requireStaff(session, roles: {StaffRole.admin});
     return buildStatsReport(session);
   }
 }

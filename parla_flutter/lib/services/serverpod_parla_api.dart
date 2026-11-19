@@ -156,7 +156,11 @@ class ServerpodParlaApi implements ParlaApi {
   Future<String?> myNutrition() => _guard(_client.nutrition.myNutrition);
 
   @override
-  Future<void> markActive() => _guard(_client.activity.markActive);
+  Future<bool> reportUsage(String platform, Map<String, int> counts) => _guard(
+    () => _client.activity.report(
+      UsageReport(platform: platform, counts: counts),
+    ),
+  );
 
   @override
   Future<List<SupportItem>> supportMessages() => _guard(() async {

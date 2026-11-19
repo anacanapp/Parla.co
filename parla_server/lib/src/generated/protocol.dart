@@ -69,9 +69,12 @@ import 'staff/staff_role.dart' as _imtqbwe6;
 import 'staff/staff_summary.dart' as _iminry28;
 import 'stats/daily_active_count.dart' as _iphzj4es;
 import 'stats/daily_active_mark.dart' as _ipxxg0d2;
+import 'stats/dashboard_report.dart' as _igkrtb48;
 import 'stats/stats_count.dart' as _iu0qh84b;
 import 'stats/stats_group.dart' as _imrurtjq;
 import 'stats/stats_report.dart' as _i9vgpxbr;
+import 'stats/usage_daily.dart' as _i5155cwu;
+import 'stats/usage_report.dart' as _ijn07asl;
 import 'support/support_entry.dart' as _iaeay4r3;
 import 'support/support_message.dart' as _izh8ly96;
 import 'support/support_thread.dart' as _iq87yxf7;
@@ -109,9 +112,12 @@ export 'staff/staff_role.dart';
 export 'staff/staff_summary.dart';
 export 'stats/daily_active_count.dart';
 export 'stats/daily_active_mark.dart';
+export 'stats/dashboard_report.dart';
 export 'stats/stats_count.dart';
 export 'stats/stats_group.dart';
 export 'stats/stats_report.dart';
+export 'stats/usage_daily.dart';
+export 'stats/usage_report.dart';
 export 'support/support_entry.dart';
 export 'support/support_message.dart';
 export 'support/support_thread.dart';
@@ -163,9 +169,12 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_iminry28.StaffSummary>,
           _is.getType<_iphzj4es.DailyActiveCount>,
           _is.getType<_ipxxg0d2.DailyActiveMark>,
+          _is.getType<_igkrtb48.DashboardReport>,
           _is.getType<_iu0qh84b.StatsCount>,
           _is.getType<_imrurtjq.StatsGroup>,
           _is.getType<_i9vgpxbr.StatsReport>,
+          _is.getType<_i5155cwu.UsageDaily>,
+          _is.getType<_ijn07asl.UsageReport>,
           _is.getType<_iaeay4r3.SupportEntry>,
           _is.getType<_izh8ly96.SupportMessage>,
           _is.getType<_iq87yxf7.SupportThread>,
@@ -203,9 +212,12 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_iminry28.StaffSummary?>,
           _is.getType<_iphzj4es.DailyActiveCount?>,
           _is.getType<_ipxxg0d2.DailyActiveMark?>,
+          _is.getType<_igkrtb48.DashboardReport?>,
           _is.getType<_iu0qh84b.StatsCount?>,
           _is.getType<_imrurtjq.StatsGroup?>,
           _is.getType<_i9vgpxbr.StatsReport?>,
+          _is.getType<_i5155cwu.UsageDaily?>,
+          _is.getType<_ijn07asl.UsageReport?>,
           _is.getType<_iaeay4r3.SupportEntry?>,
           _is.getType<_izh8ly96.SupportMessage?>,
           _is.getType<_iq87yxf7.SupportThread?>,
@@ -216,6 +228,7 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<List<String>>,
           _is.getType<List<_iu0qh84b.StatsCount>>,
           _is.getType<List<_imrurtjq.StatsGroup>>,
+          _is.getType<Map<String, int>>,
           _is.getType<List<_icra10er.ConsentState>>,
           _is.getType<List<_ianfun2u.ConsentState>>,
           _is.getType<List<_itdeiy4d.ContentAdminItem>>,
@@ -266,9 +279,12 @@ class Protocol extends _is.DatabaseSerializationManager
           'StaffSummary',
           'DailyActiveCount',
           'DailyActiveMark',
+          'DashboardReport',
           'StatsCount',
           'StatsGroup',
           'StatsReport',
+          'UsageDaily',
+          'UsageReport',
           'SupportEntry',
           'SupportMessage',
           'SupportThread',
@@ -728,6 +744,30 @@ class Protocol extends _is.DatabaseSerializationManager
           isNullable: false,
           dartType: 'int',
         ),
+        _isp.ColumnDefinition(
+          name: 'weekly',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: true,
+          dartType: 'int?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'monthly',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: true,
+          dartType: 'int?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'ios',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: true,
+          dartType: 'int?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'android',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: true,
+          dartType: 'int?',
+        ),
       ],
       foreignKeys: [],
       indexes: [
@@ -771,6 +811,12 @@ class Protocol extends _is.DatabaseSerializationManager
           columnType: _isp.ColumnType.text,
           isNullable: false,
           dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'platform',
+          columnType: _isp.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
         ),
       ],
       foreignKeys: [],
@@ -1654,6 +1700,103 @@ class Protocol extends _is.DatabaseSerializationManager
       ],
       managed: true,
     ),
+    _isp.TableDefinition(
+      name: 'usage_daily',
+      dartName: 'UsageDaily',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'day',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'country',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'platform',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'event',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'target',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'times',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'usage_daily_key_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'day',
+            ),
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'country',
+            ),
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'platform',
+            ),
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'event',
+            ),
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'target',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+        _isp.IndexDefinition(
+          indexName: 'usage_daily_day_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'day',
+            ),
+          ],
+          type: 'btree',
+          isUnique: false,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
     ..._iais.Protocol.targetTableDefinitions,
     ..._iacs.Protocol.targetTableDefinitions,
     ..._isp.Protocol.targetTableDefinitions,
@@ -1779,6 +1922,9 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _ipxxg0d2.DailyActiveMark) {
       return _ipxxg0d2.DailyActiveMark.fromJson(data) as T;
     }
+    if (t == _igkrtb48.DashboardReport) {
+      return _igkrtb48.DashboardReport.fromJson(data) as T;
+    }
     if (t == _iu0qh84b.StatsCount) {
       return _iu0qh84b.StatsCount.fromJson(data) as T;
     }
@@ -1787,6 +1933,12 @@ class Protocol extends _is.DatabaseSerializationManager
     }
     if (t == _i9vgpxbr.StatsReport) {
       return _i9vgpxbr.StatsReport.fromJson(data) as T;
+    }
+    if (t == _i5155cwu.UsageDaily) {
+      return _i5155cwu.UsageDaily.fromJson(data) as T;
+    }
+    if (t == _ijn07asl.UsageReport) {
+      return _ijn07asl.UsageReport.fromJson(data) as T;
     }
     if (t == _iaeay4r3.SupportEntry) {
       return _iaeay4r3.SupportEntry.fromJson(data) as T;
@@ -1918,6 +2070,10 @@ class Protocol extends _is.DatabaseSerializationManager
       return (data != null ? _ipxxg0d2.DailyActiveMark.fromJson(data) : null)
           as T;
     }
+    if (t == _is.getType<_igkrtb48.DashboardReport?>()) {
+      return (data != null ? _igkrtb48.DashboardReport.fromJson(data) : null)
+          as T;
+    }
     if (t == _is.getType<_iu0qh84b.StatsCount?>()) {
       return (data != null ? _iu0qh84b.StatsCount.fromJson(data) : null) as T;
     }
@@ -1926,6 +2082,12 @@ class Protocol extends _is.DatabaseSerializationManager
     }
     if (t == _is.getType<_i9vgpxbr.StatsReport?>()) {
       return (data != null ? _i9vgpxbr.StatsReport.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_i5155cwu.UsageDaily?>()) {
+      return (data != null ? _i5155cwu.UsageDaily.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_ijn07asl.UsageReport?>()) {
+      return (data != null ? _ijn07asl.UsageReport.fromJson(data) : null) as T;
     }
     if (t == _is.getType<_iaeay4r3.SupportEntry?>()) {
       return (data != null ? _iaeay4r3.SupportEntry.fromJson(data) : null) as T;
@@ -1975,6 +2137,12 @@ class Protocol extends _is.DatabaseSerializationManager
       return (data as List)
               .map((e) => deserialize<_imrurtjq.StatsGroup>(e))
               .toList()
+          as T;
+    }
+    if (t == Map<String, int>) {
+      return (data as Map).map(
+            (k, v) => MapEntry(deserialize<String>(k), deserialize<int>(v)),
+          )
           as T;
     }
     if (t == List<_icra10er.ConsentState>) {
@@ -2090,9 +2258,12 @@ class Protocol extends _is.DatabaseSerializationManager
       _iminry28.StaffSummary => 'StaffSummary',
       _iphzj4es.DailyActiveCount => 'DailyActiveCount',
       _ipxxg0d2.DailyActiveMark => 'DailyActiveMark',
+      _igkrtb48.DashboardReport => 'DashboardReport',
       _iu0qh84b.StatsCount => 'StatsCount',
       _imrurtjq.StatsGroup => 'StatsGroup',
       _i9vgpxbr.StatsReport => 'StatsReport',
+      _i5155cwu.UsageDaily => 'UsageDaily',
+      _ijn07asl.UsageReport => 'UsageReport',
       _iaeay4r3.SupportEntry => 'SupportEntry',
       _izh8ly96.SupportMessage => 'SupportMessage',
       _iq87yxf7.SupportThread => 'SupportThread',
@@ -2176,12 +2347,18 @@ class Protocol extends _is.DatabaseSerializationManager
         return 'DailyActiveCount';
       case _ipxxg0d2.DailyActiveMark():
         return 'DailyActiveMark';
+      case _igkrtb48.DashboardReport():
+        return 'DashboardReport';
       case _iu0qh84b.StatsCount():
         return 'StatsCount';
       case _imrurtjq.StatsGroup():
         return 'StatsGroup';
       case _i9vgpxbr.StatsReport():
         return 'StatsReport';
+      case _i5155cwu.UsageDaily():
+        return 'UsageDaily';
+      case _ijn07asl.UsageReport():
+        return 'UsageReport';
       case _iaeay4r3.SupportEntry():
         return 'SupportEntry';
       case _izh8ly96.SupportMessage():
@@ -2314,6 +2491,9 @@ class Protocol extends _is.DatabaseSerializationManager
     if (dataClassName == 'DailyActiveMark') {
       return deserialize<_ipxxg0d2.DailyActiveMark>(data['data']);
     }
+    if (dataClassName == 'DashboardReport') {
+      return deserialize<_igkrtb48.DashboardReport>(data['data']);
+    }
     if (dataClassName == 'StatsCount') {
       return deserialize<_iu0qh84b.StatsCount>(data['data']);
     }
@@ -2322,6 +2502,12 @@ class Protocol extends _is.DatabaseSerializationManager
     }
     if (dataClassName == 'StatsReport') {
       return deserialize<_i9vgpxbr.StatsReport>(data['data']);
+    }
+    if (dataClassName == 'UsageDaily') {
+      return deserialize<_i5155cwu.UsageDaily>(data['data']);
+    }
+    if (dataClassName == 'UsageReport') {
+      return deserialize<_ijn07asl.UsageReport>(data['data']);
     }
     if (dataClassName == 'SupportEntry') {
       return deserialize<_iaeay4r3.SupportEntry>(data['data']);
@@ -2421,6 +2607,8 @@ class Protocol extends _is.DatabaseSerializationManager
         return _iphzj4es.DailyActiveCount.t;
       case _ipxxg0d2.DailyActiveMark:
         return _ipxxg0d2.DailyActiveMark.t;
+      case _i5155cwu.UsageDaily:
+        return _i5155cwu.UsageDaily.t;
       case _izh8ly96.SupportMessage:
         return _izh8ly96.SupportMessage.t;
       case _iq87yxf7.SupportThread:

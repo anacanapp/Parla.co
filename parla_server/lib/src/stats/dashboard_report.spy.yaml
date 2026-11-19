@@ -1,0 +1,13 @@
+### The admin dashboard: headline numbers, daily series and breakdowns for
+### the last [days] days. Daily series and headline numbers are totals;
+### in breakdowns (country, platform, tool, content) every count under
+### [minGroupSize] is null ("<10").
+class: DashboardReport
+fields:
+  generatedAt: DateTime
+  minGroupSize: int
+  days: int
+  ### Headline numbers (label = metric id).
+  kpis: List<StatsCount>
+  ### Daily series and breakdowns (labels are days or ids).
+  groups: List<StatsGroup>

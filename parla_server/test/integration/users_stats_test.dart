@@ -237,82 +237,155 @@ void main() {
       expect(c('quiz:skin_type', 'dry'), isNull);
       // Health questions are never counted.
       expect(report.groups.where((x) => x.metric == 'quiz:pregnancy'), isEmpty);
-      // Editors may see statistics; experts may not.
-      await endpoints.staffAdmin.invite(
-        admin,
-        'ed@example.com',
-        StaffRole.editor,
-      );
-      await endpoints.statsAdmin.report(
-        await staff('ed@example.com', StaffRole.editor),
-      );
-      await endpoints.staffAdmin.invite(
-        admin,
-        'ex@example.com',
-        StaffRole.expert,
-      );
-      await expectLater(
-        endpoints.statsAdmin.report(
-          await staff('ex@example.com', StaffRole.expert),
-        ),
-        throwsA(_error(StaffErrors.forbidden)),
-      );
+      // Only admins see statistics and the dashboard.
+      for (final role in [StaffRole.editor, StaffRole.expert]) {
+        final email = '${role.name}@example.com';
+        await endpoints.staffAdmin.invite(admin, email, role);
+        final s = await staff(email, role);
+        await expectLater(
+          endpoints.statsAdmin.report(s),
+          throwsA(_error(StaffErrors.forbidden)),
+        );
+        await expectLater(
+          endpoints.dashboardAdmin.report(s, 30),
+          throwsA(_error(StaffErrors.forbidden)),
+        );
+      }
     });
 
     test(
-      'daily activity keeps only a total after the nightly roll-up',
+      'activity and usage are counted only with the analytics consent',
       () async {
+        final admin = await staff('first-admin@example.com', StaffRole.admin);
         final ids = [
           for (var i = 0; i < 11; i++) await member('d$i@example.com'),
         ];
-        // Without the analytics consent nothing is marked.
+        final report = UsageReport(
+          platform: 'ios',
+          counts: {
+            'appOpen|1.2.0': 1,
+            'tool|check': 2,
+            'tool|nutrition': 1,
+            'recipe|green-salad': 1,
+            'bannerView|7': 3,
+            'bannerTap|7': 1,
+            'quiz|skin_type': 4, // not a usage key: dropped
+            'tool|shop': 999, // capped
+          },
+        );
+        // Without the analytics consent nothing is stored.
+        expect(
+          await endpoints.activity.report(
+            _as(sessionBuilder, ids.first),
+            report,
+          ),
+          isFalse,
+        );
         await endpoints.activity.markActive(_as(sessionBuilder, ids.first));
-        expect(await DailyActiveMark.db.find(sessionBuilder.build()), isEmpty);
-        final analytics = currentConsentText(ConsentKind.analytics).version;
-        for (final id in ids) {
-          await endpoints.consent.decide(
-            _as(sessionBuilder, id),
-            consentType: ConsentType.analytics,
-            granted: true,
-            textVersion: analytics,
-            language: 'az',
-            source: 'app',
-          );
-        }
-        for (final id in ids) {
-          await endpoints.activity.markActive(_as(sessionBuilder, id));
-          // A second open the same day counts once.
-          await endpoints.activity.markActive(_as(sessionBuilder, id));
-        }
         final db = sessionBuilder.build();
+        expect(await DailyActiveMark.db.find(db), isEmpty);
+        expect(await UsageDaily.db.find(db), isEmpty);
+
+        final analytics = currentConsentText(ConsentKind.analytics).version;
+        Future<void> decide(String id, bool granted) =>
+            endpoints.consent.decide(
+              _as(sessionBuilder, id),
+              consentType: ConsentType.analytics,
+              granted: granted,
+              textVersion: analytics,
+              language: 'az',
+              source: 'app',
+            );
+        for (final id in ids) {
+          await decide(id, true);
+        }
+        for (final id in ids) {
+          expect(
+            await endpoints.activity.report(_as(sessionBuilder, id), report),
+            isTrue,
+          );
+          // A second open the same day marks the account once.
+          await endpoints.activity.markActive(_as(sessionBuilder, id));
+        }
         final marks = await DailyActiveMark.db.find(db);
         expect(marks, hasLength(11));
         for (final m in marks) {
+          expect(m.platform, 'ios');
           for (final id in ids) {
             expect(m.mark, isNot(contains(id)));
           }
         }
-        // Today's marks stay until the day is over.
+        // Totals only: one row per day, country, platform and count key.
+        final usage = await UsageDaily.db.find(db);
+        expect(usage, hasLength(7));
+        int times(String event, String target) => usage
+            .singleWhere((u) => u.event == event && u.target == target)
+            .times;
+        expect(times('tool', 'check'), 22);
+        expect(times('tool', 'shop'), 11 * UsageRules.maxCount);
+        expect(times('bannerView', '7'), 33);
+        expect(usage.every((u) => u.country == 'AZ'), isTrue);
+
+        // Withdrawing the consent removes the account's marks.
+        await decide(ids.last, false);
+        expect(await DailyActiveMark.db.find(db), hasLength(10));
+
+        // Today's marks are counted after the day is over, once, and the
+        // marks stay for the weekly and monthly totals.
         expect(await rollUpActivity(db), 0);
-        expect(
-          await rollUpActivity(
-            db,
-            now: DateTime.now().add(const Duration(days: 1)),
-          ),
-          1,
+        final tomorrow = DateTime.now().add(const Duration(days: 1));
+        expect(await rollUpActivity(db, now: tomorrow), 1);
+        expect(await rollUpActivity(db, now: tomorrow), 0);
+        expect(await DailyActiveMark.db.find(db), hasLength(10));
+        final count = (await DailyActiveCount.db.find(db)).single;
+        expect(count.accounts, 10);
+        expect(count.weekly, 10);
+        expect(count.monthly, 10);
+        expect(count.ios, 10);
+        // After 30 days the marks are gone.
+        await rollUpActivity(
+          db,
+          now: DateTime.now().add(const Duration(days: 32)),
         );
         expect(await DailyActiveMark.db.find(db), isEmpty);
-        final count = await DailyActiveCount.db.find(db);
-        expect(count.single.accounts, 11);
-        final report = await buildStatsReport(db);
+
+        final stats = await buildStatsReport(db, now: tomorrow);
         expect(
-          report.groups
+          stats.groups
               .singleWhere((g) => g.metric == 'daily_active')
               .counts
               .single
               .count,
-          11,
+          10,
         );
+
+        final dash = await endpoints.dashboardAdmin.report(admin, 7);
+        int? kpi(String id) =>
+            dash.kpis.singleWhere((k) => k.label == id).count;
+        StatsGroup g(String name) =>
+            dash.groups.singleWhere((x) => x.metric == name);
+        int? c(String group, String label) =>
+            g(group).counts.singleWhere((x) => x.label == label).count;
+        expect(dash.days, 7);
+        expect(kpi('accounts'), 11);
+        expect(kpi('signups'), 11);
+        expect(kpi('app_opens'), 11);
+        expect(kpi('banner_views'), 33);
+        expect(c('tools', 'check'), 22);
+        expect(c('tools', 'nutrition'), 11);
+        expect(c('tools', 'home'), isNull); // 0: under the minimum
+        expect(c('opens_country', 'AZ'), 11);
+        expect(c('app_versions', '1.2.0'), 11);
+        expect(c('tools_country', 'AZ|check'), 22);
+        expect(
+          g('recipes_top').counts.single.label,
+          startsWith('green-salad|'),
+        );
+        expect(g('banner_views').counts.single.label, '7||');
+        expect(g('banner_taps').counts.single.count, 11);
+        expect(g('signups_daily').counts, hasLength(7));
+        // Unknown periods fall back to 30 days.
+        expect((await endpoints.dashboardAdmin.report(admin, 12)).days, 30);
       },
     );
   });

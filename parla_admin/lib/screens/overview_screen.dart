@@ -69,12 +69,17 @@ const _guides = [
     ],
   ),
   _Guide(
-    '/stats',
-    'Statistika',
+    '/dashboard',
+    'Dashboard',
     Icons.insights_outlined,
-    'Anonim rəqəmlər: qeydiyyat, dil, ölkə, razılıqlar, test cavabları, '
-        'alətlər, gündəlik aktivlik. 10-dan az qruplar "<10" görünür.',
-    [],
+    'Anonim rəqəmlər: hesablar, qeydiyyat, aktiv istifadəçilər, ölkələr, '
+        'platforma, ən çox istifadə olunan alətlər, oxunan məzmun, banner '
+        'göstərilmə və klikləri, auditoriya.',
+    [
+      'İstifadə statistikası yalnız analitika razılığı verənlərdən gəlir.',
+      'Bölgülərdə 10-dan az say "<10" görünür; tək bir istifadəçinin nə '
+          'etdiyi heç vaxt görünmür.',
+    ],
   ),
   _Guide(
     '/messages',

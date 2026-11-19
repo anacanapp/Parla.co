@@ -16,6 +16,8 @@ import 'package:parla_server/src/generated/consent/consent_type.dart'
 import 'package:parla_server/src/generated/quiz/quiz_answer_input.dart'
     as _iak2pevv;
 import 'package:parla_server/src/generated/staff/staff_role.dart' as _i21eo3et;
+import 'package:parla_server/src/generated/stats/usage_report.dart'
+    as _iw4kyb5s;
 import 'package:serverpod/serverpod.dart' as _is;
 import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
     as _iacs;
@@ -39,6 +41,7 @@ import '../routines/sport_endpoint.dart' as _iv36jnzl;
 import '../staff/staff_admin_endpoint.dart' as _i73k1848;
 import '../staff/staff_endpoint.dart' as _ig11nxnn;
 import '../stats/activity_endpoint.dart' as _ilkw5wl2;
+import '../stats/dashboard_admin_endpoint.dart' as _ixbgr6xu;
 import '../stats/stats_admin_endpoint.dart' as _ih5y3t9b;
 import '../support/support_admin_endpoint.dart' as _imhcxpvz;
 import '../support/support_endpoint.dart' as _iqxms0ns;
@@ -154,6 +157,12 @@ class Endpoints extends _is.EndpointDispatch {
         ..initialize(
           server,
           'activity',
+          null,
+        ),
+      'dashboardAdmin': _ixbgr6xu.DashboardAdminEndpoint()
+        ..initialize(
+          server,
+          'dashboardAdmin',
           null,
         ),
       'statsAdmin': _ih5y3t9b.StatsAdminEndpoint()
@@ -1484,6 +1493,52 @@ class Endpoints extends _is.EndpointDispatch {
                 Map<String, dynamic> params,
               ) async => (endpoints['activity'] as _ilkw5wl2.ActivityEndpoint)
                   .markActive(session),
+        ),
+        'report': _is.MethodConnector(
+          name: 'report',
+          params: {
+            'report': _is.ParameterDescription(
+              name: 'report',
+              type: _is.getType<_iw4kyb5s.UsageReport>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['activity'] as _ilkw5wl2.ActivityEndpoint).report(
+                    session,
+                    params['report'],
+                  ),
+        ),
+      },
+    );
+    connectors['dashboardAdmin'] = _is.EndpointConnector(
+      name: 'dashboardAdmin',
+      endpoint: endpoints['dashboardAdmin']!,
+      methodConnectors: {
+        'report': _is.MethodConnector(
+          name: 'report',
+          params: {
+            'days': _is.ParameterDescription(
+              name: 'days',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['dashboardAdmin']
+                          as _ixbgr6xu.DashboardAdminEndpoint)
+                      .report(
+                        session,
+                        params['days'],
+                      ),
         ),
       },
     );

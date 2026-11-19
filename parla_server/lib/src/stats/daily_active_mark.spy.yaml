@@ -1,12 +1,16 @@
-### Today's "this account opened the app" marks. [mark] is a keyed hash of
-### the day and the account id, never the id itself; the nightly job turns
-### the marks of past days into one number ([DailyActiveCount]) and deletes
-### them, so no mark is older than about two days.
+### "This account opened the app on [day]" marks, kept for the weekly and
+### monthly active totals. [mark] is a keyed hash of the account id (HMAC
+### with the pseudonym pepper), never the id itself, so it cannot be linked
+### to an account without the server's secret. Only stored with the
+### analytics consent; marks older than UsageRules.markDays are deleted by
+### the nightly job, and account deletion removes all of the account's.
 class: DailyActiveMark
 table: daily_active_mark
 fields:
   day: String
   mark: String
+  ### UsagePlatform name (ios, android, other), when the app sent it.
+  platform: String?
 indexes:
   daily_active_mark_idx:
     fields: day, mark

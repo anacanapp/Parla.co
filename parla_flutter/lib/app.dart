@@ -11,6 +11,7 @@ import 'l10n/app_localizations.dart';
 import 'reminders/reminder_controller.dart';
 import 'reminders/reminder_scheduler.dart';
 import 'parla_scope.dart';
+import 'services/usage_meter.dart';
 import 'routes.dart';
 import 'check/care_list.dart';
 import 'routines/custom_routines.dart';
@@ -87,6 +88,21 @@ class _ParlaAppState extends State<ParlaApp> {
 
   late final ContentLibrary _content = ContentLibrary(widget.api);
 
+  late final UsageMeter _usage = UsageMeter(
+    hasConsent: () async {
+      try {
+        final states = await widget.api.consentStates();
+        return states[ConsentKind.analytics] ?? false;
+      } on Object {
+        return null;
+      }
+    },
+    send: widget.api.reportUsage,
+  );
+  late final AppLifecycleListener _lifecycle = AppLifecycleListener(
+    onHide: _usage.flush,
+  );
+
   late final SportBook _sport = SportBook(
     store: widget.sportStore,
     api: widget.api,
@@ -123,6 +139,24 @@ class _ParlaAppState extends State<ParlaApp> {
     });
     _language = widget.settings.language;
     widget.settings.addListener(_onSettings);
+    _router.routerDelegate.addListener(_onRoute);
+    _lifecycle;
+  }
+
+  /// Counts which tool, article or recipe was opened (only with the
+  /// analytics consent; see [UsageMeter]).
+  void _onRoute() {
+    final match = _router.routerDelegate.currentConfiguration;
+    if (match.isEmpty) return;
+    final path = match.uri.path;
+    final extra = match.extra;
+    if (path == Routes.blogPost && extra is String) {
+      _usage.count(UsageEvent.article, extra);
+    } else if (path == Routes.recipe && extra is String) {
+      _usage.count(UsageEvent.recipe, extra);
+    }
+    final tool = routeTools[path];
+    if (tool != null) _usage.tool(tool);
   }
 
   /// Reminder texts follow the interface language.
@@ -143,6 +177,8 @@ class _ParlaAppState extends State<ParlaApp> {
     _content.dispose();
     _habits.dispose();
     _pushLinks?.cancel();
+    _router.routerDelegate.removeListener(_onRoute);
+    _lifecycle.dispose();
     _router.dispose();
     super.dispose();
   }
@@ -162,6 +198,7 @@ class _ParlaAppState extends State<ParlaApp> {
       sport: _sport,
       nutrition: _nutrition,
       content: _content,
+      usage: _usage,
       ingredients: widget.ingredientDataset ?? euIngredientDataset,
       child: ListenableBuilder(
         listenable: widget.settings,

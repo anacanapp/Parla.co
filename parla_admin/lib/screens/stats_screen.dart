@@ -46,18 +46,19 @@ String _label(String metric, String label) {
   };
 }
 
-/// Anonymous aggregate statistics. Groups under the minimum size show as
-/// "<10"; health answers are never counted.
-class StatsScreen extends StatefulWidget {
-  const StatsScreen({super.key, required this.state});
+/// The audience tab of the dashboard: anonymous aggregate statistics.
+/// Groups under the minimum size show as "<10"; health answers are never
+/// counted.
+class AudienceStats extends StatefulWidget {
+  const AudienceStats({super.key, required this.state});
 
   final StaffState state;
 
   @override
-  State<StatsScreen> createState() => _StatsScreenState();
+  State<AudienceStats> createState() => _AudienceStatsState();
 }
 
-class _StatsScreenState extends State<StatsScreen> {
+class _AudienceStatsState extends State<AudienceStats> {
   StatsReport? _report;
   Object? _error;
 
@@ -80,19 +81,8 @@ class _StatsScreenState extends State<StatsScreen> {
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
     final r = _report;
-    return AdminPage(
-      title: 'Statistika',
-      subtitle:
-          'Yalnız toplu, anonim rəqəmlər. ${r?.minGroupSize ?? 10} nəfərdən az '
-          'olan qruplar "<${r?.minGroupSize ?? 10}" kimi göstərilir. Sağlamlıq '
-          'cavabları heç vaxt sayılmır.',
-      actions: [
-        OutlinedButton.icon(
-          onPressed: _load,
-          icon: const Icon(Icons.refresh, size: 18),
-          label: const Text('Yenilə'),
-        ),
-      ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (_error != null)
           Notice(

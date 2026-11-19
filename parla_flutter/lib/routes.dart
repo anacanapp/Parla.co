@@ -1,4 +1,5 @@
 import 'package:go_router/go_router.dart';
+import 'package:parla_shared/parla_shared.dart';
 
 import 'check/shop_screen.dart';
 import 'consent/consent_refresh.dart';
@@ -26,6 +27,27 @@ import 'screens/sign_in_screen.dart';
 import 'screens/start_screen.dart';
 import 'screens/underage_screen.dart';
 import 'screens/welcome_screen.dart';
+
+/// Which counted tool each screen belongs to (usage statistics).
+const routeTools = {
+  Routes.home: UsageTool.home,
+  Routes.habits: UsageTool.habits,
+  Routes.reminders: UsageTool.reminders,
+  Routes.routineBuilder: UsageTool.routineBuilder,
+  Routes.products: UsageTool.check,
+  Routes.productDetail: UsageTool.productDetail,
+  Routes.shoppingList: UsageTool.shoppingList,
+  Routes.shop: UsageTool.shop,
+  Routes.sport: UsageTool.sport,
+  Routes.sportQuiz: UsageTool.sportQuiz,
+  Routes.workout: UsageTool.workout,
+  Routes.discover: UsageTool.discover,
+  Routes.blog: UsageTool.blog,
+  Routes.experts: UsageTool.experts,
+  Routes.nutrition: UsageTool.nutrition,
+  Routes.messages: UsageTool.messages,
+  Routes.privacy: UsageTool.privacy,
+};
 
 /// Route paths. Screen ids refer to the screen list document.
 abstract final class Routes {

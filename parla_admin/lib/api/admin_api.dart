@@ -14,6 +14,7 @@ export 'package:parla_client/parla_client.dart'
         ConsentState,
         ConsentType,
         StatsReport,
+        DashboardReport,
         StatsGroup,
         StatsCount,
         SupportThreadSummary,
@@ -81,6 +82,9 @@ abstract interface class AdminApi {
 
   // Anonymous statistics (phase C).
   Future<StatsReport> statsReport();
+
+  /// The dashboard for the last [days] days (7, 30 or 90; admins only).
+  Future<DashboardReport> dashboard(int days);
 
   /// Hides or shows a catalogue item in the app at once.
   Future<ContentAdminItem> setContentHidden(int id, bool hidden);

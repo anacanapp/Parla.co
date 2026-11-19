@@ -5,6 +5,7 @@ import 'package:serverpod_auth_idp_server/core.dart';
 import '../audit/audit.dart';
 import '../generated/protocol.dart';
 import '../health/health_store.dart';
+import '../stats/activity.dart' show eraseActivityMarks;
 
 /// Error codes returned by [ConsentEndpoint]. The app translates them.
 abstract final class ConsentErrors {
@@ -102,6 +103,11 @@ class ConsentEndpoint extends Endpoint {
             transaction: transaction,
           );
         }
+      }
+      // Withdrawing the analytics consent removes the account's activity
+      // marks (the usage totals hold nothing about the account).
+      if (!granted && consentType == ConsentType.analytics) {
+        await eraseActivityMarks(session, userId, transaction: transaction);
       }
       return ConsentState(
         consentType: record.consentType,

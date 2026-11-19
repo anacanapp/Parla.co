@@ -1,10 +1,17 @@
-### How many accounts opened the app on [day] (UTC, yyyy-mm-dd). Only the
-### total is kept.
+### How many accounts opened the app on [day] (UTC, yyyy-mm-dd), and in the
+### 7 and 30 days up to it. Only totals are kept.
 class: DailyActiveCount
 table: daily_active_count
 fields:
   day: String
   accounts: int
+  ### Accounts active in the 7 days up to [day].
+  weekly: int?
+  ### Accounts active in the 30 days up to [day].
+  monthly: int?
+  ### Of [accounts], how many on iOS and on Android.
+  ios: int?
+  android: int?
 indexes:
   daily_active_count_day_idx:
     fields: day

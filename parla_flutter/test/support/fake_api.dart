@@ -138,6 +138,7 @@ class FakeApi implements ParlaApi {
   String? nutrition;
 
   int activeMarks = 0;
+  final usageReports = <Map<String, int>>[];
 
   final List<SupportItem> support = [];
   bool supportUnread = false;
@@ -167,7 +168,12 @@ class FakeApi implements ParlaApi {
   Future<void> unregisterPush(String token) async => pushTokens.remove(token);
 
   @override
-  Future<void> markActive() async => activeMarks++;
+  Future<bool> reportUsage(String platform, Map<String, int> counts) async {
+    if (!(consents[ConsentKind.analytics] ?? false)) return false;
+    activeMarks++;
+    usageReports.add(Map.of(counts));
+    return true;
+  }
 
   @override
   Future<String?> myNutrition() async {
