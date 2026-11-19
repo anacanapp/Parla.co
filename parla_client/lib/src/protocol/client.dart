@@ -35,7 +35,10 @@ import 'package:parla_client/src/protocol/staff/staff_me.dart' as _i7hd0p59;
 import 'package:parla_client/src/protocol/staff/staff_role.dart' as _ibknl9pl;
 import 'package:parla_client/src/protocol/staff/staff_summary.dart'
     as _i48vujj3;
+import 'package:parla_client/src/protocol/stats/dashboard_report.dart'
+    as _idkwnzi6;
 import 'package:parla_client/src/protocol/stats/stats_report.dart' as _iod6dk31;
+import 'package:parla_client/src/protocol/stats/usage_report.dart' as _iwtollrz;
 import 'package:parla_client/src/protocol/support/support_entry.dart'
     as _iv2bnak3;
 import 'package:parla_client/src/protocol/support/support_thread_summary.dart'
@@ -1017,9 +1020,10 @@ class EndpointStaff extends _isc.EndpointRef {
       );
 }
 
-/// The app reports once a day that it was opened, for the anonymous daily
-/// active count. Counted only with the analytics consent. Nothing but a
-/// keyed hash is stored, and only until the nightly total is made.
+/// Anonymous usage statistics from the app, only with the analytics
+/// consent. The account is counted as active (a keyed hash, kept for
+/// [UsageRules.markDays] days) and the report's counts are added to the
+/// day's totals per country and platform; no row names the account.
 /// {@category Endpoint}
 class EndpointActivity extends _isc.EndpointRef {
   EndpointActivity(_isc.EndpointCaller caller) : super(caller);
@@ -1027,15 +1031,43 @@ class EndpointActivity extends _isc.EndpointRef {
   @override
   String get name => 'activity';
 
+  /// Older apps: marks the account as active today.
   _ida.Future<void> markActive() => caller.callServerEndpoint<void>(
     'activity',
     'markActive',
     {},
   );
+
+  /// Marks the account as active today and adds [report]'s counts. Returns
+  /// whether they were counted (`false` without the analytics consent, so
+  /// the app stops counting).
+  _ida.Future<bool> report(_iwtollrz.UsageReport report) =>
+      caller.callServerEndpoint<bool>(
+        'activity',
+        'report',
+        {'report': report},
+      );
 }
 
-/// Anonymous aggregate statistics for the admin panel (admins and
-/// editors). Only counts leave the server, groups under [minGroupSize] are
+/// The admin dashboard (admins only). Like the statistics, only totals
+/// leave the server and every count under [minGroupSize] is hidden.
+/// {@category Endpoint}
+class EndpointDashboardAdmin extends _isc.EndpointRef {
+  EndpointDashboardAdmin(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'dashboardAdmin';
+
+  _ida.Future<_idkwnzi6.DashboardReport> report(int days) =>
+      caller.callServerEndpoint<_idkwnzi6.DashboardReport>(
+        'dashboardAdmin',
+        'report',
+        {'days': days},
+      );
+}
+
+/// Anonymous aggregate statistics for the admin panel (admins only).
+/// Only counts leave the server, groups under [minGroupSize] are
 /// hidden, and health answers (encrypted) are never counted.
 /// {@category Endpoint}
 class EndpointStatsAdmin extends _isc.EndpointRef {
@@ -1233,6 +1265,7 @@ class Client extends _isc.ServerpodClientShared {
     staffAdmin = EndpointStaffAdmin(this);
     staff = EndpointStaff(this);
     activity = EndpointActivity(this);
+    dashboardAdmin = EndpointDashboardAdmin(this);
     statsAdmin = EndpointStatsAdmin(this);
     supportAdmin = EndpointSupportAdmin(this);
     support = EndpointSupport(this);
@@ -1276,6 +1309,8 @@ class Client extends _isc.ServerpodClientShared {
 
   late final EndpointActivity activity;
 
+  late final EndpointDashboardAdmin dashboardAdmin;
+
   late final EndpointStatsAdmin statsAdmin;
 
   late final EndpointSupportAdmin supportAdmin;
@@ -1306,6 +1341,7 @@ class Client extends _isc.ServerpodClientShared {
     'staffAdmin': staffAdmin,
     'staff': staff,
     'activity': activity,
+    'dashboardAdmin': dashboardAdmin,
     'statsAdmin': statsAdmin,
     'supportAdmin': supportAdmin,
     'support': support,

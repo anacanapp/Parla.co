@@ -50,10 +50,10 @@ const adminSections = [
     group: SectionGroup.manage,
   ),
   AdminSection(
-    '/stats',
-    'Statistika',
+    '/dashboard',
+    'Dashboard',
     Icons.bar_chart_rounded,
-    roles: {StaffRole.admin, StaffRole.editor},
+    roles: {StaffRole.admin},
     group: SectionGroup.manage,
   ),
   AdminSection(

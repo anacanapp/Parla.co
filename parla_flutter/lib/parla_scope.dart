@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/widgets.dart';
 import 'package:parla_shared/parla_shared.dart';
 
@@ -9,6 +11,7 @@ import 'discover/content_library.dart';
 import 'discover/nutrition_book.dart';
 import 'sport/sport_book.dart';
 import 'services/parla_api.dart';
+import 'services/usage_meter.dart';
 import 'state/app_settings.dart';
 import 'state/onboarding_state.dart';
 
@@ -28,6 +31,7 @@ class ParlaScope extends InheritedWidget {
     required this.sport,
     required this.nutrition,
     required this.content,
+    required this.usage,
     required this.ingredients,
     required super.child,
   });
@@ -63,6 +67,9 @@ class ParlaScope extends InheritedWidget {
   /// Published articles, recipes and expert profiles.
   final ContentLibrary content;
 
+  /// Anonymous usage counts (only with the analytics consent).
+  final UsageMeter usage;
+
   /// EU ingredient statuses shipped with the app (CosIng export).
   final IngredientDataset ingredients;
 
@@ -80,19 +87,10 @@ class ParlaScope extends InheritedWidget {
     // Own-routine ticks moved from the habit log to the routines.
     if (id != null && api.accountId == id) {
       await routines.adoptTicks(habits.takeOwnRoutineTicks());
-      _markActiveOncePerDay();
+      final now = clock();
+      // Once a day per app run; failures are ignored (it is only a count).
+      unawaited(usage.start('${now.year}-${now.month}-${now.day}'));
     }
-  }
-
-  static String? _markedDay;
-
-  /// Once a day per app run; failures are ignored (it is only a count).
-  void _markActiveOncePerDay() {
-    final now = clock();
-    final day = '${now.year}-${now.month}-${now.day}|${identityHashCode(api)}';
-    if (_markedDay == day) return;
-    _markedDay = day;
-    api.markActive().catchError((Object _) {});
   }
 
   /// Sign-out: forgets the account's on-device data in memory and cancels
@@ -106,6 +104,7 @@ class ParlaScope extends InheritedWidget {
   ]);
 
   Future<void> detachAccount() async {
+    usage.reset();
     habits.detach();
     routines.detach();
     careList.detach();

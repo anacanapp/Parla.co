@@ -12,22 +12,26 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _isc;
 
-/// Today's "this account opened the app" marks. [mark] is a keyed hash of
-/// the day and the account id, never the id itself; the nightly job turns
-/// the marks of past days into one number ([DailyActiveCount]) and deletes
-/// them, so no mark is older than about two days.
+/// "This account opened the app on [day]" marks, kept for the weekly and
+/// monthly active totals. [mark] is a keyed hash of the account id (HMAC
+/// with the pseudonym pepper), never the id itself, so it cannot be linked
+/// to an account without the server's secret. Only stored with the
+/// analytics consent; marks older than UsageRules.markDays are deleted by
+/// the nightly job, and account deletion removes all of the account's.
 abstract class DailyActiveMark
     implements _isc.SerializableModel, _isc.ProtocolSerialization {
   DailyActiveMark._({
     this.id,
     required this.day,
     required this.mark,
+    this.platform,
   });
 
   factory DailyActiveMark({
     int? id,
     required String day,
     required String mark,
+    String? platform,
   }) = _DailyActiveMarkImpl;
 
   factory DailyActiveMark.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -35,6 +39,7 @@ abstract class DailyActiveMark
       id: jsonSerialization['id'] as int?,
       day: jsonSerialization['day'] as String,
       mark: jsonSerialization['mark'] as String,
+      platform: jsonSerialization['platform'] as String?,
     );
   }
 
@@ -47,6 +52,9 @@ abstract class DailyActiveMark
 
   String mark;
 
+  /// UsagePlatform name (ios, android, other), when the app sent it.
+  String? platform;
+
   /// Returns a shallow copy of this [DailyActiveMark]
   /// with some or all fields replaced by the given arguments.
   @_isc.useResult
@@ -54,6 +62,7 @@ abstract class DailyActiveMark
     int? id,
     String? day,
     String? mark,
+    String? platform,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -62,6 +71,7 @@ abstract class DailyActiveMark
       if (id != null) 'id': id,
       'day': day,
       'mark': mark,
+      if (platform != null) 'platform': platform,
     };
   }
 
@@ -72,6 +82,7 @@ abstract class DailyActiveMark
       if (id != null) 'id': id,
       'day': day,
       'mark': mark,
+      if (platform != null) 'platform': platform,
     };
   }
 
@@ -88,10 +99,12 @@ class _DailyActiveMarkImpl extends DailyActiveMark {
     int? id,
     required String day,
     required String mark,
+    String? platform,
   }) : super._(
          id: id,
          day: day,
          mark: mark,
+         platform: platform,
        );
 
   /// Returns a shallow copy of this [DailyActiveMark]
@@ -102,11 +115,13 @@ class _DailyActiveMarkImpl extends DailyActiveMark {
     Object? id = _Undefined,
     String? day,
     String? mark,
+    Object? platform = _Undefined,
   }) {
     return DailyActiveMark(
       id: id is int? ? id : this.id,
       day: day ?? this.day,
       mark: mark ?? this.mark,
+      platform: platform is String? ? platform : this.platform,
     );
   }
 }

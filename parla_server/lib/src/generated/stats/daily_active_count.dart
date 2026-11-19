@@ -13,20 +13,28 @@
 import 'dart:async' as _ida;
 import 'package:serverpod/serverpod.dart' as _is;
 
-/// How many accounts opened the app on [day] (UTC, yyyy-mm-dd). Only the
-/// total is kept.
+/// How many accounts opened the app on [day] (UTC, yyyy-mm-dd), and in the
+/// 7 and 30 days up to it. Only totals are kept.
 abstract class DailyActiveCount
     implements _is.TableRow<int?>, _is.ProtocolSerialization {
   DailyActiveCount._({
     this.id,
     required this.day,
     required this.accounts,
+    this.weekly,
+    this.monthly,
+    this.ios,
+    this.android,
   });
 
   factory DailyActiveCount({
     int? id,
     required String day,
     required int accounts,
+    int? weekly,
+    int? monthly,
+    int? ios,
+    int? android,
   }) = _DailyActiveCountImpl;
 
   factory DailyActiveCount.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -34,6 +42,10 @@ abstract class DailyActiveCount
       id: jsonSerialization['id'] as int?,
       day: jsonSerialization['day'] as String,
       accounts: jsonSerialization['accounts'] as int,
+      weekly: jsonSerialization['weekly'] as int?,
+      monthly: jsonSerialization['monthly'] as int?,
+      ios: jsonSerialization['ios'] as int?,
+      android: jsonSerialization['android'] as int?,
     );
   }
 
@@ -48,6 +60,17 @@ abstract class DailyActiveCount
 
   int accounts;
 
+  /// Accounts active in the 7 days up to [day].
+  int? weekly;
+
+  /// Accounts active in the 30 days up to [day].
+  int? monthly;
+
+  /// Of [accounts], how many on iOS and on Android.
+  int? ios;
+
+  int? android;
+
   @override
   _is.Table<int?> get table => t;
 
@@ -58,6 +81,10 @@ abstract class DailyActiveCount
     int? id,
     String? day,
     int? accounts,
+    int? weekly,
+    int? monthly,
+    int? ios,
+    int? android,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -66,6 +93,10 @@ abstract class DailyActiveCount
       if (id != null) 'id': id,
       'day': day,
       'accounts': accounts,
+      if (weekly != null) 'weekly': weekly,
+      if (monthly != null) 'monthly': monthly,
+      if (ios != null) 'ios': ios,
+      if (android != null) 'android': android,
     };
   }
 
@@ -76,6 +107,10 @@ abstract class DailyActiveCount
       if (id != null) 'id': id,
       'day': day,
       'accounts': accounts,
+      if (weekly != null) 'weekly': weekly,
+      if (monthly != null) 'monthly': monthly,
+      if (ios != null) 'ios': ios,
+      if (android != null) 'android': android,
     };
   }
 
@@ -114,10 +149,18 @@ class _DailyActiveCountImpl extends DailyActiveCount {
     int? id,
     required String day,
     required int accounts,
+    int? weekly,
+    int? monthly,
+    int? ios,
+    int? android,
   }) : super._(
          id: id,
          day: day,
          accounts: accounts,
+         weekly: weekly,
+         monthly: monthly,
+         ios: ios,
+         android: android,
        );
 
   /// Returns a shallow copy of this [DailyActiveCount]
@@ -128,11 +171,19 @@ class _DailyActiveCountImpl extends DailyActiveCount {
     Object? id = _Undefined,
     String? day,
     int? accounts,
+    Object? weekly = _Undefined,
+    Object? monthly = _Undefined,
+    Object? ios = _Undefined,
+    Object? android = _Undefined,
   }) {
     return DailyActiveCount(
       id: id is int? ? id : this.id,
       day: day ?? this.day,
       accounts: accounts ?? this.accounts,
+      weekly: weekly is int? ? weekly : this.weekly,
+      monthly: monthly is int? ? monthly : this.monthly,
+      ios: ios is int? ? ios : this.ios,
+      android: android is int? ? android : this.android,
     );
   }
 }
@@ -150,6 +201,26 @@ class DailyActiveCountUpdateTable
     table.accounts,
     value,
   );
+
+  _is.ColumnValue<int, int> weekly(int? value) => _is.ColumnValue(
+    table.weekly,
+    value,
+  );
+
+  _is.ColumnValue<int, int> monthly(int? value) => _is.ColumnValue(
+    table.monthly,
+    value,
+  );
+
+  _is.ColumnValue<int, int> ios(int? value) => _is.ColumnValue(
+    table.ios,
+    value,
+  );
+
+  _is.ColumnValue<int, int> android(int? value) => _is.ColumnValue(
+    table.android,
+    value,
+  );
 }
 
 class DailyActiveCountTable extends _is.Table<int?> {
@@ -164,6 +235,22 @@ class DailyActiveCountTable extends _is.Table<int?> {
       'accounts',
       this,
     );
+    weekly = _is.ColumnInt(
+      'weekly',
+      this,
+    );
+    monthly = _is.ColumnInt(
+      'monthly',
+      this,
+    );
+    ios = _is.ColumnInt(
+      'ios',
+      this,
+    );
+    android = _is.ColumnInt(
+      'android',
+      this,
+    );
   }
 
   late final DailyActiveCountUpdateTable updateTable;
@@ -172,11 +259,26 @@ class DailyActiveCountTable extends _is.Table<int?> {
 
   late final _is.ColumnInt accounts;
 
+  /// Accounts active in the 7 days up to [day].
+  late final _is.ColumnInt weekly;
+
+  /// Accounts active in the 30 days up to [day].
+  late final _is.ColumnInt monthly;
+
+  /// Of [accounts], how many on iOS and on Android.
+  late final _is.ColumnInt ios;
+
+  late final _is.ColumnInt android;
+
   @override
   List<_is.Column> get columns => [
     id,
     day,
     accounts,
+    weekly,
+    monthly,
+    ios,
+    android,
   ];
 }
 

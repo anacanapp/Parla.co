@@ -76,6 +76,9 @@ staff:
   - claimFirstAdmin:
 activity:
   - markActive:
+  - report:
+dashboardAdmin:
+  - report:
 statsAdmin:
   - report:
 supportAdmin:

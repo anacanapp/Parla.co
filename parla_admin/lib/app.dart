@@ -7,7 +7,7 @@ import 'api/admin_api.dart';
 import 'screens/auth_screens.dart';
 import 'screens/content_screens.dart';
 import 'screens/overview_screen.dart';
-import 'screens/stats_screen.dart';
+import 'screens/dashboard_screen.dart';
 import 'screens/support_screen.dart';
 import 'screens/users_screen.dart';
 import 'screens/home_shell.dart';
@@ -123,11 +123,11 @@ GoRouter _buildRouter(StaffState state) => GoRouter(
           redirect: (_, _) => state.isAdmin ? null : '/overview',
           builder: (_, _) => UsersScreen(state: state),
         ),
+        GoRoute(path: '/stats', redirect: (_, _) => '/dashboard'),
         GoRoute(
-          path: '/stats',
-          redirect: (_, _) =>
-              state.me?.role == StaffRole.expert ? '/overview' : null,
-          builder: (_, _) => StatsScreen(state: state),
+          path: '/dashboard',
+          redirect: (_, _) => state.isAdmin ? null : '/overview',
+          builder: (_, _) => DashboardScreen(state: state),
         ),
         GoRoute(
           path: '/messages',

@@ -101,13 +101,19 @@ class BannerCard extends StatelessWidget {
     final link = item.data['link'] as String?;
     final title = item.text('title', language);
     final body = item.text('body', language);
+    final usage = ParlaScope.of(context).usage..bannerShown(item.id);
     return Material(
       key: ValueKey('banner-${item.slug}'),
       color: ParlaColors.white,
       borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
       child: InkWell(
         borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
-        onTap: link == null ? null : () => openBannerLink(context, link),
+        onTap: link == null
+            ? null
+            : () {
+                usage.bannerTapped(item.id);
+                openBannerLink(context, link);
+              },
         child: Padding(
           padding: const EdgeInsets.all(14),
           child: Column(

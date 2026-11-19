@@ -250,9 +250,10 @@ abstract interface class ParlaApi {
   /// The daily plate entries as JSON (see `NutritionRules`), or `null`.
   Future<String?> myNutrition();
 
-  /// Tells the server the app was opened today. The server counts it only
-  /// with the analytics consent, and keeps only the day's total.
-  Future<void> markActive();
+  /// Sends usage counts ("event|target" → times, see `UsageRules`). The
+  /// server counts them, and the account as active today, only with the
+  /// analytics consent; returns whether it did.
+  Future<bool> reportUsage(String platform, Map<String, int> counts);
 
   /// The user's support conversation, oldest first.
   Future<List<SupportItem>> supportMessages();

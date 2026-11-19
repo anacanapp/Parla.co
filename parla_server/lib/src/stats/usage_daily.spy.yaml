@@ -1,0 +1,22 @@
+### Anonymous usage totals: how often [event] with [target] happened on
+### [day] (UTC) in [country] on [platform]. Counted only with the analytics
+### consent; there is no row per account. Kept for UsageRules.keepMonths.
+class: UsageDaily
+table: usage_daily
+fields:
+  day: String
+  ### ISO country of the accounts' profiles, or "--" when unknown.
+  country: String
+  ### UsagePlatform name.
+  platform: String
+  ### UsageEvent name.
+  event: String
+  ### Tool name, slug, banner id or app version (see UsageRules).
+  target: String
+  times: int
+indexes:
+  usage_daily_key_idx:
+    fields: day, country, platform, event, target
+    unique: true
+  usage_daily_day_idx:
+    fields: day

@@ -189,10 +189,29 @@ void main() {
     }
   });
 
-  testWidgets('the app reports being opened once a day', (tester) async {
+  testWidgets('without the analytics consent nothing is sent', (
+    tester,
+  ) async {
     final app = await _open(tester);
+    expect(app.api.activeMarks, 0);
+    expect(app.api.usageReports, isEmpty);
+  });
+
+  testWidgets('with the analytics consent the app reports once a day', (
+    tester,
+  ) async {
+    final api = FakeApi()
+      ..signedIn = true
+      ..profile = ProfileSummary(countryCode: 'AZ', language: 'en')
+      ..consents[ConsentKind.analytics] = true;
+    final app = await _open(tester, api: api);
     expect(app.api.activeMarks, 1);
-    // Opening other tabs does not report again.
+    expect(app.api.usageReports.single.keys, contains('tool|home'));
+    expect(
+      app.api.usageReports.single.keys.where((k) => k.startsWith('appOpen|')),
+      hasLength(1),
+    );
+    // Opening other tabs does not report again until the app is hidden.
     await tester.tap(
       find
           .descendant(

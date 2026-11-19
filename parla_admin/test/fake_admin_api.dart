@@ -267,6 +267,15 @@ class FakeAdminApi implements AdminApi {
   @override
   Future<StatsReport> statsReport() async => stats!;
 
+  DashboardReport? dashboardReport;
+  final dashboardDays = <int>[];
+
+  @override
+  Future<DashboardReport> dashboard(int days) async {
+    dashboardDays.add(days);
+    return dashboardReport!;
+  }
+
   /// What [importSheet] adds: (kind, slug, category, json).
   List<(String, String, String, String)> sheet = [];
 

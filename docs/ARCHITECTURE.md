@@ -451,7 +451,8 @@ slug is the catalogue id from code.
   pseudonym. Deletion now also pseudonymises audit rows that name the
   account as their object (for example look-ups).
 
-**Statistics** (`statsAdmin`, admins and editors; not experts)
+**Statistics** (`statsAdmin`, admins only; the "Auditoriya" tab of the
+dashboard. Editors lost access on 2026-11-19 by the owner's decision)
 - **Anonymous counts only:** any bucket or total under 10 is reported as
   "<10" (`minGroupSize`).
 - **What is counted:**
@@ -467,15 +468,41 @@ slug is the catalogue id from code.
   against differencing two totals). Acceptable at this size; review before
   sharing figures outside the team.
 
-**Daily active count**
-- Once a day the app calls `activity.markActive`. The server stores a mark
-  only with the **analytics consent**.
-- The mark is an HMAC of the day and the account id with the pseudonym
-  pepper (`daily_active_mark`), never the id itself.
-- The nightly job (`rollUpActivity`) turns past days into a total
-  (`daily_active_count`) and deletes the marks, so a mark lives at most
-  about two days. Account deletion also removes today's and yesterday's
-  marks.
+**Dashboard** (`dashboardAdmin`, admins only; decided 2026-11-19)
+- **Shows:** accounts, sign-ups per day, daily/weekly/monthly active
+  accounts, app opens by country, platform and app version, the most used
+  tools (also by country), the most opened articles and recipes, banner
+  views, taps and click rate, unread support. Periods: 7, 30 or 90 days.
+- **Small numbers:** daily series and headline totals are shown as they
+  are; in breakdowns (country, platform, tool, content, banner) any count
+  under 10 is "<10".
+- Nothing about a single user is ever shown.
+
+**Usage statistics** (only with the **analytics consent**; its text already
+names "screens opened, features used")
+- **What the app counts** (`UsageRules` in `parla_shared`, `UsageMeter` in
+  the app): app opens with the app version, tool screens opened, articles
+  and recipes opened (by slug), banners shown (once per app run) and
+  tapped. Never health or quiz answers, search words or product names.
+- **How:** the app first reads the consent state; without it nothing is
+  counted or sent. Counts wait in memory and are sent in small batches
+  with the platform only (`activity.report`), when the app goes to the
+  background or many counts wait. Each count is capped (50 per batch).
+- **What the server keeps:** `usage_daily`, one total per day, country (from
+  the profile, not the device), platform, event and target. No row per
+  account. Totals are kept for 24 months.
+
+**Active accounts**
+- With the analytics consent the server stores a mark per account and day
+  (`daily_active_mark`). The mark is an HMAC of the account id with the
+  pseudonym pepper, never the id itself. It is the same every day, so an
+  account is counted once per week and month.
+- Marks are kept for **30 days** (decided 2026-11-19, was about two days),
+  then deleted by the nightly job (`rollUpActivity`), which first turns
+  each finished day into totals (`daily_active_count`: day, week, month,
+  iOS, Android).
+- Withdrawing the analytics consent and deleting the account remove all of
+  the account's marks.
 
 ## Banners and campaigns (admin phase D1)
 
@@ -497,7 +524,8 @@ card shows: `today` (home) or `discover`.
   same way. The app decides by date, language and country
   (`ContentRules.bannerVisible`). Nothing about the user is sent for this.
   Health and quiz answers can never be used for targeting: the model has
-  no such fields. Taps are not tracked.
+  no such fields. Views and taps are counted as anonymous daily totals,
+  only with the analytics consent (see the dashboard above).
 
 ## Messages and support (admin phase D2)
 
@@ -718,7 +746,7 @@ idempotent).
 | Privacy policy and processor list: Firebase (Google) for push, the marketing push under the marketing consent | — | Lawyer, before push is used |
 | Privacy policy: support conversations (purpose, encryption, 12-month retention, support role), announcements | — | Lawyer, before the beta |
 | Advertising law check for brand campaigns (Azerbaijan "Reklam haqqında" law; labelling, cosmetics claims) | — | Lawyer, before the first brand campaign |
-| Privacy policy: the daily active count under the analytics consent, staff look-ups of accounts, deletion on request | — | Lawyer, before the beta |
+| Privacy policy: usage statistics under the analytics consent (what is counted, 30-day activity marks, 24-month daily totals, banner figures shared with advertisers as totals), staff look-ups of accounts, deletion on request | — | Lawyer, before the beta |
 | Privacy policy text for staff access, the admin panel and push notifications | — | Lawyer, before phase D |
 | Security measures: staff sign-in is password-only (no second factor, decision of 2026-11-18) | — | Lawyer to note in the GDPR Art. 32 description |
 | Real-device test of reminders (Android 13+ permission, reboot, iOS foreground) | M7 | Before the beta |

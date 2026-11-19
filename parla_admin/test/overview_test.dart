@@ -62,7 +62,7 @@ void main() {
     expect(_count(tester, 'todo-approved'), '1');
     expect(_count(tester, 'todo-drafts'), '1');
     expect(_count(tester, 'todo-support'), '1');
-    for (final g in ['content', 'users', 'stats', 'messages', 'staff']) {
+    for (final g in ['content', 'users', 'dashboard', 'messages', 'staff']) {
       expect(find.byKey(ValueKey('guide-$g')), findsOneWidget, reason: g);
     }
   });
