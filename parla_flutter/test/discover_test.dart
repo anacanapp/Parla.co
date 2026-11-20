@@ -647,6 +647,57 @@ void main() {
     expect(find.text('Nothing here yet. Coming soon.'), findsOneWidget);
   });
 
+  testWidgets('experts: a sample profile is marked and dials no one', (
+    tester,
+  ) async {
+    final opened = <Uri>[];
+    final original = ExpertsScreen.launcher;
+    ExpertsScreen.launcher = (uri) async {
+      opened.add(uri);
+      return true;
+    };
+    addTearDown(() => ExpertsScreen.launcher = original);
+    await _open(
+      tester,
+      published: {
+        ..._published,
+        'expert': [
+          PublishedItem(
+            id: 9,
+            kind: 'expert',
+            slug: 'sample-dermatologist-1',
+            category: 'dermatologist',
+            publishedAt: DateTime.utc(2026, 11, 20),
+            data: {
+              'sample': true,
+              'name': 'Nümunə Dermatoloq 1',
+              'workplace': _l('Sample clinic'),
+              'city': _l('Baku'),
+              'years': 12,
+              'phone': '+994000000001',
+              'whatsapp': '+994000000001',
+            },
+          ),
+        ],
+      },
+    );
+    await _tap(tester, find.text('Experts').first);
+    expect(
+      find.byKey(const ValueKey('sample-sample-dermatologist-1')),
+      findsOneWidget,
+    );
+    await _tap(
+      tester,
+      find.byKey(const ValueKey('call-sample-dermatologist-1')),
+    );
+    await _tap(
+      tester,
+      find.byKey(const ValueKey('whatsapp-sample-dermatologist-1')),
+    );
+    expect(opened, isEmpty);
+    expect(find.textContaining('sample profile'), findsOneWidget);
+  });
+
   testWidgets('experts: contacts open the phone apps, with the disclaimer', (
     tester,
   ) async {

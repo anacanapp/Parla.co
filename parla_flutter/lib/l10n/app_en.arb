@@ -794,6 +794,8 @@
   "sportPrivacyDevice": "For now your fitness answers are kept only on this phone. With the updated health consent they will be kept encrypted on our server.",
   "discoverLatest": "New articles",
   "discoverAll": "All",
+  "expertSample": "Sample",
+  "expertSampleNote": "This is a sample profile; the contacts do not work.",
   "discoverJournal": "Journal",
   "discoverJournalHint": "Just for you, on this phone",
   "journalIntro": "Write about your day. Entries are kept only on this phone, encrypted; the Parla team cannot see them. They are lost if you change phones or remove the app. To keep a copy: Profile → Download my data.",

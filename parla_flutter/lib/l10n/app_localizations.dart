@@ -2494,6 +2494,18 @@ abstract class AppLocalizations {
   /// **'All'**
   String get discoverAll;
 
+  /// No description provided for @expertSample.
+  ///
+  /// In en, this message translates to:
+  /// **'Sample'**
+  String get expertSample;
+
+  /// No description provided for @expertSampleNote.
+  ///
+  /// In en, this message translates to:
+  /// **'This is a sample profile; the contacts do not work.'**
+  String get expertSampleNote;
+
   /// No description provided for @discoverJournal.
   ///
   /// In en, this message translates to:

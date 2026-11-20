@@ -298,6 +298,16 @@ messages and push notifications (D) follow.
   never changes what the app shows until the new version is reviewed and
   published. Expert profiles need no review, but an admin must record
   where the expert's signed consent is kept before they can be published.
+  - **Sample experts** (owner's request, 2026-11-20): six profiles that
+    show the format before real experts sign up. They carry `sample: true`,
+    their names start with "Nümunə", their numbers with `+99400000` (no
+    Azerbaijani operator) and they have no Instagram
+    (`ContentRules.isSampleExpert`). Being no one, they publish without a
+    consent; the app marks them "Nümunə" and their buttons dial no one.
+    Saving one in the panel drops the mark, so real data needs the consent.
+    The one-off task `PARLA_TASK=seed-sample-experts` adds them (audited
+    `content.sample_published`). **Delete them all before registration
+    opens.**
   The app reads published items from `content.published` (no sign-in,
   nothing personal). Every step is audited.
 - **Hosting.** The server serves the panel at `/admin/` from the same

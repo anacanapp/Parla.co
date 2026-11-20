@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:parla_server/src/auth/verification_code_sender.dart';
 import 'package:parla_server/src/content/content_admin_endpoint.dart';
 import 'package:parla_server/src/content/content_import.dart';
+import 'package:parla_server/src/content/sample_experts.dart';
 import 'package:parla_server/src/content/content_seed_import.dart';
 import 'package:parla_server/src/generated/protocol.dart';
 import 'package:parla_server/src/staff/staff_guard.dart';
@@ -455,6 +456,101 @@ void main() {
         );
       },
     );
+
+    test('sample experts: published without consent, never a real '
+        'person, seeded once by the task', () async {
+      final t = await team();
+      final item = await endpoints.contentAdmin.create(
+        t.editor,
+        'expert',
+        'sample-x',
+        'dermatologist',
+      );
+      final sample = {
+        'sample': true,
+        'name': 'Nümunə Dermatoloq 9',
+        'workplace': {
+          'az': 'Nümunə klinika',
+          'ru': 'Пример клиники',
+          'en': 'Sample clinic',
+        },
+        'city': {'az': 'Bakı', 'ru': 'Баку', 'en': 'Baku'},
+        'years': 4,
+        'phone': '+994000000009',
+      };
+      // A real-looking name or number, or an Instagram, is refused.
+      for (final bad in [
+        {...sample, 'name': 'Dr. Aysel'},
+        {...sample, 'phone': '+994501234567'},
+        {...sample, 'instagram': 'someone'},
+        {...sample, 'sample': false},
+      ]) {
+        await expectLater(
+          endpoints.contentAdmin.saveDraft(
+            t.editor,
+            item.id,
+            jsonEncode(bad),
+            'dermatologist',
+          ),
+          throwsA(_error(ContentErrors.invalid)),
+          reason: '$bad',
+        );
+      }
+      await endpoints.contentAdmin.saveDraft(
+        t.editor,
+        item.id,
+        jsonEncode(sample),
+        'dermatologist',
+      );
+      await endpoints.contentAdmin.publish(t.editor, item.id);
+      expect(
+        await endpoints.content.published(sessionBuilder, 'expert'),
+        hasLength(1),
+      );
+      // Saved with real data (no sample mark), it needs the consent again.
+      await endpoints.contentAdmin.saveDraft(
+        t.editor,
+        item.id,
+        _expert,
+        'dermatologist',
+      );
+      await expectLater(
+        endpoints.contentAdmin.publish(t.editor, item.id),
+        throwsA(_error(ContentErrors.consentMissing)),
+      );
+
+      final db = sessionBuilder.build();
+      await expectLater(
+        runSeedSampleExpertsTask(db, 'editor@example.com'),
+        throwsA(isA<StateError>()),
+      );
+      expect(
+        await runSeedSampleExpertsTask(db, 'first-admin@example.com'),
+        'Added ${sampleExperts.length} sample experts.',
+      );
+      expect(
+        await runSeedSampleExpertsTask(db, 'first-admin@example.com'),
+        'Added 0 sample experts.',
+      );
+      final public = await endpoints.content.published(
+        sessionBuilder,
+        'expert',
+      );
+      expect(public, hasLength(1 + sampleExperts.length));
+      for (final p in public.where((p) => p.slug.startsWith('sample-'))) {
+        final json = jsonDecode(p.json) as Map<String, Object?>;
+        expect(json['sample'], isTrue);
+        expect(json['name'], startsWith('Nümunə'));
+        expect(json['instagram'], isNull);
+      }
+      expect(
+        await AuditLogEntry.db.count(
+          db,
+          where: (a) => a.action.equals('content.sample_published'),
+        ),
+        sampleExperts.length,
+      );
+    });
 
     test('the one-off task imports and publishes as a named admin', () async {
       await team();

@@ -9,6 +9,7 @@ import '../generated/protocol.dart';
 import '../media/media_sync.dart';
 import 'content_admin_endpoint.dart' show ContentErrors;
 import 'content_seed_import.dart';
+import 'sample_experts.dart';
 
 /// Refuses content whose images are not complete (licence, alt text).
 Future<void> checkContentImages(Session session, String json) async {
@@ -237,18 +238,7 @@ Future<String> runPublishImportedTask(
   String email, {
   Set<String> restore = const {},
 }) async {
-  final account = await EmailAccount.db.findFirstRow(
-    session,
-    where: (t) => t.email.equals(email.trim().toLowerCase()),
-  );
-  if (account == null) throw StateError('No account for the task actor.');
-  final staff = await StaffMember.db.findFirstRow(
-    session,
-    where: (t) => t.authUserId.equals(account.authUserId),
-  );
-  if (staff == null || !staff.active || staff.role != StaffRole.admin) {
-    throw StateError('The task actor is not an active admin.');
-  }
+  final staff = await taskAdmin(session, email);
   final added = await importContentSeed(session, staff);
   final refilled = await refillPlanDrafts(session, staff);
   final restored = await restoreArticles(session, staff, restore);
@@ -267,4 +257,29 @@ Future<String> runPublishImportedTask(
           : 'Restored ${restored.length}: ${restored.join(', ')}.',
     if (skipped.isNotEmpty) 'Not published: ${skipped.join('; ')}.',
   ].join(' ');
+}
+
+/// The active admin whose email is [email], for a one-off task; throws
+/// [StateError] otherwise.
+Future<StaffMember> taskAdmin(Session session, String email) async {
+  final account = await EmailAccount.db.findFirstRow(
+    session,
+    where: (t) => t.email.equals(email.trim().toLowerCase()),
+  );
+  if (account == null) throw StateError('No account for the task actor.');
+  final staff = await StaffMember.db.findFirstRow(
+    session,
+    where: (t) => t.authUserId.equals(account.authUserId),
+  );
+  if (staff == null || !staff.active || staff.role != StaffRole.admin) {
+    throw StateError('The task actor is not an active admin.');
+  }
+  return staff;
+}
+
+/// The one-off task `PARLA_TASK=seed-sample-experts`.
+Future<String> runSeedSampleExpertsTask(Session session, String email) async {
+  final staff = await taskAdmin(session, email);
+  final added = await seedSampleExperts(session, staff);
+  return 'Added $added sample experts.';
 }

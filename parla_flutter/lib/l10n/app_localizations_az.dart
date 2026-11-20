@@ -1365,6 +1365,13 @@ class AppLocalizationsAz extends AppLocalizations {
   String get discoverAll => 'Hamısı';
 
   @override
+  String get expertSample => 'Nümunə';
+
+  @override
+  String get expertSampleNote =>
+      'Bu nümunə profildir, əlaqə məlumatları işləmir.';
+
+  @override
   String get discoverJournal => 'Gündəlik';
 
   @override
