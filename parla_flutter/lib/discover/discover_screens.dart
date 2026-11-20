@@ -137,177 +137,137 @@ class BlogPostScreen extends StatelessWidget {
         .where((a) => a.category == item.category && a.slug != item.slug)
         .take(3)
         .toList();
-    final top = MediaQuery.paddingOf(context).top;
     // Prototype "Yazı 1" (2026-11-20): a full-width cover, the text on a
     // sheet over it; sources as pills (from "Yazı 2").
-    return Scaffold(
-      backgroundColor: ParlaColors.cream,
-      body: ListView(
-        padding: EdgeInsets.zero,
-        children: [
-          Stack(
+    return CoverPage(
+      item: item,
+      onBack: back,
+      children: [
+        ArticleKicker(item: item),
+        const SizedBox(height: 8),
+        Semantics(
+          header: true,
+          child: Text(
+            item.text('title', language),
+            style: text.headlineLarge,
+          ),
+        ),
+        if (summary.isNotEmpty) ...[
+          const SizedBox(height: 10),
+          Text(
+            summary,
+            style: accentStyle(
+              Localizations.localeOf(context),
+              size: 18,
+            ),
+          ),
+        ],
+        if (item.tags(language) case final tags when tags.isNotEmpty) ...[
+          const SizedBox(height: 12),
+          ArticleTags(
+            tags: tags,
+            onTap: (t) => context.go(Routes.blog, extra: t),
+          ),
+        ],
+        if (item.reviewedAt != null) ...[
+          const SizedBox(height: 10),
+          Row(
             children: [
-              ArticleCover(
-                item: item,
-                height: item.image == null ? 200 + top : null,
-              ),
-              PositionedDirectional(
-                top: top + 8,
-                start: 12,
-                child: Material(
-                  color: ParlaColors.white,
-                  shape: const CircleBorder(),
-                  elevation: 2,
-                  shadowColor: const Color(0x331F1A14),
-                  child: BackButton(onPressed: back),
+              const ParlaIcon(ParlaIconName.check, size: 16),
+              const SizedBox(width: 6),
+              Expanded(
+                child: Text(
+                  l10n.blogReviewed(
+                    shortDate(context, item.reviewedAt!),
+                  ),
+                  style: text.labelMedium,
                 ),
               ),
             ],
           ),
-          Transform.translate(
-            offset: const Offset(0, -28),
-            child: Container(
-              decoration: const BoxDecoration(
-                color: ParlaColors.cream,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+        ],
+        const SizedBox(height: 14),
+        const Divider(color: ParlaColors.line, height: 1),
+        const SizedBox(height: 16),
+        ArticleBody(
+          item: item,
+          markdown: item.text('body', language),
+        ),
+        if (tips.isNotEmpty) ...[
+          const SizedBox(height: 16),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: ParlaColors.lemon,
+              borderRadius: BorderRadius.circular(
+                ParlaSpace.cardRadius,
               ),
-              padding: const EdgeInsets.fromLTRB(20, 24, 20, 8),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  ArticleKicker(item: item),
-                  const SizedBox(height: 8),
-                  Semantics(
-                    header: true,
-                    child: Text(
-                      item.text('title', language),
-                      style: text.headlineLarge,
-                    ),
-                  ),
-                  if (summary.isNotEmpty) ...[
-                    const SizedBox(height: 10),
-                    Text(
-                      summary,
-                      style: accentStyle(
-                        Localizations.localeOf(context),
-                        size: 18,
-                      ),
-                    ),
-                  ],
-                  if (item.tags(language) case final tags
-                      when tags.isNotEmpty) ...[
-                    const SizedBox(height: 12),
-                    ArticleTags(
-                      tags: tags,
-                      onTap: (t) => context.go(Routes.blog, extra: t),
-                    ),
-                  ],
-                  if (item.reviewedAt != null) ...[
-                    const SizedBox(height: 10),
-                    Row(
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(l10n.blogTips, style: text.titleMedium),
+                const SizedBox(height: 8),
+                for (var i = 0; i < tips.length; i++)
+                  Padding(
+                    padding: const EdgeInsets.only(bottom: 6),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        const ParlaIcon(ParlaIconName.check, size: 16),
-                        const SizedBox(width: 6),
+                        Text('${i + 1}.', style: text.titleSmall),
+                        const SizedBox(width: 8),
                         Expanded(
                           child: Text(
-                            l10n.blogReviewed(
-                              shortDate(context, item.reviewedAt!),
-                            ),
-                            style: text.labelMedium,
+                            tips[i],
+                            style: text.bodyMedium,
                           ),
                         ),
                       ],
                     ),
-                  ],
-                  const SizedBox(height: 14),
-                  const Divider(color: ParlaColors.line, height: 1),
-                  const SizedBox(height: 16),
-                  ArticleBody(
-                    item: item,
-                    markdown: item.text('body', language),
                   ),
-                  if (tips.isNotEmpty) ...[
-                    const SizedBox(height: 16),
-                    Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: ParlaColors.lemon,
-                        borderRadius: BorderRadius.circular(
-                          ParlaSpace.cardRadius,
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(l10n.blogTips, style: text.titleMedium),
-                          const SizedBox(height: 8),
-                          for (var i = 0; i < tips.length; i++)
-                            Padding(
-                              padding: const EdgeInsets.only(bottom: 6),
-                              child: Row(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('${i + 1}.', style: text.titleSmall),
-                                  const SizedBox(width: 8),
-                                  Expanded(
-                                    child: Text(
-                                      tips[i],
-                                      style: text.bodyMedium,
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                        ],
-                      ),
-                    ),
-                  ],
-                  if (sources.isNotEmpty) ...[
-                    const SizedBox(height: 24),
-                    Text(l10n.blogSources, style: text.titleMedium),
-                    const SizedBox(height: 10),
-                    SourceChips(
-                      sources: sources,
-                      onOpen: (uri) => ExpertsScreen.launcher(uri),
-                    ),
-                  ],
-                  const SizedBox(height: 20),
-                  Text(
-                    l10n.legalMedicalBody,
-                    style: text.bodySmall?.copyWith(color: ParlaColors.muted),
-                  ),
-                  if (related.isNotEmpty) ...[
-                    const SizedBox(height: 24),
-                    Semantics(
-                      header: true,
-                      child: Text(l10n.blogRelated, style: text.titleLarge),
-                    ),
-                    const SizedBox(height: 12),
-                    SingleChildScrollView(
-                      scrollDirection: Axis.horizontal,
-                      clipBehavior: Clip.none,
-                      child: Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          for (final r in related) ...[
-                            RelatedArticleCard(
-                              item: r,
-                              onTap: () =>
-                                  context.go(Routes.blogPost, extra: r.slug),
-                            ),
-                            const SizedBox(width: 12),
-                          ],
-                        ],
-                      ),
-                    ),
-                  ],
-                  SizedBox(height: MediaQuery.paddingOf(context).bottom + 8),
-                ],
-              ),
+              ],
             ),
           ),
         ],
-      ),
+        if (sources.isNotEmpty) ...[
+          const SizedBox(height: 24),
+          Text(l10n.blogSources, style: text.titleMedium),
+          const SizedBox(height: 10),
+          SourceChips(
+            sources: sources,
+            onOpen: (uri) => ExpertsScreen.launcher(uri),
+          ),
+        ],
+        const SizedBox(height: 20),
+        Text(
+          l10n.legalMedicalBody,
+          style: text.bodySmall?.copyWith(color: ParlaColors.muted),
+        ),
+        if (related.isNotEmpty) ...[
+          const SizedBox(height: 24),
+          Semantics(
+            header: true,
+            child: Text(l10n.blogRelated, style: text.titleLarge),
+          ),
+          const SizedBox(height: 12),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            clipBehavior: Clip.none,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                for (final r in related) ...[
+                  RelatedArticleCard(
+                    item: r,
+                    onTap: () => context.go(Routes.blogPost, extra: r.slug),
+                  ),
+                  const SizedBox(width: 12),
+                ],
+              ],
+            ),
+          ),
+        ],
+      ],
     );
   }
 }
@@ -598,41 +558,7 @@ class NutritionScreen extends StatelessWidget {
               child: Text(l10n.nutritionRecipes, style: text.titleLarge),
             ),
             const SizedBox(height: 8),
-            if (recipes.isEmpty) const EmptyNote(),
-            for (final r in recipes)
-              Padding(
-                padding: const EdgeInsets.only(bottom: 10),
-                child: Material(
-                  color: ParlaColors.white,
-                  borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
-                  child: InkWell(
-                    key: ValueKey('recipe-${r.slug}'),
-                    borderRadius: BorderRadius.circular(
-                      ParlaSpace.cardRadius,
-                    ),
-                    onTap: () => context.go(Routes.recipe, extra: r.slug),
-                    child: Padding(
-                      padding: const EdgeInsets.all(14),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            _recipeMeta(l10n, r).toUpperCase(),
-                            style: text.labelMedium?.copyWith(
-                              color: ParlaColors.sunInk,
-                            ),
-                          ),
-                          const SizedBox(height: 2),
-                          Text(
-                            r.text('title', language),
-                            style: text.titleMedium,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+            _RecipeList(recipes: recipes),
             const SizedBox(height: 8),
             Text(l10n.nutritionDisclaimer, style: muted),
             const SizedBox(height: 6),
@@ -686,24 +612,23 @@ class RecipeScreen extends StatelessWidget {
     final steps = r.lines('steps', language);
     final groups = (r.data['groups'] as List? ?? const []).cast<String>();
     final allergens = (r.data['allergens'] as List?)?.cast<String>();
-    return SubPage(
-      title: l10n.discoverNutrition,
+    return CoverPage(
+      item: r,
       onBack: back,
       children: [
         Text(
           _recipeMeta(l10n, r).toUpperCase(),
-          style: text.labelMedium?.copyWith(color: ParlaColors.sunInk),
+          style: text.labelMedium?.copyWith(
+            color: ParlaColors.sunInk,
+            letterSpacing: .6,
+          ),
         ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 8),
         Semantics(
           header: true,
-          child: Text(r.text('title', language), style: text.headlineMedium),
+          child: Text(r.text('title', language), style: text.headlineLarge),
         ),
-        if (r.image case final image?) ...[
-          const SizedBox(height: 12),
-          ContentImage(image: image, aspectRatio: 4 / 3),
-        ],
-        const SizedBox(height: 8),
+        const SizedBox(height: 12),
         Wrap(
           spacing: 6,
           runSpacing: 6,
@@ -785,6 +710,52 @@ class RecipeScreen extends StatelessWidget {
           l10n.nutritionDisclaimer,
           style: text.bodySmall?.copyWith(color: ParlaColors.muted),
         ),
+      ],
+    );
+  }
+}
+
+/// The recipes, filtered by meal in one scrolling line of pills.
+class _RecipeList extends StatefulWidget {
+  const _RecipeList({required this.recipes});
+
+  final List<PublishedItem> recipes;
+
+  @override
+  State<_RecipeList> createState() => _RecipeListState();
+}
+
+class _RecipeListState extends State<_RecipeList> {
+  String? _meal;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final all = widget.recipes;
+    final shown = all.where((r) => _meal == null || r.category == _meal);
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        if (all.isNotEmpty) ...[
+          CategoryChips(
+            categories: ContentRules.recipeMeals,
+            selected: _meal,
+            onChanged: (m) => setState(() => _meal = m),
+            counts: {
+              null: all.length,
+              for (final m in ContentRules.recipeMeals)
+                m: all.where((r) => r.category == m).length,
+            },
+          ),
+          const SizedBox(height: 12),
+        ],
+        if (all.isEmpty) const EmptyNote(),
+        for (final r in shown)
+          ArticleRow(
+            item: r,
+            meta: _recipeMeta(l10n, r),
+            onTap: () => context.go(Routes.recipe, extra: r.slug),
+          ),
       ],
     );
   }

@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:parla/ui/brand.dart';
 import 'package:parla/app.dart';
-import 'package:parla/ui/parla_icons.dart';
-import 'package:parla/home/widgets/home_cards.dart';
 import 'package:parla/habits/habit_store.dart';
 import 'package:parla/home/widgets/parla_nav_bar.dart';
 import 'package:parla/reminders/reminder_scheduler.dart';
@@ -219,9 +217,12 @@ void main() {
     await _tap(tester, find.text('Today').last);
     await _tap(
       tester,
-      find.byWidgetPredicate(
-        (w) => w is RoundIconButton && w.icon == ParlaIconName.profile,
-      ),
+      find
+          .descendant(
+            of: find.byType(ParlaNavBar),
+            matching: find.byType(InkWell),
+          )
+          .at(4),
     );
     await _tap(tester, find.text('Sign out'));
     expect(app.scheduler.scheduled, isEmpty);
@@ -237,9 +238,12 @@ void main() {
     await _tap(tester, find.text('Today').last);
     await _tap(
       tester,
-      find.byWidgetPredicate(
-        (w) => w is RoundIconButton && w.icon == ParlaIconName.profile,
-      ),
+      find
+          .descendant(
+            of: find.byType(ParlaNavBar),
+            matching: find.byType(InkWell),
+          )
+          .at(4),
     );
     await _tap(tester, find.text('Delete account'));
     await tester.enterText(

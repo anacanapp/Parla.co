@@ -19,6 +19,10 @@ class ArticleCover extends StatelessWidget {
   });
 
   final PublishedItem item;
+
+  /// The placeholder icon: the blog's, or the bowl for a recipe.
+  ParlaIconName get icon =>
+      item.kind == 'recipe' ? ParlaIconName.bowl : ParlaIconName.book;
   final double radius;
 
   /// Fixed height of the placeholder; `null` follows [aspectRatio].
@@ -42,7 +46,7 @@ class ArticleCover extends StatelessWidget {
       ),
       child: Center(
         child: ParlaIcon(
-          ParlaIconName.book,
+          icon,
           size: iconSize,
           color: ParlaColors.sunInk,
         ),
@@ -233,6 +237,68 @@ class SourceChips extends StatelessWidget {
             ),
           ),
       ],
+    );
+  }
+}
+
+/// A page that opens on an item's full-width cover, with a round back
+/// button over it and the content on a rounded sheet (prototype "Yazı 1",
+/// used for articles and recipes).
+class CoverPage extends StatelessWidget {
+  const CoverPage({
+    super.key,
+    required this.item,
+    required this.onBack,
+    required this.children,
+  });
+
+  final PublishedItem item;
+  final VoidCallback onBack;
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) {
+    final padding = MediaQuery.paddingOf(context);
+    return Scaffold(
+      backgroundColor: ParlaColors.cream,
+      body: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          Stack(
+            children: [
+              ArticleCover(
+                item: item,
+                height: item.image == null ? 200 + padding.top : null,
+              ),
+              PositionedDirectional(
+                top: padding.top + 8,
+                start: 12,
+                child: Material(
+                  color: ParlaColors.white,
+                  shape: const CircleBorder(),
+                  elevation: 2,
+                  shadowColor: const Color(0x331F1A14),
+                  child: BackButton(onPressed: onBack),
+                ),
+              ),
+            ],
+          ),
+          Transform.translate(
+            offset: const Offset(0, -28),
+            child: Container(
+              decoration: const BoxDecoration(
+                color: ParlaColors.cream,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+              ),
+              padding: EdgeInsets.fromLTRB(20, 24, 20, padding.bottom + 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: children,
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

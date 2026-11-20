@@ -5,12 +5,10 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:parla_shared/parla_shared.dart';
 import 'package:parla/app.dart';
 import 'package:parla/habits/habit_store.dart';
-import 'package:parla/home/widgets/home_cards.dart';
 import 'package:parla/home/widgets/parla_nav_bar.dart';
 import 'package:parla/services/parla_api.dart';
 import 'package:parla/state/app_settings.dart';
 import 'package:parla/ui/brand.dart';
-import 'package:parla/ui/parla_icons.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'support/fake_api.dart';
@@ -308,11 +306,16 @@ void main() {
             of: find.byType(ParlaNavBar),
             matching: find.byType(InkWell),
           )
-          .at(4),
+          .at(3),
     );
     await tester.pumpAndSettle();
     await _tap(tester, find.text('Shopping list'));
     expect(find.byKey(const ValueKey('shopping-new')), findsOneWidget);
+    // Back returns to Discover, not to Check.
+    await tester.tap(find.byType(BackButton));
+    await tester.pumpAndSettle();
+    expect(find.text('Shopping list'), findsOneWidget);
+    expect(find.text('Check a product'), findsNothing);
   });
 
   group('with the health consent', () {
@@ -358,9 +361,12 @@ void main() {
       );
       await tester.pumpAndSettle();
       await tester.tap(
-        find.byWidgetPredicate(
-          (w) => w is RoundIconButton && w.icon == ParlaIconName.profile,
-        ),
+        find
+            .descendant(
+              of: find.byType(ParlaNavBar),
+              matching: find.byType(InkWell),
+            )
+            .at(4),
       );
       await tester.pumpAndSettle();
       await _tap(tester, find.text('Create file'));

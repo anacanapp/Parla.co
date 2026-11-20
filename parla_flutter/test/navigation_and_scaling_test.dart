@@ -61,7 +61,7 @@ void main() {
     tester,
   ) async {
     await _pump(tester, language: 'az');
-    for (final label in ['Bu gün', 'Rutin', 'Yoxla', 'İdman', 'Kəşf et']) {
+    for (final label in ['Bu gün', 'Rutin', 'Yoxla', 'Kəşf et', 'Profil']) {
       expect(
         find.descendant(
           of: find.byType(ParlaNavBar),
@@ -75,9 +75,9 @@ void main() {
 
   testWidgets('every tab opens its screen', (tester) async {
     await _pump(tester, language: 'en');
-    await tester.tap(_tab(ParlaTab.sport));
+    await tester.tap(_tab(ParlaTab.profile));
     await tester.pumpAndSettle();
-    expect(find.text('A workout plan made for you'), findsOneWidget);
+    expect(find.text('Privacy centre'), findsOneWidget);
 
     await tester.tap(_tab(ParlaTab.discover));
     await tester.pumpAndSettle();

@@ -233,39 +233,43 @@ class CategoryChips extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: [
-        ChoiceChip(
-          key: const ValueKey('cat-all'),
-          label: _label(context, l10n.discoverAll, null),
-          selected: selected == null,
-          onSelected: (_) => onChanged(null),
-        ),
-        for (final c in categories)
-          ChoiceChip(
-            key: ValueKey('cat-$c'),
-            label: _label(context, categoryText(l10n, c), c),
-            selected: selected == c,
-            onSelected: (_) => onChanged(c),
+    // One line that scrolls sideways (owner's ask, 2026-11-20).
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      clipBehavior: Clip.none,
+      child: Row(
+        children: [
+          _Pill(
+            key: const ValueKey('cat-all'),
+            selected: selected == null,
+            onTap: () => onChanged(null),
+            child: _label(context, l10n.discoverAll, null),
           ),
-      ],
+          for (final c in categories)
+            _Pill(
+              key: ValueKey('cat-$c'),
+              selected: selected == c,
+              onTap: () => onChanged(c),
+              child: _label(context, categoryText(l10n, c), c),
+            ),
+        ],
+      ),
     );
   }
 
   Widget _label(BuildContext context, String name, String? category) {
     final count = counts?[category];
     if (count == null) return Text(name);
+    final selectedHere = category == selected;
     return Text.rich(
       TextSpan(
         text: name,
         children: [
           TextSpan(
             text: '  $count',
-            style: Theme.of(
-              context,
-            ).textTheme.labelMedium?.copyWith(color: ParlaColors.muted),
+            style: Theme.of(context).textTheme.labelMedium?.copyWith(
+              color: selectedHere ? ParlaColors.line : ParlaColors.muted,
+            ),
           ),
         ],
       ),
@@ -273,13 +277,69 @@ class CategoryChips extends StatelessWidget {
   }
 }
 
-/// The light tint of an article category (cards without a cover).
+/// A filter pill: espresso when selected, white with a hairline otherwise.
+class _Pill extends StatelessWidget {
+  const _Pill({
+    super.key,
+    required this.selected,
+    required this.onTap,
+    required this.child,
+  });
+
+  final bool selected;
+  final VoidCallback onTap;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final style = Theme.of(context).textTheme.titleSmall?.copyWith(
+      color: selected ? ParlaColors.white : ParlaColors.espresso,
+    );
+    return Padding(
+      padding: const EdgeInsetsDirectional.only(end: 8),
+      child: Semantics(
+        selected: selected,
+        button: true,
+        child: Material(
+          color: selected ? ParlaColors.espresso : ParlaColors.white,
+          shape: StadiumBorder(
+            side: BorderSide(
+              color: selected ? ParlaColors.espresso : ParlaColors.line,
+              width: 1.5,
+            ),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: InkWell(
+            onTap: onTap,
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 44),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Center(
+                  widthFactor: 1,
+                  child: DefaultTextStyle.merge(style: style, child: child),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The light tint of an article category or a recipe meal (cards
+/// without a cover).
 Color categoryTint(String id) => switch (id) {
   'care' => ParlaColors.sageTint,
   'beauty' => ParlaColors.blush,
   'hair' => ParlaColors.lilac,
   'body' => ParlaColors.sky,
   'fashion' => ParlaColors.lemon,
+  'breakfast' => ParlaColors.lemon,
+  'lunch' => ParlaColors.sageTint,
+  'dinner' => ParlaColors.sky,
+  'snack' => ParlaColors.blush,
   _ => ParlaColors.line,
 };
 

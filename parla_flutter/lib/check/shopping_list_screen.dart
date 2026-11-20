@@ -57,7 +57,13 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
       backgroundColor: ParlaColors.cream,
       appBar: AppBar(
         backgroundColor: ParlaColors.cream,
-        leading: BackButton(onPressed: () => context.go(Routes.products)),
+        leading: BackButton(
+          onPressed: () => context.go(
+            GoRouterState.of(context).uri.queryParameters['from'] == 'discover'
+                ? Routes.discover
+                : Routes.products,
+          ),
+        ),
       ),
       body: ListenableBuilder(
         listenable: book,

@@ -2,10 +2,9 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:parla/home/widgets/parla_nav_bar.dart';
 import 'package:parla/ui/brand.dart';
 import 'package:parla/app.dart';
-import 'package:parla/ui/parla_icons.dart';
-import 'package:parla/home/widgets/home_cards.dart';
 import 'package:parla/habits/habit_store.dart';
 import 'package:parla/services/parla_api.dart';
 import 'package:parla/state/app_settings.dart';
@@ -58,11 +57,14 @@ Future<_Harness> _openPrivacy(
     ),
   );
   await tester.pumpAndSettle();
-  // Profile and privacy open from the avatar on the Today screen.
+  // Profile and privacy is the last tab.
   await tester.tap(
-    find.byWidgetPredicate(
-      (w) => w is RoundIconButton && w.icon == ParlaIconName.profile,
-    ),
+    find
+        .descendant(
+          of: find.byType(ParlaNavBar),
+          matching: find.byType(InkWell),
+        )
+        .at(4),
   );
   await tester.pumpAndSettle();
   return _Harness(api, shared, habitStore);
@@ -75,6 +77,17 @@ Future<void> _tap(WidgetTester tester, Finder finder) async {
   }
   await tester.ensureVisible(finder.first);
   await tester.pumpAndSettle();
+  // The floating tab bar covers the bottom of the Profile tab: lift a
+  // target that sits under it.
+  final bar = find.byType(ParlaNavBar);
+  if (bar.evaluate().isNotEmpty && list.evaluate().isNotEmpty) {
+    final top = tester.getRect(bar).top;
+    final target = tester.getRect(finder.first);
+    if (target.bottom > top) {
+      await tester.drag(list.first, Offset(0, top - target.bottom - 24));
+      await tester.pumpAndSettle();
+    }
+  }
   await tester.tap(finder.first);
   await tester.pumpAndSettle();
 }
@@ -284,12 +297,11 @@ void main() {
         }
 
         await scrollAndCollect();
-        final tiles = find.byType(ListTile);
         // Legal documents, then back, then delete account.
-        await _tap(tester, tiles.first);
+        await _tap(tester, find.byKey(const ValueKey('privacy-legal')));
         await scrollAndCollect();
         await _tap(tester, find.byType(BackButton));
-        await _tap(tester, find.byType(ListTile).last);
+        await _tap(tester, find.byKey(const ValueKey('privacy-delete')));
         await scrollAndCollect();
 
         expect(sizes, isNotEmpty);

@@ -4,6 +4,7 @@ import '../l10n/app_localizations.dart';
 import '../services/parla_api.dart';
 import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
+import 'blog_widgets.dart';
 import 'discover_widgets.dart';
 
 /// One section of the Discover bento.
@@ -14,9 +15,12 @@ class BentoSection {
     required this.color,
     required this.icon,
     required this.onTap,
+    this.id,
     this.soon = false,
   });
 
+  /// Names the tile for tests (`discover-<id>`).
+  final String? id;
   final String title;
   final String hint;
   final Color color;
@@ -175,6 +179,7 @@ class _Tile extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final radius = BorderRadius.circular(22);
     return Semantics(
+      key: section.id == null ? null : ValueKey('discover-${section.id}'),
       container: true,
       button: true,
       label: section.soon
@@ -334,21 +339,26 @@ class _Photo extends StatelessWidget {
   }
 }
 
-/// A compact row for the newest articles on Discover: thumbnail, category
-/// and reading time, title.
+/// A compact row for an article or a recipe: square cover, the kicker
+/// (category and minutes, or the recipe's meta) and the title.
 class ArticleRow extends StatelessWidget {
-  const ArticleRow({super.key, required this.item, required this.onTap});
+  const ArticleRow({
+    super.key,
+    required this.item,
+    required this.onTap,
+    this.meta,
+  });
 
   final PublishedItem item;
   final VoidCallback onTap;
 
+  /// The line above the title; the article kicker when `null`.
+  final String? meta;
+
   @override
   Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
     final language = Localizations.localeOf(context).languageCode;
-    final minutes = (item.data['minutes'] as num?)?.toInt() ?? 1;
-    final tint = categoryTint(item.category);
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Material(
@@ -356,7 +366,7 @@ class ArticleRow extends StatelessWidget {
         borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
-          key: ValueKey('article-${item.slug}'),
+          key: ValueKey('${item.kind}-${item.slug}'),
           onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.all(8),
@@ -364,44 +374,28 @@ class ArticleRow extends StatelessWidget {
               children: [
                 SizedBox(
                   width: 84,
-                  height: 84,
-                  child: item.image != null
-                      ? ContentImage(
-                          image: item.image!,
-                          radius: 14,
-                          aspectRatio: 1,
-                        )
-                      : DecoratedBox(
-                          decoration: BoxDecoration(
-                            color: tint,
-                            borderRadius: BorderRadius.circular(14),
-                          ),
-                          child: const Center(
-                            child: ParlaIcon(
-                              ParlaIconName.book,
-                              size: 26,
-                              color: ParlaColors.sunInk,
-                            ),
-                          ),
-                        ),
+                  child: ArticleCover(
+                    item: item,
+                    radius: 14,
+                    aspectRatio: 1,
+                    iconSize: 26,
+                  ),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        l10n
-                            .blogMeta(
-                              categoryText(l10n, item.category),
-                              minutes,
-                            )
-                            .toUpperCase(),
-                        style: text.labelMedium?.copyWith(
-                          color: ParlaColors.sunInk,
-                          letterSpacing: .6,
-                        ),
-                      ),
+                      if (meta case final meta?)
+                        Text(
+                          meta.toUpperCase(),
+                          style: text.labelMedium?.copyWith(
+                            color: ParlaColors.sunInk,
+                            letterSpacing: .6,
+                          ),
+                        )
+                      else
+                        ArticleKicker(item: item),
                       const SizedBox(height: 4),
                       Text(
                         item.text('title', language),
