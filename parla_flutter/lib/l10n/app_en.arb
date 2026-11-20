@@ -911,6 +911,7 @@
   "skinCardBody": "Analyse your skin again by answering questions.",
   "catBody": "Body",
   "blogSources": "Sources",
+  "blogRelated": "Related articles",
   "recipeAllergens": "Contains: {list}",
   "recipeNoAllergens": "None of the 14 main allergens.",
   "allergenGluten": "gluten",

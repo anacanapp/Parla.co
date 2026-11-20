@@ -1549,6 +1549,9 @@ class AppLocalizationsAz extends AppLocalizations {
   String get blogSources => 'Mənbələr';
 
   @override
+  String get blogRelated => 'Oxşar yazılar';
+
+  @override
   String recipeAllergens(String list) {
     return 'Tərkibində: $list';
   }

@@ -449,6 +449,7 @@
   "skinCardBody": "Проанализируй кожу заново, ответив на вопросы.",
   "catBody": "Тело",
   "blogSources": "Источники",
+  "blogRelated": "Похожие статьи",
   "recipeAllergens": "Содержит: {list}",
   "recipeNoAllergens": "Нет ни одного из 14 основных аллергенов.",
   "allergenGluten": "глютен",

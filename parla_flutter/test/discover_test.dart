@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:parla/app.dart';
+import 'package:parla/discover/blog_widgets.dart';
 import 'package:parla/discover/discover_bento.dart';
 import 'package:parla/discover/discover_screens.dart';
 import 'package:parla/discover/discover_widgets.dart';
@@ -336,6 +337,50 @@ void main() {
     );
     await _tap(tester, find.text('Your weekly plan'));
     expect(find.text('A workout plan made for you'), findsOneWidget);
+  });
+
+  testWidgets('blog list: counts, the newest large; a post: source pills, '
+      'disclaimer and related articles', (tester) async {
+    final opened = <Uri>[];
+    final original = ExpertsScreen.launcher;
+    ExpertsScreen.launcher = (uri) async {
+      opened.add(uri);
+      return true;
+    };
+    addTearDown(() => ExpertsScreen.launcher = original);
+    await _open(tester);
+    await _tap(tester, find.text('Blogs').first);
+    expect(find.text('All  3', findRichText: true), findsOneWidget);
+    expect(find.text('Care  2', findRichText: true), findsOneWidget);
+    expect(find.text('Fashion  1', findRichText: true), findsOneWidget);
+    // The newest article is the large card; the others are rows.
+    expect(
+      find.descendant(
+        of: find.byType(FeaturedArticleCard),
+        matching: find.text('Markdown post en'),
+      ),
+      findsOneWidget,
+    );
+    expect(find.byType(ArticleRow), findsNWidgets(2));
+    await _tap(tester, find.byKey(const ValueKey('cat-fashion')));
+    expect(find.byType(FeaturedArticleCard), findsOneWidget);
+    expect(find.byType(ArticleRow), findsNothing);
+    await _tap(tester, find.byKey(const ValueKey('cat-all')));
+
+    await _tap(tester, find.byKey(const ValueKey('article-winter')));
+    final page = find.byType(Scrollable).first;
+    await tester.scrollUntilVisible(
+      find.textContaining('replace a doctor'),
+      200,
+      scrollable: page,
+    );
+    expect(find.byType(SourceChips), findsOneWidget);
+    // Related: the other article of the same category.
+    expect(find.byKey(const ValueKey('related-markdown')), findsOneWidget);
+    expect(find.byKey(const ValueKey('related-capsule')), findsNothing);
+    await _tap(tester, find.byKey(const ValueKey('related-markdown')));
+    expect(find.text('Markdown post en'), findsOneWidget);
+    expect(find.byKey(const ValueKey('related-winter')), findsOneWidget);
   });
 
   testWidgets('blogs: newest on Discover, filter, the article with its '
