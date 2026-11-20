@@ -10,6 +10,8 @@ import '../routes.dart';
 import '../services/parla_api.dart';
 import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
+import 'blog_widgets.dart';
+import 'discover_bento.dart';
 import 'discover_widgets.dart';
 import 'skin_tips.dart';
 import 'article_body.dart';
@@ -37,11 +39,13 @@ class _BlogListScreenState extends State<BlogListScreen> {
     return ListenableBuilder(
       listenable: library,
       builder: (context, _) {
-        final items = library
-            .items('article')
+        final all = library.items('article');
+        final items = all
             .where((i) => _category == null || i.category == _category)
             .where((i) => _tag == null || i.tags(language).contains(_tag))
             .toList();
+        void open(PublishedItem item) =>
+            context.go(Routes.blogPost, extra: item.slug);
         return SubPage(
           title: l10n.discoverBlogs,
           onBack: () => context.go(Routes.discover),
@@ -50,6 +54,11 @@ class _BlogListScreenState extends State<BlogListScreen> {
               categories: ContentRules.articleCategories,
               selected: _category,
               onChanged: (c) => setState(() => _category = c),
+              counts: {
+                null: all.length,
+                for (final c in ContentRules.articleCategories)
+                  c: all.where((i) => i.category == c).length,
+              },
             ),
             if (_tag != null) ...[
               const SizedBox(height: 8),
@@ -67,14 +76,28 @@ class _BlogListScreenState extends State<BlogListScreen> {
                 ),
               ),
             ],
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
             if (library.offline) _OfflineNote(),
             if (items.isEmpty) const EmptyNote(),
-            for (final item in items)
-              ArticleCard(
-                item: item,
-                onTap: () => context.go(Routes.blogPost, extra: item.slug),
+            // The newest article large, the rest as rows (prototype
+            // "Bloq 1", 2026-11-20).
+            if (items.isNotEmpty)
+              FeaturedArticleCard(
+                item: items.first,
+                onTap: () => open(items.first),
               ),
+            if (items.length > 1) ...[
+              Semantics(
+                header: true,
+                child: Text(
+                  l10n.discoverLatest,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+              const SizedBox(height: 10),
+              for (final item in items.skip(1))
+                ArticleRow(item: item, onTap: () => open(item)),
+            ],
           ],
         );
       },
@@ -93,7 +116,8 @@ class BlogPostScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
     final language = Localizations.localeOf(context).languageCode;
-    final item = ParlaScope.of(context).content.find('article', slug);
+    final library = ParlaScope.of(context).content;
+    final item = library.find('article', slug);
     void back() => context.go(Routes.blog);
     if (item == null) {
       return SubPage(
@@ -102,104 +126,188 @@ class BlogPostScreen extends StatelessWidget {
         children: const [EmptyNote()],
       );
     }
-    final minutes = (item.data['minutes'] as num?)?.toInt() ?? 1;
     final tips = item.lines('tips', language);
+    final summary = item.text('summary', language);
     final sources = <Uri>[
       for (final s in (item.data['sources'] as List? ?? const []))
         if (s is String && s.startsWith('https://')) ?Uri.tryParse(s),
     ];
-    return SubPage(
-      title: categoryText(l10n, item.category),
-      onBack: back,
-      children: [
-        Text(
-          l10n
-              .blogMeta(categoryText(l10n, item.category), minutes)
-              .toUpperCase(),
-          style: text.labelMedium?.copyWith(
-            color: ParlaColors.sunInk,
-            letterSpacing: .6,
-          ),
-        ),
-        const SizedBox(height: 6),
-        Semantics(
-          header: true,
-          child: Text(item.text('title', language), style: text.headlineMedium),
-        ),
-        if (item.image case final image?) ...[
-          const SizedBox(height: 12),
-          ContentImage(image: image, aspectRatio: 16 / 9),
-        ],
-        if (item.tags(language) case final tags when tags.isNotEmpty) ...[
-          const SizedBox(height: 10),
-          ArticleTags(
-            tags: tags,
-            onTap: (t) => context.go(Routes.blog, extra: t),
-          ),
-        ],
-        if (item.reviewedAt != null) ...[
-          const SizedBox(height: 8),
-          Row(
+    final related = library
+        .items('article')
+        .where((a) => a.category == item.category && a.slug != item.slug)
+        .take(3)
+        .toList();
+    final top = MediaQuery.paddingOf(context).top;
+    // Prototype "Yazı 1" (2026-11-20): a full-width cover, the text on a
+    // sheet over it; sources as pills (from "Yazı 2").
+    return Scaffold(
+      backgroundColor: ParlaColors.cream,
+      body: ListView(
+        padding: EdgeInsets.zero,
+        children: [
+          Stack(
             children: [
-              const ParlaIcon(ParlaIconName.check, size: 16),
-              const SizedBox(width: 6),
-              Expanded(
-                child: Text(
-                  l10n.blogReviewed(shortDate(context, item.reviewedAt!)),
-                  style: text.labelMedium,
+              ArticleCover(
+                item: item,
+                height: item.image == null ? 200 + top : null,
+              ),
+              PositionedDirectional(
+                top: top + 8,
+                start: 12,
+                child: Material(
+                  color: ParlaColors.white,
+                  shape: const CircleBorder(),
+                  elevation: 2,
+                  shadowColor: const Color(0x331F1A14),
+                  child: BackButton(onPressed: back),
                 ),
               ),
             ],
           ),
-        ],
-        const SizedBox(height: 16),
-        ArticleBody(item: item, markdown: item.text('body', language)),
-        const SizedBox(height: 12),
-        if (tips.isNotEmpty) ...[
-          const SizedBox(height: 4),
-          Container(
-            padding: const EdgeInsets.all(16),
-            decoration: BoxDecoration(
-              color: ParlaColors.lemon,
-              borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(l10n.blogTips, style: text.titleMedium),
-                const SizedBox(height: 8),
-                for (var i = 0; i < tips.length; i++)
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 6),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('${i + 1}.', style: text.titleSmall),
-                        const SizedBox(width: 8),
-                        Expanded(child: Text(tips[i], style: text.bodyMedium)),
-                      ],
+          Transform.translate(
+            offset: const Offset(0, -28),
+            child: Container(
+              decoration: const BoxDecoration(
+                color: ParlaColors.cream,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+              ),
+              padding: const EdgeInsets.fromLTRB(20, 24, 20, 8),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  ArticleKicker(item: item),
+                  const SizedBox(height: 8),
+                  Semantics(
+                    header: true,
+                    child: Text(
+                      item.text('title', language),
+                      style: text.headlineLarge,
                     ),
                   ),
-              ],
+                  if (summary.isNotEmpty) ...[
+                    const SizedBox(height: 10),
+                    Text(
+                      summary,
+                      style: accentStyle(
+                        Localizations.localeOf(context),
+                        size: 18,
+                      ),
+                    ),
+                  ],
+                  if (item.tags(language) case final tags
+                      when tags.isNotEmpty) ...[
+                    const SizedBox(height: 12),
+                    ArticleTags(
+                      tags: tags,
+                      onTap: (t) => context.go(Routes.blog, extra: t),
+                    ),
+                  ],
+                  if (item.reviewedAt != null) ...[
+                    const SizedBox(height: 10),
+                    Row(
+                      children: [
+                        const ParlaIcon(ParlaIconName.check, size: 16),
+                        const SizedBox(width: 6),
+                        Expanded(
+                          child: Text(
+                            l10n.blogReviewed(
+                              shortDate(context, item.reviewedAt!),
+                            ),
+                            style: text.labelMedium,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ],
+                  const SizedBox(height: 14),
+                  const Divider(color: ParlaColors.line, height: 1),
+                  const SizedBox(height: 16),
+                  ArticleBody(
+                    item: item,
+                    markdown: item.text('body', language),
+                  ),
+                  if (tips.isNotEmpty) ...[
+                    const SizedBox(height: 16),
+                    Container(
+                      padding: const EdgeInsets.all(16),
+                      decoration: BoxDecoration(
+                        color: ParlaColors.lemon,
+                        borderRadius: BorderRadius.circular(
+                          ParlaSpace.cardRadius,
+                        ),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(l10n.blogTips, style: text.titleMedium),
+                          const SizedBox(height: 8),
+                          for (var i = 0; i < tips.length; i++)
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 6),
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('${i + 1}.', style: text.titleSmall),
+                                  const SizedBox(width: 8),
+                                  Expanded(
+                                    child: Text(
+                                      tips[i],
+                                      style: text.bodyMedium,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                        ],
+                      ),
+                    ),
+                  ],
+                  if (sources.isNotEmpty) ...[
+                    const SizedBox(height: 24),
+                    Text(l10n.blogSources, style: text.titleMedium),
+                    const SizedBox(height: 10),
+                    SourceChips(
+                      sources: sources,
+                      onOpen: (uri) => ExpertsScreen.launcher(uri),
+                    ),
+                  ],
+                  const SizedBox(height: 20),
+                  Text(
+                    l10n.legalMedicalBody,
+                    style: text.bodySmall?.copyWith(color: ParlaColors.muted),
+                  ),
+                  if (related.isNotEmpty) ...[
+                    const SizedBox(height: 24),
+                    Semantics(
+                      header: true,
+                      child: Text(l10n.blogRelated, style: text.titleLarge),
+                    ),
+                    const SizedBox(height: 12),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      clipBehavior: Clip.none,
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          for (final r in related) ...[
+                            RelatedArticleCard(
+                              item: r,
+                              onTap: () =>
+                                  context.go(Routes.blogPost, extra: r.slug),
+                            ),
+                            const SizedBox(width: 12),
+                          ],
+                        ],
+                      ),
+                    ),
+                  ],
+                  SizedBox(height: MediaQuery.paddingOf(context).bottom + 8),
+                ],
+              ),
             ),
           ),
         ],
-        if (sources.isNotEmpty) ...[
-          const SizedBox(height: 20),
-          Text(l10n.blogSources, style: text.titleMedium),
-          const SizedBox(height: 4),
-          for (final uri in sources)
-            Align(
-              alignment: AlignmentDirectional.centerStart,
-              child: TextButton.icon(
-                key: ValueKey('blog-source-$uri'),
-                onPressed: () => ExpertsScreen.launcher(uri),
-                icon: const Icon(Icons.open_in_new, size: 16),
-                label: Text(uri.host.replaceFirst('www.', '')),
-              ),
-            ),
-        ],
-      ],
+      ),
     );
   }
 }

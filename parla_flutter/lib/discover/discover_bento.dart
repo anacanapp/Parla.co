@@ -342,21 +342,13 @@ class ArticleRow extends StatelessWidget {
   final PublishedItem item;
   final VoidCallback onTap;
 
-  static const _tints = [
-    ParlaColors.blush,
-    ParlaColors.lemon,
-    ParlaColors.sageTint,
-    ParlaColors.lilac,
-    ParlaColors.sky,
-  ];
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
     final language = Localizations.localeOf(context).languageCode;
     final minutes = (item.data['minutes'] as num?)?.toInt() ?? 1;
-    final tint = _tints[item.slug.hashCode.abs() % _tints.length];
+    final tint = categoryTint(item.category);
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Material(

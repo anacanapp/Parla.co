@@ -1571,6 +1571,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get blogSources => 'Sources';
 
   @override
+  String get blogRelated => 'Related articles';
+
+  @override
   String recipeAllergens(String list) {
     return 'Contains: $list';
   }

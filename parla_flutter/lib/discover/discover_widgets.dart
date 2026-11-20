@@ -220,11 +220,15 @@ class CategoryChips extends StatelessWidget {
     required this.categories,
     required this.selected,
     required this.onChanged,
+    this.counts,
   });
 
   final List<String> categories;
   final String? selected;
   final ValueChanged<String?> onChanged;
+
+  /// Items per category (`null` key: all); shown beside each name.
+  final Map<String?, int>? counts;
 
   @override
   Widget build(BuildContext context) {
@@ -235,21 +239,49 @@ class CategoryChips extends StatelessWidget {
       children: [
         ChoiceChip(
           key: const ValueKey('cat-all'),
-          label: Text(l10n.discoverAll),
+          label: _label(context, l10n.discoverAll, null),
           selected: selected == null,
           onSelected: (_) => onChanged(null),
         ),
         for (final c in categories)
           ChoiceChip(
             key: ValueKey('cat-$c'),
-            label: Text(categoryText(l10n, c)),
+            label: _label(context, categoryText(l10n, c), c),
             selected: selected == c,
             onSelected: (_) => onChanged(c),
           ),
       ],
     );
   }
+
+  Widget _label(BuildContext context, String name, String? category) {
+    final count = counts?[category];
+    if (count == null) return Text(name);
+    return Text.rich(
+      TextSpan(
+        text: name,
+        children: [
+          TextSpan(
+            text: '  $count',
+            style: Theme.of(
+              context,
+            ).textTheme.labelMedium?.copyWith(color: ParlaColors.muted),
+          ),
+        ],
+      ),
+    );
+  }
 }
+
+/// The light tint of an article category (cards without a cover).
+Color categoryTint(String id) => switch (id) {
+  'care' => ParlaColors.sageTint,
+  'beauty' => ParlaColors.blush,
+  'hair' => ParlaColors.lilac,
+  'body' => ParlaColors.sky,
+  'fashion' => ParlaColors.lemon,
+  _ => ParlaColors.line,
+};
 
 /// Shown when nothing is published (or loaded) yet.
 class EmptyNote extends StatelessWidget {

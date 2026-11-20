@@ -2794,6 +2794,12 @@ abstract class AppLocalizations {
   /// **'Sources'**
   String get blogSources;
 
+  /// No description provided for @blogRelated.
+  ///
+  /// In en, this message translates to:
+  /// **'Related articles'**
+  String get blogRelated;
+
   /// No description provided for @recipeAllergens.
   ///
   /// In en, this message translates to:
