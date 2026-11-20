@@ -144,6 +144,43 @@ Future<int> publishImportedContent(Session session, StaffMember staff) async {
   return published;
 }
 
+/// Article drafts that still hold the first sheet's writing plan (the
+/// marker is in their text) get the full article, even if the plan itself
+/// was edited: the plan is a placeholder, never the team's text. A cover
+/// and hashtags already set are kept. Returns how many were filled.
+Future<int> refillPlanDrafts(Session session, StaffMember staff) async {
+  final full = {for (final b in blogSeed) b.slug: b};
+  final rows = await ContentItem.db.find(
+    session,
+    where: (t) =>
+        t.kind.equals(ContentKind.article.name) &
+        t.slug.inSet(full.keys.toSet()) &
+        t.status.equals(ContentStatus.draft),
+  );
+  var filled = 0;
+  for (final row in rows) {
+    final body = (jsonDecode(row.draftJson) as Map<String, Object?>)['body'];
+    final hasPlan =
+        body is Map &&
+        body.values.any(
+          (v) => v is String && v.contains(ContentRules.planMarker),
+        );
+    if (!hasPlan) continue;
+    final seed = full[row.slug]!;
+    final updated = await ContentItem.db.updateRow(
+      session,
+      row.copyWith(
+        draftJson: mergeSeed(row.draftJson, seed.json),
+        updatedBy: staff.authUserId,
+        updatedAt: DateTime.now().toUtc(),
+      ),
+    );
+    await _audit(session, staff, 'content.reimported', updated);
+    filled++;
+  }
+  return filled;
+}
+
 /// The one-off task `PARLA_TASK=publish-imported`: imports and publishes
 /// the sheet's content as the admin whose email is in
 /// `PARLA_TASK_ACTOR`, so the audit names who asked for it. Returns a line
@@ -162,6 +199,8 @@ Future<String> runPublishImportedTask(Session session, String email) async {
     throw StateError('The task actor is not an active admin.');
   }
   final added = await importContentSeed(session, staff);
+  final refilled = await refillPlanDrafts(session, staff);
   final published = await publishImportedContent(session, staff);
-  return 'Imported or filled $added items, published $published.';
+  return 'Imported or filled $added items, refilled $refilled plans, '
+      'published $published.';
 }
