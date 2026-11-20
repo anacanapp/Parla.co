@@ -79,6 +79,29 @@ void main() {
     final articles = importSeed.where((s) => s.kind == 'article').toList();
     expect(articles, hasLength(32));
     expect(articles.every(blogSeed.contains), isTrue);
-    expect(importSeed.where((s) => s.kind == 'recipe'), hasLength(20));
+    expect(importSeed.where((s) => s.kind == 'recipe'), hasLength(76));
+  });
+
+  test('the recipe sheet keeps the first 20 recipes unchanged', () {
+    expect(recipeSeed, hasLength(76));
+    final keys = recipeSeed.map((s) => s.slug).toSet();
+    expect(keys, hasLength(recipeSeed.length));
+    final first = {
+      for (final s in contentSeed.where((s) => s.kind == 'recipe')) s.slug: s,
+    };
+    for (final r in recipeSeed) {
+      expect(r.problems, isEmpty, reason: r.slug);
+      expect(
+        ContentRules.problems(ContentKind.recipe, r.json, complete: true),
+        isEmpty,
+        reason: r.slug,
+      );
+      final old = first[r.slug];
+      if (old != null) {
+        expect(jsonDecode(r.json), jsonDecode(old.json), reason: r.slug);
+        expect(r.category, old.category, reason: r.slug);
+      }
+    }
+    expect(first.keys.every(keys.contains), isTrue);
   });
 }

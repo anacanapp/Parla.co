@@ -336,26 +336,33 @@ class ContentAdminEndpoint extends Endpoint {
     return changed;
   }
 
-  /// Publishes the imported blog articles that are still drafts, without
-  /// the expert's approval (admins only; the owner's decision of
+  /// Publishes the imported blog articles and recipes that are still
+  /// drafts, without the expert's approval (admins only; the owner's decision of
   /// 2026-11-20, while the app is not public). Each is audited as
   /// `content.published_unreviewed` and keeps no review date, so the app
   /// shows no "reviewed by an expert" line. Returns how many were
   /// published.
-  Future<int> publishImportedArticles(Session session) async {
+  Future<int> publishImported(Session session) async {
     final staff = await requireStaff(session, roles: {StaffRole.admin});
-    final slugs = {for (final b in blogSeed) b.slug};
-    final rows = await ContentItem.db.find(
-      session,
-      where: (t) =>
-          t.kind.equals(ContentKind.article.name) &
-          t.slug.inSet(slugs) &
-          t.status.equals(ContentStatus.draft),
-    );
+    final rows = <ContentItem>[];
+    for (final (kind, seed) in [
+      (ContentKind.article, blogSeed),
+      (ContentKind.recipe, recipeSeed),
+    ]) {
+      rows.addAll(
+        await ContentItem.db.find(
+          session,
+          where: (t) =>
+              t.kind.equals(kind.name) &
+              t.slug.inSet({for (final s in seed) s.slug}) &
+              t.status.equals(ContentStatus.draft),
+        ),
+      );
+    }
     var published = 0;
     for (final row in rows) {
       if (ContentRules.problems(
-        ContentKind.article,
+        _kind(row.kind),
         row.draftJson,
         complete: true,
       ).isNotEmpty) {

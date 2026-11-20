@@ -1276,20 +1276,20 @@ class _ContentAdminEndpoint {
     });
   }
 
-  _ida.Future<int> publishImportedArticles(
+  _ida.Future<int> publishImported(
     _ist.TestSessionBuilder sessionBuilder,
   ) async {
     return _ist.callAwaitableFunctionAndHandleExceptions(() async {
       var _localUniqueSession =
           (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
             endpoint: 'contentAdmin',
-            method: 'publishImportedArticles',
+            method: 'publishImported',
           );
       try {
         var _localCallContext = await _endpointDispatch.getMethodCallContext(
           createSessionCallback: (_) => _localUniqueSession,
           endpointPath: 'contentAdmin',
-          methodName: 'publishImportedArticles',
+          methodName: 'publishImported',
           parameters: _ist.testObjectToJson({}),
           serializationManager: _serializationManager,
         );

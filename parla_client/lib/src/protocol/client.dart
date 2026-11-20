@@ -569,15 +569,15 @@ class EndpointContentAdmin extends _isc.EndpointRef {
     {},
   );
 
-  /// Publishes the imported blog articles that are still drafts, without
-  /// the expert's approval (admins only; the owner's decision of
+  /// Publishes the imported blog articles and recipes that are still
+  /// drafts, without the expert's approval (admins only; the owner's decision of
   /// 2026-11-20, while the app is not public). Each is audited as
   /// `content.published_unreviewed` and keeps no review date, so the app
   /// shows no "reviewed by an expert" line. Returns how many were
   /// published.
-  _ida.Future<int> publishImportedArticles() => caller.callServerEndpoint<int>(
+  _ida.Future<int> publishImported() => caller.callServerEndpoint<int>(
     'contentAdmin',
-    'publishImportedArticles',
+    'publishImported',
     {},
   );
 

@@ -4,6 +4,7 @@ import 'package:parla_shared/parla_shared.dart';
 
 part 'blog_seed.dart';
 part 'content_seed.dart';
+part 'recipe_seed.dart';
 
 /// One article or recipe from the content sheet.
 class SeedContent {
@@ -27,14 +28,17 @@ class SeedContent {
   ];
 }
 
-/// Everything the sheet import offers: the full blog articles, then the
-/// first sheet's items that have no full version.
+/// Everything the sheet import offers: the full blog articles and the
+/// recipes, then the first sheet's items that have no newer version.
 List<SeedContent> get importSeed {
-  final full = {for (final b in blogSeed) b.slug};
+  final newer = {
+    for (final s in [...blogSeed, ...recipeSeed]) '${s.kind}/${s.slug}',
+  };
   return [
     ...blogSeed,
+    ...recipeSeed,
     for (final s in contentSeed)
-      if (s.kind != 'article' || !full.contains(s.slug)) s,
+      if (!newer.contains('${s.kind}/${s.slug}')) s,
   ];
 }
 

@@ -109,9 +109,9 @@ class _ContentScreenState extends State<ContentScreen> {
         title: const Text('Ekspert yoxlaması olmadan dərc'),
         content: const Text(
           'Cədvəldən idxal olunan və hələ qaralama olan bütün bloq yazıları '
-          'tətbiqdə dərc olunur. Ekspert onları yoxlamayıb, ona görə '
-          'tətbiqdə "ekspert yoxlayıb" sətri görünmür. Bu əməliyyat audit '
-          'jurnalına yazılır.',
+          'və reseptlər tətbiqdə dərc olunur. Ekspert onları yoxlamayıb, '
+          'ona görə tətbiqdə "ekspert yoxlayıb" sətri görünmür. Bu '
+          'əməliyyat audit jurnalına yazılır.',
         ),
         actions: [
           TextButton(
@@ -128,11 +128,13 @@ class _ContentScreenState extends State<ContentScreen> {
     );
     if (yes != true) return;
     try {
-      final n = await widget.state.api.publishImportedArticles();
+      final n = await widget.state.api.publishImported();
       if (!mounted) return;
       _snack(
         context,
-        n == 0 ? 'Dərc olunacaq qaralama yoxdur.' : '$n yazı dərc olundu.',
+        n == 0
+            ? 'Dərc olunacaq qaralama yoxdur.'
+            : '$n yazı və resept dərc olundu.',
       );
       await _load();
     } on Object catch (e) {
@@ -286,7 +288,7 @@ class _ContentScreenState extends State<ContentScreen> {
             label: const Text('Cədvəldən idxal et'),
           ),
         if (widget.state.me?.role == StaffRole.admin &&
-            _kind == ContentKind.article)
+            (_kind == ContentKind.article || _kind == ContentKind.recipe))
           OutlinedButton.icon(
             key: const ValueKey('content-publish-imported'),
             onPressed: _publishImported,

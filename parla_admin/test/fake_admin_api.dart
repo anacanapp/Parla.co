@@ -277,11 +277,14 @@ class FakeAdminApi implements AdminApi {
   }
 
   @override
-  Future<int> publishImportedArticles() async {
+  Future<int> publishImported() async {
     calls.add('publish-imported');
     var n = 0;
     for (final c in [...content]) {
-      if (c.kind != 'article' || c.status != ContentStatus.draft) continue;
+      if (!{'article', 'recipe'}.contains(c.kind) ||
+          c.status != ContentStatus.draft) {
+        continue;
+      }
       _put(c.copyWith(status: ContentStatus.published, live: true));
       n++;
     }

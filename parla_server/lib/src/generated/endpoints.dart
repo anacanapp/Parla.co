@@ -800,8 +800,8 @@ class Endpoints extends _is.EndpointDispatch {
                   (endpoints['contentAdmin'] as _if39e6se.ContentAdminEndpoint)
                       .importSheet(session),
         ),
-        'publishImportedArticles': _is.MethodConnector(
-          name: 'publishImportedArticles',
+        'publishImported': _is.MethodConnector(
+          name: 'publishImported',
           params: {},
           call:
               (
@@ -809,7 +809,7 @@ class Endpoints extends _is.EndpointDispatch {
                 Map<String, dynamic> params,
               ) async =>
                   (endpoints['contentAdmin'] as _if39e6se.ContentAdminEndpoint)
-                      .publishImportedArticles(session),
+                      .publishImported(session),
         ),
         'setHidden': _is.MethodConnector(
           name: 'setHidden',

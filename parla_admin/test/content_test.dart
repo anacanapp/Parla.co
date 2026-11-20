@@ -161,7 +161,7 @@ void main() {
     expect(find.text('Ekspert yoxlaması olmadan dərc'), findsOneWidget);
     await _tap(tester, find.byKey(const ValueKey('publish-imported-yes')));
     expect(api.calls, contains('publish-imported'));
-    expect(find.text('1 yazı dərc olundu.'), findsOneWidget);
+    expect(find.text('1 yazı və resept dərc olundu.'), findsOneWidget);
     expect(find.text('ekspert yoxlamayıb'), findsNothing);
 
     await _tap(tester, find.text('Qış'));

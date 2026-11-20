@@ -401,7 +401,7 @@ void main() {
 
         final changed = await endpoints.contentAdmin.importSheet(t.admin);
         // 20 new articles, 11 plans filled, the edited one kept; recipes.
-        expect(changed, 20 + 11 + 20);
+        expect(changed, 20 + 11 + recipeSeed.length);
         final articles = await endpoints.contentAdmin.list(t.admin, 'article');
         expect(articles, hasLength(32));
         Map<String, Object?> draft(String slug) =>
@@ -427,12 +427,13 @@ void main() {
         // The owner's decision: admins publish the imported articles
         // without expert review; it stays visible in the audit and app.
         await expectLater(
-          endpoints.contentAdmin.publishImportedArticles(t.editor),
+          endpoints.contentAdmin.publishImported(t.editor),
           throwsA(_error(StaffErrors.forbidden)),
         );
         expect(
-          await endpoints.contentAdmin.publishImportedArticles(t.admin),
-          31, // all but the edited plan, which is incomplete
+          await endpoints.contentAdmin.publishImported(t.admin),
+          // All but the edited plan (incomplete), and every recipe.
+          31 + recipeSeed.length,
         );
         final live = await endpoints.content.published(
           sessionBuilder,
@@ -445,10 +446,10 @@ void main() {
             db,
             where: (a) => a.action.equals('content.published_unreviewed'),
           ),
-          31,
+          31 + recipeSeed.length,
         );
         expect(
-          await endpoints.contentAdmin.publishImportedArticles(t.admin),
+          await endpoints.contentAdmin.publishImported(t.admin),
           0,
         );
       },

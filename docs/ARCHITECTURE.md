@@ -385,11 +385,29 @@ draft content until the named expert reviews it.
   - Expert review: needed (dermatologist; stylist for the fashion ones).
     By the owner's decision of 2026-11-20, while the app is not public,
     an admin may publish the imported articles without it with
-    **İdxal olunanları dərc et** (`contentAdmin.publishImportedArticles`).
+    **İdxal olunanları dərc et** (`contentAdmin.publishImported`).
     Each is audited as `content.published_unreviewed`, keeps no review
     date (the app shows no "reviewed by an expert" line). The panel shows
     no extra mark (owner's decision); the audit log lists them. The
     expert reviews them before launch through the normal flow.
+
+- C5 (2026-11-20): the 76 recipes of the sheet "Parla — Reseptlər
+  (genişləndirilmiş)" are in `recipe_seed.dart`, built by
+  `tools/blog_import/build_recipe_seed.py` from its CSV export. The first
+  20 are unchanged; 56 are new. **İdxal olunanları dərc et** publishes
+  them as for the articles (owner's decision, before expert review).
+  - Meals: səhər → breakfast, nahar → lunch, şam → dinner, qəlyanaltı and
+    desert → snack (the app has no dessert meal). The sheet's sections
+    (smoothies, party table, cheese board…) and difficulty are not used.
+  - Plate groups: paxlalı and balıq count as protein; "şirniyyat
+    (arabir)" fills no group, so a sweet may have none (rule changed).
+  - Servings may be up to 24 (cookie batches; was 12).
+  - The sheet's notes are in Azerbaijani only and are not imported. Food
+    safety notes the dietitian must put into the recipes (az, ru, en):
+    pasteurised cheese in pregnancy (beet-carpaccio, classic-cheese-board,
+    azerbaijani-cheese-board), chicken cooked through
+    (thyme-chicken-celeriac), cross-contamination with gluten
+    (tahini-almond-cookies).
 
 ## Content images (B2b-1)
 
