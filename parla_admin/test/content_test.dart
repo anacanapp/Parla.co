@@ -162,7 +162,7 @@ void main() {
     await _tap(tester, find.byKey(const ValueKey('publish-imported-yes')));
     expect(api.calls, contains('publish-imported'));
     expect(find.text('1 yazı dərc olundu.'), findsOneWidget);
-    expect(find.text('ekspert yoxlamayıb'), findsOneWidget);
+    expect(find.text('ekspert yoxlamayıb'), findsNothing);
 
     await _tap(tester, find.text('Qış'));
     final sources = tester.widget<TextField>(

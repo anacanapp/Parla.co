@@ -387,9 +387,9 @@ draft content until the named expert reviews it.
     an admin may publish the imported articles without it with
     **İdxal olunanları dərc et** (`contentAdmin.publishImportedArticles`).
     Each is audited as `content.published_unreviewed`, keeps no review
-    date (the app shows no "reviewed by an expert" line) and is marked
-    "ekspert yoxlamayıb" in the panel. The expert reviews them before
-    launch through the normal flow.
+    date (the app shows no "reviewed by an expert" line). The panel shows
+    no extra mark (owner's decision); the audit log lists them. The
+    expert reviews them before launch through the normal flow.
 
 ## Content images (B2b-1)
 

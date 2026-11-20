@@ -340,8 +340,8 @@ class ContentAdminEndpoint extends Endpoint {
   /// the expert's approval (admins only; the owner's decision of
   /// 2026-11-20, while the app is not public). Each is audited as
   /// `content.published_unreviewed` and keeps no review date, so the app
-  /// shows no "reviewed by an expert" line and the panel marks it until an
-  /// expert approves a later version. Returns how many were published.
+  /// shows no "reviewed by an expert" line. Returns how many were
+  /// published.
   Future<int> publishImportedArticles(Session session) async {
     final staff = await requireStaff(session, roles: {StaffRole.admin});
     final slugs = {for (final b in blogSeed) b.slug};

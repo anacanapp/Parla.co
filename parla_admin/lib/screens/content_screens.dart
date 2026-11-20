@@ -109,9 +109,8 @@ class _ContentScreenState extends State<ContentScreen> {
         title: const Text('Ekspert yoxlaması olmadan dərc'),
         content: const Text(
           'Cədvəldən idxal olunan və hələ qaralama olan bütün bloq yazıları '
-          'tətbiqdə dərc olunur. Ekspert onları yoxlamayıb: tətbiqdə '
-          '"ekspert yoxlayıb" sətri görünmür, paneldə isə yazılar '
-          '"ekspert yoxlamayıb" kimi işarələnir. Bu əməliyyat audit '
+          'tətbiqdə dərc olunur. Ekspert onları yoxlamayıb, ona görə '
+          'tətbiqdə "ekspert yoxlayıb" sətri görünmür. Bu əməliyyat audit '
           'jurnalına yazılır.',
         ),
         actions: [
@@ -491,12 +490,6 @@ class _ContentRow extends StatelessWidget {
         if (item != null) StatusPill(item.status),
         if (item?.live ?? false) const Pill('canlı', tone: liveTone),
         if (item?.hidden ?? false) const Pill('gizli', tone: dangerTone),
-        if (item != null &&
-            item.live &&
-            item.reviewedAt == null &&
-            (item.kind == ContentKind.article.name ||
-                item.kind == ContentKind.recipe.name))
-          const Pill('ekspert yoxlamayıb', tone: reviewTone),
       ],
     );
     final languages = filled == null
