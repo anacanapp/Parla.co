@@ -6,14 +6,14 @@ import '../../routes.dart';
 import '../../ui/brand.dart';
 import '../../ui/parla_icons.dart';
 
-/// The five main tabs. Profile and privacy open from the avatar on the
-/// Today screen, not from a tab.
+/// The five main tabs (owner's order, 2026-11-20). Sport opens from
+/// Discover; the profile and privacy centre is the last tab.
 enum ParlaTab {
   today(ParlaIconName.home, Routes.home),
   routine(ParlaIconName.sparkle, Routes.habits),
   check(ParlaIconName.scan, Routes.products),
-  sport(ParlaIconName.dumbbell, Routes.sport),
-  discover(ParlaIconName.compass, Routes.discover);
+  discover(ParlaIconName.compass, Routes.discover),
+  profile(ParlaIconName.profile, Routes.privacy);
 
   const ParlaTab(this.icon, this.route);
 
@@ -24,8 +24,8 @@ enum ParlaTab {
     ParlaTab.today => l10n.navToday,
     ParlaTab.routine => l10n.navRoutine,
     ParlaTab.check => l10n.navCheck,
-    ParlaTab.sport => l10n.navSport,
     ParlaTab.discover => l10n.navDiscover,
+    ParlaTab.profile => l10n.navProfile,
   };
 }
 

@@ -45,7 +45,13 @@ class RoutinesSection extends StatefulWidget {
     required this.habits,
     required this.book,
     required this.today,
+    this.initialArea,
+    this.initialSlot,
   });
+
+  /// The area and slot to open on (a routine tapped on Today).
+  final RoutineArea? initialArea;
+  final RoutineSlot? initialSlot;
 
   /// Quiz answers, or `null` before the quiz (basic routines then).
   final QuizAnswers? answers;
@@ -58,8 +64,8 @@ class RoutinesSection extends StatefulWidget {
 }
 
 class _RoutinesSectionState extends State<RoutinesSection> {
-  RoutineArea _area = RoutineArea.face;
-  RoutineSlot? _slot;
+  late RoutineArea _area = widget.initialArea ?? RoutineArea.face;
+  late RoutineSlot? _slot = widget.initialSlot;
 
   RoutineSlot _defaultSlot(AreaPlan plan) {
     final preferred = widget.today.hour < 15

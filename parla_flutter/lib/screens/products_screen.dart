@@ -412,7 +412,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       backgroundColor: ParlaColors.cream,
       appBar: AppBar(
         backgroundColor: ParlaColors.cream,
-        leading: BackButton(onPressed: () => context.go(Routes.products)),
+        leading: BackButton(
+          onPressed: () => context.go(
+            GoRouterState.of(context).uri.queryParameters['from'] == 'discover'
+                ? Routes.discover
+                : Routes.products,
+          ),
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),

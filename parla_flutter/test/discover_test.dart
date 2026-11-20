@@ -267,7 +267,7 @@ Future<_App> _open(
           of: find.byType(ParlaNavBar),
           matching: find.byType(InkWell),
         )
-        .at(4),
+        .at(3),
   );
   await tester.pumpAndSettle();
   return _App(api, nutrition, careList);
@@ -624,7 +624,12 @@ void main() {
     });
     expect(app.api.nutrition, isNull);
 
+    // Meal pills filter the recipes; the recipe opens on its cover.
+    await _tap(tester, find.byKey(const ValueKey('cat-dinner')));
+    expect(find.byKey(const ValueKey('recipe-oats')), findsNothing);
+    await _tap(tester, find.byKey(const ValueKey('cat-breakfast')));
     await _tap(tester, find.byKey(const ValueKey('recipe-oats')));
+    expect(find.byType(CoverPage), findsOneWidget);
     expect(find.text('Oats en'), findsOneWidget);
     expect(find.text('4 tbsp en'), findsOneWidget);
     expect(find.text('Contains: gluten, milk'), findsOneWidget);

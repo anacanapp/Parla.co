@@ -295,7 +295,7 @@ class StepTile extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       child: Row(
         children: [
-          _NumberTile(number: number, color: step.tile, size: 48),
+          _NumberTile(number: number, color: step.tile, size: 40),
           const SizedBox(width: 14),
           Expanded(
             child: Column(
@@ -317,24 +317,35 @@ class StepTile extends StatelessWidget {
                 ? l10n.stepMarkUndone(step.title)
                 : l10n.stepMarkDone(step.title),
             excludeSemantics: true,
+            // A 32 px circle (owner's ask, 2026-11-20) in a 48 px tap area.
             child: InkResponse(
               onTap: onToggle,
-              radius: 28,
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
+              radius: 24,
+              child: SizedBox(
                 width: 48,
                 height: 48,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: done ? ParlaColors.sun : ParlaColors.cream,
-                  border: done
-                      ? null
-                      : Border.all(color: ParlaColors.outline, width: 2),
+                child: Center(
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    width: 32,
+                    height: 32,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: done ? ParlaColors.sun : ParlaColors.cream,
+                      border: done
+                          ? null
+                          : Border.all(color: ParlaColors.outline, width: 2),
+                    ),
+                    alignment: Alignment.center,
+                    child: done
+                        ? const ParlaIcon(
+                            ParlaIconName.check,
+                            size: 18,
+                            strokeWidth: 2.5,
+                          )
+                        : null,
+                  ),
                 ),
-                alignment: Alignment.center,
-                child: done
-                    ? const ParlaIcon(ParlaIconName.check, strokeWidth: 2.5)
-                    : null,
               ),
             ),
           ),

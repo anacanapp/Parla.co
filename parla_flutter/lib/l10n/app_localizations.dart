@@ -1396,6 +1396,12 @@ abstract class AppLocalizations {
   /// **'Discover'**
   String get navDiscover;
 
+  /// No description provided for @navProfile.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get navProfile;
+
   /// No description provided for @sportTitle.
   ///
   /// In en, this message translates to:

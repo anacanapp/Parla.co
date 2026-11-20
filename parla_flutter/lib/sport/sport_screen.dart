@@ -37,7 +37,7 @@ class _SportScreenState extends State<SportScreen> {
     return Scaffold(
       backgroundColor: ParlaColors.cream,
       extendBody: true,
-      bottomNavigationBar: const ParlaNavBar(selected: ParlaTab.sport),
+      bottomNavigationBar: const ParlaNavBar(selected: ParlaTab.discover),
       body: SafeArea(
         bottom: false,
         child: ListenableBuilder(
@@ -50,12 +50,20 @@ class _SportScreenState extends State<SportScreen> {
               120,
             ),
             children: [
-              Semantics(
-                header: true,
-                child: Text(
-                  AppLocalizations.of(context).sportTitle,
-                  style: Theme.of(context).textTheme.headlineMedium,
-                ),
+              Row(
+                children: [
+                  BackButton(onPressed: () => context.go(Routes.discover)),
+                  const SizedBox(width: 4),
+                  Expanded(
+                    child: Semantics(
+                      header: true,
+                      child: Text(
+                        AppLocalizations.of(context).sportTitle,
+                        style: Theme.of(context).textTheme.headlineMedium,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const SizedBox(height: ParlaSpace.gap),
               if (book.plan == null) const _Intro() else _PlanView(book: book),

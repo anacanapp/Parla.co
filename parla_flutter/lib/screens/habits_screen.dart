@@ -99,6 +99,7 @@ class _HabitsBody extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
+    final query = GoRouterState.of(context).uri.queryParameters;
     final week = WeekSummary(
       habits.log,
       today,
@@ -140,6 +141,13 @@ class _HabitsBody extends StatelessWidget {
           ),
           const SizedBox(height: 20),
           RoutinesSection(
+            key: ValueKey('routines-${query['area']}-${query['slot']}'),
+            initialArea: RoutineArea.values
+                .where((a) => a.name == query['area'])
+                .firstOrNull,
+            initialSlot: RoutineSlot.values
+                .where((s) => s.name == query['slot'])
+                .firstOrNull,
             answers: answers,
             habits: habits,
             book: book,

@@ -8,6 +8,7 @@ import '../push/push_client.dart';
 import '../home/widgets/home_cards.dart';
 import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
+import '../home/widgets/parla_nav_bar.dart';
 import '../routes.dart';
 import '../ui/brand.dart';
 import '../ui/common.dart';
@@ -142,12 +143,14 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
     final text = Theme.of(context).textTheme;
     final consents = _consents;
     return Scaffold(
+      extendBody: true,
+      bottomNavigationBar: const ParlaNavBar(selected: ParlaTab.profile),
       appBar: AppBar(
         backgroundColor: ParlaColors.cream,
-        leading: BackButton(onPressed: () => context.go(Routes.home)),
+        automaticallyImplyLeading: false,
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 120),
         children: [
           Semantics(
             header: true,
@@ -214,11 +217,13 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
           ),
           const SizedBox(height: 16),
           _LinkTile(
+            key: const ValueKey('privacy-legal'),
             label: l10n.privacyLegalTitle,
             onTap: () => context.go(Routes.legal),
           ),
           _LinkTile(label: l10n.privacySignOut, onTap: _signOut),
           _LinkTile(
+            key: const ValueKey('privacy-delete'),
             label: l10n.privacyDeleteTitle,
             onTap: () => context.go(Routes.deleteAccount),
           ),
@@ -260,7 +265,7 @@ Future<void> exportAndShare(
 }
 
 class _LinkTile extends StatelessWidget {
-  const _LinkTile({required this.label, required this.onTap});
+  const _LinkTile({super.key, required this.label, required this.onTap});
 
   final String label;
   final VoidCallback onTap;

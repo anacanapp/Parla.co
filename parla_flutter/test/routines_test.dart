@@ -1,17 +1,16 @@
 import 'dart:convert';
+import 'dart:ui' show Tristate;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:parla/app.dart';
 import 'package:parla/habits/habit_store.dart';
 import 'package:parla/home/routine.dart';
-import 'package:parla/home/widgets/home_cards.dart';
 import 'package:parla/home/widgets/parla_nav_bar.dart';
 import 'package:parla/routines/routine_builder_screen.dart';
 import 'package:parla/services/parla_api.dart';
 import 'package:parla/state/app_settings.dart';
 import 'package:parla/ui/brand.dart';
-import 'package:parla/ui/parla_icons.dart';
 import 'package:parla_shared/parla_shared.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -421,7 +420,7 @@ void main() {
     await _tap(tester, find.byKey(const ValueKey('area-body')));
     expect(find.text('Spa'), findsOneWidget);
 
-    // Profile and privacy open from the avatar on the Today screen.
+    // Profile and privacy is the last tab.
     await tester.tap(
       find
           .descendant(
@@ -432,9 +431,12 @@ void main() {
     );
     await tester.pumpAndSettle();
     await tester.tap(
-      find.byWidgetPredicate(
-        (w) => w is RoundIconButton && w.icon == ParlaIconName.profile,
-      ),
+      find
+          .descendant(
+            of: find.byType(ParlaNavBar),
+            matching: find.byType(InkWell),
+          )
+          .at(4),
     );
     await tester.pumpAndSettle();
 
@@ -516,6 +518,25 @@ void main() {
 
     await _tap(tester, find.byKey(const ValueKey('today-own-r1')));
     expect(find.byKey(const ValueKey('area-face')), findsOneWidget);
+
+    // A hair or body row opens the Routine tab on that area, not on Face.
+    bool selected(String area) =>
+        tester
+            .getSemantics(find.byKey(ValueKey('area-$area')))
+            .flagsCollection
+            .isSelected ==
+        Tristate.isTrue;
+    for (final area in ['hair', 'body']) {
+      await _tap(tester, find.text('Today').last);
+      await tester.scrollUntilVisible(
+        find.byKey(ValueKey('today-$area-morning')),
+        200,
+        scrollable: find.byType(Scrollable).first,
+      );
+      await _tap(tester, find.byKey(ValueKey('today-$area-morning')));
+      expect(selected(area), isTrue, reason: area);
+      expect(selected('face'), isFalse, reason: area);
+    }
   });
 
   group('with the health consent', () {

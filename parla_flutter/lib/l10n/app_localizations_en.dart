@@ -765,6 +765,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get navDiscover => 'Discover';
 
   @override
+  String get navProfile => 'Profile';
+
+  @override
   String get sportTitle => 'Fitness';
 
   @override

@@ -70,6 +70,12 @@ Future<_App> _open(
         .at(3),
   );
   await tester.pumpAndSettle();
+  // Sport opens from its tile on Discover.
+  final tile = find.byKey(const ValueKey('discover-sport'));
+  await tester.ensureVisible(tile);
+  await tester.pumpAndSettle();
+  await tester.tap(tile);
+  await tester.pumpAndSettle();
   return _App(api, store, habits);
 }
 

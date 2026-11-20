@@ -742,6 +742,9 @@ class AppLocalizationsAz extends AppLocalizations {
   String get navDiscover => 'Kəşf et';
 
   @override
+  String get navProfile => 'Profil';
+
+  @override
   String get sportTitle => 'İdman';
 
   @override

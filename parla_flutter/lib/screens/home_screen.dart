@@ -153,12 +153,6 @@ class _HomeBody extends StatelessWidget {
                       const _Wordmark(),
                       const Spacer(),
                       const _MessagesButton(),
-                      const SizedBox(width: 8),
-                      RoundIconButton(
-                        icon: ParlaIconName.profile,
-                        label: l10n.homeProfileButton,
-                        onPressed: () => context.go(Routes.privacy),
-                      ),
                     ],
                   ),
                   const SizedBox(height: 8),
@@ -463,6 +457,7 @@ class _TodayRoutines extends StatelessWidget {
         rows.add(
           _RowData(
             key: 'today-${area.name}-${slot.name}',
+            route: '${Routes.habits}?area=${area.name}&slot=${slot.name}',
             title: '${areaLabel(l10n, area)} · ${slotLabel(l10n, slot)}',
             steps: ids.length,
             done: done,
@@ -477,6 +472,7 @@ class _TodayRoutines extends StatelessWidget {
       rows.add(
         _RowData(
           key: 'today-own-${routine.id}',
+          route: '${Routes.habits}?area=${routine.area.name}',
           title: routine.name,
           steps: routine.steps.length,
           done: routine.steps.where((s) => book.isTicked(s.id)).length,
@@ -520,7 +516,7 @@ class _TodayRoutines extends StatelessWidget {
             borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
             child: InkWell(
               borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
-              onTap: () => context.go(Routes.habits),
+              onTap: () => context.go(row.route),
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(12, 10, 14, 10),
                 child: Row(
@@ -572,6 +568,7 @@ class _TodayRoutines extends StatelessWidget {
 class _RowData {
   const _RowData({
     required this.key,
+    required this.route,
     required this.title,
     required this.steps,
     required this.done,
@@ -579,6 +576,9 @@ class _RowData {
   });
 
   final String key;
+
+  /// The Routine tab on this routine's area (and slot).
+  final String route;
   final String title;
   final int steps;
   final int done;
