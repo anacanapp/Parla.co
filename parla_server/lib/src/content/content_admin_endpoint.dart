@@ -8,7 +8,7 @@ import '../generated/protocol.dart';
 import '../staff/staff_guard.dart';
 import '../media/media_sync.dart';
 import '../push/push.dart';
-import 'content_seed_import.dart';
+import 'content_import.dart';
 
 /// Error codes of the content flow. The panel translates them.
 abstract final class ContentErrors {
@@ -288,52 +288,7 @@ class ContentAdminEndpoint extends Endpoint {
   /// full article. Returns how many items were added or filled in.
   Future<int> importSheet(Session session) async {
     final staff = await requireStaff(session, roles: {StaffRole.admin});
-    var changed = 0;
-    for (final seed in importSeed) {
-      if (seed.problems.isNotEmpty) continue;
-      final exists = await ContentItem.db.findFirstRow(
-        session,
-        where: (t) => t.kind.equals(seed.kind) & t.slug.equals(seed.slug),
-      );
-      final now = DateTime.now().toUtc();
-      if (exists != null) {
-        if (seed.kind != 'article' ||
-            exists.status != ContentStatus.draft ||
-            !isUntouchedPlan(seed.slug, exists.draftJson) ||
-            !blogSeed.contains(seed)) {
-          continue;
-        }
-        final row = await ContentItem.db.updateRow(
-          session,
-          exists.copyWith(
-            draftJson: mergeSeed(exists.draftJson, seed.json),
-            category: seed.category,
-            updatedBy: staff.authUserId,
-            updatedAt: now,
-          ),
-        );
-        await _audit(session, staff, 'content.reimported', row);
-        changed++;
-        continue;
-      }
-      final row = await ContentItem.db.insertRow(
-        session,
-        ContentItem(
-          kind: seed.kind,
-          slug: seed.slug,
-          category: seed.category,
-          status: ContentStatus.draft,
-          draftJson: seed.json,
-          createdBy: staff.authUserId,
-          updatedBy: staff.authUserId,
-          createdAt: now,
-          updatedAt: now,
-        ),
-      );
-      await _audit(session, staff, 'content.imported', row);
-      changed++;
-    }
-    return changed;
+    return importContentSeed(session, staff);
   }
 
   /// Publishes the imported blog articles and recipes that are still
@@ -344,47 +299,7 @@ class ContentAdminEndpoint extends Endpoint {
   /// published.
   Future<int> publishImported(Session session) async {
     final staff = await requireStaff(session, roles: {StaffRole.admin});
-    final rows = <ContentItem>[];
-    for (final (kind, seed) in [
-      (ContentKind.article, blogSeed),
-      (ContentKind.recipe, recipeSeed),
-    ]) {
-      rows.addAll(
-        await ContentItem.db.find(
-          session,
-          where: (t) =>
-              t.kind.equals(kind.name) &
-              t.slug.inSet({for (final s in seed) s.slug}) &
-              t.status.equals(ContentStatus.draft),
-        ),
-      );
-    }
-    var published = 0;
-    for (final row in rows) {
-      if (ContentRules.problems(
-        _kind(row.kind),
-        row.draftJson,
-        complete: true,
-      ).isNotEmpty) {
-        continue;
-      }
-      await _checkImage(session, row.draftJson);
-      await _set(
-        session,
-        staff,
-        row,
-        'content.published_unreviewed',
-        (r) => r.copyWith(
-          status: ContentStatus.published,
-          publishedJson: r.draftJson,
-          publishedReviewedAt: null,
-          publishedAt: DateTime.now().toUtc(),
-        ),
-      );
-      published++;
-    }
-    if (published > 0) await syncPublicMedia(session);
-    return published;
+    return publishImportedContent(session, staff);
   }
 
   /// Hides or shows a catalogue item in the app at once (no review: it
@@ -435,22 +350,8 @@ class ContentAdminEndpoint extends Endpoint {
 
   /// The draft's image must exist with a licence and alt text in all three
   /// languages before it can go live.
-  static Future<void> _checkImage(Session session, String json) async {
-    for (final id in MediaRules.imageIdsOf(
-      jsonDecode(json) as Map<String, Object?>,
-    )) {
-      final asset = await MediaAsset.db.findById(session, id);
-      if (asset == null ||
-          MediaRules.problems(
-            license: asset.license,
-            source: asset.source,
-            altJson: asset.altJson,
-            complete: true,
-          ).isNotEmpty) {
-        throw ParlaException(code: ContentErrors.imageIncomplete);
-      }
-    }
-  }
+  static Future<void> _checkImage(Session session, String json) =>
+      checkContentImages(session, json);
 
   static Map<String, Object?> _draft(ContentItem row) =>
       jsonDecode(row.draftJson) as Map<String, Object?>;

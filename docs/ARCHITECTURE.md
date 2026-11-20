@@ -390,6 +390,11 @@ draft content until the named expert reviews it.
     date (the app shows no "reviewed by an expert" line). The panel shows
     no extra mark (owner's decision); the audit log lists them. The
     expert reviews them before launch through the normal flow.
+  - The same import and publishing can run without the panel as a
+    one-off ECS task: the server image with `PARLA_TASK=publish-imported`
+    and `PARLA_TASK_ACTOR=<an active admin's email>`. It runs the same
+    code as the buttons, audits with that admin as the actor, logs a
+    one-line result and exits; it serves no traffic.
 
 - C5 (2026-11-20): the 76 recipes of the sheet "Parla — Reseptlər
   (genişləndirilmiş)" are in `recipe_seed.dart`, built by

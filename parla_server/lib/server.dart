@@ -4,8 +4,9 @@ import 'package:serverpod_auth_idp_server/core.dart';
 import 'package:serverpod_auth_idp_server/providers/email.dart';
 
 import 'src/account/retention.dart';
-import 'src/auth/verification_code_sender.dart';
 import 'src/audit/append_only.dart';
+import 'src/auth/verification_code_sender.dart';
+import 'src/content/content_import.dart';
 import 'src/generated/serverpod.dart';
 import 'src/health/health_kms.dart';
 import 'src/media/media_store.dart';
@@ -91,10 +92,46 @@ void run(List<String> args) async {
     await guardSession.close();
   }
 
+  // A one-off maintenance task (an ECS task with PARLA_TASK set): it runs
+  // and the process ends; it never serves traffic.
+  final task = Platform.environment['PARLA_TASK'];
+  if (task != null && task.isNotEmpty) {
+    await _runTask(pod, task, Platform.environment['PARLA_TASK_ACTOR'] ?? '');
+    return;
+  }
+
   // Deletes data past its retention period once a day (RET-1, RET-2).
   if (pod.runMode != ServerpodRunMode.test) {
     scheduleDailyRetention(pod);
   }
+}
+
+Future<void> _runTask(Serverpod pod, String task, String actor) async {
+  final session = await pod.createSession(enableLogging: true);
+  var code = 0;
+  try {
+    switch (task) {
+      case 'publish-imported':
+        final result = await runPublishImportedTask(session, actor);
+        session.log('Task $task: $result', level: LogLevel.info);
+        stdout.writeln('Task $task: $result');
+      default:
+        throw StateError('Unknown task $task');
+    }
+  } on Object catch (error, stackTrace) {
+    code = 1;
+    session.log(
+      'Task $task failed',
+      level: LogLevel.error,
+      exception: error,
+      stackTrace: stackTrace,
+    );
+    stderr.writeln('Task $task failed: $error');
+  } finally {
+    await session.close();
+  }
+  await pod.shutdown(exitProcess: false);
+  exit(code);
 }
 
 /// Images: an S3 bucket in staging and production (set by Terraform),
