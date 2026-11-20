@@ -559,8 +559,10 @@ class EndpointContentAdmin extends _isc.EndpointRef {
       );
 
   /// Imports the articles and recipes of the content sheet as drafts
-  /// (admins only). Slugs that already exist are skipped, so running it
-  /// again never overwrites the team's edits. Returns how many were added.
+  /// (admins only). Nothing is published. An existing item is left alone,
+  /// so the team's edits are never overwritten, with one exception: a
+  /// draft that still holds only the first sheet's writing plan gets the
+  /// full article. Returns how many items were added or filled in.
   _ida.Future<int> importSheet() => caller.callServerEndpoint<int>(
     'contentAdmin',
     'importSheet',
