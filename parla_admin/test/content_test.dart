@@ -145,7 +145,10 @@ void main() {
     await _tap(tester, _nav('Məzmun'));
     await _tap(tester, find.byKey(const ValueKey('content-import')));
     await _tap(tester, find.byKey(const ValueKey('import-yes')));
-    expect(find.text('1 yazı qaralama kimi əlavə olundu və ya dolduruldu.'), findsOneWidget);
+    expect(
+      find.text('1 yazı qaralama kimi əlavə olundu və ya dolduruldu.'),
+      findsOneWidget,
+    );
     expect(find.text('Qış'), findsOneWidget);
     expect(find.textContaining('Bədən'), findsOneWidget);
 
