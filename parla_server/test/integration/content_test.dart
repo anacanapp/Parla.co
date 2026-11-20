@@ -473,8 +473,8 @@ void main() {
       );
       expect(
         result,
-        'Imported or filled ${importSeed.length} items, published '
-        '${blogSeed.length + recipeSeed.length}.',
+        'Imported or filled ${importSeed.length} items, refilled 0 plans, '
+        'published ${blogSeed.length + recipeSeed.length}.',
       );
       expect(
         await endpoints.content.published(sessionBuilder, 'recipe'),
@@ -488,8 +488,54 @@ void main() {
       // Run again: nothing left to do.
       expect(
         await runPublishImportedTask(db, 'first-admin@example.com'),
-        'Imported or filled 0 items, published 0.',
+        'Imported or filled 0 items, refilled 0 plans, published 0.',
       );
+    });
+
+    test('an edited writing plan is still replaced by the task', () async {
+      final t = await team();
+      final db = sessionBuilder.build();
+      final plan = contentSeed.firstWhere(
+        (s) => s.slug == 'sunglasses-hats-uv',
+      );
+      final now = DateTime.now().toUtc();
+      final row = await ContentItem.db.insertRow(
+        db,
+        ContentItem(
+          kind: plan.kind,
+          slug: plan.slug,
+          category: plan.category,
+          status: ContentStatus.draft,
+          draftJson: plan.json,
+          createdBy: UuidValue.fromString(
+            '00000000-0000-4000-8000-000000000001',
+          ),
+          updatedBy: UuidValue.fromString(
+            '00000000-0000-4000-8000-000000000001',
+          ),
+          createdAt: now,
+          updatedAt: now,
+        ),
+      );
+      // Edited in the panel: still the plan, with another reading time.
+      await endpoints.contentAdmin.saveDraft(
+        t.editor,
+        row.id!,
+        jsonEncode({
+          ...jsonDecode(plan.json) as Map<String, Object?>,
+          'minutes': 7,
+        }),
+        plan.category,
+      );
+      final result = await runPublishImportedTask(
+        db,
+        'first-admin@example.com',
+      );
+      expect(result, contains('refilled 1 plans'));
+      final live = await endpoints.content.published(sessionBuilder, 'article');
+      final sun = live.singleWhere((a) => a.slug == 'sunglasses-hats-uv');
+      expect(sun.json, isNot(contains(ContentRules.planMarker)));
+      expect(live, hasLength(blogSeed.length));
     });
 
     test('catalogue texts: known ids, review flow, hiding at once', () async {
