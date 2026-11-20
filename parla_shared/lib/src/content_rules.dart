@@ -437,12 +437,12 @@ abstract final class ContentRules {
         });
         text('title', maxTitle);
         number('minutes', 1, 240);
-        number('servings', 1, 12);
+        number('servings', 1, 24);
         final groups = json['groups'];
         if (groups == null) {
           if (complete) out.add('groups.missing');
         } else if (groups is! List ||
-            groups.isEmpty && complete ||
+            // Empty is allowed: sweets fill no plate group.
             !groups.every(plateGroups.contains) ||
             groups.toSet().length != groups.length) {
           out.add('groups.invalid');

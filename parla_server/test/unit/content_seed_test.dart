@@ -43,4 +43,65 @@ void main() {
       );
     }
   });
+
+  test('the full blog articles are complete in three languages', () {
+    expect(blogSeed, hasLength(32));
+    final slugs = blogSeed.map((b) => b.slug).toSet();
+    expect(slugs, hasLength(blogSeed.length));
+    // Every article of the first sheet has its full version.
+    for (final a in contentSeed.where((s) => s.kind == 'article')) {
+      expect(slugs, contains(a.slug));
+    }
+    for (final b in blogSeed) {
+      expect(b.problems, isEmpty, reason: b.slug);
+      final json = jsonDecode(b.json) as Map<String, Object?>;
+      final body = json['body']! as Map<String, Object?>;
+      expect(body.keys.toSet(), {'az', 'ru', 'en'}, reason: b.slug);
+      for (final text in body.values) {
+        expect(text, isNot(contains(ContentRules.planMarker)));
+        expect((text! as String).length, greaterThan(3000), reason: b.slug);
+      }
+      expect(json['sources'], isNotEmpty, reason: b.slug);
+      // Only the cover and its review are missing before publishing.
+      expect(
+        ContentRules.problems(
+          ContentKind.article,
+          b.json,
+          complete: true,
+        ).where((p) => !p.startsWith('image')),
+        isEmpty,
+        reason: b.slug,
+      );
+    }
+  });
+
+  test('the import offers each article once, in its full version', () {
+    final articles = importSeed.where((s) => s.kind == 'article').toList();
+    expect(articles, hasLength(32));
+    expect(articles.every(blogSeed.contains), isTrue);
+    expect(importSeed.where((s) => s.kind == 'recipe'), hasLength(76));
+  });
+
+  test('the recipe sheet keeps the first 20 recipes unchanged', () {
+    expect(recipeSeed, hasLength(76));
+    final keys = recipeSeed.map((s) => s.slug).toSet();
+    expect(keys, hasLength(recipeSeed.length));
+    final first = {
+      for (final s in contentSeed.where((s) => s.kind == 'recipe')) s.slug: s,
+    };
+    for (final r in recipeSeed) {
+      expect(r.problems, isEmpty, reason: r.slug);
+      expect(
+        ContentRules.problems(ContentKind.recipe, r.json, complete: true),
+        isEmpty,
+        reason: r.slug,
+      );
+      final old = first[r.slug];
+      if (old != null) {
+        expect(jsonDecode(r.json), jsonDecode(old.json), reason: r.slug);
+        expect(r.category, old.category, reason: r.slug);
+      }
+    }
+    expect(first.keys.every(keys.contains), isTrue);
+  });
 }

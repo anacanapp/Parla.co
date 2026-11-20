@@ -68,8 +68,10 @@ class _ContentScreenState extends State<ContentScreen> {
       builder: (context) => AlertDialog(
         title: const Text('Cədvəldən idxal'),
         content: const Text(
-          'Məzmun cədvəlindəki bloqlar və reseptlər qaralama kimi əlavə '
-          'olunur. Artıq olan yazılara toxunulmur, heç nə dərc olunmur.',
+          'Bloqlar (tam mətn, 3 dildə) və reseptlər qaralama kimi əlavə '
+          'olunur. Hələ yalnız yazı planı olan qaralamalar tam mətnlə '
+          'doldurulur; redaktə olunmuş yazılara toxunulmur. Heç nə dərc '
+          'olunmur: hər yazı ekspert təsdiqindən keçir.',
         ),
         actions: [
           TextButton(
@@ -88,7 +90,52 @@ class _ContentScreenState extends State<ContentScreen> {
     try {
       final added = await widget.state.api.importSheet();
       if (!mounted) return;
-      _snack(context, '$added yazı qaralama kimi əlavə olundu.');
+      _snack(
+        context,
+        added == 0
+            ? 'Yeni heç nə yoxdur.'
+            : '$added yazı qaralama kimi əlavə olundu və ya dolduruldu.',
+      );
+      await _load();
+    } on Object catch (e) {
+      if (mounted) _snack(context, errorText(e));
+    }
+  }
+
+  Future<void> _publishImported() async {
+    final yes = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Ekspert yoxlaması olmadan dərc'),
+        content: const Text(
+          'Cədvəldən idxal olunan və hələ qaralama olan bütün bloq yazıları '
+          'və reseptlər tətbiqdə dərc olunur. Ekspert onları yoxlamayıb, '
+          'ona görə tətbiqdə "ekspert yoxlayıb" sətri görünmür. Bu '
+          'əməliyyat audit jurnalına yazılır.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Ləğv et'),
+          ),
+          FilledButton(
+            key: const ValueKey('publish-imported-yes'),
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Dərc et'),
+          ),
+        ],
+      ),
+    );
+    if (yes != true) return;
+    try {
+      final n = await widget.state.api.publishImported();
+      if (!mounted) return;
+      _snack(
+        context,
+        n == 0
+            ? 'Dərc olunacaq qaralama yoxdur.'
+            : '$n yazı və resept dərc olundu.',
+      );
       await _load();
     } on Object catch (e) {
       if (mounted) _snack(context, errorText(e));
@@ -239,6 +286,14 @@ class _ContentScreenState extends State<ContentScreen> {
             onPressed: _importSheet,
             icon: const Icon(Icons.table_view_outlined, size: 18),
             label: const Text('Cədvəldən idxal et'),
+          ),
+        if (widget.state.me?.role == StaffRole.admin &&
+            (_kind == ContentKind.article || _kind == ContentKind.recipe))
+          OutlinedButton.icon(
+            key: const ValueKey('content-publish-imported'),
+            onPressed: _publishImported,
+            icon: const Icon(Icons.publish_outlined, size: 18),
+            label: const Text('İdxal olunanları dərc et'),
           ),
         if (_canWrite(widget.state) && !_kind.isCatalogue)
           FilledButton.icon(

@@ -30,6 +30,7 @@ contentAdmin:
   - publish:
   - unpublish:
   - importSheet:
+  - publishImported:
   - setHidden:
   - delete:
 content:

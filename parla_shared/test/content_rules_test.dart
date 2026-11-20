@@ -56,6 +56,18 @@ void main() {
     );
   });
 
+  test('a sweet recipe may fill no plate group', () {
+    final sweet = {...recipe, 'groups': <String>[]};
+    expect(
+      ContentRules.problems(
+        ContentKind.recipe,
+        jsonEncode(sweet),
+        complete: true,
+      ),
+      isNot(contains('groups.invalid')),
+    );
+  });
+
   test('unknown fields, groups and bad contacts are refused', () {
     expect(
       _p(ContentKind.article, {...article, 'score': 48}),

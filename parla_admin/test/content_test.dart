@@ -145,16 +145,26 @@ void main() {
     await _tap(tester, _nav('Məzmun'));
     await _tap(tester, find.byKey(const ValueKey('content-import')));
     await _tap(tester, find.byKey(const ValueKey('import-yes')));
-    expect(find.text('1 yazı qaralama kimi əlavə olundu.'), findsOneWidget);
+    expect(
+      find.text('1 yazı qaralama kimi əlavə olundu və ya dolduruldu.'),
+      findsOneWidget,
+    );
     expect(find.text('Qış'), findsOneWidget);
     expect(find.textContaining('Bədən'), findsOneWidget);
 
     await _tap(tester, find.byKey(const ValueKey('content-import')));
     await _tap(tester, find.byKey(const ValueKey('import-yes')));
-    expect(find.text('0 yazı qaralama kimi əlavə olundu.'), findsOneWidget);
+    expect(find.text('Yeni heç nə yoxdur.'), findsOneWidget);
+
+    // Publishing the imported drafts without expert review, after a warning.
+    await _tap(tester, find.byKey(const ValueKey('content-publish-imported')));
+    expect(find.text('Ekspert yoxlaması olmadan dərc'), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('publish-imported-yes')));
+    expect(api.calls, contains('publish-imported'));
+    expect(find.text('1 yazı və resept dərc olundu.'), findsOneWidget);
+    expect(find.text('ekspert yoxlamayıb'), findsNothing);
 
     await _tap(tester, find.text('Qış'));
-    expect(find.byKey(const ValueKey('content-plan-left')), findsOneWidget);
     final sources = tester.widget<TextField>(
       find.byKey(const ValueKey('field-sources')),
     );
@@ -165,6 +175,10 @@ void main() {
     await _pump(tester, StaffRole.editor);
     await _tap(tester, _nav('Məzmun'));
     expect(find.byKey(const ValueKey('content-import')), findsNothing);
+    expect(
+      find.byKey(const ValueKey('content-publish-imported')),
+      findsNothing,
+    );
   });
 
   testWidgets('recipe allergens: none must be chosen on purpose', (

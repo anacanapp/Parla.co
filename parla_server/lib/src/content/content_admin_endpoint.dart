@@ -282,19 +282,40 @@ class ContentAdminEndpoint extends Endpoint {
   }
 
   /// Imports the articles and recipes of the content sheet as drafts
-  /// (admins only). Slugs that already exist are skipped, so running it
-  /// again never overwrites the team's edits. Returns how many were added.
+  /// (admins only). Nothing is published. An existing item is left alone,
+  /// so the team's edits are never overwritten, with one exception: a
+  /// draft that still holds only the first sheet's writing plan gets the
+  /// full article. Returns how many items were added or filled in.
   Future<int> importSheet(Session session) async {
     final staff = await requireStaff(session, roles: {StaffRole.admin});
-    var added = 0;
-    for (final seed in contentSeed) {
+    var changed = 0;
+    for (final seed in importSeed) {
       if (seed.problems.isNotEmpty) continue;
       final exists = await ContentItem.db.findFirstRow(
         session,
         where: (t) => t.kind.equals(seed.kind) & t.slug.equals(seed.slug),
       );
-      if (exists != null) continue;
       final now = DateTime.now().toUtc();
+      if (exists != null) {
+        if (seed.kind != 'article' ||
+            exists.status != ContentStatus.draft ||
+            !isUntouchedPlan(seed.slug, exists.draftJson) ||
+            !blogSeed.contains(seed)) {
+          continue;
+        }
+        final row = await ContentItem.db.updateRow(
+          session,
+          exists.copyWith(
+            draftJson: mergeSeed(exists.draftJson, seed.json),
+            category: seed.category,
+            updatedBy: staff.authUserId,
+            updatedAt: now,
+          ),
+        );
+        await _audit(session, staff, 'content.reimported', row);
+        changed++;
+        continue;
+      }
       final row = await ContentItem.db.insertRow(
         session,
         ContentItem(
@@ -310,9 +331,60 @@ class ContentAdminEndpoint extends Endpoint {
         ),
       );
       await _audit(session, staff, 'content.imported', row);
-      added++;
+      changed++;
     }
-    return added;
+    return changed;
+  }
+
+  /// Publishes the imported blog articles and recipes that are still
+  /// drafts, without the expert's approval (admins only; the owner's decision of
+  /// 2026-11-20, while the app is not public). Each is audited as
+  /// `content.published_unreviewed` and keeps no review date, so the app
+  /// shows no "reviewed by an expert" line. Returns how many were
+  /// published.
+  Future<int> publishImported(Session session) async {
+    final staff = await requireStaff(session, roles: {StaffRole.admin});
+    final rows = <ContentItem>[];
+    for (final (kind, seed) in [
+      (ContentKind.article, blogSeed),
+      (ContentKind.recipe, recipeSeed),
+    ]) {
+      rows.addAll(
+        await ContentItem.db.find(
+          session,
+          where: (t) =>
+              t.kind.equals(kind.name) &
+              t.slug.inSet({for (final s in seed) s.slug}) &
+              t.status.equals(ContentStatus.draft),
+        ),
+      );
+    }
+    var published = 0;
+    for (final row in rows) {
+      if (ContentRules.problems(
+        _kind(row.kind),
+        row.draftJson,
+        complete: true,
+      ).isNotEmpty) {
+        continue;
+      }
+      await _checkImage(session, row.draftJson);
+      await _set(
+        session,
+        staff,
+        row,
+        'content.published_unreviewed',
+        (r) => r.copyWith(
+          status: ContentStatus.published,
+          publishedJson: r.draftJson,
+          publishedReviewedAt: null,
+          publishedAt: DateTime.now().toUtc(),
+        ),
+      );
+      published++;
+    }
+    if (published > 0) await syncPublicMedia(session);
+    return published;
   }
 
   /// Hides or shows a catalogue item in the app at once (no review: it
