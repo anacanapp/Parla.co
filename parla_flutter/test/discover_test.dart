@@ -216,11 +216,12 @@ final _published = <String, List<PublishedItem>>{
 };
 
 class _App {
-  _App(this.api, this.nutrition, this.careList);
+  _App(this.api, this.nutrition, this.careList, this.journal);
 
   final FakeApi api;
   final MemoryHabitStore nutrition;
   final MemoryHabitStore careList;
+  final MemoryHabitStore journal;
 }
 
 Future<_App> _open(
@@ -246,6 +247,7 @@ Future<_App> _open(
   api.published.addAll(published ?? _published);
   final nutrition = MemoryHabitStore();
   final careList = MemoryHabitStore();
+  final journal = MemoryHabitStore();
   await tester.pumpWidget(
     ParlaApp(
       key: UniqueKey(),
@@ -258,6 +260,7 @@ Future<_App> _open(
       careListStore: careList,
       sportStore: MemoryHabitStore(),
       nutritionStore: nutrition,
+      journalStore: journal,
     ),
   );
   await tester.pumpAndSettle();
@@ -270,7 +273,7 @@ Future<_App> _open(
         .at(3),
   );
   await tester.pumpAndSettle();
-  return _App(api, nutrition, careList);
+  return _App(api, nutrition, careList, journal);
 }
 
 Future<void> _tap(WidgetTester tester, Finder finder) async {
@@ -383,6 +386,62 @@ void main() {
     expect(find.byKey(const ValueKey('related-winter')), findsOneWidget);
   });
 
+  testWidgets('journal: write, edit and delete entries; kept on the phone '
+      'only', (tester) async {
+    final app = await _open(tester);
+    final tile = find.byKey(const ValueKey('discover-journal'));
+    await tester.scrollUntilVisible(
+      tile,
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    await _tap(tester, tile);
+    expect(find.text('No entries yet.'), findsOneWidget);
+    expect(find.textContaining('the Parla team cannot see them'), findsOne);
+
+    // A new entry is kept when leaving with Back.
+    await _tap(tester, find.byKey(const ValueKey('journal-new')));
+    await tester.enterText(
+      find.byKey(const ValueKey('journal-text')),
+      'A calm day. Walked by the sea.',
+    );
+    await tester.tap(find.byType(BackButton));
+    await tester.pumpAndSettle();
+    expect(find.text('A calm day. Walked by the sea.'), findsOneWidget);
+    final stored =
+        jsonDecode(app.journal.data.values.single) as Map<String, Object?>;
+    final entries = (stored['entries']! as List).cast<Map>();
+    expect(entries.single['text'], 'A calm day. Walked by the sea.');
+
+    // Blank new entries keep nothing.
+    await _tap(tester, find.byKey(const ValueKey('journal-new')));
+    await _tap(tester, find.byKey(const ValueKey('journal-save')));
+    expect(find.byType(Card), findsNothing);
+    final id = entries.single['id']! as String;
+    expect(find.byKey(ValueKey('journal-$id')), findsOneWidget);
+    expect(
+      (jsonDecode(app.journal.data.values.single)['entries'] as List).length,
+      1,
+    );
+
+    // Edit, then delete after a confirmation.
+    await _tap(tester, find.byKey(ValueKey('journal-$id')));
+    await tester.enterText(
+      find.byKey(const ValueKey('journal-text')),
+      'A calm day.',
+    );
+    await _tap(tester, find.byKey(const ValueKey('journal-save')));
+    expect(find.text('A calm day.'), findsOneWidget);
+    await _tap(tester, find.byKey(ValueKey('journal-$id')));
+    await _tap(tester, find.byKey(const ValueKey('journal-delete')));
+    await _tap(tester, find.byKey(const ValueKey('journal-delete-confirm')));
+    expect(find.text('No entries yet.'), findsOneWidget);
+    expect(
+      (jsonDecode(app.journal.data.values.single)['entries'] as List),
+      isEmpty,
+    );
+  });
+
   testWidgets('blogs: newest on Discover, filter, the article with its '
       'expert review and steps', (tester) async {
     final opened = <Uri>[];
@@ -393,6 +452,11 @@ void main() {
     };
     addTearDown(() => ExpertsScreen.launcher = original);
     await _open(tester);
+    await tester.scrollUntilVisible(
+      find.text('New articles'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
     expect(find.text('New articles'), findsOneWidget);
     await _tap(tester, find.text('Blogs').first);
     expect(find.text('Winter skin en'), findsOneWidget);

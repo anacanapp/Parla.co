@@ -22,6 +22,7 @@ enum UsageTool {
   blog,
   experts,
   nutrition,
+  journal,
   messages,
   privacy,
 }

@@ -25,6 +25,7 @@ const toolLabels = {
   'blog': 'Bloq',
   'experts': 'Mütəxəssislər',
   'nutrition': 'Qidalanma',
+  'journal': 'Gündəlik (yalnız açılış sayı)',
   'messages': 'Mesajlar',
   'privacy': 'Məxfilik',
 };

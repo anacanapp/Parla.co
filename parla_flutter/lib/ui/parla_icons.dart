@@ -46,7 +46,12 @@ enum ParlaIconName {
     '<path d="M5 17a3 3 0 0 1 3-3h11"/>',
   ),
   bowl('<path d="M3 11h18a9 9 0 0 1-18 0z"/><path d="M12 7c0-2 1-3 3-4"/>'),
-  bag('<path d="M5 8h14l-1 12H6z"/><path d="M9 8a3 3 0 0 1 6 0"/>');
+  bag('<path d="M5 8h14l-1 12H6z"/><path d="M9 8a3 3 0 0 1 6 0"/>'),
+  lock(
+    '<rect x="5" y="11" width="14" height="9" rx="2"/>'
+    '<path d="M8 11V8a4 4 0 0 1 8 0v3"/>',
+  ),
+  pen('<path d="M4 20h4L19 9l-4-4L4 16z"/><path d="M13 7l4 4"/>');
 
   const ParlaIconName(this.paths);
 

@@ -410,7 +410,7 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get privacyExportBody =>
-      'Parla-nın sizin haqqınızda saxladığı hər şey, üstəlik bu telefondakı vərdiş qeydləri və öz rutinləriniz, bir faylda. Fayl indi yaradılır və serverlərimizdə saxlanılmır.';
+      'Parla-nın sizin haqqınızda saxladığı hər şey, üstəlik bu telefondakı vərdiş qeydləri, öz rutinləriniz və gündəliyiniz, bir faylda. Fayl indi yaradılır və serverlərimizdə saxlanılmır.';
 
   @override
   String get privacyExportButton => 'Fayl yarat';
@@ -1363,6 +1363,44 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get discoverAll => 'Hamısı';
+
+  @override
+  String get discoverJournal => 'Gündəlik';
+
+  @override
+  String get discoverJournalHint => 'Yalnız sənin üçün, bu telefonda';
+
+  @override
+  String get journalIntro =>
+      'Günün haqqında yaz. Yazılar yalnız bu telefonda, şifrəli saxlanılır; Parla komandası onları görmür. Telefonu dəyişəndə və ya tətbiqi siləndə itir. Saxlamaq üçün: Profil → Datamı yüklə.';
+
+  @override
+  String get journalNew => 'Yeni yazı';
+
+  @override
+  String get journalEmpty => 'Hələ yazı yoxdur.';
+
+  @override
+  String get journalHint => 'Bu gün necə keçdi?';
+
+  @override
+  String get journalEntryTitle => 'Yazı';
+
+  @override
+  String get journalSave => 'Yadda saxla';
+
+  @override
+  String get journalDelete => 'Sil';
+
+  @override
+  String get journalDeleteTitle => 'Bu yazı silinsin?';
+
+  @override
+  String get journalDeleteBody => 'Geri qaytarmaq olmayacaq.';
+
+  @override
+  String get journalFull =>
+      'Gündəlik doludur. Yeni yazı üçün köhnələrdən birini sil.';
 
   @override
   String get discoverSportHint => 'Həftəlik planın';

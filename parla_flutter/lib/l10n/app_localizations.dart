@@ -829,7 +829,7 @@ abstract class AppLocalizations {
   /// No description provided for @privacyExportBody.
   ///
   /// In en, this message translates to:
-  /// **'A file with everything Parla stores about you, plus the habit entries and your own routines on this phone. It is created now and is not kept on our servers.'**
+  /// **'A file with everything Parla stores about you, plus the habit entries, your own routines and your journal on this phone. It is created now and is not kept on our servers.'**
   String get privacyExportBody;
 
   /// No description provided for @privacyExportButton.
@@ -2493,6 +2493,78 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All'**
   String get discoverAll;
+
+  /// No description provided for @discoverJournal.
+  ///
+  /// In en, this message translates to:
+  /// **'Journal'**
+  String get discoverJournal;
+
+  /// No description provided for @discoverJournalHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Just for you, on this phone'**
+  String get discoverJournalHint;
+
+  /// No description provided for @journalIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Write about your day. Entries are kept only on this phone, encrypted; the Parla team cannot see them. They are lost if you change phones or remove the app. To keep a copy: Profile → Download my data.'**
+  String get journalIntro;
+
+  /// No description provided for @journalNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New entry'**
+  String get journalNew;
+
+  /// No description provided for @journalEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No entries yet.'**
+  String get journalEmpty;
+
+  /// No description provided for @journalHint.
+  ///
+  /// In en, this message translates to:
+  /// **'How was your day?'**
+  String get journalHint;
+
+  /// No description provided for @journalEntryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Entry'**
+  String get journalEntryTitle;
+
+  /// No description provided for @journalSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get journalSave;
+
+  /// No description provided for @journalDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get journalDelete;
+
+  /// No description provided for @journalDeleteTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete this entry?'**
+  String get journalDeleteTitle;
+
+  /// No description provided for @journalDeleteBody.
+  ///
+  /// In en, this message translates to:
+  /// **'This cannot be undone.'**
+  String get journalDeleteBody;
+
+  /// No description provided for @journalFull.
+  ///
+  /// In en, this message translates to:
+  /// **'The journal is full. Delete an old entry to add a new one.'**
+  String get journalFull;
 
   /// Under the Sport tile on Discover.
   ///

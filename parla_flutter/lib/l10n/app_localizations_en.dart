@@ -420,7 +420,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get privacyExportBody =>
-      'A file with everything Parla stores about you, plus the habit entries and your own routines on this phone. It is created now and is not kept on our servers.';
+      'A file with everything Parla stores about you, plus the habit entries, your own routines and your journal on this phone. It is created now and is not kept on our servers.';
 
   @override
   String get privacyExportButton => 'Create file';
@@ -1384,6 +1384,44 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get discoverAll => 'All';
+
+  @override
+  String get discoverJournal => 'Journal';
+
+  @override
+  String get discoverJournalHint => 'Just for you, on this phone';
+
+  @override
+  String get journalIntro =>
+      'Write about your day. Entries are kept only on this phone, encrypted; the Parla team cannot see them. They are lost if you change phones or remove the app. To keep a copy: Profile → Download my data.';
+
+  @override
+  String get journalNew => 'New entry';
+
+  @override
+  String get journalEmpty => 'No entries yet.';
+
+  @override
+  String get journalHint => 'How was your day?';
+
+  @override
+  String get journalEntryTitle => 'Entry';
+
+  @override
+  String get journalSave => 'Save';
+
+  @override
+  String get journalDelete => 'Delete';
+
+  @override
+  String get journalDeleteTitle => 'Delete this entry?';
+
+  @override
+  String get journalDeleteBody => 'This cannot be undone.';
+
+  @override
+  String get journalFull =>
+      'The journal is full. Delete an old entry to add a new one.';
 
   @override
   String get discoverSportHint => 'Your weekly plan';
