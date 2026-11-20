@@ -538,6 +538,72 @@ void main() {
       expect(live, hasLength(blogSeed.length));
     });
 
+    test('the task restores a named article in full on request', () async {
+      await team();
+      final db = sessionBuilder.build();
+      final plan = contentSeed.firstWhere(
+        (s) => s.slug == 'sunglasses-hats-uv',
+      );
+      final json = jsonDecode(plan.json) as Map<String, Object?>;
+      final now = DateTime.now().toUtc();
+      final staffId = UuidValue.fromString(
+        '00000000-0000-4000-8000-000000000001',
+      );
+      // Edited in the panel (the plan text gone, unfinished) and sent for
+      // review: neither the import nor the refill touches it.
+      await ContentItem.db.insertRow(
+        db,
+        ContentItem(
+          kind: plan.kind,
+          slug: plan.slug,
+          category: plan.category,
+          status: ContentStatus.inReview,
+          draftJson: jsonEncode({
+            ...json,
+            'body': {'az': 'Qısa qeyd'},
+          }),
+          createdBy: staffId,
+          updatedBy: staffId,
+          createdAt: now,
+          updatedAt: now,
+        ),
+      );
+      final first = await runPublishImportedTask(
+        db,
+        'first-admin@example.com',
+      );
+      expect(first, contains('refilled 0 plans'));
+      expect(
+        await endpoints.content.published(sessionBuilder, 'article'),
+        hasLength(blogSeed.length - 1),
+      );
+
+      final result = await runPublishImportedTask(
+        db,
+        'first-admin@example.com',
+        restore: {'sunglasses-hats-uv', 'not-an-article'},
+      );
+      expect(
+        result,
+        'Imported or filled 0 items, refilled 0 plans, published 1. '
+        'Restored 1: sunglasses-hats-uv.',
+      );
+      final live = await endpoints.content.published(sessionBuilder, 'article');
+      expect(live, hasLength(blogSeed.length));
+      final sun = live.singleWhere((a) => a.slug == 'sunglasses-hats-uv');
+      expect(sun.json, isNot(contains('Qısa qeyd')));
+      // Published now: a second run leaves it alone.
+      expect(
+        await runPublishImportedTask(
+          db,
+          'first-admin@example.com',
+          restore: {'sunglasses-hats-uv'},
+        ),
+        'Imported or filled 0 items, refilled 0 plans, published 0. '
+        'Restored none.',
+      );
+    });
+
     test('catalogue texts: known ids, review flow, hiding at once', () async {
       final t = await team();
       await expectLater(
