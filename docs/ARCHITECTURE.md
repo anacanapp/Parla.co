@@ -395,6 +395,12 @@ draft content until the named expert reviews it.
     and `PARLA_TASK_ACTOR=<an active admin's email>`. It runs the same
     code as the buttons, audits with that admin as the actor, logs a
     one-line result and exits; it serves no traffic.
+  - `PARLA_TASK_RESTORE=<slug,slug>` (optional) puts the full imported
+    article back for those slugs when they are not published, whatever
+    their status or panel edits (cover and tags kept, audited as
+    `content.reimported`), so they are published in the same run. Used
+    once for `sunglasses-hats-uv` (owner's request, 2026-11-20). The
+    result line also names items that could not be published and why.
 
 - C5 (2026-11-20): the 76 recipes of the sheet "Parla — Reseptlər
   (genişləndirilmiş)" are in `recipe_seed.dart`, built by

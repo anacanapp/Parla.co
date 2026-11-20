@@ -100,7 +100,11 @@ Future<int> importContentSeed(Session session, StaffMember staff) async {
 /// the app is not public). Each is audited as
 /// `content.published_unreviewed` with [staff] as the actor and keeps no
 /// review date. Returns how many were published.
-Future<int> publishImportedContent(Session session, StaffMember staff) async {
+Future<int> publishImportedContent(
+  Session session,
+  StaffMember staff, {
+  List<String>? skipped,
+}) async {
   final rows = <ContentItem>[];
   for (final (kind, seed) in [
     (ContentKind.article, blogSeed),
@@ -118,11 +122,13 @@ Future<int> publishImportedContent(Session session, StaffMember staff) async {
   }
   var published = 0;
   for (final row in rows) {
-    if (ContentRules.problems(
+    final problems = ContentRules.problems(
       ContentKind.values.byName(row.kind),
       row.draftJson,
       complete: true,
-    ).isNotEmpty) {
+    );
+    if (problems.isNotEmpty) {
+      skipped?.add('${row.slug} (${problems.join(', ')})');
       continue;
     }
     await checkContentImages(session, row.draftJson);
@@ -181,11 +187,56 @@ Future<int> refillPlanDrafts(Session session, StaffMember staff) async {
   return filled;
 }
 
+/// Puts the full imported article back for each of [slugs] that is not
+/// published, whatever its status and edits (the owner asked for it; the
+/// panel's edits of the text are replaced, cover and tags are kept). The
+/// article goes back to draft, so the publishing step picks it up. Returns
+/// the slugs restored.
+Future<List<String>> restoreArticles(
+  Session session,
+  StaffMember staff,
+  Set<String> slugs,
+) async {
+  final full = {for (final b in blogSeed) b.slug: b};
+  final wanted = slugs.where(full.containsKey).toSet();
+  if (wanted.isEmpty) return const [];
+  final rows = await ContentItem.db.find(
+    session,
+    where: (t) =>
+        t.kind.equals(ContentKind.article.name) &
+        t.slug.inSet(wanted) &
+        t.status.notEquals(ContentStatus.published),
+  );
+  final restored = <String>[];
+  for (final row in rows) {
+    final updated = await ContentItem.db.updateRow(
+      session,
+      row.copyWith(
+        status: ContentStatus.draft,
+        draftJson: mergeSeed(row.draftJson, full[row.slug]!.json),
+        updatedBy: staff.authUserId,
+        updatedAt: DateTime.now().toUtc(),
+      ),
+    );
+    await _audit(session, staff, 'content.reimported', updated);
+    restored.add(row.slug);
+  }
+  return restored..sort();
+}
+
 /// The one-off task `PARLA_TASK=publish-imported`: imports and publishes
 /// the sheet's content as the admin whose email is in
 /// `PARLA_TASK_ACTOR`, so the audit names who asked for it. Returns a line
 /// for the log.
-Future<String> runPublishImportedTask(Session session, String email) async {
+///
+/// [restore] names articles to put back in full first (see
+/// [restoreArticles]); the line also names items that could not be
+/// published and why.
+Future<String> runPublishImportedTask(
+  Session session,
+  String email, {
+  Set<String> restore = const {},
+}) async {
   final account = await EmailAccount.db.findFirstRow(
     session,
     where: (t) => t.email.equals(email.trim().toLowerCase()),
@@ -200,7 +251,20 @@ Future<String> runPublishImportedTask(Session session, String email) async {
   }
   final added = await importContentSeed(session, staff);
   final refilled = await refillPlanDrafts(session, staff);
-  final published = await publishImportedContent(session, staff);
-  return 'Imported or filled $added items, refilled $refilled plans, '
-      'published $published.';
+  final restored = await restoreArticles(session, staff, restore);
+  final skipped = <String>[];
+  final published = await publishImportedContent(
+    session,
+    staff,
+    skipped: skipped,
+  );
+  return [
+    'Imported or filled $added items, refilled $refilled plans, '
+        'published $published.',
+    if (restore.isNotEmpty)
+      restored.isEmpty
+          ? 'Restored none.'
+          : 'Restored ${restored.length}: ${restored.join(', ')}.',
+    if (skipped.isNotEmpty) 'Not published: ${skipped.join('; ')}.',
+  ].join(' ');
 }

@@ -112,7 +112,16 @@ Future<void> _runTask(Serverpod pod, String task, String actor) async {
   try {
     switch (task) {
       case 'publish-imported':
-        final result = await runPublishImportedTask(session, actor);
+        final restore = {
+          for (final slug
+              in (Platform.environment['PARLA_TASK_RESTORE'] ?? '').split(','))
+            if (slug.trim().isNotEmpty) slug.trim(),
+        };
+        final result = await runPublishImportedTask(
+          session,
+          actor,
+          restore: restore,
+        );
         session.log('Task $task: $result', level: LogLevel.info);
         stdout.writeln('Task $task: $result');
       default:
