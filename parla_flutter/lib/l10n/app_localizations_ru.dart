@@ -1388,6 +1388,35 @@ class AppLocalizationsRu extends AppLocalizations {
   String get discoverAll => 'Все';
 
   @override
+  String get discoverSportHint => 'Твой план на неделю';
+
+  @override
+  String discoverArticleCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count статьи',
+      many: '$count статей',
+      few: '$count статьи',
+      one: '$count статья',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String discoverRecipeCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count рецепта',
+      many: '$count рецептов',
+      few: '$count рецепта',
+      one: '$count рецепт',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get contentEmpty => 'Пока ничего нет. Скоро здесь появится.';
 
   @override

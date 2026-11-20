@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:parla/app.dart';
+import 'package:parla/discover/discover_bento.dart';
 import 'package:parla/discover/discover_screens.dart';
 import 'package:parla/discover/discover_widgets.dart';
 import 'package:parla/push/push_client.dart';
@@ -318,6 +319,23 @@ void main() {
     expect(back.image!.url, 'https://media.test/winter.jpg');
     expect(back.image!.aspectRatio, closeTo(16 / 9, 0.01));
     expect(back.image!.alt['en'], 'A jar of cream en');
+  });
+
+  testWidgets('the bento shows the counts and opens sport', (tester) async {
+    await _open(tester);
+    expect(find.text('3 articles · Care, beauty, fashion'), findsOneWidget);
+    expect(find.text('1 recipe'), findsOneWidget);
+    expect(find.text('Your weekly plan'), findsOneWidget);
+    // The newest article's cover shows on the Blogs tile.
+    expect(
+      find.descendant(
+        of: find.byType(DiscoverBento),
+        matching: find.byType(ContentImage),
+      ),
+      findsOneWidget,
+    );
+    await _tap(tester, find.text('Your weekly plan'));
+    expect(find.text('A workout plan made for you'), findsOneWidget);
   });
 
   testWidgets('blogs: newest on Discover, filter, the article with its '

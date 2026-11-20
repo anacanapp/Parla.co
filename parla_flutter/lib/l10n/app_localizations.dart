@@ -2488,6 +2488,24 @@ abstract class AppLocalizations {
   /// **'All'**
   String get discoverAll;
 
+  /// Under the Sport tile on Discover.
+  ///
+  /// In en, this message translates to:
+  /// **'Your weekly plan'**
+  String get discoverSportHint;
+
+  /// Published articles, on the Blogs tile.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} article} other{{count} articles}}'**
+  String discoverArticleCount(int count);
+
+  /// Published recipes, on the Nutrition tile.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} recipe} other{{count} recipes}}'**
+  String discoverRecipeCount(int count);
+
   /// No description provided for @contentEmpty.
   ///
   /// In en, this message translates to:

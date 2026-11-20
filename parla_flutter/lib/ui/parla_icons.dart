@@ -40,7 +40,13 @@ enum ParlaIconName {
   dumbbell('<path d="M6 7v10M18 7v10M3 10v4M21 10v4M6 12h12"/>'),
   compass(
     '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
-  );
+  ),
+  book(
+    '<path d="M5 4h11a3 3 0 0 1 3 3v13H8a3 3 0 0 1-3-3z"/>'
+    '<path d="M5 17a3 3 0 0 1 3-3h11"/>',
+  ),
+  bowl('<path d="M3 11h18a9 9 0 0 1-18 0z"/><path d="M12 7c0-2 1-3 3-4"/>'),
+  bag('<path d="M5 8h14l-1 12H6z"/><path d="M9 8a3 3 0 0 1 6 0"/>');
 
   const ParlaIconName(this.paths);
 
