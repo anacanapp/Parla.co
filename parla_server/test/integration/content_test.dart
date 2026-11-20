@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:parla_server/src/auth/verification_code_sender.dart';
 import 'package:parla_server/src/content/content_admin_endpoint.dart';
+import 'package:parla_server/src/content/content_import.dart';
 import 'package:parla_server/src/content/content_seed_import.dart';
 import 'package:parla_server/src/generated/protocol.dart';
 import 'package:parla_server/src/staff/staff_guard.dart';
@@ -454,6 +455,42 @@ void main() {
         );
       },
     );
+
+    test('the one-off task imports and publishes as a named admin', () async {
+      await team();
+      final db = sessionBuilder.build();
+      await expectLater(
+        runPublishImportedTask(db, 'editor@example.com'),
+        throwsA(isA<StateError>()),
+      );
+      await expectLater(
+        runPublishImportedTask(db, 'nobody@example.com'),
+        throwsA(isA<StateError>()),
+      );
+      final result = await runPublishImportedTask(
+        db,
+        ' First-Admin@example.com ',
+      );
+      expect(
+        result,
+        'Imported or filled ${importSeed.length} items, published '
+        '${blogSeed.length + recipeSeed.length}.',
+      );
+      expect(
+        await endpoints.content.published(sessionBuilder, 'recipe'),
+        hasLength(recipeSeed.length),
+      );
+      final audit = await AuditLogEntry.db.find(
+        db,
+        where: (a) => a.action.equals('content.published_unreviewed'),
+      );
+      expect(audit, hasLength(blogSeed.length + recipeSeed.length));
+      // Run again: nothing left to do.
+      expect(
+        await runPublishImportedTask(db, 'first-admin@example.com'),
+        'Imported or filled 0 items, published 0.',
+      );
+    });
 
     test('catalogue texts: known ids, review flow, hiding at once', () async {
       final t = await team();
