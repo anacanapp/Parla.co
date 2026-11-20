@@ -1391,6 +1391,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get discoverAll => 'Все';
 
   @override
+  String get expertSample => 'Пример';
+
+  @override
+  String get expertSampleNote => 'Это пример профиля, контакты не работают.';
+
+  @override
   String get discoverJournal => 'Дневник';
 
   @override

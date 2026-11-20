@@ -1386,6 +1386,13 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discoverAll => 'All';
 
   @override
+  String get expertSample => 'Sample';
+
+  @override
+  String get expertSampleNote =>
+      'This is a sample profile; the contacts do not work.';
+
+  @override
   String get discoverJournal => 'Journal';
 
   @override

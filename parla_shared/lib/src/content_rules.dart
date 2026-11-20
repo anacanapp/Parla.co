@@ -563,6 +563,7 @@ abstract final class ContentRules {
           'whatsapp',
           'instagram',
           'image',
+          'sample',
         });
         final name = json['name'];
         if (name == null) {
@@ -590,9 +591,40 @@ abstract final class ContentRules {
             json['instagram'] == null) {
           out.add('contact.missing');
         }
+        if (json.containsKey('sample')) {
+          final sample = json['sample'];
+          if (sample != true) {
+            out.add('sample.invalid');
+          } else {
+            // A sample may never look like, or reach, a real person.
+            if (name is! String || !name.startsWith(samplePrefix)) {
+              out.add('sample.name');
+            }
+            if (json['instagram'] != null) out.add('sample.instagram');
+            for (final key in ['phone', 'whatsapp']) {
+              final v = json[key];
+              if (v is String && !v.startsWith(sampleNumberPrefix)) {
+                out.add('sample.$key');
+              }
+            }
+          }
+        }
     }
     return out;
   }
+
+  /// Sample expert profiles (owner's request, 2026-11-20) show the format
+  /// in the app before real experts sign up. Their names start with
+  /// [samplePrefix], their numbers with [sampleNumberPrefix] (no Azerbaijani
+  /// operator uses it) and they have no Instagram. They may be published
+  /// without a recorded consent because they are no one; remove them all
+  /// before opening registration.
+  static const samplePrefix = 'Nümunə';
+  static const sampleNumberPrefix = '+99400000';
+
+  /// Whether [json] is a sample expert profile.
+  static bool isSampleExpert(Map<String, Object?> json) =>
+      json['sample'] == true;
 
   /// Link, dates, languages and countries of banners and messages.
   static void _schedule(

@@ -220,7 +220,9 @@ class ContentAdminEndpoint extends Endpoint {
     _checkComplete(row);
     final isExpert = row.kind == ContentKind.expert.name;
     if (isExpert) {
-      if (row.consentRecordedAt == null) {
+      // Sample profiles are no one (ContentRules.isSampleExpert).
+      if (row.consentRecordedAt == null &&
+          !ContentRules.isSampleExpert(_draft(row))) {
         throw ParlaException(code: ContentErrors.consentMissing);
       }
     } else if (row.status != ContentStatus.approved &&

@@ -1414,7 +1414,29 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
       ],
     ];
 
+    final sample =
+        expertKind &&
+        ContentRules.isSampleExpert(
+          jsonDecode(item.draftJson) as Map<String, Object?>,
+        );
     final plainFields = <Widget>[
+      if (sample)
+        Container(
+          key: const ValueKey('content-sample-note'),
+          margin: const EdgeInsets.only(bottom: 12),
+          padding: const EdgeInsets.all(12),
+          decoration: BoxDecoration(
+            color: const Color(0xFFFFEDA1),
+            borderRadius: BorderRadius.circular(12),
+          ),
+          child: const Text(
+            'Bu nümunə profildir: tətbiqdə "Nümunə" nişanı ilə görünür, '
+            'əlaqə düymələri işləmir, razılıq tələb olunmur. Real '
+            'mütəxəssisin məlumatı ilə yadda saxlayanda nümunə işarəsi '
+            'silinir və dərc üçün yazılı razılıq lazım olur. Qeydiyyat '
+            'açılmazdan əvvəl bütün nümunələri silin.',
+          ),
+        ),
       for (final f in _defs.where((f) => !f.localized)) ...[
         if (f.type == _FieldType.multi)
           _ChipGroup(

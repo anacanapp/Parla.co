@@ -399,6 +399,8 @@
   "sportPrivacyDevice": "İdman cavabların hələlik yalnız bu telefonda saxlanılır. Yenilənmiş sağlamlıq razılığı ilə serverdə şifrəli saxlanılacaq.",
   "discoverLatest": "Yeni yazılar",
   "discoverAll": "Hamısı",
+  "expertSample": "Nümunə",
+  "expertSampleNote": "Bu nümunə profildir, əlaqə məlumatları işləmir.",
   "discoverJournal": "Gündəlik",
   "discoverJournalHint": "Yalnız sənin üçün, bu telefonda",
   "journalIntro": "Günün haqqında yaz. Yazılar yalnız bu telefonda, şifrəli saxlanılır; Parla komandası onları görmür. Telefonu dəyişəndə və ya tətbiqi siləndə itir. Saxlamaq üçün: Profil → Datamı yüklə.",

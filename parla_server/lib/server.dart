@@ -124,6 +124,10 @@ Future<void> _runTask(Serverpod pod, String task, String actor) async {
         );
         session.log('Task $task: $result', level: LogLevel.info);
         stdout.writeln('Task $task: $result');
+      case 'seed-sample-experts':
+        final result = await runSeedSampleExpertsTask(session, actor);
+        session.log('Task $task: $result', level: LogLevel.info);
+        stdout.writeln('Task $task: $result');
       default:
         throw StateError('Unknown task $task');
     }

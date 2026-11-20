@@ -352,6 +352,16 @@ class _ExpertCard extends StatelessWidget {
     final instagram = item.data['instagram'] as String?;
     final years = (item.data['years'] as num?)?.toInt();
     final name = item.data['name'] as String? ?? '';
+    final sample = ContentRules.isSampleExpert(item.data);
+    // A sample profile is no one: its buttons explain instead of dialling.
+    Future<bool> open(Uri uri) async {
+      if (!sample) return launch(uri);
+      ScaffoldMessenger.of(context)
+        ..hideCurrentSnackBar()
+        ..showSnackBar(SnackBar(content: Text(l10n.expertSampleNote)));
+      return false;
+    }
+
     final initials = name
         .split(RegExp(r'\s+'))
         .where((w) => w.isNotEmpty)
@@ -394,7 +404,31 @@ class _ExpertCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(name, style: text.titleMedium),
+                    Wrap(
+                      spacing: 8,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        Text(name, style: text.titleMedium),
+                        if (sample)
+                          Container(
+                            key: ValueKey('sample-${item.slug}'),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 8,
+                              vertical: 2,
+                            ),
+                            decoration: BoxDecoration(
+                              color: ParlaColors.lemon,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Text(
+                              l10n.expertSample,
+                              style: text.labelMedium?.copyWith(
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ),
+                      ],
+                    ),
                     Text(
                       [
                         categoryText(l10n, item.category),
@@ -427,13 +461,13 @@ class _ExpertCard extends StatelessWidget {
               if (phone != null)
                 FilledButton.tonal(
                   key: ValueKey('call-${item.slug}'),
-                  onPressed: () => launch(Uri(scheme: 'tel', path: phone)),
+                  onPressed: () => open(Uri(scheme: 'tel', path: phone)),
                   child: Text(l10n.expertCall),
                 ),
               if (whatsapp != null)
                 FilledButton.tonal(
                   key: ValueKey('whatsapp-${item.slug}'),
-                  onPressed: () => launch(
+                  onPressed: () => open(
                     Uri.https('wa.me', '/${whatsapp.replaceAll('+', '')}'),
                   ),
                   child: Text(l10n.expertWhatsapp),
@@ -442,7 +476,7 @@ class _ExpertCard extends StatelessWidget {
                 FilledButton.tonal(
                   key: ValueKey('instagram-${item.slug}'),
                   onPressed: () =>
-                      launch(Uri.https('instagram.com', '/$instagram')),
+                      open(Uri.https('instagram.com', '/$instagram')),
                   child: Text(l10n.expertInstagram),
                 ),
             ],
