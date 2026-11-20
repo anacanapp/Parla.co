@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
 import '../discover/banner_strip.dart';
-import '../discover/discover_widgets.dart';
+import '../discover/discover_bento.dart';
 import '../home/widgets/parla_nav_bar.dart';
 import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
 import '../routes.dart';
+import '../services/parla_api.dart';
 import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
 
@@ -37,44 +38,8 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
     final library = ParlaScope.of(context).content;
-    final tiles = [
-      // (title, hint, colour, route, soon)
-      (
-        l10n.discoverBlogs,
-        l10n.discoverBlogsHint,
-        ParlaColors.lilac,
-        Routes.blog,
-        false,
-      ),
-      (
-        l10n.discoverExperts,
-        l10n.discoverExpertsHint,
-        ParlaColors.sky,
-        Routes.experts,
-        false,
-      ),
-      (
-        l10n.discoverNutrition,
-        l10n.discoverNutritionHint,
-        ParlaColors.sageTint,
-        Routes.nutrition,
-        false,
-      ),
-      (
-        l10n.discoverShopping,
-        l10n.discoverShoppingHint,
-        ParlaColors.lemon,
-        Routes.shoppingList,
-        false,
-      ),
-      (
-        l10n.discoverShop,
-        l10n.discoverShopHint,
-        ParlaColors.blush,
-        Routes.shop,
-        true,
-      ),
-    ];
+    final locale = Localizations.localeOf(context);
+    void go(String route) => context.go(route);
     return Scaffold(
       extendBody: true,
       bottomNavigationBar: const ParlaNavBar(selected: ParlaTab.discover),
@@ -83,7 +48,11 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
         child: ListenableBuilder(
           listenable: library,
           builder: (context, _) {
-            final latest = library.items('article').take(3).toList();
+            final articles = library.items('article');
+            final recipes = library.items('recipe');
+            final latest = articles.take(3).toList();
+            ContentImageRef? cover(List<PublishedItem> items) =>
+                items.where((i) => i.image != null).firstOrNull?.image;
             return ListView(
               padding: const EdgeInsets.fromLTRB(
                 ParlaSpace.page,
@@ -94,62 +63,67 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               children: [
                 Semantics(
                   header: true,
-                  child: Text(l10n.discoverTitle, style: text.headlineMedium),
+                  child: Text(l10n.discoverTitle, style: text.headlineLarge),
+                ),
+                const SizedBox(height: 2),
+                Text(l10n.homeTagline, style: accentStyle(locale, size: 17)),
+                const SizedBox(height: ParlaSpace.gap),
+                DiscoverBento(
+                  blogs: BentoSection(
+                    title: l10n.discoverBlogs,
+                    hint: articles.isEmpty
+                        ? l10n.discoverBlogsHint
+                        : '${l10n.discoverArticleCount(articles.length)} · '
+                              '${l10n.discoverBlogsHint}',
+                    color: ParlaColors.lilac,
+                    icon: ParlaIconName.book,
+                    onTap: () => go(Routes.blog),
+                  ),
+                  nutrition: BentoSection(
+                    title: l10n.discoverNutrition,
+                    hint: recipes.isEmpty
+                        ? l10n.discoverNutritionHint
+                        : l10n.discoverRecipeCount(recipes.length),
+                    color: ParlaColors.sageTint,
+                    icon: ParlaIconName.bowl,
+                    onTap: () => go(Routes.nutrition),
+                  ),
+                  sport: BentoSection(
+                    title: l10n.sportTitle,
+                    hint: l10n.discoverSportHint,
+                    color: ParlaColors.sportBlue,
+                    icon: ParlaIconName.dumbbell,
+                    onTap: () => go(Routes.sport),
+                  ),
+                  experts: BentoSection(
+                    title: l10n.discoverExperts,
+                    hint: l10n.discoverExpertsHint,
+                    color: ParlaColors.sky,
+                    icon: ParlaIconName.profile,
+                    onTap: () => go(Routes.experts),
+                  ),
+                  shopping: BentoSection(
+                    title: l10n.discoverShopping,
+                    hint: l10n.discoverShoppingHint,
+                    color: ParlaColors.lemon,
+                    icon: ParlaIconName.routine,
+                    onTap: () => go(Routes.shoppingList),
+                  ),
+                  shop: BentoSection(
+                    title: l10n.discoverShop,
+                    hint: l10n.discoverShopHint,
+                    color: ParlaColors.blush,
+                    icon: ParlaIconName.bag,
+                    onTap: () => go(Routes.shop),
+                    soon: true,
+                  ),
+                  blogsImage: cover(articles),
+                  nutritionImage: cover(recipes),
                 ),
                 const SizedBox(height: ParlaSpace.gap),
                 const BannerStrip(placement: 'discover'),
-                for (final (title, hint, color, route, soon) in tiles) ...[
-                  Semantics(
-                    container: true,
-                    button: true,
-                    label: soon
-                        ? '$title. $hint. ${l10n.soonBadge}'
-                        : '$title. $hint',
-                    excludeSemantics: true,
-                    child: Material(
-                      color: color,
-                      borderRadius: BorderRadius.circular(
-                        ParlaSpace.cardRadius,
-                      ),
-                      child: InkWell(
-                        borderRadius: BorderRadius.circular(
-                          ParlaSpace.cardRadius,
-                        ),
-                        onTap: () => context.go(route),
-                        child: Padding(
-                          padding: const EdgeInsets.all(14),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(title, style: text.titleLarge),
-                                    const SizedBox(height: 2),
-                                    Text(
-                                      hint,
-                                      style: text.bodySmall?.copyWith(
-                                        color: ParlaColors.muted,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              const SizedBox(width: 8),
-                              if (soon)
-                                const _SoonBadge()
-                              else
-                                const ParlaIcon(ParlaIconName.arrowRight),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                ],
                 if (latest.isNotEmpty) ...[
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 6),
                   Row(
                     children: [
                       Expanded(
@@ -162,7 +136,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                         ),
                       ),
                       TextButton(
-                        onPressed: () => context.go(Routes.blog),
+                        onPressed: () => go(Routes.blog),
                         child: Text(
                           l10n.discoverAll,
                           semanticsLabel:
@@ -172,7 +146,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     ],
                   ),
                   for (final item in latest)
-                    ArticleCard(
+                    ArticleRow(
                       item: item,
                       onTap: () =>
                           context.go(Routes.blogPost, extra: item.slug),
@@ -182,35 +156,6 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
             );
           },
         ),
-      ),
-    );
-  }
-}
-
-class _SoonBadge extends StatelessWidget {
-  const _SoonBadge();
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-        color: ParlaColors.white,
-        borderRadius: BorderRadius.circular(10),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const ParlaIcon(ParlaIconName.sparkle, size: 14),
-          const SizedBox(width: 4),
-          Text(
-            l10n.soonBadge,
-            style: Theme.of(context).textTheme.labelMedium?.copyWith(
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ],
       ),
     );
   }

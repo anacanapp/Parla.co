@@ -1362,6 +1362,29 @@ class AppLocalizationsAz extends AppLocalizations {
   String get discoverAll => 'Hamısı';
 
   @override
+  String get discoverSportHint => 'Həftəlik planın';
+
+  @override
+  String discoverArticleCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count yazı',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String discoverRecipeCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count resept',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get contentEmpty => 'Hələ yazı yoxdur. Tezliklə burada olacaq.';
 
   @override

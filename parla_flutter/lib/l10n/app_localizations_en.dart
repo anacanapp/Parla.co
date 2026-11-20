@@ -1383,6 +1383,31 @@ class AppLocalizationsEn extends AppLocalizations {
   String get discoverAll => 'All';
 
   @override
+  String get discoverSportHint => 'Your weekly plan';
+
+  @override
+  String discoverArticleCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count articles',
+      one: '$count article',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String discoverRecipeCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count recipes',
+      one: '$count recipe',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get contentEmpty => 'Nothing here yet. Coming soon.';
 
   @override
