@@ -42,6 +42,7 @@ class DiscoverBento extends StatelessWidget {
     required this.experts,
     required this.shopping,
     required this.shop,
+    required this.journal,
     this.blogsImage,
     this.nutritionImage,
   });
@@ -52,6 +53,7 @@ class DiscoverBento extends StatelessWidget {
   final BentoSection experts;
   final BentoSection shopping;
   final BentoSection shop;
+  final BentoSection journal;
 
   /// Cover of the newest article and recipe that have one.
   final ContentImageRef? blogsImage;
@@ -161,6 +163,8 @@ class DiscoverBento extends StatelessWidget {
             ],
           ),
         ),
+        const SizedBox(height: _gap),
+        _WideTile(section: journal),
       ],
     );
   }
@@ -257,6 +261,41 @@ class _MediumTile extends StatelessWidget {
               titleColor: dark ? ParlaColors.white : ParlaColors.espresso,
               hintColor: dark ? ParlaColors.sportBlueText : ParlaColors.muted,
             ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// A full-width tile: icon, title and hint, arrow.
+class _WideTile extends StatelessWidget {
+  const _WideTile({required this.section});
+
+  final BentoSection section;
+
+  @override
+  Widget build(BuildContext context) {
+    return _Tile(
+      section: section,
+      child: Padding(
+        padding: const EdgeInsets.all(14),
+        child: Row(
+          children: [
+            Container(
+              width: 44,
+              height: 44,
+              decoration: BoxDecoration(
+                color: ParlaColors.white,
+                borderRadius: BorderRadius.circular(14),
+              ),
+              alignment: Alignment.center,
+              child: ParlaIcon(section.icon, size: 22),
+            ),
+            const SizedBox(width: 12),
+            Expanded(child: _Labels(section: section)),
+            const SizedBox(width: 8),
+            const ParlaIcon(ParlaIconName.arrowRight, size: 20),
           ],
         ),
       ),

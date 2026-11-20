@@ -254,6 +254,7 @@ Future<void> exportAndShare(
     data['deviceCareList'] = scope.careList.exportJson();
     data['deviceSport'] = scope.sport.exportJson();
     data['deviceNutrition'] = scope.nutrition.exportJson();
+    data['deviceJournal'] = scope.journal.exportJson();
     await scope.shareExport(
       const JsonEncoder.withIndent('  ').convert(data),
     );

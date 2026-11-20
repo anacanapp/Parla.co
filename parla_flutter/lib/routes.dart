@@ -5,6 +5,7 @@ import 'check/shop_screen.dart';
 import 'consent/consent_refresh.dart';
 import 'check/shopping_list_screen.dart';
 import 'discover/discover_screens.dart';
+import 'journal/journal_screens.dart';
 import 'messages/messages_screen.dart';
 import 'routines/routine_builder_screen.dart';
 import 'sport/sport_quiz_screen.dart';
@@ -45,6 +46,8 @@ const routeTools = {
   Routes.blog: UsageTool.blog,
   Routes.experts: UsageTool.experts,
   Routes.nutrition: UsageTool.nutrition,
+  Routes.journal: UsageTool.journal,
+  Routes.journalEntry: UsageTool.journal,
   Routes.messages: UsageTool.messages,
   Routes.privacy: UsageTool.privacy,
 };
@@ -78,6 +81,8 @@ abstract final class Routes {
   static const experts = '/discover/experts';
   static const nutrition = '/discover/nutrition';
   static const recipe = '/discover/recipe'; // Slug as `extra`
+  static const journal = '/discover/journal'; // Private, phone only
+  static const journalEntry = '/discover/journal/entry'; // Id as `extra`
   static const guest = '/guest'; // Guest placeholder
   static const messages = '/messages'; // Announcements and support (D2)
   static const privacy = '/privacy'; // M-25, M-27, M-28
@@ -166,6 +171,11 @@ GoRouter buildRouter() => GoRouter(
       path: Routes.recipe,
       redirect: (_, state) => state.extra is String ? null : Routes.nutrition,
       builder: (_, state) => RecipeScreen(slug: state.extra! as String),
+    ),
+    GoRoute(path: Routes.journal, builder: (_, _) => const JournalScreen()),
+    GoRoute(
+      path: Routes.journalEntry,
+      builder: (_, state) => JournalEntryScreen(id: state.extra as String?),
     ),
     GoRoute(path: Routes.guest, builder: (_, _) => const GuestScreen()),
     GoRoute(path: Routes.messages, builder: (_, _) => const MessagesScreen()),

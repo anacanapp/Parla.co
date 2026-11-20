@@ -40,6 +40,11 @@ class SecureHabitStore implements HabitStore {
     this._storage = const FlutterSecureStorage(),
   ]) : _kind = 'nutrition.';
 
+  /// The private journal. Never sent anywhere (see JournalBook).
+  const SecureHabitStore.journal([
+    this._storage = const FlutterSecureStorage(),
+  ]) : _kind = 'journal.';
+
   final FlutterSecureStorage _storage;
 
   /// Distinguishes entries of the same account; every key still starts

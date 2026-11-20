@@ -19,6 +19,7 @@ import 'discover/banner_strip.dart';
 import 'discover/content_library.dart';
 import 'push/push_client.dart';
 import 'discover/nutrition_book.dart';
+import 'journal/journal_book.dart';
 import 'sport/sport_book.dart';
 import 'services/export_share.dart';
 import 'services/parla_api.dart';
@@ -39,6 +40,7 @@ class ParlaApp extends StatefulWidget {
     this.careListStore = const SecureHabitStore.careList(),
     this.sportStore = const SecureHabitStore.sport(),
     this.nutritionStore = const SecureHabitStore.nutrition(),
+    this.journalStore = const SecureHabitStore.journal(),
     this.reminderScheduler,
     this.ingredientDataset,
   });
@@ -60,6 +62,7 @@ class ParlaApp extends StatefulWidget {
 
   /// Where the phone copy of the daily plate is kept.
   final HabitStore nutritionStore;
+  final HabitStore journalStore;
 
   /// Defaults to local notifications on the device.
   final ReminderScheduler? reminderScheduler;
@@ -83,6 +86,11 @@ class _ParlaAppState extends State<ParlaApp> {
   late final NutritionBook _nutrition = NutritionBook(
     store: widget.nutritionStore,
     api: widget.api,
+    clock: widget.clock,
+  );
+
+  late final JournalBook _journal = JournalBook(
+    store: widget.journalStore,
     clock: widget.clock,
   );
 
@@ -174,6 +182,7 @@ class _ParlaAppState extends State<ParlaApp> {
     _careList.dispose();
     _sport.dispose();
     _nutrition.dispose();
+    _journal.dispose();
     _content.dispose();
     _habits.dispose();
     _pushLinks?.cancel();
@@ -197,6 +206,7 @@ class _ParlaAppState extends State<ParlaApp> {
       careList: _careList,
       sport: _sport,
       nutrition: _nutrition,
+      journal: _journal,
       content: _content,
       usage: _usage,
       ingredients: widget.ingredientDataset ?? euIngredientDataset,

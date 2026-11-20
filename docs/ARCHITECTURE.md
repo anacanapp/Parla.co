@@ -315,6 +315,24 @@ messages and push notifications (D) follow.
   A side navigation on wide screens, a drawer on phones. Status colours
   differ in lightness as well as hue.
 
+## Journal (phone only)
+
+- The journal (Discover → Gündəlik) holds free text the user writes about
+  her day. It is **never sent to the server**, not even with the health
+  consent, so the team cannot read it (owner's decision, 2026-11-20). It
+  is kept only on the phone, encrypted in the platform's secure storage
+  (`SecureHabitStore.journal`: iOS Keychain, Android Keystore), one entry
+  per account, and is removed after a reinstall like the other phone data.
+- Limits (`JournalRules`): 4,000 characters per entry, 1,500 entries.
+  No mood, health or other structured fields.
+- The data export holds a copy (`deviceJournal`); account deletion erases
+  it; signing out keeps it for the next sign-in on this phone. Losing the
+  phone or removing the app loses it; the screen says so.
+- Usage statistics count only that the journal screen was opened
+  (`UsageTool.journal`, with the analytics consent), never its content.
+- **Legal review:** the privacy policy needs a sentence on the journal
+  (kept on the device, not processed by Parla).
+
 ## Nutrition (plate)
 
 - The daily plate records which food groups the user had each day

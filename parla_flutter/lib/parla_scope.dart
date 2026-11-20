@@ -9,6 +9,7 @@ import 'check/care_list.dart';
 import 'routines/custom_routines.dart';
 import 'discover/content_library.dart';
 import 'discover/nutrition_book.dart';
+import 'journal/journal_book.dart';
 import 'sport/sport_book.dart';
 import 'services/parla_api.dart';
 import 'services/usage_meter.dart';
@@ -30,6 +31,7 @@ class ParlaScope extends InheritedWidget {
     required this.careList,
     required this.sport,
     required this.nutrition,
+    required this.journal,
     required this.content,
     required this.usage,
     required this.ingredients,
@@ -64,6 +66,9 @@ class ParlaScope extends InheritedWidget {
   /// The daily plate of the nutrition tool.
   final NutritionBook nutrition;
 
+  /// The private journal (this phone only, never sent).
+  final JournalBook journal;
+
   /// Published articles, recipes and expert profiles.
   final ContentLibrary content;
 
@@ -83,6 +88,7 @@ class ParlaScope extends InheritedWidget {
       careList.attach(id),
       sport.attach(id),
       nutrition.attach(id),
+      journal.attach(id),
     ]);
     // Own-routine ticks moved from the habit log to the routines.
     if (id != null && api.accountId == id) {
@@ -110,6 +116,7 @@ class ParlaScope extends InheritedWidget {
     careList.detach();
     sport.detach();
     nutrition.detach();
+    journal.detach();
     await reminders.detach();
   }
 
@@ -125,6 +132,8 @@ class ParlaScope extends InheritedWidget {
     sport.detach();
     await nutrition.erase();
     nutrition.detach();
+    await journal.erase();
+    journal.detach();
     await reminders.erase();
   }
 

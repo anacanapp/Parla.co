@@ -418,7 +418,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get privacyExportBody =>
-      'Всё, что Parla хранит о вас, а также записи о привычках и ваши собственные рутины с этого телефона, в одном файле. Файл создаётся сейчас и не хранится на наших серверах.';
+      'Всё, что Parla хранит о вас, а также записи о привычках, ваши собственные рутины и дневник с этого телефона, в одном файле. Файл создаётся сейчас и не хранится на наших серверах.';
 
   @override
   String get privacyExportButton => 'Создать файл';
@@ -1389,6 +1389,44 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get discoverAll => 'Все';
+
+  @override
+  String get discoverJournal => 'Дневник';
+
+  @override
+  String get discoverJournalHint => 'Только для тебя, на этом телефоне';
+
+  @override
+  String get journalIntro =>
+      'Пиши о своём дне. Записи хранятся только на этом телефоне в зашифрованном виде; команда Parla их не видит. При смене телефона или удалении приложения они пропадут. Чтобы сохранить: Профиль → Скачать мои данные.';
+
+  @override
+  String get journalNew => 'Новая запись';
+
+  @override
+  String get journalEmpty => 'Пока нет записей.';
+
+  @override
+  String get journalHint => 'Как прошёл день?';
+
+  @override
+  String get journalEntryTitle => 'Запись';
+
+  @override
+  String get journalSave => 'Сохранить';
+
+  @override
+  String get journalDelete => 'Удалить';
+
+  @override
+  String get journalDeleteTitle => 'Удалить запись?';
+
+  @override
+  String get journalDeleteBody => 'Восстановить будет нельзя.';
+
+  @override
+  String get journalFull =>
+      'Дневник заполнен. Удали старую запись, чтобы добавить новую.';
 
   @override
   String get discoverSportHint => 'Твой план на неделю';
