@@ -382,8 +382,14 @@ draft content until the named expert reviews it.
     names, linked routine step and planned dates are not imported.
   - Categories: qulluq, xəbər, trend → care; bədən → body; saç → hair;
     makiyaj, dırnaq → beauty; moda → fashion.
-  - Every article still needs the expert's review before publishing
-    (dermatologist; stylist for the fashion ones).
+  - Expert review: needed (dermatologist; stylist for the fashion ones).
+    By the owner's decision of 2026-11-20, while the app is not public,
+    an admin may publish the imported articles without it with
+    **İdxal olunanları dərc et** (`contentAdmin.publishImportedArticles`).
+    Each is audited as `content.published_unreviewed`, keeps no review
+    date (the app shows no "reviewed by an expert" line) and is marked
+    "ekspert yoxlamayıb" in the panel. The expert reviews them before
+    launch through the normal flow.
 
 ## Content images (B2b-1)
 

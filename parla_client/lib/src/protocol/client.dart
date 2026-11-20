@@ -569,6 +569,18 @@ class EndpointContentAdmin extends _isc.EndpointRef {
     {},
   );
 
+  /// Publishes the imported blog articles that are still drafts, without
+  /// the expert's approval (admins only; the owner's decision of
+  /// 2026-11-20, while the app is not public). Each is audited as
+  /// `content.published_unreviewed` and keeps no review date, so the app
+  /// shows no "reviewed by an expert" line and the panel marks it until an
+  /// expert approves a later version. Returns how many were published.
+  _ida.Future<int> publishImportedArticles() => caller.callServerEndpoint<int>(
+    'contentAdmin',
+    'publishImportedArticles',
+    {},
+  );
+
   /// Hides or shows a catalogue item in the app at once (no review: it
   /// only removes the item from what the app offers).
   _ida.Future<_i9q5wd3k.ContentAdminItem> setHidden(

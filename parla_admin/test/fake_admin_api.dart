@@ -276,6 +276,18 @@ class FakeAdminApi implements AdminApi {
     return dashboardReport!;
   }
 
+  @override
+  Future<int> publishImportedArticles() async {
+    calls.add('publish-imported');
+    var n = 0;
+    for (final c in [...content]) {
+      if (c.kind != 'article' || c.status != ContentStatus.draft) continue;
+      _put(c.copyWith(status: ContentStatus.published, live: true));
+      n++;
+    }
+    return n;
+  }
+
   /// What [importSheet] adds: (kind, slug, category, json).
   List<(String, String, String, String)> sheet = [];
 

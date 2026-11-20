@@ -93,6 +93,9 @@ abstract interface class AdminApi {
   /// returns how many were added.
   Future<int> importSheet();
 
+  /// Publishes the imported blog drafts without expert review (admins).
+  Future<int> publishImportedArticles();
+
   // Images (phase B2b). The panel shrinks an image before upload; the
   // server re-encodes it and drops all metadata.
   Future<MediaAdminItem> uploadImage(

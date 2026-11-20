@@ -423,6 +423,34 @@ void main() {
         expect(audit, hasLength(11));
         // A second run changes nothing.
         expect(await endpoints.contentAdmin.importSheet(t.admin), 0);
+
+        // The owner's decision: admins publish the imported articles
+        // without expert review; it stays visible in the audit and app.
+        await expectLater(
+          endpoints.contentAdmin.publishImportedArticles(t.editor),
+          throwsA(_error(StaffErrors.forbidden)),
+        );
+        expect(
+          await endpoints.contentAdmin.publishImportedArticles(t.admin),
+          31, // all but the edited plan, which is incomplete
+        );
+        final live = await endpoints.content.published(
+          sessionBuilder,
+          'article',
+        );
+        expect(live, hasLength(31));
+        expect(live.every((a) => a.reviewedAt == null), isTrue);
+        expect(
+          await AuditLogEntry.db.count(
+            db,
+            where: (a) => a.action.equals('content.published_unreviewed'),
+          ),
+          31,
+        );
+        expect(
+          await endpoints.contentAdmin.publishImportedArticles(t.admin),
+          0,
+        );
       },
     );
 

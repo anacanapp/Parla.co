@@ -336,6 +336,50 @@ class ContentAdminEndpoint extends Endpoint {
     return changed;
   }
 
+  /// Publishes the imported blog articles that are still drafts, without
+  /// the expert's approval (admins only; the owner's decision of
+  /// 2026-11-20, while the app is not public). Each is audited as
+  /// `content.published_unreviewed` and keeps no review date, so the app
+  /// shows no "reviewed by an expert" line and the panel marks it until an
+  /// expert approves a later version. Returns how many were published.
+  Future<int> publishImportedArticles(Session session) async {
+    final staff = await requireStaff(session, roles: {StaffRole.admin});
+    final slugs = {for (final b in blogSeed) b.slug};
+    final rows = await ContentItem.db.find(
+      session,
+      where: (t) =>
+          t.kind.equals(ContentKind.article.name) &
+          t.slug.inSet(slugs) &
+          t.status.equals(ContentStatus.draft),
+    );
+    var published = 0;
+    for (final row in rows) {
+      if (ContentRules.problems(
+        ContentKind.article,
+        row.draftJson,
+        complete: true,
+      ).isNotEmpty) {
+        continue;
+      }
+      await _checkImage(session, row.draftJson);
+      await _set(
+        session,
+        staff,
+        row,
+        'content.published_unreviewed',
+        (r) => r.copyWith(
+          status: ContentStatus.published,
+          publishedJson: r.draftJson,
+          publishedReviewedAt: null,
+          publishedAt: DateTime.now().toUtc(),
+        ),
+      );
+      published++;
+    }
+    if (published > 0) await syncPublicMedia(session);
+    return published;
+  }
+
   /// Hides or shows a catalogue item in the app at once (no review: it
   /// only removes the item from what the app offers).
   Future<ContentAdminItem> setHidden(

@@ -102,6 +102,45 @@ class _ContentScreenState extends State<ContentScreen> {
     }
   }
 
+  Future<void> _publishImported() async {
+    final yes = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Ekspert yoxlaması olmadan dərc'),
+        content: const Text(
+          'Cədvəldən idxal olunan və hələ qaralama olan bütün bloq yazıları '
+          'tətbiqdə dərc olunur. Ekspert onları yoxlamayıb: tətbiqdə '
+          '"ekspert yoxlayıb" sətri görünmür, paneldə isə yazılar '
+          '"ekspert yoxlamayıb" kimi işarələnir. Bu əməliyyat audit '
+          'jurnalına yazılır.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: const Text('Ləğv et'),
+          ),
+          FilledButton(
+            key: const ValueKey('publish-imported-yes'),
+            onPressed: () => Navigator.of(context).pop(true),
+            child: const Text('Dərc et'),
+          ),
+        ],
+      ),
+    );
+    if (yes != true) return;
+    try {
+      final n = await widget.state.api.publishImportedArticles();
+      if (!mounted) return;
+      _snack(
+        context,
+        n == 0 ? 'Dərc olunacaq qaralama yoxdur.' : '$n yazı dərc olundu.',
+      );
+      await _load();
+    } on Object catch (e) {
+      if (mounted) _snack(context, errorText(e));
+    }
+  }
+
   ContentKind get _kind => ContentKind.values.byName(widget.kind);
 
   /// Opens a catalogue item, creating its row with the app's own texts the
@@ -246,6 +285,14 @@ class _ContentScreenState extends State<ContentScreen> {
             onPressed: _importSheet,
             icon: const Icon(Icons.table_view_outlined, size: 18),
             label: const Text('Cədvəldən idxal et'),
+          ),
+        if (widget.state.me?.role == StaffRole.admin &&
+            _kind == ContentKind.article)
+          OutlinedButton.icon(
+            key: const ValueKey('content-publish-imported'),
+            onPressed: _publishImported,
+            icon: const Icon(Icons.publish_outlined, size: 18),
+            label: const Text('İdxal olunanları dərc et'),
           ),
         if (_canWrite(widget.state) && !_kind.isCatalogue)
           FilledButton.icon(
@@ -444,6 +491,12 @@ class _ContentRow extends StatelessWidget {
         if (item != null) StatusPill(item.status),
         if (item?.live ?? false) const Pill('canlı', tone: liveTone),
         if (item?.hidden ?? false) const Pill('gizli', tone: dangerTone),
+        if (item != null &&
+            item.live &&
+            item.reviewedAt == null &&
+            (item.kind == ContentKind.article.name ||
+                item.kind == ContentKind.recipe.name))
+          const Pill('ekspert yoxlamayıb', tone: reviewTone),
       ],
     );
     final languages = filled == null
