@@ -368,6 +368,23 @@ draft content until the named expert reviews it.
   - Articles have the new category `body`. The expert placeholders in the
     sheet are not imported: they have no real data or consent yet.
 
+- C4 (2026-11-20): the 32 full blog articles (az, ru, en) from the Drive
+  folder "Parla Bloq" are in `parla_server/lib/src/content/blog_seed.dart`,
+  built by `tools/blog_import/build_blog_seed.py` from the docs exported as
+  Markdown.
+  - **Cədvəldən idxal et** adds the new ones as drafts and fills a first
+    sheet draft with the full article only while that draft is exactly
+    the imported writing plan (any edit keeps it). Filling is audited as
+    `content.reimported`. Nothing is published.
+  - Title (az) from the doc's heading; ru/en titles from the first sheet,
+    else the doc's SEO title; summary from the meta description; sources
+    from "Mənbələr" (https, at most 10). The SEO keywords, cover file
+    names, linked routine step and planned dates are not imported.
+  - Categories: qulluq, xəbər, trend → care; bədən → body; saç → hair;
+    makiyaj, dırnaq → beauty; moda → fashion.
+  - Every article still needs the expert's review before publishing
+    (dermatologist; stylist for the fashion ones).
+
 ## Content images (B2b-1)
 
 Article covers, recipe photos and expert photos are uploaded in the admin
@@ -751,7 +768,7 @@ idempotent).
 | Security measures: staff sign-in is password-only (no second factor, decision of 2026-11-18) | — | Lawyer to note in the GDPR Art. 32 description |
 | Real-device test of reminders (Android 13+ permission, reboot, iOS foreground) | M7 | Before the beta |
 | Expert review of the preference ingredient lists (`product_preferences.dart`) | — | Before launch |
-| Dietitian check of the imported recipes, their plate groups and allergens; dermatologist writing/review of the imported articles | — | Before publishing them |
+| Dietitian check of the imported recipes, their plate groups and allergens; dermatologist review of the 32 blog articles (especially retinoid-first-steps, glp1-skin, gel-manicure-safety, exosomes-pdrn, ai-skin-analysis; the FAQ wording "Saç boyası saça zərərlidirmi?" and "Ucuz eynək zərərlidirmi?"), stylist review of the fashion ones | — | Before publishing them |
 | Trainer or physiotherapist review of the exercises, numbers and safety rules (`sport_rules.dart`, `exercise_text.dart`) | — | Before launch |
 | Licensed exercise photos (shown by exercise id) | — | When the photos arrive |
 | Optional on-device photo skin analysis (kept on branch `skin-photo`, not merged) | — | Postponed; needs lawyer approval and a DPIA, plus dermatologist review, before it returns |

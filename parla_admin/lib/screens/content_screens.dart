@@ -68,8 +68,10 @@ class _ContentScreenState extends State<ContentScreen> {
       builder: (context) => AlertDialog(
         title: const Text('Cədvəldən idxal'),
         content: const Text(
-          'Məzmun cədvəlindəki bloqlar və reseptlər qaralama kimi əlavə '
-          'olunur. Artıq olan yazılara toxunulmur, heç nə dərc olunmur.',
+          'Bloqlar (tam mətn, 3 dildə) və reseptlər qaralama kimi əlavə '
+          'olunur. Hələ yalnız yazı planı olan qaralamalar tam mətnlə '
+          'doldurulur; redaktə olunmuş yazılara toxunulmur. Heç nə dərc '
+          'olunmur: hər yazı ekspert təsdiqindən keçir.',
         ),
         actions: [
           TextButton(
@@ -88,7 +90,12 @@ class _ContentScreenState extends State<ContentScreen> {
     try {
       final added = await widget.state.api.importSheet();
       if (!mounted) return;
-      _snack(context, '$added yazı qaralama kimi əlavə olundu.');
+      _snack(
+        context,
+        added == 0
+            ? 'Yeni heç nə yoxdur.'
+            : '$added yazı qaralama kimi əlavə olundu və ya dolduruldu.',
+      );
       await _load();
     } on Object catch (e) {
       if (mounted) _snack(context, errorText(e));

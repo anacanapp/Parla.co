@@ -5,6 +5,8 @@ import 'package:parla_server/src/content/content_admin_endpoint.dart';
 import 'package:parla_server/src/content/content_seed_import.dart';
 import 'package:parla_server/src/generated/protocol.dart';
 import 'package:parla_server/src/staff/staff_guard.dart';
+import 'package:parla_shared/parla_shared.dart';
+import 'package:serverpod/serverpod.dart' show UuidValue;
 import 'package:serverpod_auth_idp_server/core.dart';
 import 'package:test/test.dart';
 
@@ -311,10 +313,10 @@ void main() {
         throwsA(_error(StaffErrors.forbidden)),
       );
       final added = await endpoints.contentAdmin.importSheet(t.admin);
-      expect(added, contentSeed.length);
+      expect(added, importSeed.length);
       final recipes = await endpoints.contentAdmin.list(t.admin, 'recipe');
       final articles = await endpoints.contentAdmin.list(t.admin, 'article');
-      expect(recipes.length + articles.length, contentSeed.length);
+      expect(recipes.length + articles.length, importSeed.length);
       expect(
         [...recipes, ...articles].every((i) => i.status == ContentStatus.draft),
         isTrue,
@@ -340,12 +342,13 @@ void main() {
         containsPair('minutes', 12),
       );
 
-      // Articles still hold their writing plan, so they cannot go to review.
+      // The full articles are ready for the expert's review.
       final winter = articles.firstWhere((i) => i.slug == 'winter-dry-skin');
-      await expectLater(
-        endpoints.contentAdmin.submitForReview(t.editor, winter.id),
-        throwsA(_error(ContentErrors.incomplete)),
+      final sent = await endpoints.contentAdmin.submitForReview(
+        t.editor,
+        winter.id,
       );
+      expect(sent.status, ContentStatus.inReview);
       // Nothing imported is public.
       for (final kind in ['article', 'recipe']) {
         expect(
@@ -354,6 +357,74 @@ void main() {
         );
       }
     });
+
+    test(
+      'drafts that hold only the first writing plan get the full article',
+      () async {
+        final t = await team();
+        final db = sessionBuilder.build();
+        // As left by the first import: plans only, one of them edited.
+        final plans = contentSeed.where((s) => s.kind == 'article').toList();
+        final ids = <String, int>{};
+        for (final p in plans) {
+          final now = DateTime.now().toUtc();
+          final row = await ContentItem.db.insertRow(
+            db,
+            ContentItem(
+              kind: p.kind,
+              slug: p.slug,
+              category: p.category,
+              status: ContentStatus.draft,
+              draftJson: p.json,
+              createdBy: UuidValue.fromString(
+                '00000000-0000-4000-8000-000000000001',
+              ),
+              updatedBy: UuidValue.fromString(
+                '00000000-0000-4000-8000-000000000001',
+              ),
+              createdAt: now,
+              updatedAt: now,
+            ),
+          );
+          ids[p.slug] = row.id!;
+        }
+        final edited = plans.firstWhere((p) => p.slug == 'winter-hands');
+        await endpoints.contentAdmin.saveDraft(
+          t.editor,
+          ids['winter-hands']!,
+          jsonEncode({
+            ...jsonDecode(edited.json) as Map<String, Object?>,
+            'minutes': 9,
+          }),
+          edited.category,
+        );
+
+        final changed = await endpoints.contentAdmin.importSheet(t.admin);
+        // 20 new articles, 11 plans filled, the edited one kept; recipes.
+        expect(changed, 20 + 11 + 20);
+        final articles = await endpoints.contentAdmin.list(t.admin, 'article');
+        expect(articles, hasLength(32));
+        Map<String, Object?> draft(String slug) =>
+            jsonDecode(articles.firstWhere((a) => a.slug == slug).draftJson)
+                as Map<String, Object?>;
+        final dry = draft('winter-dry-skin');
+        final body = dry['body']! as Map<String, Object?>;
+        expect(body.keys.toSet(), {'az', 'ru', 'en'});
+        expect(body['az'], isNot(contains(ContentRules.planMarker)));
+        expect(draft('winter-hands'), containsPair('minutes', 9));
+        expect(
+          (draft('winter-hands')['body']! as Map)['az'],
+          startsWith(ContentRules.planMarker),
+        );
+        final audit = await AuditLogEntry.db.find(
+          db,
+          where: (a) => a.action.equals('content.reimported'),
+        );
+        expect(audit, hasLength(11));
+        // A second run changes nothing.
+        expect(await endpoints.contentAdmin.importSheet(t.admin), 0);
+      },
+    );
 
     test('catalogue texts: known ids, review flow, hiding at once', () async {
       final t = await team();
