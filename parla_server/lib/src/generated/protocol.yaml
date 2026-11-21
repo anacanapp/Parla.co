@@ -76,6 +76,15 @@ routine:
 sport:
   - mySport:
   - saveSport:
+shopAdmin:
+  - orders:
+  - setStatus:
+  - refund:
+shop:
+  - salesOpen:
+  - startOrder:
+  - myOrders:
+  - refreshOrder:
 staffAdmin:
   - listStaff:
   - listInvites:

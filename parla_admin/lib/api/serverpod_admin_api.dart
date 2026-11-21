@@ -62,6 +62,19 @@ class ServerpodAdminApi implements AdminApi {
       _guard(() => _client.staffAdmin.setActive(user, active));
 
   @override
+  Future<List<ShopOrderView>> shopOrders() => _guard(_client.shopAdmin.orders);
+
+  @override
+  Future<ShopOrderView> setShopOrderStatus(
+    String number,
+    ShopOrderStatus status,
+  ) => _guard(() => _client.shopAdmin.setStatus(number, status));
+
+  @override
+  Future<ShopOrderView> refundShopOrder(String number) =>
+      _guard(() => _client.shopAdmin.refund(number));
+
+  @override
   Future<List<Advertiser>> advertisers() => _guard(_client.adAdmin.advertisers);
 
   @override

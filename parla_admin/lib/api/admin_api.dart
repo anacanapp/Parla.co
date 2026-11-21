@@ -24,6 +24,8 @@ export 'package:parla_client/parla_client.dart'
         AdCampaignOption,
         AdReport,
         AdReportRow,
+        ShopOrderView,
+        ShopOrderStatus,
         UuidValue;
 
 /// A rule the server refused, with its stable code.
@@ -100,6 +102,14 @@ abstract interface class AdminApi {
   Future<void> deleteAdCampaign(int id);
   Future<List<AdCampaignOption>> adCampaignOptions();
   Future<AdReport> adReport(int campaignId);
+
+  // Shop orders (admins only).
+  Future<List<ShopOrderView>> shopOrders();
+  Future<ShopOrderView> setShopOrderStatus(
+    String number,
+    ShopOrderStatus status,
+  );
+  Future<ShopOrderView> refundShopOrder(String number);
 
   /// Hides or shows a catalogue item in the app at once.
   Future<ContentAdminItem> setContentHidden(int id, bool hidden);

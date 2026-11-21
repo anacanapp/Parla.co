@@ -617,6 +617,57 @@
   "shopVisitPartner": "Go to the partner's site",
   "shopPriceNote": "Price and stock may change on the partner's site. Check the ingredients before you buy; if you have a skin problem, ask a doctor.",
   "shopEmpty": "No products yet. They will be here soon.",
+  "shopMyOrders": "My orders",
+  "shopBuy": "Buy",
+  "shopBuyTitle": "Confirm your order",
+  "shopBuyBody": "{product}: {price}. {seller} You pay on Epoint's page; your card details never reach Parla.",
+  "@shopBuyBody": {
+    "placeholders": {
+      "product": {
+        "type": "String"
+      },
+      "price": {
+        "type": "String"
+      },
+      "seller": {
+        "type": "String"
+      }
+    }
+  },
+  "shopSellerParla": "Sold by Parla.",
+  "shopSellerBrand": "Sold by {brand}; Parla takes the payment.",
+  "@shopSellerBrand": {
+    "placeholders": {
+      "brand": {
+        "type": "String"
+      }
+    }
+  },
+  "shopBuyGo": "Go to payment",
+  "shopBuyError": "The payment page did not open. Try again a little later.",
+  "shopTooMany": "Too many orders started in the last hour. Try again a little later.",
+  "shopOrdersEmpty": "No orders yet.",
+  "shopOrderMeta": "{number} · {date} · {quantity} pcs",
+  "@shopOrderMeta": {
+    "placeholders": {
+      "number": {
+        "type": "String"
+      },
+      "date": {
+        "type": "String"
+      },
+      "quantity": {
+        "type": "int"
+      }
+    }
+  },
+  "shopOrderCreated": "Waiting for payment",
+  "shopOrderPaid": "Paid",
+  "shopOrderFailed": "Payment failed",
+  "shopOrderShipped": "Shipped",
+  "shopOrderDelivered": "Delivered",
+  "shopOrderCancelled": "Cancelled",
+  "shopOrderRefunded": "Refunded",
   "sportIntroTitle": "A workout plan made for you",
   "sportIntroBody": "A few questions: goal, areas, the workouts you like. Then a weekly plan with sets, reps and a timer. Music plays from your own app.",
   "sportStart": "Start",

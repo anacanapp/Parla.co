@@ -1134,6 +1134,68 @@ class AppLocalizationsRu extends AppLocalizations {
   String get shopEmpty => 'Пока нет товаров. Скоро они появятся здесь.';
 
   @override
+  String get shopMyOrders => 'Мои заказы';
+
+  @override
+  String get shopBuy => 'Купить';
+
+  @override
+  String get shopBuyTitle => 'Подтверди заказ';
+
+  @override
+  String shopBuyBody(String product, String price, String seller) {
+    return '$product: $price. $seller Оплата проходит на странице Epoint; данные карты не попадают в Parla.';
+  }
+
+  @override
+  String get shopSellerParla => 'Продавец: Parla.';
+
+  @override
+  String shopSellerBrand(String brand) {
+    return 'Продавец: $brand, оплату принимает Parla.';
+  }
+
+  @override
+  String get shopBuyGo => 'Перейти к оплате';
+
+  @override
+  String get shopBuyError =>
+      'Страница оплаты не открылась. Попробуй чуть позже.';
+
+  @override
+  String get shopTooMany =>
+      'За последний час начато слишком много заказов. Попробуй чуть позже.';
+
+  @override
+  String get shopOrdersEmpty => 'У тебя пока нет заказов.';
+
+  @override
+  String shopOrderMeta(String number, String date, int quantity) {
+    return '$number · $date · $quantity шт.';
+  }
+
+  @override
+  String get shopOrderCreated => 'Ожидает оплаты';
+
+  @override
+  String get shopOrderPaid => 'Оплачен';
+
+  @override
+  String get shopOrderFailed => 'Оплата не прошла';
+
+  @override
+  String get shopOrderShipped => 'Отправлен';
+
+  @override
+  String get shopOrderDelivered => 'Доставлен';
+
+  @override
+  String get shopOrderCancelled => 'Отменён';
+
+  @override
+  String get shopOrderRefunded => 'Деньги возвращены';
+
+  @override
   String get sportIntroTitle => 'План тренировок для тебя';
 
   @override

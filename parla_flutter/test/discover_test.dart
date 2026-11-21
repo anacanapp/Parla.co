@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:parla/app.dart';
+import 'package:parla/check/shop_screen.dart';
 import 'package:parla/discover/banner_strip.dart';
 import 'package:parla/discover/blog_widgets.dart';
 import 'package:parla/discover/discover_bento.dart';
@@ -690,6 +691,67 @@ void main() {
       'utm_medium': 'app',
       'utm_campaign': 'parla-4',
     });
+  });
+
+  testWidgets('shop sales: shown only when open; buying asks first, opens '
+      'Epoint and lists the order', (tester) async {
+    final opened = <Uri>[];
+    final original = BannerCard.launcher;
+    BannerCard.launcher = (uri) async {
+      opened.add(uri);
+      return true;
+    };
+    addTearDown(() => BannerCard.launcher = original);
+    addTearDown(() => ShopSales.open.value = false);
+    final own = PublishedItem(
+      id: 9,
+      kind: 'product',
+      slug: 'own-cream',
+      category: 'face',
+      publishedAt: DateTime.utc(2026, 11, 9),
+      data: {
+        'name': _l('Own cream'),
+        'brand': 'Brand Y',
+        'price': '12.50',
+        'sale': 'own',
+        'seller': 'brand',
+      },
+    );
+    final app = await _open(
+      tester,
+      published: {
+        ..._published,
+        'product': [own],
+      },
+    );
+    await _tap(tester, find.text('Shop').first);
+    expect(find.text('Own cream en'), findsNothing);
+    expect(find.byKey(const ValueKey('shop-orders')), findsNothing);
+
+    // Sales open: the product, the button and "My orders".
+    app.api.salesOpen = true;
+    await _tap(tester, find.byType(BackButton).first);
+    await _tap(tester, find.text('Shop').first);
+    expect(find.text('Own cream en'), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('product-own-cream')));
+    expect(find.byKey(const ValueKey('shop-visit')), findsNothing);
+    await _tap(tester, find.byKey(const ValueKey('shop-buy')));
+    expect(
+      find.textContaining('Sold by Brand Y; Parla takes the payment.'),
+      findsOneWidget,
+    );
+    expect(find.textContaining('never reach Parla'), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('shop-buy-cancel')));
+    expect(app.api.startedOrders, isEmpty);
+
+    await _tap(tester, find.byKey(const ValueKey('shop-buy')));
+    await _tap(tester, find.byKey(const ValueKey('shop-buy-go')));
+    expect(app.api.startedOrders, ['own-cream:1:en']);
+    expect(opened.single, Uri.parse('https://epoint.test/P1'));
+    // "My orders" asks Epoint about the waiting order.
+    expect(find.text('My orders'), findsWidgets);
+    expect(find.text('Paid'), findsOneWidget);
+    expect(find.text('12.50 ₼'), findsOneWidget);
   });
 
   testWidgets('messages: announcements, and a support conversation', (

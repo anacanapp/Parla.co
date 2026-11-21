@@ -42,6 +42,7 @@ data "aws_iam_policy_document" "execution_secrets" {
     resources = [
       aws_secretsmanager_secret.app.arn,
       aws_secretsmanager_secret.fcm.arn,
+      aws_secretsmanager_secret.epoint.arn,
       aws_db_instance.main.master_user_secret[0].secret_arn,
     ]
   }
@@ -81,6 +82,12 @@ locals {
       name      = "SERVERPOD_PASSWORD_fcmServiceAccount"
       valueFrom = aws_secretsmanager_secret.fcm.arn
     }] : [],
+    var.enable_shop_payments ? [
+      for key in ["publicKey", "privateKey"] : {
+        name      = "SERVERPOD_PASSWORD_epoint${title(key)}"
+        valueFrom = "${aws_secretsmanager_secret.epoint.arn}:${key}::"
+      }
+    ] : [],
   )
 }
 
@@ -119,6 +126,7 @@ resource "aws_ecs_task_definition" "server" {
       { name = "SERVERPOD_API_SERVER_PUBLIC_HOST", value = var.domain },
       { name = "SERVERPOD_WEB_SERVER_PUBLIC_HOST", value = var.domain },
       { name = "SERVERPOD_PASSWORD_staffBootstrapEmail", value = var.staff_bootstrap_email },
+      { name = "SERVERPOD_PASSWORD_shopSalesOpen", value = tostring(var.shop_sales_open && var.enable_shop_payments) },
       { name = "PARLA_MEDIA_BUCKET", value = aws_s3_bucket.media.bucket },
       { name = "PARLA_MEDIA_REGION", value = var.region },
       { name = "PARLA_HEALTH_KMS_KEY_ID", value = aws_kms_key.health.arn },

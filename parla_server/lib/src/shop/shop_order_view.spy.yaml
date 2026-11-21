@@ -1,0 +1,13 @@
+### An order as the buyer's "My orders" and the admin panel show it.
+class: ShopOrderView
+fields:
+  number: String
+  productSlug: String
+  productTitle: String
+  brand: String
+  seller: String
+  quantity: int
+  totalQepik: int
+  status: ShopOrderStatus
+  createdAt: DateTime
+  paidAt: DateTime?

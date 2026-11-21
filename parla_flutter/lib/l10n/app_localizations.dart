@@ -2044,6 +2044,114 @@ abstract class AppLocalizations {
   /// **'No products yet. They will be here soon.'**
   String get shopEmpty;
 
+  /// No description provided for @shopMyOrders.
+  ///
+  /// In en, this message translates to:
+  /// **'My orders'**
+  String get shopMyOrders;
+
+  /// No description provided for @shopBuy.
+  ///
+  /// In en, this message translates to:
+  /// **'Buy'**
+  String get shopBuy;
+
+  /// No description provided for @shopBuyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Confirm your order'**
+  String get shopBuyTitle;
+
+  /// No description provided for @shopBuyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{product}: {price}. {seller} You pay on Epoint\'s page; your card details never reach Parla.'**
+  String shopBuyBody(String product, String price, String seller);
+
+  /// No description provided for @shopSellerParla.
+  ///
+  /// In en, this message translates to:
+  /// **'Sold by Parla.'**
+  String get shopSellerParla;
+
+  /// No description provided for @shopSellerBrand.
+  ///
+  /// In en, this message translates to:
+  /// **'Sold by {brand}; Parla takes the payment.'**
+  String shopSellerBrand(String brand);
+
+  /// No description provided for @shopBuyGo.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to payment'**
+  String get shopBuyGo;
+
+  /// No description provided for @shopBuyError.
+  ///
+  /// In en, this message translates to:
+  /// **'The payment page did not open. Try again a little later.'**
+  String get shopBuyError;
+
+  /// No description provided for @shopTooMany.
+  ///
+  /// In en, this message translates to:
+  /// **'Too many orders started in the last hour. Try again a little later.'**
+  String get shopTooMany;
+
+  /// No description provided for @shopOrdersEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No orders yet.'**
+  String get shopOrdersEmpty;
+
+  /// No description provided for @shopOrderMeta.
+  ///
+  /// In en, this message translates to:
+  /// **'{number} · {date} · {quantity} pcs'**
+  String shopOrderMeta(String number, String date, int quantity);
+
+  /// No description provided for @shopOrderCreated.
+  ///
+  /// In en, this message translates to:
+  /// **'Waiting for payment'**
+  String get shopOrderCreated;
+
+  /// No description provided for @shopOrderPaid.
+  ///
+  /// In en, this message translates to:
+  /// **'Paid'**
+  String get shopOrderPaid;
+
+  /// No description provided for @shopOrderFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Payment failed'**
+  String get shopOrderFailed;
+
+  /// No description provided for @shopOrderShipped.
+  ///
+  /// In en, this message translates to:
+  /// **'Shipped'**
+  String get shopOrderShipped;
+
+  /// No description provided for @shopOrderDelivered.
+  ///
+  /// In en, this message translates to:
+  /// **'Delivered'**
+  String get shopOrderDelivered;
+
+  /// No description provided for @shopOrderCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancelled'**
+  String get shopOrderCancelled;
+
+  /// No description provided for @shopOrderRefunded.
+  ///
+  /// In en, this message translates to:
+  /// **'Refunded'**
+  String get shopOrderRefunded;
+
   /// No description provided for @sportIntroTitle.
   ///
   /// In en, this message translates to:

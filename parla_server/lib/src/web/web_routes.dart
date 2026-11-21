@@ -6,14 +6,17 @@ import 'package:serverpod/serverpod.dart';
 
 import '../media/media_store.dart';
 import 'public_media.dart';
+import 'shop_routes.dart';
 
 /// The web server (port 8082) behind the same address as the API: the load
-/// balancer sends `/admin` and `/media/*` here and everything else to the
+/// balancer sends `/admin`, `/media/*` and `/shop/*` here and everything else to the
 /// API server, so the panel and the images share the API's origin and no
 /// CORS is needed.
 ///
 /// - `/media/<id>.jpg`, `/media/<id>.mp4`: published content images and
 ///   exercise videos ([PublicMedia]).
+/// - `/shop/epoint/result`, `/shop/done`: Epoint's payment report and the
+///   page buyers return to ([EpointResultRoute], [ShopDoneRoute]).
 /// - `/admin/`: the admin panel, a Flutter web build in `web/admin` (built
 ///   into the image by the Dockerfile), with a strict content security
 ///   policy. Unknown paths below it load the panel (client-side routing).
@@ -38,6 +41,8 @@ void mountWebRoutes({
   required void Function(Middleware middleware, String path) addMiddleware,
 }) {
   addRoute(MediaRoute(), '/media/:file');
+  addRoute(EpointResultRoute(), '/shop/epoint/result');
+  addRoute(ShopDoneRoute(), '/shop/done');
 
   final admin = Directory('$webRoot/admin');
   if (!File('${admin.path}/index.html').existsSync()) return;

@@ -32,6 +32,10 @@ String errorText(Object error) {
     'ads.in_use' =>
       'Əvvəlcə bağlı olanları dəyişin: reklamçının kampaniyası və ya '
           'kampaniyanın banneri var (və ya banner yeni tarixlərə sığmır).',
+    'shop.not_found' => 'Sifariş tapılmadı.',
+    'shop.wrong_status' => 'Bu addım sifarişin indiki statusunda mümkün deyil.',
+    'shop.payment_unavailable' =>
+      'Epoint cavab vermədi və ya imtina etdi. Bir az sonra yenidən cəhd edin.',
     'media.not_found' => 'Şəkil tapılmadı.',
     'media.invalid' =>
       'Şəkil məlumatı düzgün deyil (lisenziya və ya alternativ mətn).',

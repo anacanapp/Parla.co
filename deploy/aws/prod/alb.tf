@@ -138,7 +138,8 @@ resource "aws_lb_listener_rule" "web" {
   }
   condition {
     path_pattern {
-      values = ["/admin", "/admin/*", "/media/*"]
+      # At most five values in one rule, the host included.
+      values = ["/admin", "/admin/*", "/media/*", "/shop/*"]
     }
   }
 

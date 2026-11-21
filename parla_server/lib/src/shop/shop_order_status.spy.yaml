@@ -1,0 +1,12 @@
+### Where an order stands. `created` until Epoint reports the payment;
+### the seller then marks it shipped and delivered.
+enum: ShopOrderStatus
+serialized: byName
+values:
+  - created
+  - paid
+  - failed
+  - shipped
+  - delivered
+  - cancelled
+  - refunded

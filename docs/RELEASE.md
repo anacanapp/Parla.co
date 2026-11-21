@@ -150,6 +150,18 @@ Push notifications (later): `deploy/aws/put-prod-fcm-secret.sh` with the
 Firebase service account file, then `terraform apply` with
 `-var=enable_push=true`.
 
+Shop payments with Epoint (later, in this order):
+
+1. In Epoint's merchant cabinet, set the result URL to
+   `https://parla.anacan.az/shop/epoint/result`.
+2. In CloudShell, run `deploy/aws/put-prod-epoint-secret.sh`. It asks for
+   the public and the private key without showing them. Never send the keys
+   in a chat or an email.
+3. Run `terraform apply` with `-var=enable_shop_payments=true`. The server
+   then has the keys, but sales stay closed.
+4. Only when the delivery-details step, Epoint's contract and the lawyer's
+   sale terms are all done: apply again with `-var=shop_sales_open=true`.
+
 ## 3. Deploys from GitHub
 
 1. GitHub → the repository → Settings → Environments → **New environment**
