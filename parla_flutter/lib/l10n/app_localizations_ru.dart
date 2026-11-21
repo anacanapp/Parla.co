@@ -1338,16 +1338,10 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get sportSetDone => 'Подход выполнен';
-
-  @override
   String get sportPause => 'Пауза';
 
   @override
   String get sportResume => 'Продолжить';
-
-  @override
-  String get sportSkip => 'Пропустить';
 
   @override
   String get sportResting => 'Отдых';
@@ -1375,6 +1369,32 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get sportQuit => 'Остановить тренировку';
+
+  @override
+  String get sportGetReady => 'Приготовься';
+
+  @override
+  String get sportPrevious => 'Предыдущее упражнение';
+
+  @override
+  String get sportNextMove => 'Дальше';
+
+  @override
+  String get sportStopTitle => 'Остановить тренировку?';
+
+  @override
+  String get sportStopBody => 'Она не будет отмечена как выполненная.';
+
+  @override
+  String get sportStopConfirm => 'Остановить';
+
+  @override
+  String get sportKeepGoing => 'Продолжить';
+
+  @override
+  String sportRepPace(int seconds) {
+    return 'Примерно $seconds сек на повтор. Закончила раньше — нажми «Дальше».';
+  }
 
   @override
   String get sportPrivacySynced =>

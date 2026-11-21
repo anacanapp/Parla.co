@@ -755,10 +755,8 @@
       }
     }
   },
-  "sportSetDone": "Set done",
   "sportPause": "Pause",
   "sportResume": "Resume",
-  "sportSkip": "Skip",
   "sportResting": "Rest",
   "sportNextUp": "Next: {name}",
   "@sportNextUp": {
@@ -790,6 +788,21 @@
   },
   "sportBackToPlan": "Back to the plan",
   "sportQuit": "Stop workout",
+  "sportGetReady": "Get ready",
+  "sportPrevious": "Previous move",
+  "sportNextMove": "Next",
+  "sportStopTitle": "Stop the workout?",
+  "sportStopBody": "It won't be marked as done.",
+  "sportStopConfirm": "Stop",
+  "sportKeepGoing": "Keep going",
+  "sportRepPace": "About {seconds} s per rep. Done sooner? Tap “Next”.",
+  "@sportRepPace": {
+    "placeholders": {
+      "seconds": {
+        "type": "int"
+      }
+    }
+  },
   "sportPrivacySynced": "Your fitness answers are kept encrypted on our server, with a copy on this phone for offline use.",
   "sportPrivacyDevice": "For now your fitness answers are kept only on this phone. With the updated health consent they will be kept encrypted on our server.",
   "discoverLatest": "New articles",
@@ -809,11 +822,27 @@
   "journalDeleteBody": "This cannot be undone.",
   "journalFull": "The journal is full. Delete an old entry to add a new one.",
   "discoverSportHint": "Your weekly plan",
-  "@discoverSportHint": {"description": "Under the Sport tile on Discover."},
+  "@discoverSportHint": {
+    "description": "Under the Sport tile on Discover."
+  },
   "discoverArticleCount": "{count, plural, one{{count} article} other{{count} articles}}",
-  "@discoverArticleCount": {"description": "Published articles, on the Blogs tile.", "placeholders": {"count": {"type": "int"}}},
+  "@discoverArticleCount": {
+    "description": "Published articles, on the Blogs tile.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "discoverRecipeCount": "{count, plural, one{{count} recipe} other{{count} recipes}}",
-  "@discoverRecipeCount": {"description": "Published recipes, on the Nutrition tile.", "placeholders": {"count": {"type": "int"}}},
+  "@discoverRecipeCount": {
+    "description": "Published recipes, on the Nutrition tile.",
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "contentEmpty": "Nothing here yet. Coming soon.",
   "contentOffline": "No connection, showing the last loaded copy.",
   "blogMeta": "{category} · {minutes} min",

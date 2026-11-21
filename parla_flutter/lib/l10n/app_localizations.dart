@@ -2404,12 +2404,6 @@ abstract class AppLocalizations {
   /// **'{reps} reps'**
   String sportRepsNow(int reps);
 
-  /// No description provided for @sportSetDone.
-  ///
-  /// In en, this message translates to:
-  /// **'Set done'**
-  String get sportSetDone;
-
   /// No description provided for @sportPause.
   ///
   /// In en, this message translates to:
@@ -2421,12 +2415,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Resume'**
   String get sportResume;
-
-  /// No description provided for @sportSkip.
-  ///
-  /// In en, this message translates to:
-  /// **'Skip'**
-  String get sportSkip;
 
   /// No description provided for @sportResting.
   ///
@@ -2469,6 +2457,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Stop workout'**
   String get sportQuit;
+
+  /// No description provided for @sportGetReady.
+  ///
+  /// In en, this message translates to:
+  /// **'Get ready'**
+  String get sportGetReady;
+
+  /// No description provided for @sportPrevious.
+  ///
+  /// In en, this message translates to:
+  /// **'Previous move'**
+  String get sportPrevious;
+
+  /// No description provided for @sportNextMove.
+  ///
+  /// In en, this message translates to:
+  /// **'Next'**
+  String get sportNextMove;
+
+  /// No description provided for @sportStopTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop the workout?'**
+  String get sportStopTitle;
+
+  /// No description provided for @sportStopBody.
+  ///
+  /// In en, this message translates to:
+  /// **'It won\'t be marked as done.'**
+  String get sportStopBody;
+
+  /// No description provided for @sportStopConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Stop'**
+  String get sportStopConfirm;
+
+  /// No description provided for @sportKeepGoing.
+  ///
+  /// In en, this message translates to:
+  /// **'Keep going'**
+  String get sportKeepGoing;
+
+  /// No description provided for @sportRepPace.
+  ///
+  /// In en, this message translates to:
+  /// **'About {seconds} s per rep. Done sooner? Tap “Next”.'**
+  String sportRepPace(int seconds);
 
   /// No description provided for @sportPrivacySynced.
   ///

@@ -53,6 +53,8 @@ dependencies:
   timezone: ^0.11.2
   # Calls and WhatsApp to listed experts open the phone's own apps.
   url_launcher: ^6.3.1
+  video_player: ^2.11.1
+  wakelock_plus: ^1.3.0
 
 dev_dependencies:
   # Used for agents to drive the app through the Dart MCP

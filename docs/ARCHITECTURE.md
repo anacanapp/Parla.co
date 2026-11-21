@@ -233,12 +233,24 @@ wording rules and open legal questions: `docs/INGREDIENTS.md`.
   spot reduction is not possible and the app says so.
 - **Content**: 45 exercises with names and how-tos in az/ru/en
   (`lib/sport/exercise_text.dart`). They are drafts, marked as not
-  reviewed by a trainer or physiotherapist. Each move shows a coloured
-  card until licensed photos arrive.
-- **Workout**: a guided run with sets, a timer for holds and timed moves,
-  and rests. Music plays from the user's own music app; Parla only gives a
-  short signal (sound and vibration, or vibration only). A finished
-  workout is logged and its minutes are added to today's movement entry.
+  reviewed by a trainer or physiotherapist. Each move shows its video
+  (see "Exercise videos"), else its photo, else a coloured card.
+- **Workout** (`workout_screen.dart`): a guided run that moves on by
+  itself, like other fitness apps.
+  - Every set starts with a 3-2-1 countdown and runs on a timer that
+    empties as a ring. A move counted in reps gets 3 seconds a rep
+    (`WorkoutPace`), and "Next" ends it sooner.
+  - Then comes a rest, which shows the next move.
+  - Controls: pause, previous move, next, and stop (it asks first and logs
+    nothing).
+  - The screen stays on while it runs (`wakelock_plus`, no permission).
+  - The move's video plays muted and looping and mixes with the user's own
+    music. It holds on its first frame during the countdown, while paused,
+    and when the phone's "reduce motion" is on (then it plays on a tap).
+  - Parla only gives a short signal (sound and vibration, or vibration
+    only).
+  - A finished workout is logged and its minutes are added to today's
+    movement entry.
 - **Stored** like the other documents: the answers, the workout log (90
   days) and the sound setting. The server keeps them encrypted in
   `sport_record`, only with a health consent that covers them

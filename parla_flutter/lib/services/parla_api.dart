@@ -41,7 +41,8 @@ class ProductResult {
 }
 
 /// A published article, recipe or expert profile.
-/// A published image: where to load it and its alt text per language.
+/// A published image (or an exercise's video): where to load it and its
+/// alt text per language.
 class ContentImageRef {
   const ContentImageRef({
     this.id,
@@ -101,6 +102,7 @@ class PublishedItem {
     required this.publishedAt,
     this.reviewedAt,
     this.image,
+    this.video,
     this.hidden = false,
     this.inlineImages = const [],
   });
@@ -118,6 +120,11 @@ class PublishedItem {
     image: json['image'] is Map
         ? ContentImageRef.fromJson(
             (json['image']! as Map).cast<String, Object?>(),
+          )
+        : null,
+    video: json['video'] is Map
+        ? ContentImageRef.fromJson(
+            (json['video']! as Map).cast<String, Object?>(),
           )
         : null,
     hidden: json['hidden'] == true,
@@ -139,6 +146,9 @@ class PublishedItem {
 
   /// The published image, or `null`.
   final ContentImageRef? image;
+
+  /// An exercise's published video (an MP4 without sound), or `null`.
+  final ContentImageRef? video;
 
   /// Catalogue items the team hid: the app does not offer them.
   final bool hidden;
@@ -162,6 +172,7 @@ class PublishedItem {
     'publishedAt': publishedAt.toIso8601String(),
     if (reviewedAt != null) 'reviewedAt': reviewedAt!.toIso8601String(),
     if (image != null) 'image': image!.toJson(),
+    if (video != null) 'video': video!.toJson(),
     if (hidden) 'hidden': true,
     if (inlineImages.isNotEmpty)
       'inlineImages': [for (final i in inlineImages) i.toJson()],

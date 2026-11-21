@@ -1312,16 +1312,10 @@ class AppLocalizationsAz extends AppLocalizations {
   }
 
   @override
-  String get sportSetDone => 'Set bitdi';
-
-  @override
   String get sportPause => 'Fasilə';
 
   @override
   String get sportResume => 'Davam';
-
-  @override
-  String get sportSkip => 'Keç';
 
   @override
   String get sportResting => 'İstirahət';
@@ -1349,6 +1343,32 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get sportQuit => 'Məşqi dayandır';
+
+  @override
+  String get sportGetReady => 'Hazır ol';
+
+  @override
+  String get sportPrevious => 'Əvvəlki hərəkət';
+
+  @override
+  String get sportNextMove => 'Növbəti';
+
+  @override
+  String get sportStopTitle => 'Məşqi dayandıraq?';
+
+  @override
+  String get sportStopBody => 'Bu məşq edilmiş kimi qeyd olunmayacaq.';
+
+  @override
+  String get sportStopConfirm => 'Dayandır';
+
+  @override
+  String get sportKeepGoing => 'Davam et';
+
+  @override
+  String sportRepPace(int seconds) {
+    return 'Hər təkrar təxminən $seconds san. Tez bitirsən, “Növbəti”ni bas.';
+  }
 
   @override
   String get sportPrivacySynced =>

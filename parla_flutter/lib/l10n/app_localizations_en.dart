@@ -1333,16 +1333,10 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get sportSetDone => 'Set done';
-
-  @override
   String get sportPause => 'Pause';
 
   @override
   String get sportResume => 'Resume';
-
-  @override
-  String get sportSkip => 'Skip';
 
   @override
   String get sportResting => 'Rest';
@@ -1370,6 +1364,32 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sportQuit => 'Stop workout';
+
+  @override
+  String get sportGetReady => 'Get ready';
+
+  @override
+  String get sportPrevious => 'Previous move';
+
+  @override
+  String get sportNextMove => 'Next';
+
+  @override
+  String get sportStopTitle => 'Stop the workout?';
+
+  @override
+  String get sportStopBody => 'It won\'t be marked as done.';
+
+  @override
+  String get sportStopConfirm => 'Stop';
+
+  @override
+  String get sportKeepGoing => 'Keep going';
+
+  @override
+  String sportRepPace(int seconds) {
+    return 'About $seconds s per rep. Done sooner? Tap “Next”.';
+  }
 
   @override
   String get sportPrivacySynced =>
