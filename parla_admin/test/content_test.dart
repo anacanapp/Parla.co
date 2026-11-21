@@ -390,9 +390,69 @@ void main() {
     expect(find.byKey(const ValueKey('content-publish')), findsOneWidget);
     expect(find.byKey(const ValueKey('banner-ad-note')), findsNothing);
 
-    await _type(tester, 'field-sponsor', 'Brand X');
+    // No topics outside articles and recipes.
+    expect(find.byKey(const ValueKey('multi-topics-care')), findsNothing);
+  });
+
+  testWidgets('a brand banner joins a campaign, links to the brand\'s site '
+      'and may be limited to article topics', (tester) async {
+    final api = await _pump(tester, StaffRole.admin);
+    final brand = await api.saveAdvertiser(
+      Advertiser(
+        company: 'Brand X',
+        createdAt: DateTime.utc(2026),
+        updatedAt: DateTime.utc(2026),
+      ),
+    );
+    final campaign = await api.saveAdCampaign(
+      AdCampaign(
+        advertiserId: brand.id!,
+        title: 'Yaz',
+        startsOn: '2026-12-01',
+        endsOn: '2026-12-31',
+        createdAt: DateTime.utc(2026),
+        updatedAt: DateTime.utc(2026),
+      ),
+    );
+    await _tap(tester, _nav('Məzmun'));
+    await _tap(tester, find.text('Bannerlər'));
+    await _tap(tester, find.byKey(const ValueKey('content-new')));
+    await tester.enterText(find.byKey(const ValueKey('new-slug')), 'brand-x');
+    await _tap(tester, find.byKey(const ValueKey('new-create')));
+
+    await _type(tester, 'field-title-az', 'Yaz kolleksiyası');
+    await _type(tester, 'field-url', 'https://brand.az/yaz');
+    await _type(tester, 'field-startsOn', '2026-12-05');
+    await _type(tester, 'field-endsOn', '2026-12-20');
+
+    // Under an article, the banner may be limited to its categories.
+    await _tap(tester, find.byKey(const ValueKey('content-category')));
+    await _tap(tester, find.text('Bloq yazısının altı').last);
+    await _tap(tester, find.byKey(const ValueKey('multi-topics-care')));
+    expect(find.byKey(const ValueKey('multi-topics-lunch')), findsNothing);
+
+    expect(find.byKey(const ValueKey('banner-ad-note')), findsNothing);
+    await _tap(tester, find.byKey(const ValueKey('banner-campaign')));
+    await _tap(tester, find.textContaining('Brand X · Yaz').last);
     expect(find.byKey(const ValueKey('banner-ad-note')), findsOneWidget);
+    // A brand banner always needs the expert's approval.
     expect(find.byKey(const ValueKey('content-publish')), findsNothing);
+
+    await _tap(tester, find.byKey(const ValueKey('content-save')));
+    final saved = api.calls.lastWhere((c) => c.startsWith('save:'));
+    final json = jsonDecode(saved.substring(saved.indexOf('{'))) as Map;
+    expect(json['campaign'], campaign.id);
+    expect(json['url'], 'https://brand.az/yaz');
+    expect(json['topics'], ['care']);
+    expect(json.containsKey('sponsor'), isFalse);
+    expect(
+      ContentRules.problems(
+        ContentKind.banner,
+        jsonEncode(json),
+        complete: false,
+      ),
+      isEmpty,
+    );
   });
 
   testWidgets('push: an admin sends once after confirming', (tester) async {

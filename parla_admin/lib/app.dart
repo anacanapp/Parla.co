@@ -4,6 +4,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
 
 import 'api/admin_api.dart';
+import 'screens/ads_screen.dart';
 import 'screens/auth_screens.dart';
 import 'screens/content_screens.dart';
 import 'screens/overview_screen.dart';
@@ -128,6 +129,23 @@ GoRouter _buildRouter(StaffState state) => GoRouter(
           path: '/dashboard',
           redirect: (_, _) => state.isAdmin ? null : '/overview',
           builder: (_, _) => DashboardScreen(state: state),
+        ),
+        GoRoute(
+          path: '/ads',
+          redirect: (_, _) => state.isAdmin ? null : '/overview',
+          builder: (_, _) => AdsScreen(state: state),
+        ),
+        GoRoute(
+          path: '/ads/:id',
+          redirect: (_, s) => !state.isAdmin
+              ? '/overview'
+              : int.tryParse(s.pathParameters['id']!) == null
+              ? '/ads'
+              : null,
+          builder: (_, s) => AdReportScreen(
+            state: state,
+            id: int.parse(s.pathParameters['id']!),
+          ),
         ),
         GoRoute(
           path: '/messages',

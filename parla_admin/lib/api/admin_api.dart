@@ -19,6 +19,11 @@ export 'package:parla_client/parla_client.dart'
         StatsCount,
         SupportThreadSummary,
         SupportEntry,
+        Advertiser,
+        AdCampaign,
+        AdCampaignOption,
+        AdReport,
+        AdReportRow,
         UuidValue;
 
 /// A rule the server refused, with its stable code.
@@ -85,6 +90,16 @@ abstract interface class AdminApi {
 
   /// The dashboard for the last [days] days (7, 30 or 90; admins only).
   Future<DashboardReport> dashboard(int days);
+
+  // Ads (admins only, except [adCampaignOptions] for the banner editor).
+  Future<List<Advertiser>> advertisers();
+  Future<Advertiser> saveAdvertiser(Advertiser advertiser);
+  Future<void> deleteAdvertiser(int id);
+  Future<List<AdCampaign>> adCampaigns();
+  Future<AdCampaign> saveAdCampaign(AdCampaign campaign);
+  Future<void> deleteAdCampaign(int id);
+  Future<List<AdCampaignOption>> adCampaignOptions();
+  Future<AdReport> adReport(int campaignId);
 
   /// Hides or shows a catalogue item in the app at once.
   Future<ContentAdminItem> setContentHidden(int id, bool hidden);

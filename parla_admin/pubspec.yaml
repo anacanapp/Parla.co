@@ -27,6 +27,7 @@ dependencies:
   flutter_markdown_plus: ^1.0.12
   html: ^0.15.7
   web: ^1.1.2
+  pdf: ^3.13.1
 
 dev_dependencies:
   flutter_lints: '>=3.0.0 <7.0.0'
