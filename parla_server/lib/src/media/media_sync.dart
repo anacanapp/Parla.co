@@ -7,7 +7,7 @@ import '../generated/protocol.dart';
 import '../web/public_media.dart';
 import 'media_store.dart';
 
-/// Ids of the images content uses: in published copies, and with [drafts]
+/// Ids of the images and videos content uses: in published copies, and with [drafts]
 /// also in working copies.
 Future<Set<int>> usedImageIds(Session session, {bool drafts = false}) async {
   final rows = await ContentItem.db.find(session);
@@ -17,16 +17,16 @@ Future<Set<int>> usedImageIds(Session session, {bool drafts = false}) async {
       if (json == null) continue;
       final decoded = jsonDecode(json);
       if (decoded is Map<String, Object?>) {
-        out.addAll(MediaRules.imageIdsOf(decoded));
+        out.addAll(MediaRules.mediaIdsOf(decoded));
       }
     }
   }
   return out;
 }
 
-/// Makes exactly the images of published content reachable by the app:
+/// Makes exactly the images and videos of published content reachable by the app:
 /// copies newly used ones to the public prefix and removes the public copy
-/// of images no published content uses any more.
+/// of those no published content uses any more.
 Future<void> syncPublicMedia(Session session) async {
   final used = await usedImageIds(session);
   final assets = await MediaAsset.db.find(
@@ -37,10 +37,14 @@ Future<void> syncPublicMedia(Session session) async {
   for (final a in assets) {
     final shouldBePublic = used.contains(a.id);
     if (shouldBePublic == a.public) continue;
+    final video = a.mediaType == MediaRules.video;
     if (shouldBePublic) {
-      await store.copy(Media.privateKey(a.key), Media.publicKey(a.key));
+      await store.copy(
+        Media.privateKey(a.key, video: video),
+        Media.publicKey(a.key, video: video),
+      );
     } else {
-      await store.delete(Media.publicKey(a.key));
+      await store.delete(Media.publicKey(a.key, video: video));
       PublicMedia.instance.forget(a.key);
     }
     await MediaAsset.db.updateRow(session, a.copyWith(public: shouldBePublic));

@@ -26,6 +26,7 @@ abstract class PublicContent
     this.reviewedAt,
     required this.publishedAt,
     this.image,
+    this.video,
     this.inlineImages,
     required this.hidden,
   });
@@ -39,6 +40,7 @@ abstract class PublicContent
     DateTime? reviewedAt,
     required DateTime publishedAt,
     _ium6b0ir.PublicImage? image,
+    _ium6b0ir.PublicImage? video,
     List<_ium6b0ir.PublicImage>? inlineImages,
     required bool hidden,
   }) = _PublicContentImpl;
@@ -60,6 +62,11 @@ abstract class PublicContent
           ? null
           : _i19kjxmt.Protocol().deserialize<_ium6b0ir.PublicImage>(
               jsonSerialization['image'],
+            ),
+      video: jsonSerialization['video'] == null
+          ? null
+          : _i19kjxmt.Protocol().deserialize<_ium6b0ir.PublicImage>(
+              jsonSerialization['video'],
             ),
       inlineImages: jsonSerialization['inlineImages'] == null
           ? null
@@ -87,6 +94,9 @@ abstract class PublicContent
   /// The item's image, when it has a published one.
   _ium6b0ir.PublicImage? image;
 
+  /// An exercise's published video (an MP4 without sound).
+  _ium6b0ir.PublicImage? video;
+
   /// Published images used inside an article's body.
   List<_ium6b0ir.PublicImage>? inlineImages;
 
@@ -105,6 +115,7 @@ abstract class PublicContent
     DateTime? reviewedAt = const _is.$UndefinedDateTime(),
     DateTime? publishedAt,
     _ium6b0ir.PublicImage? image = const _UndefinedPublicContent$image(),
+    _ium6b0ir.PublicImage? video = const _UndefinedPublicContent$image(),
     List<_ium6b0ir.PublicImage>? inlineImages =
         const _is.$UndefinedList<_ium6b0ir.PublicImage>(),
     bool? hidden,
@@ -121,6 +132,7 @@ abstract class PublicContent
       if (reviewedAt != null) 'reviewedAt': reviewedAt?.toJson(),
       'publishedAt': publishedAt.toJson(),
       if (image != null) 'image': image?.toJson(),
+      if (video != null) 'video': video?.toJson(),
       if (inlineImages != null)
         'inlineImages': inlineImages?.toJson(valueToJson: (v) => v.toJson()),
       'hidden': hidden,
@@ -139,6 +151,7 @@ abstract class PublicContent
       if (reviewedAt != null) 'reviewedAt': reviewedAt?.toJson(),
       'publishedAt': publishedAt.toJson(),
       if (image != null) 'image': image?.toJsonForProtocol(),
+      if (video != null) 'video': video?.toJsonForProtocol(),
       if (inlineImages != null)
         'inlineImages': inlineImages?.toJson(
           valueToJson: (v) => v.toJsonForProtocol(),
@@ -168,6 +181,7 @@ class _PublicContentImpl extends PublicContent {
     DateTime? reviewedAt,
     required DateTime publishedAt,
     _ium6b0ir.PublicImage? image,
+    _ium6b0ir.PublicImage? video,
     List<_ium6b0ir.PublicImage>? inlineImages,
     required bool hidden,
   }) : super._(
@@ -179,6 +193,7 @@ class _PublicContentImpl extends PublicContent {
          reviewedAt: reviewedAt,
          publishedAt: publishedAt,
          image: image,
+         video: video,
          inlineImages: inlineImages,
          hidden: hidden,
        );
@@ -196,6 +211,7 @@ class _PublicContentImpl extends PublicContent {
     DateTime? reviewedAt = const _is.$UndefinedDateTime(),
     DateTime? publishedAt,
     _ium6b0ir.PublicImage? image = const _UndefinedPublicContent$image(),
+    _ium6b0ir.PublicImage? video = const _UndefinedPublicContent$image(),
     List<_ium6b0ir.PublicImage>? inlineImages =
         const _is.$UndefinedList<_ium6b0ir.PublicImage>(),
     bool? hidden,
@@ -211,6 +227,7 @@ class _PublicContentImpl extends PublicContent {
           : reviewedAt,
       publishedAt: publishedAt ?? this.publishedAt,
       image: image is _is.UndefinedSentinel ? this.image?.copyWith() : image,
+      video: video is _is.UndefinedSentinel ? this.video?.copyWith() : video,
       inlineImages: inlineImages is _is.UndefinedSentinel
           ? this.inlineImages?.map((e0) => e0.copyWith()).toList()
           : inlineImages,

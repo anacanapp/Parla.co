@@ -28,7 +28,10 @@ String errorText(Object error) {
       'Şəkil məlumatı düzgün deyil (lisenziya və ya alternativ mətn).',
     'media.not_image' =>
       'Fayl JPEG, PNG və ya WebP şəkli deyil, ya da 1 MB-dan böyükdür.',
-    'media.in_use' => 'Bu şəkil hələ bir yazıda istifadə olunur.',
+    'media.in_use' => 'Bu şəkil və ya video hələ bir yazıda istifadə olunur.',
+    'media.not_video' =>
+      'Fayl oxunan video deyil (MP4, MOV, WebM, GIF), 40 MB-dan böyükdür, '
+          'ya da sıxılandan sonra da çox böyük qalır.',
     'users.not_found' => 'Hesab tapılmadı.',
     'users.confirm_mismatch' => 'Təsdiq üçün yazılan e-poçt uyğun gəlmir.',
     'support.empty' => 'Mesaj boşdur.',

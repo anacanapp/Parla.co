@@ -154,6 +154,7 @@ class FakeAdminApi implements AdminApi {
     calls.add('upload:${bytes.length}:$license:$altJson');
     final item = MediaAdminItem(
       id: _nextId++,
+      mediaType: 'image',
       pixelWidth: 40,
       pixelHeight: 30,
       bytes: bytes.length,
@@ -194,6 +195,34 @@ class FakeAdminApi implements AdminApi {
   @override
   Future<void> deleteImage(int id) async {
     images.removeWhere((m) => m.id == id);
+  }
+
+  @override
+  Future<MediaAdminItem> uploadVideo(
+    Uint8List bytes,
+    String license,
+    String? source,
+    String altJson, {
+    void Function(double sent)? onProgress,
+  }) async {
+    calls.add('uploadVideo:${bytes.length}:$license:$altJson');
+    onProgress?.call(1);
+    final item = MediaAdminItem(
+      id: _nextId++,
+      mediaType: 'video',
+      durationMs: 4200,
+      pixelWidth: 720,
+      pixelHeight: 406,
+      bytes: bytes.length,
+      license: license,
+      source: source,
+      altJson: altJson,
+      public: false,
+      createdAt: DateTime.utc(2026, 11, 21),
+    );
+    images.add(item);
+    imageBytes[item.id] = bytes;
+    return item;
   }
 
   @override

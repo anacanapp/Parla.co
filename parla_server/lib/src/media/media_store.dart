@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 
-/// Where images are kept. Staging and production use S3 ([S3MediaStore]);
+/// Where images and videos are kept. Staging and production use S3 ([S3MediaStore]);
 /// tests and local development keep them in memory.
 abstract class MediaStore {
   Future<void> put(String key, Uint8List bytes, String contentType);
@@ -64,12 +64,23 @@ class Media {
 
   static Media instance = Media(MemoryMediaStore());
 
-  /// Object key of an uploaded image, not reachable by the app.
-  static String privateKey(String id) => 'uploads/$id.jpg';
+  /// Object key of an uploaded image (or, with [video], an uploaded
+  /// video), not reachable by the app.
+  static String privateKey(String id, {bool video = false}) =>
+      'uploads/$id.${_ext(video)}';
 
   /// Object key of the public copy, served under [publicBaseUrl].
-  static String publicKey(String id) => 'public/$id.jpg';
+  static String publicKey(String id, {bool video = false}) =>
+      'public/$id.${_ext(video)}';
 
-  String? publicUrl(String id) =>
-      publicBaseUrl == null ? null : '$publicBaseUrl/$id.jpg';
+  /// Object key of one chunk of a video upload in progress. The upload
+  /// belongs to the staff member [owner]; finishing or aborting it removes
+  /// the chunks.
+  static String chunkKey(String owner, String upload, int index) =>
+      'incoming/$owner/$upload/$index';
+
+  String? publicUrl(String id, {bool video = false}) =>
+      publicBaseUrl == null ? null : '$publicBaseUrl/$id.${_ext(video)}';
+
+  static String _ext(bool video) => video ? 'mp4' : 'jpg';
 }

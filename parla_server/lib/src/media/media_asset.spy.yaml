@@ -1,13 +1,17 @@
-### An image uploaded in the admin panel for content (article covers,
-### recipe photos, expert photos, exercise images). The server re-encodes
-### every upload, so no camera or location metadata is kept, and never
-### stores the original file name. [key] names the object in the media
+### An image or video uploaded in the admin panel for content (article
+### covers, recipe photos, expert photos, exercise images and videos). The
+### server re-encodes every upload, so no camera or location metadata (and
+### no sound) is kept, and never stores the original file name. [key] names the object in the media
 ### store; it is reachable by the app only while [public] is set, which the
 ### server keeps in step with what is published.
 class: MediaAsset
 table: media_asset
 fields:
   key: String
+  ### `image` (a JPEG) or `video` (an H.264 MP4 without sound).
+  mediaType: String, default='image'
+  ### A video's length in milliseconds.
+  durationMs: int?
   pixelWidth: int
   pixelHeight: int
   bytes: int

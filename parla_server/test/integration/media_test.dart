@@ -1,12 +1,15 @@
 import 'dart:convert';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:image/image.dart' as img;
 import 'package:parla_server/src/auth/verification_code_sender.dart';
+import 'package:parla_shared/parla_shared.dart';
 import 'package:parla_server/src/content/content_admin_endpoint.dart';
 import 'package:parla_server/src/generated/protocol.dart';
 import 'package:parla_server/src/media/media_admin_endpoint.dart';
 import 'package:parla_server/src/media/media_store.dart';
+import 'package:parla_server/src/media/video_processing.dart';
 import 'package:parla_server/src/staff/staff_guard.dart';
 import 'package:serverpod_auth_idp_server/core.dart';
 import 'package:test/test.dart';
@@ -32,6 +35,53 @@ ByteData _photo({int w = 40, int h = 30}) {
   image.exif.gpsIfd['GPSLatitude'] = img.IfdValueRational(40, 1);
   final bytes = img.encodeJpg(image);
   return ByteData.sublistView(bytes);
+}
+
+/// Whether ffmpeg is installed (it is in the server image and in CI).
+final _hasFfmpeg = () {
+  try {
+    return Process.runSync('ffmpeg', ['-version']).exitCode == 0;
+  } on ProcessException {
+    return false;
+  }
+}();
+
+/// A 2-second 1280×720 MOV with sound and location, title and date
+/// metadata, made with ffmpeg.
+Future<Uint8List> _phoneVideo() async {
+  final dir = await Directory.systemTemp.createTemp('parla-video-test');
+  try {
+    final out = '${dir.path}/clip.mov';
+    final r = await Process.run('ffmpeg', [
+      '-loglevel', 'error', //
+      '-f', 'lavfi', '-i', 'testsrc=size=1280x720:rate=30',
+      '-f', 'lavfi', '-i', 'sine=frequency=440',
+      '-t', '2',
+      '-metadata', 'location=+40.4093+049.8671/',
+      '-metadata', 'title=Secret name',
+      '-metadata', 'creation_time=2026-11-20T10:00:00Z',
+      '-c:v', 'libx264', '-c:a', 'aac', out,
+    ]);
+    expect(r.exitCode, 0, reason: '${r.stderr}');
+    return await File(out).readAsBytes();
+  } finally {
+    await dir.delete(recursive: true);
+  }
+}
+
+/// ffprobe's view of an MP4: streams and tags.
+Future<Map<String, Object?>> _probe(Uint8List mp4) async {
+  final dir = await Directory.systemTemp.createTemp('parla-video-probe');
+  try {
+    final f = File('${dir.path}/x.mp4')..writeAsBytesSync(mp4);
+    final r = await Process.run('ffprobe', [
+      '-v', 'error', //
+      '-show_streams', '-show_format', '-of', 'json', f.path,
+    ]);
+    return jsonDecode(r.stdout as String) as Map<String, Object?>;
+  } finally {
+    await dir.delete(recursive: true);
+  }
 }
 
 void main() {
@@ -351,5 +401,182 @@ void main() {
         );
       },
     );
+
+    group('videos', skip: _hasFfmpeg ? null : 'ffmpeg is not installed', () {
+      setUp(() => VideoCleaner.instance = FfmpegVideoCleaner());
+
+      Future<MediaAdminItem> upload(
+        TestSessionBuilder who,
+        Uint8List bytes, {
+        String upload = '1b2c3d4e-5f60-4a1b-9c2d-3e4f5a6b7c8d',
+        int chunk = 16 * 1024,
+      }) async {
+        var n = 0;
+        for (var at = 0; at < bytes.length; at += chunk, n++) {
+          final end = at + chunk > bytes.length ? bytes.length : at + chunk;
+          await endpoints.mediaAdmin.uploadVideoChunk(
+            who,
+            upload,
+            n,
+            ByteData.sublistView(bytes, at, end),
+          );
+        }
+        return endpoints.mediaAdmin.finishVideoUpload(
+          who,
+          upload,
+          n,
+          'Own video',
+          null,
+          jsonEncode(_l('Squat')),
+        );
+      }
+
+      test('a video is re-encoded without sound or metadata and joins '
+          'an exercise', () async {
+        final t = await team();
+        final clip = await _phoneVideo();
+        expect(clip.length, greaterThan(16 * 1024));
+        final video = await upload(t.editor, clip);
+        expect(video.mediaType, 'video');
+        // 16:9 shrunk to 720 wide; the height is rounded to an even number.
+        expect(video.pixelWidth, 720);
+        expect(video.pixelHeight, inInclusiveRange(404, 406));
+        expect(video.durationMs, inInclusiveRange(1900, 2100));
+        // Chunks are gone; only the cleaned video is kept, privately.
+        expect(
+          store.objects.keys.single,
+          'uploads/${(await MediaAsset.db.findById(sessionBuilder.build(), video.id))!.key}.mp4',
+        );
+
+        final probe = await _probe(store.objects.values.single);
+        final streams = probe['streams']! as List;
+        expect(streams.map((s) => (s as Map)['codec_type']), ['video']);
+        final tags = jsonEncode([
+          (probe['format']! as Map)['tags'],
+          for (final s in streams) (s as Map)['tags'],
+        ]);
+        expect(tags, isNot(contains('40.4093')));
+        expect(tags, isNot(contains('Secret')));
+        expect(tags, isNot(contains('2026-11-20')));
+
+        // The panel's preview returns it to any team member.
+        final preview = await endpoints.mediaAdmin.preview(t.expert, video.id);
+        expect(preview.lengthInBytes, video.bytes);
+
+        // An image cannot stand in for the video, nor the other way round.
+        final photo = await endpoints.mediaAdmin.upload(
+          t.editor,
+          _photo(),
+          'Own photo',
+          null,
+          jsonEncode(_l('Squat')),
+        );
+        final item = await endpoints.contentAdmin.create(
+          t.editor,
+          'exercise',
+          'squat',
+          'catalogue',
+        );
+        Future<void> save(Map<String, Object?> media) =>
+            endpoints.contentAdmin.saveDraft(
+              t.editor,
+              item.id,
+              jsonEncode({'name': _l('Squat'), 'how': _l('Aşağı'), ...media}),
+              'catalogue',
+            );
+        await expectLater(
+          save({'video': photo.id}),
+          throwsA(_error(ContentErrors.invalid)),
+        );
+        await expectLater(
+          save({'image': video.id}),
+          throwsA(_error(ContentErrors.invalid)),
+        );
+        await save({'image': photo.id, 'video': video.id});
+        await endpoints.contentAdmin.submitForReview(t.editor, item.id);
+        await endpoints.contentAdmin.approve(t.expert, item.id);
+        await endpoints.contentAdmin.publish(t.editor, item.id);
+
+        final public = (await endpoints.content.published(
+          sessionBuilder,
+          'exercise',
+        )).single;
+        expect(public.video!.url, endsWith('.mp4'));
+        expect(public.video!.id, video.id);
+        expect(public.image!.url, endsWith('.jpg'));
+        expect(
+          store.objects.keys.where((k) => k.startsWith('public/')).toSet(),
+          hasLength(2),
+        );
+        // In use: it cannot be deleted.
+        await expectLater(
+          endpoints.mediaAdmin.delete(t.admin, video.id),
+          throwsA(_error(MediaErrors.inUse)),
+        );
+      });
+
+      test('bad video uploads are refused and leave nothing behind', () async {
+        final t = await team();
+        // Not a video (a playlist naming a URL): refused before ffmpeg.
+        await expectLater(
+          upload(
+            t.editor,
+            Uint8List.fromList(utf8.encode('#EXTM3U\nhttp://example.com/x')),
+          ),
+          throwsA(_error(MediaErrors.notVideo)),
+        );
+        // A missing chunk.
+        await endpoints.mediaAdmin.uploadVideoChunk(
+          t.editor,
+          '2b2c3d4e-5f60-4a1b-9c2d-3e4f5a6b7c8d',
+          1,
+          ByteData(4),
+        );
+        await expectLater(
+          endpoints.mediaAdmin.finishVideoUpload(
+            t.editor,
+            '2b2c3d4e-5f60-4a1b-9c2d-3e4f5a6b7c8d',
+            2,
+            'x',
+            null,
+            '{}',
+          ),
+          throwsA(_error(MediaErrors.invalid)),
+        );
+        // Odd ids, chunks too large, experts.
+        await expectLater(
+          endpoints.mediaAdmin.uploadVideoChunk(
+            t.editor,
+            '../x',
+            0,
+            ByteData(4),
+          ),
+          throwsA(_error(MediaErrors.invalid)),
+        );
+        await expectLater(
+          endpoints.mediaAdmin.uploadVideoChunk(
+            t.editor,
+            '3b2c3d4e-5f60-4a1b-9c2d-3e4f5a6b7c8d',
+            0,
+            ByteData(MediaRules.videoChunkBytes + 1),
+          ),
+          throwsA(_error(MediaErrors.invalid)),
+        );
+        await expectLater(
+          endpoints.mediaAdmin.uploadVideoChunk(
+            t.expert,
+            '3b2c3d4e-5f60-4a1b-9c2d-3e4f5a6b7c8d',
+            0,
+            ByteData(4),
+          ),
+          throwsA(_error(StaffErrors.forbidden)),
+        );
+        expect(store.objects, isEmpty);
+        expect(
+          await MediaAsset.db.count(sessionBuilder.build()),
+          0,
+        );
+      });
+    });
   });
 }

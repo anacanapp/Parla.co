@@ -12,7 +12,7 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod/serverpod.dart' as _is;
 
-/// A published image as the app reads it.
+/// A published image (or an exercise's video) as the app reads it.
 abstract class PublicImage
     implements _is.SerializableModel, _is.ProtocolSerialization {
   PublicImage._({

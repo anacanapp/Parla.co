@@ -13,10 +13,10 @@
 import 'dart:async' as _ida;
 import 'package:serverpod/serverpod.dart' as _is;
 
-/// An image uploaded in the admin panel for content (article covers,
-/// recipe photos, expert photos, exercise images). The server re-encodes
-/// every upload, so no camera or location metadata is kept, and never
-/// stores the original file name. [key] names the object in the media
+/// An image or video uploaded in the admin panel for content (article
+/// covers, recipe photos, expert photos, exercise images and videos). The
+/// server re-encodes every upload, so no camera or location metadata (and
+/// no sound) is kept, and never stores the original file name. [key] names the object in the media
 /// store; it is reachable by the app only while [public] is set, which the
 /// server keeps in step with what is published.
 abstract class MediaAsset
@@ -24,6 +24,8 @@ abstract class MediaAsset
   MediaAsset._({
     this.id,
     required this.key,
+    String? mediaType,
+    this.durationMs,
     required this.pixelWidth,
     required this.pixelHeight,
     required this.bytes,
@@ -33,11 +35,13 @@ abstract class MediaAsset
     required this.public,
     required this.createdBy,
     required this.createdAt,
-  });
+  }) : mediaType = mediaType ?? 'image';
 
   factory MediaAsset({
     int? id,
     required String key,
+    String? mediaType,
+    int? durationMs,
     required int pixelWidth,
     required int pixelHeight,
     required int bytes,
@@ -53,6 +57,8 @@ abstract class MediaAsset
     return MediaAsset(
       id: jsonSerialization['id'] as int?,
       key: jsonSerialization['key'] as String,
+      mediaType: jsonSerialization['mediaType'] as String?,
+      durationMs: jsonSerialization['durationMs'] as int?,
       pixelWidth: jsonSerialization['pixelWidth'] as int,
       pixelHeight: jsonSerialization['pixelHeight'] as int,
       bytes: jsonSerialization['bytes'] as int,
@@ -77,6 +83,12 @@ abstract class MediaAsset
   int? id;
 
   String key;
+
+  /// `image` (a JPEG) or `video` (an H.264 MP4 without sound).
+  String mediaType;
+
+  /// A video's length in milliseconds.
+  int? durationMs;
 
   int pixelWidth;
 
@@ -109,6 +121,8 @@ abstract class MediaAsset
   MediaAsset copyWith({
     int? id,
     String? key,
+    String? mediaType,
+    int? durationMs,
     int? pixelWidth,
     int? pixelHeight,
     int? bytes,
@@ -125,6 +139,8 @@ abstract class MediaAsset
       '__className__': 'MediaAsset',
       if (id != null) 'id': id,
       'key': key,
+      'mediaType': mediaType,
+      if (durationMs != null) 'durationMs': durationMs,
       'pixelWidth': pixelWidth,
       'pixelHeight': pixelHeight,
       'bytes': bytes,
@@ -143,6 +159,8 @@ abstract class MediaAsset
       '__className__': 'MediaAsset',
       if (id != null) 'id': id,
       'key': key,
+      'mediaType': mediaType,
+      if (durationMs != null) 'durationMs': durationMs,
       'pixelWidth': pixelWidth,
       'pixelHeight': pixelHeight,
       'bytes': bytes,
@@ -189,6 +207,8 @@ class _MediaAssetImpl extends MediaAsset {
   _MediaAssetImpl({
     int? id,
     required String key,
+    String? mediaType,
+    int? durationMs,
     required int pixelWidth,
     required int pixelHeight,
     required int bytes,
@@ -201,6 +221,8 @@ class _MediaAssetImpl extends MediaAsset {
   }) : super._(
          id: id,
          key: key,
+         mediaType: mediaType,
+         durationMs: durationMs,
          pixelWidth: pixelWidth,
          pixelHeight: pixelHeight,
          bytes: bytes,
@@ -219,6 +241,8 @@ class _MediaAssetImpl extends MediaAsset {
   MediaAsset copyWith({
     Object? id = _Undefined,
     String? key,
+    String? mediaType,
+    Object? durationMs = _Undefined,
     int? pixelWidth,
     int? pixelHeight,
     int? bytes,
@@ -232,6 +256,8 @@ class _MediaAssetImpl extends MediaAsset {
     return MediaAsset(
       id: id is int? ? id : this.id,
       key: key ?? this.key,
+      mediaType: mediaType ?? this.mediaType,
+      durationMs: durationMs is int? ? durationMs : this.durationMs,
       pixelWidth: pixelWidth ?? this.pixelWidth,
       pixelHeight: pixelHeight ?? this.pixelHeight,
       bytes: bytes ?? this.bytes,
@@ -250,6 +276,16 @@ class MediaAssetUpdateTable extends _is.UpdateTable<MediaAssetTable> {
 
   _is.ColumnValue<String, String> key(String value) => _is.ColumnValue(
     table.key,
+    value,
+  );
+
+  _is.ColumnValue<String, String> mediaType(String value) => _is.ColumnValue(
+    table.mediaType,
+    value,
+  );
+
+  _is.ColumnValue<int, int> durationMs(int? value) => _is.ColumnValue(
+    table.durationMs,
     value,
   );
 
@@ -309,6 +345,15 @@ class MediaAssetTable extends _is.Table<int?> {
       'key',
       this,
     );
+    mediaType = _is.ColumnString(
+      'mediaType',
+      this,
+      hasDefault: true,
+    );
+    durationMs = _is.ColumnInt(
+      'durationMs',
+      this,
+    );
     pixelWidth = _is.ColumnInt(
       'pixelWidth',
       this,
@@ -351,6 +396,12 @@ class MediaAssetTable extends _is.Table<int?> {
 
   late final _is.ColumnString key;
 
+  /// `image` (a JPEG) or `video` (an H.264 MP4 without sound).
+  late final _is.ColumnString mediaType;
+
+  /// A video's length in milliseconds.
+  late final _is.ColumnInt durationMs;
+
   late final _is.ColumnInt pixelWidth;
 
   late final _is.ColumnInt pixelHeight;
@@ -377,6 +428,8 @@ class MediaAssetTable extends _is.Table<int?> {
   List<_is.Column> get columns => [
     id,
     key,
+    mediaType,
+    durationMs,
     pixelWidth,
     pixelHeight,
     bytes,

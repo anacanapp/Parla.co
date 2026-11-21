@@ -12,7 +12,8 @@ import 'public_media.dart';
 /// API server, so the panel and the images share the API's origin and no
 /// CORS is needed.
 ///
-/// - `/media/<id>.jpg`: published content images ([PublicMedia]).
+/// - `/media/<id>.jpg`, `/media/<id>.mp4`: published content images and
+///   exercise videos ([PublicMedia]).
 /// - `/admin/`: the admin panel, a Flutter web build in `web/admin` (built
 ///   into the image by the Dockerfile), with a strict content security
 ///   policy. Unknown paths below it load the panel (client-side routing).
@@ -44,7 +45,8 @@ void mountWebRoutes({
   addRoute(AdminPanelRoute(admin), '/admin');
 }
 
-/// `GET /media/<id>.jpg`.
+/// `GET /media/<id>.jpg` and `GET /media/<id>.mp4` (with byte ranges,
+/// which phones' video players ask for).
 class MediaRoute extends Route {
   MediaRoute() : super(methods: {Method.get, Method.head});
 
@@ -62,31 +64,92 @@ class MediaRoute extends Route {
         : request.url.pathSegments.last;
     return mediaResponse(
       await PublicMedia.instance.read(file, Media.instance.store),
+      video: PublicMedia.isVideo(file),
+      request: request,
     );
   }
 }
 
-/// The response for an image's bytes, or 404 when there are none.
-Response mediaResponse(List<int>? bytes) {
+/// The response for an image's or video's bytes, or 404 when there are
+/// none. A single byte range in [request] gets a 206 with that range.
+Response mediaResponse(
+  List<int>? bytes, {
+  bool video = false,
+  Request? request,
+}) {
   if (bytes == null) {
     return Response.notFound(
       body: Body.fromString('Not found'),
       headers: Headers.build((h) => h.cacheControl = _noStore),
     );
   }
-  return Response.ok(
+  final data = bytes is Uint8List ? bytes : Uint8List.fromList(bytes);
+  final mime = MimeType.parse(video ? 'video/mp4' : 'image/jpeg');
+  final headers = Headers.build((h) {
+    h.cacheControl = CacheControlHeader(
+      publicCache: true,
+      maxAge: PublicMedia.browserMaxAge.inSeconds,
+    );
+    h.acceptRanges = AcceptRangesHeader.bytes();
+    h['Cross-Origin-Resource-Policy'] = ['same-origin'];
+  });
+  final range = request == null ? null : _range(request, data.length);
+  if (range == null) {
+    return Response.ok(
+      body: Body.fromData(data, mimeType: mime),
+      headers: headers,
+    );
+  }
+  if (range.isEmpty) {
+    return Response(
+      416,
+      headers: headers.transform(
+        (h) => h.contentRange = ContentRangeHeader(size: data.length),
+      ),
+    );
+  }
+  final (start, end) = range.single;
+  return Response(
+    206,
     body: Body.fromData(
-      bytes is Uint8List ? bytes : Uint8List.fromList(bytes),
-      mimeType: MimeType.parse('image/jpeg'),
+      Uint8List.sublistView(data, start, end),
+      mimeType: mime,
     ),
-    headers: Headers.build((h) {
-      h.cacheControl = CacheControlHeader(
-        publicCache: true,
-        maxAge: PublicMedia.browserMaxAge.inSeconds,
-      );
-      h['Cross-Origin-Resource-Policy'] = ['same-origin'];
-    }),
+    headers: headers.transform(
+      (h) => h.contentRange = ContentRangeHeader(
+        start: start,
+        end: end - 1,
+        size: data.length,
+      ),
+    ),
   );
+}
+
+/// The one range asked for as `[(start, end)]` (end exclusive), `[]` when
+/// it cannot be served (416), or `null` to send the whole file (no Range
+/// header, several ranges, or one that cannot be read).
+List<(int, int)>? _range(Request request, int size) {
+  final RangeHeader? header;
+  try {
+    header = request.headers.range;
+  } on Object {
+    return null;
+  }
+  if (header == null || header.ranges.length != 1) return null;
+  final r = header.ranges.single;
+  int start;
+  int end;
+  if (r.start != null) {
+    start = r.start!;
+    end = r.end == null ? size : r.end! + 1;
+  } else {
+    start = size - r.end!;
+    end = size;
+  }
+  if (start < 0) start = 0;
+  if (end > size) end = size;
+  if (start >= size || start >= end) return const [];
+  return [(start, end)];
 }
 
 final _noStore = CacheControlHeader(noStore: true);
@@ -140,6 +203,7 @@ class AdminHeadersMiddleware extends MiddlewareObject {
       "script-src 'self' 'wasm-unsafe-eval'; "
       "style-src 'self' 'unsafe-inline'; "
       "img-src 'self' data: blob:; "
+      "media-src 'self' blob:; "
       "font-src 'self' data:; "
       "connect-src 'self'; "
       "worker-src 'self' blob:; "

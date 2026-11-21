@@ -13,7 +13,10 @@ import 'sample_experts.dart';
 
 /// Refuses content whose images are not complete (licence, alt text).
 Future<void> checkContentImages(Session session, String json) async {
-  for (final id in MediaRules.imageIdsOf(
+  if (!await mediaTypesMatch(session, json)) {
+    throw ParlaException(code: ContentErrors.imageIncomplete);
+  }
+  for (final id in MediaRules.mediaIdsOf(
     jsonDecode(json) as Map<String, Object?>,
   )) {
     final asset = await MediaAsset.db.findById(session, id);
@@ -27,6 +30,25 @@ Future<void> checkContentImages(Session session, String json) async {
       throw ParlaException(code: ContentErrors.imageIncomplete);
     }
   }
+}
+
+/// Whether every image content [json] uses exists and is an image, and
+/// its video (if any) exists and is a video.
+Future<bool> mediaTypesMatch(Session session, String json) async {
+  final decoded = jsonDecode(json) as Map<String, Object?>;
+  final video = MediaRules.videoOf(decoded);
+  final wanted = {
+    for (final id in MediaRules.imageIdsOf(decoded)) id: MediaRules.image,
+    ?video: MediaRules.video,
+  };
+  if (video != null && MediaRules.imageIdsOf(decoded).contains(video)) {
+    return false;
+  }
+  for (final e in wanted.entries) {
+    final asset = await MediaAsset.db.findById(session, e.key);
+    if (asset == null || asset.mediaType != e.value) return false;
+  }
+  return true;
 }
 
 Future<void> _audit(

@@ -178,6 +178,24 @@ void main() {
     );
     expect(MediaRules.imageOf({'image': 3}), 3);
     expect(MediaRules.imageOf({}), isNull);
+    expect(MediaRules.videoOf({'video': 4}), 4);
+    expect(MediaRules.mediaIdsOf({'image': 3, 'video': 4}), {3, 4});
+    expect(MediaRules.imageIdsOf({'image': 3, 'video': 4}), {3});
+  });
+
+  test('an exercise may have a video; other kinds may not', () {
+    expect(
+      _p(ContentKind.exercise, {'name': _l('x'), 'how': _l('y'), 'video': 4}),
+      isEmpty,
+    );
+    expect(
+      _p(ContentKind.exercise, {'name': _l('x'), 'how': _l('y'), 'video': 'a'}),
+      contains('video.invalid'),
+    );
+    expect(
+      _p(ContentKind.step, {'title': _l('x'), 'how': _l('y'), 'video': 4}),
+      contains('video.unknown'),
+    );
   });
 
   test('catalogue texts: known ids only, defaults are valid drafts', () {

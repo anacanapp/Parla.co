@@ -78,6 +78,10 @@ jobs:
         run: |
           serverpod generate
           git diff --exit-code -- lib/src/generated ../parla_client
+      # The server re-encodes exercise videos with ffmpeg (installed in its
+      # Docker image too); the media tests use it.
+      - name: Install ffmpeg
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends ffmpeg
       - working-directory: parla_server
         run: dart test
 

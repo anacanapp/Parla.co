@@ -24,7 +24,7 @@ enum ContentKind {
 
   /// Texts of the app's own catalogues (B2b-2). The items, their logic and
   /// their safety rules stay in code; the panel edits only the texts, the
-  /// exercise image and whether the app shows the item.
+  /// exercise image and video and whether the app shows the item.
   preference,
   exercise,
   step,
@@ -359,6 +359,8 @@ abstract final class ContentRules {
 
     final image = json['image'];
     if (image != null && (image is! int || image < 1)) out.add('image.invalid');
+    final video = json['video'];
+    if (video != null && (video is! int || video < 1)) out.add('video.invalid');
 
     switch (kind) {
       case ContentKind.article:
@@ -486,7 +488,7 @@ abstract final class ContentRules {
         text('name', 80);
         text('hint', 400);
       case ContentKind.exercise:
-        only({'name', 'how', 'caution', 'image'});
+        only({'name', 'how', 'caution', 'image', 'video'});
         text('name', 80);
         text('how', 600);
         text('caution', 400, required: false);

@@ -184,7 +184,8 @@ session).
 
 Images uploaded in the panel are kept in the private media bucket; the
 server reads it with its task role (no access key exists) and serves the
-images of published content at `https://parla.anacan.az/media/<id>.jpg`.
+images of published content at `https://parla.anacan.az/media/<id>.jpg`
+(exercise videos at `/media/<id>.mp4`).
 Unpublished images are never reachable.
 
 ## 4. Codemagic (once)

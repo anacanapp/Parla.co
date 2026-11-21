@@ -1,7 +1,10 @@
-### An image as the admin panel lists it.
+### An image or video as the admin panel lists it.
 class: MediaAdminItem
 fields:
   id: int
+  ### `image` or `video`.
+  mediaType: String
+  durationMs: int?
   pixelWidth: int
   pixelHeight: int
   bytes: int

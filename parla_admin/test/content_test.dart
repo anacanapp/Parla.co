@@ -296,6 +296,74 @@ void main() {
     await _tap(tester, find.text('Seçimlər'));
     await _tap(tester, find.byKey(const ValueKey('catalogue-fragrance_free')));
     expect(find.byKey(const ValueKey('image-field')), findsNothing);
+    expect(find.byKey(const ValueKey('video-field')), findsNothing);
+  });
+
+  testWidgets('an editor uploads an exercise video; the library keeps '
+      'images and videos apart', (tester) async {
+    final file = Uint8List.fromList(List.filled(2000, 7));
+    final original = pickVideoFile;
+    pickVideoFile = () async => file;
+    addTearDown(() => pickVideoFile = original);
+
+    final api = await _pump(tester, StaffRole.editor);
+    api.images.add(
+      MediaAdminItem(
+        id: 78,
+        mediaType: 'image',
+        pixelWidth: 40,
+        pixelHeight: 30,
+        bytes: 10,
+        license: 'Own',
+        altJson: '{"az":"Şəkil"}',
+        public: false,
+        createdAt: DateTime.utc(2026, 11, 20),
+      ),
+    );
+    await _tap(tester, _nav('Məzmun'));
+    await _tap(tester, find.text('Məşqlər'));
+    await _tap(tester, find.byKey(const ValueKey('catalogue-squat')));
+    expect(find.byKey(const ValueKey('video-field')), findsOneWidget);
+
+    // The video library lists no images.
+    await _tap(tester, find.byKey(const ValueKey('video-library')));
+    expect(find.byKey(const ValueKey('library-78')), findsNothing);
+    expect(find.text('Hələ video yoxdur.'), findsOneWidget);
+    await _tap(tester, find.text('Ləğv et'));
+
+    await _tap(tester, find.byKey(const ValueKey('video-upload')));
+    expect(find.textContaining('səs, kamera, yer (GPS)'), findsOneWidget);
+    await tester.enterText(
+      find.byKey(const ValueKey('image-license')),
+      'Öz videomuz',
+    );
+    await tester.enterText(
+      find.byKey(const ValueKey('image-alt-az')),
+      'Squat hərəkəti',
+    );
+    await _tap(tester, find.byKey(const ValueKey('image-save')));
+    expect(
+      api.calls.singleWhere((c) => c.startsWith('uploadVideo:')),
+      contains(':2000:Öz videomuz:'),
+    );
+    expect(find.text('Squat hərəkəti'), findsOneWidget);
+    expect(find.textContaining('4 san'), findsOneWidget);
+
+    await _tap(tester, find.byKey(const ValueKey('video-watch')));
+    expect(find.byKey(const ValueKey('video-preview')), findsOneWidget);
+    await _tap(tester, find.text('Bağla'));
+
+    await _tap(tester, find.byKey(const ValueKey('content-save')));
+    final saved = api.calls.lastWhere((c) => c.startsWith('save:'));
+    final json = jsonDecode(saved.substring(saved.indexOf('{'))) as Map;
+    final video = api.images.singleWhere((i) => i.mediaType == 'video');
+    expect(json['video'], video.id);
+    expect(json, isNot(contains('image')));
+
+    // The image library lists no videos.
+    await _tap(tester, find.byKey(const ValueKey('image-library')));
+    expect(find.byKey(ValueKey('library-${video.id}')), findsNothing);
+    expect(find.byKey(const ValueKey('library-78')), findsOneWidget);
   });
 
   testWidgets('banners: admins publish their own; brand ads need review', (
@@ -363,6 +431,7 @@ void main() {
     api.images.add(
       MediaAdminItem(
         id: 77,
+        mediaType: 'image',
         pixelWidth: 40,
         pixelHeight: 30,
         bytes: 10,

@@ -352,7 +352,7 @@ class _ContentScreenState extends State<ContentScreen> {
           Padding(
             padding: const EdgeInsets.only(bottom: 12),
             child: Text(
-              'Burada yalnız mətnlər${_kind == ContentKind.exercise ? ', şəkil' : ''} '
+              'Burada yalnız mətnlər${_kind == ContentKind.exercise ? ', şəkil, video' : ''} '
               'və tətbiqdə göstərmək/gizlətmək dəyişir. Qaydalar və '
               'təhlükəsizlik şərtləri kodda qalır.',
               style: text.bodySmall,
@@ -867,6 +867,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
   final Set<String> _groups = {};
 
   int? _imageId;
+  int? _videoId;
 
   /// Values of [_FieldType.multi] fields.
   final Map<String, Set<String>> _multi = {};
@@ -935,6 +936,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
         ContentRules.pick(inner == null ? e : (e as Map)[inner], lang),
     ].join('\n');
     _imageId = MediaRules.imageOf(json);
+    _videoId = MediaRules.videoOf(json);
     for (final f in _defs) {
       switch (f.type) {
         case _FieldType.groups:
@@ -1096,6 +1098,9 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
       }
     }
     if (_imageId != null) out['image'] = _imageId;
+    if (_videoId != null && _kind == ContentKind.exercise) {
+      out['video'] = _videoId;
+    }
     return jsonEncode(out);
   }
 
@@ -1575,6 +1580,19 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
               imageId: _imageId,
               enabled: writer,
               onChanged: (id) => setState(() => _imageId = id),
+            ),
+          ),
+          const SizedBox(height: 16),
+        ],
+        if (_kind == ContentKind.exercise) ...[
+          SectionCard(
+            title: 'Video',
+            child: ImageField(
+              api: _api,
+              imageId: _videoId,
+              enabled: writer,
+              video: true,
+              onChanged: (id) => setState(() => _videoId = id),
             ),
           ),
           const SizedBox(height: 16),

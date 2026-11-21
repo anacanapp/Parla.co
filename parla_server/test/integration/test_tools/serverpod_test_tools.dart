@@ -1464,6 +1464,119 @@ class _MediaAdminEndpoint {
     });
   }
 
+  _ida.Future<void> uploadVideoChunk(
+    _ist.TestSessionBuilder sessionBuilder,
+    String upload,
+    int index,
+    _idt.ByteData chunk,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'mediaAdmin',
+            method: 'uploadVideoChunk',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'mediaAdmin',
+          methodName: 'uploadVideoChunk',
+          parameters: _ist.testObjectToJson({
+            'upload': upload,
+            'index': index,
+            'chunk': chunk,
+          }),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<void>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _ida.Future<_i0szydc4.MediaAdminItem> finishVideoUpload(
+    _ist.TestSessionBuilder sessionBuilder,
+    String upload,
+    int chunks,
+    String license,
+    String? source,
+    String altJson,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'mediaAdmin',
+            method: 'finishVideoUpload',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'mediaAdmin',
+          methodName: 'finishVideoUpload',
+          parameters: _ist.testObjectToJson({
+            'upload': upload,
+            'chunks': chunks,
+            'license': license,
+            'source': source,
+            'altJson': altJson,
+          }),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<_i0szydc4.MediaAdminItem>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _ida.Future<void> abortVideoUpload(
+    _ist.TestSessionBuilder sessionBuilder,
+    String upload,
+    int chunks,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'mediaAdmin',
+            method: 'abortVideoUpload',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'mediaAdmin',
+          methodName: 'abortVideoUpload',
+          parameters: _ist.testObjectToJson({
+            'upload': upload,
+            'chunks': chunks,
+          }),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<void>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
   _ida.Future<List<_i0szydc4.MediaAdminItem>> list(
     _ist.TestSessionBuilder sessionBuilder,
   ) async {
