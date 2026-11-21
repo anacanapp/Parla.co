@@ -46,6 +46,13 @@ enum UsageEvent {
 
   /// A banner was tapped; the target is its content id.
   bannerTap,
+
+  /// A Shop product was opened; the target is its slug.
+  product,
+
+  /// A product's buy or partner-site button was tapped; the target is its
+  /// slug.
+  productTap,
 }
 
 /// The phone's operating system, counted with each report.
@@ -74,7 +81,9 @@ abstract final class UsageRules {
     UsageEvent.appOpen => _version.hasMatch(target),
     UsageEvent.tool => UsageTool.values.any((t) => t.name == target),
     UsageEvent.article ||
-    UsageEvent.recipe => target.length <= 80 && _slug.hasMatch(target),
+    UsageEvent.recipe ||
+    UsageEvent.product ||
+    UsageEvent.productTap => target.length <= 80 && _slug.hasMatch(target),
     UsageEvent.bannerView || UsageEvent.bannerTap => _id.hasMatch(target),
   };
 

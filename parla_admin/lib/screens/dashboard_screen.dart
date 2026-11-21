@@ -432,6 +432,20 @@ class _DashboardScreenState extends State<DashboardScreen> {
               entries: _bars('recipes_top', label: title),
             ),
           ),
+          SectionCard(
+            title: 'Mağaza: ən çox açılan məhsullar',
+            child: BarList(
+              key: const ValueKey('products-top'),
+              entries: _bars('products_top', label: title),
+            ),
+          ),
+          SectionCard(
+            title: 'Mağaza: "Al" və "Sayta keç" klikləri',
+            child: BarList(
+              key: const ValueKey('product-taps'),
+              entries: _bars('product_taps', label: title),
+            ),
+          ),
         ],
       ),
     ];

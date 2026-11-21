@@ -1963,13 +1963,13 @@ abstract class AppLocalizations {
   /// No description provided for @shopSoonCard.
   ///
   /// In en, this message translates to:
-  /// **'Parla Shop is coming'**
+  /// **'Parla Shop'**
   String get shopSoonCard;
 
   /// No description provided for @shopSoonCardBody.
   ///
   /// In en, this message translates to:
-  /// **'You will be able to order your list directly'**
+  /// **'See products from our partners'**
   String get shopSoonCardBody;
 
   /// No description provided for @shopOpenList.
@@ -1977,6 +1977,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'See my shopping list'**
   String get shopOpenList;
+
+  /// No description provided for @shopIntro.
+  ///
+  /// In en, this message translates to:
+  /// **'Products from partners. You buy on the partner\'s site; Parla passes on nothing about you.'**
+  String get shopIntro;
+
+  /// No description provided for @shopAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get shopAll;
+
+  /// No description provided for @shopCategoryFace.
+  ///
+  /// In en, this message translates to:
+  /// **'Face'**
+  String get shopCategoryFace;
+
+  /// No description provided for @shopCategoryHair.
+  ///
+  /// In en, this message translates to:
+  /// **'Hair'**
+  String get shopCategoryHair;
+
+  /// No description provided for @shopCategoryBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Body'**
+  String get shopCategoryBody;
+
+  /// No description provided for @shopCategoryMakeup.
+  ///
+  /// In en, this message translates to:
+  /// **'Make-up'**
+  String get shopCategoryMakeup;
+
+  /// No description provided for @shopCategoryOther.
+  ///
+  /// In en, this message translates to:
+  /// **'Other'**
+  String get shopCategoryOther;
+
+  /// No description provided for @shopPrice.
+  ///
+  /// In en, this message translates to:
+  /// **'{price} ₼'**
+  String shopPrice(String price);
+
+  /// No description provided for @shopVisitPartner.
+  ///
+  /// In en, this message translates to:
+  /// **'Go to the partner\'s site'**
+  String get shopVisitPartner;
+
+  /// No description provided for @shopPriceNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Price and stock may change on the partner\'s site. Check the ingredients before you buy; if you have a skin problem, ask a doctor.'**
+  String get shopPriceNote;
+
+  /// No description provided for @shopEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No products yet. They will be here soon.'**
+  String get shopEmpty;
 
   /// No description provided for @sportIntroTitle.
   ///
@@ -3031,7 +3097,7 @@ abstract class AppLocalizations {
   /// No description provided for @bannerLeaveTitle.
   ///
   /// In en, this message translates to:
-  /// **'Going to the brand\'s site'**
+  /// **'Leaving Parla'**
   String get bannerLeaveTitle;
 
   /// No description provided for @bannerLeaveBody.

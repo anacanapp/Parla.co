@@ -71,7 +71,8 @@ abstract final class Routes {
   static const products = '/products'; // M-20, M-22
   static const productDetail = '/products/detail'; // M-21, M-23
   static const shoppingList = '/products/list'; // Shopping list (step 3)
-  static const shop = '/products/shop'; // Shop "coming soon" (step 3)
+  static const shop = '/products/shop'; // Shop: partners' products
+  static const shopProduct = '/products/shop/item'; // Slug as `extra`
   static const sport = '/sport'; // Workout plan (redesign step 4)
   static const sportQuiz = '/sport/quiz'; // Sport questions
   static const workout = '/sport/workout'; // One workout, id as `extra`
@@ -139,6 +140,11 @@ GoRouter buildRouter() => GoRouter(
       builder: (_, _) => const ShoppingListScreen(),
     ),
     GoRoute(path: Routes.shop, builder: (_, _) => const ShopScreen()),
+    GoRoute(
+      path: Routes.shopProduct,
+      redirect: (_, state) => state.extra is String ? null : Routes.shop,
+      builder: (_, state) => ShopProductScreen(slug: state.extra! as String),
+    ),
     GoRoute(path: Routes.sport, builder: (_, _) => const SportScreen()),
     GoRoute(
       path: Routes.sportQuiz,

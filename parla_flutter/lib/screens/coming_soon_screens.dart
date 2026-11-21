@@ -116,7 +116,6 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     color: ParlaColors.blush,
                     icon: ParlaIconName.bag,
                     onTap: () => go('${Routes.shop}?from=discover'),
-                    soon: true,
                   ),
                   journal: BentoSection(
                     id: 'journal',

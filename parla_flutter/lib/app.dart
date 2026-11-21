@@ -162,6 +162,8 @@ class _ParlaAppState extends State<ParlaApp> {
       _usage.count(UsageEvent.article, extra);
     } else if (path == Routes.recipe && extra is String) {
       _usage.count(UsageEvent.recipe, extra);
+    } else if (path == Routes.shopProduct && extra is String) {
+      _usage.count(UsageEvent.product, extra);
     }
     final tool = routeTools[path];
     if (tool != null) _usage.tool(tool);

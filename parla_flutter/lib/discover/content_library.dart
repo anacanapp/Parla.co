@@ -24,6 +24,7 @@ class ContentLibrary extends ChangeNotifier {
     'step',
     'banner',
     'message',
+    'product',
   ];
   static const catalogueKinds = ['preference', 'exercise', 'step'];
 

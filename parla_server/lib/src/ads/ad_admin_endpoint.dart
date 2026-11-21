@@ -272,14 +272,17 @@ Map<String, Object?> _decode(String json) {
 String _likeEscape(String v) =>
     v.replaceAll(r'\', r'\\').replaceAll('%', r'\%').replaceAll('_', r'\_');
 
-/// Banners whose draft or published copy names [campaignId].
+/// Banners and products whose draft or published copy names [campaignId].
 Future<List<ContentItem>> campaignBanners(
   Session session,
   int campaignId,
 ) async {
   final rows = await ContentItem.db.find(
     session,
-    where: (t) => t.kind.equals(ContentKind.banner.name),
+    where: (t) => t.kind.inSet({
+      ContentKind.banner.name,
+      ContentKind.product.name,
+    }),
   );
   return [
     for (final r in rows)
@@ -299,10 +302,16 @@ Future<String> withCampaignSponsor(
   ContentKind kind,
   String json,
 ) async {
-  if (kind != ContentKind.banner) return json;
+  if (kind != ContentKind.banner && kind != ContentKind.product) return json;
   final data = _decode(json);
   final id = data['campaign'];
-  if (id == null) return json;
+  if (id == null) {
+    // A product is an ad only through a campaign: no brand typed by hand.
+    if (kind == ContentKind.product && data.containsKey('sponsor')) {
+      return jsonEncode({...data}..remove('sponsor'));
+    }
+    return json;
+  }
   if (id is! int) throw ParlaException(code: 'content.invalid');
   final campaign = await AdCampaign.db.findById(session, id);
   if (campaign == null) throw ParlaException(code: 'content.invalid');
@@ -321,8 +330,9 @@ int? _safe(int n) => n < minGroupSize ? null : n;
 
 String _bannerTitle(ContentItem b) {
   final json = _decode(b.publishedJson ?? b.draftJson);
-  final title = ContentRules.pick(json['title'], 'az');
-  return title.isEmpty ? b.slug : title;
+  final title = ContentRules.pick(json['title'] ?? json['name'], 'az');
+  final label = title.isEmpty ? b.slug : title;
+  return b.kind == ContentKind.product.name ? 'Məhsul: $label' : label;
 }
 
 /// The report of [campaignId] up to [now] (today by default).
@@ -340,20 +350,41 @@ Future<AdReport> buildAdReport(
   final today = dayOf(now ?? DateTime.now());
   final to = today.compareTo(campaign.endsOn) < 0 ? today : campaign.endsOn;
   final banners = await campaignBanners(session, campaignId);
-  final ids = {for (final b in banners) b.id.toString()};
-  final rows = ids.isEmpty || to.compareTo(campaign.startsOn) < 0
+  // Banners are counted by content id, products by slug.
+  String key(ContentItem b) =>
+      b.kind == ContentKind.product.name ? 'p:${b.slug}' : 'b:${b.id}';
+  final bannerIds = {
+    for (final b in banners)
+      if (b.kind == ContentKind.banner.name) b.id.toString(),
+  };
+  final productSlugs = {
+    for (final b in banners)
+      if (b.kind == ContentKind.product.name) b.slug,
+  };
+  const viewEvents = {'bannerView', 'product'};
+  final rows = banners.isEmpty || to.compareTo(campaign.startsOn) < 0
       ? <UsageDaily>[]
-      : await UsageDaily.db.find(
-          session,
-          where: (t) =>
-              t.event.inSet({
-                UsageEvent.bannerView.name,
-                UsageEvent.bannerTap.name,
-              }) &
-              t.target.inSet(ids) &
-              (t.day >= campaign.startsOn) &
-              (t.day <= to),
-        );
+      : [
+          for (final r in await UsageDaily.db.find(
+            session,
+            where: (t) =>
+                (t.event.inSet({
+                      UsageEvent.bannerView.name,
+                      UsageEvent.bannerTap.name,
+                    }) &
+                    t.target.inSet(bannerIds.isEmpty ? {'-'} : bannerIds)) |
+                (t.event.inSet({
+                      UsageEvent.product.name,
+                      UsageEvent.productTap.name,
+                    }) &
+                    t.target.inSet(
+                      productSlugs.isEmpty ? {'-'} : productSlugs,
+                    )),
+          ))
+            if (r.day.compareTo(campaign.startsOn) >= 0 &&
+                r.day.compareTo(to) <= 0)
+              r,
+        ];
   final days = <String, (int, int)>{};
   if (to.compareTo(campaign.startsOn) >= 0) {
     var d = DateTime.parse(campaign.startsOn);
@@ -362,17 +393,18 @@ Future<AdReport> buildAdReport(
       d = d.add(const Duration(days: 1));
     }
   }
-  final byBanner = {for (final id in ids) id: (0, 0)};
+  final byBanner = {for (final b in banners) key(b): (0, 0)};
   var views = 0;
   var taps = 0;
-  (int, int) add((int, int) v, UsageDaily r) =>
-      r.event == UsageEvent.bannerView.name
+  (int, int) add((int, int) v, UsageDaily r) => viewEvents.contains(r.event)
       ? (v.$1 + r.times, v.$2)
       : (v.$1, v.$2 + r.times);
   for (final r in rows) {
+    final isProduct = r.event.startsWith('product');
+    final k = isProduct ? 'p:${r.target}' : 'b:${r.target}';
     days[r.day] = add(days[r.day] ?? (0, 0), r);
-    byBanner[r.target] = add(byBanner[r.target] ?? (0, 0), r);
-    if (r.event == UsageEvent.bannerView.name) {
+    byBanner[k] = add(byBanner[k] ?? (0, 0), r);
+    if (viewEvents.contains(r.event)) {
       views += r.times;
     } else {
       taps += r.times;
@@ -399,8 +431,8 @@ Future<AdReport> buildAdReport(
       for (final b in banners)
         AdReportRow(
           label: _bannerTitle(b),
-          views: _safe(byBanner[b.id.toString()]!.$1),
-          taps: _safe(byBanner[b.id.toString()]!.$2),
+          views: _safe(byBanner[key(b)]!.$1),
+          taps: _safe(byBanner[key(b)]!.$2),
         ),
     ],
   );

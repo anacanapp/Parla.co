@@ -69,6 +69,15 @@ String roleHint(StaffRole role) => switch (role) {
     'İstifadəçilərin dəstək mesajlarını oxuyur və cavablayır',
 };
 
+/// Labels of single-choice content fields.
+String choiceLabel(String code) => switch (code) {
+  'redirect' => 'Partnyorun saytında',
+  'own' => 'Tətbiqdə (ödəniş Epoint ilə)',
+  'parla' => 'Parla',
+  'brand' => 'Brend (Parla vasitəsilə)',
+  _ => code,
+};
+
 String statusLabel(ContentStatus s) => switch (s) {
   ContentStatus.draft => 'Qaralama',
   ContentStatus.inReview => 'Yoxlamada',
@@ -85,6 +94,7 @@ String kindLabel(String kind) => switch (kind) {
   'banner' => 'Bannerlər',
   'message' => 'Elanlar',
   'push' => 'Push',
+  'product' => 'Məhsullar',
   _ => 'Mütəxəssislər',
 };
 
@@ -93,6 +103,9 @@ String categoryLabel(String id) => switch (id) {
   'beauty' => 'Gözəllik',
   'fashion' => 'Moda',
   'hair' => 'Saç',
+  'face' => 'Üz',
+  'makeup' => 'Makiyaj',
+  'other' => 'Digər',
   'body' => 'Bədən',
   'breakfast' => 'Səhər yeməyi',
   'lunch' => 'Nahar',

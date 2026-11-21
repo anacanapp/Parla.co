@@ -97,6 +97,39 @@ class BannerStrip extends StatelessWidget {
   }
 }
 
+/// Asks before leaving the app, then opens a brand's or partner's [url]
+/// in the browser with only Parla's campaign tags added
+/// ([ContentRules.adLink]). Nothing about the user is added.
+Future<void> openPartnerSite(
+  BuildContext context,
+  String url, {
+  int? campaign,
+}) async {
+  if (!ContentRules.isAdUrl(url)) return;
+  final link = ContentRules.adLink(url, campaign: campaign);
+  final l10n = AppLocalizations.of(context);
+  final go = await showDialog<bool>(
+    context: context,
+    builder: (context) => AlertDialog(
+      title: Text(l10n.bannerLeaveTitle),
+      content: Text(l10n.bannerLeaveBody(link.host)),
+      actions: [
+        TextButton(
+          key: const ValueKey('banner-leave-cancel'),
+          onPressed: () => Navigator.of(context).pop(false),
+          child: Text(l10n.bannerLeaveCancel),
+        ),
+        FilledButton(
+          key: const ValueKey('banner-leave-go'),
+          onPressed: () => Navigator.of(context).pop(true),
+          child: Text(l10n.bannerLeaveGo),
+        ),
+      ],
+    ),
+  );
+  if (go ?? false) await BannerCard.launcher(link);
+}
+
 class BannerCard extends StatelessWidget {
   const BannerCard({super.key, required this.item});
 
@@ -108,37 +141,15 @@ class BannerCard extends StatelessWidget {
   static Future<bool> _launch(Uri uri) =>
       launchUrl(uri, mode: LaunchMode.externalApplication);
 
-  /// Asks before leaving the app, then opens the brand's site with only
-  /// Parla's campaign tags added ([ContentRules.adLink]).
-  static Future<void> openSite(BuildContext context, PublishedItem item) async {
+  /// Asks before leaving the app, then opens the brand's site.
+  static Future<void> openSite(BuildContext context, PublishedItem item) {
     final url = item.data['url'];
-    if (url is! String || !ContentRules.isAdUrl(url)) return;
     final campaign = item.data['campaign'];
-    final link = ContentRules.adLink(
-      url,
+    return openPartnerSite(
+      context,
+      url is String ? url : '',
       campaign: campaign is int ? campaign : null,
     );
-    final l10n = AppLocalizations.of(context);
-    final go = await showDialog<bool>(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: Text(l10n.bannerLeaveTitle),
-        content: Text(l10n.bannerLeaveBody(link.host)),
-        actions: [
-          TextButton(
-            key: const ValueKey('banner-leave-cancel'),
-            onPressed: () => Navigator.of(context).pop(false),
-            child: Text(l10n.bannerLeaveCancel),
-          ),
-          FilledButton(
-            key: const ValueKey('banner-leave-go'),
-            onPressed: () => Navigator.of(context).pop(true),
-            child: Text(l10n.bannerLeaveGo),
-          ),
-        ],
-      ),
-    );
-    if (go ?? false) await launcher(link);
   }
 
   @override

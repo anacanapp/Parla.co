@@ -1083,13 +1083,50 @@ class AppLocalizationsEn extends AppLocalizations {
       'The products in your routine, in one tap. You will be able to order your shopping list directly and find products that fit your picks.';
 
   @override
-  String get shopSoonCard => 'Parla Shop is coming';
+  String get shopSoonCard => 'Parla Shop';
 
   @override
-  String get shopSoonCardBody => 'You will be able to order your list directly';
+  String get shopSoonCardBody => 'See products from our partners';
 
   @override
   String get shopOpenList => 'See my shopping list';
+
+  @override
+  String get shopIntro =>
+      'Products from partners. You buy on the partner\'s site; Parla passes on nothing about you.';
+
+  @override
+  String get shopAll => 'All';
+
+  @override
+  String get shopCategoryFace => 'Face';
+
+  @override
+  String get shopCategoryHair => 'Hair';
+
+  @override
+  String get shopCategoryBody => 'Body';
+
+  @override
+  String get shopCategoryMakeup => 'Make-up';
+
+  @override
+  String get shopCategoryOther => 'Other';
+
+  @override
+  String shopPrice(String price) {
+    return '$price ₼';
+  }
+
+  @override
+  String get shopVisitPartner => 'Go to the partner\'s site';
+
+  @override
+  String get shopPriceNote =>
+      'Price and stock may change on the partner\'s site. Check the ingredients before you buy; if you have a skin problem, ask a doctor.';
+
+  @override
+  String get shopEmpty => 'No products yet. They will be here soon.';
 
   @override
   String get sportIntroTitle => 'A workout plan made for you';
@@ -1697,7 +1734,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get bannerLeaveTitle => 'Going to the brand\'s site';
+  String get bannerLeaveTitle => 'Leaving Parla';
 
   @override
   String bannerLeaveBody(String host) {

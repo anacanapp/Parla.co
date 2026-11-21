@@ -375,5 +375,78 @@ void main() {
         expect(audit.single.objectId, '${c.id}');
       },
     );
+
+    test(
+      'shop products: expert review, campaign label, report by slug',
+      () async {
+        final t = await team();
+        final ads = endpoints.adAdmin;
+        final content = endpoints.contentAdmin;
+        final brand = await ads.saveAdvertiser(t.admin, _advertiser('Brand X'));
+        final c = await ads.saveCampaign(t.admin, _campaign(brand.id!));
+        final item = await content.create(t.editor, 'product', 'krem', 'face');
+        final product = {
+          'name': _l('Krem'),
+          'brand': 'Brand X',
+          'price': '12.50',
+          'sale': 'redirect',
+          'url': 'https://brand.az/krem',
+        };
+        // A brand typed by hand is not an ad label: only a campaign is.
+        final own = await content.saveDraft(
+          t.editor,
+          item.id,
+          jsonEncode({...product, 'sponsor': 'Someone'}),
+          'face',
+        );
+        expect(jsonDecode(own.draftJson), isNot(contains('sponsor')));
+        final ad = await content.saveDraft(
+          t.editor,
+          item.id,
+          jsonEncode({...product, 'campaign': c.id}),
+          'face',
+        );
+        expect(jsonDecode(ad.draftJson), containsPair('sponsor', 'Brand X'));
+        await expectLater(
+          content.saveDraft(t.editor, item.id, jsonEncode(product), 'today'),
+          throwsA(_error(ContentErrors.invalid)),
+        );
+        // Not complete yet (no image): it cannot go to review or live.
+        await expectLater(
+          content.publish(t.admin, item.id),
+          throwsA(_error(ContentErrors.incomplete)),
+        );
+        await expectLater(
+          ads.deleteCampaign(t.admin, c.id!),
+          throwsA(_error(AdErrors.inUse)),
+        );
+
+        final db = sessionBuilder.build();
+        Future<void> usage(UsageEvent e, String target, int n) =>
+            UsageDaily.db.insertRow(
+              db,
+              UsageDaily(
+                day: '2026-12-02',
+                country: 'AZ',
+                platform: 'android',
+                event: e.name,
+                target: target,
+                times: n,
+              ),
+            );
+        await usage(UsageEvent.product, 'krem', 40);
+        await usage(UsageEvent.productTap, 'krem', 12);
+        await usage(UsageEvent.product, 'other', 99);
+        final r = await buildAdReport(
+          db,
+          c.id!,
+          now: DateTime.utc(2026, 12, 5),
+        );
+        expect(r.views, 40);
+        expect(r.taps, 12);
+        expect(r.banners.single.label, 'Məhsul: Krem az');
+        expect(r.banners.single.taps, 12);
+      },
+    );
   });
 }

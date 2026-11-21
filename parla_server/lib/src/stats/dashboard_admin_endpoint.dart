@@ -207,6 +207,14 @@ Future<DashboardReport> buildDashboard(
     await topContent(UsageEvent.article, ContentKind.article),
   );
   group('recipes_top', await topContent(UsageEvent.recipe, ContentKind.recipe));
+  group(
+    'products_top',
+    await topContent(UsageEvent.product, ContentKind.product),
+  );
+  group(
+    'product_taps',
+    await topContent(UsageEvent.productTap, ContentKind.product),
+  );
 
   // Banners: views and taps per banner, with title and sponsor.
   final views = sum(of(UsageEvent.bannerView), (r) => r.target);
@@ -268,4 +276,7 @@ Map<String, Object?> _json(String raw) {
   }
 }
 
-String _title(String raw) => ContentRules.pick(_json(raw)['title'], 'az');
+String _title(String raw) {
+  final json = _json(raw);
+  return ContentRules.pick(json['title'] ?? json['name'], 'az');
+}
