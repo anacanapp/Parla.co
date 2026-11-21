@@ -239,13 +239,12 @@ class _HomeBody extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 12),
-                for (var i = 0; i < progress.total; i++) ...[
-                  StepTile(
-                    key: ValueKey('step-${progress.steps[i].id}'),
-                    step: progress.steps[i],
-                    number: i + 1,
-                    done: progress.done[i],
-                    onToggle: () => controller.toggle(progress.steps[i].id),
+                if (progress.total > 0) ...[
+                  StepList(
+                    steps: progress.steps,
+                    rowKey: (s) => ValueKey('step-${s.id}'),
+                    isDone: (i) => progress.done[i],
+                    onToggle: (i) => controller.toggle(progress.steps[i].id),
                   ),
                   const SizedBox(height: 8),
                 ],

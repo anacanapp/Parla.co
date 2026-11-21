@@ -132,13 +132,12 @@ class _RoutinesSectionState extends State<RoutinesSection> {
             l10n.routineSlotEmpty,
             style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
           ),
-        for (var i = 0; i < steps.length; i++) ...[
-          StepTile(
-            key: ValueKey('routine-step-${steps[i].id}'),
-            step: steps[i],
-            number: i + 1,
-            done: widget.habits.isDoneIn(slot, steps[i].id),
-            onToggle: () => widget.habits.toggleIn(slot, steps[i].id),
+        if (steps.isNotEmpty) ...[
+          StepList(
+            steps: steps,
+            rowKey: (s) => ValueKey('routine-step-${s.id}'),
+            isDone: (i) => widget.habits.isDoneIn(slot, steps[i].id),
+            onToggle: (i) => widget.habits.toggleIn(slot, steps[i].id),
           ),
           const SizedBox(height: 8),
         ],
