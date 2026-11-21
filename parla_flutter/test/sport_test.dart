@@ -7,6 +7,7 @@ import 'package:parla/habits/habit_store.dart';
 import 'package:parla/home/widgets/parla_nav_bar.dart';
 import 'package:parla/services/parla_api.dart';
 import 'package:parla/sport/exercise_text.dart';
+import 'package:parla/sport/exercise_video.dart';
 import 'package:parla/state/app_settings.dart';
 import 'package:parla/ui/brand.dart';
 import 'package:parla_shared/parla_shared.dart';
@@ -91,6 +92,15 @@ Future<void> _tap(WidgetTester tester, Finder finder) async {
 }
 
 Future<void> _next(WidgetTester tester) => _tap(tester, find.text('Next'));
+
+String _text(WidgetTester tester, String key) =>
+    tester.widget<Text>(find.byKey(ValueKey(key))).data!;
+
+/// "1:05" as seconds.
+int _seconds(String clock) {
+  final parts = clock.split(':');
+  return int.parse(parts[0]) * 60 + int.parse(parts[1]);
+}
 
 /// Answers every page: [goals], [areas], [types], then the defaults, with
 /// [safety] run on the last page.
@@ -206,31 +216,37 @@ void main() {
     expect(find.byKey(const ValueKey('sport-gentle')), findsOneWidget);
   });
 
-  testWidgets('a workout runs through sets, rests and the timer, then is '
-      'logged with its minutes', (tester) async {
+  testWidgets('a workout runs through countdowns, sets, rests and timers, '
+      'then is logged with its minutes', (tester) async {
     final app = await _open(tester);
     await _answer(tester, types: ['wall_pilates']);
     await _tap(tester, find.byKey(const ValueKey('workout-w1')));
     expect(find.textContaining('Play music from your own music app'), findsOne);
     await _tap(tester, find.byKey(const ValueKey('workout-start')));
     expect(find.text('Move 1 of 7'), findsOneWidget);
+    expect(find.text('Get ready · Set 1 of 2'), findsOneWidget);
+    expect(_text(tester, 'workout-countdown'), '3');
+
+    // The countdown starts the set by itself.
+    await tester.pump(const Duration(seconds: 1));
+    expect(_text(tester, 'workout-countdown'), '2');
+    await tester.pump(const Duration(seconds: 2));
+    expect(find.byKey(const ValueKey('workout-countdown')), findsNothing);
     expect(find.text('Set 1 of 2'), findsOneWidget);
 
     var guard = 0;
     while (find.text('Workout done').evaluate().isEmpty && guard++ < 200) {
-      final count = tester.widget<Text>(
-        find.byKey(const ValueKey('workout-count')),
-      );
-      if (find.byKey(const ValueKey('set-done')).evaluate().isNotEmpty) {
-        await _tap(tester, find.byKey(const ValueKey('set-done')));
-      } else if (count.data == '0:40' || guard == 3) {
-        // A timer counts down by itself.
-        await tester.pump(const Duration(seconds: 5));
-        expect(
-          tester.widget<Text>(find.byKey(const ValueKey('workout-count'))).data,
-          isNot(count.data),
-        );
-        await _tap(tester, find.byKey(const ValueKey('workout-skip')));
+      final count = find.byKey(const ValueKey('workout-count'));
+      if (guard == 1) {
+        // Every set runs on a timer, reps included, and moves on by itself.
+        final before = _text(tester, 'workout-count');
+        await tester.pump(const Duration(seconds: 2));
+        expect(_text(tester, 'workout-count'), isNot(before));
+        final left = _seconds(_text(tester, 'workout-count'));
+        await tester.pump(Duration(seconds: left));
+        expect(find.text('Rest'), findsOneWidget);
+      } else if (count.evaluate().isEmpty) {
+        await tester.pump(const Duration(seconds: 3));
       } else {
         await _tap(tester, find.byKey(const ValueKey('workout-skip')));
       }
@@ -243,6 +259,89 @@ void main() {
 
     await _tap(tester, find.byKey(const ValueKey('workout-back')));
     expect(find.text('1 of 3 workouts'), findsOneWidget);
+  });
+
+  testWidgets('pause holds the timer; previous goes back a move; stopping '
+      'asks first and logs nothing', (tester) async {
+    final app = await _open(tester);
+    await _answer(tester);
+    await _tap(tester, find.byKey(const ValueKey('workout-w1')));
+    await _tap(tester, find.byKey(const ValueKey('workout-start')));
+    await tester.pump(const Duration(seconds: 3));
+
+    await _tap(tester, find.byKey(const ValueKey('workout-pause')));
+    expect(find.byTooltip('Resume'), findsOneWidget);
+    final held = _text(tester, 'workout-count');
+    await tester.pump(const Duration(seconds: 5));
+    expect(_text(tester, 'workout-count'), held);
+    await _tap(tester, find.byKey(const ValueKey('workout-pause')));
+    await tester.pump(const Duration(seconds: 1));
+    expect(_text(tester, 'workout-count'), isNot(held));
+
+    // Skip to move 2, then back to move 1.
+    while (find.textContaining('Move 2 of').evaluate().isEmpty) {
+      await _tap(tester, find.byKey(const ValueKey('workout-skip')));
+    }
+    await _tap(tester, find.byKey(const ValueKey('workout-previous')));
+    expect(find.textContaining('Move 1 of'), findsOneWidget);
+    expect(find.byKey(const ValueKey('workout-countdown')), findsOneWidget);
+
+    // Stopping asks; "keep going" carries on.
+    await _tap(tester, find.byKey(const ValueKey('workout-stop')));
+    expect(find.text('Stop the workout?'), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('workout-keep-going')));
+    expect(find.textContaining('Move 1 of'), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('workout-stop')));
+    await _tap(tester, find.byKey(const ValueKey('workout-stop-confirm')));
+    expect(find.byKey(const ValueKey('workout-w1')), findsOneWidget);
+    expect(_local(app.store)['log'], anyOf(isNull, isEmpty));
+  });
+
+  testWidgets("a move's video plays, follows pause and shows its alt text", (
+    tester,
+  ) async {
+    final played = <String, bool>{};
+    ExerciseVideo.debugPlayer = (video, playing) {
+      played[video.url] = playing;
+      return const SizedBox(key: ValueKey('test-player'));
+    };
+    addTearDown(() => ExerciseVideo.debugPlayer = null);
+    // Every move has a video, at a URL named after it.
+    final api = FakeApi()
+      ..signedIn = true
+      ..profile = const ProfileSummary(countryCode: 'AZ', language: 'en')
+      ..published['exercise'] = [
+        for (final (i, e) in exerciseCatalogue.indexed)
+          PublishedItem(
+            id: i + 1,
+            kind: 'exercise',
+            slug: e.id,
+            category: 'catalogue',
+            data: const {},
+            publishedAt: DateTime.utc(2026, 11, 21),
+            video: ContentImageRef(
+              id: 100 + i,
+              url: 'https://parla.test/media/${e.id}.mp4',
+              width: 720,
+              height: 406,
+              alt: const {'en': 'A woman doing the move'},
+            ),
+          ),
+      ];
+    await _open(tester, api: api);
+    await _answer(tester);
+    await _tap(tester, find.byKey(const ValueKey('workout-w1')));
+    await _tap(tester, find.byKey(const ValueKey('workout-start')));
+    expect(find.byKey(const ValueKey('test-player')), findsOneWidget);
+    final url = played.keys.single;
+    // Held still during the countdown, then plays.
+    expect(played[url], isFalse);
+    await tester.pump(const Duration(seconds: 3));
+    await tester.pump();
+    expect(played[url], isTrue);
+    expect(find.bySemanticsLabel('A woman doing the move'), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('workout-pause')));
+    expect(played[url], isFalse);
   });
 
   testWidgets('the sound switch is kept', (tester) async {

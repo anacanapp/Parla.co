@@ -144,6 +144,7 @@ class ServerpodParlaApi implements ParlaApi {
           publishedAt: r.publishedAt,
           reviewedAt: r.reviewedAt,
           image: _image(r.image),
+          video: _image(r.video),
           inlineImages: [
             for (final i in r.inlineImages ?? const <PublicImage>[]) ?_image(i),
           ],
