@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parla_shared/parla_shared.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
@@ -45,11 +46,21 @@ void openBannerLink(BuildContext context, String? link) {
 }
 
 /// The banners published for [placement] that show today in the user's
-/// language and country. Targeting is decided here, on the phone.
+/// language and country, and, under an article or a recipe, for its
+/// [topic] (category). Targeting is decided here, on the phone.
 class BannerStrip extends StatelessWidget {
-  const BannerStrip({super.key, required this.placement});
+  const BannerStrip({
+    super.key,
+    required this.placement,
+    this.topic,
+    this.max = 3,
+  });
 
   final String placement;
+  final String? topic;
+
+  /// At most this many banners show.
+  final int max;
 
   @override
   Widget build(BuildContext context) {
@@ -67,13 +78,14 @@ class BannerStrip extends StatelessWidget {
                   today,
                   language: language,
                   country: ContentLibrary.country,
+                  topic: topic,
                 ))
               b,
         ];
         if (banners.isEmpty) return const SizedBox.shrink();
         return Column(
           children: [
-            for (final b in banners.take(3))
+            for (final b in banners.take(max))
               Padding(
                 padding: const EdgeInsets.only(bottom: 12),
                 child: BannerCard(item: b),
@@ -90,6 +102,45 @@ class BannerCard extends StatelessWidget {
 
   final PublishedItem item;
 
+  /// Opens a brand's website in the browser (replaced in tests).
+  static Future<bool> Function(Uri uri) launcher = _launch;
+
+  static Future<bool> _launch(Uri uri) =>
+      launchUrl(uri, mode: LaunchMode.externalApplication);
+
+  /// Asks before leaving the app, then opens the brand's site with only
+  /// Parla's campaign tags added ([ContentRules.adLink]).
+  static Future<void> openSite(BuildContext context, PublishedItem item) async {
+    final url = item.data['url'];
+    if (url is! String || !ContentRules.isAdUrl(url)) return;
+    final campaign = item.data['campaign'];
+    final link = ContentRules.adLink(
+      url,
+      campaign: campaign is int ? campaign : null,
+    );
+    final l10n = AppLocalizations.of(context);
+    final go = await showDialog<bool>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(l10n.bannerLeaveTitle),
+        content: Text(l10n.bannerLeaveBody(link.host)),
+        actions: [
+          TextButton(
+            key: const ValueKey('banner-leave-cancel'),
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.bannerLeaveCancel),
+          ),
+          FilledButton(
+            key: const ValueKey('banner-leave-go'),
+            onPressed: () => Navigator.of(context).pop(true),
+            child: Text(l10n.bannerLeaveGo),
+          ),
+        ],
+      ),
+    );
+    if (go ?? false) await launcher(link);
+  }
+
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -99,6 +150,7 @@ class BannerCard extends StatelessWidget {
         ? (item.data['sponsor']! as String).trim()
         : null;
     final link = item.data['link'] as String?;
+    final site = item.data['url'] as String?;
     final title = item.text('title', language);
     final body = item.text('body', language);
     final usage = ParlaScope.of(context).usage..bannerShown(item.id);
@@ -108,7 +160,12 @@ class BannerCard extends StatelessWidget {
       borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
       child: InkWell(
         borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
-        onTap: link == null
+        onTap: site != null
+            ? () {
+                usage.bannerTapped(item.id);
+                openSite(context, item);
+              }
+            : link == null
             ? null
             : () {
                 usage.bannerTapped(item.id);

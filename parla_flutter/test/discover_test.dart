@@ -4,6 +4,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:parla/app.dart';
+import 'package:parla/discover/banner_strip.dart';
 import 'package:parla/discover/blog_widgets.dart';
 import 'package:parla/discover/discover_bento.dart';
 import 'package:parla/discover/discover_screens.dart';
@@ -514,6 +515,103 @@ void main() {
     await _open(tester);
     await _tap(tester, find.byKey(const ValueKey('banner-new-recipes')));
     expect(find.text('Oats en'), findsOneWidget);
+  });
+
+  testWidgets('ads under articles and recipes follow the topic; a brand '
+      'site opens only after asking, with Parla tags only', (tester) async {
+    final opened = <Uri>[];
+    final original = BannerCard.launcher;
+    BannerCard.launcher = (uri) async {
+      opened.add(uri);
+      return true;
+    };
+    addTearDown(() => BannerCard.launcher = original);
+    PublishedItem ad(int id, String slug, String placement, Object? data) =>
+        PublishedItem(
+          id: id,
+          kind: 'banner',
+          slug: slug,
+          category: placement,
+          publishedAt: DateTime.utc(2026, 11, 10),
+          data: {
+            'startsOn': '2026-11-01',
+            'endsOn': '2026-11-30',
+            ...data! as Map<String, Object?>,
+          },
+        );
+    await _open(
+      tester,
+      published: {
+        ..._published,
+        'banner': [
+          ..._published['banner']!,
+          ad(25, 'care-ad', 'blog', {
+            'title': _l('Care cream'),
+            'sponsor': 'Brand X',
+            'campaign': 7,
+            'url': 'https://brand.az/cream?ref=1',
+            'topics': ['care'],
+          }),
+          ad(26, 'fashion-ad', 'blog', {
+            'title': _l('Fashion bag'),
+            'sponsor': 'Brand Y',
+            'topics': ['fashion'],
+          }),
+          ad(27, 'recipe-ad', 'recipe', {
+            'title': _l('Kitchen scale'),
+            'sponsor': 'Brand Z',
+          }),
+        ],
+      },
+    );
+    // Not on Discover: these belong under articles and recipes.
+    expect(find.text('Care cream en'), findsNothing);
+    await _tap(tester, find.text('Blogs').first);
+    await _tap(tester, find.byKey(const ValueKey('article-winter')));
+    await tester.scrollUntilVisible(
+      find.text('Care cream en'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.text('Ad · Brand X'), findsOneWidget);
+    expect(find.text('Fashion bag en'), findsNothing);
+
+    // Leaving the app is asked first; cancelling opens nothing.
+    await _tap(tester, find.byKey(const ValueKey('banner-care-ad')));
+    expect(find.textContaining('brand.az will open'), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('banner-leave-cancel')));
+    expect(opened, isEmpty);
+    await _tap(tester, find.byKey(const ValueKey('banner-care-ad')));
+    await _tap(tester, find.byKey(const ValueKey('banner-leave-go')));
+    expect(opened.single.host, 'brand.az');
+    expect(opened.single.queryParameters, {
+      'ref': '1',
+      'utm_source': 'parla',
+      'utm_medium': 'app',
+      'utm_campaign': 'parla-7',
+    });
+
+    // Under a recipe: the recipe placement only.
+    await _open(
+      tester,
+      published: {
+        ..._published,
+        'banner': [
+          ..._published['banner']!,
+          ad(27, 'recipe-ad', 'recipe', {
+            'title': _l('Kitchen scale'),
+            'sponsor': 'Brand Z',
+          }),
+        ],
+      },
+    );
+    await _tap(tester, find.byKey(const ValueKey('banner-new-recipes')));
+    await tester.scrollUntilVisible(
+      find.text('Kitchen scale en'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
+    expect(find.text('Ad · Brand Z'), findsOneWidget);
   });
 
   testWidgets('messages: announcements, and a support conversation', (

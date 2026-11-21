@@ -3028,6 +3028,30 @@ abstract class AppLocalizations {
   /// **'Ad · {brand}'**
   String bannerAd(String brand);
 
+  /// No description provided for @bannerLeaveTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Going to the brand\'s site'**
+  String get bannerLeaveTitle;
+
+  /// No description provided for @bannerLeaveBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{host} will open in your browser. Parla sends this site nothing about you; the site has its own privacy rules.'**
+  String bannerLeaveBody(String host);
+
+  /// No description provided for @bannerLeaveGo.
+  ///
+  /// In en, this message translates to:
+  /// **'Open site'**
+  String get bannerLeaveGo;
+
+  /// No description provided for @bannerLeaveCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get bannerLeaveCancel;
+
   /// No description provided for @messagesTitle.
   ///
   /// In en, this message translates to:

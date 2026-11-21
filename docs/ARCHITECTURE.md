@@ -629,13 +629,20 @@ names "screens opened, features used")
 ## Banners and campaigns (admin phase D1)
 
 Banners are content items of the kind `banner`. The category is where the
-card shows: `today` (home) or `discover`.
+card shows: `today` (home), `discover`, `blog` (under an article) or
+`recipe` (under a recipe; at most one banner under each).
 
-- **Fields:** title, short text, image, an in-app link (a screen, or
-  `article:slug` / `recipe:slug`; never an outside web link), start and end
-  date, and optionally languages and countries.
-- **Brand campaigns:** a banner with a `sponsor` is a paid brand campaign.
-  The app always shows it with an **"Ad · <brand>"** label.
+- **Fields:** title, short text, image, start and end date, optionally
+  languages and countries, and one of two links:
+  - an in-app link (a screen, or `article:slug` / `recipe:slug`);
+  - or a brand's website (`url`, https only, no user name, password or
+    port: `ContentRules.isAdUrl`).
+- **Topics:** under articles and recipes a banner may be limited to some
+  article categories or recipe meals (`topics`). This is context only: the
+  phone compares it with the category of the page it shows.
+- **Brand campaigns:** a banner with a `sponsor` or a `campaign` is a paid
+  brand campaign. The app always shows it with an **"Ad · <brand>"**
+  label.
 - **Approval** (`ContentRules.reviewerRole`):
   - The team's own banners: an admin publishes directly. An editor's
     banner needs an admin's approval.
@@ -643,11 +650,43 @@ card shows: `today` (home) or `discover`.
     scores, no health promises); an admin cannot skip it.
   - All other content is unchanged (expert approval).
 - **Targeting on the phone:** the server sends every published banner the
-  same way. The app decides by date, language and country
-  (`ContentRules.bannerVisible`). Nothing about the user is sent for this.
-  Health and quiz answers can never be used for targeting: the model has
-  no such fields. Views and taps are counted as anonymous daily totals,
-  only with the analytics consent (see the dashboard above).
+  same way. The app decides by date, language, country and the page's
+  topic (`ContentRules.bannerVisible`). Nothing about the user is sent for
+  this. Health, quiz and journal answers can never be used for targeting:
+  the model has no such fields. Views and taps are counted as anonymous
+  daily totals, only with the analytics consent (see the dashboard above).
+- **Brand websites:** tapping such a banner first asks ("Going to the
+  brand's site", with the host name), then opens the browser. The app adds
+  only `utm_source=parla`, `utm_medium=app` and `utm_campaign=parla-<id>`
+  (`ContentRules.adLink`); tags the brand set itself are kept. No user id,
+  device id or anything else about the user is added.
+
+### Ads section (admins only)
+
+The admin panel's **Reklam** section keeps:
+
+- **Advertisers** (`advertiser` table): the company name, its general email
+  (optional), contract number and dates, and a note. No contact person's
+  name or phone (decision of 2026-11-21): those stay in the signed
+  contract.
+- **Campaigns** (`ad_campaign` table): advertiser, title, start and end
+  date, and a price or budget note for the team (never shown in the app).
+
+A banner joins a campaign in the banner editor (`campaign` in its JSON).
+The server then:
+- writes the advertiser's company name into `sponsor`, on saving and again
+  on publishing, so the label always matches the contract;
+- refuses banner dates outside the campaign's (`content.outside_campaign`);
+- refuses to delete a campaign that banners name, an advertiser with
+  campaigns, or a change of campaign dates that its banners no longer fit.
+
+**Reports** (`AdAdminEndpoint.report`): views, taps and tap rate of a
+campaign's banners, by day and by banner, from the anonymous daily usage
+totals. Counts under 10 are `null` and show as "<10". The panel downloads
+the report as CSV (semicolons, UTF-8 mark, cells that could run as
+spreadsheet formulas are escaped) or as an A4 PDF made in the browser with
+the panel's own font. Only these totals go to an advertiser. Every change
+and every report opened is audited (`ads.*`, ids only).
 
 ## Messages and support (admin phase D2)
 
@@ -868,6 +907,7 @@ idempotent).
 | Privacy policy and processor list: Firebase (Google) for push, the marketing push under the marketing consent | — | Lawyer, before push is used |
 | Privacy policy: support conversations (purpose, encryption, 12-month retention, support role), announcements | — | Lawyer, before the beta |
 | Advertising law check for brand campaigns (Azerbaijan "Reklam haqqında" law; labelling, cosmetics claims) | — | Lawyer, before the first brand campaign |
+| Privacy policy: ads under articles and recipes chosen by the page's topic (context, not the user), links to brands' websites (asked first; only Parla's campaign tags added; the brand's own privacy rules apply there), campaign reports given to advertisers as totals with counts under 10 hidden, advertisers' company data kept in the panel | — | Lawyer, before the first brand campaign |
 | Privacy policy: usage statistics under the analytics consent (what is counted, 30-day activity marks, 24-month daily totals, banner figures shared with advertisers as totals), staff look-ups of accounts, deletion on request | — | Lawyer, before the beta |
 | Privacy policy text for staff access, the admin panel and push notifications | — | Lawyer, before phase D |
 | Security measures: staff sign-in is password-only (no second factor, decision of 2026-11-18) | — | Lawyer to note in the GDPR Art. 32 description |
