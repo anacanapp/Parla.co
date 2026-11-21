@@ -1,0 +1,6 @@
+### One line of an AdReport: a day (YYYY-MM-DD) or a banner (its title).
+class: AdReportRow
+fields:
+  label: String
+  views: int?
+  taps: int?

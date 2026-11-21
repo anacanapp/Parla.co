@@ -256,6 +256,8 @@ void main() {
       expect(ContentRules.categoriesFor(ContentKind.banner), [
         'today',
         'discover',
+        'blog',
+        'recipe',
       ]);
       for (final ok in ['blog', 'article:qis-deri', 'recipe:berry-oats']) {
         expect(ContentRules.isBannerLink(ok), isTrue, reason: ok);
@@ -337,6 +339,109 @@ void main() {
       };
       expect(on(az, DateTime(2026, 12, 5)), isFalse); // country unknown
       expect(on(az, DateTime(2026, 12, 5), c: 'AZ'), isTrue);
+    });
+
+    test('brand campaigns: outside https link, campaign, topics', () {
+      final ad = {
+        ...banner,
+        'link': null,
+        'url': 'https://brand.az/spring?utm_source=brand',
+        'campaign': 7,
+      }..remove('link');
+      expect(_p(ContentKind.banner, ad), isEmpty);
+      expect(ContentRules.isSponsored(ad), isTrue);
+      expect(ContentRules.reviewerRole(ContentKind.banner, ad), 'expert');
+      for (final bad in [
+        'http://brand.az',
+        'https://user:pw@brand.az',
+        'https://brand.az:8443/x',
+        'https://localhost/x',
+        'javascript:alert(1)',
+        ' https://brand.az',
+        'https://${'a' * 500}.az',
+      ]) {
+        expect(
+          _p(ContentKind.banner, {...ad, 'url': bad}),
+          contains('url.invalid'),
+          reason: bad,
+        );
+      }
+      expect(
+        _p(ContentKind.banner, {...ad, 'link': 'home'}),
+        contains('url.with_link'),
+      );
+      expect(
+        _p(ContentKind.banner, {...ad, 'campaign': 0}),
+        contains('campaign.invalid'),
+      );
+      expect(
+        _p(ContentKind.banner, {
+          ...ad,
+          'topics': ['care', 'lunch'],
+        }),
+        isEmpty,
+      );
+      expect(
+        _p(ContentKind.banner, {
+          ...ad,
+          'topics': ['pregnancy'],
+        }),
+        contains('topics.invalid'),
+      );
+      expect(
+        _p(ContentKind.banner, {...ad, 'topics': <String>[]}),
+        contains('topics.invalid'),
+      );
+      expect(
+        ContentRules.bannerTopicsFit('blog', {
+          'topics': ['care'],
+        }),
+        isTrue,
+      );
+      expect(
+        ContentRules.bannerTopicsFit('recipe', {
+          'topics': ['care'],
+        }),
+        isFalse,
+      );
+      expect(
+        ContentRules.bannerTopicsFit('today', {
+          'topics': ['care'],
+        }),
+        isFalse,
+      );
+      expect(ContentRules.bannerTopicsFit('today', {}), isTrue);
+    });
+
+    test('adLink adds only Parla campaign tags, keeps the brand\'s', () {
+      final link = ContentRules.adLink(
+        'https://brand.az/spring?utm_source=brand&ref=1',
+        campaign: 7,
+      );
+      expect(link.queryParameters, {
+        'utm_source': 'brand',
+        'ref': '1',
+        'utm_medium': 'app',
+        'utm_campaign': 'parla-7',
+      });
+      expect(
+        ContentRules.adLink('https://brand.az').toString(),
+        'https://brand.az?utm_source=parla&utm_medium=app',
+      );
+    });
+
+    test('a banner limited to topics shows only under them', () {
+      final under = {
+        ...banner,
+        'topics': ['care'],
+      };
+      final day = DateTime(2026, 12, 2);
+      bool on(Map<String, Object?> j, String? topic) =>
+          ContentRules.bannerVisible(j, day, language: 'az', topic: topic);
+      expect(on(under, 'care'), isTrue);
+      expect(on(under, 'hair'), isFalse);
+      expect(on(under, null), isFalse);
+      expect(on(banner, 'hair'), isTrue);
     });
   });
 

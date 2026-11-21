@@ -1,0 +1,20 @@
+### A brand that pays for campaigns (admin panel, admins only). Company
+### facts only: no contact person's name or phone (decision of
+### 2026-11-21); those stay in the signed contract.
+class: Advertiser
+table: advertiser
+fields:
+  company: String
+  ### The company's general address (e.g. info@brand.az), optional.
+  email: String?
+  contractNumber: String?
+  ### Contract dates as YYYY-MM-DD.
+  contractStart: String?
+  contractEnd: String?
+  note: String?
+  createdAt: DateTime
+  updatedAt: DateTime
+indexes:
+  advertiser_name_idx:
+    fields: company
+    unique: true

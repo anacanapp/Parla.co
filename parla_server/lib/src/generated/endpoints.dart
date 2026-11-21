@@ -11,6 +11,8 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'dart:typed_data' as _idt;
+import 'package:parla_server/src/generated/ads/ad_campaign.dart' as _io8rol46;
+import 'package:parla_server/src/generated/ads/advertiser.dart' as _iau35hq5;
 import 'package:parla_server/src/generated/consent/consent_type.dart'
     as _i1w7mn9k;
 import 'package:parla_server/src/generated/quiz/quiz_answer_input.dart'
@@ -24,6 +26,7 @@ import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
 import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
     as _iais;
 import '../account/account_endpoint.dart' as _it9bm8zx;
+import '../ads/ad_admin_endpoint.dart' as _i7up8gbb;
 import '../auth/email_idp_endpoint.dart' as _iuc1hd5t;
 import '../auth/jwt_refresh_endpoint.dart' as _inwq3ztq;
 import '../consent/consent_endpoint.dart' as _iu5xf735;
@@ -55,6 +58,12 @@ class Endpoints extends _is.EndpointDispatch {
         ..initialize(
           server,
           'account',
+          null,
+        ),
+      'adAdmin': _i7up8gbb.AdAdminEndpoint()
+        ..initialize(
+          server,
+          'adAdmin',
           null,
         ),
       'emailIdp': _iuc1hd5t.EmailIdpEndpoint()
@@ -213,6 +222,137 @@ class Endpoints extends _is.EndpointDispatch {
                 Map<String, dynamic> params,
               ) async => (endpoints['account'] as _it9bm8zx.AccountEndpoint)
                   .deleteAccount(session),
+        ),
+      },
+    );
+    connectors['adAdmin'] = _is.EndpointConnector(
+      name: 'adAdmin',
+      endpoint: endpoints['adAdmin']!,
+      methodConnectors: {
+        'advertisers': _is.MethodConnector(
+          name: 'advertisers',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['adAdmin'] as _i7up8gbb.AdAdminEndpoint)
+                  .advertisers(session),
+        ),
+        'saveAdvertiser': _is.MethodConnector(
+          name: 'saveAdvertiser',
+          params: {
+            'input': _is.ParameterDescription(
+              name: 'input',
+              type: _is.getType<_iau35hq5.Advertiser>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['adAdmin'] as _i7up8gbb.AdAdminEndpoint)
+                  .saveAdvertiser(
+                    session,
+                    params['input'],
+                  ),
+        ),
+        'deleteAdvertiser': _is.MethodConnector(
+          name: 'deleteAdvertiser',
+          params: {
+            'id': _is.ParameterDescription(
+              name: 'id',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['adAdmin'] as _i7up8gbb.AdAdminEndpoint)
+                  .deleteAdvertiser(
+                    session,
+                    params['id'],
+                  ),
+        ),
+        'campaigns': _is.MethodConnector(
+          name: 'campaigns',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['adAdmin'] as _i7up8gbb.AdAdminEndpoint)
+                  .campaigns(session),
+        ),
+        'saveCampaign': _is.MethodConnector(
+          name: 'saveCampaign',
+          params: {
+            'input': _is.ParameterDescription(
+              name: 'input',
+              type: _is.getType<_io8rol46.AdCampaign>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['adAdmin'] as _i7up8gbb.AdAdminEndpoint)
+                  .saveCampaign(
+                    session,
+                    params['input'],
+                  ),
+        ),
+        'deleteCampaign': _is.MethodConnector(
+          name: 'deleteCampaign',
+          params: {
+            'id': _is.ParameterDescription(
+              name: 'id',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['adAdmin'] as _i7up8gbb.AdAdminEndpoint)
+                  .deleteCampaign(
+                    session,
+                    params['id'],
+                  ),
+        ),
+        'campaignOptions': _is.MethodConnector(
+          name: 'campaignOptions',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['adAdmin'] as _i7up8gbb.AdAdminEndpoint)
+                  .campaignOptions(session),
+        ),
+        'report': _is.MethodConnector(
+          name: 'report',
+          params: {
+            'campaignId': _is.ParameterDescription(
+              name: 'campaignId',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['adAdmin'] as _i7up8gbb.AdAdminEndpoint).report(
+                    session,
+                    params['campaignId'],
+                  ),
         ),
       },
     );

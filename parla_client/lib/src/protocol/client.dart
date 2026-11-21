@@ -13,6 +13,11 @@
 import 'dart:async' as _ida;
 import 'dart:typed_data' as _idt;
 import 'package:http/http.dart' as _i85jenna;
+import 'package:parla_client/src/protocol/ads/ad_campaign.dart' as _inapiarc;
+import 'package:parla_client/src/protocol/ads/ad_campaign_option.dart'
+    as _i9ua3fbf;
+import 'package:parla_client/src/protocol/ads/ad_report.dart' as _irrhq6po;
+import 'package:parla_client/src/protocol/ads/advertiser.dart' as _ixi2a1cx;
 import 'package:parla_client/src/protocol/consent/consent_state.dart'
     as _iflgmsvc;
 import 'package:parla_client/src/protocol/consent/consent_type.dart'
@@ -78,6 +83,81 @@ class EndpointAccount extends _isc.EndpointRef {
     'deleteAccount',
     {},
   );
+}
+
+/// Advertisers, their campaigns and the campaign reports (admins only).
+/// Contracts hold company facts only (no contact person). Reports are
+/// totals over users with the analytics consent; counts under
+/// [minGroupSize] are hidden. Every change and every report is audited.
+/// {@category Endpoint}
+class EndpointAdAdmin extends _isc.EndpointRef {
+  EndpointAdAdmin(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'adAdmin';
+
+  _ida.Future<List<_ixi2a1cx.Advertiser>> advertisers() =>
+      caller.callServerEndpoint<List<_ixi2a1cx.Advertiser>>(
+        'adAdmin',
+        'advertisers',
+        {},
+      );
+
+  /// Adds an advertiser (no id) or changes one.
+  _ida.Future<_ixi2a1cx.Advertiser> saveAdvertiser(
+    _ixi2a1cx.Advertiser input,
+  ) => caller.callServerEndpoint<_ixi2a1cx.Advertiser>(
+    'adAdmin',
+    'saveAdvertiser',
+    {'input': input},
+  );
+
+  /// Deletes an advertiser that has no campaigns.
+  _ida.Future<void> deleteAdvertiser(int id) => caller.callServerEndpoint<void>(
+    'adAdmin',
+    'deleteAdvertiser',
+    {'id': id},
+  );
+
+  _ida.Future<List<_inapiarc.AdCampaign>> campaigns() =>
+      caller.callServerEndpoint<List<_inapiarc.AdCampaign>>(
+        'adAdmin',
+        'campaigns',
+        {},
+      );
+
+  /// Adds a campaign (no id) or changes one. Its banners must still fit
+  /// the new dates.
+  _ida.Future<_inapiarc.AdCampaign> saveCampaign(_inapiarc.AdCampaign input) =>
+      caller.callServerEndpoint<_inapiarc.AdCampaign>(
+        'adAdmin',
+        'saveCampaign',
+        {'input': input},
+      );
+
+  /// Deletes a campaign that no banner names.
+  _ida.Future<void> deleteCampaign(int id) => caller.callServerEndpoint<void>(
+    'adAdmin',
+    'deleteCampaign',
+    {'id': id},
+  );
+
+  /// The campaigns a banner may join, for the banner editor (writers and
+  /// the reviewing expert see which brand a banner belongs to).
+  _ida.Future<List<_i9ua3fbf.AdCampaignOption>> campaignOptions() =>
+      caller.callServerEndpoint<List<_i9ua3fbf.AdCampaignOption>>(
+        'adAdmin',
+        'campaignOptions',
+        {},
+      );
+
+  /// The campaign's views and taps by day and by banner.
+  _ida.Future<_irrhq6po.AdReport> report(int campaignId) =>
+      caller.callServerEndpoint<_irrhq6po.AdReport>(
+        'adAdmin',
+        'report',
+        {'campaignId': campaignId},
+      );
 }
 
 /// By extending [EmailOtpIdpBaseEndpoint], the email identity provider
@@ -1314,6 +1394,7 @@ class Client extends _isc.ServerpodClientShared {
          httpClientOverride: httpClientOverride,
        ) {
     account = EndpointAccount(this);
+    adAdmin = EndpointAdAdmin(this);
     emailIdp = EndpointEmailIdp(this);
     jwtRefresh = EndpointJwtRefresh(this);
     consent = EndpointConsent(this);
@@ -1340,6 +1421,8 @@ class Client extends _isc.ServerpodClientShared {
   }
 
   late final EndpointAccount account;
+
+  late final EndpointAdAdmin adAdmin;
 
   late final EndpointEmailIdp emailIdp;
 
@@ -1390,6 +1473,7 @@ class Client extends _isc.ServerpodClientShared {
   @override
   Map<String, _isc.EndpointRef> get endpointRefLookup => {
     'account': account,
+    'adAdmin': adAdmin,
     'emailIdp': emailIdp,
     'jwtRefresh': jwtRefresh,
     'consent': consent,
