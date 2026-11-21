@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:parla_shared/parla_shared.dart';
 import 'package:serverpod/serverpod.dart';
 
+import '../ads/ad_admin_endpoint.dart' show withCampaignSponsor;
 import '../audit/audit.dart';
 import '../generated/protocol.dart';
 import '../staff/staff_guard.dart';
@@ -18,6 +19,9 @@ abstract final class ContentErrors {
   static const slugTaken = 'content.slug_taken';
   static const wrongStatus = 'content.wrong_status';
   static const consentMissing = 'content.consent_missing';
+
+  /// A campaign banner's dates lie outside its campaign's.
+  static const outsideCampaign = 'content.outside_campaign';
 
   /// The image is missing, or lacks its licence or alt text in az/ru/en.
   static const imageIncomplete = 'content.image_incomplete';
@@ -94,13 +98,21 @@ class ContentAdminEndpoint extends Endpoint {
     if (ContentRules.problems(k, json).isNotEmpty) {
       throw ParlaException(code: ContentErrors.invalid);
     }
+    if (k == ContentKind.banner &&
+        !ContentRules.bannerTopicsFit(
+          category,
+          jsonDecode(json) as Map<String, Object?>,
+        )) {
+      throw ParlaException(code: ContentErrors.invalid);
+    }
     if (!await mediaTypesMatch(session, json)) {
       throw ParlaException(code: ContentErrors.invalid);
     }
+    final saved = await withCampaignSponsor(session, k, json);
     final updated = await ContentItem.db.updateRow(
       session,
       row.copyWith(
-        draftJson: json,
+        draftJson: saved,
         category: category,
         status: ContentStatus.draft,
         reviewedBy: null,
@@ -232,6 +244,12 @@ class ContentAdminEndpoint extends Endpoint {
       throw ParlaException(code: ContentErrors.wrongStatus);
     }
     await _checkImage(session, row.draftJson);
+    // The brand's name may have changed since the banner was saved.
+    final draft = await withCampaignSponsor(
+      session,
+      _kind(row.kind),
+      row.draftJson,
+    );
     final isPush = row.kind == ContentKind.push.name;
     if (isPush && row.publishedAt != null) {
       // A push campaign is sent once; write a new one instead.
@@ -245,7 +263,8 @@ class ContentAdminEndpoint extends Endpoint {
       'content.published',
       (r) => r.copyWith(
         status: ContentStatus.published,
-        publishedJson: r.draftJson,
+        draftJson: draft,
+        publishedJson: draft,
         publishedReviewedAt: isExpert ? null : r.reviewedAt,
         publishedAt: now,
       ),

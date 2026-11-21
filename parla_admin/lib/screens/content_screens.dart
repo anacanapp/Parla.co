@@ -720,20 +720,28 @@ const _fields = <String, List<_Field>>{
     _Field('body', 'Qısa mətn', _FieldType.multiline),
     _Field(
       'link',
-      'Keçid',
+      'Tətbiqdaxili keçid',
       _FieldType.plain,
       localized: false,
       help:
           'Ekran: home, routine, check, sport, discover, blog, nutrition, '
-          'experts; və ya article:slug, recipe:slug. Xarici link olmur.',
+          'experts; və ya article:slug, recipe:slug. Ya bu, ya da sayt.',
     ),
     _Field(
-      'sponsor',
-      'Brend (yalnız ödənişli kampaniya üçün)',
+      'url',
+      'Brendin saytı (https://…)',
       _FieldType.plain,
       localized: false,
       help:
-          'Doldurulsa banner "Reklam" nişanı ilə çıxır və ekspert təsdiqi lazımdır.',
+          'Toxunanda istifadəçidən soruşulur və sayt brauzerdə açılır. '
+          'Linkə yalnız utm_source=parla əlavə olunur, istifadəçi haqqında '
+          'heç nə göndərilmir.',
+    ),
+    _Field(
+      'topics',
+      'Mövzular (heç biri seçilməsə: hamısı)',
+      _FieldType.multi,
+      localized: false,
     ),
     _Field(
       'startsOn',
@@ -869,6 +877,14 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
   int? _imageId;
   int? _videoId;
 
+  /// Banners: the advertiser's campaign (a paid ad) or `null` (the team's
+  /// own banner), and the campaigns to choose from.
+  int? _campaign;
+  List<AdCampaignOption>? _campaigns;
+
+  /// A brand typed by hand before campaigns existed; kept as it is.
+  String? _legacySponsor;
+
   /// Values of [_FieldType.multi] fields.
   final Map<String, Set<String>> _multi = {};
 
@@ -899,7 +915,22 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
       }
     }
     _load();
+    if (_kind == ContentKind.banner) _loadCampaigns();
   }
+
+  Future<void> _loadCampaigns() async {
+    try {
+      final options = await _api.adCampaignOptions();
+      if (mounted) setState(() => _campaigns = options);
+    } on Object {
+      if (mounted) setState(() => _campaigns = const []);
+    }
+  }
+
+  /// The choices of a [_FieldType.multi] field; a banner's topics follow
+  /// its placement.
+  List<String> _optionsOf(_Field f) =>
+      f.key == 'topics' ? ContentRules.bannerTopics(_category) : f.options;
 
   @override
   void dispose() {
@@ -937,6 +968,8 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
     ].join('\n');
     _imageId = MediaRules.imageOf(json);
     _videoId = MediaRules.videoOf(json);
+    _campaign = json['campaign'] as int?;
+    _legacySponsor = _campaign == null ? json['sponsor'] as String? : null;
     for (final f in _defs) {
       switch (f.type) {
         case _FieldType.groups:
@@ -1027,12 +1060,11 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           }
         case _FieldType.multi:
           final chosen = _multi[f.key] ?? const {};
-          if (chosen.isNotEmpty) {
-            out[f.key] = [
-              for (final o in f.options)
-                if (chosen.contains(o)) o,
-            ];
-          }
+          final picked = [
+            for (final o in _optionsOf(f))
+              if (chosen.contains(o)) o,
+          ];
+          if (picked.isNotEmpty) out[f.key] = picked;
         case _FieldType.allergens:
           final a = _allergens;
           if (a != null) {
@@ -1097,6 +1129,13 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           if (v != null) out[f.key] = v;
       }
     }
+    if (_kind == ContentKind.banner) {
+      if (_campaign != null) {
+        out['campaign'] = _campaign;
+      } else if (_legacySponsor != null) {
+        out['sponsor'] = _legacySponsor;
+      }
+    }
     if (_imageId != null) out['image'] = _imageId;
     if (_videoId != null && _kind == ContentKind.exercise) {
       out['video'] = _videoId;
@@ -1155,6 +1194,48 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           ],
         ),
       ],
+    );
+  }
+
+  /// The banner's campaign: none (the team's own banner) or one of the
+  /// advertisers' campaigns. The "Ad · brand" label then shows the
+  /// advertiser's name, written by the server.
+  Widget _campaignPicker(bool writer) {
+    final options = _campaigns;
+    if (options == null) return const LinearProgressIndicator();
+    final known = options.any((o) => o.id == _campaign);
+    return DropdownButtonFormField<int?>(
+      key: const ValueKey('banner-campaign'),
+      isExpanded: true,
+      initialValue: known ? _campaign : null,
+      decoration: InputDecoration(
+        labelText: 'Reklam kampaniyası',
+        helperText: _legacySponsor != null && _campaign == null
+            ? 'Əl ilə yazılmış brend: $_legacySponsor'
+            : 'Seçilsə banner "Reklam · brend" nişanı ilə çıxır və ekspert '
+                  'təsdiqi lazımdır. Tarixlər kampaniyanın içində olmalıdır.',
+        helperMaxLines: 3,
+      ),
+      items: [
+        const DropdownMenuItem<int?>(
+          value: null,
+          child: Text('Yoxdur (komandanın öz banneri)'),
+        ),
+        for (final o in options)
+          DropdownMenuItem<int?>(
+            value: o.id,
+            child: Text(
+              '${o.advertiser} · ${o.title} (${o.startsOn} – ${o.endsOn})',
+              overflow: TextOverflow.ellipsis,
+            ),
+          ),
+      ],
+      onChanged: writer
+          ? (v) => setState(() {
+              _campaign = v;
+              if (v != null) _legacySponsor = null;
+            })
+          : null,
     );
   }
 
@@ -1368,7 +1449,9 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           body:
               'Tətbiqdə "Reklam" nişanı və brendin adı ilə çıxır. Ekspert '
               'yoxlayıb təsdiqləməlidir: "zərərli" sözü, bal və ya sağlamlıq '
-              'vədi olmamalıdır. Hədəf yalnız dil və ölkədir.',
+              'vədi olmamalıdır. Hədəf yalnız dil, ölkə və yazının '
+              'mövzusudur. Brendin saytı varsa, istifadəçidən soruşulur və '
+              'sayt brauzerdə açılır.',
         ),
       if (item.reviewNote != null && item.reviewNote!.isNotEmpty)
         Notice(
@@ -1443,14 +1526,16 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           ),
         ),
       for (final f in _defs.where((f) => !f.localized)) ...[
-        if (f.type == _FieldType.multi)
+        if (f.type == _FieldType.multi && _optionsOf(f).isEmpty)
+          const SizedBox.shrink()
+        else if (f.type == _FieldType.multi)
           _ChipGroup(
             label: f.label,
             children: [
-              for (final o in f.options)
+              for (final o in _optionsOf(f))
                 FilterChip(
                   key: ValueKey('multi-${f.key}-$o'),
-                  label: Text(o),
+                  label: Text(f.key == 'topics' ? categoryLabel(o) : o),
                   selected: _multi[f.key]?.contains(o) ?? false,
                   onSelected: writer
                       ? (on) => setState(() {
@@ -1617,6 +1702,10 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
                       ? (v) => setState(() => _category = v!)
                       : null,
                 ),
+                const SizedBox(height: 14),
+              ],
+              if (_kind == ContentKind.banner) ...[
+                _campaignPicker(writer),
                 const SizedBox(height: 14),
               ],
               ...plainFields,

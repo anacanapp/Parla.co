@@ -427,4 +427,74 @@ class FakeAdminApi implements AdminApi {
   @override
   Future<void> deleteContent(int id) async =>
       content.removeWhere((c) => c.id == id);
+
+  // Ads: an in-memory copy of the server's rules that matter here.
+  final advertiserRows = <Advertiser>[];
+  final campaignRows = <AdCampaign>[];
+  AdReport? report;
+  int _adId = 1;
+
+  @override
+  Future<List<Advertiser>> advertisers() async => List.of(advertiserRows);
+
+  @override
+  Future<Advertiser> saveAdvertiser(Advertiser a) async {
+    calls.add('saveAdvertiser:${a.company}:${a.email}');
+    if (a.company.trim().isEmpty) throw const AdminError('ads.invalid');
+    final saved = a.copyWith(id: a.id ?? _adId++);
+    advertiserRows
+      ..removeWhere((r) => r.id == saved.id)
+      ..add(saved);
+    return saved;
+  }
+
+  @override
+  Future<void> deleteAdvertiser(int id) async {
+    if (campaignRows.any((c) => c.advertiserId == id)) {
+      throw const AdminError('ads.in_use');
+    }
+    calls.add('deleteAdvertiser:$id');
+    advertiserRows.removeWhere((r) => r.id == id);
+  }
+
+  @override
+  Future<List<AdCampaign>> adCampaigns() async => List.of(campaignRows);
+
+  @override
+  Future<AdCampaign> saveAdCampaign(AdCampaign c) async {
+    calls.add(
+      'saveCampaign:${c.advertiserId}:${c.title}:${c.startsOn}:${c.endsOn}',
+    );
+    final saved = c.copyWith(id: c.id ?? _adId++);
+    campaignRows
+      ..removeWhere((r) => r.id == saved.id)
+      ..add(saved);
+    return saved;
+  }
+
+  @override
+  Future<void> deleteAdCampaign(int id) async {
+    calls.add('deleteCampaign:$id');
+    campaignRows.removeWhere((r) => r.id == id);
+  }
+
+  @override
+  Future<List<AdCampaignOption>> adCampaignOptions() async => [
+    for (final c in campaignRows)
+      AdCampaignOption(
+        id: c.id!,
+        title: c.title,
+        advertiser: advertiserRows
+            .firstWhere((a) => a.id == c.advertiserId)
+            .company,
+        startsOn: c.startsOn,
+        endsOn: c.endsOn,
+      ),
+  ];
+
+  @override
+  Future<AdReport> adReport(int campaignId) async {
+    calls.add('report:$campaignId');
+    return report!;
+  }
 }

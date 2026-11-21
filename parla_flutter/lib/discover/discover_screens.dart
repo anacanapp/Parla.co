@@ -15,6 +15,7 @@ import 'discover_bento.dart';
 import 'discover_widgets.dart';
 import 'skin_tips.dart';
 import 'article_body.dart';
+import 'banner_strip.dart';
 
 /// Blogs: category chips and the published articles.
 class BlogListScreen extends StatefulWidget {
@@ -243,6 +244,8 @@ class BlogPostScreen extends StatelessWidget {
           l10n.legalMedicalBody,
           style: text.bodySmall?.copyWith(color: ParlaColors.muted),
         ),
+        const SizedBox(height: 20),
+        BannerStrip(placement: 'blog', topic: item.category, max: 1),
         if (related.isNotEmpty) ...[
           const SizedBox(height: 24),
           Semantics(
@@ -744,6 +747,8 @@ class RecipeScreen extends StatelessWidget {
           l10n.nutritionDisclaimer,
           style: text.bodySmall?.copyWith(color: ParlaColors.muted),
         ),
+        const SizedBox(height: 20),
+        BannerStrip(placement: 'recipe', topic: r.category, max: 1),
       ],
     );
   }

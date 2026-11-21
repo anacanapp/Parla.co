@@ -1706,6 +1706,20 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get bannerLeaveTitle => 'Переход на сайт бренда';
+
+  @override
+  String bannerLeaveBody(String host) {
+    return 'Сайт $host откроется в браузере. Parla не передаёт этому сайту никаких данных о тебе; у сайта свои правила конфиденциальности.';
+  }
+
+  @override
+  String get bannerLeaveGo => 'Перейти';
+
+  @override
+  String get bannerLeaveCancel => 'Отмена';
+
+  @override
   String get messagesTitle => 'Сообщения';
 
   @override

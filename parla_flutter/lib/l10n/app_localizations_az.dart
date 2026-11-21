@@ -1675,6 +1675,20 @@ class AppLocalizationsAz extends AppLocalizations {
   }
 
   @override
+  String get bannerLeaveTitle => 'Brendin saytına keçirsən';
+
+  @override
+  String bannerLeaveBody(String host) {
+    return '$host saytı brauzerdə açılacaq. Parla bu sayta sənin haqqında heç bir məlumat göndərmir; saytın öz məxfilik qaydaları var.';
+  }
+
+  @override
+  String get bannerLeaveGo => 'Sayta keç';
+
+  @override
+  String get bannerLeaveCancel => 'Ləğv et';
+
+  @override
   String get messagesTitle => 'Mesajlar';
 
   @override

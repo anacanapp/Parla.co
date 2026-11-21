@@ -1,0 +1,16 @@
+### Views and taps of a campaign's banners, as totals over all users who
+### gave the analytics consent. A count under the minimum group size is
+### `null` (shown as "<10"); nothing per user exists.
+class: AdReport
+fields:
+  campaignId: int
+  campaign: String
+  advertiser: String
+  startsOn: String
+  endsOn: String
+  ### The last day counted (today while the campaign runs).
+  countedTo: String
+  views: int?
+  taps: int?
+  days: List<AdReportRow>
+  banners: List<AdReportRow>

@@ -23,6 +23,15 @@ String errorText(Object error) {
     'content.consent_missing' => 'Mütəxəssisin yazılı razılığı qeyd olunmayıb.',
     'content.image_incomplete' =>
       'Şəklin lisenziyası və ya 3 dildə alternativ mətni çatışmır.',
+    'content.outside_campaign' =>
+      'Bannerin tarixləri kampaniyanın tarixlərindən kənara çıxır.',
+    'ads.not_found' => 'Reklamçı və ya kampaniya tapılmadı.',
+    'ads.invalid' =>
+      'Məlumat düzgün deyil: ad, e-poçt və ya tarixləri (YYYY-AA-GG) yoxlayın.',
+    'ads.name_taken' => 'Bu adda reklamçı artıq var.',
+    'ads.in_use' =>
+      'Əvvəlcə bağlı olanları dəyişin: reklamçının kampaniyası və ya '
+          'kampaniyanın banneri var (və ya banner yeni tarixlərə sığmır).',
     'media.not_found' => 'Şəkil tapılmadı.',
     'media.invalid' =>
       'Şəkil məlumatı düzgün deyil (lisenziya və ya alternativ mətn).',
@@ -97,6 +106,8 @@ String categoryLabel(String id) => switch (id) {
   'catalogue' => 'Tətbiqin kataloqu',
   'today' => 'Bu gün ekranı',
   'discover' => 'Kəşf ekranı',
+  'blog' => 'Bloq yazısının altı',
+  'recipe' => 'Reseptin altı',
   'announcement' => 'Elan',
   'marketing' => 'Marketinq',
   _ => id,

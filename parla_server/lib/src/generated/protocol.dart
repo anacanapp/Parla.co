@@ -11,6 +11,10 @@
 // ignore_for_file: dead_code, unnecessary_type_check
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:parla_server/src/generated/ads/ad_campaign.dart' as _io8rol46;
+import 'package:parla_server/src/generated/ads/ad_campaign_option.dart'
+    as _ixfd2xet;
+import 'package:parla_server/src/generated/ads/advertiser.dart' as _iau35hq5;
 import 'package:parla_server/src/generated/consent/consent_state.dart'
     as _ianfun2u;
 import 'package:parla_server/src/generated/content/content_admin_item.dart'
@@ -38,6 +42,11 @@ import 'package:serverpod_auth_core_server/serverpod_auth_core_server.dart'
 import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
     as _iais;
 import 'account/deleted_account.dart' as _ioqa84oy;
+import 'ads/ad_campaign.dart' as _ia3hy79f;
+import 'ads/ad_campaign_option.dart' as _i26gm73h;
+import 'ads/ad_report.dart' as _iubkydyh;
+import 'ads/ad_report_row.dart' as _iohwiajb;
+import 'ads/advertiser.dart' as _icstda9z;
 import 'audit/audit_log_entry.dart' as _ioa77d8b;
 import 'common/parla_exception.dart' as _iv1d8f8b;
 import 'consent/consent_record.dart' as _it7bphsc;
@@ -81,6 +90,11 @@ import 'support/support_thread.dart' as _iq87yxf7;
 import 'support/support_thread_summary.dart' as _idy4xhr0;
 import 'users/user_admin_view.dart' as _i06wcc3f;
 export 'account/deleted_account.dart';
+export 'ads/ad_campaign.dart';
+export 'ads/ad_campaign_option.dart';
+export 'ads/ad_report.dart';
+export 'ads/ad_report_row.dart';
+export 'ads/advertiser.dart';
 export 'audit/audit_log_entry.dart';
 export 'common/parla_exception.dart';
 export 'consent/consent_record.dart';
@@ -138,6 +152,11 @@ class Protocol extends _is.DatabaseSerializationManager
         this,
         types: const [
           _is.getType<_ioqa84oy.DeletedAccount>,
+          _is.getType<_ia3hy79f.AdCampaign>,
+          _is.getType<_i26gm73h.AdCampaignOption>,
+          _is.getType<_iubkydyh.AdReport>,
+          _is.getType<_iohwiajb.AdReportRow>,
+          _is.getType<_icstda9z.Advertiser>,
           _is.getType<_ioa77d8b.AuditLogEntry>,
           _is.getType<_iv1d8f8b.ParlaException>,
           _is.getType<_it7bphsc.ConsentRecord>,
@@ -181,6 +200,11 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_idy4xhr0.SupportThreadSummary>,
           _is.getType<_i06wcc3f.UserAdminView>,
           _is.getType<_ioqa84oy.DeletedAccount?>,
+          _is.getType<_ia3hy79f.AdCampaign?>,
+          _is.getType<_i26gm73h.AdCampaignOption?>,
+          _is.getType<_iubkydyh.AdReport?>,
+          _is.getType<_iohwiajb.AdReportRow?>,
+          _is.getType<_icstda9z.Advertiser?>,
           _is.getType<_ioa77d8b.AuditLogEntry?>,
           _is.getType<_iv1d8f8b.ParlaException?>,
           _is.getType<_it7bphsc.ConsentRecord?>,
@@ -223,6 +247,7 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_iq87yxf7.SupportThread?>,
           _is.getType<_idy4xhr0.SupportThreadSummary?>,
           _is.getType<_i06wcc3f.UserAdminView?>,
+          _is.getType<List<_iohwiajb.AdReportRow>>,
           _is.getType<List<_ig6ant5g.PublicImage>>,
           _is.getType<List<_ig6ant5g.PublicImage>?>,
           _is.getType<List<String>>,
@@ -230,6 +255,9 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<List<_imrurtjq.StatsGroup>>,
           _is.getType<Map<String, int>>,
           _is.getType<List<_icra10er.ConsentState>>,
+          _is.getType<List<_iau35hq5.Advertiser>>,
+          _is.getType<List<_io8rol46.AdCampaign>>,
+          _is.getType<List<_ixfd2xet.AdCampaignOption>>,
           _is.getType<List<_ianfun2u.ConsentState>>,
           _is.getType<List<_itdeiy4d.ContentAdminItem>>,
           _is.getType<List<_ixzwgpmi.PublicContent>>,
@@ -248,6 +276,11 @@ class Protocol extends _is.DatabaseSerializationManager
         ],
         classNames: const [
           'DeletedAccount',
+          'AdCampaign',
+          'AdCampaignOption',
+          'AdReport',
+          'AdReportRow',
+          'Advertiser',
           'AuditLogEntry',
           'ParlaException',
           'ConsentRecord',
@@ -294,6 +327,171 @@ class Protocol extends _is.DatabaseSerializationManager
       );
 
   static List<_isp.TableDefinition> get targetTableDefinitions => [
+    _isp.TableDefinition(
+      name: 'ad_campaign',
+      dartName: 'AdCampaign',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'advertiserId',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _isp.ColumnDefinition(
+          name: 'title',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'startsOn',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'endsOn',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'priceNote',
+          columnType: _isp.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'createdAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+        _isp.ColumnDefinition(
+          name: 'updatedAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [
+        _isp.ForeignKeyDefinition(
+          constraintName: 'ad_campaign_fk_0',
+          columns: ['advertiserId'],
+          referenceTable: 'advertiser',
+          referenceTableSchema: 'public',
+          referenceColumns: ['id'],
+          onUpdate: _isp.ForeignKeyAction.noAction,
+          onDelete: _isp.ForeignKeyAction.restrict,
+          matchType: null,
+        ),
+      ],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'ad_campaign_advertiser_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'advertiserId',
+            ),
+          ],
+          type: 'btree',
+          isUnique: false,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _isp.TableDefinition(
+      name: 'advertiser',
+      dartName: 'Advertiser',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'company',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'email',
+          columnType: _isp.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'contractNumber',
+          columnType: _isp.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'contractStart',
+          columnType: _isp.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'contractEnd',
+          columnType: _isp.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'note',
+          columnType: _isp.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'createdAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+        _isp.ColumnDefinition(
+          name: 'updatedAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'advertiser_name_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'company',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
     _isp.TableDefinition(
       name: 'audit_log',
       dartName: 'AuditLogEntry',
@@ -1842,6 +2040,21 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _ioqa84oy.DeletedAccount) {
       return _ioqa84oy.DeletedAccount.fromJson(data) as T;
     }
+    if (t == _ia3hy79f.AdCampaign) {
+      return _ia3hy79f.AdCampaign.fromJson(data) as T;
+    }
+    if (t == _i26gm73h.AdCampaignOption) {
+      return _i26gm73h.AdCampaignOption.fromJson(data) as T;
+    }
+    if (t == _iubkydyh.AdReport) {
+      return _iubkydyh.AdReport.fromJson(data) as T;
+    }
+    if (t == _iohwiajb.AdReportRow) {
+      return _iohwiajb.AdReportRow.fromJson(data) as T;
+    }
+    if (t == _icstda9z.Advertiser) {
+      return _icstda9z.Advertiser.fromJson(data) as T;
+    }
     if (t == _ioa77d8b.AuditLogEntry) {
       return _ioa77d8b.AuditLogEntry.fromJson(data) as T;
     }
@@ -1971,6 +2184,22 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _is.getType<_ioqa84oy.DeletedAccount?>()) {
       return (data != null ? _ioqa84oy.DeletedAccount.fromJson(data) : null)
           as T;
+    }
+    if (t == _is.getType<_ia3hy79f.AdCampaign?>()) {
+      return (data != null ? _ia3hy79f.AdCampaign.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_i26gm73h.AdCampaignOption?>()) {
+      return (data != null ? _i26gm73h.AdCampaignOption.fromJson(data) : null)
+          as T;
+    }
+    if (t == _is.getType<_iubkydyh.AdReport?>()) {
+      return (data != null ? _iubkydyh.AdReport.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_iohwiajb.AdReportRow?>()) {
+      return (data != null ? _iohwiajb.AdReportRow.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_icstda9z.Advertiser?>()) {
+      return (data != null ? _icstda9z.Advertiser.fromJson(data) : null) as T;
     }
     if (t == _is.getType<_ioa77d8b.AuditLogEntry?>()) {
       return (data != null ? _ioa77d8b.AuditLogEntry.fromJson(data) : null)
@@ -2123,6 +2352,12 @@ class Protocol extends _is.DatabaseSerializationManager
       return (data != null ? _i06wcc3f.UserAdminView.fromJson(data) : null)
           as T;
     }
+    if (t == List<_iohwiajb.AdReportRow>) {
+      return (data as List)
+              .map((e) => deserialize<_iohwiajb.AdReportRow>(e))
+              .toList()
+          as T;
+    }
     if (t == List<_ig6ant5g.PublicImage>) {
       return (data as List)
               .map((e) => deserialize<_ig6ant5g.PublicImage>(e))
@@ -2161,6 +2396,24 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == List<_icra10er.ConsentState>) {
       return (data as List)
               .map((e) => deserialize<_icra10er.ConsentState>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_iau35hq5.Advertiser>) {
+      return (data as List)
+              .map((e) => deserialize<_iau35hq5.Advertiser>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_io8rol46.AdCampaign>) {
+      return (data as List)
+              .map((e) => deserialize<_io8rol46.AdCampaign>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_ixfd2xet.AdCampaignOption>) {
+      return (data as List)
+              .map((e) => deserialize<_ixfd2xet.AdCampaignOption>(e))
               .toList()
           as T;
     }
@@ -2240,6 +2493,11 @@ class Protocol extends _is.DatabaseSerializationManager
   static String? getClassNameForType(Type type) {
     return switch (type) {
       _ioqa84oy.DeletedAccount => 'DeletedAccount',
+      _ia3hy79f.AdCampaign => 'AdCampaign',
+      _i26gm73h.AdCampaignOption => 'AdCampaignOption',
+      _iubkydyh.AdReport => 'AdReport',
+      _iohwiajb.AdReportRow => 'AdReportRow',
+      _icstda9z.Advertiser => 'Advertiser',
       _ioa77d8b.AuditLogEntry => 'AuditLogEntry',
       _iv1d8f8b.ParlaException => 'ParlaException',
       _it7bphsc.ConsentRecord => 'ConsentRecord',
@@ -2298,6 +2556,16 @@ class Protocol extends _is.DatabaseSerializationManager
     switch (data) {
       case _ioqa84oy.DeletedAccount():
         return 'DeletedAccount';
+      case _ia3hy79f.AdCampaign():
+        return 'AdCampaign';
+      case _i26gm73h.AdCampaignOption():
+        return 'AdCampaignOption';
+      case _iubkydyh.AdReport():
+        return 'AdReport';
+      case _iohwiajb.AdReportRow():
+        return 'AdReportRow';
+      case _icstda9z.Advertiser():
+        return 'Advertiser';
       case _ioa77d8b.AuditLogEntry():
         return 'AuditLogEntry';
       case _iv1d8f8b.ParlaException():
@@ -2410,6 +2678,21 @@ class Protocol extends _is.DatabaseSerializationManager
     }
     if (dataClassName == 'DeletedAccount') {
       return deserialize<_ioqa84oy.DeletedAccount>(data['data']);
+    }
+    if (dataClassName == 'AdCampaign') {
+      return deserialize<_ia3hy79f.AdCampaign>(data['data']);
+    }
+    if (dataClassName == 'AdCampaignOption') {
+      return deserialize<_i26gm73h.AdCampaignOption>(data['data']);
+    }
+    if (dataClassName == 'AdReport') {
+      return deserialize<_iubkydyh.AdReport>(data['data']);
+    }
+    if (dataClassName == 'AdReportRow') {
+      return deserialize<_iohwiajb.AdReportRow>(data['data']);
+    }
+    if (dataClassName == 'Advertiser') {
+      return deserialize<_icstda9z.Advertiser>(data['data']);
     }
     if (dataClassName == 'AuditLogEntry') {
       return deserialize<_ioa77d8b.AuditLogEntry>(data['data']);
@@ -2586,6 +2869,10 @@ class Protocol extends _is.DatabaseSerializationManager
     switch (t) {
       case _ioqa84oy.DeletedAccount:
         return _ioqa84oy.DeletedAccount.t;
+      case _ia3hy79f.AdCampaign:
+        return _ia3hy79f.AdCampaign.t;
+      case _icstda9z.Advertiser:
+        return _icstda9z.Advertiser.t;
       case _ioa77d8b.AuditLogEntry:
         return _ioa77d8b.AuditLogEntry.t;
       case _it7bphsc.ConsentRecord:

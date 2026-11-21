@@ -62,6 +62,36 @@ class ServerpodAdminApi implements AdminApi {
       _guard(() => _client.staffAdmin.setActive(user, active));
 
   @override
+  Future<List<Advertiser>> advertisers() => _guard(_client.adAdmin.advertisers);
+
+  @override
+  Future<Advertiser> saveAdvertiser(Advertiser advertiser) =>
+      _guard(() => _client.adAdmin.saveAdvertiser(advertiser));
+
+  @override
+  Future<void> deleteAdvertiser(int id) =>
+      _guard(() => _client.adAdmin.deleteAdvertiser(id));
+
+  @override
+  Future<List<AdCampaign>> adCampaigns() => _guard(_client.adAdmin.campaigns);
+
+  @override
+  Future<AdCampaign> saveAdCampaign(AdCampaign campaign) =>
+      _guard(() => _client.adAdmin.saveCampaign(campaign));
+
+  @override
+  Future<void> deleteAdCampaign(int id) =>
+      _guard(() => _client.adAdmin.deleteCampaign(id));
+
+  @override
+  Future<List<AdCampaignOption>> adCampaignOptions() =>
+      _guard(_client.adAdmin.campaignOptions);
+
+  @override
+  Future<AdReport> adReport(int campaignId) =>
+      _guard(() => _client.adAdmin.report(campaignId));
+
+  @override
   Future<List<ContentAdminItem>> listContent(String kind) =>
       _guard(() => _client.contentAdmin.list(kind));
 

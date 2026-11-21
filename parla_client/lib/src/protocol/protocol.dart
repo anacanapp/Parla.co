@@ -11,6 +11,10 @@
 // ignore_for_file: dead_code, unnecessary_type_check
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:parla_client/src/protocol/ads/ad_campaign.dart' as _inapiarc;
+import 'package:parla_client/src/protocol/ads/ad_campaign_option.dart'
+    as _i9ua3fbf;
+import 'package:parla_client/src/protocol/ads/advertiser.dart' as _ixi2a1cx;
 import 'package:parla_client/src/protocol/consent/consent_state.dart'
     as _iflgmsvc;
 import 'package:parla_client/src/protocol/content/content_admin_item.dart'
@@ -37,6 +41,11 @@ import 'package:serverpod_auth_idp_client/serverpod_auth_idp_client.dart'
     as _iaic;
 import 'package:serverpod_client/serverpod_client.dart' as _isc;
 import 'account/deleted_account.dart' as _ioqa84oy;
+import 'ads/ad_campaign.dart' as _ia3hy79f;
+import 'ads/ad_campaign_option.dart' as _i26gm73h;
+import 'ads/ad_report.dart' as _iubkydyh;
+import 'ads/ad_report_row.dart' as _iohwiajb;
+import 'ads/advertiser.dart' as _icstda9z;
 import 'audit/audit_log_entry.dart' as _ioa77d8b;
 import 'common/parla_exception.dart' as _iv1d8f8b;
 import 'consent/consent_record.dart' as _it7bphsc;
@@ -80,6 +89,11 @@ import 'support/support_thread.dart' as _iq87yxf7;
 import 'support/support_thread_summary.dart' as _idy4xhr0;
 import 'users/user_admin_view.dart' as _i06wcc3f;
 export 'account/deleted_account.dart';
+export 'ads/ad_campaign.dart';
+export 'ads/ad_campaign_option.dart';
+export 'ads/ad_report.dart';
+export 'ads/ad_report_row.dart';
+export 'ads/advertiser.dart';
 export 'audit/audit_log_entry.dart';
 export 'common/parla_exception.dart';
 export 'consent/consent_record.dart';
@@ -138,6 +152,11 @@ class Protocol extends _isc.SerializationManager
         this,
         types: const [
           _isc.getType<_ioqa84oy.DeletedAccount>,
+          _isc.getType<_ia3hy79f.AdCampaign>,
+          _isc.getType<_i26gm73h.AdCampaignOption>,
+          _isc.getType<_iubkydyh.AdReport>,
+          _isc.getType<_iohwiajb.AdReportRow>,
+          _isc.getType<_icstda9z.Advertiser>,
           _isc.getType<_ioa77d8b.AuditLogEntry>,
           _isc.getType<_iv1d8f8b.ParlaException>,
           _isc.getType<_it7bphsc.ConsentRecord>,
@@ -181,6 +200,11 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_idy4xhr0.SupportThreadSummary>,
           _isc.getType<_i06wcc3f.UserAdminView>,
           _isc.getType<_ioqa84oy.DeletedAccount?>,
+          _isc.getType<_ia3hy79f.AdCampaign?>,
+          _isc.getType<_i26gm73h.AdCampaignOption?>,
+          _isc.getType<_iubkydyh.AdReport?>,
+          _isc.getType<_iohwiajb.AdReportRow?>,
+          _isc.getType<_icstda9z.Advertiser?>,
           _isc.getType<_ioa77d8b.AuditLogEntry?>,
           _isc.getType<_iv1d8f8b.ParlaException?>,
           _isc.getType<_it7bphsc.ConsentRecord?>,
@@ -223,6 +247,7 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_iq87yxf7.SupportThread?>,
           _isc.getType<_idy4xhr0.SupportThreadSummary?>,
           _isc.getType<_i06wcc3f.UserAdminView?>,
+          _isc.getType<List<_iohwiajb.AdReportRow>>,
           _isc.getType<List<_ig6ant5g.PublicImage>>,
           _isc.getType<List<_ig6ant5g.PublicImage>?>,
           _isc.getType<List<String>>,
@@ -230,6 +255,9 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<List<_imrurtjq.StatsGroup>>,
           _isc.getType<Map<String, int>>,
           _isc.getType<List<_icra10er.ConsentState>>,
+          _isc.getType<List<_ixi2a1cx.Advertiser>>,
+          _isc.getType<List<_inapiarc.AdCampaign>>,
+          _isc.getType<List<_i9ua3fbf.AdCampaignOption>>,
           _isc.getType<List<_iflgmsvc.ConsentState>>,
           _isc.getType<List<_i9q5wd3k.ContentAdminItem>>,
           _isc.getType<List<_iryaqqq7.PublicContent>>,
@@ -247,6 +275,11 @@ class Protocol extends _isc.SerializationManager
         ],
         classNames: const [
           'DeletedAccount',
+          'AdCampaign',
+          'AdCampaignOption',
+          'AdReport',
+          'AdReportRow',
+          'Advertiser',
           'AuditLogEntry',
           'ParlaException',
           'ConsentRecord',
@@ -318,6 +351,21 @@ class Protocol extends _isc.SerializationManager
 
     if (t == _ioqa84oy.DeletedAccount) {
       return _ioqa84oy.DeletedAccount.fromJson(data) as T;
+    }
+    if (t == _ia3hy79f.AdCampaign) {
+      return _ia3hy79f.AdCampaign.fromJson(data) as T;
+    }
+    if (t == _i26gm73h.AdCampaignOption) {
+      return _i26gm73h.AdCampaignOption.fromJson(data) as T;
+    }
+    if (t == _iubkydyh.AdReport) {
+      return _iubkydyh.AdReport.fromJson(data) as T;
+    }
+    if (t == _iohwiajb.AdReportRow) {
+      return _iohwiajb.AdReportRow.fromJson(data) as T;
+    }
+    if (t == _icstda9z.Advertiser) {
+      return _icstda9z.Advertiser.fromJson(data) as T;
     }
     if (t == _ioa77d8b.AuditLogEntry) {
       return _ioa77d8b.AuditLogEntry.fromJson(data) as T;
@@ -448,6 +496,22 @@ class Protocol extends _isc.SerializationManager
     if (t == _isc.getType<_ioqa84oy.DeletedAccount?>()) {
       return (data != null ? _ioqa84oy.DeletedAccount.fromJson(data) : null)
           as T;
+    }
+    if (t == _isc.getType<_ia3hy79f.AdCampaign?>()) {
+      return (data != null ? _ia3hy79f.AdCampaign.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_i26gm73h.AdCampaignOption?>()) {
+      return (data != null ? _i26gm73h.AdCampaignOption.fromJson(data) : null)
+          as T;
+    }
+    if (t == _isc.getType<_iubkydyh.AdReport?>()) {
+      return (data != null ? _iubkydyh.AdReport.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_iohwiajb.AdReportRow?>()) {
+      return (data != null ? _iohwiajb.AdReportRow.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_icstda9z.Advertiser?>()) {
+      return (data != null ? _icstda9z.Advertiser.fromJson(data) : null) as T;
     }
     if (t == _isc.getType<_ioa77d8b.AuditLogEntry?>()) {
       return (data != null ? _ioa77d8b.AuditLogEntry.fromJson(data) : null)
@@ -600,6 +664,12 @@ class Protocol extends _isc.SerializationManager
       return (data != null ? _i06wcc3f.UserAdminView.fromJson(data) : null)
           as T;
     }
+    if (t == List<_iohwiajb.AdReportRow>) {
+      return (data as List)
+              .map((e) => deserialize<_iohwiajb.AdReportRow>(e))
+              .toList()
+          as T;
+    }
     if (t == List<_ig6ant5g.PublicImage>) {
       return (data as List)
               .map((e) => deserialize<_ig6ant5g.PublicImage>(e))
@@ -638,6 +708,24 @@ class Protocol extends _isc.SerializationManager
     if (t == List<_icra10er.ConsentState>) {
       return (data as List)
               .map((e) => deserialize<_icra10er.ConsentState>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_ixi2a1cx.Advertiser>) {
+      return (data as List)
+              .map((e) => deserialize<_ixi2a1cx.Advertiser>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_inapiarc.AdCampaign>) {
+      return (data as List)
+              .map((e) => deserialize<_inapiarc.AdCampaign>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_i9ua3fbf.AdCampaignOption>) {
+      return (data as List)
+              .map((e) => deserialize<_i9ua3fbf.AdCampaignOption>(e))
               .toList()
           as T;
     }
@@ -717,6 +805,11 @@ class Protocol extends _isc.SerializationManager
   static String? getClassNameForType(Type type) {
     return switch (type) {
       _ioqa84oy.DeletedAccount => 'DeletedAccount',
+      _ia3hy79f.AdCampaign => 'AdCampaign',
+      _i26gm73h.AdCampaignOption => 'AdCampaignOption',
+      _iubkydyh.AdReport => 'AdReport',
+      _iohwiajb.AdReportRow => 'AdReportRow',
+      _icstda9z.Advertiser => 'Advertiser',
       _ioa77d8b.AuditLogEntry => 'AuditLogEntry',
       _iv1d8f8b.ParlaException => 'ParlaException',
       _it7bphsc.ConsentRecord => 'ConsentRecord',
@@ -775,6 +868,16 @@ class Protocol extends _isc.SerializationManager
     switch (data) {
       case _ioqa84oy.DeletedAccount():
         return 'DeletedAccount';
+      case _ia3hy79f.AdCampaign():
+        return 'AdCampaign';
+      case _i26gm73h.AdCampaignOption():
+        return 'AdCampaignOption';
+      case _iubkydyh.AdReport():
+        return 'AdReport';
+      case _iohwiajb.AdReportRow():
+        return 'AdReportRow';
+      case _icstda9z.Advertiser():
+        return 'Advertiser';
       case _ioa77d8b.AuditLogEntry():
         return 'AuditLogEntry';
       case _iv1d8f8b.ParlaException():
@@ -883,6 +986,21 @@ class Protocol extends _isc.SerializationManager
     }
     if (dataClassName == 'DeletedAccount') {
       return deserialize<_ioqa84oy.DeletedAccount>(data['data']);
+    }
+    if (dataClassName == 'AdCampaign') {
+      return deserialize<_ia3hy79f.AdCampaign>(data['data']);
+    }
+    if (dataClassName == 'AdCampaignOption') {
+      return deserialize<_i26gm73h.AdCampaignOption>(data['data']);
+    }
+    if (dataClassName == 'AdReport') {
+      return deserialize<_iubkydyh.AdReport>(data['data']);
+    }
+    if (dataClassName == 'AdReportRow') {
+      return deserialize<_iohwiajb.AdReportRow>(data['data']);
+    }
+    if (dataClassName == 'Advertiser') {
+      return deserialize<_icstda9z.Advertiser>(data['data']);
     }
     if (dataClassName == 'AuditLogEntry') {
       return deserialize<_ioa77d8b.AuditLogEntry>(data['data']);

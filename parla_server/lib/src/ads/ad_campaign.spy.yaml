@@ -1,0 +1,18 @@
+### An advertiser's paid campaign. Its banners are content items of kind
+### banner whose JSON names it (`campaign`); the server writes the
+### advertiser's name into their "Ad · brand" label.
+class: AdCampaign
+table: ad_campaign
+fields:
+  advertiserId: int, relation(parent=advertiser, onDelete=Restrict)
+  title: String
+  ### YYYY-MM-DD; the campaign's banners must run inside these dates.
+  startsOn: String
+  endsOn: String
+  ### Price or budget as agreed (free text for the team).
+  priceNote: String?
+  createdAt: DateTime
+  updatedAt: DateTime
+indexes:
+  ad_campaign_advertiser_idx:
+    fields: advertiserId

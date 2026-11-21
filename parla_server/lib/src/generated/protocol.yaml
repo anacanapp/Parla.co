@@ -1,6 +1,15 @@
 account:
   - exportMyData:
   - deleteAccount:
+adAdmin:
+  - advertisers:
+  - saveAdvertiser:
+  - deleteAdvertiser:
+  - campaigns:
+  - saveCampaign:
+  - deleteCampaign:
+  - campaignOptions:
+  - report:
 emailIdp:
   - startOtpLogin:
   - verifyOtpLoginCode:

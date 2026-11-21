@@ -145,8 +145,57 @@ abstract final class ContentRules {
   static bool isSlug(String value) =>
       value.length <= 80 && _slug.hasMatch(value);
 
-  /// Where a banner shows (its category).
-  static const bannerPlacements = ['today', 'discover'];
+  /// Where a banner shows (its category): the Today and Discover
+  /// screens, or under an article or a recipe.
+  static const bannerPlacements = ['today', 'discover', 'blog', 'recipe'];
+
+  /// The topics a banner under an article or a recipe may be limited to
+  /// (the article categories or the recipe meals). Empty for the other
+  /// placements. Context only: nothing about the user is used.
+  static List<String> bannerTopics(String placement) => switch (placement) {
+    'blog' => articleCategories,
+    'recipe' => recipeMeals,
+    _ => const [],
+  };
+
+  /// Whether the banner's `topics` fit its [placement].
+  static bool bannerTopicsFit(String placement, Map<String, Object?> json) {
+    final topics = json['topics'];
+    if (topics == null) return true;
+    final allowed = bannerTopics(placement);
+    return topics is List &&
+        topics.isNotEmpty &&
+        topics.every(allowed.contains);
+  }
+
+  /// Whether [url] may be a banner's outside link (a brand's website):
+  /// https only, with a real host and without a user name or password.
+  static bool isAdUrl(String url) {
+    if (url.length > 500 || url.trim() != url) return false;
+    final uri = Uri.tryParse(url);
+    return uri != null &&
+        uri.scheme == 'https' &&
+        uri.host.contains('.') &&
+        !uri.host.startsWith('.') &&
+        !uri.host.endsWith('.') &&
+        uri.userInfo.isEmpty &&
+        !uri.hasPort;
+  }
+
+  /// The link the app opens for a banner's outside [url]: only Parla's
+  /// own campaign tags are added (`utm_source=parla`, `utm_medium=app`,
+  /// and the campaign number). Nothing about the user or the phone is
+  /// ever added; tags the brand set itself are kept.
+  static Uri adLink(String url, {int? campaign}) {
+    final uri = Uri.parse(url);
+    final query = {...uri.queryParameters};
+    query.putIfAbsent('utm_source', () => 'parla');
+    query.putIfAbsent('utm_medium', () => 'app');
+    if (campaign != null) {
+      query.putIfAbsent('utm_campaign', () => 'parla-$campaign');
+    }
+    return uri.replace(queryParameters: query);
+  }
 
   /// In-app places a banner may open.
   static const bannerScreens = [
@@ -174,10 +223,12 @@ abstract final class ContentRules {
         isSlug(link.substring(i + 1));
   }
 
-  /// A paid brand campaign (shown with an "Ad" label).
+  /// A paid brand campaign (shown with an "Ad" label): it names a brand,
+  /// or belongs to an advertiser's campaign (the server then writes the
+  /// brand's name into `sponsor`).
   static bool isSponsored(Map<String, Object?> json) {
     final s = json['sponsor'];
-    return s is String && s.trim().isNotEmpty;
+    return (s is String && s.trim().isNotEmpty) || json['campaign'] != null;
   }
 
   /// Which staff role approves [kind]: brand campaigns and all other
@@ -197,13 +248,20 @@ abstract final class ContentRules {
 
   /// Whether a published banner shows today for [language] and [country]
   /// (`null` when unknown: then only banners for every country show).
-  /// Targeting happens on the phone; nothing about the user is sent.
+  /// Under an article or a recipe, [topic] is its category: a banner
+  /// limited to topics shows only there. Targeting happens on the phone;
+  /// nothing about the user is sent.
   static bool bannerVisible(
     Map<String, Object?> json,
     DateTime today, {
     required String language,
     String? country,
+    String? topic,
   }) {
+    final topics = (json['topics'] as List?)?.cast<String>() ?? const [];
+    if (topics.isNotEmpty && (topic == null || !topics.contains(topic))) {
+      return false;
+    }
     final day =
         '${today.year.toString().padLeft(4, '0')}-'
         '${today.month.toString().padLeft(2, '0')}-'
@@ -503,7 +561,10 @@ abstract final class ContentRules {
           'body',
           'image',
           'link',
+          'url',
           'sponsor',
+          'campaign',
+          'topics',
           'startsOn',
           'endsOn',
           'languages',
@@ -517,6 +578,28 @@ abstract final class ContentRules {
                 sponsor.trim().isEmpty ||
                 sponsor.length > 60)) {
           out.add('sponsor.invalid');
+        }
+        final url = json['url'];
+        if (url != null) {
+          if (url is! String || !isAdUrl(url)) {
+            out.add('url.invalid');
+          } else if (json['link'] != null) {
+            out.add('url.with_link');
+          }
+        }
+        final campaign = json['campaign'];
+        if (campaign != null && (campaign is! int || campaign < 1)) {
+          out.add('campaign.invalid');
+        }
+        final topics = json['topics'];
+        if (topics != null &&
+            (topics is! List ||
+                topics.isEmpty ||
+                !topics.every(
+                  (t) =>
+                      articleCategories.contains(t) || recipeMeals.contains(t),
+                ))) {
+          out.add('topics.invalid');
         }
         _schedule(json, complete, out);
       case ContentKind.push:

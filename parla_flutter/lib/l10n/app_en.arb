@@ -987,6 +987,17 @@
       }
     }
   },
+  "bannerLeaveTitle": "Going to the brand's site",
+  "bannerLeaveBody": "{host} will open in your browser. Parla sends this site nothing about you; the site has its own privacy rules.",
+  "@bannerLeaveBody": {
+    "placeholders": {
+      "host": {
+        "type": "String"
+      }
+    }
+  },
+  "bannerLeaveGo": "Open site",
+  "bannerLeaveCancel": "Cancel",
   "messagesTitle": "Messages",
   "messagesButton": "Messages",
   "messagesButtonUnread": "Messages, new reply",

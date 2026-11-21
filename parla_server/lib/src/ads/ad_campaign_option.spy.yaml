@@ -1,0 +1,8 @@
+### A campaign as the banner editor offers it.
+class: AdCampaignOption
+fields:
+  id: int
+  title: String
+  advertiser: String
+  startsOn: String
+  endsOn: String

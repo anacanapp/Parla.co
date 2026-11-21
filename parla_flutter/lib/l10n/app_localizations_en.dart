@@ -1697,6 +1697,20 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get bannerLeaveTitle => 'Going to the brand\'s site';
+
+  @override
+  String bannerLeaveBody(String host) {
+    return '$host will open in your browser. Parla sends this site nothing about you; the site has its own privacy rules.';
+  }
+
+  @override
+  String get bannerLeaveGo => 'Open site';
+
+  @override
+  String get bannerLeaveCancel => 'Cancel';
+
+  @override
   String get messagesTitle => 'Messages';
 
   @override

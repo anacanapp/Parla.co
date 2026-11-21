@@ -43,6 +43,13 @@ const adminSections = [
     roles: {StaffRole.admin, StaffRole.support},
   ),
   AdminSection(
+    '/ads',
+    'Reklam',
+    Icons.campaign_outlined,
+    roles: {StaffRole.admin},
+    group: SectionGroup.manage,
+  ),
+  AdminSection(
     '/users',
     'İstifadəçilər',
     Icons.people_outline,
