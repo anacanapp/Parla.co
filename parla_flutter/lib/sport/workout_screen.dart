@@ -551,7 +551,7 @@ class _Media extends StatelessWidget {
             if (resting) const ColoredBox(color: Color(0x66FFFFFF)),
             if (countdown != null)
               ColoredBox(
-                color: const Color(0x8C1F1A14),
+                color: const Color(0x8C1A0F2E),
                 child: Center(
                   child: ExcludeSemantics(
                     child: Text(

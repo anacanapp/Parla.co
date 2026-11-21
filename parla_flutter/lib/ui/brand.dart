@@ -6,38 +6,38 @@ import 'package:flutter/material.dart';
 /// [cream], [white], [lemon], [sky] and [sage]. [sun] is a surface and
 /// accent colour only, never text on a light background.
 abstract final class ParlaColors {
-  static const sun = Color(0xFFFFCE00);
-  static const cream = Color(0xFFFFF9E8);
-  static const espresso = Color(0xFF1F1A14);
-  static const lemon = Color(0xFFFFEDA1);
-  static const sky = Color(0xFFCFE3F7);
-  static const sage = Color(0xFFB8CBB0);
-  static const sunInk = Color(0xFF7A5C00);
+  static const sun = Color(0xFFE07A7E);
+  static const cream = Color(0xFFFBF3F2);
+  static const espresso = Color(0xFF1A0F2E);
+  static const lemon = Color(0xFFF8DFDD);
+  static const sky = Color(0xFFE6DCEE);
+  static const sage = Color(0xFFC9A6C4);
+  static const sunInk = Color(0xFF7A2E6F);
   static const white = Color(0xFFFFFFFF);
 
   /// Secondary text and inactive icons (7.6:1 on white).
-  static const muted = Color(0xFF5C5246);
+  static const muted = Color(0xFF5E4A63);
 
   /// Outline of an unchecked control (3.4:1 on white, enough for UI parts).
-  static const outline = Color(0xFF8A8170);
+  static const outline = Color(0xFF8C7590);
 
   /// Hairlines and the track of progress bars on cream.
-  static const line = Color(0xFFEFE4C6);
+  static const line = Color(0xFFF0DEDC);
 
   /// Light tints for cards (redesign 2026-11).
-  static const sageTint = Color(0xFFE4EDDF);
-  static const blush = Color(0xFFF7E1E1);
-  static const lilac = Color(0xFFEBE3F5);
+  static const sageTint = Color(0xFFF3E6EF);
+  static const blush = Color(0xFFF4D7D4);
+  static const lilac = Color(0xFFEBDDEF);
 
   /// Fitness section (redesign 2026-11): deep blue surface and its light
   /// text (contrast 9.8:1).
-  static const sportBlue = Color(0xFF1E3A5F);
-  static const sportBlueText = Color(0xFFDCE8F5);
+  static const sportBlue = Color(0xFF3B1B4F);
+  static const sportBlueText = Color(0xFFF4D7D4);
 
   /// Progress fills that must stand out from their tile.
-  static const waterFill = Color(0xFF3A5A7A);
-  static const moveFill = Color(0xFF3F4A3A);
-  static const moveTrack = Color(0xFFE3ECDE);
+  static const waterFill = Color(0xFF7A2E6F);
+  static const moveFill = Color(0xFF3B1B4F);
+  static const moveTrack = Color(0xFFEBDDEF);
 }
 
 /// Font families bundled in `assets/fonts` (SIL OFL 1.1).

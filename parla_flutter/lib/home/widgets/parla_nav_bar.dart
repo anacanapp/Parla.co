@@ -57,7 +57,7 @@ class ParlaNavBar extends StatelessWidget {
               borderRadius: BorderRadius.circular(24),
               boxShadow: const [
                 BoxShadow(
-                  color: Color(0x1F1F1A14),
+                  color: Color(0x1F1A0F2E),
                   blurRadius: 24,
                   offset: Offset(0, 8),
                 ),

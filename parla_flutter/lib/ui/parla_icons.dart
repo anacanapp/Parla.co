@@ -64,7 +64,7 @@ class ParlaIcon extends StatelessWidget {
     this.name, {
     super.key,
     this.size = 24,
-    this.color = const Color(0xFF1F1A14),
+    this.color = const Color(0xFF1A0F2E),
     this.strokeWidth = 2,
   });
 

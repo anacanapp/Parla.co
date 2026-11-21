@@ -277,7 +277,7 @@ class CoverPage extends StatelessWidget {
                   color: ParlaColors.white,
                   shape: const CircleBorder(),
                   elevation: 2,
-                  shadowColor: const Color(0x331F1A14),
+                  shadowColor: const Color(0x331A0F2E),
                   child: BackButton(onPressed: onBack),
                 ),
               ),

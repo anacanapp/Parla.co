@@ -99,7 +99,7 @@ class DiscoverBento extends StatelessWidget {
                       child: _Photo(
                         image: blogsImage,
                         icon: blogs.icon,
-                        color: const Color(0xFFDCD0EC),
+                        color: const Color(0xFFE2D3EA),
                       ),
                     ),
                   ),
@@ -126,7 +126,7 @@ class DiscoverBento extends StatelessWidget {
                           child: _Photo(
                             image: nutritionImage,
                             icon: nutrition.icon,
-                            color: const Color(0xFFCFDDC7),
+                            color: const Color(0xFFF0D6E1),
                           ),
                         ),
                       ),
