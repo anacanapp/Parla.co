@@ -5,6 +5,7 @@ import '../../l10n/app_localizations.dart';
 import '../../routes.dart';
 import '../../ui/brand.dart';
 import '../../ui/parla_icons.dart';
+import '../../ui/parla_ui.dart';
 
 /// The five main tabs (owner's order, 2026-11-20). Sport opens from
 /// Discover; the profile and privacy centre is the last tab.
@@ -29,7 +30,8 @@ enum ParlaTab {
   };
 }
 
-/// Bottom navigation: five tabs, each an icon with a text label.
+/// Bottom navigation (Parla 2.0): a floating white capsule with five
+/// tabs, each an icon with its name; the open tab sits in a sun capsule.
 ///
 /// Labels are 12 px before system text scaling and may shrink to fit
 /// their fifth of the bar, so even the longest Russian label stays on one
@@ -47,21 +49,18 @@ class ParlaNavBar extends StatelessWidget {
       label: l10n.navMenuLabel,
       child: SafeArea(
         top: false,
-        minimum: const EdgeInsets.only(bottom: 10),
+        minimum: const EdgeInsets.only(bottom: 12),
         child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 12),
+          padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 6),
-            decoration: BoxDecoration(
+            key: const ValueKey('parla-nav'),
+            padding: const EdgeInsets.all(6),
+            decoration: ShapeDecoration(
               color: ParlaColors.white,
-              borderRadius: BorderRadius.circular(24),
-              boxShadow: const [
-                BoxShadow(
-                  color: Color(0x1F1F1A14),
-                  blurRadius: 24,
-                  offset: Offset(0, 8),
-                ),
-              ],
+              shape: const StadiumBorder(
+                side: BorderSide(color: ParlaColors.line),
+              ),
+              shadows: kFloatShadow,
             ),
             child: Row(
               children: [
@@ -107,43 +106,36 @@ class _NavItem extends StatelessWidget {
       label: label,
       excludeSemantics: true,
       child: InkWell(
-        borderRadius: BorderRadius.circular(18),
+        customBorder: const StadiumBorder(),
         onTap: onTap,
-        child: ConstrainedBox(
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 200),
           constraints: const BoxConstraints(minHeight: 52),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 2),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  width: 44,
-                  height: 28,
-                  decoration: BoxDecoration(
-                    color: selected ? ParlaColors.sun : Colors.transparent,
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                  alignment: Alignment.center,
-                  child: ParlaIcon(icon, size: 20, color: color),
-                ),
-                const SizedBox(height: 2),
-                FittedBox(
-                  fit: BoxFit.scaleDown,
-                  child: Text(
-                    label,
-                    maxLines: 1,
-                    softWrap: false,
-                    style: TextStyle(
-                      fontSize: kMinTextSize,
-                      fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
-                      color: color,
-                    ),
+          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 2),
+          decoration: ShapeDecoration(
+            color: selected ? ParlaColors.sun : Colors.transparent,
+            shape: const StadiumBorder(),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ParlaIcon(icon, size: 20, color: color),
+              const SizedBox(height: 2),
+              FittedBox(
+                fit: BoxFit.scaleDown,
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  softWrap: false,
+                  style: TextStyle(
+                    fontSize: kMinTextSize,
+                    fontWeight: selected ? FontWeight.w800 : FontWeight.w600,
+                    color: color,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
