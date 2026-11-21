@@ -73,6 +73,10 @@ RUN mkdir -p config web migrations
 FROM alpine:latest
 WORKDIR /app
 
+# ffmpeg re-encodes exercise videos uploaded in the panel (no sound, no
+# metadata); see lib/src/media/video_processing.dart.
+RUN apk add --no-cache ffmpeg
+
 # Environment variables
 ENV runmode=production
 ENV serverid=default

@@ -926,6 +926,108 @@ class Endpoints extends _is.EndpointDispatch {
                         params['altJson'],
                       ),
         ),
+        'uploadVideoChunk': _is.MethodConnector(
+          name: 'uploadVideoChunk',
+          params: {
+            'upload': _is.ParameterDescription(
+              name: 'upload',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+            'index': _is.ParameterDescription(
+              name: 'index',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+            'chunk': _is.ParameterDescription(
+              name: 'chunk',
+              type: _is.getType<_idt.ByteData>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['mediaAdmin'] as _inr2v3fa.MediaAdminEndpoint)
+                      .uploadVideoChunk(
+                        session,
+                        params['upload'],
+                        params['index'],
+                        params['chunk'],
+                      ),
+        ),
+        'finishVideoUpload': _is.MethodConnector(
+          name: 'finishVideoUpload',
+          params: {
+            'upload': _is.ParameterDescription(
+              name: 'upload',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+            'chunks': _is.ParameterDescription(
+              name: 'chunks',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+            'license': _is.ParameterDescription(
+              name: 'license',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+            'source': _is.ParameterDescription(
+              name: 'source',
+              type: _is.getType<String?>(),
+              nullable: true,
+            ),
+            'altJson': _is.ParameterDescription(
+              name: 'altJson',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['mediaAdmin'] as _inr2v3fa.MediaAdminEndpoint)
+                      .finishVideoUpload(
+                        session,
+                        params['upload'],
+                        params['chunks'],
+                        params['license'],
+                        params['source'],
+                        params['altJson'],
+                      ),
+        ),
+        'abortVideoUpload': _is.MethodConnector(
+          name: 'abortVideoUpload',
+          params: {
+            'upload': _is.ParameterDescription(
+              name: 'upload',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+            'chunks': _is.ParameterDescription(
+              name: 'chunks',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['mediaAdmin'] as _inr2v3fa.MediaAdminEndpoint)
+                      .abortVideoUpload(
+                        session,
+                        params['upload'],
+                        params['chunks'],
+                      ),
+        ),
         'list': _is.MethodConnector(
           name: 'list',
           params: {},

@@ -623,9 +623,13 @@ class EndpointContent extends _isc.EndpointRef {
       );
 }
 
-/// Images for content, uploaded in the admin panel. Every upload is
-/// re-encoded on the server (no metadata kept) and stored privately; the
-/// app sees an image only while published content uses it.
+/// Images and videos for content, uploaded in the admin panel. Every upload
+/// is re-encoded on the server (no metadata or sound kept) and stored
+/// privately; the app sees one only while published content uses it.
+///
+/// A video is larger than one request may be, so the panel sends it in
+/// chunks ([uploadVideoChunk]) kept in the media store under the uploader's
+/// id, then [finishVideoUpload] joins, re-encodes and removes them.
 /// {@category Endpoint}
 class EndpointMediaAdmin extends _isc.EndpointRef {
   EndpointMediaAdmin(_isc.EndpointCaller caller) : super(caller);
@@ -649,6 +653,54 @@ class EndpointMediaAdmin extends _isc.EndpointRef {
     },
   );
 
+  /// Stores chunk [index] of video upload [upload] (an id the panel makes).
+  _ida.Future<void> uploadVideoChunk(
+    String upload,
+    int index,
+    _idt.ByteData chunk,
+  ) => caller.callServerEndpoint<void>(
+    'mediaAdmin',
+    'uploadVideoChunk',
+    {
+      'upload': upload,
+      'index': index,
+      'chunk': chunk,
+    },
+  );
+
+  /// Joins the [chunks] of [upload], re-encodes the video and adds it to
+  /// the library. The chunks are removed whatever the outcome.
+  _ida.Future<_izgab4v7.MediaAdminItem> finishVideoUpload(
+    String upload,
+    int chunks,
+    String license,
+    String? source,
+    String altJson,
+  ) => caller.callServerEndpoint<_izgab4v7.MediaAdminItem>(
+    'mediaAdmin',
+    'finishVideoUpload',
+    {
+      'upload': upload,
+      'chunks': chunks,
+      'license': license,
+      'source': source,
+      'altJson': altJson,
+    },
+  );
+
+  /// Removes the chunks of an upload the panel gave up on.
+  _ida.Future<void> abortVideoUpload(
+    String upload,
+    int chunks,
+  ) => caller.callServerEndpoint<void>(
+    'mediaAdmin',
+    'abortVideoUpload',
+    {
+      'upload': upload,
+      'chunks': chunks,
+    },
+  );
+
   _ida.Future<List<_izgab4v7.MediaAdminItem>> list() =>
       caller.callServerEndpoint<List<_izgab4v7.MediaAdminItem>>(
         'mediaAdmin',
@@ -656,7 +708,7 @@ class EndpointMediaAdmin extends _isc.EndpointRef {
         {},
       );
 
-  /// The stored (cleaned) image, for the panel's preview.
+  /// The stored (cleaned) image or video, for the panel's preview.
   _ida.Future<_idt.ByteData> preview(int id) =>
       caller.callServerEndpoint<_idt.ByteData>(
         'mediaAdmin',
@@ -682,7 +734,7 @@ class EndpointMediaAdmin extends _isc.EndpointRef {
     },
   );
 
-  /// Deletes an image no content uses (admins only).
+  /// Deletes an image or video no content uses (admins only).
   _ida.Future<void> delete(int id) => caller.callServerEndpoint<void>(
     'mediaAdmin',
     'delete',

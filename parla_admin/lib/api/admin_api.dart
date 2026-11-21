@@ -115,6 +115,17 @@ abstract interface class AdminApi {
   );
   Future<void> deleteImage(int id);
 
+  /// Uploads an exercise video (MP4, MOV, WebM or GIF) in chunks; the
+  /// server re-encodes it without sound or metadata. [onProgress] gets the
+  /// share sent, 0 to 1.
+  Future<MediaAdminItem> uploadVideo(
+    Uint8List bytes,
+    String license,
+    String? source,
+    String altJson, {
+    void Function(double sent)? onProgress,
+  });
+
   /// Email and password. Throws [AdminError] `auth.failed` when refused.
   Future<void> login(String email, String password);
 

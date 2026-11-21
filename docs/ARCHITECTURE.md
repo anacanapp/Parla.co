@@ -21,7 +21,7 @@ cloud email sender were removed.
 **Production (prod).** One public address, `https://parla.anacan.az/`
 (DNS at Cloudflare, "DNS only", so Cloudflare never sees the traffic).
 AWS WAF and a public load balancer in Frankfurt end HTTPS with an ACM
-certificate and send `/admin` and `/media/*` to the server's web server
+certificate and send `/admin` and `/media/*` (images and exercise videos) to the server's web server
 and everything else to its API server; both run in one Docker container
 on ECS Fargate, with RDS PostgreSQL in private subnets. There is no
 CloudFront and no third-party CDN. The database, secrets and logs are
@@ -486,6 +486,36 @@ panel (`parla_admin/lib/media/`) and stored by the server
   written consent must cover the photo (lawyer to confirm the form). Images
   showing anyone else need their written permission, noted as the licence.
 
+### Exercise videos
+
+Each exercise can have one short video (`video` in its content, next to
+`image`), shown muted and looping in the workout player. Videos follow the
+image rules above (`MediaAsset.mediaType = video`, licence, alt text in
+three languages, public only while published), with these differences:
+
+- **Upload:** the panel accepts MP4, MOV, WebM or GIF up to 40 MiB and
+  sends it in chunks of 768 KiB (`mediaAdmin.uploadVideoChunk`), so
+  `maxRequestSize` stays as it is. Chunks wait in the bucket under
+  `incoming/<staff id>/<upload id>/`; `finishVideoUpload` joins them and
+  always deletes them, and the panel calls `abortVideoUpload` if sending
+  fails.
+- **Re-encoding** (`video_processing.dart`, ffmpeg in the server image):
+  - The file type is checked by its first bytes. ffmpeg may read only the
+    local file (`-protocol_whitelist file`), so a playlist cannot make the
+    server fetch URLs.
+  - Only the first video stream is kept: no sound, subtitles, chapters or
+    metadata (location, camera, title, dates).
+  - At most 720 px, 30 fps, 30 s, H.264 MP4 with the index first, and at
+    most 12 MiB afterwards.
+  - One video at a time, two threads, a three-minute limit.
+- **Serving:** `/media/<id>.mp4` with single byte ranges (206), which the
+  iOS and Android players need.
+- **Types are checked:** `image` must point to an image and `video` to a
+  video, when saving and when publishing.
+- **Needs people:** a trainer checks each move's form before its video is
+  published, and the licence (stock, own filming, AI-generated) must allow
+  use in the app. Anyone shown needs written permission.
+
 ## Catalogue texts in the admin panel (B2b-2)
 
 The texts of product preferences, exercises and routine steps can be
@@ -495,7 +525,7 @@ slug is the catalogue id from code.
 
 - **What the panel changes:**
   - Preferences: name and hint.
-  - Exercises: name, how-to, caution and one image.
+  - Exercises: name, how-to, caution, one image and one video.
   - Steps: title, how-to and tip.
 - **What stays in code:** which items exist, ingredient lists, rule
   conditions, doses and safety flags (pregnancy, sensitivity, injuries).

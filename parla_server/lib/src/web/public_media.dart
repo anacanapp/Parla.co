@@ -2,7 +2,8 @@ import 'dart:typed_data';
 
 import '../media/media_store.dart';
 
-/// Serves the public copies of content images at `/media/<id>.jpg`.
+/// Serves the public copies of content images at `/media/<id>.jpg` and of
+/// exercise videos at `/media/<id>.mp4`.
 ///
 /// The bucket stays private: only the server reads it, with its task role.
 /// An image is found only while published content uses it, because
@@ -14,9 +15,10 @@ class PublicMedia {
   /// Shared by the web route and `syncPublicMedia` (one server task).
   static PublicMedia instance = PublicMedia();
 
-  /// Images are UUID v4 ids from the upload (`mediaAdmin.upload`).
+  /// Files are UUID v4 ids from the upload, `.jpg` for an image and
+  /// `.mp4` for a video.
   static final _file = RegExp(
-    r'^([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})\.jpg$',
+    r'^([0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12})\.(jpg|mp4)$',
   );
 
   /// How long browsers may keep an image. Short, so that an image taken
@@ -30,28 +32,38 @@ class PublicMedia {
   final _cache = <String, Uint8List>{};
   int _cachedBytes = 0;
 
-  /// The image id in [fileName], or `null` when it is not a valid name.
+  /// The media id in [fileName], or `null` when it is not a valid name.
   static String? idOf(String fileName) => _file.firstMatch(fileName)?.group(1);
 
-  /// The JPEG bytes of the public copy, or `null` when there is none.
+  /// Whether [fileName] names a video (`.mp4`).
+  static bool isVideo(String fileName) =>
+      _file.firstMatch(fileName)?.group(2) == 'mp4';
+
+  /// The bytes of the public copy (JPEG or MP4), or `null` when there is
+  /// none.
   Future<Uint8List?> read(String fileName, MediaStore store) async {
     final id = idOf(fileName);
     if (id == null) return null;
-    final hit = _cache.remove(id);
+    final video = isVideo(fileName);
+    final name = video ? '$id.mp4' : id;
+    final hit = _cache.remove(name);
     if (hit != null) {
-      _cache[id] = hit; // Most recently used last.
+      _cache[name] = hit; // Most recently used last.
       return hit;
     }
-    final bytes = await store.get(Media.publicKey(id));
+    final bytes = await store.get(Media.publicKey(id, video: video));
     if (bytes == null) return null;
-    _remember(id, bytes);
+    _remember(name, bytes);
     return bytes;
   }
 
-  /// Drops [id] from memory; called when its public copy is removed.
+  /// Drops [id] (an image or a video) from memory; called when its public
+  /// copy is removed.
   void forget(String id) {
-    final old = _cache.remove(id);
-    if (old != null) _cachedBytes -= old.length;
+    for (final name in [id, '$id.mp4']) {
+      final old = _cache.remove(name);
+      if (old != null) _cachedBytes -= old.length;
+    }
   }
 
   void _remember(String id, Uint8List bytes) {

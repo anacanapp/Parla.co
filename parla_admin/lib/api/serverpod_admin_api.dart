@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/foundation.dart';
 import 'package:parla_client/parla_client.dart';
+import 'package:parla_shared/parla_shared.dart';
 import 'package:serverpod_auth_idp_flutter/serverpod_auth_idp_flutter.dart';
 
 import 'admin_api.dart';
@@ -138,6 +141,66 @@ class ServerpodAdminApi implements AdminApi {
   @override
   Future<void> deleteImage(int id) =>
       _guard(() => _client.mediaAdmin.delete(id));
+
+  @override
+  Future<MediaAdminItem> uploadVideo(
+    Uint8List bytes,
+    String license,
+    String? source,
+    String altJson, {
+    void Function(double sent)? onProgress,
+  }) async {
+    if (bytes.isEmpty || bytes.length > MediaRules.maxVideoUploadBytes) {
+      throw const AdminError('media.not_video');
+    }
+    final upload = _uploadId();
+    const size = MediaRules.videoChunkBytes;
+    final chunks = (bytes.length + size - 1) ~/ size;
+    try {
+      for (var i = 0; i < chunks; i++) {
+        final end = (i + 1) * size > bytes.length
+            ? bytes.length
+            : (i + 1) * size;
+        await _guard(
+          () => _client.mediaAdmin.uploadVideoChunk(
+            upload,
+            i,
+            ByteData.sublistView(bytes, i * size, end),
+          ),
+        );
+        onProgress?.call((i + 1) / chunks);
+      }
+      return await _guard(
+        () => _client.mediaAdmin.finishVideoUpload(
+          upload,
+          chunks,
+          license,
+          source,
+          altJson,
+        ),
+      );
+    } on Object {
+      // The server removes the chunks itself once finishing was tried;
+      // this covers a failure while sending them.
+      try {
+        await _client.mediaAdmin.abortVideoUpload(upload, chunks);
+      } on Object {
+        // Best effort.
+      }
+      rethrow;
+    }
+  }
+
+  /// A random UUID v4 naming one upload.
+  static String _uploadId() {
+    final r = Random.secure();
+    final b = List<int>.generate(16, (_) => r.nextInt(256));
+    b[6] = (b[6] & 0x0f) | 0x40;
+    b[8] = (b[8] & 0x3f) | 0x80;
+    final h = b.map((x) => x.toRadixString(16).padLeft(2, '0')).join();
+    return '${h.substring(0, 8)}-${h.substring(8, 12)}-${h.substring(12, 16)}-'
+        '${h.substring(16, 20)}-${h.substring(20)}';
+  }
 
   @override
   Future<UserAdminView?> findUser(String email) =>

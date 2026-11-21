@@ -1,6 +1,7 @@
-/// Rules for images uploaded in the admin panel. The panel shrinks an
-/// image before upload; the server checks again and re-encodes it, which
-/// drops all metadata (camera, location, dates).
+/// Rules for images and videos uploaded in the admin panel. The panel
+/// shrinks an image before upload; the server checks again and re-encodes
+/// every image and video, which drops all metadata (camera, location,
+/// dates) and a video's sound.
 library;
 
 import 'dart:convert';
@@ -13,6 +14,25 @@ abstract final class MediaRules {
 
   /// Longest side, in pixels, of a stored image.
   static const maxSide = 1600;
+
+  /// Largest video file (MP4, MOV, WebM or GIF) the panel uploads. It is
+  /// sent in chunks of [videoChunkBytes], each its own request.
+  static const maxVideoUploadBytes = 40 * 1024 * 1024;
+  static const videoChunkBytes = 768 * 1024;
+
+  /// Most chunks one video upload can have.
+  static const maxVideoChunks =
+      (maxVideoUploadBytes + videoChunkBytes - 1) ~/ videoChunkBytes;
+
+  /// A stored video: longest side, longest duration and largest file after
+  /// the server re-encodes it (H.264 MP4, no sound).
+  static const maxVideoSide = 720;
+  static const maxVideoSeconds = 30;
+  static const maxVideoBytes = 12 * 1024 * 1024;
+
+  /// The two kinds of media (`MediaAsset.mediaType`).
+  static const image = 'image';
+  static const video = 'video';
 
   static const maxLicense = 300;
   static const maxSource = 500;
@@ -60,6 +80,19 @@ abstract final class MediaRules {
     ?imageOf(json),
     ...ContentRules.inlineImageIds(json),
   };
+
+  /// Every image and video content [json] uses: what must exist, and what
+  /// the app may see while the content is published.
+  static Set<int> mediaIdsOf(Map<String, Object?> json) => {
+    ...imageIdsOf(json),
+    ?videoOf(json),
+  };
+
+  /// The video id in content [json] (an exercise's video), or `null`.
+  static int? videoOf(Map<String, Object?> json) {
+    final v = json['video'];
+    return v is int ? v : null;
+  }
 
   /// The image id in content [json], or `null`.
   static int? imageOf(Map<String, Object?> json) {

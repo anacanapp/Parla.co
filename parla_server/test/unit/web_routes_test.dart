@@ -30,10 +30,12 @@ Future<(RelicServer, HttpClient, Directory)> _start() async {
 Future<(int, HttpHeaders, List<int>)> _get(
   HttpClient client,
   int port,
-  String path,
-) async {
+  String path, {
+  String? range,
+}) async {
   final req = await client.get('127.0.0.1', port, path);
   req.followRedirects = false;
+  if (range != null) req.headers.set('range', range);
   final res = await req.close();
   final body = await res.fold<List<int>>([], (a, b) => a..addAll(b));
   return (res.statusCode, res.headers, body);
@@ -47,6 +49,10 @@ void main() {
       expect(PublicMedia.idOf('$_id.png'), isNull);
       expect(PublicMedia.idOf('../uploads/$_id.jpg'), isNull);
       expect(PublicMedia.idOf('${_id.toUpperCase()}.jpg'), isNull);
+      expect(PublicMedia.idOf('$_id.mp4'), _id);
+      expect(PublicMedia.isVideo('$_id.mp4'), isTrue);
+      expect(PublicMedia.isVideo('$_id.jpg'), isFalse);
+      expect(PublicMedia.idOf('$_id.mov'), isNull);
     });
 
     test('reads only the public copy, never the private upload', () async {
@@ -122,6 +128,61 @@ void main() {
       expect(headers.contentType?.mimeType, 'image/jpeg');
       expect(headers.value('cache-control'), contains('max-age=3600'));
       expect(headers.value('cache-control'), contains('public'));
+    });
+
+    test('/media serves a published video, with byte ranges', () async {
+      const video = '7a1c2a4e-9b7d-4c1a-8e2f-0a1b2c3d4e5f';
+      final bytes = Uint8List.fromList(List.generate(100, (i) => i));
+      await store.put(Media.publicKey(video, video: true), bytes, 'video/mp4');
+      var (status, headers, body) = await _get(
+        client,
+        server.port,
+        '/media/$video.mp4',
+      );
+      expect(status, 200);
+      expect(body, bytes);
+      expect(headers.contentType?.mimeType, 'video/mp4');
+      expect(headers.value('accept-ranges'), 'bytes');
+
+      (status, headers, body) = await _get(
+        client,
+        server.port,
+        '/media/$video.mp4',
+        range: 'bytes=0-1',
+      );
+      expect(status, 206);
+      expect(body, [0, 1]);
+      expect(headers.value('content-range'), 'bytes 0-1/100');
+
+      (status, headers, body) = await _get(
+        client,
+        server.port,
+        '/media/$video.mp4',
+        range: 'bytes=90-',
+      );
+      expect(status, 206);
+      expect(body, List.generate(10, (i) => 90 + i));
+
+      (status, headers, body) = await _get(
+        client,
+        server.port,
+        '/media/$video.mp4',
+        range: 'bytes=-5',
+      );
+      expect(body, [95, 96, 97, 98, 99]);
+
+      (status, headers, _) = await _get(
+        client,
+        server.port,
+        '/media/$video.mp4',
+        range: 'bytes=200-300',
+      );
+      expect(status, 416);
+      expect(headers.value('content-range'), 'bytes */100');
+
+      // The video's private upload is never served as the image name.
+      final (s2, _, _) = await _get(client, server.port, '/media/$video.jpg');
+      expect(s2, 404);
     });
 
     test('/media gives 404 for unknown, unpublished or odd names', () async {

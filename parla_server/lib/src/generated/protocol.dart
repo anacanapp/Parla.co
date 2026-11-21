@@ -1104,6 +1104,19 @@ class Protocol extends _is.DatabaseSerializationManager
           dartType: 'String',
         ),
         _isp.ColumnDefinition(
+          name: 'mediaType',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+          columnDefault: '\'image\'',
+        ),
+        _isp.ColumnDefinition(
+          name: 'durationMs',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: true,
+          dartType: 'int?',
+        ),
+        _isp.ColumnDefinition(
           name: 'pixelWidth',
           columnType: _isp.ColumnType.bigint,
           isNullable: false,

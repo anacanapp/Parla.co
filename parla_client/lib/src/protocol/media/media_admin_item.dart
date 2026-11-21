@@ -12,11 +12,13 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _isc;
 
-/// An image as the admin panel lists it.
+/// An image or video as the admin panel lists it.
 abstract class MediaAdminItem
     implements _isc.SerializableModel, _isc.ProtocolSerialization {
   MediaAdminItem._({
     required this.id,
+    required this.mediaType,
+    this.durationMs,
     required this.pixelWidth,
     required this.pixelHeight,
     required this.bytes,
@@ -29,6 +31,8 @@ abstract class MediaAdminItem
 
   factory MediaAdminItem({
     required int id,
+    required String mediaType,
+    int? durationMs,
     required int pixelWidth,
     required int pixelHeight,
     required int bytes,
@@ -42,6 +46,8 @@ abstract class MediaAdminItem
   factory MediaAdminItem.fromJson(Map<String, dynamic> jsonSerialization) {
     return MediaAdminItem(
       id: jsonSerialization['id'] as int,
+      mediaType: jsonSerialization['mediaType'] as String,
+      durationMs: jsonSerialization['durationMs'] as int?,
       pixelWidth: jsonSerialization['pixelWidth'] as int,
       pixelHeight: jsonSerialization['pixelHeight'] as int,
       bytes: jsonSerialization['bytes'] as int,
@@ -56,6 +62,11 @@ abstract class MediaAdminItem
   }
 
   int id;
+
+  /// `image` or `video`.
+  String mediaType;
+
+  int? durationMs;
 
   int pixelWidth;
 
@@ -78,6 +89,8 @@ abstract class MediaAdminItem
   @_isc.useResult
   MediaAdminItem copyWith({
     int? id,
+    String? mediaType,
+    int? durationMs,
     int? pixelWidth,
     int? pixelHeight,
     int? bytes,
@@ -92,6 +105,8 @@ abstract class MediaAdminItem
     return {
       '__className__': 'MediaAdminItem',
       'id': id,
+      'mediaType': mediaType,
+      if (durationMs != null) 'durationMs': durationMs,
       'pixelWidth': pixelWidth,
       'pixelHeight': pixelHeight,
       'bytes': bytes,
@@ -108,6 +123,8 @@ abstract class MediaAdminItem
     return {
       '__className__': 'MediaAdminItem',
       'id': id,
+      'mediaType': mediaType,
+      if (durationMs != null) 'durationMs': durationMs,
       'pixelWidth': pixelWidth,
       'pixelHeight': pixelHeight,
       'bytes': bytes,
@@ -130,6 +147,8 @@ class _Undefined {}
 class _MediaAdminItemImpl extends MediaAdminItem {
   _MediaAdminItemImpl({
     required int id,
+    required String mediaType,
+    int? durationMs,
     required int pixelWidth,
     required int pixelHeight,
     required int bytes,
@@ -140,6 +159,8 @@ class _MediaAdminItemImpl extends MediaAdminItem {
     required DateTime createdAt,
   }) : super._(
          id: id,
+         mediaType: mediaType,
+         durationMs: durationMs,
          pixelWidth: pixelWidth,
          pixelHeight: pixelHeight,
          bytes: bytes,
@@ -156,6 +177,8 @@ class _MediaAdminItemImpl extends MediaAdminItem {
   @override
   MediaAdminItem copyWith({
     int? id,
+    String? mediaType,
+    Object? durationMs = _Undefined,
     int? pixelWidth,
     int? pixelHeight,
     int? bytes,
@@ -167,6 +190,8 @@ class _MediaAdminItemImpl extends MediaAdminItem {
   }) {
     return MediaAdminItem(
       id: id ?? this.id,
+      mediaType: mediaType ?? this.mediaType,
+      durationMs: durationMs is int? ? durationMs : this.durationMs,
       pixelWidth: pixelWidth ?? this.pixelWidth,
       pixelHeight: pixelHeight ?? this.pixelHeight,
       bytes: bytes ?? this.bytes,

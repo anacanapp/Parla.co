@@ -32,7 +32,7 @@ class ContentEndpoint extends Endpoint {
         jsonDecode(r.publishedJson ?? '{}') as Map<String, Object?>;
     final ids = <int>{};
     for (final r in rows) {
-      ids.addAll(MediaRules.imageIdsOf(data(r)));
+      ids.addAll(MediaRules.mediaIdsOf(data(r)));
     }
     final images = <int, MediaAsset>{};
     if (ids.isNotEmpty) {
@@ -44,9 +44,12 @@ class ContentEndpoint extends Endpoint {
         images[a.id!] = a;
       }
     }
-    PublicImage? publicImage(int? id) {
+    PublicImage? publicImage(int? id, {String type = MediaRules.image}) {
       final a = id == null ? null : images[id];
-      final url = a == null ? null : Media.instance.publicUrl(a.key);
+      if (a != null && a.mediaType != type) return null;
+      final url = a == null
+          ? null
+          : Media.instance.publicUrl(a.key, video: type == MediaRules.video);
       if (a == null || url == null) return null;
       return PublicImage(
         id: id,
@@ -68,6 +71,10 @@ class ContentEndpoint extends Endpoint {
           reviewedAt: r.publishedReviewedAt,
           publishedAt: r.publishedAt ?? r.updatedAt,
           image: publicImage(imageId(r)),
+          video: publicImage(
+            MediaRules.videoOf(data(r)),
+            type: MediaRules.video,
+          ),
           inlineImages: [
             for (final id in ContentRules.inlineImageIds(data(r)))
               ?publicImage(id),

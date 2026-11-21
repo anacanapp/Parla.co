@@ -94,12 +94,8 @@ class ContentAdminEndpoint extends Endpoint {
     if (ContentRules.problems(k, json).isNotEmpty) {
       throw ParlaException(code: ContentErrors.invalid);
     }
-    for (final imageId in MediaRules.imageIdsOf(
-      jsonDecode(json) as Map<String, Object?>,
-    )) {
-      if (await MediaAsset.db.findById(session, imageId) == null) {
-        throw ParlaException(code: ContentErrors.invalid);
-      }
+    if (!await mediaTypesMatch(session, json)) {
+      throw ParlaException(code: ContentErrors.invalid);
     }
     final updated = await ContentItem.db.updateRow(
       session,

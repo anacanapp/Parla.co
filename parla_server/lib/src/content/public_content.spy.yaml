@@ -10,6 +10,8 @@ fields:
   publishedAt: DateTime
   ### The item's image, when it has a published one.
   image: PublicImage?
+  ### An exercise's published video (an MP4 without sound).
+  video: PublicImage?
   ### Published images used inside an article's body.
   inlineImages: List<PublicImage>?
   ### Catalogue items the app must not show.

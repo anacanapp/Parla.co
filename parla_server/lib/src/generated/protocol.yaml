@@ -37,6 +37,9 @@ content:
   - published:
 mediaAdmin:
   - upload:
+  - uploadVideoChunk:
+  - finishVideoUpload:
+  - abortVideoUpload:
   - list:
   - preview:
   - update:
