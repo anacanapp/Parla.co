@@ -27,6 +27,8 @@ import 'package:parla_client/src/protocol/products/product_summary.dart'
     as _isvy2zc1;
 import 'package:parla_client/src/protocol/quiz/quiz_answer_input.dart'
     as _ikoicjb8;
+import 'package:parla_client/src/protocol/shop/shop_order_view.dart'
+    as _ikoh500j;
 import 'package:parla_client/src/protocol/staff/staff_invite_summary.dart'
     as _ivj2ydpk;
 import 'package:parla_client/src/protocol/staff/staff_summary.dart'
@@ -69,6 +71,10 @@ import 'profile/member_profile.dart' as _i1iocmvy;
 import 'push/device_token.dart' as _iqu8ign5;
 import 'quiz/quiz_answer.dart' as _ih1qnypb;
 import 'quiz/quiz_answer_input.dart' as _ilw6ope9;
+import 'shop/shop_checkout.dart' as _ijilqnse;
+import 'shop/shop_order.dart' as _iebtnvku;
+import 'shop/shop_order_status.dart' as _ik5inhen;
+import 'shop/shop_order_view.dart' as _ibk2dfia;
 import 'staff/staff_invite.dart' as _ig710w64;
 import 'staff/staff_invite_summary.dart' as _igjtjhuj;
 import 'staff/staff_me.dart' as _i0yb5pr1;
@@ -117,6 +123,10 @@ export 'profile/member_profile.dart';
 export 'push/device_token.dart';
 export 'quiz/quiz_answer.dart';
 export 'quiz/quiz_answer_input.dart';
+export 'shop/shop_checkout.dart';
+export 'shop/shop_order.dart';
+export 'shop/shop_order_status.dart';
+export 'shop/shop_order_view.dart';
 export 'staff/staff_invite.dart';
 export 'staff/staff_invite_summary.dart';
 export 'staff/staff_me.dart';
@@ -180,6 +190,10 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_iqu8ign5.DeviceToken>,
           _isc.getType<_ih1qnypb.QuizAnswer>,
           _isc.getType<_ilw6ope9.QuizAnswerInput>,
+          _isc.getType<_ijilqnse.ShopCheckout>,
+          _isc.getType<_iebtnvku.ShopOrder>,
+          _isc.getType<_ik5inhen.ShopOrderStatus>,
+          _isc.getType<_ibk2dfia.ShopOrderView>,
           _isc.getType<_ig710w64.StaffInvite>,
           _isc.getType<_igjtjhuj.StaffInviteSummary>,
           _isc.getType<_i0yb5pr1.StaffMe>,
@@ -228,6 +242,10 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_iqu8ign5.DeviceToken?>,
           _isc.getType<_ih1qnypb.QuizAnswer?>,
           _isc.getType<_ilw6ope9.QuizAnswerInput?>,
+          _isc.getType<_ijilqnse.ShopCheckout?>,
+          _isc.getType<_iebtnvku.ShopOrder?>,
+          _isc.getType<_ik5inhen.ShopOrderStatus?>,
+          _isc.getType<_ibk2dfia.ShopOrderView?>,
           _isc.getType<_ig710w64.StaffInvite?>,
           _isc.getType<_igjtjhuj.StaffInviteSummary?>,
           _isc.getType<_i0yb5pr1.StaffMe?>,
@@ -264,6 +282,7 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<List<_izgab4v7.MediaAdminItem>>,
           _isc.getType<List<_isvy2zc1.ProductSummary>>,
           _isc.getType<List<_ikoicjb8.QuizAnswerInput>>,
+          _isc.getType<List<_ikoh500j.ShopOrderView>>,
           _isc.getType<List<_i48vujj3.StaffSummary>>,
           _isc.getType<List<_ivj2ydpk.StaffInviteSummary>>,
           _isc.getType<List<_ici4godl.SupportThreadSummary>>,
@@ -303,6 +322,10 @@ class Protocol extends _isc.SerializationManager
           'DeviceToken',
           'QuizAnswer',
           'QuizAnswerInput',
+          'ShopCheckout',
+          'ShopOrder',
+          'ShopOrderStatus',
+          'ShopOrderView',
           'StaffInvite',
           'StaffInviteSummary',
           'StaffMe',
@@ -435,6 +458,18 @@ class Protocol extends _isc.SerializationManager
     }
     if (t == _ilw6ope9.QuizAnswerInput) {
       return _ilw6ope9.QuizAnswerInput.fromJson(data) as T;
+    }
+    if (t == _ijilqnse.ShopCheckout) {
+      return _ijilqnse.ShopCheckout.fromJson(data) as T;
+    }
+    if (t == _iebtnvku.ShopOrder) {
+      return _iebtnvku.ShopOrder.fromJson(data) as T;
+    }
+    if (t == _ik5inhen.ShopOrderStatus) {
+      return _ik5inhen.ShopOrderStatus.fromJson(data) as T;
+    }
+    if (t == _ibk2dfia.ShopOrderView) {
+      return _ibk2dfia.ShopOrderView.fromJson(data) as T;
     }
     if (t == _ig710w64.StaffInvite) {
       return _ig710w64.StaffInvite.fromJson(data) as T;
@@ -595,6 +630,20 @@ class Protocol extends _isc.SerializationManager
     }
     if (t == _isc.getType<_ilw6ope9.QuizAnswerInput?>()) {
       return (data != null ? _ilw6ope9.QuizAnswerInput.fromJson(data) : null)
+          as T;
+    }
+    if (t == _isc.getType<_ijilqnse.ShopCheckout?>()) {
+      return (data != null ? _ijilqnse.ShopCheckout.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_iebtnvku.ShopOrder?>()) {
+      return (data != null ? _iebtnvku.ShopOrder.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_ik5inhen.ShopOrderStatus?>()) {
+      return (data != null ? _ik5inhen.ShopOrderStatus.fromJson(data) : null)
+          as T;
+    }
+    if (t == _isc.getType<_ibk2dfia.ShopOrderView?>()) {
+      return (data != null ? _ibk2dfia.ShopOrderView.fromJson(data) : null)
           as T;
     }
     if (t == _isc.getType<_ig710w64.StaffInvite?>()) {
@@ -765,6 +814,12 @@ class Protocol extends _isc.SerializationManager
               .toList()
           as T;
     }
+    if (t == List<_ikoh500j.ShopOrderView>) {
+      return (data as List)
+              .map((e) => deserialize<_ikoh500j.ShopOrderView>(e))
+              .toList()
+          as T;
+    }
     if (t == List<_i48vujj3.StaffSummary>) {
       return (data as List)
               .map((e) => deserialize<_i48vujj3.StaffSummary>(e))
@@ -833,6 +888,10 @@ class Protocol extends _isc.SerializationManager
       _iqu8ign5.DeviceToken => 'DeviceToken',
       _ih1qnypb.QuizAnswer => 'QuizAnswer',
       _ilw6ope9.QuizAnswerInput => 'QuizAnswerInput',
+      _ijilqnse.ShopCheckout => 'ShopCheckout',
+      _iebtnvku.ShopOrder => 'ShopOrder',
+      _ik5inhen.ShopOrderStatus => 'ShopOrderStatus',
+      _ibk2dfia.ShopOrderView => 'ShopOrderView',
       _ig710w64.StaffInvite => 'StaffInvite',
       _igjtjhuj.StaffInviteSummary => 'StaffInviteSummary',
       _i0yb5pr1.StaffMe => 'StaffMe',
@@ -924,6 +983,14 @@ class Protocol extends _isc.SerializationManager
         return 'QuizAnswer';
       case _ilw6ope9.QuizAnswerInput():
         return 'QuizAnswerInput';
+      case _ijilqnse.ShopCheckout():
+        return 'ShopCheckout';
+      case _iebtnvku.ShopOrder():
+        return 'ShopOrder';
+      case _ik5inhen.ShopOrderStatus():
+        return 'ShopOrderStatus';
+      case _ibk2dfia.ShopOrderView():
+        return 'ShopOrderView';
       case _ig710w64.StaffInvite():
         return 'StaffInvite';
       case _igjtjhuj.StaffInviteSummary():
@@ -1070,6 +1137,18 @@ class Protocol extends _isc.SerializationManager
     }
     if (dataClassName == 'QuizAnswerInput') {
       return deserialize<_ilw6ope9.QuizAnswerInput>(data['data']);
+    }
+    if (dataClassName == 'ShopCheckout') {
+      return deserialize<_ijilqnse.ShopCheckout>(data['data']);
+    }
+    if (dataClassName == 'ShopOrder') {
+      return deserialize<_iebtnvku.ShopOrder>(data['data']);
+    }
+    if (dataClassName == 'ShopOrderStatus') {
+      return deserialize<_ik5inhen.ShopOrderStatus>(data['data']);
+    }
+    if (dataClassName == 'ShopOrderView') {
+      return deserialize<_ibk2dfia.ShopOrderView>(data['data']);
     }
     if (dataClassName == 'StaffInvite') {
       return deserialize<_ig710w64.StaffInvite>(data['data']);

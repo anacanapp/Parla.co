@@ -1,0 +1,34 @@
+### An order of a product sold in the app (phase 2). Card details never
+### reach Parla: the buyer pays on Epoint's page and Epoint reports the
+### result to `/shop/epoint/result`. The cardholder's name and card mask in
+### that report are dropped at once. Kept for accounting after the account
+### is deleted, with the user's id replaced by its pseudonym.
+class: ShopOrder
+table: shop_order
+fields:
+  ### Shown to the buyer and sent to Epoint as `order_id` (e.g. P7KQ2M9XA4).
+  number: String
+  authUserId: UuidValue
+  productId: int
+  productSlug: String
+  ### The product's name in az/ru/en at the time of the order (JSON).
+  productTitle: String
+  brand: String
+  ### `parla` or `brand` (ContentRules.productSellers).
+  seller: String
+  quantity: int
+  ### Price per item and total, in qəpik.
+  unitQepik: int
+  totalQepik: int
+  status: ShopOrderStatus
+  ### Epoint's transaction id.
+  transaction: String?
+  createdAt: DateTime
+  updatedAt: DateTime
+  paidAt: DateTime?
+indexes:
+  shop_order_number_idx:
+    fields: number
+    unique: true
+  shop_order_user_idx:
+    fields: authUserId

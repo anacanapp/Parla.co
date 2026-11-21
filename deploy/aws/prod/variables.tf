@@ -109,6 +109,26 @@ variable "staff_bootstrap_email" {
   default     = ""
 }
 
+variable "enable_shop_payments" {
+  description = <<-EOT
+    Pass Epoint's merchant keys to the server (in-app Shop payments). Set
+    to true only after deploy/aws/put-prod-epoint-secret.sh has stored
+    them; otherwise the server task cannot start.
+  EOT
+  type        = bool
+  default     = false
+}
+
+variable "shop_sales_open" {
+  description = <<-EOT
+    Offer products sold in the app. Needs enable_shop_payments, a signed
+    Epoint contract, the result URL set in Epoint's cabinet, the delivery
+    details step and the lawyer's sale terms.
+  EOT
+  type        = bool
+  default     = false
+}
+
 variable "enable_push" {
   description = <<-EOT
     Pass the Firebase service account to the server (push notifications).

@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
@@ -197,6 +198,30 @@ void main() {
         final (status, _, _) = await _get(client, server.port, path);
         expect(status, 404, reason: path);
       }
+    });
+
+    test('/shop/done asks to return to the app and shows no order', () async {
+      var (status, headers, body) = await _get(
+        client,
+        server.port,
+        '/shop/done?o=PABCDEFGHJ',
+      );
+      expect(status, 200);
+      final page = utf8.decode(body);
+      expect(page, contains('Ödəniş qəbul olundu'));
+      expect(page, isNot(contains('PABCDEFGHJ')));
+      expect(page, isNot(contains('<script')));
+      expect(
+        headers.value('content-security-policy'),
+        startsWith("default-src 'none'"),
+      );
+      expect(headers.value('cache-control'), 'no-store');
+      (status, headers, body) = await _get(
+        client,
+        server.port,
+        '/shop/done?o=P1&e=1',
+      );
+      expect(utf8.decode(body), contains('Ödəniş alınmadı'));
     });
 
     test('/admin redirects to /admin/', () async {

@@ -128,6 +128,62 @@ class FakeApi implements ParlaApi {
   final published = <String, List<PublishedItem>>{};
   Object? contentError;
 
+  bool salesOpen = false;
+  final shopOrders = <ShopOrderItem>[];
+  final startedOrders = <String>[];
+
+  @override
+  Future<bool> shopSalesOpen() async => salesOpen;
+
+  @override
+  Future<({String number, Uri paymentPage})> startShopOrder(
+    String slug,
+    int quantity,
+    String language,
+  ) async {
+    startedOrders.add('$slug:$quantity:$language');
+    final number = 'P${shopOrders.length + 1}';
+    shopOrders.insert(
+      0,
+      ShopOrderItem(
+        number: number,
+        productSlug: slug,
+        productTitle: {'en': slug},
+        brand: 'Brand',
+        quantity: quantity,
+        totalQepik: 1250 * quantity,
+        status: 'created',
+        createdAt: DateTime.utc(2026, 11, 20),
+      ),
+    );
+    return (
+      number: number,
+      paymentPage: Uri.parse('https://epoint.test/$number'),
+    );
+  }
+
+  @override
+  Future<List<ShopOrderItem>> myShopOrders() async => List.of(shopOrders);
+
+  /// What Epoint says when an order is refreshed.
+  String refreshedStatus = 'paid';
+
+  @override
+  Future<ShopOrderItem> refreshShopOrder(String number) async {
+    final i = shopOrders.indexWhere((o) => o.number == number);
+    final o = shopOrders[i];
+    return shopOrders[i] = ShopOrderItem(
+      number: o.number,
+      productSlug: o.productSlug,
+      productTitle: o.productTitle,
+      brand: o.brand,
+      quantity: o.quantity,
+      totalQepik: o.totalQepik,
+      status: o.status == 'created' ? refreshedStatus : o.status,
+      createdAt: o.createdAt,
+    );
+  }
+
   @override
   Future<List<PublishedItem>> publishedContent(String kind) async {
     if (contentError != null) throw contentError!;

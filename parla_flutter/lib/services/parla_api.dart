@@ -12,6 +12,33 @@ class ApiError implements Exception {
   String toString() => 'ApiError($code)';
 }
 
+/// One of the user's Shop orders ("My orders").
+class ShopOrderItem {
+  const ShopOrderItem({
+    required this.number,
+    required this.productSlug,
+    required this.productTitle,
+    required this.brand,
+    required this.quantity,
+    required this.totalQepik,
+    required this.status,
+    required this.createdAt,
+  });
+
+  final String number;
+  final String productSlug;
+
+  /// The product's name in az/ru/en when it was ordered.
+  final Map<String, Object?> productTitle;
+  final String brand;
+  final int quantity;
+  final int totalQepik;
+
+  /// created, paid, failed, shipped, delivered, cancelled or refunded.
+  final String status;
+  final DateTime createdAt;
+}
+
 /// The part of a profile the app needs.
 class ProfileSummary {
   const ProfileSummary({required this.countryCode, required this.language});
@@ -257,6 +284,22 @@ abstract interface class ParlaApi {
 
   /// Published content of [kind] (no sign-in needed).
   Future<List<PublishedItem>> publishedContent(String kind);
+
+  /// Whether products sold in the app are offered now.
+  Future<bool> shopSalesOpen();
+
+  /// Starts an order; returns its number and Epoint's payment page.
+  Future<({String number, Uri paymentPage})> startShopOrder(
+    String slug,
+    int quantity,
+    String language,
+  );
+
+  /// The user's orders, newest first.
+  Future<List<ShopOrderItem>> myShopOrders();
+
+  /// One order, after asking Epoint when it still waits for payment.
+  Future<ShopOrderItem> refreshShopOrder(String number);
 
   /// The daily plate entries as JSON (see `NutritionRules`), or `null`.
   Future<String?> myNutrition();

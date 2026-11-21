@@ -497,4 +497,30 @@ class FakeAdminApi implements AdminApi {
     calls.add('report:$campaignId');
     return report!;
   }
+
+  // Shop orders.
+  final orderRows = <ShopOrderView>[];
+
+  @override
+  Future<List<ShopOrderView>> shopOrders() async => List.of(orderRows);
+
+  ShopOrderView _setOrder(String number, ShopOrderStatus status) {
+    final i = orderRows.indexWhere((o) => o.number == number);
+    return orderRows[i] = orderRows[i].copyWith(status: status);
+  }
+
+  @override
+  Future<ShopOrderView> setShopOrderStatus(
+    String number,
+    ShopOrderStatus status,
+  ) async {
+    calls.add('orderStatus:$number:${status.name}');
+    return _setOrder(number, status);
+  }
+
+  @override
+  Future<ShopOrderView> refundShopOrder(String number) async {
+    calls.add('refund:$number');
+    return _setOrder(number, ShopOrderStatus.refunded);
+  }
 }

@@ -1129,6 +1129,68 @@ class AppLocalizationsEn extends AppLocalizations {
   String get shopEmpty => 'No products yet. They will be here soon.';
 
   @override
+  String get shopMyOrders => 'My orders';
+
+  @override
+  String get shopBuy => 'Buy';
+
+  @override
+  String get shopBuyTitle => 'Confirm your order';
+
+  @override
+  String shopBuyBody(String product, String price, String seller) {
+    return '$product: $price. $seller You pay on Epoint\'s page; your card details never reach Parla.';
+  }
+
+  @override
+  String get shopSellerParla => 'Sold by Parla.';
+
+  @override
+  String shopSellerBrand(String brand) {
+    return 'Sold by $brand; Parla takes the payment.';
+  }
+
+  @override
+  String get shopBuyGo => 'Go to payment';
+
+  @override
+  String get shopBuyError =>
+      'The payment page did not open. Try again a little later.';
+
+  @override
+  String get shopTooMany =>
+      'Too many orders started in the last hour. Try again a little later.';
+
+  @override
+  String get shopOrdersEmpty => 'No orders yet.';
+
+  @override
+  String shopOrderMeta(String number, String date, int quantity) {
+    return '$number · $date · $quantity pcs';
+  }
+
+  @override
+  String get shopOrderCreated => 'Waiting for payment';
+
+  @override
+  String get shopOrderPaid => 'Paid';
+
+  @override
+  String get shopOrderFailed => 'Payment failed';
+
+  @override
+  String get shopOrderShipped => 'Shipped';
+
+  @override
+  String get shopOrderDelivered => 'Delivered';
+
+  @override
+  String get shopOrderCancelled => 'Cancelled';
+
+  @override
+  String get shopOrderRefunded => 'Refunded';
+
+  @override
   String get sportIntroTitle => 'A workout plan made for you';
 
   @override

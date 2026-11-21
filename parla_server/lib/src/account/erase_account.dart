@@ -15,7 +15,8 @@ import 'pseudonym.dart';
 /// nutrition documents and their key (crypto-shredding), quiz answers,
 /// profile, today's activity marks and the sign-in account with its
 /// sessions and tokens are deleted. Consent records and audit rows are kept
-/// as proof but the user's id in them is replaced by a pseudonym.
+/// as proof, and Shop orders for accounting, but the user's id in them is
+/// replaced by a pseudonym.
 Future<UuidValue> eraseAccount(
   Session session,
   UuidValue userId, {
@@ -50,6 +51,20 @@ Future<UuidValue> eraseAccount(
       where: (t) => t.authUserId.equals(userId),
       transaction: transaction,
     );
+
+    // Orders stay for accounting, without the account's id.
+    final orders = await ShopOrder.db.find(
+      session,
+      where: (t) => t.authUserId.equals(userId),
+      transaction: transaction,
+    );
+    for (final o in orders) {
+      await ShopOrder.db.updateRow(
+        session,
+        o.copyWith(authUserId: pseudonym),
+        transaction: transaction,
+      );
+    }
 
     final consents = await ConsentRecord.db.find(
       session,

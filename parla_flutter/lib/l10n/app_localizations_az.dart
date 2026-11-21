@@ -1108,6 +1108,68 @@ class AppLocalizationsAz extends AppLocalizations {
   String get shopEmpty => 'Hələ məhsul yoxdur. Tezliklə burada olacaq.';
 
   @override
+  String get shopMyOrders => 'Sifarişlərim';
+
+  @override
+  String get shopBuy => 'Al';
+
+  @override
+  String get shopBuyTitle => 'Sifarişi təsdiqlə';
+
+  @override
+  String shopBuyBody(String product, String price, String seller) {
+    return '$product: $price. $seller Ödəniş Epoint səhifəsində olur; kart məlumatın Parla-ya gəlmir.';
+  }
+
+  @override
+  String get shopSellerParla => 'Satıcı: Parla.';
+
+  @override
+  String shopSellerBrand(String brand) {
+    return 'Satıcı: $brand, ödənişi Parla qəbul edir.';
+  }
+
+  @override
+  String get shopBuyGo => 'Ödənişə keç';
+
+  @override
+  String get shopBuyError =>
+      'Ödəniş səhifəsi açılmadı. Bir az sonra yenidən cəhd et.';
+
+  @override
+  String get shopTooMany =>
+      'Son bir saatda çox sifariş başladın. Bir az sonra yenidən cəhd et.';
+
+  @override
+  String get shopOrdersEmpty => 'Hələ sifarişin yoxdur.';
+
+  @override
+  String shopOrderMeta(String number, String date, int quantity) {
+    return '$number · $date · $quantity əd.';
+  }
+
+  @override
+  String get shopOrderCreated => 'Ödəniş gözlənilir';
+
+  @override
+  String get shopOrderPaid => 'Ödənilib';
+
+  @override
+  String get shopOrderFailed => 'Ödəniş alınmadı';
+
+  @override
+  String get shopOrderShipped => 'Göndərilib';
+
+  @override
+  String get shopOrderDelivered => 'Çatdırılıb';
+
+  @override
+  String get shopOrderCancelled => 'Ləğv edilib';
+
+  @override
+  String get shopOrderRefunded => 'Pul qaytarılıb';
+
+  @override
   String get sportIntroTitle => 'Sənə uyğun idman planı';
 
   @override

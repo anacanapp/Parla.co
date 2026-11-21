@@ -27,6 +27,8 @@ import 'package:parla_server/src/generated/products/product_summary.dart'
     as _ivq5jofi;
 import 'package:parla_server/src/generated/quiz/quiz_answer_input.dart'
     as _iak2pevv;
+import 'package:parla_server/src/generated/shop/shop_order_view.dart'
+    as _i5cj9omj;
 import 'package:parla_server/src/generated/staff/staff_invite_summary.dart'
     as _ioscq55w;
 import 'package:parla_server/src/generated/staff/staff_summary.dart'
@@ -70,6 +72,10 @@ import 'profile/member_profile.dart' as _i1iocmvy;
 import 'push/device_token.dart' as _iqu8ign5;
 import 'quiz/quiz_answer.dart' as _ih1qnypb;
 import 'quiz/quiz_answer_input.dart' as _ilw6ope9;
+import 'shop/shop_checkout.dart' as _ijilqnse;
+import 'shop/shop_order.dart' as _iebtnvku;
+import 'shop/shop_order_status.dart' as _ik5inhen;
+import 'shop/shop_order_view.dart' as _ibk2dfia;
 import 'staff/staff_invite.dart' as _ig710w64;
 import 'staff/staff_invite_summary.dart' as _igjtjhuj;
 import 'staff/staff_me.dart' as _i0yb5pr1;
@@ -118,6 +124,10 @@ export 'profile/member_profile.dart';
 export 'push/device_token.dart';
 export 'quiz/quiz_answer.dart';
 export 'quiz/quiz_answer_input.dart';
+export 'shop/shop_checkout.dart';
+export 'shop/shop_order.dart';
+export 'shop/shop_order_status.dart';
+export 'shop/shop_order_view.dart';
 export 'staff/staff_invite.dart';
 export 'staff/staff_invite_summary.dart';
 export 'staff/staff_me.dart';
@@ -180,6 +190,10 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_iqu8ign5.DeviceToken>,
           _is.getType<_ih1qnypb.QuizAnswer>,
           _is.getType<_ilw6ope9.QuizAnswerInput>,
+          _is.getType<_ijilqnse.ShopCheckout>,
+          _is.getType<_iebtnvku.ShopOrder>,
+          _is.getType<_ik5inhen.ShopOrderStatus>,
+          _is.getType<_ibk2dfia.ShopOrderView>,
           _is.getType<_ig710w64.StaffInvite>,
           _is.getType<_igjtjhuj.StaffInviteSummary>,
           _is.getType<_i0yb5pr1.StaffMe>,
@@ -228,6 +242,10 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_iqu8ign5.DeviceToken?>,
           _is.getType<_ih1qnypb.QuizAnswer?>,
           _is.getType<_ilw6ope9.QuizAnswerInput?>,
+          _is.getType<_ijilqnse.ShopCheckout?>,
+          _is.getType<_iebtnvku.ShopOrder?>,
+          _is.getType<_ik5inhen.ShopOrderStatus?>,
+          _is.getType<_ibk2dfia.ShopOrderView?>,
           _is.getType<_ig710w64.StaffInvite?>,
           _is.getType<_igjtjhuj.StaffInviteSummary?>,
           _is.getType<_i0yb5pr1.StaffMe?>,
@@ -264,6 +282,7 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<List<_i0szydc4.MediaAdminItem>>,
           _is.getType<List<_ivq5jofi.ProductSummary>>,
           _is.getType<List<_iak2pevv.QuizAnswerInput>>,
+          _is.getType<List<_i5cj9omj.ShopOrderView>>,
           _is.getType<List<_i0twq8uu.StaffSummary>>,
           _is.getType<List<_ioscq55w.StaffInviteSummary>>,
           _is.getType<List<_i41nkhg5.SupportThreadSummary>>,
@@ -304,6 +323,10 @@ class Protocol extends _is.DatabaseSerializationManager
           'DeviceToken',
           'QuizAnswer',
           'QuizAnswerInput',
+          'ShopCheckout',
+          'ShopOrder',
+          'ShopOrderStatus',
+          'ShopOrderView',
           'StaffInvite',
           'StaffInviteSummary',
           'StaffMe',
@@ -1578,6 +1601,141 @@ class Protocol extends _is.DatabaseSerializationManager
       managed: true,
     ),
     _isp.TableDefinition(
+      name: 'shop_order',
+      dartName: 'ShopOrder',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'number',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'authUserId',
+          columnType: _isp.ColumnType.uuid,
+          isNullable: false,
+          dartType: 'UuidValue',
+        ),
+        _isp.ColumnDefinition(
+          name: 'productId',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _isp.ColumnDefinition(
+          name: 'productSlug',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'productTitle',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'brand',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'seller',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'quantity',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _isp.ColumnDefinition(
+          name: 'unitQepik',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _isp.ColumnDefinition(
+          name: 'totalQepik',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+        _isp.ColumnDefinition(
+          name: 'status',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'protocol:ShopOrderStatus',
+        ),
+        _isp.ColumnDefinition(
+          name: 'transaction',
+          columnType: _isp.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
+        ),
+        _isp.ColumnDefinition(
+          name: 'createdAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+        _isp.ColumnDefinition(
+          name: 'updatedAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: false,
+          dartType: 'DateTime',
+        ),
+        _isp.ColumnDefinition(
+          name: 'paidAt',
+          columnType: _isp.ColumnType.timestampWithoutTimeZone,
+          isNullable: true,
+          dartType: 'DateTime?',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'shop_order_number_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'number',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+        _isp.IndexDefinition(
+          indexName: 'shop_order_user_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'authUserId',
+            ),
+          ],
+          type: 'btree',
+          isUnique: false,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _isp.TableDefinition(
       name: 'sport_record',
       dartName: 'SportRecord',
       schema: 'public',
@@ -2124,6 +2282,18 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _ilw6ope9.QuizAnswerInput) {
       return _ilw6ope9.QuizAnswerInput.fromJson(data) as T;
     }
+    if (t == _ijilqnse.ShopCheckout) {
+      return _ijilqnse.ShopCheckout.fromJson(data) as T;
+    }
+    if (t == _iebtnvku.ShopOrder) {
+      return _iebtnvku.ShopOrder.fromJson(data) as T;
+    }
+    if (t == _ik5inhen.ShopOrderStatus) {
+      return _ik5inhen.ShopOrderStatus.fromJson(data) as T;
+    }
+    if (t == _ibk2dfia.ShopOrderView) {
+      return _ibk2dfia.ShopOrderView.fromJson(data) as T;
+    }
     if (t == _ig710w64.StaffInvite) {
       return _ig710w64.StaffInvite.fromJson(data) as T;
     }
@@ -2283,6 +2453,20 @@ class Protocol extends _is.DatabaseSerializationManager
     }
     if (t == _is.getType<_ilw6ope9.QuizAnswerInput?>()) {
       return (data != null ? _ilw6ope9.QuizAnswerInput.fromJson(data) : null)
+          as T;
+    }
+    if (t == _is.getType<_ijilqnse.ShopCheckout?>()) {
+      return (data != null ? _ijilqnse.ShopCheckout.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_iebtnvku.ShopOrder?>()) {
+      return (data != null ? _iebtnvku.ShopOrder.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_ik5inhen.ShopOrderStatus?>()) {
+      return (data != null ? _ik5inhen.ShopOrderStatus.fromJson(data) : null)
+          as T;
+    }
+    if (t == _is.getType<_ibk2dfia.ShopOrderView?>()) {
+      return (data != null ? _ibk2dfia.ShopOrderView.fromJson(data) : null)
           as T;
     }
     if (t == _is.getType<_ig710w64.StaffInvite?>()) {
@@ -2453,6 +2637,12 @@ class Protocol extends _is.DatabaseSerializationManager
               .toList()
           as T;
     }
+    if (t == List<_i5cj9omj.ShopOrderView>) {
+      return (data as List)
+              .map((e) => deserialize<_i5cj9omj.ShopOrderView>(e))
+              .toList()
+          as T;
+    }
     if (t == List<_i0twq8uu.StaffSummary>) {
       return (data as List)
               .map((e) => deserialize<_i0twq8uu.StaffSummary>(e))
@@ -2521,6 +2711,10 @@ class Protocol extends _is.DatabaseSerializationManager
       _iqu8ign5.DeviceToken => 'DeviceToken',
       _ih1qnypb.QuizAnswer => 'QuizAnswer',
       _ilw6ope9.QuizAnswerInput => 'QuizAnswerInput',
+      _ijilqnse.ShopCheckout => 'ShopCheckout',
+      _iebtnvku.ShopOrder => 'ShopOrder',
+      _ik5inhen.ShopOrderStatus => 'ShopOrderStatus',
+      _ibk2dfia.ShopOrderView => 'ShopOrderView',
       _ig710w64.StaffInvite => 'StaffInvite',
       _igjtjhuj.StaffInviteSummary => 'StaffInviteSummary',
       _i0yb5pr1.StaffMe => 'StaffMe',
@@ -2612,6 +2806,14 @@ class Protocol extends _is.DatabaseSerializationManager
         return 'QuizAnswer';
       case _ilw6ope9.QuizAnswerInput():
         return 'QuizAnswerInput';
+      case _ijilqnse.ShopCheckout():
+        return 'ShopCheckout';
+      case _iebtnvku.ShopOrder():
+        return 'ShopOrder';
+      case _ik5inhen.ShopOrderStatus():
+        return 'ShopOrderStatus';
+      case _ibk2dfia.ShopOrderView():
+        return 'ShopOrderView';
       case _ig710w64.StaffInvite():
         return 'StaffInvite';
       case _igjtjhuj.StaffInviteSummary():
@@ -2763,6 +2965,18 @@ class Protocol extends _is.DatabaseSerializationManager
     if (dataClassName == 'QuizAnswerInput') {
       return deserialize<_ilw6ope9.QuizAnswerInput>(data['data']);
     }
+    if (dataClassName == 'ShopCheckout') {
+      return deserialize<_ijilqnse.ShopCheckout>(data['data']);
+    }
+    if (dataClassName == 'ShopOrder') {
+      return deserialize<_iebtnvku.ShopOrder>(data['data']);
+    }
+    if (dataClassName == 'ShopOrderStatus') {
+      return deserialize<_ik5inhen.ShopOrderStatus>(data['data']);
+    }
+    if (dataClassName == 'ShopOrderView') {
+      return deserialize<_ibk2dfia.ShopOrderView>(data['data']);
+    }
     if (dataClassName == 'StaffInvite') {
       return deserialize<_ig710w64.StaffInvite>(data['data']);
     }
@@ -2899,6 +3113,8 @@ class Protocol extends _is.DatabaseSerializationManager
         return _iqu8ign5.DeviceToken.t;
       case _ih1qnypb.QuizAnswer:
         return _ih1qnypb.QuizAnswer.t;
+      case _iebtnvku.ShopOrder:
+        return _iebtnvku.ShopOrder.t;
       case _ig710w64.StaffInvite:
         return _ig710w64.StaffInvite.t;
       case _ihm1xmqc.StaffMember:

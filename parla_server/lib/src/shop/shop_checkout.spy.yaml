@@ -1,0 +1,5 @@
+### A started order and Epoint's payment page to open in the browser.
+class: ShopCheckout
+fields:
+  number: String
+  paymentUrl: String

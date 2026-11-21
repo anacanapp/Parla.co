@@ -17,6 +17,8 @@ import 'package:parla_server/src/generated/consent/consent_type.dart'
     as _i1w7mn9k;
 import 'package:parla_server/src/generated/quiz/quiz_answer_input.dart'
     as _iak2pevv;
+import 'package:parla_server/src/generated/shop/shop_order_status.dart'
+    as _io5yimmx;
 import 'package:parla_server/src/generated/staff/staff_role.dart' as _i21eo3et;
 import 'package:parla_server/src/generated/stats/usage_report.dart'
     as _iw4kyb5s;
@@ -41,6 +43,8 @@ import '../routines/care_list_endpoint.dart' as _itrne0fi;
 import '../routines/nutrition_endpoint.dart' as _idep3gni;
 import '../routines/routine_endpoint.dart' as _ifrtvzp2;
 import '../routines/sport_endpoint.dart' as _iv36jnzl;
+import '../shop/shop_admin_endpoint.dart' as _i4j2quvp;
+import '../shop/shop_endpoint.dart' as _ig43k7x5;
 import '../staff/staff_admin_endpoint.dart' as _i73k1848;
 import '../staff/staff_endpoint.dart' as _ig11nxnn;
 import '../stats/activity_endpoint.dart' as _ilkw5wl2;
@@ -148,6 +152,18 @@ class Endpoints extends _is.EndpointDispatch {
         ..initialize(
           server,
           'sport',
+          null,
+        ),
+      'shopAdmin': _i4j2quvp.ShopAdminEndpoint()
+        ..initialize(
+          server,
+          'shopAdmin',
+          null,
+        ),
+      'shop': _ig43k7x5.ShopEndpoint()
+        ..initialize(
+          server,
+          'shop',
           null,
         ),
       'staffAdmin': _i73k1848.StaffAdminEndpoint()
@@ -1558,6 +1574,143 @@ class Endpoints extends _is.EndpointDispatch {
                   (endpoints['sport'] as _iv36jnzl.SportEndpoint).saveSport(
                     session,
                     params['json'],
+                  ),
+        ),
+      },
+    );
+    connectors['shopAdmin'] = _is.EndpointConnector(
+      name: 'shopAdmin',
+      endpoint: endpoints['shopAdmin']!,
+      methodConnectors: {
+        'orders': _is.MethodConnector(
+          name: 'orders',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['shopAdmin'] as _i4j2quvp.ShopAdminEndpoint)
+                  .orders(session),
+        ),
+        'setStatus': _is.MethodConnector(
+          name: 'setStatus',
+          params: {
+            'number': _is.ParameterDescription(
+              name: 'number',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+            'status': _is.ParameterDescription(
+              name: 'status',
+              type: _is.getType<_io5yimmx.ShopOrderStatus>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['shopAdmin'] as _i4j2quvp.ShopAdminEndpoint)
+                  .setStatus(
+                    session,
+                    params['number'],
+                    params['status'],
+                  ),
+        ),
+        'refund': _is.MethodConnector(
+          name: 'refund',
+          params: {
+            'number': _is.ParameterDescription(
+              name: 'number',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['shopAdmin'] as _i4j2quvp.ShopAdminEndpoint)
+                  .refund(
+                    session,
+                    params['number'],
+                  ),
+        ),
+      },
+    );
+    connectors['shop'] = _is.EndpointConnector(
+      name: 'shop',
+      endpoint: endpoints['shop']!,
+      methodConnectors: {
+        'salesOpen': _is.MethodConnector(
+          name: 'salesOpen',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['shop'] as _ig43k7x5.ShopEndpoint)
+                  .salesOpen(session),
+        ),
+        'startOrder': _is.MethodConnector(
+          name: 'startOrder',
+          params: {
+            'slug': _is.ParameterDescription(
+              name: 'slug',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+            'quantity': _is.ParameterDescription(
+              name: 'quantity',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+            'language': _is.ParameterDescription(
+              name: 'language',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['shop'] as _ig43k7x5.ShopEndpoint).startOrder(
+                    session,
+                    params['slug'],
+                    params['quantity'],
+                    params['language'],
+                  ),
+        ),
+        'myOrders': _is.MethodConnector(
+          name: 'myOrders',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['shop'] as _ig43k7x5.ShopEndpoint).myOrders(
+                session,
+              ),
+        ),
+        'refreshOrder': _is.MethodConnector(
+          name: 'refreshOrder',
+          params: {
+            'number': _is.ParameterDescription(
+              name: 'number',
+              type: _is.getType<String>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['shop'] as _ig43k7x5.ShopEndpoint).refreshOrder(
+                    session,
+                    params['number'],
                   ),
         ),
       },

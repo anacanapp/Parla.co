@@ -34,6 +34,11 @@ import 'package:parla_client/src/protocol/profile/member_profile.dart'
     as _isrsmpwu;
 import 'package:parla_client/src/protocol/quiz/quiz_answer_input.dart'
     as _ikoicjb8;
+import 'package:parla_client/src/protocol/shop/shop_checkout.dart' as _iezvlbke;
+import 'package:parla_client/src/protocol/shop/shop_order_status.dart'
+    as _ibxs43rj;
+import 'package:parla_client/src/protocol/shop/shop_order_view.dart'
+    as _ikoh500j;
 import 'package:parla_client/src/protocol/staff/staff_invite_summary.dart'
     as _ivj2ydpk;
 import 'package:parla_client/src/protocol/staff/staff_me.dart' as _i7hd0p59;
@@ -1062,6 +1067,94 @@ class EndpointSport extends _isc.EndpointRef {
   );
 }
 
+/// Orders in the admin panel (admins only). No buyer details are shown:
+/// there are none yet besides the account, which stays hidden.
+/// {@category Endpoint}
+class EndpointShopAdmin extends _isc.EndpointRef {
+  EndpointShopAdmin(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'shopAdmin';
+
+  _ida.Future<List<_ikoh500j.ShopOrderView>> orders() =>
+      caller.callServerEndpoint<List<_ikoh500j.ShopOrderView>>(
+        'shopAdmin',
+        'orders',
+        {},
+      );
+
+  /// Moves an order on: paid → shipped → delivered, or cancels one that
+  /// was never paid.
+  _ida.Future<_ikoh500j.ShopOrderView> setStatus(
+    String number,
+    _ibxs43rj.ShopOrderStatus status,
+  ) => caller.callServerEndpoint<_ikoh500j.ShopOrderView>(
+    'shopAdmin',
+    'setStatus',
+    {
+      'number': number,
+      'status': status,
+    },
+  );
+
+  /// Returns the money of a paid order through Epoint.
+  _ida.Future<_ikoh500j.ShopOrderView> refund(String number) =>
+      caller.callServerEndpoint<_ikoh500j.ShopOrderView>(
+        'shopAdmin',
+        'refund',
+        {'number': number},
+      );
+}
+
+/// The buyer's side of in-app sales: whether they are open, starting an
+/// order and "My orders". Card details are entered on Epoint's page only.
+/// {@category Endpoint}
+class EndpointShop extends _isc.EndpointRef {
+  EndpointShop(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'shop';
+
+  /// Whether products sold in the app may be offered now.
+  _ida.Future<bool> salesOpen() => caller.callServerEndpoint<bool>(
+    'shop',
+    'salesOpen',
+    {},
+  );
+
+  /// Starts an order and returns Epoint's payment page.
+  _ida.Future<_iezvlbke.ShopCheckout> startOrder(
+    String slug,
+    int quantity,
+    String language,
+  ) => caller.callServerEndpoint<_iezvlbke.ShopCheckout>(
+    'shop',
+    'startOrder',
+    {
+      'slug': slug,
+      'quantity': quantity,
+      'language': language,
+    },
+  );
+
+  /// The caller's orders, newest first.
+  _ida.Future<List<_ikoh500j.ShopOrderView>> myOrders() =>
+      caller.callServerEndpoint<List<_ikoh500j.ShopOrderView>>(
+        'shop',
+        'myOrders',
+        {},
+      );
+
+  /// One of the caller's orders, asking Epoint first when it still waits
+  /// for the payment.
+  _ida.Future<_ikoh500j.ShopOrderView> refreshOrder(String number) =>
+      caller.callServerEndpoint<_ikoh500j.ShopOrderView>(
+        'shop',
+        'refreshOrder',
+        {'number': number},
+      );
+}
+
 /// Staff accounts, for admins only (second factor required).
 /// {@category Endpoint}
 class EndpointStaffAdmin extends _isc.EndpointRef {
@@ -1409,6 +1502,8 @@ class Client extends _isc.ServerpodClientShared {
     nutrition = EndpointNutrition(this);
     routine = EndpointRoutine(this);
     sport = EndpointSport(this);
+    shopAdmin = EndpointShopAdmin(this);
+    shop = EndpointShop(this);
     staffAdmin = EndpointStaffAdmin(this);
     staff = EndpointStaff(this);
     activity = EndpointActivity(this);
@@ -1452,6 +1547,10 @@ class Client extends _isc.ServerpodClientShared {
 
   late final EndpointSport sport;
 
+  late final EndpointShopAdmin shopAdmin;
+
+  late final EndpointShop shop;
+
   late final EndpointStaffAdmin staffAdmin;
 
   late final EndpointStaff staff;
@@ -1488,6 +1587,8 @@ class Client extends _isc.ServerpodClientShared {
     'nutrition': nutrition,
     'routine': routine,
     'sport': sport,
+    'shopAdmin': shopAdmin,
+    'shop': shop,
     'staffAdmin': staffAdmin,
     'staff': staff,
     'activity': activity,

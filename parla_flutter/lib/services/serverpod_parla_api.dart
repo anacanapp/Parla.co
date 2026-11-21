@@ -275,6 +275,48 @@ class ServerpodParlaApi implements ParlaApi {
     disableAnonymousSignInWidget: true,
   );
 
+  @override
+  Future<bool> shopSalesOpen() => _guard(_client.shop.salesOpen);
+
+  @override
+  Future<({String number, Uri paymentPage})> startShopOrder(
+    String slug,
+    int quantity,
+    String language,
+  ) => _guard(() async {
+    final c = await _client.shop.startOrder(slug, quantity, language);
+    return (number: c.number, paymentPage: Uri.parse(c.paymentUrl));
+  });
+
+  @override
+  Future<List<ShopOrderItem>> myShopOrders() => _guard(() async {
+    final rows = await _client.shop.myOrders();
+    return [for (final r in rows) _order(r)];
+  });
+
+  @override
+  Future<ShopOrderItem> refreshShopOrder(String number) =>
+      _guard(() async => _order(await _client.shop.refreshOrder(number)));
+
+  static ShopOrderItem _order(ShopOrderView v) {
+    Map<String, Object?> title;
+    try {
+      title = (jsonDecode(v.productTitle) as Map).cast<String, Object?>();
+    } on Object {
+      title = {'az': v.productTitle};
+    }
+    return ShopOrderItem(
+      number: v.number,
+      productSlug: v.productSlug,
+      productTitle: title,
+      brand: v.brand,
+      quantity: v.quantity,
+      totalQepik: v.totalQepik,
+      status: v.status.name,
+      createdAt: v.createdAt,
+    );
+  }
+
   Future<T> _guard<T>(Future<T> Function() call) async {
     try {
       return await call();

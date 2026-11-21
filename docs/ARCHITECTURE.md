@@ -715,6 +715,49 @@ area: `face`, `hair`, `body`, `makeup` or `other`.
   `productTap`, by slug) as anonymous daily totals under the analytics
   consent; the dashboard shows the top products and taps.
 
+## Shop (phase 2: in-app sales with Epoint)
+
+Products with `sale: own` are sold in the app. Sales stay **closed** until
+the server has Epoint's keys (`epointPublicKey`, `epointPrivateKey`) **and**
+the `shopSalesOpen` switch is on (Terraform `enable_shop_payments`,
+`shop_sales_open`). Until then the app does not offer these products.
+
+- **Paying:** the app asks the user to confirm. The confirmation shows the
+  product, the price and the seller (Parla, or the brand with Parla taking
+  the payment). The server then:
+  - creates the order with the **published** price;
+  - asks Epoint for a payment page (`/api/1/request`, signed
+    `base64(sha1(key + data + key))`);
+  - the app opens that page in the browser.
+
+  The card is entered on Epoint's page only. The payment description holds
+  only the order number.
+- **Result:** Epoint posts a signed report to `/shop/epoint/result` (the
+  load balancer sends `/shop/*` to the web server).
+  - A report with a bad signature, an unknown order or a wrong amount
+    changes nothing.
+  - A success marks the order paid, once.
+  - The cardholder's name, card mask and bank references in the report are
+    never stored or logged.
+  - If a report is lost, "My orders" asks Epoint for the status
+    (`/api/1/get-status`).
+- **Return page:** `/shop/done` asks the buyer to go back to the app. It
+  shows nothing about the order.
+- **Orders** (`shop_order`) hold the following, and no card or delivery
+  details:
+  - number, account, product, its name at the time, brand, seller;
+  - quantity, amounts in qəpik, status, Epoint's transaction id.
+
+  Delivery details come in the next step: encrypted and deleted after
+  delivery, owner's decision of 2026-11-21, lawyer to confirm.
+- **Limits:** at most 10 items per order and 5 orders per account per hour.
+- **Admin → Sifarişlər:** admins mark an order shipped or delivered, cancel
+  an unpaid order, or refund a paid one through Epoint (`/api/1/reverse`).
+  The panel never shows the buyer's account. Every step is audited
+  (`shop.*`).
+- **Account deletion:** orders are kept for accounting, with the account's
+  id replaced by its pseudonym (as for consent records).
+
 ## Messages and support (admin phase D2)
 
 **Announcements** are content items of the kind `message`.
@@ -934,6 +977,8 @@ idempotent).
 | Privacy policy and processor list: Firebase (Google) for push, the marketing push under the marketing consent | — | Lawyer, before push is used |
 | Privacy policy: support conversations (purpose, encryption, 12-month retention, support role), announcements | — | Lawyer, before the beta |
 | Advertising law check for brand campaigns (Azerbaijan "Reklam haqqında" law; labelling, cosmetics claims) | — | Lawyer, before the first brand campaign |
+| Shop in-app sales: sale terms, returns and withdrawal, the seller shown (Parla or the brand with Parla as payment agent), keeping orders under a pseudonym after account deletion (for how long), Epoint as processor | — | Lawyer, before shop_sales_open |
+| Shop in-app sales: fiscal receipts (e-kassa) and VAT for Parla's own and brands' sales | — | Accountant, before shop_sales_open |
 | Shop: consumer-law texts for partner products (Parla shows, the partner sells), price and stock disclaimers, cosmetics claims in product texts | — | Lawyer, before the Shop is public |
 | Privacy policy: ads under articles and recipes chosen by the page's topic (context, not the user), links to brands' websites (asked first; only Parla's campaign tags added; the brand's own privacy rules apply there), campaign reports given to advertisers as totals with counts under 10 hidden, advertisers' company data kept in the panel | — | Lawyer, before the first brand campaign |
 | Privacy policy: usage statistics under the analytics consent (what is counted, 30-day activity marks, 24-month daily totals, banner figures shared with advertisers as totals), staff look-ups of accounts, deletion on request | — | Lawyer, before the beta |

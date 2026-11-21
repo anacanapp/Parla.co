@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'api/admin_api.dart';
 import 'screens/ads_screen.dart';
 import 'screens/auth_screens.dart';
+import 'screens/orders_screen.dart';
 import 'screens/content_screens.dart';
 import 'screens/overview_screen.dart';
 import 'screens/dashboard_screen.dart';
@@ -129,6 +130,11 @@ GoRouter _buildRouter(StaffState state) => GoRouter(
           path: '/dashboard',
           redirect: (_, _) => state.isAdmin ? null : '/overview',
           builder: (_, _) => DashboardScreen(state: state),
+        ),
+        GoRoute(
+          path: '/orders',
+          redirect: (_, _) => state.isAdmin ? null : '/overview',
+          builder: (_, _) => OrdersScreen(state: state),
         ),
         GoRoute(
           path: '/ads',

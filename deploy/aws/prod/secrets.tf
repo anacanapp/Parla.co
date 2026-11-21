@@ -36,3 +36,15 @@ resource "aws_secretsmanager_secret" "fcm" {
   kms_key_id              = aws_kms_key.main.arn
   recovery_window_in_days = 7
 }
+
+# In-app Shop sales (phase 2): Epoint's merchant keys as one JSON secret
+# {"publicKey": "...", "privateKey": "..."}. Created empty;
+# deploy/aws/put-prod-epoint-secret.sh stores it once, so the keys never
+# pass through Terraform or its state. The server reads it only when
+# var.enable_shop_payments is true.
+resource "aws_secretsmanager_secret" "epoint" {
+  name                    = "${var.name}/epoint"
+  description             = "Epoint merchant keys (SERVERPOD_PASSWORD_epointPublicKey, epointPrivateKey)"
+  kms_key_id              = aws_kms_key.main.arn
+  recovery_window_in_days = 7
+}
