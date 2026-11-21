@@ -80,7 +80,7 @@ void main() {
     expect(chip, isTrue);
     expect(
       tester.getSemantics(find.text('Axşam · 0/3')),
-      containsSemantics(isButton: true, isSelected: true),
+      isSemantics(isButton: true, isSelected: true),
     );
     await tester.tap(find.text('Saç'));
     await tester.pump();
