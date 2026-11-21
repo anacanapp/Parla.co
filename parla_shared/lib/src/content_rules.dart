@@ -38,7 +38,12 @@ enum ContentKind {
 
   /// A push notification campaign (phase D3), sent once on publishing to
   /// accounts with the marketing consent.
-  push;
+  push,
+
+  /// A product in the Shop. Either sold on a partner's website (`redirect`)
+  /// or sold in the app (`own`, by Parla or by the brand through Parla).
+  /// Its texts are checked by an expert like every other content.
+  product;
 
   bool get isCatalogue =>
       this == preference || this == exercise || this == step;
@@ -55,6 +60,30 @@ abstract final class ContentRules {
     'body',
   ];
   static const recipeMeals = ['breakfast', 'lunch', 'dinner', 'snack'];
+
+  /// Shop categories (the same areas as the shopping list, plus make-up).
+  static const productCategories = ['face', 'hair', 'body', 'makeup', 'other'];
+
+  /// How a product is sold: on a partner's website, or in the app.
+  static const productSales = ['redirect', 'own'];
+
+  /// Who sells a product sold in the app: Parla itself, or the brand with
+  /// Parla taking the payment.
+  static const productSellers = ['parla', 'brand'];
+
+  /// A price in manat with at most two decimals (e.g. "12.50"), up to
+  /// 99999.99.
+  static final productPrice = RegExp(r'^(0|[1-9][0-9]{0,4})(\.[0-9]{1,2})?$');
+
+  /// The price in qəpik (1/100 manat), or `null` when [price] is not valid.
+  static int? priceQepik(Object? price) {
+    if (price is! String || !productPrice.hasMatch(price)) return null;
+    final parts = price.split('.');
+    final cents = parts.length == 1 ? 0 : int.parse(parts[1].padRight(2, '0'));
+    final value = int.parse(parts[0]) * 100 + cents;
+    return value > 0 ? value : null;
+  }
+
   static const plateGroups = [
     'vegetables',
     'fruit',
@@ -353,6 +382,7 @@ abstract final class ContentRules {
     ContentKind.banner => bannerPlacements,
     ContentKind.message => const ['announcement'],
     ContentKind.push => const ['marketing'],
+    ContentKind.product => productCategories,
   };
 
   /// Problems with [encoded] as content of [kind]; empty when it is valid.
@@ -637,6 +667,68 @@ abstract final class ContentRules {
         text('title', 80);
         text('body', 2000);
         _schedule(json, complete, out);
+      case ContentKind.product:
+        only({
+          'name',
+          'description',
+          'brand',
+          'image',
+          'price',
+          'sale',
+          'url',
+          'seller',
+          'campaign',
+          'sponsor',
+        });
+        text('name', 80);
+        text('description', maxSummary * 2, required: false);
+        final brand = json['brand'];
+        if (brand == null) {
+          if (complete) out.add('brand.missing');
+        } else if (brand is! String ||
+            brand.trim().isEmpty ||
+            brand.length > 60) {
+          out.add('brand.invalid');
+        }
+        final price = json['price'];
+        if (price == null) {
+          if (complete) out.add('price.missing');
+        } else if (priceQepik(price) == null) {
+          out.add('price.invalid');
+        }
+        final sale = json['sale'];
+        final url = json['url'];
+        final seller = json['seller'];
+        if (sale == null) {
+          if (complete) out.add('sale.missing');
+        } else if (!productSales.contains(sale)) {
+          out.add('sale.invalid');
+        }
+        if (url != null && (url is! String || !isAdUrl(url))) {
+          out.add('url.invalid');
+        }
+        if (seller != null && !productSellers.contains(seller)) {
+          out.add('seller.invalid');
+        }
+        if (sale == 'redirect') {
+          if (url == null && complete) out.add('url.missing');
+          if (seller != null) out.add('seller.unexpected');
+        } else if (sale == 'own') {
+          if (url != null) out.add('url.unexpected');
+          if (seller == null && complete) out.add('seller.missing');
+        }
+        final campaign = json['campaign'];
+        if (campaign != null && (campaign is! int || campaign < 1)) {
+          out.add('campaign.invalid');
+        }
+        final sponsor = json['sponsor'];
+        if (sponsor != null &&
+            (sponsor is! String ||
+                sponsor.trim().isEmpty ||
+                sponsor.length > 60)) {
+          out.add('sponsor.invalid');
+        }
+        if (complete && json['image'] == null) out.add('image.missing');
       case ContentKind.expert:
         only({
           'name',

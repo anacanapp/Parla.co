@@ -596,9 +596,27 @@
   "careListDevice": "For now your preferences and shopping list are kept only on this phone. With the updated health consent they will be kept encrypted on our server.",
   "shopTitle": "Parla Shop",
   "shopBody": "The products in your routine, in one tap. You will be able to order your shopping list directly and find products that fit your picks.",
-  "shopSoonCard": "Parla Shop is coming",
-  "shopSoonCardBody": "You will be able to order your list directly",
+  "shopSoonCard": "Parla Shop",
+  "shopSoonCardBody": "See products from our partners",
   "shopOpenList": "See my shopping list",
+  "shopIntro": "Products from partners. You buy on the partner's site; Parla passes on nothing about you.",
+  "shopAll": "All",
+  "shopCategoryFace": "Face",
+  "shopCategoryHair": "Hair",
+  "shopCategoryBody": "Body",
+  "shopCategoryMakeup": "Make-up",
+  "shopCategoryOther": "Other",
+  "shopPrice": "{price} ₼",
+  "@shopPrice": {
+    "placeholders": {
+      "price": {
+        "type": "String"
+      }
+    }
+  },
+  "shopVisitPartner": "Go to the partner's site",
+  "shopPriceNote": "Price and stock may change on the partner's site. Check the ingredients before you buy; if you have a skin problem, ask a doctor.",
+  "shopEmpty": "No products yet. They will be here soon.",
   "sportIntroTitle": "A workout plan made for you",
   "sportIntroBody": "A few questions: goal, areas, the workouts you like. Then a weekly plan with sets, reps and a timer. Music plays from your own app.",
   "sportStart": "Start",
@@ -987,7 +1005,7 @@
       }
     }
   },
-  "bannerLeaveTitle": "Going to the brand's site",
+  "bannerLeaveTitle": "Leaving Parla",
   "bannerLeaveBody": "{host} will open in your browser. Parla sends this site nothing about you; the site has its own privacy rules.",
   "@bannerLeaveBody": {
     "placeholders": {

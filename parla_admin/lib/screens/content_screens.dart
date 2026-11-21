@@ -627,6 +627,9 @@ enum _FieldType {
 
   /// Hashtags per language, typed as "#one #two".
   tags,
+
+  /// One code of [_Field.options], as choice chips.
+  choice,
 }
 
 class _Field {
@@ -649,6 +652,44 @@ class _Field {
 }
 
 const _fields = <String, List<_Field>>{
+  'product': [
+    _Field('name', 'Ad', _FieldType.line),
+    _Field(
+      'description',
+      'Təsvir (neytral, sağlamlıq vədi olmadan)',
+      _FieldType.multiline,
+    ),
+    _Field('brand', 'Brend', _FieldType.plain, localized: false),
+    _Field(
+      'price',
+      'Qiymət, AZN (məs. 12.50)',
+      _FieldType.plain,
+      localized: false,
+    ),
+    _Field(
+      'sale',
+      'Necə satılır',
+      _FieldType.choice,
+      localized: false,
+      options: ['redirect', 'own'],
+    ),
+    _Field(
+      'url',
+      'Partnyorun səhifəsi (https://…)',
+      _FieldType.plain,
+      localized: false,
+      help:
+          'Toxunanda istifadəçidən soruşulur və sayt brauzerdə açılır. '
+          'Linkə yalnız utm_source=parla əlavə olunur.',
+    ),
+    _Field(
+      'seller',
+      'Satıcı',
+      _FieldType.choice,
+      localized: false,
+      options: ['parla', 'brand'],
+    ),
+  ],
   'push': [
     _Field('title', 'Başlıq (ən çox 60 simvol)', _FieldType.line),
     _Field('body', 'Mətn (ən çox 180 simvol)', _FieldType.multiline),
@@ -888,6 +929,9 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
   /// Values of [_FieldType.multi] fields.
   final Map<String, Set<String>> _multi = {};
 
+  /// Values of [_FieldType.choice] fields.
+  final Map<String, String?> _choice = {};
+
   /// `null` until chosen; empty means "none of the 14 allergens".
   Set<String>? _allergens;
   final Map<String, TextEditingController> _plain = {};
@@ -903,7 +947,8 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
     for (final f in _defs) {
       if (f.type == _FieldType.groups ||
           f.type == _FieldType.allergens ||
-          f.type == _FieldType.multi) {
+          f.type == _FieldType.multi ||
+          f.type == _FieldType.choice) {
         continue;
       }
       if (f.localized) {
@@ -915,7 +960,9 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
       }
     }
     _load();
-    if (_kind == ContentKind.banner) _loadCampaigns();
+    if (_kind == ContentKind.banner || _kind == ContentKind.product) {
+      _loadCampaigns();
+    }
   }
 
   Future<void> _loadCampaigns() async {
@@ -931,6 +978,17 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
   /// its placement.
   List<String> _optionsOf(_Field f) =>
       f.key == 'topics' ? ContentRules.bannerTopics(_category) : f.options;
+
+  /// A product shows its partner link only when sold on the partner's
+  /// site, and its seller only when sold in the app.
+  bool _shown(_Field f) {
+    if (_kind != ContentKind.product) return true;
+    return switch (f.key) {
+      'url' => _choice['sale'] == 'redirect',
+      'seller' => _choice['sale'] == 'own',
+      _ => true,
+    };
+  }
 
   @override
   void dispose() {
@@ -980,6 +1038,8 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           _multi[f.key] = {
             ...(json[f.key] as List? ?? const []).cast<String>(),
           };
+        case _FieldType.choice:
+          _choice[f.key] = json[f.key] as String?;
         case _FieldType.allergens:
           final v = json['allergens'];
           _allergens = v is List ? v.cast<String>().toSet() : null;
@@ -1049,8 +1109,11 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
       ];
     }
 
-    for (final f in _defs) {
+    for (final f in _defs.where(_shown)) {
       switch (f.type) {
+        case _FieldType.choice:
+          final v = _choice[f.key];
+          if (v != null) out[f.key] = v;
         case _FieldType.groups:
           if (_groups.isNotEmpty) {
             out['groups'] = [
@@ -1128,6 +1191,9 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           final v = loc(f.key);
           if (v != null) out[f.key] = v;
       }
+    }
+    if (_kind == ContentKind.product && _campaign != null) {
+      out['campaign'] = _campaign;
     }
     if (_kind == ContentKind.banner) {
       if (_campaign != null) {
@@ -1440,6 +1506,17 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
     final languages = ContentRules.languages;
 
     final notices = <Widget>[
+      if (_kind == ContentKind.product)
+        const Notice(
+          key: ValueKey('product-note'),
+          icon: Icons.shopping_bag_outlined,
+          title: 'Mağaza məhsulu',
+          body:
+              'Mətni ekspert yoxlayıb təsdiqləyir: "zərərli" sözü, bal və ya '
+              'sağlamlıq vədi olmamalıdır. Kampaniyaya bağlansa "Reklam · '
+              'brend" nişanı ilə çıxır. Tətbiqdə satış (Parla və ya brend '
+              'satır) ödəniş qoşulana qədər tətbiqdə görünmür.',
+        ),
       if (_kind == ContentKind.banner &&
           ContentRules.isSponsored(jsonDecode(_json()) as Map<String, Object?>))
         const Notice(
@@ -1525,8 +1602,23 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
             'açılmazdan əvvəl bütün nümunələri silin.',
           ),
         ),
-      for (final f in _defs.where((f) => !f.localized)) ...[
-        if (f.type == _FieldType.multi && _optionsOf(f).isEmpty)
+      for (final f in _defs.where((f) => !f.localized && _shown(f))) ...[
+        if (f.type == _FieldType.choice)
+          _ChipGroup(
+            label: f.label,
+            children: [
+              for (final o in f.options)
+                ChoiceChip(
+                  key: ValueKey('choice-${f.key}-$o'),
+                  label: Text(choiceLabel(o)),
+                  selected: _choice[f.key] == o,
+                  onSelected: writer
+                      ? (on) => setState(() => _choice[f.key] = on ? o : null)
+                      : null,
+                ),
+            ],
+          )
+        else if (f.type == _FieldType.multi && _optionsOf(f).isEmpty)
           const SizedBox.shrink()
         else if (f.type == _FieldType.multi)
           _ChipGroup(
@@ -1657,6 +1749,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           ContentKind.expert,
           ContentKind.exercise,
           ContentKind.banner,
+          ContentKind.product,
         }.contains(_kind)) ...[
           SectionCard(
             title: 'Şəkil',
@@ -1704,7 +1797,8 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
                 ),
                 const SizedBox(height: 14),
               ],
-              if (_kind == ContentKind.banner) ...[
+              if (_kind == ContentKind.banner ||
+                  _kind == ContentKind.product) ...[
                 _campaignPicker(writer),
                 const SizedBox(height: 14),
               ],

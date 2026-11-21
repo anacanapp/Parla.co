@@ -291,7 +291,7 @@ void main() {
     );
 
     await _tap(tester, find.byKey(const ValueKey('shop-soon')));
-    expect(find.text('Parla Shop'), findsOneWidget);
+    expect(find.text('Parla Shop'), findsWidgets);
     // No sign-up for news on the shop screen.
     expect(find.byType(Switch), findsNothing);
     await _tap(tester, find.text('See my shopping list'));

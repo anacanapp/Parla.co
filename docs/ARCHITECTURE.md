@@ -688,6 +688,33 @@ spreadsheet formulas are escaped) or as an A4 PDF made in the browser with
 the panel's own font. Only these totals go to an advertiser. Every change
 and every report opened is audited (`ads.*`, ids only).
 
+## Shop (phase 1: catalogue and partner links)
+
+Products are content items of the kind `product`. Their category is a Shop
+area: `face`, `hair`, `body`, `makeup` or `other`.
+
+- **Fields:** name and description in three languages, brand, image, price
+  in manat (`"12.50"`; `ContentRules.priceQepik`).
+- **How it is sold** (`sale`):
+  - `redirect`: on a partner's website (`url`, https only, as for
+    banners). The app asks before leaving and adds only Parla's campaign
+    tags.
+  - `own`: sold in the app; the `seller` is `parla` or `brand` (the brand
+    sells and Parla takes the payment). The app does not show these until
+    in-app payment (phase 2) is switched on.
+- **Review:** every product needs an expert's approval, admins included. The
+  texts must have no "harmful" wording, no scores and no health promises.
+- **Ads:** a product joined to a campaign is shown first, with the
+  "Ad · <brand>" label; the server writes the brand from the advertiser
+  (a brand typed by hand is dropped). Campaign reports count its opens and
+  button taps.
+- **Nothing about the user chooses products:** no routine, health, quiz or
+  journal answers; the list is the same for everyone, filtered only by the
+  category the user picks.
+- **Counting:** product opens and button taps (`UsageEvent.product`,
+  `productTap`, by slug) as anonymous daily totals under the analytics
+  consent; the dashboard shows the top products and taps.
+
 ## Messages and support (admin phase D2)
 
 **Announcements** are content items of the kind `message`.
@@ -907,6 +934,7 @@ idempotent).
 | Privacy policy and processor list: Firebase (Google) for push, the marketing push under the marketing consent | — | Lawyer, before push is used |
 | Privacy policy: support conversations (purpose, encryption, 12-month retention, support role), announcements | — | Lawyer, before the beta |
 | Advertising law check for brand campaigns (Azerbaijan "Reklam haqqında" law; labelling, cosmetics claims) | — | Lawyer, before the first brand campaign |
+| Shop: consumer-law texts for partner products (Parla shows, the partner sells), price and stock disclaimers, cosmetics claims in product texts | — | Lawyer, before the Shop is public |
 | Privacy policy: ads under articles and recipes chosen by the page's topic (context, not the user), links to brands' websites (asked first; only Parla's campaign tags added; the brand's own privacy rules apply there), campaign reports given to advertisers as totals with counts under 10 hidden, advertisers' company data kept in the panel | — | Lawyer, before the first brand campaign |
 | Privacy policy: usage statistics under the analytics consent (what is counted, 30-day activity marks, 24-month daily totals, banner figures shared with advertisers as totals), staff look-ups of accounts, deletion on request | — | Lawyer, before the beta |
 | Privacy policy text for staff access, the admin panel and push notifications | — | Lawyer, before phase D |

@@ -455,6 +455,44 @@ void main() {
     );
   });
 
+  testWidgets('products: partner link or in-app sale with a seller', (
+    tester,
+  ) async {
+    final api = await _pump(tester, StaffRole.editor);
+    await _tap(tester, _nav('Məzmun'));
+    await _tap(tester, find.byKey(const ValueKey('kind-product')));
+    await _tap(tester, find.byKey(const ValueKey('content-new')));
+    await tester.enterText(find.byKey(const ValueKey('new-slug')), 'krem');
+    await _tap(tester, find.byKey(const ValueKey('new-create')));
+    expect(find.byKey(const ValueKey('product-note')), findsOneWidget);
+    expect(find.byKey(const ValueKey('banner-campaign')), findsOneWidget);
+
+    await _type(tester, 'field-name-az', 'Krem');
+    await _type(tester, 'field-brand', 'Brand X');
+    await _type(tester, 'field-price', '12.50');
+    expect(find.byKey(const ValueKey('field-url')), findsNothing);
+    await _tap(tester, find.byKey(const ValueKey('choice-sale-redirect')));
+    expect(find.byKey(const ValueKey('choice-seller-parla')), findsNothing);
+    await _type(tester, 'field-url', 'https://partner.az/krem');
+    await _tap(tester, find.byKey(const ValueKey('content-save')));
+    var saved = api.calls.lastWhere((c) => c.startsWith('save:'));
+    var json = jsonDecode(saved.substring(saved.indexOf('{'))) as Map;
+    expect(json['sale'], 'redirect');
+    expect(json['url'], 'https://partner.az/krem');
+    expect(json['price'], '12.50');
+
+    // Sold in the app: a seller instead of a link.
+    await _tap(tester, find.byKey(const ValueKey('choice-sale-own')));
+    expect(find.byKey(const ValueKey('field-url')), findsNothing);
+    await _tap(tester, find.byKey(const ValueKey('choice-seller-brand')));
+    await _tap(tester, find.byKey(const ValueKey('content-save')));
+    saved = api.calls.lastWhere((c) => c.startsWith('save:'));
+    json = jsonDecode(saved.substring(saved.indexOf('{'))) as Map;
+    expect(json['sale'], 'own');
+    expect(json['seller'], 'brand');
+    expect(json.containsKey('url'), isFalse);
+  });
+
   testWidgets('push: an admin sends once after confirming', (tester) async {
     final api = await _pump(tester, StaffRole.admin);
     await _tap(tester, _nav('Məzmun'));

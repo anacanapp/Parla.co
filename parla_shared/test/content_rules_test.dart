@@ -445,6 +445,93 @@ void main() {
     });
   });
 
+  group('products', () {
+    final product = {
+      'name': _l('Nəmləndirici krem'),
+      'description': _l('Quru dəri üçün'),
+      'brand': 'Brand X',
+      'image': 5,
+      'price': '12.50',
+      'sale': 'redirect',
+      'url': 'https://brand.az/krem',
+    };
+
+    test('a partner product is complete; categories are the shop areas', () {
+      expect(_p(ContentKind.product, product, complete: true), isEmpty);
+      expect(ContentRules.categoriesFor(ContentKind.product), [
+        'face',
+        'hair',
+        'body',
+        'makeup',
+        'other',
+      ]);
+      // Products are always checked by an expert.
+      expect(ContentRules.reviewerRole(ContentKind.product, product), 'expert');
+      expect(
+        ContentRules.adminPublishesDirectly(ContentKind.product, product),
+        isFalse,
+      );
+    });
+
+    test('price, sale, seller and links are checked', () {
+      for (final bad in ['0', '-1', '12.505', '1,50', '100000', 12.5]) {
+        expect(
+          _p(ContentKind.product, {...product, 'price': bad}),
+          contains('price.invalid'),
+          reason: '$bad',
+        );
+      }
+      expect(ContentRules.priceQepik('12.5'), 1250);
+      expect(ContentRules.priceQepik('0.99'), 99);
+      expect(ContentRules.priceQepik('7'), 700);
+      expect(ContentRules.priceQepik('0'), isNull);
+      expect(
+        _p(ContentKind.product, {...product}..remove('url'), complete: true),
+        contains('url.missing'),
+      );
+      expect(
+        _p(ContentKind.product, {...product, 'url': 'http://brand.az'}),
+        contains('url.invalid'),
+      );
+      expect(
+        _p(ContentKind.product, {...product, 'seller': 'parla'}),
+        contains('seller.unexpected'),
+      );
+      final own = {...product, 'sale': 'own', 'seller': 'brand'}..remove('url');
+      expect(_p(ContentKind.product, own, complete: true), isEmpty);
+      expect(
+        _p(ContentKind.product, {...own, 'url': 'https://brand.az'}),
+        contains('url.unexpected'),
+      );
+      expect(
+        _p(ContentKind.product, {...own}..remove('seller'), complete: true),
+        contains('seller.missing'),
+      );
+      expect(
+        _p(ContentKind.product, {...own, 'seller': 'shop'}),
+        contains('seller.invalid'),
+      );
+      expect(
+        _p(ContentKind.product, {...product, 'sale': 'gift'}),
+        contains('sale.invalid'),
+      );
+      expect(
+        _p(ContentKind.product, {...product}..remove('image'), complete: true),
+        contains('image.missing'),
+      );
+      expect(
+        _p(ContentKind.product, {...product, 'score': 3}),
+        contains('score.unknown'),
+      );
+    });
+
+    test('a product in a brand campaign is an ad', () {
+      final ad = {...product, 'campaign': 3};
+      expect(ContentRules.isSponsored(ad), isTrue);
+      expect(ContentRules.isSponsored(product), isFalse);
+    });
+  });
+
   test('messages: team announcements, admin publishes directly', () {
     final message = {
       'title': _l('Yenilik'),

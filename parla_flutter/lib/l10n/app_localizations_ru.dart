@@ -1088,13 +1088,50 @@ class AppLocalizationsRu extends AppLocalizations {
       'Продукты из твоей рутины в одно касание. Ты сможешь заказать список покупок напрямую и находить продукты по своим предпочтениям.';
 
   @override
-  String get shopSoonCard => 'Parla Магазин скоро';
+  String get shopSoonCard => 'Parla Магазин';
 
   @override
-  String get shopSoonCardBody => 'Ты сможешь заказать список напрямую';
+  String get shopSoonCardBody => 'Товары наших партнёров';
 
   @override
   String get shopOpenList => 'Открыть мой список покупок';
+
+  @override
+  String get shopIntro =>
+      'Товары партнёров. Покупка проходит на сайте партнёра; Parla ничего о тебе не передаёт.';
+
+  @override
+  String get shopAll => 'Все';
+
+  @override
+  String get shopCategoryFace => 'Лицо';
+
+  @override
+  String get shopCategoryHair => 'Волосы';
+
+  @override
+  String get shopCategoryBody => 'Тело';
+
+  @override
+  String get shopCategoryMakeup => 'Макияж';
+
+  @override
+  String get shopCategoryOther => 'Другое';
+
+  @override
+  String shopPrice(String price) {
+    return '$price ₼';
+  }
+
+  @override
+  String get shopVisitPartner => 'Перейти на сайт партнёра';
+
+  @override
+  String get shopPriceNote =>
+      'Цена и наличие на сайте партнёра могут измениться. Перед покупкой проверь состав; при проблемах с кожей посоветуйся с врачом.';
+
+  @override
+  String get shopEmpty => 'Пока нет товаров. Скоро они появятся здесь.';
 
   @override
   String get sportIntroTitle => 'План тренировок для тебя';
@@ -1706,7 +1743,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get bannerLeaveTitle => 'Переход на сайт бренда';
+  String get bannerLeaveTitle => 'Переход на другой сайт';
 
   @override
   String bannerLeaveBody(String host) {

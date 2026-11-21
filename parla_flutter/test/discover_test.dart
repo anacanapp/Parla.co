@@ -614,6 +614,84 @@ void main() {
     expect(find.text('Ad · Brand Z'), findsOneWidget);
   });
 
+  testWidgets('shop: partner products, ads first and labelled, the '
+      'partner site only after asking; in-app sales stay hidden', (
+    tester,
+  ) async {
+    final opened = <Uri>[];
+    final original = BannerCard.launcher;
+    BannerCard.launcher = (uri) async {
+      opened.add(uri);
+      return true;
+    };
+    addTearDown(() => BannerCard.launcher = original);
+    PublishedItem product(
+      int id,
+      String slug,
+      String category,
+      Map<String, Object?> data,
+    ) => PublishedItem(
+      id: id,
+      kind: 'product',
+      slug: slug,
+      category: category,
+      publishedAt: DateTime.utc(2026, 11, id),
+      data: {
+        'brand': 'Brand',
+        'price': '12.50',
+        'sale': 'redirect',
+        'url': 'https://partner.az/p/$slug',
+        ...data,
+      },
+    );
+    await _open(
+      tester,
+      published: {
+        ..._published,
+        'product': [
+          product(1, 'cream', 'face', {'name': _l('Day cream')}),
+          product(2, 'serum', 'face', {
+            'name': _l('Serum'),
+            'campaign': 4,
+            'sponsor': 'Brand X',
+          }),
+          product(3, 'shampoo', 'hair', {'name': _l('Shampoo')}),
+          product(4, 'own', 'face', {
+            'name': _l('Own sale'),
+            'sale': 'own',
+            'seller': 'parla',
+          })..data.remove('url'),
+        ],
+      },
+    );
+    await _tap(tester, find.text('Shop').first);
+    expect(find.text('Day cream en'), findsOneWidget);
+    expect(find.text('Shampoo en'), findsOneWidget);
+    expect(find.text('Own sale en'), findsNothing);
+    expect(find.text('Ad · Brand X'), findsOneWidget);
+    // The campaign product comes first.
+    expect(
+      tester.getTopLeft(find.text('Serum en')).dy,
+      lessThan(tester.getTopLeft(find.text('Day cream en')).dy),
+    );
+    await _tap(tester, find.byKey(const ValueKey('shop-cat-hair')));
+    expect(find.text('Day cream en'), findsNothing);
+    expect(find.text('Shampoo en'), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('shop-cat-all')));
+
+    await _tap(tester, find.byKey(const ValueKey('product-serum')));
+    expect(find.text('12.50 ₼'), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('shop-visit')));
+    expect(find.textContaining('partner.az will open'), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('banner-leave-go')));
+    expect(opened.single.path, '/p/serum');
+    expect(opened.single.queryParameters, {
+      'utm_source': 'parla',
+      'utm_medium': 'app',
+      'utm_campaign': 'parla-4',
+    });
+  });
+
   testWidgets('messages: announcements, and a support conversation', (
     tester,
   ) async {

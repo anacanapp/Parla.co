@@ -1062,13 +1062,50 @@ class AppLocalizationsAz extends AppLocalizations {
       'Rutinindəki məhsullar, bir toxunuşla. Alış siyahını birbaşa sifariş edə, seçimlərinə uyğun məhsulları tapa biləcəksən.';
 
   @override
-  String get shopSoonCard => 'Parla Mağaza tezliklə';
+  String get shopSoonCard => 'Parla Mağaza';
 
   @override
-  String get shopSoonCardBody => 'Siyahını birbaşa sifariş edə biləcəksən';
+  String get shopSoonCardBody => 'Partnyorların məhsullarına bax';
 
   @override
   String get shopOpenList => 'Alış siyahıma bax';
+
+  @override
+  String get shopIntro =>
+      'Partnyorların məhsulları. Alış partnyorun saytında olur; Parla sənin haqqında heç nə ötürmür.';
+
+  @override
+  String get shopAll => 'Hamısı';
+
+  @override
+  String get shopCategoryFace => 'Üz';
+
+  @override
+  String get shopCategoryHair => 'Saç';
+
+  @override
+  String get shopCategoryBody => 'Bədən';
+
+  @override
+  String get shopCategoryMakeup => 'Makiyaj';
+
+  @override
+  String get shopCategoryOther => 'Digər';
+
+  @override
+  String shopPrice(String price) {
+    return '$price ₼';
+  }
+
+  @override
+  String get shopVisitPartner => 'Partnyorun saytına keç';
+
+  @override
+  String get shopPriceNote =>
+      'Qiymət və mövcudluq partnyorun saytında dəyişə bilər. Almazdan əvvəl tərkibi yoxla; dəridə problem varsa, həkimlə məsləhətləş.';
+
+  @override
+  String get shopEmpty => 'Hələ məhsul yoxdur. Tezliklə burada olacaq.';
 
   @override
   String get sportIntroTitle => 'Sənə uyğun idman planı';
@@ -1675,7 +1712,7 @@ class AppLocalizationsAz extends AppLocalizations {
   }
 
   @override
-  String get bannerLeaveTitle => 'Brendin saytına keçirsən';
+  String get bannerLeaveTitle => 'Başqa sayta keçirsən';
 
   @override
   String bannerLeaveBody(String host) {
