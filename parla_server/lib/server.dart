@@ -7,6 +7,7 @@ import 'src/account/retention.dart';
 import 'src/audit/append_only.dart';
 import 'src/auth/staff_password_reset.dart';
 import 'src/auth/verification_code_sender.dart';
+import 'src/content/content_images_task.dart';
 import 'src/content/content_import.dart';
 import 'src/generated/serverpod.dart';
 import 'src/health/health_kms.dart';
@@ -139,6 +140,10 @@ Future<void> _runTask(Serverpod pod, String task, String actor) async {
           actor,
           restore: restore,
         );
+        session.log('Task $task: $result', level: LogLevel.info);
+        stdout.writeln('Task $task: $result');
+      case 'attach-content-images':
+        final result = await runAttachContentImagesTask(session, actor);
         session.log('Task $task: $result', level: LogLevel.info);
         stdout.writeln('Task $task: $result');
       case 'seed-sample-experts':
