@@ -10,6 +10,7 @@ import '../l10n/app_localizations.dart';
 import '../routes.dart';
 import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
+import '../ui/parla_ui.dart';
 import 'custom_routines.dart';
 
 /// Label of a care area.
@@ -132,47 +133,43 @@ class _RoutinesSectionState extends State<RoutinesSection> {
             l10n.routineSlotEmpty,
             style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
           ),
-        for (var i = 0; i < steps.length; i++) ...[
-          StepTile(
-            key: ValueKey('routine-step-${steps[i].id}'),
-            step: steps[i],
-            number: i + 1,
-            done: widget.habits.isDoneIn(slot, steps[i].id),
-            onToggle: () => widget.habits.toggleIn(slot, steps[i].id),
+        if (steps.isNotEmpty)
+          StepList(
+            steps: steps,
+            rowKey: (s) => ValueKey('routine-step-${s.id}'),
+            isDone: (i) => widget.habits.isDoneIn(slot, steps[i].id),
+            onToggle: (i) => widget.habits.toggleIn(slot, steps[i].id),
           ),
-          const SizedBox(height: 8),
-        ],
-        const SizedBox(height: 16),
-        Row(
-          children: [
-            Expanded(
-              child: Semantics(
-                header: true,
-                child: Text(l10n.routineOwnSection, style: text.titleLarge),
-              ),
-            ),
-            TextButton.icon(
-              key: const ValueKey('routine-own-add'),
-              onPressed: () => context.go(Routes.routineBuilder),
-              icon: const ParlaIcon(ParlaIconName.plus, size: 18),
-              label: Text(l10n.routineOwnButton),
-            ),
-          ],
-        ),
-        const SizedBox(height: 4),
+        const SizedBox(height: 20),
         if (own.isEmpty)
-          Text(
-            l10n.routineOwnEmpty,
-            style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
+          _OwnRoutineInvite(onAdd: () => context.go(Routes.routineBuilder))
+        else ...[
+          Row(
+            children: [
+              Expanded(
+                child: Semantics(
+                  header: true,
+                  child: Text(l10n.routineOwnSection, style: text.titleLarge),
+                ),
+              ),
+              TextButton.icon(
+                key: const ValueKey('routine-own-add'),
+                onPressed: () => context.go(Routes.routineBuilder),
+                icon: const ParlaIcon(ParlaIconName.plus, size: 18),
+                label: Text(l10n.routineOwnButton),
+              ),
+            ],
           ),
-        for (final routine in own) ...[
-          _OwnRoutineCard(
-            key: ValueKey('own-${routine.id}'),
-            routine: routine,
-            book: widget.book,
-            dueToday: routine.isDueOn(widget.today),
-          ),
-          const SizedBox(height: 8),
+          const SizedBox(height: 4),
+          for (final routine in own) ...[
+            _OwnRoutineCard(
+              key: ValueKey('own-${routine.id}'),
+              routine: routine,
+              book: widget.book,
+              dueToday: routine.isDueOn(widget.today),
+            ),
+            const SizedBox(height: 8),
+          ],
         ],
       ],
     );
@@ -191,50 +188,14 @@ class _AreaTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final text = Theme.of(context).textTheme;
-    return Container(
-      padding: const EdgeInsets.all(4),
-      decoration: BoxDecoration(
-        color: ParlaColors.line,
-        borderRadius: BorderRadius.circular(ParlaSpace.controlRadius),
-      ),
-      child: Row(
-        children: [
-          for (final area in RoutineArea.values)
-            Expanded(
-              child: Semantics(
-                button: true,
-                selected: area == selected,
-                child: InkWell(
-                  key: ValueKey('area-${area.name}'),
-                  borderRadius: BorderRadius.circular(11),
-                  onTap: () => onChanged(area),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 150),
-                    constraints: const BoxConstraints(minHeight: 40),
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.symmetric(horizontal: 4),
-                    decoration: BoxDecoration(
-                      color: area == selected
-                          ? ParlaColors.white
-                          : Colors.transparent,
-                      borderRadius: BorderRadius.circular(11),
-                    ),
-                    child: Text(
-                      areaLabel(l10n, area),
-                      textAlign: TextAlign.center,
-                      style: text.titleMedium?.copyWith(
-                        color: area == selected
-                            ? ParlaColors.espresso
-                            : ParlaColors.muted,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-        ],
-      ),
+    return PillSegmented<RoutineArea>(
+      segments: [
+        for (final area in RoutineArea.values)
+          PillSegment(area, areaLabel(l10n, area)),
+      ],
+      selected: selected,
+      onChanged: onChanged,
+      keyOf: (area) => ValueKey('area-${area.name}'),
     );
   }
 }
@@ -252,32 +213,76 @@ class _SlotChip extends StatelessWidget {
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) => Semantics(
-    button: true,
-    selected: selected,
-    child: InkWell(
-      borderRadius: BorderRadius.circular(999),
-      onTap: onTap,
-      child: Container(
-        constraints: const BoxConstraints(minHeight: 36),
-        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 7),
-        decoration: BoxDecoration(
-          color: selected ? ParlaColors.sun : ParlaColors.white,
-          borderRadius: BorderRadius.circular(999),
-          border: Border.all(
-            color: selected ? ParlaColors.sun : ParlaColors.line,
-          ),
-        ),
-        child: Text(
-          label,
-          style: Theme.of(context).textTheme.labelMedium?.copyWith(
-            fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
-            color: selected ? ParlaColors.espresso : ParlaColors.muted,
-          ),
-        ),
+  Widget build(BuildContext context) =>
+      PillChip(label: label, selected: selected, onTap: onTap);
+}
+
+/// Before the first own routine: a sport-blue card that invites to make
+/// one.
+class _OwnRoutineInvite extends StatelessWidget {
+  const _OwnRoutineInvite({required this.onAdd});
+
+  final VoidCallback onAdd;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final text = Theme.of(context).textTheme;
+    return Container(
+      padding: const EdgeInsets.fromLTRB(18, 16, 12, 16),
+      decoration: BoxDecoration(
+        color: ParlaColors.sportBlue,
+        borderRadius: BorderRadius.circular(ParlaShape.card),
       ),
-    ),
-  );
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Semantics(
+                  header: true,
+                  child: Text(
+                    l10n.routineOwnSection,
+                    style: text.titleMedium?.copyWith(
+                      color: ParlaColors.white,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(
+                  l10n.routineOwnEmpty,
+                  style: text.bodySmall?.copyWith(
+                    color: ParlaColors.sportBlueText,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 12),
+          Semantics(
+            button: true,
+            label: l10n.routineOwnButton,
+            excludeSemantics: true,
+            child: Material(
+              color: ParlaColors.sun,
+              shape: const CircleBorder(),
+              child: InkWell(
+                key: const ValueKey('routine-own-add'),
+                customBorder: const CircleBorder(),
+                onTap: onAdd,
+                child: const SizedBox(
+                  width: 48,
+                  height: 48,
+                  child: Center(child: ParlaIcon(ParlaIconName.plus, size: 22)),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 }
 
 /// One of the user's own routines: name, when, progress today and its
@@ -300,8 +305,8 @@ class _OwnRoutineCard extends StatelessWidget {
     final text = Theme.of(context).textTheme;
     final done = routine.steps.where((s) => book.isTicked(s.id)).length;
     return SoftCard(
-      radius: ParlaSpace.cardRadius,
-      padding: const EdgeInsets.fromLTRB(14, 10, 6, 10),
+      radius: ParlaShape.tile,
+      padding: const EdgeInsets.fromLTRB(16, 10, 6, 10),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [

@@ -237,7 +237,11 @@ class PillSegmented<T> extends StatelessWidget {
     required this.selected,
     required this.onChanged,
     this.semanticLabel,
+    this.keyOf,
   });
+
+  /// A key for each segment (tests and screen readers' anchors).
+  final Key Function(T value)? keyOf;
 
   final List<PillSegment<T>> segments;
   final T selected;
@@ -262,7 +266,7 @@ class PillSegmented<T> extends StatelessWidget {
                 button: true,
                 selected: s.value == selected,
                 child: GestureDetector(
-                  key: ValueKey('segment-${s.value}'),
+                  key: keyOf?.call(s.value) ?? ValueKey('segment-${s.value}'),
                   behavior: HitTestBehavior.opaque,
                   onTap: () => onChanged(s.value),
                   child: AnimatedContainer(

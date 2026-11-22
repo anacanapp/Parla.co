@@ -16,6 +16,7 @@ import '../routes.dart';
 import '../routines/routine_section.dart';
 import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
+import '../ui/parla_ui.dart';
 
 /// M-14 "Bu gün" (design A+): a lemon header with the greeting and the
 /// routine switch, then a cream sheet with the Smile Meter summary, the
@@ -135,91 +136,104 @@ class _HomeBody extends StatelessWidget {
         ? l10n.routineStatusStart
         : l10n.routineStatusLeft(left);
 
-    return ListView(
-      padding: EdgeInsets.zero,
-      children: [
-        // Lemon header (brand: Lemon surface, espresso text).
-        ColoredBox(
-          color: ParlaColors.lemon,
-          child: SafeArea(
-            bottom: false,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 48),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Row(
-                    children: [
-                      const _Wordmark(),
-                      const Spacer(),
-                      const _MessagesButton(),
-                    ],
-                  ),
-                  const SizedBox(height: 8),
-                  Text(
-                    MaterialLocalizations.of(context).formatFullDate(now),
-                    style: text.labelMedium?.copyWith(
-                      color: ParlaColors.sunInk,
+    // One scrolling column, so the hero stays built (and its progress
+    // readable by screen readers) while the steps below are scrolled.
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          // Hero (Parla 2.0): lemon with a sun and a sky glow; the routine's
+          // progress as a white capsule.
+          HeroGlow(
+            padding: EdgeInsets.zero,
+            child: SafeArea(
+              bottom: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(20, 8, 20, 22),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Row(
+                      children: [
+                        const _Wordmark(),
+                        const Spacer(),
+                        const _MessagesButton(),
+                      ],
                     ),
-                  ),
-                  const SizedBox(height: 4),
-                  Semantics(
-                    header: true,
-                    child: Text(greeting, style: text.headlineLarge),
-                  ),
-                  const SizedBox(height: 2),
-                  Text(l10n.homeTagline, style: accentStyle(locale)),
-                  const SizedBox(height: 14),
-                  RoutineSwitch(kind: kind, onChanged: controller.selectKind),
-                ],
+                    const SizedBox(height: 8),
+                    Text(
+                      MaterialLocalizations.of(context).formatFullDate(now),
+                      style: text.labelMedium?.copyWith(
+                        color: ParlaColors.sunInk,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Semantics(
+                      header: true,
+                      child: Text(greeting, style: text.headlineLarge),
+                    ),
+                    const SizedBox(height: 2),
+                    Text(l10n.homeTagline, style: accentStyle(locale)),
+                    const SizedBox(height: 16),
+                    RoutineHeroCapsule(
+                      eyebrow: morning
+                          ? l10n.routineMorningEyebrow
+                          : l10n.routineEveningEyebrow,
+                      status: status,
+                      caption: progress.allDone
+                          ? null
+                          : l10n.routineMinutesLeft(progress.minutesLeft),
+                      doneCount: progress.doneCount,
+                      total: progress.total,
+                      semanticLabel: l10n.routineProgressLabel(
+                        routineName,
+                        progress.doneCount,
+                        progress.total,
+                      ),
+                      openLabel: l10n.navRoutine,
+                      onOpen: () => context.go(Routes.habits),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
-        ),
-
-        // Cream sheet rising over the lemon with rounded top corners.
-        Transform.translate(
-          offset: const Offset(0, -36),
-          child: Container(
-            decoration: const BoxDecoration(
-              color: ParlaColors.cream,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
-            ),
-            padding: const EdgeInsets.fromLTRB(16, 18, 16, 110),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(16, 16, 16, 110),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
+                PillSegmented<RoutineKind>(
+                  semanticLabel: l10n.routineSwitchLabel,
+                  segments: [
+                    PillSegment(
+                      RoutineKind.morning,
+                      l10n.routineMorning,
+                      icon: ParlaIconName.sun,
+                    ),
+                    PillSegment(
+                      RoutineKind.evening,
+                      l10n.routineEvening,
+                      icon: ParlaIconName.moon,
+                    ),
+                  ],
+                  selected: kind,
+                  onChanged: controller.selectKind,
+                ),
+                const SizedBox(height: 16),
                 const ConsentRefreshCard(),
                 if (showQuizPrompt) ...[
                   _QuizPromptCard(onStart: onQuiz),
                   const SizedBox(height: 16),
                 ],
-                RoutineSummaryCard(
-                  eyebrow: morning
-                      ? l10n.routineMorningEyebrow
-                      : l10n.routineEveningEyebrow,
-                  status: status,
-                  caption: progress.allDone
-                      ? null
-                      : l10n.routineMinutesLeft(progress.minutesLeft),
-                  doneCount: progress.doneCount,
-                  total: progress.total,
-                  semanticLabel: l10n.routineProgressLabel(
-                    routineName,
-                    progress.doneCount,
-                    progress.total,
-                  ),
-                ),
                 if (progress.allDone) ...[
-                  const SizedBox(height: 16),
                   RoutineDoneCard(
                     routineName: routineName,
                     onRestart: controller.restart,
                   ),
+                  const SizedBox(height: 16),
                 ],
-                const SizedBox(height: 16),
                 const BannerStrip(placement: 'today'),
-                const SizedBox(height: 6),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.baseline,
                   textBaseline: TextBaseline.alphabetic,
@@ -227,7 +241,7 @@ class _HomeBody extends StatelessWidget {
                     Expanded(
                       child: Semantics(
                         header: true,
-                        child: Text(routineName, style: text.headlineSmall),
+                        child: Text(routineName, style: text.titleLarge),
                       ),
                     ),
                     Text(
@@ -238,17 +252,14 @@ class _HomeBody extends StatelessWidget {
                     ),
                   ],
                 ),
-                const SizedBox(height: 12),
-                for (var i = 0; i < progress.total; i++) ...[
-                  StepTile(
-                    key: ValueKey('step-${progress.steps[i].id}'),
-                    step: progress.steps[i],
-                    number: i + 1,
-                    done: progress.done[i],
-                    onToggle: () => controller.toggle(progress.steps[i].id),
+                const SizedBox(height: 10),
+                if (progress.total > 0)
+                  StepList(
+                    steps: progress.steps,
+                    rowKey: (s) => ValueKey('step-${s.id}'),
+                    isDone: (i) => progress.done[i],
+                    onToggle: (i) => controller.toggle(progress.steps[i].id),
                   ),
-                  const SizedBox(height: 8),
-                ],
                 const SizedBox(height: 14),
                 _TodayRoutines(
                   answers: answers,
@@ -333,8 +344,8 @@ class _HomeBody extends StatelessWidget {
               ],
             ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

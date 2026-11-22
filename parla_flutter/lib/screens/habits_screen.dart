@@ -15,6 +15,7 @@ import '../routines/custom_routines.dart';
 import '../routines/routine_section.dart';
 import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
+import '../ui/parla_ui.dart';
 
 /// M-17 "Rutin": face, hair and body routines, the user's own routines,
 /// today's habits and the last seven days.
@@ -117,27 +118,42 @@ class _HabitsBody extends StatelessWidget {
       child: ListView(
         padding: const EdgeInsets.fromLTRB(20, 24, 20, 120),
         children: [
-          Semantics(
-            header: true,
-            child: Text(l10n.habitsScreenTitle, style: text.headlineLarge),
-          ),
-          const SizedBox(height: 6),
-          Text(l10n.habitsScreenIntro, style: text.bodyLarge),
-          const SizedBox(height: 16),
-          SoftCard(
-            padding: EdgeInsets.zero,
-            child: ListTile(
-              key: const ValueKey('habits-skin-analysis'),
-              contentPadding: const EdgeInsets.symmetric(
-                horizontal: 18,
-                vertical: 6,
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Semantics(
+                      header: true,
+                      child: Text(
+                        l10n.habitsScreenTitle,
+                        style: text.headlineLarge,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      l10n.habitsScreenIntro,
+                      style: accentStyle(
+                        Localizations.localeOf(context),
+                        size: 18,
+                      ).copyWith(color: ParlaColors.sunInk),
+                    ),
+                  ],
+                ),
               ),
-              leading: const ParlaIcon(ParlaIconName.scan, size: 28),
-              title: Text(l10n.skinCardTitle, style: text.titleMedium),
-              subtitle: Text(l10n.skinCardBody),
-              trailing: const Icon(Icons.chevron_right),
-              onTap: () => context.go(Routes.quiz),
-            ),
+              const SizedBox(width: 12),
+              Tooltip(
+                message: l10n.skinCardBody,
+                child: PillButton(
+                  key: const ValueKey('habits-skin-analysis'),
+                  label: l10n.skinCardTitle,
+                  icon: ParlaIconName.scan,
+                  onPressed: () => context.go(Routes.quiz),
+                ),
+              ),
+            ],
           ),
           const SizedBox(height: 20),
           RoutinesSection(

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../l10n/app_localizations.dart';
 import '../../ui/brand.dart';
 import '../../ui/parla_icons.dart';
+import '../../ui/parla_ui.dart';
 import '../routine.dart';
-import 'smile_meter.dart';
 
 /// White rounded card with the brand's soft shadow.
 class SoftCard extends StatelessWidget {
@@ -51,98 +51,19 @@ class EyebrowText extends StatelessWidget {
   );
 }
 
-/// Morning / evening switch (two-segment toggle).
-class RoutineSwitch extends StatelessWidget {
-  const RoutineSwitch({
-    super.key,
-    required this.kind,
-    required this.onChanged,
-  });
-
-  final RoutineKind kind;
-  final ValueChanged<RoutineKind> onChanged;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    Widget segment(RoutineKind value, String label, ParlaIconName icon) {
-      final selected = value == kind;
-      final color = selected ? ParlaColors.espresso : ParlaColors.muted;
-      return Expanded(
-        child: Semantics(
-          button: true,
-          selected: selected,
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () => onChanged(value),
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              height: 52,
-              decoration: BoxDecoration(
-                color: selected ? ParlaColors.white : Colors.transparent,
-                borderRadius: BorderRadius.circular(24),
-                boxShadow: selected ? kSoftShadow : null,
-              ),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ParlaIcon(icon, size: 22, color: color),
-                  const SizedBox(width: 8),
-                  Text(
-                    label,
-                    style: TextStyle(
-                      fontSize: 15,
-                      fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
-                      color: color,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      );
-    }
-
-    return Semantics(
-      container: true,
-      label: l10n.routineSwitchLabel,
-      child: Container(
-        padding: const EdgeInsets.all(4),
-        decoration: BoxDecoration(
-          color: ParlaColors.cream,
-          borderRadius: BorderRadius.circular(28),
-        ),
-        child: Row(
-          children: [
-            segment(
-              RoutineKind.morning,
-              l10n.routineMorning,
-              ParlaIconName.sun,
-            ),
-            const SizedBox(width: 4),
-            segment(
-              RoutineKind.evening,
-              l10n.routineEvening,
-              ParlaIconName.moon,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// First card of the sheet: the Smile Meter with the routine's status.
-class RoutineSummaryCard extends StatelessWidget {
-  const RoutineSummaryCard({
+/// The routine's progress as a white capsule in the hero: ring, eyebrow,
+/// status and a round button that opens the Routine tab.
+class RoutineHeroCapsule extends StatelessWidget {
+  const RoutineHeroCapsule({
     super.key,
     required this.eyebrow,
     required this.status,
-    required this.caption,
+    this.caption,
     required this.doneCount,
     required this.total,
     required this.semanticLabel,
+    required this.openLabel,
+    required this.onOpen,
   });
 
   final String eyebrow;
@@ -151,50 +72,74 @@ class RoutineSummaryCard extends StatelessWidget {
   final int doneCount;
   final int total;
   final String semanticLabel;
+  final String openLabel;
+  final VoidCallback onOpen;
 
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
-    return Semantics(
-      container: true,
-      liveRegion: true,
-      label: semanticLabel,
-      excludeSemantics: true,
-      child: SoftCard(
-        padding: const EdgeInsets.all(22),
-        child: Row(
-          children: [
-            SmileMeter(
-              width: 124,
-              track: ParlaColors.lemon,
+    return Container(
+      key: const ValueKey('routine-hero'),
+      padding: const EdgeInsets.all(8),
+      decoration: const ShapeDecoration(
+        color: ParlaColors.white,
+        shape: StadiumBorder(),
+        shadows: [
+          BoxShadow(
+            color: Color(0x1F7A5C00),
+            blurRadius: 24,
+            offset: Offset(0, 8),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Semantics(
+            label: semanticLabel,
+            excludeSemantics: true,
+            child: ProgressRing(
               fraction: total == 0 ? 0 : doneCount / total,
-              child: Text(
-                '$doneCount/$total',
-                style: text.headlineMedium,
+              label: '$doneCount/$total',
+            ),
+          ),
+          const SizedBox(width: 14),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                EyebrowText(eyebrow),
+                const SizedBox(height: 2),
+                Text(status, style: text.titleSmall),
+                if (caption != null)
+                  Text(
+                    caption!,
+                    style: text.bodySmall?.copyWith(color: ParlaColors.muted),
+                  ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 8),
+          Semantics(
+            button: true,
+            label: openLabel,
+            excludeSemantics: true,
+            child: Material(
+              color: ParlaColors.sun,
+              shape: const CircleBorder(),
+              child: InkWell(
+                customBorder: const CircleBorder(),
+                onTap: onOpen,
+                child: const SizedBox(
+                  width: 48,
+                  height: 48,
+                  child: Center(
+                    child: ParlaIcon(ParlaIconName.arrowRight, size: 20),
+                  ),
+                ),
               ),
             ),
-            const SizedBox(width: 18),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  EyebrowText(eyebrow),
-                  const SizedBox(height: 4),
-                  Text(status, style: text.titleLarge),
-                  if (caption != null) ...[
-                    const SizedBox(height: 4),
-                    Text(
-                      caption!,
-                      style: text.bodyMedium?.copyWith(
-                        color: ParlaColors.muted,
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
@@ -271,8 +216,53 @@ class _SmilePainter extends CustomPainter {
   bool shouldRepaint(_SmilePainter oldDelegate) => false;
 }
 
-/// One row of the full step list, with a check toggle.
-class StepTile extends StatelessWidget {
+/// A routine's steps as one compact card: a row per step, divided by
+/// hairlines. Each row's hint shows on one line and opens in full on tap,
+/// so safety notes (such as re-applying sunscreen) stay one tap away.
+class StepList extends StatelessWidget {
+  const StepList({
+    super.key,
+    required this.steps,
+    required this.isDone,
+    required this.onToggle,
+    required this.rowKey,
+  });
+
+  final List<RoutineStep> steps;
+  final bool Function(int index) isDone;
+  final void Function(int index) onToggle;
+  final Key Function(RoutineStep step) rowKey;
+
+  @override
+  Widget build(BuildContext context) => SoftCard(
+    radius: ParlaShape.card,
+    padding: const EdgeInsets.symmetric(vertical: 6),
+    child: Column(
+      children: [
+        for (var i = 0; i < steps.length; i++) ...[
+          if (i > 0)
+            const Divider(
+              height: 1,
+              thickness: 1,
+              indent: 58,
+              endIndent: 16,
+              color: ParlaColors.line,
+            ),
+          StepTile(
+            key: rowKey(steps[i]),
+            step: steps[i],
+            number: i + 1,
+            done: isDone(i),
+            onToggle: () => onToggle(i),
+          ),
+        ],
+      ],
+    ),
+  );
+}
+
+/// One row of a [StepList], with a check toggle.
+class StepTile extends StatefulWidget {
   const StepTile({
     super.key,
     required this.step,
@@ -287,29 +277,60 @@ class StepTile extends StatelessWidget {
   final VoidCallback onToggle;
 
   @override
+  State<StepTile> createState() => _StepTileState();
+}
+
+class _StepTileState extends State<StepTile> {
+  bool _open = false;
+
+  @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    return SoftCard(
-      radius: 20,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+    final step = widget.step;
+    final done = widget.done;
+    final hint = done ? l10n.stepStatusDone : step.meta;
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(14, 6, 6, 6),
       child: Row(
         children: [
-          _NumberTile(number: number, color: step.tile, size: 40),
+          _NumberTile(number: widget.number, color: step.tile, size: 30),
           const SizedBox(width: 14),
           Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(step.title, style: text.titleMedium),
-                Text(
-                  done ? l10n.stepStatusDone : step.meta,
-                  style: text.bodyMedium?.copyWith(color: ParlaColors.sunInk),
-                ),
-              ],
+            child: GestureDetector(
+              behavior: HitTestBehavior.opaque,
+              onTap: done ? null : () => setState(() => _open = !_open),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    step.title,
+                    style: text.titleSmall?.copyWith(
+                      color: done ? ParlaColors.muted : null,
+                      decoration: done ? TextDecoration.lineThrough : null,
+                      decorationColor: ParlaColors.outline,
+                    ),
+                  ),
+                  if (hint.isNotEmpty)
+                    AnimatedSize(
+                      duration: const Duration(milliseconds: 160),
+                      alignment: Alignment.topLeft,
+                      child: Text(
+                        hint,
+                        maxLines: _open && !done ? null : 1,
+                        overflow: _open && !done
+                            ? TextOverflow.visible
+                            : TextOverflow.ellipsis,
+                        style: text.bodySmall?.copyWith(
+                          color: ParlaColors.sunInk,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
             ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: 4),
           Semantics(
             button: true,
             toggled: done,
@@ -319,7 +340,7 @@ class StepTile extends StatelessWidget {
             excludeSemantics: true,
             // A 32 px circle (owner's ask, 2026-11-20) in a 48 px tap area.
             child: InkResponse(
-              onTap: onToggle,
+              onTap: widget.onToggle,
               radius: 24,
               child: SizedBox(
                 width: 48,
@@ -379,7 +400,7 @@ class _NumberTile extends StatelessWidget {
       child: Text(
         '$number',
         style: TextStyle(
-          fontSize: size > 56 ? 26 : 20,
+          fontSize: size > 56 ? 26 : (size < 36 ? 16 : 20),
           fontWeight: FontWeight.w700,
           color: ParlaColors.espresso,
         ),
