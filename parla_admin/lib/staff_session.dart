@@ -59,7 +59,8 @@ class StaffState extends ChangeNotifier {
   }
 
   static const _expired =
-      'Təhlükəsizlik üçün 12 saatdan bir şifrə ilə yenidən daxil olun.';
+      'Giriş müddəti (12 saat) bitdi. Yenidən daxil olun: şifrə ilə və ya '
+      'e-poçta gələn kodla.';
 
   /// Keeps [me] and signs out by itself when the sign-in runs out.
   void _set(StaffMe? me) {

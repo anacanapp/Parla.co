@@ -163,6 +163,14 @@ abstract interface class AdminApi {
   /// Sets the password and signs in.
   Future<void> finishRegistration(String token, String password);
 
+  /// Sign-in with a one-time code instead of the password: emails a code,
+  /// returns the request id.
+  Future<UuidValue> startCodeLogin(String email);
+
+  /// Checks the emailed code and signs in. Fails for an email without an
+  /// account (the panel never creates one this way).
+  Future<void> finishCodeLogin(UuidValue requestId, String code);
+
   /// Password reset: emails a code, returns the request id.
   Future<UuidValue> startPasswordReset(String email);
   Future<String> verifyPasswordResetCode(UuidValue requestId, String code);

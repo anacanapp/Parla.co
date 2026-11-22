@@ -7,7 +7,8 @@ String errorText(Object error) {
     'staff.not_staff' => 'Bu hesab admin panelinə qoşulmayıb.',
     'staff.inactive' => 'Hesabınız deaktiv edilib. Admin ilə əlaqə saxlayın.',
     'staff.sign_in_again' =>
-      'Təhlükəsizlik üçün 12 saatdan bir şifrə ilə yenidən daxil olun.',
+      'Giriş müddəti (12 saat) bitdi. Yenidən daxil olun: şifrə ilə və ya '
+          'e-poçta gələn kodla.',
     'staff.forbidden' => 'Bu əməliyyat üçün icazəniz yoxdur.',
     'staff.invite_invalid' =>
       'Dəvət kodu yanlışdır, vaxtı keçib və ya başqa e-poçta aiddir.',
@@ -53,7 +54,9 @@ String errorText(Object error) {
     'users.is_staff' => 'Bu, işçi hesabıdır. İşçilər bölməsində idarə olunur.',
     'auth.short_password' => 'Şifrə ən azı 12 simvol olmalıdır.',
     'auth.failed' =>
-      'Alınmadı. E-poçtu, şifrəni və ya kodu yoxlayın və yenidən cəhd edin.',
+      'Alınmadı. E-poçtu, şifrəni və ya kodu yoxlayın. Şifrəni unutmusunuzsa, '
+          '"E-poçta kod göndər" ilə daxil olun. Çox cəhddən sonra bir neçə '
+          'dəqiqə gözləyin.',
     _ => 'Xəta baş verdi (${error.code}).',
   };
 }

@@ -5,6 +5,7 @@ import 'package:serverpod_auth_idp_server/providers/email.dart';
 
 import 'src/account/retention.dart';
 import 'src/audit/append_only.dart';
+import 'src/auth/staff_password_reset.dart';
 import 'src/auth/verification_code_sender.dart';
 import 'src/content/content_import.dart';
 import 'src/generated/serverpod.dart';
@@ -30,8 +31,9 @@ void run(List<String> args) async {
       // Passwordless sign-in with a one-time code sent by email (PRD US-01).
       // Codes go through our own SMTP sender, not a hosted email service.
       EmailIdpConfigFromPasswords(
-        // Passwords are only used by staff for the admin panel (with a
-        // second factor); the app signs in with one-time codes.
+        // Passwords are only used by staff for the admin panel; the app
+        // signs in with one-time codes. Staff may also sign in to the panel
+        // with a one-time code (decision of 2026-11-22).
         passwordValidationFunction: (password) =>
             password.length >= 12 && password.length <= 128,
         sendOtpLoginVerificationCode:
@@ -45,6 +47,21 @@ void run(List<String> args) async {
               session,
               email: email,
               code: verificationCode,
+            ),
+        // Reset codes go only to active staff (see staff_password_reset).
+        sendPasswordResetVerificationCode:
+            (
+              session, {
+              required email,
+              required passwordResetRequestId,
+              required verificationCode,
+              required transaction,
+            }) => sendStaffPasswordResetCode(
+              session,
+              codeSender,
+              email: email,
+              code: verificationCode,
+              transaction: transaction,
             ),
         sendRegistrationVerificationCode:
             (
