@@ -4,6 +4,7 @@ import '../l10n/app_localizations.dart';
 import '../services/parla_api.dart';
 import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
+import '../ui/parla_ui.dart';
 import 'blog_widgets.dart';
 import 'discover_widgets.dart';
 
@@ -29,10 +30,10 @@ class BentoSection {
   final bool soon;
 }
 
-/// The Discover sections as a bento (approved prototype A, 2026-11-20):
-/// a wide Blogs tile, a tall Nutrition tile beside Sport and Experts, and
-/// two small tiles for the shopping list and the shop. Tiles grow with the
-/// user's text size instead of clipping.
+/// The Discover sections (Parla 2.0): a dark Blogs hero with the newest
+/// cover, a 2×2 grid (sport, nutrition, experts, shop) and capsule rows
+/// for the shopping list and the journal. Tiles grow with the user's text
+/// size instead of clipping.
 class DiscoverBento extends StatelessWidget {
   const DiscoverBento({
     super.key,
@@ -44,7 +45,6 @@ class DiscoverBento extends StatelessWidget {
     required this.shop,
     required this.journal,
     this.blogsImage,
-    this.nutritionImage,
   });
 
   final BentoSection blogs;
@@ -55,9 +55,8 @@ class DiscoverBento extends StatelessWidget {
   final BentoSection shop;
   final BentoSection journal;
 
-  /// Cover of the newest article and recipe that have one.
+  /// Cover of the newest article that has one.
   final ContentImageRef? blogsImage;
-  final ContentImageRef? nutritionImage;
 
   static const _gap = 10.0;
 
@@ -69,41 +68,59 @@ class DiscoverBento extends StatelessWidget {
       children: [
         _Tile(
           section: blogs,
-          child: ConstrainedBox(
-            constraints: const BoxConstraints(minHeight: 168),
-            child: IntrinsicHeight(
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          ParlaIcon(blogs.icon, size: 22),
-                          const SizedBox(height: 20),
-                          _Labels(
-                            section: blogs,
-                            titleStyle: text.headlineSmall,
-                          ),
-                        ],
+          radius: ParlaShape.card + 4,
+          child: DecoratedBox(
+            decoration: const BoxDecoration(
+              gradient: RadialGradient(
+                center: Alignment(0.8, -0.9),
+                radius: 1.1,
+                colors: [Color(0x73FFCE00), Color(0x00FFCE00)],
+              ),
+            ),
+            child: ConstrainedBox(
+              constraints: const BoxConstraints(minHeight: 200),
+              child: IntrinsicHeight(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(18, 18, 8, 18),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            _IconBubble(
+                              icon: blogs.icon,
+                              background: const Color(0x29FFF9E8),
+                              color: ParlaColors.cream,
+                            ),
+                            const SizedBox(height: 24),
+                            _Labels(
+                              section: blogs,
+                              titleStyle: text.headlineSmall,
+                              titleColor: ParlaColors.white,
+                              hintColor: ParlaColors.cream,
+                            ),
+                          ],
+                        ),
                       ),
                     ),
-                  ),
-                  SizedBox(
-                    width: 132,
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: _Photo(
-                        image: blogsImage,
-                        icon: blogs.icon,
-                        color: const Color(0xFFDCD0EC),
+                    SizedBox(
+                      width: 140,
+                      child: Padding(
+                        padding: const EdgeInsets.all(10),
+                        child: blogsImage == null
+                            ? const _CapsuleArt()
+                            : ContentImage(
+                                image: blogsImage!,
+                                radius: ParlaShape.tile,
+                                aspectRatio: 0.8,
+                              ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),
@@ -113,42 +130,9 @@ class DiscoverBento extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(
-                child: _Tile(
-                  section: nutrition,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 8, 8, 0),
-                        child: SizedBox(
-                          height: 128,
-                          child: _Photo(
-                            image: nutritionImage,
-                            icon: nutrition.icon,
-                            color: const Color(0xFFCFDDC7),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(14, 12, 14, 16),
-                        child: _Labels(section: nutrition),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
+              Expanded(child: _GridTile(section: sport, dark: true)),
               const SizedBox(width: _gap),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    Expanded(child: _MediumTile(section: sport, dark: true)),
-                    const SizedBox(height: _gap),
-                    Expanded(child: _MediumTile(section: experts)),
-                  ],
-                ),
-              ),
+              Expanded(child: _GridTile(section: nutrition)),
             ],
           ),
         ),
@@ -157,31 +141,175 @@ class DiscoverBento extends StatelessWidget {
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Expanded(child: _SmallTile(section: shopping)),
+              Expanded(child: _GridTile(section: experts)),
               const SizedBox(width: _gap),
-              Expanded(child: _SmallTile(section: shop)),
+              Expanded(child: _GridTile(section: shop)),
             ],
           ),
         ),
         const SizedBox(height: _gap),
-        _WideTile(section: journal),
+        _PillRow(section: shopping),
+        const SizedBox(height: _gap),
+        _PillRow(section: journal),
       ],
     );
   }
 }
 
+/// A round icon on a tile.
+class _IconBubble extends StatelessWidget {
+  const _IconBubble({
+    required this.icon,
+    this.background = ParlaColors.white,
+    this.color = ParlaColors.espresso,
+  });
+
+  final ParlaIconName icon;
+  final Color background;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) => Container(
+    width: 44,
+    height: 44,
+    decoration: BoxDecoration(color: background, shape: BoxShape.circle),
+    alignment: Alignment.center,
+    child: ParlaIcon(icon, size: 20, color: color),
+  );
+}
+
+/// Four tilted capsules in the brand's colours, until a cover exists.
+class _CapsuleArt extends StatelessWidget {
+  const _CapsuleArt();
+
+  @override
+  Widget build(BuildContext context) => ExcludeSemantics(
+    child: Center(
+      child: Transform.rotate(
+        angle: -0.21,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            for (final c in const [
+              ParlaColors.cream,
+              ParlaColors.sun,
+              ParlaColors.sky,
+              ParlaColors.sage,
+            ])
+              Container(
+                width: 104,
+                height: 26,
+                margin: const EdgeInsets.symmetric(vertical: 3),
+                decoration: ShapeDecoration(
+                  color: c,
+                  shape: const StadiumBorder(),
+                ),
+              ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+/// A square-ish tile of the 2×2 grid: icon, title and hint.
+class _GridTile extends StatelessWidget {
+  const _GridTile({required this.section, this.dark = false});
+
+  final BentoSection section;
+  final bool dark;
+
+  @override
+  Widget build(BuildContext context) => _Tile(
+    section: section,
+    child: ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 150),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            _IconBubble(
+              icon: section.icon,
+              background: dark ? const Color(0x24FFF9E8) : ParlaColors.white,
+              color: dark ? ParlaColors.sportBlueText : ParlaColors.espresso,
+            ),
+            const SizedBox(height: 18),
+            _Labels(
+              section: section,
+              titleStyle: Theme.of(context).textTheme.titleMedium,
+              titleColor: dark ? ParlaColors.white : ParlaColors.espresso,
+              hintColor: dark ? ParlaColors.sportBlueText : ParlaColors.muted,
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+/// A white capsule row: icon, title and hint, and a dark round arrow.
+class _PillRow extends StatelessWidget {
+  const _PillRow({required this.section});
+
+  final BentoSection section;
+
+  @override
+  Widget build(BuildContext context) => _Tile(
+    section: section,
+    radius: ParlaShape.pill,
+    border: const BorderSide(color: ParlaColors.line),
+    child: Padding(
+      padding: const EdgeInsets.all(8),
+      child: Row(
+        children: [
+          _IconBubble(icon: section.icon, background: ParlaColors.cream),
+          const SizedBox(width: 12),
+          Expanded(child: _Labels(section: section)),
+          const SizedBox(width: 8),
+          Container(
+            width: 44,
+            height: 44,
+            decoration: const BoxDecoration(
+              color: ParlaColors.espresso,
+              shape: BoxShape.circle,
+            ),
+            alignment: Alignment.center,
+            child: const ParlaIcon(
+              ParlaIconName.arrowRight,
+              size: 18,
+              color: ParlaColors.cream,
+            ),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
 /// A tappable tile: one button for screen readers with its title, hint
 /// and "soon" mark.
 class _Tile extends StatelessWidget {
-  const _Tile({required this.section, required this.child});
+  const _Tile({
+    required this.section,
+    required this.child,
+    this.radius = ParlaShape.card,
+    this.border,
+  });
 
   final BentoSection section;
   final Widget child;
+  final double radius;
+  final BorderSide? border;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final radius = BorderRadius.circular(22);
+    final shape = RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(radius),
+      side: border ?? BorderSide.none,
+    );
     return Semantics(
       key: section.id == null ? null : ValueKey('discover-${section.id}'),
       container: true,
@@ -192,7 +320,7 @@ class _Tile extends StatelessWidget {
       excludeSemantics: true,
       child: Material(
         color: section.color,
-        borderRadius: radius,
+        shape: shape,
         clipBehavior: Clip.antiAlias,
         child: InkWell(onTap: section.onTap, child: child),
       ),
@@ -230,150 +358,6 @@ class _Labels extends StatelessWidget {
           style: text.bodySmall?.copyWith(color: hintColor),
         ),
       ],
-    );
-  }
-}
-
-class _MediumTile extends StatelessWidget {
-  const _MediumTile({required this.section, this.dark = false});
-
-  final BentoSection section;
-  final bool dark;
-
-  @override
-  Widget build(BuildContext context) {
-    return _Tile(
-      section: section,
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            ParlaIcon(
-              section.icon,
-              size: 22,
-              color: dark ? ParlaColors.sportBlueText : ParlaColors.espresso,
-            ),
-            const SizedBox(height: 18),
-            _Labels(
-              section: section,
-              titleColor: dark ? ParlaColors.white : ParlaColors.espresso,
-              hintColor: dark ? ParlaColors.sportBlueText : ParlaColors.muted,
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// A full-width tile: icon, title and hint, arrow.
-class _WideTile extends StatelessWidget {
-  const _WideTile({required this.section});
-
-  final BentoSection section;
-
-  @override
-  Widget build(BuildContext context) {
-    return _Tile(
-      section: section,
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Row(
-          children: [
-            Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: ParlaColors.white,
-                borderRadius: BorderRadius.circular(14),
-              ),
-              alignment: Alignment.center,
-              child: ParlaIcon(section.icon, size: 22),
-            ),
-            const SizedBox(width: 12),
-            Expanded(child: _Labels(section: section)),
-            const SizedBox(width: 8),
-            const ParlaIcon(ParlaIconName.arrowRight, size: 20),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _SmallTile extends StatelessWidget {
-  const _SmallTile({required this.section});
-
-  final BentoSection section;
-
-  @override
-  Widget build(BuildContext context) {
-    final l10n = AppLocalizations.of(context);
-    final text = Theme.of(context).textTheme;
-    return _Tile(
-      section: section,
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 64),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 12),
-          child: Row(
-            children: [
-              ParlaIcon(section.icon, size: 20),
-              const SizedBox(width: 10),
-              Expanded(child: Text(section.title, style: text.titleMedium)),
-              if (section.soon) ...[
-                const SizedBox(width: 6),
-                Flexible(
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 3,
-                    ),
-                    decoration: BoxDecoration(
-                      color: ParlaColors.white,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Text(
-                      l10n.soonBadge,
-                      style: text.labelMedium?.copyWith(
-                        fontWeight: FontWeight.w700,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-/// A cover image, or a tinted block with the section's icon until the team
-/// uploads one.
-class _Photo extends StatelessWidget {
-  const _Photo({required this.image, required this.icon, required this.color});
-
-  final ContentImageRef? image;
-  final ParlaIconName icon;
-  final Color color;
-
-  @override
-  Widget build(BuildContext context) {
-    if (image case final image?) {
-      return ContentImage(image: image, radius: 16, aspectRatio: 1);
-    }
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Center(
-        child: ParlaIcon(icon, size: 32, color: ParlaColors.sunInk),
-      ),
     );
   }
 }

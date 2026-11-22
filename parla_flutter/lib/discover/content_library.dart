@@ -87,6 +87,13 @@ class ContentLibrary extends ChangeNotifier {
     await Future.wait([for (final k in kinds) _load(k)]);
   }
 
+  /// Loads one [kind] (cached copy first) unless it is loaded already,
+  /// for screens that can open directly (the Shop and a product).
+  Future<void> ensure(String kind) async {
+    if (_loaded.contains(kind)) return;
+    await _load(kind);
+  }
+
   /// Loads the catalogue texts, hidden flags and banners (at app start).
   Future<void> loadCatalogue() async {
     await Future.wait([

@@ -1,15 +1,18 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parla_shared/parla_shared.dart';
 
 import '../discover/banner_strip.dart' show BannerCard, openPartnerSite;
-import '../discover/blog_widgets.dart';
 import '../discover/discover_widgets.dart';
 import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
 import '../routes.dart';
 import '../services/parla_api.dart';
 import '../ui/brand.dart';
+import '../ui/parla_icons.dart';
+import '../ui/parla_ui.dart';
 
 String shopCategoryText(AppLocalizations l10n, String id) => switch (id) {
   'face' => l10n.shopCategoryFace,
@@ -59,6 +62,8 @@ class _ShopScreenState extends State<ShopScreen> {
 
   Future<void> _askSales() async {
     if (!mounted) return;
+    final scope = ParlaScope.of(context);
+    unawaited(scope.content.ensure('product'));
     try {
       final open = await ParlaScope.of(context).api.shopSalesOpen();
       ShopSales.open.value = open;
@@ -96,74 +101,124 @@ class _ShopScreenState extends State<ShopScreen> {
           for (final c in ContentRules.productCategories)
             if (all.any((p) => p.category == c)) c,
         ];
-        return SubPage(
-          title: l10n.shopTitle,
-          onBack: back,
-          background: ParlaColors.blush,
-          children: [
-            Text(l10n.shopIntro, style: text.bodyMedium),
-            if (ShopSales.open.value) ...[
-              const SizedBox(height: 8),
-              Align(
-                alignment: AlignmentDirectional.centerStart,
-                child: TextButton.icon(
-                  key: const ValueKey('shop-orders'),
-                  onPressed: () => context.go(Routes.shopOrders),
-                  icon: const Icon(Icons.receipt_long_outlined, size: 18),
-                  label: Text(l10n.shopMyOrders),
-                ),
-              ),
-            ],
-            const SizedBox(height: 14),
-            if (categories.length > 1) ...[
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
+        final rows = [
+          for (var i = 0; i < shown.length; i += 2)
+            shown.sublist(i, i + 2 > shown.length ? shown.length : i + 2),
+        ];
+        return Scaffold(
+          backgroundColor: ParlaColors.cream,
+          body: SafeArea(
+            child: ListView(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+              children: [
+                Row(
                   children: [
-                    for (final c in [null, ...categories]) ...[
-                      ChoiceChip(
-                        key: ValueKey('shop-cat-${c ?? 'all'}'),
-                        label: Text(
-                          c == null ? l10n.shopAll : shopCategoryText(l10n, c),
-                        ),
-                        selected: _category == c,
-                        onSelected: (_) => setState(() => _category = c),
+                    RoundBack(onPressed: back),
+                    const Spacer(),
+                    if (ShopSales.open.value)
+                      PillButton(
+                        key: const ValueKey('shop-orders'),
+                        label: l10n.shopMyOrders,
+                        icon: ParlaIconName.routine,
+                        onPressed: () => context.go(Routes.shopOrders),
                       ),
-                      const SizedBox(width: 8),
-                    ],
                   ],
                 ),
-              ),
-              const SizedBox(height: 14),
-            ],
-            if (shown.isEmpty)
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                child: Text(
-                  l10n.shopEmpty,
+                const SizedBox(height: 12),
+                Semantics(
+                  header: true,
+                  child: Text(l10n.shopTitle, style: text.headlineLarge),
+                ),
+                const SizedBox(height: 6),
+                Text(
+                  l10n.shopIntro,
                   style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
                 ),
-              ),
-            for (final p in shown) ...[
-              ProductCard(
-                item: p,
-                onTap: () => context.go(Routes.shopProduct, extra: p.slug),
-              ),
-              const SizedBox(height: 12),
-            ],
-            const SizedBox(height: 8),
-            OutlinedButton(
-              onPressed: () => context.go(Routes.shoppingList),
-              child: Text(l10n.shopOpenList),
+                const SizedBox(height: 14),
+                if (categories.length > 1) ...[
+                  Wrap(
+                    spacing: 8,
+                    runSpacing: 8,
+                    children: [
+                      for (final c in [null, ...categories])
+                        PillChip(
+                          key: ValueKey('shop-cat-${c ?? 'all'}'),
+                          label: c == null
+                              ? l10n.shopAll
+                              : shopCategoryText(l10n, c),
+                          selected: _category == c,
+                          onTap: () => setState(() => _category = c),
+                        ),
+                    ],
+                  ),
+                  const SizedBox(height: 14),
+                ],
+                if (shown.isEmpty)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    child: Text(
+                      l10n.shopEmpty,
+                      style: text.bodyMedium?.copyWith(
+                        color: ParlaColors.muted,
+                      ),
+                    ),
+                  ),
+                for (final row in rows) ...[
+                  IntrinsicHeight(
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        for (var i = 0; i < 2; i++) ...[
+                          if (i == 1) const SizedBox(width: 10),
+                          Expanded(
+                            child: i < row.length
+                                ? ProductCard(
+                                    item: row[i],
+                                    onTap: () => context.go(
+                                      Routes.shopProduct,
+                                      extra: row[i].slug,
+                                    ),
+                                  )
+                                : const SizedBox.shrink(),
+                          ),
+                        ],
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                ],
+                const SizedBox(height: 8),
+                PillButton(
+                  label: l10n.shopOpenList,
+                  icon: ParlaIconName.routine,
+                  expand: true,
+                  onPressed: () => context.go(Routes.shoppingList),
+                ),
+              ],
             ),
-          ],
+          ),
         );
       },
     );
   }
 }
 
-/// A product in the list: picture, brand, name and price.
+/// A round white back button (Parla 2.0 headers).
+class RoundBack extends StatelessWidget {
+  const RoundBack({super.key, required this.onPressed});
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) => Material(
+    color: ParlaColors.white,
+    shape: const CircleBorder(side: BorderSide(color: ParlaColors.line)),
+    child: BackButton(onPressed: onPressed, color: ParlaColors.espresso),
+  );
+}
+
+/// A product in the grid: picture (with the ad label), brand, name and
+/// price.
 class ProductCard extends StatelessWidget {
   const ProductCard({super.key, required this.item, required this.onTap});
 
@@ -179,50 +234,72 @@ class ProductCard extends StatelessWidget {
     return Material(
       key: ValueKey('product-${item.slug}'),
       color: ParlaColors.white,
-      borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
+      borderRadius: BorderRadius.circular(ParlaShape.card),
       child: InkWell(
-        borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
+        borderRadius: BorderRadius.circular(ParlaShape.card),
         onTap: onTap,
         child: Padding(
-          padding: const EdgeInsets.all(12),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
+          padding: const EdgeInsets.all(8),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              SizedBox(
-                width: 88,
-                child: item.image == null
-                    ? const AspectRatio(
-                        aspectRatio: 1,
-                        child: ColoredBox(color: ParlaColors.cream),
-                      )
-                    : ContentImage(
-                        image: item.image!,
-                        aspectRatio: 1,
-                        radius: 12,
+              Stack(
+                children: [
+                  item.image == null
+                      ? AspectRatio(
+                          aspectRatio: 1,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: ParlaColors.lemon,
+                              borderRadius: BorderRadius.circular(
+                                ParlaShape.tile,
+                              ),
+                            ),
+                            child: const Center(
+                              child: ParlaIcon(
+                                ParlaIconName.bag,
+                                size: 32,
+                                color: ParlaColors.sunInk,
+                              ),
+                            ),
+                          ),
+                        )
+                      : ContentImage(
+                          image: item.image!,
+                          aspectRatio: 1,
+                          radius: ParlaShape.tile,
+                        ),
+                  if (sponsor != null)
+                    PositionedDirectional(
+                      start: 8,
+                      top: 8,
+                      child: AdLabel(
+                        text: l10n.bannerAd(sponsor),
+                        filled: true,
                       ),
+                    ),
+                ],
               ),
-              const SizedBox(width: 12),
-              Expanded(
+              Padding(
+                padding: const EdgeInsets.fromLTRB(6, 10, 6, 6),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    if (sponsor != null) ...[
-                      AdLabel(text: l10n.bannerAd(sponsor)),
-                      const SizedBox(height: 6),
-                    ],
                     Text(
                       '${item.data['brand'] ?? ''}'.toUpperCase(),
                       style: text.labelMedium?.copyWith(
-                        color: ParlaColors.muted,
+                        color: ParlaColors.sunInk,
                         letterSpacing: .6,
                       ),
                     ),
                     const SizedBox(height: 2),
-                    Text(item.text('name', language), style: text.titleMedium),
+                    Text(item.text('name', language), style: text.titleSmall),
                     const SizedBox(height: 6),
                     Text(
                       l10n.shopPrice('${item.data['price'] ?? ''}'),
-                      style: text.titleSmall,
+                      style: text.titleSmall?.copyWith(
+                        fontWeight: FontWeight.w800,
+                      ),
                     ),
                   ],
                 ),
@@ -237,17 +314,21 @@ class ProductCard extends StatelessWidget {
 
 /// The outlined "Ad · brand" label.
 class AdLabel extends StatelessWidget {
-  const AdLabel({super.key, required this.text});
+  const AdLabel({super.key, required this.text, this.filled = false});
 
   final String text;
+
+  /// White background, for labels over pictures.
+  final bool filled;
 
   @override
   Widget build(BuildContext context) => Container(
     key: const ValueKey('product-ad-label'),
     padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
     decoration: BoxDecoration(
+      color: filled ? ParlaColors.white : null,
       border: Border.all(color: ParlaColors.outline),
-      borderRadius: BorderRadius.circular(6),
+      borderRadius: BorderRadius.circular(ParlaShape.pill),
     ),
     child: Text(text, style: Theme.of(context).textTheme.labelMedium),
   );
@@ -265,6 +346,22 @@ class ShopProductScreen extends StatelessWidget {
     final text = Theme.of(context).textTheme;
     final language = Localizations.localeOf(context).languageCode;
     final scope = ParlaScope.of(context);
+    return ListenableBuilder(
+      listenable: Listenable.merge([scope.content, ShopSales.open]),
+      builder: (context, _) => _product(context, l10n, text, language, scope),
+    );
+  }
+
+  Widget _product(
+    BuildContext context,
+    AppLocalizations l10n,
+    TextTheme text,
+    String language,
+    ParlaScope scope,
+  ) {
+    if (!scope.content.isLoaded('product')) {
+      unawaited(scope.content.ensure('product'));
+    }
     final item = scope.content.find('product', slug);
     void back() => context.go(Routes.shop);
     if (item == null || !shopShows(item, sellsInApp: ShopSales.open.value)) {
@@ -278,65 +375,153 @@ class ShopProductScreen extends StatelessWidget {
     final description = item.text('description', language);
     final url = item.data['url'];
     final campaign = item.data['campaign'];
-    return CoverPage(
-      item: item,
-      onBack: back,
-      children: [
-        if (sponsor != null) ...[
-          Align(
-            alignment: AlignmentDirectional.centerStart,
-            child: AdLabel(text: l10n.bannerAd(sponsor)),
+    final own = item.data['sale'] == 'own';
+    return Scaffold(
+      backgroundColor: ParlaColors.cream,
+      extendBody: true,
+      body: ListView(
+        padding: const EdgeInsets.only(bottom: 120),
+        children: [
+          HeroGlow(
+            padding: EdgeInsets.zero,
+            radius: BorderRadius.zero,
+            child: SafeArea(
+              bottom: false,
+              child: SizedBox(
+                height: 320,
+                child: Stack(
+                  children: [
+                    Center(
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(56, 16, 56, 44),
+                        child: item.image == null
+                            ? const ParlaIcon(
+                                ParlaIconName.bag,
+                                size: 72,
+                                color: ParlaColors.sunInk,
+                              )
+                            : ContentImage(
+                                image: item.image!,
+                                radius: ParlaShape.card,
+                              ),
+                      ),
+                    ),
+                    PositionedDirectional(
+                      start: 12,
+                      top: 8,
+                      child: RoundBack(onPressed: back),
+                    ),
+                  ],
+                ),
+              ),
+            ),
           ),
-          const SizedBox(height: 8),
+          Transform.translate(
+            offset: const Offset(0, -32),
+            child: Container(
+              decoration: const BoxDecoration(
+                color: ParlaColors.cream,
+                borderRadius: BorderRadius.vertical(
+                  top: Radius.circular(ParlaShape.sheet),
+                ),
+              ),
+              padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Row(
+                    children: [
+                      if (sponsor != null)
+                        AdLabel(text: l10n.bannerAd(sponsor)),
+                      const Spacer(),
+                      Text(
+                        shopCategoryText(l10n, item.category).toUpperCase(),
+                        style: text.labelMedium?.copyWith(
+                          color: ParlaColors.sunInk,
+                          letterSpacing: .6,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 12),
+                  Text(
+                    '${item.data['brand'] ?? ''}'.toUpperCase(),
+                    style: text.labelMedium?.copyWith(
+                      color: ParlaColors.sunInk,
+                      letterSpacing: .8,
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Semantics(
+                    header: true,
+                    child: Text(
+                      item.text('name', language),
+                      style: text.headlineMedium,
+                    ),
+                  ),
+                  if (description.isNotEmpty) ...[
+                    const SizedBox(height: 12),
+                    Text(description, style: text.bodyLarge),
+                  ],
+                  const SizedBox(height: 16),
+                  Text(
+                    l10n.shopPriceNote,
+                    style: text.bodySmall?.copyWith(color: ParlaColors.muted),
+                  ),
+                ],
+              ),
+            ),
+          ),
         ],
-        Text(
-          '${item.data['brand'] ?? ''}'.toUpperCase(),
-          style: text.labelMedium?.copyWith(
-            color: ParlaColors.sunInk,
-            letterSpacing: .6,
+      ),
+      bottomNavigationBar: SafeArea(
+        minimum: const EdgeInsets.only(bottom: 12),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Container(
+            padding: const EdgeInsets.fromLTRB(22, 8, 8, 8),
+            decoration: const ShapeDecoration(
+              color: ParlaColors.white,
+              shape: StadiumBorder(side: BorderSide(color: ParlaColors.line)),
+              shadows: kFloatShadow,
+            ),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    l10n.shopPrice('${item.data['price'] ?? ''}'),
+                    key: const ValueKey('shop-price'),
+                    style: text.titleLarge?.copyWith(
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+                if (own)
+                  PillButton(
+                    key: const ValueKey('shop-buy'),
+                    label: l10n.shopBuy,
+                    tone: PillTone.sun,
+                    onPressed: () => buyProduct(context, item),
+                  ),
+                if (!own && url is String)
+                  PillButton(
+                    key: const ValueKey('shop-visit'),
+                    label: l10n.shopVisitPartner,
+                    tone: PillTone.sun,
+                    onPressed: () {
+                      scope.usage.count(UsageEvent.productTap, item.slug);
+                      openPartnerSite(
+                        context,
+                        url,
+                        campaign: campaign is int ? campaign : null,
+                      );
+                    },
+                  ),
+              ],
+            ),
           ),
         ),
-        const SizedBox(height: 6),
-        Semantics(
-          header: true,
-          child: Text(item.text('name', language), style: text.headlineLarge),
-        ),
-        const SizedBox(height: 8),
-        Text(
-          l10n.shopPrice('${item.data['price'] ?? ''}'),
-          key: const ValueKey('shop-price'),
-          style: text.titleLarge,
-        ),
-        if (description.isNotEmpty) ...[
-          const SizedBox(height: 14),
-          Text(description, style: text.bodyLarge),
-        ],
-        const SizedBox(height: 20),
-        if (item.data['sale'] == 'own')
-          FilledButton(
-            key: const ValueKey('shop-buy'),
-            onPressed: () => buyProduct(context, item),
-            child: Text(l10n.shopBuy),
-          ),
-        if (url is String)
-          FilledButton(
-            key: const ValueKey('shop-visit'),
-            onPressed: () {
-              scope.usage.count(UsageEvent.productTap, item.slug);
-              openPartnerSite(
-                context,
-                url,
-                campaign: campaign is int ? campaign : null,
-              );
-            },
-            child: Text(l10n.shopVisitPartner),
-          ),
-        const SizedBox(height: 12),
-        Text(
-          l10n.shopPriceNote,
-          style: text.bodySmall?.copyWith(color: ParlaColors.muted),
-        ),
-      ],
+      ),
     );
   }
 }
