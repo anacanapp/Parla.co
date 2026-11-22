@@ -1,11 +1,16 @@
 import 'dart:convert';
+import 'dart:typed_data';
+
+import 'package:image/image.dart' as img;
 
 import 'package:parla_server/src/auth/verification_code_sender.dart';
 import 'package:parla_server/src/content/content_admin_endpoint.dart';
+import 'package:parla_server/src/content/content_images_task.dart';
 import 'package:parla_server/src/content/content_import.dart';
 import 'package:parla_server/src/content/sample_experts.dart';
 import 'package:parla_server/src/content/content_seed_import.dart';
 import 'package:parla_server/src/generated/protocol.dart';
+import 'package:parla_server/src/media/media_store.dart';
 import 'package:parla_server/src/staff/staff_guard.dart';
 import 'package:parla_shared/parla_shared.dart';
 import 'package:serverpod/serverpod.dart' show UuidValue;
@@ -586,6 +591,99 @@ void main() {
         await runPublishImportedTask(db, 'first-admin@example.com'),
         'Imported or filled 0 items, refilled 0 plans, published 0.',
       );
+    });
+
+    test('the cover task attaches the waiting images once', () async {
+      await team();
+      final db = sessionBuilder.build();
+      await runPublishImportedTask(db, 'first-admin@example.com');
+      final store = MemoryMediaStore();
+      final before = Media.instance;
+      Media.instance = Media(store, publicBaseUrl: 'https://media.test');
+      addTearDown(() => Media.instance = before);
+      final jpeg = Uint8List.fromList(
+        img.encodeJpg(img.Image(width: 40, height: 30)),
+      );
+      for (final f in ['skin-minimalism.jpg', 'herb-kuku.jpg']) {
+        await store.put('$contentImagesPrefix$f', jpeg, 'image/jpeg');
+      }
+      Map<String, Object?> entry(String kind, String slug) => {
+        'kind': kind,
+        'slug': slug,
+        'file': '$slug.jpg',
+        'alt': {
+          'az': '$slug: göyərti küküsü',
+          'ru': '$slug ru',
+          'en': '$slug en',
+        },
+      };
+      await expectLater(
+        runAttachContentImagesTask(db, 'first-admin@example.com'),
+        throwsA(isA<StateError>()),
+      );
+      await store.put(
+        contentImagesManifest,
+        Uint8List.fromList(
+          utf8.encode(
+            jsonEncode([
+              entry('article', 'skin-minimalism'),
+              entry('recipe', 'herb-kuku'),
+              entry('recipe', 'banana-oat-cookies'),
+              entry('recipe', 'no-such-recipe'),
+            ]),
+          ),
+        ),
+        'application/json',
+      );
+
+      await expectLater(
+        runAttachContentImagesTask(db, 'editor@example.com'),
+        throwsA(isA<StateError>()),
+      );
+      final result = await runAttachContentImagesTask(
+        db,
+        'first-admin@example.com',
+      );
+      expect(result, startsWith('Attached 2 covers. Skipped: '));
+      expect(result, contains('banana-oat-cookies (no file)'));
+      expect(
+        store.objects.keys.where((k) => k.startsWith('incoming/')),
+        [contentImagesManifest],
+      );
+      expect(result, contains('no-such-recipe (no item)'));
+
+      final kuku = await ContentItem.db.findFirstRow(
+        db,
+        where: (t) => t.slug.equals('herb-kuku'),
+      );
+      expect(kuku!.status, ContentStatus.published);
+      final id = jsonDecode(kuku.publishedJson!)['image'] as int;
+      expect(jsonDecode(kuku.draftJson)['image'], id);
+      final asset = (await MediaAsset.db.findById(db, id))!;
+      expect(asset.public, isTrue);
+      expect(asset.license, contentImageLicense);
+      expect(jsonDecode(asset.altJson)['az'], contains('küküsü'));
+      expect(store.objects.keys, contains(Media.publicKey(asset.key)));
+      expect(
+        await AuditLogEntry.db.count(
+          db,
+          where: (a) => a.action.equals('content.cover_attached'),
+        ),
+        2,
+      );
+
+      // Run again: the covers stay, nothing is replaced.
+      await store.put(
+        '${contentImagesPrefix}herb-kuku.jpg',
+        jpeg,
+        'image/jpeg',
+      );
+      final again = await runAttachContentImagesTask(
+        db,
+        'first-admin@example.com',
+      );
+      expect(again, startsWith('Attached 0 covers.'));
+      expect(again, contains('herb-kuku (has a cover)'));
     });
 
     test('an edited writing plan is still replaced by the task', () async {

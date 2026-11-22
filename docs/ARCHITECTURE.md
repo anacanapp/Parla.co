@@ -449,6 +449,15 @@ draft content until the named expert reviews it.
     `content.reimported`), so they are published in the same run. Used
     once for `sunglasses-hats-uv` (owner's request, 2026-11-20). The
     result line also names items that could not be published and why.
+  - `PARLA_TASK=attach-content-images` attaches the covers listed in
+    `incoming/content-images/manifest.json` in the private bucket (kind,
+    slug, file, three-language alt text; licence: generated with AI for
+    our own use). The files wait next to it; each is
+    re-encoded like a panel upload, set as the cover of the working and
+    the published copy (status and review unchanged: covers need no expert
+    review, owner's decision), audited (`media.uploaded`,
+    `content.cover_attached`) and then deleted from `incoming/`. An item
+    that already has a cover is skipped, so the task is safe to run again.
 
 - C5 (2026-11-20): the 76 recipes of the sheet "Parla — Reseptlər
   (genişləndirilmiş)" are in `recipe_seed.dart`, built by
