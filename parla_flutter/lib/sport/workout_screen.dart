@@ -13,6 +13,7 @@ import '../parla_scope.dart';
 import '../routes.dart';
 import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
+import '../ui/parla_ui.dart';
 import 'exercise_text.dart';
 import 'exercise_video.dart';
 import 'sport_labels.dart';
@@ -220,6 +221,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     final l10n = AppLocalizations.of(context);
     final book = ParlaScope.of(context).sport;
     final w = _workout(context);
+    // The player runs on a dark stage (Parla 2.0); the overview and the
+    // end stay light.
+    final dark =
+        w != null && _phase != _Phase.overview && _phase != _Phase.finished;
+    final ink = dark ? ParlaColors.cream : ParlaColors.espresso;
     return ListenableBuilder(
       listenable: book,
       builder: (context, _) => PopScope(
@@ -228,9 +234,13 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           if (!didPop) _stop();
         },
         child: Scaffold(
-          backgroundColor: ParlaColors.cream,
+          backgroundColor: dark ? ParlaColors.espresso : ParlaColors.cream,
           appBar: AppBar(
-            backgroundColor: ParlaColors.cream,
+            backgroundColor: dark ? ParlaColors.espresso : ParlaColors.cream,
+            foregroundColor: ink,
+            systemOverlayStyle: dark
+                ? SystemUiOverlayStyle.light
+                : SystemUiOverlayStyle.dark,
             leading: _running
                 ? IconButton(
                     key: const ValueKey('workout-stop'),
@@ -242,7 +252,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             title: _running && w != null
                 ? Text(
                     l10n.sportExerciseOf(_index + 1, w.items.length),
-                    style: Theme.of(context).textTheme.titleMedium,
+                    style: Theme.of(
+                      context,
+                    ).textTheme.titleMedium?.copyWith(color: ink),
                   )
                 : null,
             actions: [
@@ -301,6 +313,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           style: FilledButton.styleFrom(
             backgroundColor: ParlaColors.sportBlue,
             foregroundColor: ParlaColors.white,
+            shape: const StadiumBorder(),
           ),
           onPressed: () => _start(w),
           child: Text(l10n.sportStartWorkout),
@@ -324,126 +337,198 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     final (name, how) = exerciseText(item.exercise.id, language);
     final caution = exerciseCaution(item.exercise.id, language);
     final reps = item.exercise.mode == ExerciseMode.reps;
-    return ListView(
-      padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
-      children: [
-        _Media(
-          exerciseId: item.exercise.id,
-          playing: !_paused,
-          resting: resting,
-          countdown: counting ? _left : null,
+    const soft = ParlaColors.sportBlueText;
+    return DecoratedBox(
+      decoration: const BoxDecoration(
+        gradient: RadialGradient(
+          center: Alignment(0, -1.1),
+          radius: 1.0,
+          colors: [Color(0x4DFFCE00), Color(0x00FFCE00)],
         ),
-        const SizedBox(height: 16),
-        Semantics(
-          header: true,
-          child: Text(
-            resting ? l10n.sportResting : name,
-            style: text.headlineMedium,
+      ),
+      child: DecoratedBox(
+        decoration: const BoxDecoration(
+          gradient: RadialGradient(
+            center: Alignment(0, 1.2),
+            radius: 0.9,
+            colors: [Color(0x8C1E3A5F), Color(0x001E3A5F)],
           ),
         ),
-        const SizedBox(height: 4),
-        Semantics(
-          liveRegion: true,
-          child: Text(
-            switch (_phase) {
-              _Phase.rest => l10n.sportNextUp(name),
-              _Phase.countdown =>
-                '${l10n.sportGetReady} · '
-                    '${l10n.sportSetOf(_set, item.sets)}',
-              _ => l10n.sportSetOf(_set, item.sets),
-            },
-            style: text.titleMedium?.copyWith(color: ParlaColors.sportBlue),
-          ),
-        ),
-        const SizedBox(height: 20),
-        Center(
-          child: _Ring(
-            progress: _left / _total,
-            resting: resting,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(20, 4, 20, 32),
+          children: [
+            ExcludeSemantics(
+              child: Row(
+                children: [
+                  for (var i = 0; i < w.items.length; i++) ...[
+                    if (i > 0) const SizedBox(width: 6),
+                    Expanded(
+                      child: Container(
+                        height: 6,
+                        decoration: ShapeDecoration(
+                          color: i <= _index
+                              ? ParlaColors.sun
+                              : const Color(0x38FFF9E8),
+                          shape: const StadiumBorder(),
+                        ),
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
+            _Media(
+              exerciseId: item.exercise.id,
+              playing: !_paused,
+              resting: resting,
+              countdown: counting ? _left : null,
+            ),
+            const SizedBox(height: 18),
+            Semantics(
+              liveRegion: true,
+              child: Text(
+                switch (_phase) {
+                  _Phase.rest => l10n.sportNextUp(name),
+                  _Phase.countdown =>
+                    '${l10n.sportGetReady} · '
+                        '${l10n.sportSetOf(_set, item.sets)}',
+                  _ => l10n.sportSetOf(_set, item.sets),
+                },
+                textAlign: TextAlign.center,
+                style: text.labelLarge?.copyWith(
+                  color: soft,
+                  letterSpacing: .6,
+                ),
+              ),
+            ),
+            const SizedBox(height: 6),
+            Semantics(
+              header: true,
+              child: Text(
+                resting ? l10n.sportResting : name,
+                textAlign: TextAlign.center,
+                style: text.headlineMedium?.copyWith(color: ParlaColors.white),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Center(
+              child: _Ring(
+                progress: _left / _total,
+                resting: resting,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (!resting && !counting && reps)
+                      Text(
+                        l10n.sportRepsNow(item.amount),
+                        key: const ValueKey('workout-reps'),
+                        textAlign: TextAlign.center,
+                        style: text.titleMedium?.copyWith(color: soft),
+                      ),
+                    Text(
+                      counting ? '$_left' : _clock(_left),
+                      key: ValueKey(
+                        counting ? 'workout-countdown' : 'workout-count',
+                      ),
+                      style: (counting ? text.displayLarge : text.displayMedium)
+                          ?.copyWith(
+                            color: ParlaColors.white,
+                            fontFeatures: const [
+                              FontFeature.tabularFigures(),
+                            ],
+                          ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            if (!resting && !counting && reps)
+              Padding(
+                padding: const EdgeInsets.only(top: 6),
+                child: Text(
+                  l10n.sportRepPace(WorkoutPace.secondsPerRep),
+                  textAlign: TextAlign.center,
+                  style: text.bodySmall?.copyWith(color: soft),
+                ),
+              ),
+            const SizedBox(height: 22),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                if (!resting && !counting && reps)
-                  Text(
-                    l10n.sportRepsNow(item.amount),
-                    key: const ValueKey('workout-reps'),
-                    textAlign: TextAlign.center,
-                    style: text.titleLarge,
+                IconButton(
+                  key: const ValueKey('workout-previous'),
+                  tooltip: l10n.sportPrevious,
+                  iconSize: 28,
+                  style: IconButton.styleFrom(
+                    backgroundColor: const Color(0x1FFFF9E8),
+                    foregroundColor: ParlaColors.cream,
                   ),
-                Text(
-                  counting ? '$_left' : _clock(_left),
-                  key: ValueKey(
-                    counting ? 'workout-countdown' : 'workout-count',
+                  constraints: const BoxConstraints(
+                    minWidth: 56,
+                    minHeight: 56,
                   ),
-                  style: counting ? text.displayLarge : text.displayMedium,
+                  onPressed: () => _previous(w),
+                  icon: const Icon(Icons.skip_previous_rounded),
+                ),
+                const SizedBox(width: 22),
+                IconButton.filled(
+                  key: const ValueKey('workout-pause'),
+                  tooltip: _paused ? l10n.sportResume : l10n.sportPause,
+                  iconSize: 40,
+                  style: IconButton.styleFrom(
+                    backgroundColor: ParlaColors.sun,
+                    foregroundColor: ParlaColors.espresso,
+                  ),
+                  constraints: const BoxConstraints(
+                    minWidth: 80,
+                    minHeight: 80,
+                  ),
+                  onPressed: () => setState(() => _paused = !_paused),
+                  icon: Icon(
+                    _paused ? Icons.play_arrow_rounded : Icons.pause_rounded,
+                  ),
+                ),
+                const SizedBox(width: 22),
+                IconButton(
+                  key: const ValueKey('workout-skip'),
+                  tooltip: l10n.sportNextMove,
+                  iconSize: 28,
+                  style: IconButton.styleFrom(
+                    backgroundColor: const Color(0x1FFFF9E8),
+                    foregroundColor: ParlaColors.cream,
+                  ),
+                  constraints: const BoxConstraints(
+                    minWidth: 56,
+                    minHeight: 56,
+                  ),
+                  onPressed: () => _next(w),
+                  icon: const Icon(Icons.skip_next_rounded),
                 ),
               ],
             ),
-          ),
-        ),
-        if (!resting && !counting && reps)
-          Padding(
-            padding: const EdgeInsets.only(top: 6),
-            child: Text(
-              l10n.sportRepPace(WorkoutPace.secondsPerRep),
-              textAlign: TextAlign.center,
-              style: text.bodySmall?.copyWith(color: ParlaColors.muted),
-            ),
-          ),
-        const SizedBox(height: 20),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            IconButton.outlined(
-              key: const ValueKey('workout-previous'),
-              tooltip: l10n.sportPrevious,
-              iconSize: 28,
-              constraints: const BoxConstraints(minWidth: 56, minHeight: 56),
-              onPressed: () => _previous(w),
-              icon: const Icon(Icons.skip_previous_rounded),
-            ),
-            const SizedBox(width: 20),
-            IconButton.filled(
-              key: const ValueKey('workout-pause'),
-              tooltip: _paused ? l10n.sportResume : l10n.sportPause,
-              iconSize: 40,
-              style: IconButton.styleFrom(
-                backgroundColor: ParlaColors.sportBlue,
-                foregroundColor: ParlaColors.white,
+            const SizedBox(height: 24),
+            if (!resting)
+              Text(
+                how,
+                style: text.bodyLarge?.copyWith(color: ParlaColors.cream),
               ),
-              constraints: const BoxConstraints(minWidth: 76, minHeight: 76),
-              onPressed: () => setState(() => _paused = !_paused),
-              icon: Icon(
-                _paused ? Icons.play_arrow_rounded : Icons.pause_rounded,
+            if (!resting && caution != null)
+              Padding(
+                padding: const EdgeInsets.only(top: 10),
+                child: Container(
+                  key: const ValueKey('workout-caution'),
+                  padding: const EdgeInsets.all(14),
+                  decoration: BoxDecoration(
+                    color: ParlaColors.sky,
+                    borderRadius: BorderRadius.circular(ParlaShape.tile),
+                  ),
+                  child: Text(caution, style: text.bodyMedium),
+                ),
               ),
-            ),
-            const SizedBox(width: 20),
-            IconButton.outlined(
-              key: const ValueKey('workout-skip'),
-              tooltip: l10n.sportNextMove,
-              iconSize: 28,
-              constraints: const BoxConstraints(minWidth: 56, minHeight: 56),
-              onPressed: () => _next(w),
-              icon: const Icon(Icons.skip_next_rounded),
-            ),
           ],
         ),
-        const SizedBox(height: 24),
-        if (!resting) Text(how, style: text.bodyLarge),
-        if (!resting && caution != null)
-          Padding(
-            padding: const EdgeInsets.only(top: 10),
-            child: Container(
-              key: const ValueKey('workout-caution'),
-              padding: const EdgeInsets.all(12),
-              decoration: BoxDecoration(
-                color: ParlaColors.sky,
-                borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
-              ),
-              child: Text(caution, style: text.bodyMedium),
-            ),
-          ),
-      ],
+      ),
     );
   }
 
@@ -480,6 +565,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
         const SizedBox(height: 24),
         FilledButton(
           key: const ValueKey('workout-back'),
+          style: FilledButton.styleFrom(shape: const StadiumBorder()),
           onPressed: () => context.go(Routes.sport),
           child: Text(l10n.sportBackToPlan),
         ),
@@ -514,6 +600,7 @@ class _Media extends StatelessWidget {
     final placeholder = Container(
       color: resting ? ParlaColors.sky : ParlaColors.sportBlue,
       alignment: Alignment.center,
+      // Placeholder until the team uploads the move's photo or video.
       child: ExcludeSemantics(
         child: ParlaIcon(
           resting ? ParlaIconName.moon : ParlaIconName.dumbbell,
@@ -529,13 +616,13 @@ class _Media extends StatelessWidget {
             key: const ValueKey('workout-image'),
             image: image,
             radius: 0,
-            aspectRatio: 16 / 10,
+            aspectRatio: 4 / 3,
           );
     final video = item?.video;
     return ClipRRect(
-      borderRadius: BorderRadius.circular(24),
+      borderRadius: BorderRadius.circular(ParlaShape.card),
       child: AspectRatio(
-        aspectRatio: 16 / 10,
+        aspectRatio: 4 / 3,
         child: Stack(
           fit: StackFit.expand,
           children: [
@@ -593,10 +680,10 @@ class _Ring extends StatelessWidget {
             child: ExcludeSemantics(
               child: CircularProgressIndicator(
                 value: progress.clamp(0, 1),
-                strokeWidth: 8,
+                strokeWidth: 10,
                 strokeCap: StrokeCap.round,
-                backgroundColor: ParlaColors.line,
-                color: resting ? ParlaColors.sunInk : ParlaColors.sportBlue,
+                backgroundColor: const Color(0x29FFF9E8),
+                color: resting ? ParlaColors.sky : ParlaColors.sun,
               ),
             ),
           ),
