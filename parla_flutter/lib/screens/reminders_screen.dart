@@ -8,6 +8,7 @@ import '../parla_scope.dart';
 import '../reminders/reminder_settings.dart';
 import '../routes.dart';
 import '../ui/brand.dart';
+import '../ui/parla_ui.dart';
 import '../ui/common.dart';
 import '../ui/parla_icons.dart';
 
@@ -86,7 +87,8 @@ class _RemindersScreenState extends State<RemindersScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ParlaColors.cream,
-        leading: BackButton(onPressed: () => context.go(Routes.habits)),
+        leadingWidth: roundBackWidth,
+        leading: RoundBackButton(onPressed: () => context.go(Routes.habits)),
       ),
       body: ListenableBuilder(
         listenable: reminders,

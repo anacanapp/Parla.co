@@ -6,6 +6,7 @@ import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
 import '../routes.dart';
 import '../ui/brand.dart';
+import '../ui/parla_ui.dart';
 import '../ui/parla_icons.dart';
 import 'care_list.dart';
 
@@ -57,7 +58,8 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
       backgroundColor: ParlaColors.cream,
       appBar: AppBar(
         backgroundColor: ParlaColors.cream,
-        leading: BackButton(
+        leadingWidth: roundBackWidth,
+        leading: RoundBackButton(
           onPressed: () => context.go(
             GoRouterState.of(context).uri.queryParameters['from'] == 'discover'
                 ? Routes.discover
