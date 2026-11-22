@@ -116,6 +116,21 @@ class FakeAdminApi implements AdminApi {
     _auth.value++;
   }
 
+  /// The code that [finishCodeLogin] accepts.
+  static const loginCode = '123456';
+
+  @override
+  Future<UuidValue> startCodeLogin(String email) async =>
+      UuidValue.fromString('33333333-3333-4333-8333-333333333333');
+
+  @override
+  Future<void> finishCodeLogin(UuidValue requestId, String code) async {
+    if (code.trim() != loginCode) throw const AdminError('auth.failed');
+    calls.add('codeLogin');
+    signedIn = true;
+    _auth.value++;
+  }
+
   @override
   Future<UuidValue> startPasswordReset(String email) async =>
       UuidValue.fromString('22222222-2222-4222-8222-222222222222');

@@ -268,8 +268,8 @@ class _OverviewScreenState extends State<OverviewScreen> {
                   icon: Icons.lock_outline,
                   title: 'Təhlükəsizlik',
                   body:
-                      'Şifrənizi heç kimlə paylaşmayın; 12 saatdan bir yenidən '
-                      'daxil olmaq lazımdır. Paneldəki hər dəyişiklik audit '
+                      'Şifrənizi və e-poçt kodlarını heç kimlə paylaşmayın; '
+                      'giriş 12 saat qüvvədədir. Paneldəki hər dəyişiklik audit '
                       'jurnalına yazılır. İstifadəçilərin sağlamlıq '
                       'məlumatları paneldə görünmür.',
                 ),

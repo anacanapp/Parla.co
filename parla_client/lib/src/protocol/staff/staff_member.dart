@@ -14,8 +14,9 @@ import 'package:serverpod_client/serverpod_client.dart' as _isc;
 import '../staff/staff_role.dart' as _iopxo5n5;
 
 /// A staff member of the admin panel: an existing sign-in account with a
-/// role. Sign-in is email and password only (decision of 2026-11-18, see
-/// docs/ARCHITECTURE.md). No name or phone is kept.
+/// role. Sign-in is email and password, or an emailed one-time code
+/// (decisions of 2026-11-18 and 2026-11-22, see docs/ARCHITECTURE.md). No
+/// name or phone is kept.
 abstract class StaffMember
     implements _isc.SerializableModel, _isc.ProtocolSerialization {
   StaffMember._({

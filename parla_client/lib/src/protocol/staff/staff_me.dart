@@ -14,8 +14,8 @@ import 'package:serverpod_client/serverpod_client.dart' as _isc;
 import '../staff/staff_role.dart' as _iopxo5n5;
 
 /// What the admin panel needs to know about the signed-in staff member.
-/// [signInExpiresAt]: 12 hours after the password sign-in; afterwards the
-/// panel asks for the password again.
+/// [signInExpiresAt]: 12 hours after the sign-in (password or emailed
+/// code); afterwards the panel asks to sign in again.
 abstract class StaffMe
     implements _isc.SerializableModel, _isc.ProtocolSerialization {
   StaffMe._({

@@ -143,6 +143,32 @@ void main() {
     expect(find.text('Dəvət kodu'), findsWidgets);
   });
 
+  testWidgets('a forgotten password: sign in with an emailed code', (
+    tester,
+  ) async {
+    final api = await _pump(tester);
+    await _tap(tester, find.byKey(const ValueKey('to-code')));
+    expect(find.text('Kodla daxil ol'), findsOneWidget);
+    expect(find.byKey(const ValueKey('password')), findsNothing);
+    await tester.enterText(find.byKey(const ValueKey('email')), 'a@parla.az');
+    await _tap(tester, find.byKey(const ValueKey('auth-submit')));
+    expect(find.text('Kodu e-poçtunuza göndərdik.'), findsOneWidget);
+    expect(find.byKey(const ValueKey('password')), findsNothing);
+
+    await tester.enterText(find.byKey(const ValueKey('email-code')), '000000');
+    await _tap(tester, find.byKey(const ValueKey('auth-submit')));
+    expect(find.textContaining('Alınmadı'), findsOneWidget);
+    expect(api.signedIn, isFalse);
+
+    await tester.enterText(
+      find.byKey(const ValueKey('email-code')),
+      FakeAdminApi.loginCode,
+    );
+    await _tap(tester, find.byKey(const ValueKey('auth-submit')));
+    expect(api.calls, contains('codeLogin'));
+    expect(find.text('Dəvət kodu'), findsWidgets);
+  });
+
   testWidgets('signing out returns to the sign-in page', (tester) async {
     final api = await _pump(tester, api: _ready(StaffRole.admin));
     await _tap(tester, find.byKey(const ValueKey('sign-out')));

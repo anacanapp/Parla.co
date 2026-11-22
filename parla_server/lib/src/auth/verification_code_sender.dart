@@ -15,6 +15,13 @@ abstract interface class VerificationCodeSender {
     required String code,
   });
 
+  /// Sends an admin panel password reset code (staff only, Azerbaijani).
+  Future<void> sendStaffPasswordReset(
+    Session session, {
+    required String email,
+    required String code,
+  });
+
   /// Sends an admin panel invitation code (staff only, Azerbaijani).
   Future<void> sendStaffInvite(
     Session session, {
@@ -32,6 +39,22 @@ class DevelopmentCodeSender implements VerificationCodeSender {
 
   /// The last invitation code, so tests can accept it.
   static String? lastStaffInviteCode;
+
+  /// The last password reset code, so tests can use it.
+  static String? lastStaffPasswordResetCode;
+
+  @override
+  Future<void> sendStaffPasswordReset(
+    Session session, {
+    required String email,
+    required String code,
+  }) async {
+    lastStaffPasswordResetCode = code;
+    session.log(
+      'Staff password reset code (development only): $code',
+      level: LogLevel.info,
+    );
+  }
 
   @override
   Future<void> sendStaffInvite(
@@ -142,6 +165,25 @@ mail.Message staffInviteMessage({
     'Bu dəvəti gözləmirdinizsə, məktubu nəzərə almayın.',
   ].join('\n');
 
+/// The admin panel password reset email. Staff only, so Azerbaijani; only
+/// the code.
+mail.Message staffPasswordResetMessage({
+  required String from,
+  required String to,
+  required String code,
+}) => mail.Message()
+  ..from = mail.Address(from, 'Parla')
+  ..recipients = [to]
+  ..subject = 'Parla admin paneli: şifrə bərpası'
+  ..text = [
+    'Parla admin panelində şifrəni bərpa etmək üçün kod: $code',
+    '',
+    'Kod 15 dəqiqə etibarlıdır. Kodu panelə daxil edin və yeni şifrə '
+        'təyin edin.',
+    'Bu kodu siz istəməmisinizsə, məktubu nəzərə almayın: şifrəniz '
+        'dəyişməyib.',
+  ].join('\n');
+
 /// Sends the code through an SMTP mailbox (for now info@anacan.az).
 class SmtpCodeSender implements VerificationCodeSender {
   SmtpCodeSender(this.settings)
@@ -173,6 +215,31 @@ class SmtpCodeSender implements VerificationCodeSender {
       // Neither the address nor the code is logged (checklist AUD-3).
       session.log(
         'Sign-in email failed: ${error.runtimeType}',
+        level: LogLevel.error,
+      );
+      rethrow;
+    }
+  }
+
+  @override
+  Future<void> sendStaffPasswordReset(
+    Session session, {
+    required String email,
+    required String code,
+  }) async {
+    try {
+      await mail.send(
+        staffPasswordResetMessage(
+          from: settings.fromAddress,
+          to: email,
+          code: code,
+        ),
+        _server,
+        timeout: const Duration(seconds: 20),
+      );
+    } on Object catch (error) {
+      session.log(
+        'Staff password reset email failed: ${error.runtimeType}',
         level: LogLevel.error,
       );
       rethrow;

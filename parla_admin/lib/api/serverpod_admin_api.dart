@@ -324,6 +324,25 @@ class ServerpodAdminApi implements AdminApi {
       });
 
   @override
+  Future<UuidValue> startCodeLogin(String email) =>
+      _auth(() => _client.emailIdp.startOtpLogin(email: email.trim()));
+
+  @override
+  Future<void> finishCodeLogin(UuidValue requestId, String code) =>
+      _auth(() async {
+        final result = await _client.emailIdp.verifyOtpLoginCode(
+          otpLoginRequestId: requestId,
+          verificationCode: code.trim(),
+        );
+        // Staff accounts are created by invitation only.
+        if (!result.accountExists) throw const AdminError('auth.failed');
+        final success = await _client.emailIdp.finishOtpLogin(
+          otpLoginToken: result.token,
+        );
+        await _client.auth.updateSignedInUser(success);
+      });
+
+  @override
   Future<UuidValue> startPasswordReset(String email) =>
       _auth(() => _client.emailIdp.startPasswordReset(email: email.trim()));
 

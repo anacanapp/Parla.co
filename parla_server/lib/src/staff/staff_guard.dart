@@ -21,9 +21,10 @@ abstract final class StaffErrors {
 
 /// How long a password sign-in lets a staff member use the panel. After
 /// that every admin call is refused until the password is entered again
-/// (a new sign-in session). There is no second factor (decision of
-/// 2026-11-18); repeated wrong passwords are limited by the email sign-in
-/// (5 per 5 minutes) and by WAF.
+/// (a new sign-in session, by password or by an emailed one-time code).
+/// There is no second factor (decision of 2026-11-18); repeated wrong
+/// passwords and codes are limited by the email sign-in (5 per 5 minutes
+/// for passwords, 5 code requests per 15 minutes) and by WAF.
 const staffSignInLength = Duration(hours: 12);
 
 /// The staff row of the caller, or `null`.

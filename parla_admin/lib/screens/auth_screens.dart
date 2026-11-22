@@ -5,10 +5,11 @@ import '../staff_session.dart';
 import '../ui/texts.dart';
 import '../ui/theme.dart';
 
-enum _Mode { login, register, reset }
+enum _Mode { login, code, register, reset }
 
-/// Email and password; registration and password reset with an emailed
-/// code. Passwords need at least 12 characters.
+/// Email and password, or a one-time code sent by email; registration and
+/// password reset with an emailed code. Passwords need at least 12
+/// characters.
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key, required this.state});
 
@@ -67,14 +68,19 @@ class _SignInScreenState extends State<SignInScreen> {
       case _Mode.login:
         await _api.login(_email.text, _password.text);
         await widget.state.refresh();
-      case _Mode.register || _Mode.reset when requestId == null:
-        final id = _mode == _Mode.register
-            ? await _api.startRegistration(_email.text)
-            : await _api.startPasswordReset(_email.text);
+      case _Mode.code || _Mode.register || _Mode.reset when requestId == null:
+        final id = switch (_mode) {
+          _Mode.register => await _api.startRegistration(_email.text),
+          _Mode.reset => await _api.startPasswordReset(_email.text),
+          _ => await _api.startCodeLogin(_email.text),
+        };
         setState(() {
           _requestId = id;
           _message = 'Kodu e-poçtunuza göndərdik.';
         });
+      case _Mode.code:
+        await _api.finishCodeLogin(requestId!, _code.text);
+        await widget.state.refresh();
       case _Mode.register:
         _checkPassword();
         final token = await _api.verifyRegistrationCode(
@@ -106,12 +112,14 @@ class _SignInScreenState extends State<SignInScreen> {
     final codeStep = _mode != _Mode.login && _requestId != null;
     final title = switch (_mode) {
       _Mode.login => 'Daxil ol',
+      _Mode.code => 'Kodla daxil ol',
       _Mode.register => 'Qeydiyyat',
       _Mode.reset => 'Şifrəni yenilə',
     };
     final button = switch (_mode) {
       _Mode.login => 'Daxil ol',
       _ when !codeStep => 'Kod göndər',
+      _Mode.code => 'Daxil ol',
       _Mode.register => 'Hesab yarat',
       _Mode.reset => 'Şifrəni yenilə',
     };
@@ -154,7 +162,7 @@ class _SignInScreenState extends State<SignInScreen> {
             decoration: const InputDecoration(labelText: 'E-poçtdakı kod'),
           ),
         ],
-        if (_mode == _Mode.login || codeStep) ...[
+        if (_mode == _Mode.login || (codeStep && _mode != _Mode.code)) ...[
           const SizedBox(height: 12),
           TextField(
             key: const ValueKey('password'),
@@ -191,6 +199,11 @@ class _SignInScreenState extends State<SignInScreen> {
             child: const Text('Girişə qayıt'),
           )
         else ...[
+          TextButton(
+            key: const ValueKey('to-code'),
+            onPressed: () => _switch(_Mode.code),
+            child: const Text('E-poçta kod göndər'),
+          ),
           TextButton(
             key: const ValueKey('to-register'),
             onPressed: () => _switch(_Mode.register),

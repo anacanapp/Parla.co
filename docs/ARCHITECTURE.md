@@ -279,16 +279,24 @@ messages and push notifications (D) follow.
   waits: items whose approval belongs to this role (`ContentRules.reviewerRole`),
   approved items not yet published, drafts, and unread support threads. It
   reads only the existing content and support lists; it shows no user data.
-- **Sign-in.** Email and password only (at least 12 characters, enforced on
-  the server). **There is no second factor: decision of 2026-11-18 by the
+- **Sign-in.** Email and password (at least 12 characters, enforced on
+  the server), or a one-time code sent to the staff email (decision of
+  2026-11-22 by the product owner). A forgotten password is reset with an
+  emailed code; reset codes are sent only to active staff
+  (`sendStaffPasswordResetCode`), any other address gets the same answer
+  and no email. The code sign-in never creates an account: an email
+  without one is refused, and a non-staff account is refused by
+  `requireStaff`. Consequence: the staff email mailbox is as strong as the
+  password, so staff mailboxes must use two-step verification.
+  **There is no second factor: decision of 2026-11-18 by the
   product owner**, replacing the TOTP step of phase A. Consequence: a
-  stolen or reused staff password is enough to look up users' emails,
+  stolen or reused staff password (or a staff mailbox) is enough to look up users' emails,
   delete accounts, read support messages (which may hold health details)
   and send push campaigns. What limits it: the email sign-in allows 5 wrong
   passwords per 5 minutes, WAF limits sign-in requests per IP address,
   every staff action is audited, and a sign-in lasts at most 12 hours
   (`staffSignInLength`): the server compares the age of the sign-in
-  session (its refresh token, created by the password sign-in) and refuses
+  session (its refresh token, created by the password or code sign-in) and refuses
   older ones with `staff.sign_in_again`, and the panel then asks for the
   password again. Sign-in errors do not say whether the email exists. The
   lawyer should see this decision when the security measures (GDPR
@@ -983,7 +991,7 @@ idempotent).
 | Privacy policy: ads under articles and recipes chosen by the page's topic (context, not the user), links to brands' websites (asked first; only Parla's campaign tags added; the brand's own privacy rules apply there), campaign reports given to advertisers as totals with counts under 10 hidden, advertisers' company data kept in the panel | — | Lawyer, before the first brand campaign |
 | Privacy policy: usage statistics under the analytics consent (what is counted, 30-day activity marks, 24-month daily totals, banner figures shared with advertisers as totals), staff look-ups of accounts, deletion on request | — | Lawyer, before the beta |
 | Privacy policy text for staff access, the admin panel and push notifications | — | Lawyer, before phase D |
-| Security measures: staff sign-in is password-only (no second factor, decision of 2026-11-18) | — | Lawyer to note in the GDPR Art. 32 description |
+| Security measures: staff sign-in is a password or an emailed one-time code (no second factor, decisions of 2026-11-18 and 2026-11-22); staff mailboxes need two-step verification | — | Lawyer to note in the GDPR Art. 32 description |
 | Real-device test of reminders (Android 13+ permission, reboot, iOS foreground) | M7 | Before the beta |
 | Expert review of the preference ingredient lists (`product_preferences.dart`) | — | Before launch |
 | Dietitian check of the imported recipes, their plate groups and allergens; dermatologist review of the 32 blog articles (especially retinoid-first-steps, glp1-skin, gel-manicure-safety, exosomes-pdrn, ai-skin-analysis; the FAQ wording "Saç boyası saça zərərlidirmi?" and "Ucuz eynək zərərlidirmi?"), stylist review of the fashion ones | — | Before publishing them |

@@ -1,6 +1,6 @@
 ### What the admin panel needs to know about the signed-in staff member.
-### [signInExpiresAt]: 12 hours after the password sign-in; afterwards the
-### panel asks for the password again.
+### [signInExpiresAt]: 12 hours after the sign-in (password or emailed
+### code); afterwards the panel asks to sign in again.
 class: StaffMe
 fields:
   role: StaffRole

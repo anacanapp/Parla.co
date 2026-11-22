@@ -152,7 +152,8 @@ class _StaffScreenState extends State<StaffScreen> {
     return AdminPage(
       title: 'İşçilər',
       subtitle:
-          'İşçilər e-poçt və şifrə ilə daxil olur, 12 saatdan bir yenidən. '
+          'İşçilər şifrə və ya e-poçta gələn kodla daxil olur; giriş 12 saat '
+          'qüvvədədir. '
           'İşçilər istifadəçilərin sağlamlıq məlumatlarını görmür. Bütün '
           'əməliyyatlar audit jurnalına yazılır.',
       maxWidth: 960,
