@@ -607,6 +607,34 @@ void main() {
       for (final f in ['skin-minimalism.jpg', 'herb-kuku.jpg']) {
         await store.put('$contentImagesPrefix$f', jpeg, 'image/jpeg');
       }
+      Map<String, Object?> entry(String kind, String slug) => {
+        'kind': kind,
+        'slug': slug,
+        'file': '$slug.jpg',
+        'alt': {
+          'az': '$slug: göyərti küküsü',
+          'ru': '$slug ru',
+          'en': '$slug en',
+        },
+      };
+      await expectLater(
+        runAttachContentImagesTask(db, 'first-admin@example.com'),
+        throwsA(isA<StateError>()),
+      );
+      await store.put(
+        contentImagesManifest,
+        Uint8List.fromList(
+          utf8.encode(
+            jsonEncode([
+              entry('article', 'skin-minimalism'),
+              entry('recipe', 'herb-kuku'),
+              entry('recipe', 'banana-oat-cookies'),
+              entry('recipe', 'no-such-recipe'),
+            ]),
+          ),
+        ),
+        'application/json',
+      );
 
       await expectLater(
         runAttachContentImagesTask(db, 'editor@example.com'),
@@ -618,7 +646,11 @@ void main() {
       );
       expect(result, startsWith('Attached 2 covers. Skipped: '));
       expect(result, contains('banana-oat-cookies (no file)'));
-      expect(store.objects.keys.where((k) => k.startsWith('incoming/')), []);
+      expect(
+        store.objects.keys.where((k) => k.startsWith('incoming/')),
+        [contentImagesManifest],
+      );
+      expect(result, contains('no-such-recipe (no item)'));
 
       final kuku = await ContentItem.db.findFirstRow(
         db,

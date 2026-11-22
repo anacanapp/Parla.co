@@ -450,9 +450,9 @@ draft content until the named expert reviews it.
     once for `sunglasses-hats-uv` (owner's request, 2026-11-20). The
     result line also names items that could not be published and why.
   - `PARLA_TASK=attach-content-images` attaches the covers listed in
-    `content_images_task.dart` (owner's images of 2026-11-22, generated
-    with AI; licence and three-language alt text in the list). The files
-    wait in the private bucket under `incoming/content-images/`; each is
+    `incoming/content-images/manifest.json` in the private bucket (kind,
+    slug, file, three-language alt text; licence: generated with AI for
+    our own use). The files wait next to it; each is
     re-encoded like a panel upload, set as the cover of the working and
     the published copy (status and review unchanged: covers need no expert
     review, owner's decision), audited (`media.uploaded`,
