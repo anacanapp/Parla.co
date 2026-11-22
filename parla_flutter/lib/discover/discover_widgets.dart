@@ -76,7 +76,19 @@ class SubPage extends StatelessWidget {
     backgroundColor: background,
     appBar: AppBar(
       backgroundColor: background,
-      leading: BackButton(onPressed: onBack),
+      leading: Padding(
+        padding: const EdgeInsets.only(left: 8),
+        child: Center(
+          child: Material(
+            color: ParlaColors.white,
+            shape: const CircleBorder(
+              side: BorderSide(color: ParlaColors.line),
+            ),
+            child: BackButton(onPressed: onBack, color: ParlaColors.espresso),
+          ),
+        ),
+      ),
+      leadingWidth: 64,
       title: Text(title),
     ),
     body: SafeArea(

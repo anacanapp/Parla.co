@@ -61,8 +61,8 @@ const double kMinTextSize = 12;
 abstract final class ParlaSpace {
   static const page = 16.0;
   static const gap = 12.0;
-  static const cardRadius = 18.0;
-  static const controlRadius = 14.0;
+  static const cardRadius = 22.0;
+  static const controlRadius = 16.0;
   static const buttonHeight = 52.0;
 }
 
@@ -123,9 +123,6 @@ ThemeData parlaTheme() {
     labelSmall: style(12, FontWeight.w700, letterSpacing: 1),
   );
 
-  final rounded = RoundedRectangleBorder(
-    borderRadius: BorderRadius.circular(16),
-  );
   return ThemeData(
     useMaterial3: true,
     fontFamily: ParlaFonts.sans,
@@ -148,7 +145,7 @@ ThemeData parlaTheme() {
         disabledBackgroundColor: ParlaColors.line,
         disabledForegroundColor: ParlaColors.muted,
         minimumSize: const Size.fromHeight(ParlaSpace.buttonHeight),
-        shape: rounded,
+        shape: const StadiumBorder(),
         textStyle: textTheme.labelLarge,
       ),
     ),
@@ -157,7 +154,7 @@ ThemeData parlaTheme() {
         foregroundColor: ParlaColors.espresso,
         backgroundColor: ParlaColors.white,
         minimumSize: const Size.fromHeight(ParlaSpace.buttonHeight),
-        shape: rounded,
+        shape: const StadiumBorder(),
         side: const BorderSide(color: ParlaColors.line, width: 1.5),
         textStyle: textTheme.labelLarge,
       ),
@@ -187,6 +184,33 @@ ThemeData parlaTheme() {
       ),
       labelStyle: textTheme.bodyMedium?.copyWith(color: ParlaColors.muted),
       hintStyle: textTheme.bodyMedium?.copyWith(color: ParlaColors.outline),
+    ),
+    // Parla 2.0: capsules for chips, large rounded corners for cards,
+    // dialogs and sheets.
+    chipTheme: ChipThemeData(
+      shape: const StadiumBorder(side: BorderSide(color: ParlaColors.line)),
+      backgroundColor: ParlaColors.white,
+      selectedColor: ParlaColors.sun,
+      labelStyle: textTheme.labelLarge?.copyWith(color: ParlaColors.espresso),
+      side: const BorderSide(color: ParlaColors.line),
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+      showCheckmark: false,
+    ),
+    cardTheme: CardThemeData(
+      color: ParlaColors.white,
+      elevation: 0,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
+    ),
+    dialogTheme: DialogThemeData(
+      backgroundColor: ParlaColors.cream,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+    ),
+    bottomSheetTheme: const BottomSheetThemeData(
+      backgroundColor: ParlaColors.cream,
+      showDragHandle: true,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
     ),
     checkboxTheme: CheckboxThemeData(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),

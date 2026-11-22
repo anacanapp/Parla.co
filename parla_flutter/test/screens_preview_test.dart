@@ -20,7 +20,10 @@ import 'support/fake_api.dart';
 import 'support/fake_reminders.dart';
 
 const _enabled = bool.fromEnvironment('PALETTE_PREVIEW');
-const _language = 'az';
+const _language = String.fromEnvironment(
+  'PREVIEW_LANG',
+  defaultValue: 'az',
+);
 const _dir = String.fromEnvironment('PREVIEW_DIR');
 final _today = DateTime(2026, 11, 12, 9);
 
@@ -254,6 +257,11 @@ void main() {
     ('06_shop', Routes.shop),
     ('07_product', Routes.shopProduct),
     ('08_privacy', Routes.privacy),
+    ('10_check', Routes.products),
+    ('11_shopping', Routes.shoppingList),
+    ('12_blog_list', Routes.blog),
+    ('13_experts', Routes.experts),
+    ('14_nutrition', Routes.nutrition),
   ]) {
     testWidgets(name, skip: !_enabled, (tester) async {
       await _open(tester);
