@@ -11,6 +11,7 @@ import '../parla_scope.dart';
 import '../home/widgets/parla_nav_bar.dart';
 import '../routes.dart';
 import '../ui/brand.dart';
+import '../ui/parla_ui.dart';
 import '../ui/common.dart';
 
 /// M-25/M-27/M-28: profile and privacy centre. Every right is reachable in
@@ -294,7 +295,8 @@ class LegalScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ParlaColors.cream,
-        leading: BackButton(onPressed: () => context.go(Routes.privacy)),
+        leadingWidth: roundBackWidth,
+        leading: RoundBackButton(onPressed: () => context.go(Routes.privacy)),
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
@@ -390,7 +392,8 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ParlaColors.cream,
-        leading: BackButton(onPressed: () => context.go(Routes.privacy)),
+        leadingWidth: roundBackWidth,
+        leading: RoundBackButton(onPressed: () => context.go(Routes.privacy)),
       ),
       body: ParlaPage(
         title: l10n.deleteTitle,

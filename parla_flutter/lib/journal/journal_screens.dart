@@ -7,6 +7,7 @@ import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
 import '../routes.dart';
 import '../ui/brand.dart';
+import '../ui/parla_ui.dart';
 import '../ui/parla_icons.dart';
 import 'journal_book.dart';
 
@@ -228,7 +229,8 @@ class _JournalEntryScreenState extends State<JournalEntryScreen> {
         backgroundColor: ParlaColors.cream,
         appBar: AppBar(
           backgroundColor: ParlaColors.cream,
-          leading: BackButton(onPressed: _close),
+          leadingWidth: roundBackWidth,
+          leading: RoundBackButton(onPressed: _close),
           title: Text(l10n.journalEntryTitle),
           actions: [
             if (widget.id != null)

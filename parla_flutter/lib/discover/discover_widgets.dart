@@ -6,6 +6,7 @@ import 'package:parla_shared/parla_shared.dart';
 import '../l10n/app_localizations.dart';
 import '../services/parla_api.dart';
 import '../ui/brand.dart';
+import '../ui/parla_ui.dart';
 import '../ui/parla_icons.dart';
 
 String categoryText(AppLocalizations l10n, String id) => switch (id) {
@@ -76,19 +77,8 @@ class SubPage extends StatelessWidget {
     backgroundColor: background,
     appBar: AppBar(
       backgroundColor: background,
-      leading: Padding(
-        padding: const EdgeInsets.only(left: 8),
-        child: Center(
-          child: Material(
-            color: ParlaColors.white,
-            shape: const CircleBorder(
-              side: BorderSide(color: ParlaColors.line),
-            ),
-            child: BackButton(onPressed: onBack, color: ParlaColors.espresso),
-          ),
-        ),
-      ),
-      leadingWidth: 64,
+      leading: RoundBackButton(onPressed: onBack),
+      leadingWidth: roundBackWidth,
       title: Text(title),
     ),
     body: SafeArea(

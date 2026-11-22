@@ -13,6 +13,7 @@ import '../parla_scope.dart';
 import '../routes.dart';
 import '../services/parla_api.dart';
 import '../ui/brand.dart';
+import '../ui/parla_ui.dart';
 import '../ui/common.dart';
 import '../ui/parla_icons.dart';
 
@@ -412,7 +413,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       backgroundColor: ParlaColors.cream,
       appBar: AppBar(
         backgroundColor: ParlaColors.cream,
-        leading: BackButton(
+        leadingWidth: roundBackWidth,
+        leading: RoundBackButton(
           onPressed: () => context.go(
             GoRouterState.of(context).uri.queryParameters['from'] == 'discover'
                 ? Routes.discover

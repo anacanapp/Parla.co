@@ -498,3 +498,26 @@ class MiniStat extends StatelessWidget {
     );
   }
 }
+
+/// The round white back button of Parla 2.0 app bars. Use it as
+/// `leading` with `leadingWidth: roundBackWidth`.
+class RoundBackButton extends StatelessWidget {
+  const RoundBackButton({super.key, required this.onPressed});
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsetsDirectional.only(start: 8),
+    child: Center(
+      child: Material(
+        color: ParlaColors.white,
+        shape: const CircleBorder(side: BorderSide(color: ParlaColors.line)),
+        child: BackButton(onPressed: onPressed, color: ParlaColors.espresso),
+      ),
+    ),
+  );
+}
+
+/// The app bar's leading width for a [RoundBackButton].
+const roundBackWidth = 64.0;
