@@ -75,7 +75,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                         ? l10n.discoverBlogsHint
                         : '${l10n.discoverArticleCount(articles.length)} · '
                               '${l10n.discoverBlogsHint}',
-                    color: ParlaColors.lilac,
+                    color: ParlaColors.espresso,
                     icon: ParlaIconName.book,
                     onTap: () => go(Routes.blog),
                   ),
@@ -84,7 +84,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     hint: recipes.isEmpty
                         ? l10n.discoverNutritionHint
                         : l10n.discoverRecipeCount(recipes.length),
-                    color: ParlaColors.sageTint,
+                    color: ParlaColors.lemon,
                     icon: ParlaIconName.bowl,
                     onTap: () => go(Routes.nutrition),
                   ),
@@ -99,21 +99,21 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                   experts: BentoSection(
                     title: l10n.discoverExperts,
                     hint: l10n.discoverExpertsHint,
-                    color: ParlaColors.sky,
+                    color: ParlaColors.white,
                     icon: ParlaIconName.profile,
                     onTap: () => go(Routes.experts),
                   ),
                   shopping: BentoSection(
                     title: l10n.discoverShopping,
                     hint: l10n.discoverShoppingHint,
-                    color: ParlaColors.lemon,
+                    color: ParlaColors.white,
                     icon: ParlaIconName.routine,
                     onTap: () => go('${Routes.shoppingList}?from=discover'),
                   ),
                   shop: BentoSection(
                     title: l10n.discoverShop,
                     hint: l10n.discoverShopHint,
-                    color: ParlaColors.blush,
+                    color: ParlaColors.sun,
                     icon: ParlaIconName.bag,
                     onTap: () => go('${Routes.shop}?from=discover'),
                   ),
@@ -121,12 +121,11 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     id: 'journal',
                     title: l10n.discoverJournal,
                     hint: l10n.discoverJournalHint,
-                    color: ParlaColors.lilac,
+                    color: ParlaColors.white,
                     icon: ParlaIconName.pen,
                     onTap: () => go(Routes.journal),
                   ),
                   blogsImage: cover(articles),
-                  nutritionImage: cover(recipes),
                 ),
                 const SizedBox(height: ParlaSpace.gap),
                 const BannerStrip(placement: 'discover'),
