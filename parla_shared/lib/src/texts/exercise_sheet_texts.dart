@@ -416,4 +416,133 @@ const exerciseSheetTexts = <String, List<List<String>>>{
     ],
     ["wall-sit-1.png", "wall-sit-2.png"],
   ],
+  // Face yoga, from the document "Üz yoqası: tətbiq məzmunu" (2026-11-22).
+  'fy_forehead_smooth': [
+    ["Alın hamarlama", "Разглаживание лба", "Forehead smoothing"],
+    [
+      "Barmaq uclarını alnın ortasına qoyun. Yüngül toxunuşla gicgahlara doğru sürüşdürün. Qaşları qaldırmayın, alın rahat qalsın.",
+      "Положите кончики пальцев на середину лба. Лёгким касанием ведите к вискам. Не поднимайте брови, лоб расслаблен.",
+      "Place your fingertips in the middle of your forehead. Glide them lightly towards your temples. Keep your brows down and your forehead relaxed.",
+    ],
+    ["Dərini dartmayın.", "Не растягивайте кожу.", "Don't pull the skin."],
+    ["fy-forehead-smooth-1.png", "fy-forehead-smooth-2.png"],
+  ],
+  'fy_brow_lift': [
+    ["Qaş qaldırma", "Подъём бровей", "Brow lift"],
+    [
+      "Şəhadət barmaqlarını qaşların altına qoyun. Qaşları barmaqlara qədər yuxarı qaldırın, barmaqlar yüngül müqavimət göstərsin. 10 san saxlayın, rahatlaşın.",
+      "Положите указательные пальцы под брови. Поднимайте брови к пальцам, пальцы слегка сопротивляются. Держите 10 секунд и расслабьтесь.",
+      "Rest your index fingers under your brows. Lift your brows against your fingers, which push back gently. Hold for 10 seconds, then relax.",
+    ],
+    ["Alını qırışdırmayın.", "Не морщите лоб.", "Don't wrinkle your forehead."],
+    ["fy-brow-lift-1.png", "fy-brow-lift-2.png"],
+  ],
+  'fy_eye_v': [
+    ["V hərəkəti", "Упражнение «V»", "The V"],
+    [
+      "Orta barmaqları qaşların daxili ucuna, şəhadət barmaqlarını gözlərin xarici küncünə qoyun (V şəkli). Yuxarı baxın və aşağı göz qapaqlarını yüngül sıxın.",
+      "Средние пальцы — у внутренних краёв бровей, указательные — у внешних уголков глаз (буква V). Смотрите вверх и слегка напрягайте нижние веки.",
+      "Middle fingers at the inner ends of your brows, index fingers at the outer corners of your eyes (a V shape). Look up and gently squeeze your lower lids.",
+    ],
+    [
+      "Göz almasına toxunmayın.",
+      "Не касайтесь глазного яблока.",
+      "Don't touch the eyeball.",
+    ],
+    ["fy-eye-v-1.png", "fy-eye-v-2.png"],
+  ],
+  'fy_cheek_lift': [
+    ["Yanaq qaldırma", "Подъём щёк", "Cheek lift"],
+    [
+      "Dodaqlar bağlı geniş gülümsəyin. Barmaq uclarını yanaqların qabarıq yerinə qoyub yanaqları yüngül yuxarı qaldırın.",
+      "Широко улыбнитесь с сомкнутыми губами. Положите кончики пальцев на скулы и слегка поднимайте щёки вверх.",
+      "Smile widely with your lips closed. Place your fingertips on the high points of your cheeks and lift them gently.",
+    ],
+    ["", "", ""],
+    ["fy-cheek-lift-1.png", "fy-cheek-lift-2.png"],
+  ],
+  'fy_fish_face': [
+    ["Balıq üzü", "Рыбье лицо", "Fish face"],
+    [
+      "Yanaqları içəri çəkin, dodaqlar irəli çıxsın. Bu vəziyyətdə gülümsəməyə çalışın.",
+      "Втяните щёки, губы вытянуты вперёд. В этом положении попробуйте улыбнуться.",
+      "Suck your cheeks in so your lips push forward. Try to smile in this position.",
+    ],
+    ["", "", ""],
+    ["fy-fish-face-1.png", "fy-fish-face-2.png"],
+  ],
+  'fy_air_puff': [
+    ["Hava ötürmə", "Перекатывание воздуха", "Air puff"],
+    [
+      "Ağzı havayla doldurun. Havanı yavaşca sağ yanağa, sol yanağa, üst dodağın üstünə və alt dodağın altına ötürün.",
+      "Наберите воздух в рот. Медленно перекатывайте его в правую щёку, в левую, над верхней губой и под нижней.",
+      "Fill your mouth with air. Slowly move it to your right cheek, left cheek, above your upper lip and below your lower lip.",
+    ],
+    ["", "", ""],
+    ["fy-air-puff-1.png", "fy-air-puff-2.png"],
+  ],
+  'fy_jaw_release': [
+    ["Çənə rahatlatma", "Расслабление челюсти", "Jaw release"],
+    [
+      "Barmaq uclarını qulaqların önündə, çənə oynağına qoyun. Ağzı yavaşca açıb bağlayın və kiçik dairələrlə masaj edin.",
+      "Положите кончики пальцев перед ушами, на челюстной сустав. Медленно открывайте и закрывайте рот, массируя маленькими кругами.",
+      "Place your fingertips in front of your ears, on the jaw joint. Slowly open and close your mouth while massaging in small circles.",
+    ],
+    ["Ağrı olarsa dayandırın.", "При боли остановитесь.", "Stop if it hurts."],
+    ["fy-jaw-release-1.png", "fy-jaw-release-2.png"],
+  ],
+  'fy_neck_kiss': [
+    ["Tavana öpüş", "Поцелуй потолку", "Kiss the ceiling"],
+    [
+      "Dik oturun, başı yavaşca geri əyib tavana baxın. Dodaqları öpüş kimi irəli uzadın, sonra başı yavaşca düzəldin.",
+      "Сядьте прямо, медленно отклоните голову назад и посмотрите в потолок. Вытяните губы вперёд, как для поцелуя, затем медленно вернитесь.",
+      "Sit tall, slowly tilt your head back and look at the ceiling. Push your lips forward as if for a kiss, then slowly bring your head back.",
+    ],
+    [
+      "Boyun problemi varsa, başı çox geri əyməyin.",
+      "При проблемах с шеей не отклоняйте голову сильно назад.",
+      "If you have neck problems, don't tilt your head far back.",
+    ],
+    ["fy-neck-kiss-1.png", "fy-neck-kiss-2.png"],
+  ],
+  'fy_vowels': [
+    ["Saitlər", "Гласные", "Vowels"],
+    [
+      "A, E, İ, O, U saitlərini səssiz və şişirdilmiş şəkildə tələffüz edin. Hər birində 2 san dayanın.",
+      "Беззвучно и преувеличенно проговаривайте гласные А, Э, И, О, У. На каждой задержитесь на 2 секунды.",
+      "Silently mouth the vowels A, E, I, O, U, exaggerating each one. Hold each for 2 seconds.",
+    ],
+    ["", "", ""],
+    ["fy-vowels-1.png", "fy-vowels-2.png"],
+  ],
+  'fy_lion_face': [
+    ["Aslan üzü", "Лицо льва", "Lion face"],
+    [
+      "Dərin nəfəs alın. Nəfəs verərkən ağzı geniş açın, dili çənəyə doğru çıxarın, gözləri geniş açıb yuxarı baxın.",
+      "Глубоко вдохните. На выдохе широко откройте рот, вытяните язык к подбородку, широко откройте глаза и посмотрите вверх.",
+      "Take a deep breath. As you breathe out, open your mouth wide, stretch your tongue towards your chin, open your eyes wide and look up.",
+    ],
+    ["", "", ""],
+    ["fy-lion-face-1.png", "fy-lion-face-2.png"],
+  ],
+  'fy_temple_circles': [
+    ["Gicgah masajı", "Массаж висков", "Temple circles"],
+    [
+      "Barmaq uclarını gicgahlara qoyun və yavaş dairələrlə masaj edin. Gözləri yumun, çiyinləri boşaldın.",
+      "Положите кончики пальцев на виски и массируйте медленными кругами. Закройте глаза, расслабьте плечи.",
+      "Place your fingertips on your temples and massage in slow circles. Close your eyes and relax your shoulders.",
+    ],
+    ["", "", ""],
+    ["fy-temple-circles-1.png", "fy-temple-circles-2.png"],
+  ],
+  'fy_smile_lines': [
+    ["Ağız ətrafı xətləri", "Линии вокруг рта", "Smile lines"],
+    [
+      "Şəhadət barmaqlarını ağzın künclərinə qoyun. Dodaqlar bağlı, ağzın künclərini yuxarı və yana qaldırın, barmaqlar yüngül müqavimət versin.",
+      "Положите указательные пальцы на уголки рта. С сомкнутыми губами поднимайте уголки вверх и в стороны, пальцы слегка сопротивляются.",
+      "Place your index fingers at the corners of your mouth. With your lips closed, lift the corners up and out while your fingers push back gently.",
+    ],
+    ["", "", ""],
+    ["fy-smile-lines-1.png", "fy-smile-lines-2.png"],
+  ],
 };

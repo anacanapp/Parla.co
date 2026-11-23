@@ -66,6 +66,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   }
 
   Workout? _workout(BuildContext context) {
+    if (fixedWorkoutById(widget.workoutId) case final fixed?) return fixed;
     for (final w in ParlaScope.of(context).sport.plan?.workouts ?? const []) {
       if (w.id == widget.workoutId) return w;
     }
@@ -284,15 +285,18 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
     final language = Localizations.localeOf(context).languageCode;
-    final plan = ParlaScope.of(context).sport.plan!;
-    final number = plan.workouts.indexOf(w) + 1;
+    final fixed = fixedWorkoutById(w.id) != null;
+    final plan = ParlaScope.of(context).sport.plan;
+    final number = (plan?.workouts.indexOf(w) ?? -1) + 1;
     return ListView(
       padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
       children: [
         Semantics(
           header: true,
           child: Text(
-            l10n.sportWorkoutTitle(number),
+            fixed
+                ? sportTypeLabel(l10n, w.type)
+                : l10n.sportWorkoutTitle(number),
             style: text.headlineMedium,
           ),
         ),
@@ -301,6 +305,25 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
         ),
         const SizedBox(height: 12),
+        if (w.type == 'face_yoga') ...[
+          Container(
+            key: const ValueKey('face-yoga-safety'),
+            padding: const EdgeInsets.all(14),
+            decoration: BoxDecoration(
+              color: ParlaColors.sky,
+              borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
+            ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(l10n.sportFaceYogaSafetyTitle, style: text.titleMedium),
+                const SizedBox(height: 4),
+                Text(l10n.sportFaceYogaSafetyBody, style: text.bodyMedium),
+              ],
+            ),
+          ),
+          const SizedBox(height: 12),
+        ],
         Text(l10n.sportMusicNote, style: text.bodySmall),
         const SizedBox(height: 16),
         for (var i = 0; i < w.items.length; i++) ...[

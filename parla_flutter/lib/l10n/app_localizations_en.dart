@@ -1274,6 +1274,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sportTypeCardio => 'Low-impact cardio';
 
   @override
+  String get sportTypeFaceYoga => 'Face yoga';
+
+  @override
+  String sportFaceYogaCardBody(int minutes) {
+    return '12 moves · about $minutes min. In front of a mirror, any time.';
+  }
+
+  @override
+  String get sportFaceYogaSafetyTitle => 'Before you start';
+
+  @override
+  String get sportFaceYogaSafetyBody =>
+      'Wash your hands, touch your skin lightly and don\'t pull it. Stop if anything hurts or feels uncomfortable. If you recently had a cosmetic procedure (Botox, fillers) or have jaw joint or skin problems, talk to a doctor first.';
+
+  @override
   String get sportQLevel => 'What is your level?';
 
   @override

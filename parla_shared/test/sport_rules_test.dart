@@ -35,8 +35,18 @@ void main() {
     final ids = [for (final e in exerciseCatalogue) e.id];
     expect(ids.toSet(), hasLength(ids.length));
     for (final e in exerciseCatalogue) {
-      expect(SportOptions.types, contains(e.type), reason: e.id);
-      expect(e.areas.every(SportOptions.areas.contains), isTrue, reason: e.id);
+      expect(
+        [...SportOptions.types, ...SportOptions.sessionTypes],
+        contains(e.type),
+        reason: e.id,
+      );
+      expect(
+        e.areas.every(
+          [...SportOptions.areas, ...SportOptions.sessionAreas].contains,
+        ),
+        isTrue,
+        reason: e.id,
+      );
     }
     for (final type in SportOptions.types) {
       expect(
@@ -45,6 +55,34 @@ void main() {
         reason: type,
       );
     }
+  });
+
+  test('face yoga is one fixed session, never part of a plan', () {
+    final w = fixedWorkoutById(faceYogaWorkoutId)!;
+    expect(w.type, 'face_yoga');
+    expect(w.items, hasLength(12));
+    expect(
+      w.items.map((i) => i.exercise.id),
+      exerciseCatalogue.where((e) => e.type == 'face_yoga').map((e) => e.id),
+    );
+    expect(w.minutes, inInclusiveRange(10, 15));
+    for (final types in [
+      ['fitness'],
+      ['stretching'],
+      [...SportOptions.types],
+    ]) {
+      final plan = planSport(_a(types: types, days: 5, minutes: 40));
+      expect(_all(plan).where((e) => e.type == 'face_yoga'), isEmpty);
+    }
+    expect(fixedWorkoutById('w1'), isNull);
+    // A finished face yoga session may be stored in the log.
+    final doc = jsonEncode({
+      'format': SportRules.format,
+      'log': {
+        '2026-11-23': ['w1', faceYogaWorkoutId],
+      },
+    });
+    expect(SportRules.isValid(doc), isTrue);
   });
 
   test('one workout per day, types rotate, length follows minutes', () {

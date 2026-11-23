@@ -695,6 +695,17 @@
   "sportTypeWallPilates": "Wall pilates",
   "sportTypeStretching": "Stretching",
   "sportTypeCardio": "Low-impact cardio",
+  "sportTypeFaceYoga": "Face yoga",
+  "sportFaceYogaCardBody": "12 moves · about {minutes} min. In front of a mirror, any time.",
+  "@sportFaceYogaCardBody": {
+    "placeholders": {
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "sportFaceYogaSafetyTitle": "Before you start",
+  "sportFaceYogaSafetyBody": "Wash your hands, touch your skin lightly and don't pull it. Stop if anything hurts or feels uncomfortable. If you recently had a cosmetic procedure (Botox, fillers) or have jaw joint or skin problems, talk to a doctor first.",
   "sportQLevel": "What is your level?",
   "sportLevelBeginner": "Just starting",
   "sportLevelIntermediate": "Intermediate",

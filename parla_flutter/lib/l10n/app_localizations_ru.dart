@@ -1279,6 +1279,21 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sportTypeCardio => 'Лёгкое кардио';
 
   @override
+  String get sportTypeFaceYoga => 'Йога для лица';
+
+  @override
+  String sportFaceYogaCardBody(int minutes) {
+    return '12 упражнений · около $minutes мин. Перед зеркалом, в любое время.';
+  }
+
+  @override
+  String get sportFaceYogaSafetyTitle => 'Перед началом';
+
+  @override
+  String get sportFaceYogaSafetyBody =>
+      'Вымойте руки, касайтесь кожи легко и не растягивайте её. При боли или дискомфорте остановитесь. Если недавно были косметические процедуры (ботокс, филлеры) или есть проблемы с челюстным суставом или кожей, сначала посоветуйтесь с врачом.';
+
+  @override
   String get sportQLevel => 'Какой у тебя уровень?';
 
   @override

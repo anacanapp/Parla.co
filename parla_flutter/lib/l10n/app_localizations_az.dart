@@ -1253,6 +1253,21 @@ class AppLocalizationsAz extends AppLocalizations {
   String get sportTypeCardio => 'Yüngül kardio';
 
   @override
+  String get sportTypeFaceYoga => 'Üz yoqası';
+
+  @override
+  String sportFaceYogaCardBody(int minutes) {
+    return '12 hərəkət · təxminən $minutes dəq. Güzgü önündə, istənilən vaxt.';
+  }
+
+  @override
+  String get sportFaceYogaSafetyTitle => 'Başlamazdan əvvəl';
+
+  @override
+  String get sportFaceYogaSafetyBody =>
+      'Əllərinizi yuyun, dəriyə yalnız yüngül toxunun, dərini dartmayın. Ağrı və ya narahatlıq olarsa, dayandırın. Yaxın vaxtlarda kosmetik prosedura (botoks, filler) keçmisinizsə, çənə oynağında və ya dəridə problem varsa, əvvəlcə həkimə müraciət edin.';
+
+  @override
   String get sportQLevel => 'Səviyyən necədir?';
 
   @override
