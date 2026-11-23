@@ -40,7 +40,7 @@ abstract final class SportOptions {
 
   /// Types with a fixed session instead of a weekly plan. They are not
   /// asked about in the questions and the plan never picks them.
-  static const sessionTypes = ['face_yoga'];
+  static const sessionTypes = ['face_yoga', 'yoga'];
 
   /// Areas of the fixed sessions (not asked about in the questions).
   static const sessionAreas = ['face'];
@@ -380,6 +380,38 @@ const exerciseCatalogue = <Exercise>[
     'face',
   }, mode: ExerciseMode.timed),
   Exercise('fy_smile_lines', 'face_yoga', {'face'}, mode: ExerciseMode.hold),
+  // Yoga: three fixed sessions (yogaWorkouts), never in a plan. Gentle,
+  // beginner poses only: no inversions, no deep backbends.
+  Exercise('yoga_mountain', 'yoga', {'full'}, mode: ExerciseMode.hold),
+  Exercise('yoga_arms_up', 'yoga', {'back', 'arms'}, mode: ExerciseMode.timed),
+  Exercise('yoga_forward_fold', 'yoga', {
+    'legs',
+    'back',
+  }, mode: ExerciseMode.hold),
+  Exercise('yoga_low_lunge', 'yoga', {'legs'}, mode: ExerciseMode.hold),
+  Exercise(
+    'yoga_down_dog',
+    'yoga',
+    {'arms', 'legs', 'back'},
+    mode: ExerciseMode.hold,
+    avoid: {'wrist', 'shoulder', _p},
+  ),
+  Exercise(
+    'yoga_cobra',
+    'yoga',
+    {'back'},
+    mode: ExerciseMode.hold,
+    avoid: {'back', _p},
+  ),
+  Exercise('yoga_warrior2', 'yoga', {'legs', 'core'}, mode: ExerciseMode.hold),
+  Exercise('yoga_tree', 'yoga', {'legs', 'core'}, mode: ExerciseMode.hold),
+  Exercise('yoga_triangle', 'yoga', {'legs', 'core'}, mode: ExerciseMode.hold),
+  Exercise('yoga_seated_twist', 'yoga', {'back'}, mode: ExerciseMode.hold),
+  Exercise('yoga_reclined_twist', 'yoga', {
+    'back',
+    'glutes',
+  }, mode: ExerciseMode.hold),
+  Exercise('yoga_savasana', 'yoga', {'full'}, mode: ExerciseMode.timed),
 ];
 
 /// Id of the face yoga session (also in the log of finished workouts).
@@ -417,9 +449,87 @@ final faceYogaWorkout = Workout(
   ],
 );
 
+/// A yoga session from (exercise id, sets, seconds, rest). A one-sided pose
+/// has 2 sets: one for each side.
+Workout _yoga(String id, List<(String, int, int, int)> items) => Workout(
+  id: id,
+  type: 'yoga',
+  focus: const ['full'],
+  items: [
+    for (final (exercise, sets, seconds, rest) in items)
+      WorkoutItem(
+        exercise: exerciseById(exercise)!,
+        sets: sets,
+        amount: seconds,
+        restSeconds: rest,
+      ),
+  ],
+);
+
+/// The yoga sessions: morning flow, evening calm and a stretch. DRAFT, NOT
+/// REVIEWED by a yoga teacher yet.
+final yogaWorkouts = [
+  _yoga('yoga_morning', const [
+    ('yoga_mountain', 1, 30, 5),
+    ('yoga_arms_up', 1, 30, 5),
+    ('yoga_forward_fold', 1, 30, 5),
+    ('yoga_low_lunge', 2, 30, 5),
+    ('yoga_down_dog', 1, 30, 10),
+    ('yoga_cobra', 2, 20, 10),
+    ('child_pose', 1, 40, 5),
+    ('yoga_warrior2', 2, 30, 5),
+    ('yoga_tree', 2, 30, 5),
+    ('yoga_savasana', 1, 90, 0),
+  ]),
+  _yoga('yoga_evening', const [
+    ('cat_cow', 1, 45, 5),
+    ('child_pose', 1, 45, 5),
+    ('yoga_seated_twist', 2, 30, 5),
+    ('hamstring_stretch', 1, 45, 5),
+    ('figure_four', 2, 30, 5),
+    ('yoga_reclined_twist', 2, 30, 5),
+    ('yoga_savasana', 1, 120, 0),
+  ]),
+  _yoga('yoga_stretch', const [
+    ('yoga_arms_up', 1, 30, 5),
+    ('yoga_forward_fold', 1, 40, 5),
+    ('yoga_low_lunge', 2, 30, 5),
+    ('yoga_triangle', 2, 30, 5),
+    ('side_stretch', 1, 40, 5),
+    ('chest_opener', 1, 40, 5),
+    ('hip_flexor_stretch', 2, 30, 5),
+    ('yoga_reclined_twist', 2, 30, 5),
+    ('yoga_savasana', 1, 60, 0),
+  ]),
+];
+
+/// Every fixed session (face yoga and the yoga sessions).
+final fixedWorkouts = [faceYogaWorkout, ...yogaWorkouts];
+
+/// [w] without the moves [a]'s safety answers leave out (injuries,
+/// pregnancy or after birth), like the weekly plan does.
+Workout withoutAvoided(Workout w, SportAnswers? a) {
+  if (a == null) return w;
+  final avoid = {...a.injuries, if (a.pregnancy != 'no') _p};
+  if (avoid.isEmpty) return w;
+  return Workout(
+    id: w.id,
+    type: w.type,
+    focus: w.focus,
+    items: [
+      for (final i in w.items)
+        if (i.exercise.avoid.intersection(avoid).isEmpty) i,
+    ],
+  );
+}
+
 /// The fixed sessions, by id.
-Workout? fixedWorkoutById(String id) =>
-    id == faceYogaWorkoutId ? faceYogaWorkout : null;
+Workout? fixedWorkoutById(String id) {
+  for (final w in fixedWorkouts) {
+    if (w.id == id) return w;
+  }
+  return null;
+}
 
 Exercise? exerciseById(String id) {
   for (final e in exerciseCatalogue) {
@@ -604,7 +714,9 @@ abstract final class SportRules {
   static const maxBytes = 32 * 1024;
 
   static final _date = RegExp(r'^\d{4}-\d{2}-\d{2}$');
-  static final _workout = RegExp(r'^(w[1-5]|face_yoga)$');
+  static final _workout = RegExp(
+    r'^(w[1-5]|face_yoga|yoga_morning|yoga_evening|yoga_stretch)$',
+  );
 
   static bool isValid(String encoded) {
     if (utf8.encode(encoded).length > maxBytes) return false;
@@ -631,7 +743,7 @@ abstract final class SportRules {
     }
     for (final MapEntry(:key, :value) in log.entries) {
       if (!_date.hasMatch(key) || DateTime.tryParse(key) == null) return false;
-      if (value is! List || value.length > 6) return false;
+      if (value is! List || value.length > 9) return false;
       if (!value.every((w) => w is String && _workout.hasMatch(w))) {
         return false;
       }

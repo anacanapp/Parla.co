@@ -545,4 +545,169 @@ const exerciseSheetTexts = <String, List<List<String>>>{
     ["", "", ""],
     ["fy-smile-lines-1.png", "fy-smile-lines-2.png"],
   ],
+  // Yoga poses (2026-11-23). DRAFT, not reviewed by a yoga teacher.
+  'yoga_mountain': [
+    ["Dağ duruşu", "Поза горы", "Mountain pose"],
+    [
+      "Ayaqları omba genişliyində qoyub dik dayan. Ağırlığı hər iki ayağa bərabər payla, çiyinləri boşalt, başın tacını yuxarı uzat. Sakit nəfəs al.",
+      "Встань прямо, стопы на ширине бёдер. Распредели вес на обе стопы, расслабь плечи, тянись макушкой вверх. Дыши спокойно.",
+      "Stand tall with feet hip-width apart. Spread your weight evenly, relax your shoulders and lengthen through the crown of your head. Breathe calmly.",
+    ],
+    ["", "", ""],
+    ["yoga-mountain-1.png", "yoga-mountain-2.png"],
+  ],
+  'yoga_arms_up': [
+    ["Əllər yuxarı", "Руки вверх", "Arms up"],
+    [
+      "Nəfəs alarkən qolları yanlardan yuxarı qaldır, nəfəs verərkən endir. Hərəkəti nəfəslə birləşdir, çiyinləri qulaqlardan uzaq saxla.",
+      "На вдохе поднимай руки через стороны вверх, на выдохе опускай. Соединяй движение с дыханием, плечи держи подальше от ушей.",
+      "Breathing in, sweep your arms up through the sides; breathing out, lower them. Move with your breath and keep your shoulders away from your ears.",
+    ],
+    [
+      "Çiyin ağrısında qolları yalnız ağrısız hündürlüyə qədər qaldır.",
+      "При боли в плече поднимай руки только до безболезненной высоты.",
+      "With shoulder pain, lift only as high as is pain-free.",
+    ],
+    ["yoga-arms-up-1.png", "yoga-arms-up-2.png"],
+  ],
+  'yoga_forward_fold': [
+    ["Ayaq üstə önə əyilmə", "Наклон вперёд стоя", "Standing forward fold"],
+    [
+      "Dizləri yüngül bük, ombadan önə əyil. Baş və boyun boş sallansın, əllər baldırlara və ya yerə toxunsun. Nəfəs verərkən bir az da rahatlaş.",
+      "Слегка согни колени и наклонись вперёд от тазобедренных суставов. Голова и шея свободно свисают, руки на голенях или на полу. На выдохе расслабляйся чуть больше.",
+      "Bend your knees softly and fold forward from your hips. Let your head and neck hang, hands on your shins or the floor. Relax a little more as you breathe out.",
+    ],
+    [
+      "Bel ağrısında və ya başgicəllənmədə dizləri daha çox bük və yavaş qalx.",
+      "При боли в пояснице или головокружении сильнее сгибай колени и поднимайся медленно.",
+      "With back pain or dizziness, bend your knees more and come up slowly.",
+    ],
+    ["yoga-forward-fold-1.png", "yoga-forward-fold-2.png"],
+  ],
+  'yoga_low_lunge': [
+    ["Alçaq hamla", "Низкий выпад", "Low lunge"],
+    [
+      "Bir ayağı önə at, arxa dizi döşəkçəyə qoy. Ön diz topuğun üstündə olsun. Ombanı yüngül önə ver, qolları yuxarı və ya ön budun üstünə qoy. Hər tərəfdə et.",
+      "Шагни одной ногой вперёд, заднее колено опусти на коврик. Переднее колено над пяткой. Слегка подай таз вперёд, руки вверх или на переднее бедро. Сделай на каждую сторону.",
+      "Step one foot forward and lower your back knee to the mat. Keep the front knee over the ankle. Ease your hips forward, arms up or on your front thigh. Do both sides.",
+    ],
+    [
+      "Diz ağrısında arxa dizin altına qatlanmış dəsmal qoy.",
+      "При боли в колене подложи под заднее колено сложенное полотенце.",
+      "If your knee hurts, put a folded towel under the back knee.",
+    ],
+    ["yoga-low-lunge-1.png", "yoga-low-lunge-2.png"],
+  ],
+  'yoga_down_dog': [
+    ["Aşağı baxan it", "Собака мордой вниз", "Downward dog"],
+    [
+      "Dörd ayaq üstündən ombanı yuxarı və geri qaldır, bədən tərs V olsun. Dizlər yüngül bükülü ola bilər, dabanlar yerə doğru uzansın. Əlləri yerə bərabər bas.",
+      "Из положения на четвереньках подними таз вверх и назад, тело в форме перевёрнутой V. Колени можно слегка согнуть, пятки тянутся к полу. Равномерно дави ладонями в пол.",
+      "From hands and knees, lift your hips up and back into an upside-down V. Knees may stay a little bent, heels reaching towards the floor. Press evenly through your hands.",
+    ],
+    [
+      "Bilək və ya çiyin ağrısında, yüksək qan təzyiqində və ya hamiləlikdə etmə; uşaq duruşu ilə əvəz et.",
+      "При боли в запястьях или плечах, высоком давлении или беременности не делай; замени позой ребёнка.",
+      "Skip with wrist or shoulder pain, high blood pressure or pregnancy; use child's pose instead.",
+    ],
+    ["yoga-down-dog-1.png", "yoga-down-dog-2.png"],
+  ],
+  'yoga_cobra': [
+    ["Kobra", "Кобра", "Cobra"],
+    [
+      "Qarnı üstə uzan, əllər çiyinlərin altında. Nəfəs alarkən sinəni bir az qaldır, dirsəklər bükülü və bədənə yaxın qalsın. Belini sıxma, nəfəs verərkən en.",
+      "Ляг на живот, ладони под плечами. На вдохе слегка приподними грудь, локти согнуты и прижаты к телу. Не зажимай поясницу, на выдохе опустись.",
+      "Lie on your front with hands under your shoulders. Breathing in, lift your chest a little, elbows bent and close to your body. Don't squeeze your lower back; lower as you breathe out.",
+    ],
+    [
+      "Hamiləlikdə və bel ağrısında etmə.",
+      "Не делай при беременности и боли в пояснице.",
+      "Skip during pregnancy or with lower back pain.",
+    ],
+    ["yoga-cobra-1.png", "yoga-cobra-2.png"],
+  ],
+  'yoga_warrior2': [
+    ["Döyüşçü II", "Воин II", "Warrior II"],
+    [
+      "Ayaqları geniş aç, ön ayaq önə, arxa ayaq bir az içəri. Ön dizi topuğun üstündə bük, qolları yerə paralel yanlara aç, ön əlin üzərindən bax. Hər tərəfdə et.",
+      "Широко расставь ноги, передняя стопа вперёд, задняя чуть внутрь. Согни переднее колено над пяткой, руки разведи в стороны параллельно полу, смотри поверх передней руки. Сделай на каждую сторону.",
+      "Step your feet wide, front foot forward, back foot turned slightly in. Bend the front knee over the ankle, stretch your arms out parallel to the floor and look past your front hand. Do both sides.",
+    ],
+    [
+      "Ön diz ayaq barmaqlarından önə keçməsin.",
+      "Переднее колено не выходит за носок.",
+      "Don't let the front knee go past your toes.",
+    ],
+    ["yoga-warrior2-1.png", "yoga-warrior2-2.png"],
+  ],
+  'yoga_tree': [
+    ["Ağac duruşu", "Поза дерева", "Tree pose"],
+    [
+      "Bir ayağın üstündə dur, digər ayağın tabanını baldıra və ya buda qoy (dizə yox). Əlləri sinə önündə birləşdir, gözü bir nöqtəyə dik. Hər tərəfdə et.",
+      "Встань на одну ногу, стопу другой поставь на голень или бедро (не на колено). Ладони сложи перед грудью, взгляд на одну точку. Сделай на каждую сторону.",
+      "Stand on one leg and place the other foot on your calf or thigh (not the knee). Bring your palms together in front of your chest and fix your gaze on one point. Do both sides.",
+    ],
+    [
+      "Tarazlıq çətin olarsa, divara və ya stula toxun.",
+      "Если трудно держать равновесие, держись за стену или стул.",
+      "Hold a wall or chair if balancing is hard.",
+    ],
+    ["yoga-tree-1.png", "yoga-tree-2.png"],
+  ],
+  'yoga_triangle': [
+    ["Üçbucaq", "Треугольник", "Triangle"],
+    [
+      "Ayaqları geniş aç, ön ayaq önə. Qolları yanlara aç, ön ombadan yana əyil, ön əli baldıra və ya dizə, arxa əli yuxarı qaldır. Hər iki böyrü uzun saxla. Hər tərəfdə et.",
+      "Широко расставь ноги, передняя стопа вперёд. Разведи руки, наклонись в сторону от переднего бедра, передняя рука на голень или колено, задняя вверх. Держи оба бока длинными. Сделай на каждую сторону.",
+      "Step your feet wide, front foot forward. Open your arms, hinge sideways from the front hip, front hand on your shin or knee, other arm up. Keep both sides of your waist long. Do both sides.",
+    ],
+    [
+      "Diz kilidlənməsin; boyun narahatdırsa, aşağı bax.",
+      "Не блокируй колено; если неудобно шее, смотри вниз.",
+      "Don't lock your knee; look down if your neck feels strained.",
+    ],
+    ["yoga-triangle-1.png", "yoga-triangle-2.png"],
+  ],
+  'yoga_seated_twist': [
+    ["Oturaraq burulma", "Скрутка сидя", "Seated twist"],
+    [
+      "Ayaqları çarpaz otur, onurğanı uzat. Nəfəs verərkən gövdəni yavaşca sağa burax, sol əl sağ dizə, sağ əl arxaya. Nəfəs alarkən uzan, sonra digər tərəfə.",
+      "Сядь со скрещёнными ногами, вытяни позвоночник. На выдохе мягко повернись вправо: левая рука на правое колено, правая сзади. На вдохе вытягивайся, затем в другую сторону.",
+      "Sit cross-legged and lengthen your spine. Breathing out, gently turn to the right, left hand on your right knee, right hand behind you. Lengthen as you breathe in, then switch sides.",
+    ],
+    [
+      "Hamiləlikdə yalnız yüngül, açıq burulma et; bel ağrısında dərin burulma etmə.",
+      "При беременности только лёгкая открытая скрутка; при боли в пояснице без глубоких скруток.",
+      "During pregnancy keep the twist light and open; with back pain, avoid deep twists.",
+    ],
+    ["yoga-seated-twist-1.png", "yoga-seated-twist-2.png"],
+  ],
+  'yoga_reclined_twist': [
+    ["Uzanaraq burulma", "Скрутка лёжа", "Reclined twist"],
+    [
+      "Arxası üstə uzan, dizləri sinəyə çək. Qolları yanlara aç, dizləri yavaşca bir tərəfə endir, başı əks tərəfə çevir. Çiyinlər yerdə qalsın. Hər tərəfdə et.",
+      "Ляг на спину, подтяни колени к груди. Разведи руки, медленно опусти колени в одну сторону, голову поверни в другую. Плечи остаются на полу. Сделай на каждую сторону.",
+      "Lie on your back and draw your knees in. Open your arms, slowly lower your knees to one side and turn your head the other way. Keep your shoulders down. Do both sides.",
+    ],
+    [
+      "Hamiləlikdə arxası üstə uzun qalma; həkimlə məsləhətləş.",
+      "При беременности не лежи долго на спине; посоветуйся с врачом.",
+      "During pregnancy, don't stay long on your back; ask your doctor.",
+    ],
+    ["yoga-reclined-twist-1.png", "yoga-reclined-twist-2.png"],
+  ],
+  'yoga_savasana': [
+    ["Dincəlmə", "Шавасана", "Rest (savasana)"],
+    [
+      "Arxası üstə uzan, qollar yanda, ovuclar yuxarı. Gözləri yum, bədəni yerə burax və nəfəsi izlə. Hərəkət etmə, sadəcə dincəl.",
+      "Ляг на спину, руки вдоль тела ладонями вверх. Закрой глаза, отпусти тело на пол и наблюдай за дыханием. Не двигайся, просто отдыхай.",
+      "Lie on your back, arms by your sides, palms up. Close your eyes, let your body sink into the floor and watch your breath. Stay still and rest.",
+    ],
+    [
+      "Hamiləlikdə sol yanı üstə uzan.",
+      "При беременности ложись на левый бок.",
+      "During pregnancy, lie on your left side.",
+    ],
+    ["yoga-savasana-1.png", "yoga-savasana-2.png"],
+  ],
 };

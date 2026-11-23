@@ -2320,6 +2320,48 @@ abstract class AppLocalizations {
   /// **'Face yoga'**
   String get sportTypeFaceYoga;
 
+  /// No description provided for @sportTypeYoga.
+  ///
+  /// In en, this message translates to:
+  /// **'Yoga'**
+  String get sportTypeYoga;
+
+  /// No description provided for @sportYogaMorning.
+  ///
+  /// In en, this message translates to:
+  /// **'Morning flow'**
+  String get sportYogaMorning;
+
+  /// No description provided for @sportYogaEvening.
+  ///
+  /// In en, this message translates to:
+  /// **'Evening calm'**
+  String get sportYogaEvening;
+
+  /// No description provided for @sportYogaStretch.
+  ///
+  /// In en, this message translates to:
+  /// **'Stretch & release'**
+  String get sportYogaStretch;
+
+  /// No description provided for @sportSessionCardBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} moves · about {minutes} min'**
+  String sportSessionCardBody(int count, int minutes);
+
+  /// No description provided for @sportYogaSafetyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Before you start'**
+  String get sportYogaSafetyTitle;
+
+  /// No description provided for @sportYogaSafetyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Move slowly, don\'t hold your breath and stop if anything hurts. If you are pregnant, have high blood pressure or a back, knee or wrist injury, talk to a doctor first. If you noted an injury or pregnancy in the questions, poses that don\'t suit you are left out.'**
+  String get sportYogaSafetyBody;
+
   /// No description provided for @sportFaceYogaCardBody.
   ///
   /// In en, this message translates to:

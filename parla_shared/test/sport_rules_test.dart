@@ -85,6 +85,41 @@ void main() {
     expect(SportRules.isValid(doc), isTrue);
   });
 
+  test('three yoga sessions, never in a plan; safety answers trim them', () {
+    expect(yogaWorkouts.map((w) => w.id), [
+      'yoga_morning',
+      'yoga_evening',
+      'yoga_stretch',
+    ]);
+    for (final w in yogaWorkouts) {
+      expect(fixedWorkoutById(w.id), same(w));
+      expect(w.minutes, inInclusiveRange(8, 20), reason: w.id);
+    }
+    final plan = planSport(
+      _a(types: [...SportOptions.types], days: 5, minutes: 40),
+    );
+    expect(_all(plan).where((e) => e.type == 'yoga'), isEmpty);
+    final morning = fixedWorkoutById('yoga_morning')!;
+    expect(withoutAvoided(morning, null), same(morning));
+    final pregnant = withoutAvoided(morning, _a(pregnancy: 'pregnant'));
+    final ids = pregnant.items.map((i) => i.exercise.id);
+    expect(ids, isNot(contains('yoga_cobra')));
+    expect(ids, isNot(contains('yoga_down_dog')));
+    expect(ids, contains('yoga_mountain'));
+    final wrist = withoutAvoided(morning, _a(injuries: {'wrist'}));
+    expect(
+      wrist.items.map((i) => i.exercise.id),
+      isNot(contains('yoga_down_dog')),
+    );
+    final doc = jsonEncode({
+      'format': SportRules.format,
+      'log': {
+        '2026-11-23': ['w1', 'face_yoga', 'yoga_morning', 'yoga_evening'],
+      },
+    });
+    expect(SportRules.isValid(doc), isTrue);
+  });
+
   test('one workout per day, types rotate, length follows minutes', () {
     final plan = planSport(
       _a(types: ['fitness', 'pilates', 'wall_pilates'], days: 4, minutes: 40),

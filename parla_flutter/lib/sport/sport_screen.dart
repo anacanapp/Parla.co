@@ -68,9 +68,28 @@ class _SportScreenState extends State<SportScreen> {
               const SizedBox(height: ParlaSpace.gap),
               if (book.plan == null) const _Intro() else _PlanView(book: book),
               const SizedBox(height: 16),
-              _FaceYogaCard(
+              _SessionCard(
+                workout: faceYogaWorkout,
                 done: book.doneThisWeek.contains(faceYogaWorkoutId),
+                icon: ParlaIconName.sparkle,
               ),
+              const SizedBox(height: 20),
+              Semantics(
+                header: true,
+                child: Text(
+                  AppLocalizations.of(context).sportTypeYoga,
+                  style: Theme.of(context).textTheme.titleLarge,
+                ),
+              ),
+              const SizedBox(height: 10),
+              for (final w in yogaWorkouts) ...[
+                _SessionCard(
+                  workout: w,
+                  done: book.doneThisWeek.contains(w.id),
+                  icon: ParlaIconName.moon,
+                ),
+                const SizedBox(height: 10),
+              ],
             ],
           ),
         ),
@@ -343,23 +362,31 @@ class _WorkoutCard extends StatelessWidget {
   }
 }
 
-/// The fixed face yoga session, open to everyone without the questions.
-class _FaceYogaCard extends StatelessWidget {
-  const _FaceYogaCard({required this.done});
+/// A fixed session (face yoga, yoga), open to everyone without the
+/// questions.
+class _SessionCard extends StatelessWidget {
+  const _SessionCard({
+    required this.workout,
+    required this.done,
+    required this.icon,
+  });
 
+  final Workout workout;
   final bool done;
+  final ParlaIconName icon;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
+    final faceYoga = workout.id == faceYogaWorkoutId;
     return Material(
-      key: const ValueKey('face-yoga'),
+      key: ValueKey(faceYoga ? 'face-yoga' : 'session-${workout.id}'),
       color: ParlaColors.white,
       borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
       child: InkWell(
         borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
-        onTap: () => context.go(Routes.workout, extra: faceYogaWorkoutId),
+        onTap: () => context.go(Routes.workout, extra: workout.id),
         child: Padding(
           padding: const EdgeInsets.all(14),
           child: Row(
@@ -373,7 +400,7 @@ class _FaceYogaCard extends StatelessWidget {
                 ),
                 alignment: Alignment.center,
                 child: ParlaIcon(
-                  done ? ParlaIconName.check : ParlaIconName.sparkle,
+                  done ? ParlaIconName.check : icon,
                   size: 22,
                   color: ParlaColors.espresso,
                 ),
@@ -383,9 +410,17 @@ class _FaceYogaCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(l10n.sportTypeFaceYoga, style: text.titleMedium),
                     Text(
-                      l10n.sportFaceYogaCardBody(faceYogaWorkout.minutes),
+                      sessionTitle(l10n, workout.id),
+                      style: text.titleMedium,
+                    ),
+                    Text(
+                      faceYoga
+                          ? l10n.sportFaceYogaCardBody(workout.minutes)
+                          : l10n.sportSessionCardBody(
+                              workout.items.length,
+                              workout.minutes,
+                            ),
                       style: text.bodySmall,
                     ),
                   ],

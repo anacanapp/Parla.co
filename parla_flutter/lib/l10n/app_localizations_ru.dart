@@ -1282,6 +1282,30 @@ class AppLocalizationsRu extends AppLocalizations {
   String get sportTypeFaceYoga => 'Йога для лица';
 
   @override
+  String get sportTypeYoga => 'Йога';
+
+  @override
+  String get sportYogaMorning => 'Утренний поток';
+
+  @override
+  String get sportYogaEvening => 'Вечернее спокойствие';
+
+  @override
+  String get sportYogaStretch => 'Растяжка и расслабление';
+
+  @override
+  String sportSessionCardBody(int count, int minutes) {
+    return 'Упражнений: $count · около $minutes мин';
+  }
+
+  @override
+  String get sportYogaSafetyTitle => 'Перед началом';
+
+  @override
+  String get sportYogaSafetyBody =>
+      'Двигайся медленно, не задерживай дыхание, при боли остановись. При беременности, высоком давлении, травмах спины, колен или запястий сначала посоветуйся с врачом. Если в анкете ты отметила травму или беременность, неподходящие позы убраны из занятия.';
+
+  @override
   String sportFaceYogaCardBody(int minutes) {
     return '12 упражнений · около $minutes мин. Перед зеркалом, в любое время.';
   }
