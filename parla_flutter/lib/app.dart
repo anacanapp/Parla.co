@@ -217,8 +217,7 @@ class _ParlaAppState extends State<ParlaApp> {
         builder: (context, _) => MaterialApp.router(
           debugShowCheckedModeBanner: false,
           onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-          // Light only for now: the brand's dark ("cocoa") theme is not
-          // designed yet.
+          // Night design 3.0: one dark theme only (owner, 2026-11-23).
           theme: parlaTheme(),
           locale: widget.settings.locale,
           supportedLocales: AppLocalizations.supportedLocales,

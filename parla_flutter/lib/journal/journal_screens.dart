@@ -226,9 +226,9 @@ class _JournalEntryScreenState extends State<JournalEntryScreen> {
         if (!didPop) _close();
       },
       child: Scaffold(
-        backgroundColor: ParlaColors.cream,
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
-          backgroundColor: ParlaColors.cream,
+          backgroundColor: Colors.transparent,
           leadingWidth: roundBackWidth,
           leading: RoundBackButton(onPressed: _close),
           title: Text(l10n.journalEntryTitle),

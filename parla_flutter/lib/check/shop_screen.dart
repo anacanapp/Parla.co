@@ -106,7 +106,7 @@ class _ShopScreenState extends State<ShopScreen> {
             shown.sublist(i, i + 2 > shown.length ? shown.length : i + 2),
         ];
         return Scaffold(
-          backgroundColor: ParlaColors.cream,
+          backgroundColor: Colors.transparent,
           body: SafeArea(
             child: ListView(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
@@ -377,7 +377,7 @@ class ShopProductScreen extends StatelessWidget {
     final campaign = item.data['campaign'];
     final own = item.data['sale'] == 'own';
     return Scaffold(
-      backgroundColor: ParlaColors.cream,
+      backgroundColor: Colors.transparent,
       extendBody: true,
       body: ListView(
         padding: const EdgeInsets.only(bottom: 120),

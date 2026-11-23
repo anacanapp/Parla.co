@@ -147,7 +147,7 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
       extendBody: true,
       bottomNavigationBar: const ParlaNavBar(selected: ParlaTab.profile),
       appBar: AppBar(
-        backgroundColor: ParlaColors.cream,
+        backgroundColor: Colors.transparent,
         automaticallyImplyLeading: false,
       ),
       body: ListView(
@@ -294,7 +294,7 @@ class LegalScreen extends StatelessWidget {
         ParlaScope.of(context).settings.language ?? defaultLanguage;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ParlaColors.cream,
+        backgroundColor: Colors.transparent,
         leadingWidth: roundBackWidth,
         leading: RoundBackButton(onPressed: () => context.go(Routes.privacy)),
       ),
@@ -391,7 +391,7 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
     final matches = _fold(_confirm.text) == _fold(word);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ParlaColors.cream,
+        backgroundColor: Colors.transparent,
         leadingWidth: roundBackWidth,
         leading: RoundBackButton(onPressed: () => context.go(Routes.privacy)),
       ),

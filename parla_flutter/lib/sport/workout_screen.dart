@@ -236,9 +236,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           if (!didPop) _stop();
         },
         child: Scaffold(
-          backgroundColor: ParlaColors.cream,
+          backgroundColor: Colors.transparent,
           appBar: AppBar(
-            backgroundColor: ParlaColors.cream,
+            backgroundColor: Colors.transparent,
             foregroundColor: ink,
             systemOverlayStyle: SystemUiOverlayStyle.light,
             leading: _running

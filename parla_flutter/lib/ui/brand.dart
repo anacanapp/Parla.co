@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'night.dart';
+
 /// Parla night palette (design 3.0, 2026-11-23: one dark mode only).
 ///
 /// The names are the ones the screens already use, so each keeps its role:
@@ -150,7 +152,10 @@ ThemeData parlaTheme() {
     brightness: Brightness.dark,
     fontFamily: ParlaFonts.sans,
     fontFamilyFallback: ParlaFonts.fallback,
-    scaffoldBackgroundColor: ParlaColors.cream,
+    // Every page carries the night backdrop (see [NightPageTransitions]),
+    // so scaffolds stay transparent over it.
+    scaffoldBackgroundColor: Colors.transparent,
+    pageTransitionsTheme: NightPageTransitions.platformTheme,
     colorScheme: ColorScheme.fromSeed(
       seedColor: ParlaColors.sun,
       brightness: Brightness.dark,

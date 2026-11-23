@@ -63,7 +63,7 @@ class _HabitsScreenState extends State<HabitsScreen> {
     final scope = ParlaScope.of(context);
     final habits = scope.habits;
     return Scaffold(
-      backgroundColor: ParlaColors.cream,
+      backgroundColor: Colors.transparent,
       extendBody: true,
       bottomNavigationBar: const ParlaNavBar(selected: ParlaTab.routine),
       body: ListenableBuilder(

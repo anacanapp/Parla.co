@@ -70,7 +70,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final controller = _controller!;
     return Scaffold(
-      backgroundColor: ParlaColors.cream,
+      backgroundColor: Colors.transparent,
       extendBody: true,
       bottomNavigationBar: const ParlaNavBar(selected: ParlaTab.today),
       body: ListenableBuilder(

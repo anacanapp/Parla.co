@@ -95,7 +95,7 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
   Widget build(BuildContext context) {
     final results = _results;
     return Scaffold(
-      backgroundColor: ParlaColors.cream,
+      backgroundColor: Colors.transparent,
       extendBody: true,
       bottomNavigationBar: const ParlaNavBar(selected: ParlaTab.check),
       body: SafeArea(
@@ -410,9 +410,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     final listed = matches.where((m) => m.entry != null).length;
 
     return Scaffold(
-      backgroundColor: ParlaColors.cream,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
-        backgroundColor: ParlaColors.cream,
+        backgroundColor: Colors.transparent,
         leadingWidth: roundBackWidth,
         leading: RoundBackButton(
           onPressed: () => context.go(
@@ -703,7 +703,7 @@ class _IngredientTile extends StatelessWidget {
     final text = Theme.of(context).textTheme;
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: ParlaColors.cream,
+      backgroundColor: Colors.transparent,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(32)),

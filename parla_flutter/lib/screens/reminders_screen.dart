@@ -86,7 +86,7 @@ class _RemindersScreenState extends State<RemindersScreen> {
     final reminders = ParlaScope.of(context).reminders;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ParlaColors.cream,
+        backgroundColor: Colors.transparent,
         leadingWidth: roundBackWidth,
         leading: RoundBackButton(onPressed: () => context.go(Routes.habits)),
       ),

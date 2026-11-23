@@ -55,9 +55,9 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
     final text = Theme.of(context).textTheme;
     final book = ParlaScope.of(context).careList;
     return Scaffold(
-      backgroundColor: ParlaColors.cream,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
-        backgroundColor: ParlaColors.cream,
+        backgroundColor: Colors.transparent,
         leadingWidth: roundBackWidth,
         leading: RoundBackButton(
           onPressed: () => context.go(

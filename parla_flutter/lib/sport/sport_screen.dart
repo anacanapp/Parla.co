@@ -35,7 +35,7 @@ class _SportScreenState extends State<SportScreen> {
   Widget build(BuildContext context) {
     final book = ParlaScope.of(context).sport;
     return Scaffold(
-      backgroundColor: ParlaColors.cream,
+      backgroundColor: Colors.transparent,
       extendBody: true,
       bottomNavigationBar: const ParlaNavBar(selected: ParlaTab.discover),
       body: SafeArea(
