@@ -495,7 +495,7 @@ void main() {
       );
     }
 
-    await _tap(tester, find.text('Today').last);
+    await _tap(tester, find.bySemanticsLabel('Today').last);
     final list = find.byType(Scrollable).first;
     await tester.scrollUntilVisible(
       find.byKey(const ValueKey('today-own-r1')),
@@ -527,7 +527,7 @@ void main() {
             .isSelected ==
         Tristate.isTrue;
     for (final area in ['hair', 'body']) {
-      await _tap(tester, find.text('Today').last);
+      await _tap(tester, find.bySemanticsLabel('Today').last);
       await tester.scrollUntilVisible(
         find.byKey(ValueKey('today-$area-morning')),
         200,

@@ -75,7 +75,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                         ? l10n.discoverBlogsHint
                         : '${l10n.discoverArticleCount(articles.length)} · '
                               '${l10n.discoverBlogsHint}',
-                    color: ParlaColors.espresso,
+                    color: ParlaColors.lemon,
                     icon: ParlaIconName.book,
                     onTap: () => go(Routes.blog),
                   ),

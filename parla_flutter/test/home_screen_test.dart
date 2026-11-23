@@ -300,7 +300,7 @@ void main() {
 
   testWidgets('the Routine tab opens the routine screen', (tester) async {
     await _pumpHome(tester);
-    await _tap(tester, find.text('Routine').last);
+    await _tap(tester, find.bySemanticsLabel('Routine').last);
     expect(find.byKey(const ValueKey('area-face')), findsOneWidget);
   });
 

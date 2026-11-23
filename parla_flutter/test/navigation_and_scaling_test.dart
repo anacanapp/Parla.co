@@ -61,16 +61,25 @@ void main() {
     tester,
   ) async {
     await _pump(tester, language: 'az');
+    // Only the open tab shows its name; every tab is named for screen
+    // readers.
     for (final label in ['Bu gün', 'Rutin', 'Yoxla', 'Kəşf et', 'Profil']) {
       expect(
         find.descendant(
           of: find.byType(ParlaNavBar),
-          matching: find.text(label),
+          matching: find.bySemanticsLabel(label),
         ),
         findsOneWidget,
         reason: label,
       );
     }
+    expect(
+      find.descendant(
+        of: find.byType(ParlaNavBar),
+        matching: find.text('Bu gün'),
+      ),
+      findsOneWidget,
+    );
   });
 
   testWidgets('every tab opens its screen', (tester) async {

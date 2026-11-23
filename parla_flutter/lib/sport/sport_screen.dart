@@ -125,7 +125,9 @@ class _Intro extends StatelessWidget {
           const SizedBox(height: 10),
           Text(
             l10n.sportIntroTitle,
-            style: text.headlineSmall?.copyWith(color: ParlaColors.white),
+            style: text.headlineSmall?.copyWith(
+              color: ParlaColors.sportBlueText,
+            ),
           ),
           const SizedBox(height: 6),
           Text(
@@ -136,7 +138,7 @@ class _Intro extends StatelessWidget {
           FilledButton(
             key: const ValueKey('sport-start'),
             style: FilledButton.styleFrom(
-              backgroundColor: ParlaColors.white,
+              backgroundColor: ParlaColors.sportBlueText,
               foregroundColor: ParlaColors.sportBlue,
             ),
             onPressed: () => context.go(Routes.sportQuiz),
@@ -217,7 +219,9 @@ class _PlanView extends StatelessWidget {
                 liveRegion: true,
                 child: Text(
                   l10n.sportWeekProgress(doneCount, total),
-                  style: text.headlineSmall?.copyWith(color: ParlaColors.white),
+                  style: text.headlineSmall?.copyWith(
+                    color: ParlaColors.sportBlueText,
+                  ),
                 ),
               ),
               const SizedBox(height: 10),
@@ -226,7 +230,9 @@ class _PlanView extends StatelessWidget {
                 child: LinearProgressIndicator(
                   value: total == 0 ? 0 : doneCount / total,
                   minHeight: 8,
-                  backgroundColor: ParlaColors.white.withValues(alpha: .2),
+                  backgroundColor: ParlaColors.sportBlueText.withValues(
+                    alpha: .2,
+                  ),
                   color: ParlaColors.sun,
                 ),
               ),
@@ -234,7 +240,9 @@ class _PlanView extends StatelessWidget {
                 const SizedBox(height: 10),
                 Text(
                   l10n.sportAllDone,
-                  style: text.bodyMedium?.copyWith(color: ParlaColors.white),
+                  style: text.bodyMedium?.copyWith(
+                    color: ParlaColors.sportBlueText,
+                  ),
                 ),
               ],
             ],
@@ -300,7 +308,7 @@ class _WorkoutCard extends StatelessWidget {
     final focus = workout.focus.map((a) => sportAreaLabel(l10n, a)).join(', ');
     return Material(
       key: ValueKey('workout-${workout.id}'),
-      color: isNext ? ParlaColors.sportBlueText : ParlaColors.white,
+      color: isNext ? ParlaColors.sky : ParlaColors.white,
       borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
       child: InkWell(
         borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
@@ -320,7 +328,9 @@ class _WorkoutCard extends StatelessWidget {
                 child: ParlaIcon(
                   done ? ParlaIconName.check : ParlaIconName.dumbbell,
                   size: 22,
-                  color: done ? ParlaColors.espresso : ParlaColors.white,
+                  color: done
+                      ? ParlaColors.espresso
+                      : ParlaColors.sportBlueText,
                 ),
               ),
               const SizedBox(width: 12),

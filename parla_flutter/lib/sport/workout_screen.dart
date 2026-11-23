@@ -226,11 +226,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     final l10n = AppLocalizations.of(context);
     final book = ParlaScope.of(context).sport;
     final w = _workout(context);
-    // The player runs on a dark stage (Parla 2.0); the overview and the
-    // end stay light.
-    final dark =
-        w != null && _phase != _Phase.overview && _phase != _Phase.finished;
-    final ink = dark ? ParlaColors.cream : ParlaColors.espresso;
+    // The whole flow runs on the night page (design 3.0).
+    const ink = ParlaColors.espresso;
     return ListenableBuilder(
       listenable: book,
       builder: (context, _) => PopScope(
@@ -239,13 +236,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           if (!didPop) _stop();
         },
         child: Scaffold(
-          backgroundColor: dark ? ParlaColors.espresso : ParlaColors.cream,
+          backgroundColor: ParlaColors.cream,
           appBar: AppBar(
-            backgroundColor: dark ? ParlaColors.espresso : ParlaColors.cream,
+            backgroundColor: ParlaColors.cream,
             foregroundColor: ink,
-            systemOverlayStyle: dark
-                ? SystemUiOverlayStyle.light
-                : SystemUiOverlayStyle.dark,
+            systemOverlayStyle: SystemUiOverlayStyle.light,
             leading: _running
                 ? IconButton(
                     key: const ValueKey('workout-stop'),
@@ -349,7 +344,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           key: const ValueKey('workout-start'),
           style: FilledButton.styleFrom(
             backgroundColor: ParlaColors.sportBlue,
-            foregroundColor: ParlaColors.white,
+            foregroundColor: ParlaColors.sportBlueText,
             shape: const StadiumBorder(),
           ),
           onPressed: () => _start(w),
@@ -380,7 +375,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
         gradient: RadialGradient(
           center: Alignment(0, -1.1),
           radius: 1.0,
-          colors: [Color(0x4DFFCE00), Color(0x00FFCE00)],
+          colors: [Color(0x4DD62EA0), Color(0x00D62EA0)],
         ),
       ),
       child: DecoratedBox(
@@ -405,7 +400,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                         decoration: ShapeDecoration(
                           color: i <= _index
                               ? ParlaColors.sun
-                              : const Color(0x38FFF9E8),
+                              : const Color(0x38F4E9FF),
                           shape: const StadiumBorder(),
                         ),
                       ),
@@ -445,7 +440,9 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               child: Text(
                 resting ? l10n.sportResting : name,
                 textAlign: TextAlign.center,
-                style: text.headlineMedium?.copyWith(color: ParlaColors.white),
+                style: text.headlineMedium?.copyWith(
+                  color: ParlaColors.espresso,
+                ),
               ),
             ),
             const SizedBox(height: 20),
@@ -470,7 +467,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                       ),
                       style: (counting ? text.displayLarge : text.displayMedium)
                           ?.copyWith(
-                            color: ParlaColors.white,
+                            color: ParlaColors.espresso,
                             fontFeatures: const [
                               FontFeature.tabularFigures(),
                             ],
@@ -498,8 +495,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   tooltip: l10n.sportPrevious,
                   iconSize: 28,
                   style: IconButton.styleFrom(
-                    backgroundColor: const Color(0x1FFFF9E8),
-                    foregroundColor: ParlaColors.cream,
+                    backgroundColor: const Color(0x1FF4E9FF),
+                    foregroundColor: ParlaColors.espresso,
                   ),
                   constraints: const BoxConstraints(
                     minWidth: 56,
@@ -532,8 +529,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   tooltip: l10n.sportNextMove,
                   iconSize: 28,
                   style: IconButton.styleFrom(
-                    backgroundColor: const Color(0x1FFFF9E8),
-                    foregroundColor: ParlaColors.cream,
+                    backgroundColor: const Color(0x1FF4E9FF),
+                    foregroundColor: ParlaColors.espresso,
                   ),
                   constraints: const BoxConstraints(
                     minWidth: 56,
@@ -548,7 +545,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             if (!resting)
               Text(
                 how,
-                style: text.bodyLarge?.copyWith(color: ParlaColors.cream),
+                style: text.bodyLarge?.copyWith(color: ParlaColors.espresso),
               ),
             if (!resting && caution != null)
               Padding(
@@ -642,7 +639,7 @@ class _Media extends StatelessWidget {
         child: ParlaIcon(
           resting ? ParlaIconName.moon : ParlaIconName.dumbbell,
           size: 56,
-          color: resting ? ParlaColors.espresso : ParlaColors.white,
+          color: resting ? ParlaColors.espresso : ParlaColors.sportBlueText,
         ),
       ),
     );
@@ -702,16 +699,16 @@ class _Media extends StatelessWidget {
               )
             else
               still,
-            if (resting) const ColoredBox(color: Color(0x66FFFFFF)),
+            if (resting) const ColoredBox(color: Color(0x6608070F)),
             if (countdown != null)
               ColoredBox(
-                color: const Color(0x8C1F1A14),
+                color: const Color(0x8C08070F),
                 child: Center(
                   child: ExcludeSemantics(
                     child: Text(
                       '$countdown',
                       style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                        color: ParlaColors.white,
+                        color: ParlaColors.espresso,
                       ),
                     ),
                   ),
@@ -749,7 +746,7 @@ class _Ring extends StatelessWidget {
                 value: progress.clamp(0, 1),
                 strokeWidth: 10,
                 strokeCap: StrokeCap.round,
-                backgroundColor: const Color(0x29FFF9E8),
+                backgroundColor: const Color(0x29F4E9FF),
                 color: resting ? ParlaColors.sky : ParlaColors.sun,
               ),
             ),
@@ -793,11 +790,16 @@ class _ItemRow extends StatelessWidget {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: ParlaColors.sportBlueText,
+              color: ParlaColors.sportBlue,
               borderRadius: BorderRadius.circular(12),
             ),
             alignment: Alignment.center,
-            child: Text('$number', style: text.titleMedium),
+            child: Text(
+              '$number',
+              style: text.titleMedium?.copyWith(
+                color: ParlaColors.sportBlueText,
+              ),
+            ),
           ),
           const SizedBox(width: 12),
           Expanded(

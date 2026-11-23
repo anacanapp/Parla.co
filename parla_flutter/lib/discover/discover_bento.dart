@@ -74,7 +74,7 @@ class DiscoverBento extends StatelessWidget {
               gradient: RadialGradient(
                 center: Alignment(0.8, -0.9),
                 radius: 1.1,
-                colors: [Color(0x73FFCE00), Color(0x00FFCE00)],
+                colors: [Color(0x66D62EA0), Color(0x00D62EA0)],
               ),
             ),
             child: ConstrainedBox(
@@ -92,15 +92,15 @@ class DiscoverBento extends StatelessWidget {
                           children: [
                             _IconBubble(
                               icon: blogs.icon,
-                              background: const Color(0x29FFF9E8),
-                              color: ParlaColors.cream,
+                              background: const Color(0x29F4E9FF),
+                              color: ParlaColors.espresso,
                             ),
                             const SizedBox(height: 24),
                             _Labels(
                               section: blogs,
                               titleStyle: text.headlineSmall,
-                              titleColor: ParlaColors.white,
-                              hintColor: ParlaColors.cream,
+                              titleColor: ParlaColors.espresso,
+                              hintColor: ParlaColors.muted,
                             ),
                           ],
                         ),
@@ -232,14 +232,16 @@ class _GridTile extends StatelessWidget {
           children: [
             _IconBubble(
               icon: section.icon,
-              background: dark ? const Color(0x24FFF9E8) : ParlaColors.white,
+              background: dark ? const Color(0x24F4E9FF) : ParlaColors.white,
               color: dark ? ParlaColors.sportBlueText : ParlaColors.espresso,
             ),
             const SizedBox(height: 18),
             _Labels(
               section: section,
               titleStyle: Theme.of(context).textTheme.titleMedium,
-              titleColor: dark ? ParlaColors.white : ParlaColors.espresso,
+              titleColor: dark
+                  ? ParlaColors.sportBlueText
+                  : ParlaColors.espresso,
               hintColor: dark ? ParlaColors.sportBlueText : ParlaColors.muted,
             ),
           ],

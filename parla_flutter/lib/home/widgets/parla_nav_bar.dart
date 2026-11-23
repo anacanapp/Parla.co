@@ -5,6 +5,7 @@ import '../../l10n/app_localizations.dart';
 import '../../routes.dart';
 import '../../ui/brand.dart';
 import '../../ui/parla_icons.dart';
+import '../../ui/night.dart';
 import '../../ui/parla_ui.dart';
 
 /// The five main tabs (owner's order, 2026-11-20). Sport opens from
@@ -30,12 +31,13 @@ enum ParlaTab {
   };
 }
 
-/// Bottom navigation (Parla 2.0): a floating white capsule with five
-/// tabs, each an icon with its name; the open tab sits in a sun capsule.
+/// Bottom navigation (night design 3.0): a floating glass capsule with
+/// five tabs. The open tab is a light capsule with its icon and name; the
+/// others show their icon, and every tab's name is in the semantics.
 ///
-/// Labels are 12 px before system text scaling and may shrink to fit
-/// their fifth of the bar, so even the longest Russian label stays on one
-/// line at large text sizes; the full label is always in the semantics.
+/// The open tab's label is 13 px before system text scaling and may
+/// shrink to fit, so even the longest Russian label stays on one line at
+/// large text sizes.
 class ParlaNavBar extends StatelessWidget {
   const ParlaNavBar({super.key, required this.selected});
 
@@ -52,30 +54,32 @@ class ParlaNavBar extends StatelessWidget {
         minimum: const EdgeInsets.only(bottom: 12),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Container(
-            key: const ValueKey('parla-nav'),
-            padding: const EdgeInsets.all(6),
-            decoration: ShapeDecoration(
-              color: ParlaColors.white,
-              shape: const StadiumBorder(
-                side: BorderSide(color: ParlaColors.line),
-              ),
+          child: DecoratedBox(
+            decoration: const ShapeDecoration(
+              shape: StadiumBorder(),
               shadows: kFloatShadow,
             ),
-            child: Row(
-              children: [
-                for (final tab in ParlaTab.values)
-                  Expanded(
-                    child: _NavItem(
-                      icon: tab.icon,
-                      label: tab.label(l10n),
-                      selected: tab == selected,
-                      onTap: () {
-                        if (tab != selected) context.go(tab.route);
-                      },
+            child: GlassSurface(
+              key: const ValueKey('parla-nav'),
+              radius: 40,
+              blur: true,
+              padding: const EdgeInsets.all(8),
+              child: Row(
+                children: [
+                  for (final tab in ParlaTab.values)
+                    Expanded(
+                      flex: tab == selected ? 2 : 1,
+                      child: _NavItem(
+                        icon: tab.icon,
+                        label: tab.label(l10n),
+                        selected: tab == selected,
+                        onTap: () {
+                          if (tab != selected) context.go(tab.route);
+                        },
+                      ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
@@ -99,7 +103,8 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final color = selected ? ParlaColors.espresso : ParlaColors.muted;
+    // The open tab: light capsule, dark ink (14.7:1).
+    final color = selected ? ParlaColors.white : ParlaColors.muted;
     return Semantics(
       button: true,
       selected: selected,
@@ -110,31 +115,35 @@ class _NavItem extends StatelessWidget {
         onTap: onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          constraints: const BoxConstraints(minHeight: 52),
-          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 2),
+          constraints: const BoxConstraints(minHeight: 50),
+          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
           decoration: ShapeDecoration(
-            color: selected ? ParlaColors.sun : Colors.transparent,
+            color: selected ? ParlaColors.espresso : Colors.transparent,
             shape: const StadiumBorder(),
           ),
-          child: Column(
+          child: Row(
             mainAxisSize: MainAxisSize.min,
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              ParlaIcon(icon, size: 20, color: color),
-              const SizedBox(height: 2),
-              FittedBox(
-                fit: BoxFit.scaleDown,
-                child: Text(
-                  label,
-                  maxLines: 1,
-                  softWrap: false,
-                  style: TextStyle(
-                    fontSize: kMinTextSize,
-                    fontWeight: selected ? FontWeight.w800 : FontWeight.w600,
-                    color: color,
+              ParlaIcon(icon, size: selected ? 18 : 22, color: color),
+              if (selected) ...[
+                const SizedBox(width: 6),
+                Flexible(
+                  child: FittedBox(
+                    fit: BoxFit.scaleDown,
+                    child: Text(
+                      label,
+                      maxLines: 1,
+                      softWrap: false,
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.w600,
+                        color: color,
+                      ),
+                    ),
                   ),
                 ),
-              ),
+              ],
             ],
           ),
         ),

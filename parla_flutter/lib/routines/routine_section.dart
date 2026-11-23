@@ -245,7 +245,7 @@ class _OwnRoutineInvite extends StatelessWidget {
                   child: Text(
                     l10n.routineOwnSection,
                     style: text.titleMedium?.copyWith(
-                      color: ParlaColors.white,
+                      color: ParlaColors.sportBlueText,
                     ),
                   ),
                 ),
