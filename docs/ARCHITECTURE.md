@@ -465,6 +465,11 @@ draft content until the named expert reviews it.
     published with the texts the app ships with. The workout player shows
     a video in its own shape (a 3:4 portrait video whole, at most about
     half the screen high).
+  - `PARLA_TASK=publish-exercise-drafts` with `PARLA_TASK_SLUGS=<id,id>`
+    publishes the complete working copy of those exercises when it is not
+    published (audited `content.published_unreviewed`). Used once for
+    `squat` and `sumo_squat`, whose panel drafts got their videos from the
+    attach task (owner's decision, 2026-11-23).
 
 - C5 (2026-11-20): the 76 recipes of the sheet "Parla — Reseptlər
   (genişləndirilmiş)" are in `recipe_seed.dart`, built by

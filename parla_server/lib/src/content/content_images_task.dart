@@ -9,7 +9,7 @@ import '../media/image_processing.dart';
 import '../media/media_store.dart';
 import '../media/media_sync.dart';
 import '../media/video_processing.dart';
-import 'content_import.dart' show taskAdmin;
+import 'content_import.dart' show mediaTypesMatch, taskAdmin;
 
 /// A cover image (an article's or recipe's) or a video (an exercise's) the
 /// team made, attached by the one-off task `PARLA_TASK=attach-content-images`
@@ -281,3 +281,68 @@ Future<void> _audit(
   objectType: objectType,
   objectId: id.toString(),
 );
+
+/// The one-off task `PARLA_TASK=publish-exercise-drafts`: publishes the
+/// working copy of the exercises in [slugs] that are not published yet
+/// (drafts the panel made before the videos were attached), when it is
+/// complete. Audited as `content.published_unreviewed` with the admin
+/// [email] as the actor (owner's decision of 2026-11-23).
+Future<String> runPublishExerciseDraftsTask(
+  Session session,
+  String email,
+  Set<String> slugs,
+) async {
+  final staff = await taskAdmin(session, email);
+  final rows = await ContentItem.db.find(
+    session,
+    where: (t) =>
+        t.kind.equals(ContentKind.exercise.name) & t.slug.inSet(slugs),
+  );
+  final done = <String>[];
+  final skipped = <String>[];
+  for (final row in rows) {
+    if (row.status == ContentStatus.published) {
+      skipped.add('${row.slug} (already published)');
+      continue;
+    }
+    final problems = ContentRules.problems(
+      ContentKind.exercise,
+      row.draftJson,
+      complete: true,
+    );
+    if (problems.isNotEmpty || !await mediaTypesMatch(session, row.draftJson)) {
+      skipped.add(
+        '${row.slug} (${problems.isEmpty ? 'media' : problems.join(', ')})',
+      );
+      continue;
+    }
+    final now = DateTime.now().toUtc();
+    final updated = await ContentItem.db.updateRow(
+      session,
+      row.copyWith(
+        status: ContentStatus.published,
+        publishedJson: row.draftJson,
+        publishedReviewedAt: null,
+        publishedAt: now,
+        updatedBy: staff.authUserId,
+        updatedAt: now,
+      ),
+    );
+    await _audit(
+      session,
+      staff,
+      'content.published_unreviewed',
+      'content_item',
+      updated.id!,
+    );
+    done.add(row.slug);
+  }
+  for (final s in slugs) {
+    if (!rows.any((r) => r.slug == s)) skipped.add('$s (no item)');
+  }
+  if (done.isNotEmpty) await syncPublicMedia(session);
+  return [
+    'Published ${done.length}: ${done.join(', ')}.',
+    if (skipped.isNotEmpty) 'Skipped: ${skipped.join('; ')}.',
+  ].join(' ');
+}
