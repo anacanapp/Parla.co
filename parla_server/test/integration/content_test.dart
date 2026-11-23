@@ -760,6 +760,53 @@ void main() {
       expect(again, contains('squat (has a video)'));
     });
 
+    test('the task publishes named exercise drafts', () async {
+      final t = await team();
+      final db = sessionBuilder.build();
+      Future<int> draft(String slug, Map<String, Object?> json) async {
+        final item = await endpoints.contentAdmin.create(
+          t.editor,
+          'exercise',
+          slug,
+          'catalogue',
+        );
+        await endpoints.contentAdmin.saveDraft(
+          t.editor,
+          item.id,
+          jsonEncode(json),
+          'catalogue',
+        );
+        return item.id;
+      }
+
+      await draft(
+        'squat',
+        ContentRules.catalogueDefaults(ContentKind.exercise, 'squat'),
+      );
+      await draft('plank', {
+        'name': {'az': 'Planka'},
+      });
+      final result = await runPublishExerciseDraftsTask(
+        db,
+        'first-admin@example.com',
+        {'squat', 'plank', 'sumo_squat'},
+      );
+      expect(result, startsWith('Published 1: squat.'));
+      expect(result, contains('plank ('));
+      expect(result, contains('sumo_squat (no item)'));
+      final published = await endpoints.content.published(
+        sessionBuilder,
+        'exercise',
+      );
+      expect(published.map((p) => p.slug), ['squat']);
+      expect(
+        await runPublishExerciseDraftsTask(db, 'first-admin@example.com', {
+          'squat',
+        }),
+        contains('squat (already published)'),
+      );
+    });
+
     test('an edited writing plan is still replaced by the task', () async {
       final t = await team();
       final db = sessionBuilder.build();

@@ -146,6 +146,19 @@ Future<void> _runTask(Serverpod pod, String task, String actor) async {
         final result = await runAttachContentImagesTask(session, actor);
         session.log('Task $task: $result', level: LogLevel.info);
         stdout.writeln('Task $task: $result');
+      case 'publish-exercise-drafts':
+        final slugs = {
+          for (final s
+              in (Platform.environment['PARLA_TASK_SLUGS'] ?? '').split(','))
+            if (s.trim().isNotEmpty) s.trim(),
+        };
+        final result = await runPublishExerciseDraftsTask(
+          session,
+          actor,
+          slugs,
+        );
+        session.log('Task $task: $result', level: LogLevel.info);
+        stdout.writeln('Task $task: $result');
       case 'seed-sample-experts':
         final result = await runSeedSampleExpertsTask(session, actor);
         session.log('Task $task: $result', level: LogLevel.info);
