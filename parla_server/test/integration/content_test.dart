@@ -11,6 +11,7 @@ import 'package:parla_server/src/content/sample_experts.dart';
 import 'package:parla_server/src/content/content_seed_import.dart';
 import 'package:parla_server/src/generated/protocol.dart';
 import 'package:parla_server/src/media/media_store.dart';
+import 'package:parla_server/src/media/video_processing.dart';
 import 'package:parla_server/src/staff/staff_guard.dart';
 import 'package:parla_shared/parla_shared.dart';
 import 'package:serverpod/serverpod.dart' show UuidValue;
@@ -644,7 +645,7 @@ void main() {
         db,
         'first-admin@example.com',
       );
-      expect(result, startsWith('Attached 2 covers. Skipped: '));
+      expect(result, startsWith('Attached 2 covers and 0 videos. Skipped: '));
       expect(result, contains('banana-oat-cookies (no file)'));
       expect(
         store.objects.keys.where((k) => k.startsWith('incoming/')),
@@ -682,8 +683,81 @@ void main() {
         db,
         'first-admin@example.com',
       );
-      expect(again, startsWith('Attached 0 covers.'));
+      expect(again, startsWith('Attached 0 covers and 0 videos.'));
       expect(again, contains('herb-kuku (has a cover)'));
+    });
+
+    test('the task attaches exercise videos, creating the item', () async {
+      await team();
+      final db = sessionBuilder.build();
+      final store = MemoryMediaStore();
+      final before = Media.instance;
+      final cleaner = VideoCleaner.instance;
+      Media.instance = Media(store, publicBaseUrl: 'https://media.test');
+      VideoCleaner.instance = _FakeCleaner();
+      addTearDown(() {
+        Media.instance = before;
+        VideoCleaner.instance = cleaner;
+      });
+      final mp4 = Uint8List.fromList(List.filled(64, 1));
+      await store.put('${contentImagesPrefix}squat.mp4', mp4, 'video/mp4');
+      await store.put('${contentImagesPrefix}bad.mp4', mp4, 'video/mp4');
+      Map<String, Object?> entry(String slug, String file) => {
+        'kind': 'exercise',
+        'slug': slug,
+        'file': file,
+        'media': 'video',
+        'alt': {'az': 'Video az', 'ru': 'Video ru', 'en': 'Video en'},
+      };
+      await store.put(
+        contentImagesManifest,
+        Uint8List.fromList(
+          utf8.encode(
+            jsonEncode([
+              entry('squat', 'squat.mp4'),
+              entry('fy_brow_lift', 'bad.mp4'),
+              entry('not_an_exercise', 'squat.mp4'),
+            ]),
+          ),
+        ),
+        'application/json',
+      );
+      final result = await runAttachContentImagesTask(
+        db,
+        'first-admin@example.com',
+      );
+      expect(result, startsWith('Attached 0 covers and 1 videos.'));
+      expect(result, contains('fy_brow_lift (not a valid video)'));
+      expect(result, contains('not_an_exercise (no item)'));
+
+      final squat = (await ContentItem.db.findFirstRow(
+        db,
+        where: (t) => t.kind.equals('exercise') & t.slug.equals('squat'),
+      ))!;
+      expect(squat.status, ContentStatus.published);
+      final json = jsonDecode(squat.publishedJson!) as Map<String, Object?>;
+      expect((json['name'] as Map)['az'], isNotEmpty);
+      final asset = (await MediaAsset.db.findById(db, json['video']! as int))!;
+      expect(asset.mediaType, MediaRules.video);
+      expect((asset.pixelWidth, asset.pixelHeight), (540, 720));
+      expect(asset.public, isTrue);
+      expect(
+        store.objects.keys,
+        contains(Media.publicKey(asset.key, video: true)),
+      );
+      final published = await endpoints.content.published(
+        sessionBuilder,
+        'exercise',
+      );
+      expect(published.single.video?.pixelHeight, 720);
+
+      // Run again: the video stays.
+      await store.put('${contentImagesPrefix}squat.mp4', mp4, 'video/mp4');
+      final again = await runAttachContentImagesTask(
+        db,
+        'first-admin@example.com',
+      );
+      expect(again, contains('squat (has a video)'));
     });
 
     test('an edited writing plan is still replaced by the task', () async {
@@ -984,4 +1058,13 @@ void main() {
       );
     });
   });
+}
+
+/// Turns every upload but the second into a 540×720 portrait video.
+class _FakeCleaner implements VideoCleaner {
+  var _calls = 0;
+
+  @override
+  Future<CleanVideo?> clean(Uint8List upload) async =>
+      ++_calls == 2 ? null : CleanVideo(upload, 540, 720, 8000);
 }

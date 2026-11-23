@@ -458,6 +458,13 @@ draft content until the named expert reviews it.
     review, owner's decision), audited (`media.uploaded`,
     `content.cover_attached`) and then deleted from `incoming/`. An item
     that already has a cover is skipped, so the task is safe to run again.
+    The same task attaches exercise videos (`"media": "video"` entries):
+    each is re-encoded like a panel video upload (`VideoCleaner`: H.264,
+    no sound, no metadata, longest side 720 px, aspect kept) and set as the
+    exercise's video; an exercise without a content item gets one,
+    published with the texts the app ships with. The workout player shows
+    a video in its own shape (a 3:4 portrait video whole, at most about
+    half the screen high).
 
 - C5 (2026-11-20): the 76 recipes of the sheet "Parla — Reseptlər
   (genişləndirilmiş)" are in `recipe_seed.dart`, built by
