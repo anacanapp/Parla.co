@@ -125,7 +125,10 @@ class _ExerciseVideoState extends State<ExerciseVideo> {
           _sync();
         },
         child: FittedBox(
-          fit: BoxFit.cover,
+          // A portrait video (face yoga) is shown whole, not cropped.
+          fit: c.value.size.height > c.value.size.width
+              ? BoxFit.contain
+              : BoxFit.cover,
           clipBehavior: Clip.hardEdge,
           child: SizedBox(
             width: c.value.size.width,

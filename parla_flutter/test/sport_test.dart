@@ -261,6 +261,39 @@ void main() {
     expect(find.text('1 of 3 workouts'), findsOneWidget);
   });
 
+  testWidgets('face yoga opens without the questions, warns first and is '
+      'logged', (tester) async {
+    final app = await _open(tester);
+    await _tap(tester, find.byKey(const ValueKey('face-yoga')));
+    expect(find.text('Face yoga'), findsWidgets);
+    expect(find.byKey(const ValueKey('face-yoga-safety')), findsOneWidget);
+    expect(find.textContaining('Botox'), findsOneWidget);
+    expect(find.text('Forehead smoothing'), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('workout-start')));
+    expect(find.text('Move 1 of 12'), findsOneWidget);
+    var guard = 0;
+    while (find.text('Workout done').evaluate().isEmpty && guard++ < 400) {
+      final skip = find.byKey(const ValueKey('workout-skip'));
+      if (skip.evaluate().isEmpty) {
+        await tester.pump(const Duration(seconds: 3));
+      } else {
+        await _tap(tester, skip);
+      }
+    }
+    expect(find.text('Workout done'), findsOneWidget);
+    expect(_local(app.store)['log'], {
+      '2026-11-15': [faceYogaWorkoutId],
+    });
+    // The server accepts the log as it is sent.
+    final local = _local(app.store);
+    expect(
+      SportRules.isValid(
+        jsonEncode({'format': local['format'], 'log': local['log']}),
+      ),
+      isTrue,
+    );
+  });
+
   testWidgets('pause holds the timer; previous goes back a move; stopping '
       'asks first and logs nothing', (tester) async {
     final app = await _open(tester);

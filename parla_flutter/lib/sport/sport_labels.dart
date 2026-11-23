@@ -23,6 +23,7 @@ String sportTypeLabel(AppLocalizations l10n, String id) => switch (id) {
   'pilates' => l10n.sportTypePilates,
   'wall_pilates' => l10n.sportTypeWallPilates,
   'stretching' => l10n.sportTypeStretching,
+  'face_yoga' => l10n.sportTypeFaceYoga,
   _ => l10n.sportTypeCardio,
 };
 

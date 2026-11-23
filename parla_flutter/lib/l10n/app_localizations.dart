@@ -2314,6 +2314,30 @@ abstract class AppLocalizations {
   /// **'Low-impact cardio'**
   String get sportTypeCardio;
 
+  /// No description provided for @sportTypeFaceYoga.
+  ///
+  /// In en, this message translates to:
+  /// **'Face yoga'**
+  String get sportTypeFaceYoga;
+
+  /// No description provided for @sportFaceYogaCardBody.
+  ///
+  /// In en, this message translates to:
+  /// **'12 moves · about {minutes} min. In front of a mirror, any time.'**
+  String sportFaceYogaCardBody(int minutes);
+
+  /// No description provided for @sportFaceYogaSafetyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Before you start'**
+  String get sportFaceYogaSafetyTitle;
+
+  /// No description provided for @sportFaceYogaSafetyBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Wash your hands, touch your skin lightly and don\'t pull it. Stop if anything hurts or feels uncomfortable. If you recently had a cosmetic procedure (Botox, fillers) or have jaw joint or skin problems, talk to a doctor first.'**
+  String get sportFaceYogaSafetyBody;
+
   /// No description provided for @sportQLevel.
   ///
   /// In en, this message translates to:

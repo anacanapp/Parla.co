@@ -67,6 +67,10 @@ class _SportScreenState extends State<SportScreen> {
               ),
               const SizedBox(height: ParlaSpace.gap),
               if (book.plan == null) const _Intro() else _PlanView(book: book),
+              const SizedBox(height: 16),
+              _FaceYogaCard(
+                done: book.doneThisWeek.contains(faceYogaWorkoutId),
+              ),
             ],
           ),
         ),
@@ -331,6 +335,65 @@ class _WorkoutCard extends StatelessWidget {
                     fontWeight: FontWeight.w700,
                   ),
                 ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// The fixed face yoga session, open to everyone without the questions.
+class _FaceYogaCard extends StatelessWidget {
+  const _FaceYogaCard({required this.done});
+
+  final bool done;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final text = Theme.of(context).textTheme;
+    return Material(
+      key: const ValueKey('face-yoga'),
+      color: ParlaColors.white,
+      borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
+        onTap: () => context.go(Routes.workout, extra: faceYogaWorkoutId),
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Row(
+            children: [
+              Container(
+                width: 44,
+                height: 44,
+                decoration: BoxDecoration(
+                  color: done ? ParlaColors.sun : ParlaColors.sky,
+                  borderRadius: BorderRadius.circular(14),
+                ),
+                alignment: Alignment.center,
+                child: ParlaIcon(
+                  done ? ParlaIconName.check : ParlaIconName.sparkle,
+                  size: 22,
+                  color: ParlaColors.espresso,
+                ),
+              ),
+              const SizedBox(width: 12),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(l10n.sportTypeFaceYoga, style: text.titleMedium),
+                    Text(
+                      l10n.sportFaceYogaCardBody(faceYogaWorkout.minutes),
+                      style: text.bodySmall,
+                    ),
+                  ],
+                ),
+              ),
+              const ExcludeSemantics(
+                child: Icon(Icons.chevron_right, color: ParlaColors.muted),
+              ),
             ],
           ),
         ),

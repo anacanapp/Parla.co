@@ -37,6 +37,13 @@ abstract final class SportOptions {
   static const injuries = ['knee', 'back', 'shoulder', 'wrist'];
 
   static const maxGoals = 2;
+
+  /// Types with a fixed session instead of a weekly plan. They are not
+  /// asked about in the questions and the plan never picks them.
+  static const sessionTypes = ['face_yoga'];
+
+  /// Areas of the fixed sessions (not asked about in the questions).
+  static const sessionAreas = ['face'];
 }
 
 /// The answers to the sport questions.
@@ -356,7 +363,63 @@ const exerciseCatalogue = <Exercise>[
     level: 1,
     avoid: {'knee', _p},
   ),
+  // Face yoga: one fixed session (faceYogaWorkout), never in a plan.
+  Exercise('fy_forehead_smooth', 'face_yoga', {
+    'face',
+  }, mode: ExerciseMode.timed),
+  Exercise('fy_brow_lift', 'face_yoga', {'face'}, mode: ExerciseMode.hold),
+  Exercise('fy_eye_v', 'face_yoga', {'face'}, mode: ExerciseMode.hold),
+  Exercise('fy_cheek_lift', 'face_yoga', {'face'}, mode: ExerciseMode.hold),
+  Exercise('fy_fish_face', 'face_yoga', {'face'}, mode: ExerciseMode.hold),
+  Exercise('fy_air_puff', 'face_yoga', {'face'}, mode: ExerciseMode.timed),
+  Exercise('fy_jaw_release', 'face_yoga', {'face'}, mode: ExerciseMode.timed),
+  Exercise('fy_neck_kiss', 'face_yoga', {'face'}, mode: ExerciseMode.hold),
+  Exercise('fy_vowels', 'face_yoga', {'face'}, mode: ExerciseMode.timed),
+  Exercise('fy_lion_face', 'face_yoga', {'face'}, mode: ExerciseMode.hold),
+  Exercise('fy_temple_circles', 'face_yoga', {
+    'face',
+  }, mode: ExerciseMode.timed),
+  Exercise('fy_smile_lines', 'face_yoga', {'face'}, mode: ExerciseMode.hold),
 ];
+
+/// Id of the face yoga session (also in the log of finished workouts).
+const faceYogaWorkoutId = 'face_yoga';
+
+/// The face yoga session: the 12 moves with the doses of the content
+/// document ("Üz yoqası: tətbiq məzmunu", 2026-11-22). Amounts are seconds;
+/// a set is one hold or one timed round. DRAFT, NOT REVIEWED by a
+/// cosmetologist or dermatologist yet.
+final faceYogaWorkout = Workout(
+  id: faceYogaWorkoutId,
+  type: 'face_yoga',
+  focus: const ['face'],
+  items: [
+    for (final (id, sets, seconds, rest) in const [
+      ('fy_forehead_smooth', 3, 30, 10),
+      ('fy_brow_lift', 5, 10, 5),
+      ('fy_eye_v', 5, 3, 5),
+      ('fy_cheek_lift', 5, 10, 5),
+      ('fy_fish_face', 3, 10, 5),
+      ('fy_air_puff', 1, 30, 5),
+      ('fy_jaw_release', 1, 30, 5),
+      ('fy_neck_kiss', 5, 10, 5),
+      ('fy_vowels', 2, 10, 5),
+      ('fy_lion_face', 3, 3, 5),
+      ('fy_temple_circles', 1, 30, 5),
+      ('fy_smile_lines', 5, 10, 5),
+    ])
+      WorkoutItem(
+        exercise: exerciseById(id)!,
+        sets: sets,
+        amount: seconds,
+        restSeconds: rest,
+      ),
+  ],
+);
+
+/// The fixed sessions, by id.
+Workout? fixedWorkoutById(String id) =>
+    id == faceYogaWorkoutId ? faceYogaWorkout : null;
 
 Exercise? exerciseById(String id) {
   for (final e in exerciseCatalogue) {
@@ -541,7 +604,7 @@ abstract final class SportRules {
   static const maxBytes = 32 * 1024;
 
   static final _date = RegExp(r'^\d{4}-\d{2}-\d{2}$');
-  static final _workout = RegExp(r'^w[1-5]$');
+  static final _workout = RegExp(r'^(w[1-5]|face_yoga)$');
 
   static bool isValid(String encoded) {
     if (utf8.encode(encoded).length > maxBytes) return false;
@@ -568,7 +631,7 @@ abstract final class SportRules {
     }
     for (final MapEntry(:key, :value) in log.entries) {
       if (!_date.hasMatch(key) || DateTime.tryParse(key) == null) return false;
-      if (value is! List || value.length > 5) return false;
+      if (value is! List || value.length > 6) return false;
       if (!value.every((w) => w is String && _workout.hasMatch(w))) {
         return false;
       }
