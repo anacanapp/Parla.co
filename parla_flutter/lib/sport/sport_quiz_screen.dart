@@ -8,6 +8,7 @@ import '../routes.dart';
 import '../ui/brand.dart';
 import '../ui/common.dart';
 import 'sport_labels.dart';
+import 'sport_night.dart';
 
 /// The sport questions, one topic per page. Earlier answers are filled in.
 class SportQuizScreen extends StatefulWidget {
@@ -278,11 +279,45 @@ class _SportQuizScreenState extends State<SportQuizScreen> {
     runSpacing: 8,
     children: [
       for (final v in values)
-        ChoiceChip(
-          key: ValueKey('$key-$v'),
-          label: Text(label(v)),
+        // Night pill chips: the chosen one light with dark ink, the rest
+        // glass (prototype "Gecə · İdman").
+        Semantics(
+          button: true,
           selected: current == v,
-          onSelected: (_) => setState(() => pick(v)),
+          child: Material(
+            key: ValueKey('$key-$v'),
+            color: current == v ? SportNight.ink : SportNight.glass,
+            shape: StadiumBorder(
+              side: current == v
+                  ? BorderSide.none
+                  : const BorderSide(color: Color(0x2EFFFFFF)),
+            ),
+            clipBehavior: Clip.antiAlias,
+            child: InkWell(
+              onTap: () => setState(() => pick(v)),
+              child: ConstrainedBox(
+                constraints: const BoxConstraints(minHeight: 44),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  child: Center(
+                    widthFactor: 1,
+                    child: Text(
+                      label(v),
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: current == v
+                            ? FontWeight.w600
+                            : FontWeight.w400,
+                        color: current == v
+                            ? SportNight.inkDark
+                            : SportNight.ink,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ),
     ],
   );

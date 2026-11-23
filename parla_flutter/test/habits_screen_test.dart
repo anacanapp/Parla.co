@@ -173,12 +173,14 @@ void main() {
     expect(find.text('7 of 8 glasses'), findsOneWidget);
 
     await _navTo(tester, 0);
+    // The home water tile shows "7 / 8" and names the count for screen
+    // readers.
     await tester.scrollUntilVisible(
-      find.text('7 of 8 glasses'),
+      find.bySemanticsLabel('7 of 8 glasses'),
       200,
       scrollable: find.byType(Scrollable).first,
     );
-    expect(find.text('7 of 8 glasses'), findsOneWidget);
+    expect(find.bySemanticsLabel('7 of 8 glasses'), findsOneWidget);
   });
 
   testWidgets('the skin analysis card opens the questions', (tester) async {

@@ -1,7 +1,6 @@
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'brand.dart';
@@ -24,51 +23,6 @@ abstract final class NightColors {
   /// Glass fill and its hairline.
   static const glass = Color(0x1AFFFFFF);
   static const glassLine = Color(0x2EFFFFFF);
-}
-
-/// Puts the [NightBackdrop] under every page and then runs the platform's
-/// usual transition, so each page is opaque while it slides or fades.
-class NightPageTransitions extends PageTransitionsBuilder {
-  const NightPageTransitions(this.inner);
-
-  final PageTransitionsBuilder inner;
-
-  /// The app's transitions: Cupertino on Apple platforms, zoom elsewhere.
-  static PageTransitionsTheme get platformTheme => const PageTransitionsTheme(
-    builders: {
-      TargetPlatform.android: NightPageTransitions(
-        ZoomPageTransitionsBuilder(),
-      ),
-      TargetPlatform.iOS: NightPageTransitions(
-        CupertinoPageTransitionsBuilder(),
-      ),
-      TargetPlatform.macOS: NightPageTransitions(
-        CupertinoPageTransitionsBuilder(),
-      ),
-      TargetPlatform.linux: NightPageTransitions(ZoomPageTransitionsBuilder()),
-      TargetPlatform.windows: NightPageTransitions(
-        ZoomPageTransitionsBuilder(),
-      ),
-      TargetPlatform.fuchsia: NightPageTransitions(
-        ZoomPageTransitionsBuilder(),
-      ),
-    },
-  );
-
-  @override
-  Widget buildTransitions<T>(
-    PageRoute<T> route,
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child,
-  ) => inner.buildTransitions(
-    route,
-    context,
-    animation,
-    secondaryAnimation,
-    NightBackdrop(child: child),
-  );
 }
 
 /// The night page: deep background, two glows and a still grain. Put it

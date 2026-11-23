@@ -6,6 +6,7 @@ import 'package:parla_shared/parla_shared.dart';
 import '../l10n/app_localizations.dart';
 import '../services/parla_api.dart';
 import '../ui/brand.dart';
+import '../ui/night.dart';
 import '../ui/parla_ui.dart';
 import '../ui/parla_icons.dart';
 
@@ -64,7 +65,7 @@ class SubPage extends StatelessWidget {
     required this.title,
     required this.onBack,
     required this.children,
-    this.background = ParlaColors.cream,
+    this.background = Colors.transparent,
   });
 
   final String title;
@@ -79,7 +80,6 @@ class SubPage extends StatelessWidget {
       backgroundColor: background,
       leading: RoundBackButton(onPressed: onBack),
       leadingWidth: roundBackWidth,
-      title: Text(title),
     ),
     body: SafeArea(
       top: false,
@@ -90,7 +90,22 @@ class SubPage extends StatelessWidget {
           ParlaSpace.page,
           32,
         ),
-        children: children,
+        children: [
+          // A large, thin title (night design) instead of the app bar's.
+          Padding(
+            padding: const EdgeInsets.fromLTRB(6, 0, 6, 14),
+            child: Semantics(
+              header: true,
+              child: Text(
+                title,
+                style: Theme.of(
+                  context,
+                ).textTheme.displayMedium?.copyWith(letterSpacing: -1),
+              ),
+            ),
+          ),
+          ...children,
+        ],
       ),
     ),
   );
@@ -154,11 +169,14 @@ class ArticleCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: Material(
-        color: ParlaColors.white,
-        borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
+        color: NightColors.glass,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(28),
+          side: const BorderSide(color: NightColors.glassLine),
+        ),
         child: InkWell(
           key: ValueKey('article-${item.slug}'),
-          borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
+          borderRadius: BorderRadius.circular(28),
           onTap: onTap,
           child: Padding(
             padding: const EdgeInsets.all(14),
@@ -303,11 +321,10 @@ class _Pill extends StatelessWidget {
         selected: selected,
         button: true,
         child: Material(
-          color: selected ? ParlaColors.espresso : ParlaColors.white,
+          color: selected ? ParlaColors.espresso : NightColors.glass,
           shape: StadiumBorder(
             side: BorderSide(
-              color: selected ? ParlaColors.espresso : ParlaColors.line,
-              width: 1.5,
+              color: selected ? ParlaColors.espresso : NightColors.glassLine,
             ),
           ),
           clipBehavior: Clip.antiAlias,

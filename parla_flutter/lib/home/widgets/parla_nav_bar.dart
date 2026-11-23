@@ -6,7 +6,6 @@ import '../../routes.dart';
 import '../../ui/brand.dart';
 import '../../ui/parla_icons.dart';
 import '../../ui/night.dart';
-import '../../ui/parla_ui.dart';
 
 /// The five main tabs (owner's order, 2026-11-20). Sport opens from
 /// Discover; the profile and privacy centre is the last tab.
@@ -35,8 +34,9 @@ enum ParlaTab {
 /// five tabs. The open tab is a light capsule with its icon and name; the
 /// others show their icon, and every tab's name is in the semantics.
 ///
-/// The open tab's label is 13 px before system text scaling and may
-/// shrink to fit, so even the longest Russian label stays on one line at
+/// The bar is the prototype's 66 px glass capsule, 16 px from the sides
+/// and 18 px from the bottom. The open tab's label is 13 px before system
+/// text scaling and may shrink to fit, so even the longest Russian label stays on one line at
 /// large text sizes.
 class ParlaNavBar extends StatelessWidget {
   const ParlaNavBar({super.key, required this.selected});
@@ -51,33 +51,36 @@ class ParlaNavBar extends StatelessWidget {
       label: l10n.navMenuLabel,
       child: SafeArea(
         top: false,
-        minimum: const EdgeInsets.only(bottom: 12),
+        minimum: const EdgeInsets.only(bottom: 18),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: DecoratedBox(
-            decoration: const ShapeDecoration(
-              shape: StadiumBorder(),
-              shadows: kFloatShadow,
-            ),
-            child: GlassSurface(
-              key: const ValueKey('parla-nav'),
-              radius: 40,
-              blur: true,
-              padding: const EdgeInsets.all(8),
+          child: GlassSurface(
+            key: const ValueKey('parla-nav'),
+            radius: 33,
+            blur: true,
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            child: SizedBox(
+              height: 64,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   for (final tab in ParlaTab.values)
-                    Expanded(
-                      flex: tab == selected ? 2 : 1,
-                      child: _NavItem(
+                    if (tab == selected)
+                      Flexible(
+                        child: _NavItem(
+                          icon: tab.icon,
+                          label: tab.label(l10n),
+                          selected: true,
+                          onTap: () {},
+                        ),
+                      )
+                    else
+                      _NavItem(
                         icon: tab.icon,
                         label: tab.label(l10n),
-                        selected: tab == selected,
-                        onTap: () {
-                          if (tab != selected) context.go(tab.route);
-                        },
+                        selected: false,
+                        onTap: () => context.go(tab.route),
                       ),
-                    ),
                 ],
               ),
             ),
@@ -103,8 +106,9 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // The open tab: light capsule, dark ink (14.7:1).
-    final color = selected ? ParlaColors.white : ParlaColors.muted;
+    // The open tab: a light capsule with dark ink; the others are light
+    // icons at 75 % on the glass.
+    final color = selected ? _ink : const Color(0xBFF4E9FF);
     return Semantics(
       button: true,
       selected: selected,
@@ -115,8 +119,9 @@ class _NavItem extends StatelessWidget {
         onTap: onTap,
         child: AnimatedContainer(
           duration: const Duration(milliseconds: 200),
-          constraints: const BoxConstraints(minHeight: 50),
-          padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 8),
+          height: 50,
+          constraints: const BoxConstraints(minWidth: 50),
+          padding: EdgeInsets.symmetric(horizontal: selected ? 16 : 0),
           decoration: ShapeDecoration(
             color: selected ? ParlaColors.espresso : Colors.transparent,
             shape: const StadiumBorder(),
@@ -151,3 +156,6 @@ class _NavItem extends StatelessWidget {
     );
   }
 }
+
+/// Dark ink on the light capsule.
+const _ink = Color(0xFF1A0B2A);

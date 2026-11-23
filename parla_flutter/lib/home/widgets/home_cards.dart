@@ -6,7 +6,7 @@ import '../../ui/parla_icons.dart';
 import '../../ui/parla_ui.dart';
 import '../routine.dart';
 
-/// White rounded card with the brand's soft shadow.
+/// A glass card of the night design: a faint white fill and hairline.
 class SoftCard extends StatelessWidget {
   const SoftCard({
     super.key,
@@ -23,12 +23,12 @@ class SoftCard extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     padding: padding,
     decoration: BoxDecoration(
-      color: ParlaColors.white,
+      color: const Color(0x0FFFFFFF),
       borderRadius: BorderRadius.circular(radius),
-      boxShadow: kSoftShadow,
+      border: Border.all(color: const Color(0x1FFFFFFF)),
     ),
     // Ink splashes of buttons and list tiles inside the card paint on this
-    // transparent Material instead of under the card's white background.
+    // transparent Material instead of under the card's background.
     child: Material(type: MaterialType.transparency, child: child),
   );
 }
@@ -216,9 +216,10 @@ class _SmilePainter extends CustomPainter {
   bool shouldRepaint(_SmilePainter oldDelegate) => false;
 }
 
-/// A routine's steps as one compact card: a row per step, divided by
-/// hairlines. Each row's hint shows on one line and opens in full on tap,
-/// so safety notes (such as re-applying sunscreen) stay one tap away.
+/// A routine's steps as glass rows (night design 3.0): the next open
+/// step is a little brighter. Each row's hint shows on one line and opens
+/// in full on tap, so safety notes (such as re-applying sunscreen) stay
+/// one tap away.
 class StepList extends StatelessWidget {
   const StepList({
     super.key,
@@ -234,31 +235,28 @@ class StepList extends StatelessWidget {
   final Key Function(RoutineStep step) rowKey;
 
   @override
-  Widget build(BuildContext context) => SoftCard(
-    radius: ParlaShape.card,
-    padding: const EdgeInsets.symmetric(vertical: 6),
-    child: Column(
+  Widget build(BuildContext context) {
+    final next = [
+      for (var i = 0; i < steps.length; i++)
+        if (!isDone(i)) i,
+    ].firstOrNull;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (var i = 0; i < steps.length; i++) ...[
-          if (i > 0)
-            const Divider(
-              height: 1,
-              thickness: 1,
-              indent: 58,
-              endIndent: 16,
-              color: ParlaColors.line,
-            ),
+          if (i > 0) const SizedBox(height: 10),
           StepTile(
             key: rowKey(steps[i]),
             step: steps[i],
             number: i + 1,
             done: isDone(i),
+            highlighted: i == next,
             onToggle: () => onToggle(i),
           ),
         ],
       ],
-    ),
-  );
+    );
+  }
 }
 
 /// One row of a [StepList], with a check toggle.
@@ -269,12 +267,18 @@ class StepTile extends StatefulWidget {
     required this.number,
     required this.done,
     required this.onToggle,
+    this.highlighted = false,
   });
 
   final RoutineStep step;
+
+  /// Position in the routine (read by screen readers in the row order).
   final int number;
   final bool done;
   final VoidCallback onToggle;
+
+  /// The next step to do: a brighter glass.
+  final bool highlighted;
 
   @override
   State<StepTile> createState() => _StepTileState();
@@ -286,86 +290,100 @@ class _StepTileState extends State<StepTile> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final text = Theme.of(context).textTheme;
     final step = widget.step;
     final done = widget.done;
     final hint = done ? l10n.stepStatusDone : step.meta;
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(14, 6, 6, 6),
+    final check = Semantics(
+      button: true,
+      toggled: done,
+      label: done
+          ? l10n.stepMarkUndone(step.title)
+          : l10n.stepMarkDone(step.title),
+      excludeSemantics: true,
+      // A 36 px circle in a 48 px tap area.
+      child: InkResponse(
+        onTap: widget.onToggle,
+        radius: 24,
+        child: SizedBox(
+          width: 48,
+          height: 48,
+          child: Center(
+            child: AnimatedContainer(
+              duration: const Duration(milliseconds: 200),
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: done ? ParlaColors.espresso : Colors.transparent,
+                border: done
+                    ? null
+                    : Border.all(color: const Color(0x99F4E9FF), width: 1.5),
+              ),
+              alignment: Alignment.center,
+              child: done
+                  ? const ParlaIcon(
+                      ParlaIconName.check,
+                      size: 18,
+                      strokeWidth: 2.5,
+                      color: Color(0xFF1A0B2A),
+                    )
+                  : null,
+            ),
+          ),
+        ),
+      ),
+    );
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      padding: const EdgeInsets.fromLTRB(8, 6, 16, 6),
+      decoration: BoxDecoration(
+        color: Color(widget.highlighted ? 0x1AFFFFFF : 0x0FFFFFFF),
+        borderRadius: BorderRadius.circular(28),
+        border: Border.all(
+          color: Color(widget.highlighted ? 0x38FFFFFF : 0x1FFFFFFF),
+        ),
+      ),
       child: Row(
         children: [
-          _NumberTile(number: widget.number, color: step.tile, size: 30),
-          const SizedBox(width: 14),
+          check,
+          const SizedBox(width: 8),
           Expanded(
             child: GestureDetector(
               behavior: HitTestBehavior.opaque,
               onTap: done ? null : () => setState(() => _open = !_open),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    step.title,
-                    style: text.titleSmall?.copyWith(
-                      color: done ? ParlaColors.muted : null,
-                      decoration: done ? TextDecoration.lineThrough : null,
-                      decorationColor: ParlaColors.outline,
-                    ),
-                  ),
-                  if (hint.isNotEmpty)
-                    AnimatedSize(
-                      duration: const Duration(milliseconds: 160),
-                      alignment: Alignment.topLeft,
-                      child: Text(
-                        hint,
-                        maxLines: _open && !done ? null : 1,
-                        overflow: _open && !done
-                            ? TextOverflow.visible
-                            : TextOverflow.ellipsis,
-                        style: text.bodySmall?.copyWith(
-                          color: ParlaColors.sunInk,
-                        ),
+              child: Padding(
+                padding: const EdgeInsets.symmetric(vertical: 6),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      step.title,
+                      style: TextStyle(
+                        fontSize: 15,
+                        color: done
+                            ? const Color(0x99F4E9FF)
+                            : ParlaColors.espresso,
+                        decoration: done ? TextDecoration.lineThrough : null,
+                        decorationColor: const Color(0x99F4E9FF),
                       ),
                     ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(width: 4),
-          Semantics(
-            button: true,
-            toggled: done,
-            label: done
-                ? l10n.stepMarkUndone(step.title)
-                : l10n.stepMarkDone(step.title),
-            excludeSemantics: true,
-            // A 32 px circle (owner's ask, 2026-11-20) in a 48 px tap area.
-            child: InkResponse(
-              onTap: widget.onToggle,
-              radius: 24,
-              child: SizedBox(
-                width: 48,
-                height: 48,
-                child: Center(
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    width: 32,
-                    height: 32,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: done ? ParlaColors.sun : ParlaColors.cream,
-                      border: done
-                          ? null
-                          : Border.all(color: ParlaColors.outline, width: 2),
-                    ),
-                    alignment: Alignment.center,
-                    child: done
-                        ? const ParlaIcon(
-                            ParlaIconName.check,
-                            size: 18,
-                            strokeWidth: 2.5,
-                          )
-                        : null,
-                  ),
+                    if (hint.isNotEmpty)
+                      AnimatedSize(
+                        duration: const Duration(milliseconds: 160),
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          hint,
+                          maxLines: _open && !done ? null : 1,
+                          overflow: _open && !done
+                              ? TextOverflow.visible
+                              : TextOverflow.ellipsis,
+                          style: const TextStyle(
+                            fontSize: kMinTextSize,
+                            color: ParlaColors.muted,
+                          ),
+                        ),
+                      ),
+                  ],
                 ),
               ),
             ),
@@ -374,39 +392,6 @@ class _StepTileState extends State<StepTile> {
       ),
     );
   }
-}
-
-class _NumberTile extends StatelessWidget {
-  const _NumberTile({
-    required this.number,
-    required this.color,
-    required this.size,
-  });
-
-  final int number;
-  final Color color;
-  final double size;
-
-  @override
-  Widget build(BuildContext context) => Container(
-    width: size,
-    height: size,
-    alignment: Alignment.center,
-    decoration: BoxDecoration(
-      color: color,
-      borderRadius: BorderRadius.circular(size / 3.2),
-    ),
-    child: ExcludeSemantics(
-      child: Text(
-        '$number',
-        style: TextStyle(
-          fontSize: size > 56 ? 26 : (size < 36 ? 16 : 20),
-          fontWeight: FontWeight.w700,
-          color: ParlaColors.espresso,
-        ),
-      ),
-    ),
-  );
 }
 
 /// A habit tile: icon, name, value, optional actions and a progress bar.

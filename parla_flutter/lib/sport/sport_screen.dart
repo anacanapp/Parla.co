@@ -10,6 +10,7 @@ import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
 import 'sport_book.dart';
 import 'sport_labels.dart';
+import 'sport_night.dart';
 
 /// Fitness tab: the questions first, then the weekly plan.
 class SportScreen extends StatefulWidget {
@@ -34,6 +35,7 @@ class _SportScreenState extends State<SportScreen> {
   @override
   Widget build(BuildContext context) {
     final book = ParlaScope.of(context).sport;
+    final l10n = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Colors.transparent,
       extendBody: true,
@@ -43,44 +45,24 @@ class _SportScreenState extends State<SportScreen> {
         child: ListenableBuilder(
           listenable: book,
           builder: (context, _) => ListView(
-            padding: const EdgeInsets.fromLTRB(
-              ParlaSpace.page,
-              14,
-              ParlaSpace.page,
-              120,
-            ),
+            padding: const EdgeInsets.fromLTRB(22, 14, 22, 120),
             children: [
-              Row(
-                children: [
-                  BackButton(onPressed: () => context.go(Routes.discover)),
-                  const SizedBox(width: 4),
-                  Expanded(
-                    child: Semantics(
-                      header: true,
-                      child: Text(
-                        AppLocalizations.of(context).sportTitle,
-                        style: Theme.of(context).textTheme.headlineMedium,
-                      ),
-                    ),
-                  ),
-                ],
+              SportHeader(
+                title: l10n.sportTitle,
+                onBack: () => context.go(Routes.discover),
               ),
-              const SizedBox(height: ParlaSpace.gap),
+              const SizedBox(height: 18),
               if (book.plan == null) const _Intro() else _PlanView(book: book),
-              const SizedBox(height: 16),
+              const SizedBox(height: 22),
+              _SectionLabel(l10n.sportTypeFaceYoga),
+              const SizedBox(height: 10),
               _SessionCard(
                 workout: faceYogaWorkout,
                 done: book.doneThisWeek.contains(faceYogaWorkoutId),
                 icon: ParlaIconName.sparkle,
               ),
-              const SizedBox(height: 20),
-              Semantics(
-                header: true,
-                child: Text(
-                  AppLocalizations.of(context).sportTypeYoga,
-                  style: Theme.of(context).textTheme.titleLarge,
-                ),
-              ),
+              const SizedBox(height: 22),
+              _SectionLabel(l10n.sportTypeYoga),
               const SizedBox(height: 10),
               for (final w in yogaWorkouts) ...[
                 _SessionCard(
@@ -98,51 +80,98 @@ class _SportScreenState extends State<SportScreen> {
   }
 }
 
-/// Blue card shown before the questions.
+/// A quiet section heading above a list of rows.
+class _SectionLabel extends StatelessWidget {
+  const _SectionLabel(this.text);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Semantics(
+    header: true,
+    child: Padding(
+      padding: const EdgeInsets.only(left: 4),
+      child: Text(
+        text,
+        style: const TextStyle(fontSize: 13, color: SportNight.soft),
+      ),
+    ),
+  );
+}
+
+/// The blue pebble shown before the questions.
 class _Intro extends StatelessWidget {
   const _Intro();
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final text = Theme.of(context).textTheme;
-    return Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        color: ParlaColors.sportBlue,
-        borderRadius: BorderRadius.circular(22),
-      ),
+    return BluePebble(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          const ExcludeSemantics(
-            child: ParlaIcon(
-              ParlaIconName.dumbbell,
-              size: 32,
-              color: ParlaColors.sportBlueText,
-            ),
-          ),
-          const SizedBox(height: 10),
           Text(
             l10n.sportIntroTitle,
-            style: text.headlineSmall?.copyWith(
-              color: ParlaColors.sportBlueText,
+            style: const TextStyle(
+              fontSize: 24,
+              fontWeight: FontWeight.w300,
+              letterSpacing: -.5,
+              height: 1.15,
             ),
           ),
-          const SizedBox(height: 6),
+          const SizedBox(height: 8),
           Text(
             l10n.sportIntroBody,
-            style: text.bodyMedium?.copyWith(color: ParlaColors.sportBlueText),
+            style: const TextStyle(fontSize: 14, height: 1.45),
           ),
           const SizedBox(height: 16),
-          FilledButton(
+          OrbPill(
             key: const ValueKey('sport-start'),
-            style: FilledButton.styleFrom(
-              backgroundColor: ParlaColors.sportBlueText,
-              foregroundColor: ParlaColors.sportBlue,
-            ),
+            label: l10n.sportStart,
             onPressed: () => context.go(Routes.sportQuiz),
-            child: Text(l10n.sportStart),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// "Edit my answers": a glass row with a plum orb.
+class _EditRow extends StatelessWidget {
+  const _EditRow();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return GlassRow(
+      key: const ValueKey('sport-edit'),
+      radius: 32,
+      padding: const EdgeInsets.all(16),
+      onTap: () => context.go(Routes.sportQuiz),
+      child: Row(
+        children: [
+          Container(
+            width: 48,
+            height: 48,
+            decoration: const BoxDecoration(
+              shape: BoxShape.circle,
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [Color(0xFFC653B0), Color(0xFF7A2FA8)],
+              ),
+            ),
+            alignment: Alignment.center,
+            child: const ParlaIcon(
+              ParlaIconName.sparkle,
+              size: 22,
+              color: SportNight.ink,
+            ),
+          ),
+          const SizedBox(width: 14),
+          Expanded(child: RowTexts(title: l10n.sportEditAnswers)),
+          const ExcludeSemantics(
+            child: Icon(Icons.chevron_right, color: SportNight.soft),
           ),
         ],
       ),
@@ -158,125 +187,180 @@ class _PlanView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final text = Theme.of(context).textTheme;
     final plan = book.plan!;
     final done = book.doneThisWeek;
     final next = book.next;
-    final muted = text.bodySmall?.copyWith(color: ParlaColors.muted);
+    const muted = TextStyle(
+      fontSize: kMinTextSize,
+      height: 1.4,
+      color: SportNight.soft,
+    );
 
     if (plan.blocked) {
       return Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Container(
+          GlassRow(
             key: const ValueKey('sport-blocked'),
+            highlight: true,
             padding: const EdgeInsets.all(18),
-            decoration: BoxDecoration(
-              color: ParlaColors.sky,
-              borderRadius: BorderRadius.circular(22),
-            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(l10n.sportBlockedTitle, style: text.titleLarge),
+                Text(
+                  l10n.sportBlockedTitle,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w300,
+                    color: SportNight.ink,
+                  ),
+                ),
                 const SizedBox(height: 6),
-                Text(l10n.sportBlockedBody, style: text.bodyMedium),
+                Text(
+                  l10n.sportBlockedBody,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    height: 1.45,
+                    color: SportNight.ink,
+                  ),
+                ),
               ],
             ),
           ),
           const SizedBox(height: 12),
-          OutlinedButton(
-            onPressed: () => context.go(Routes.sportQuiz),
-            child: Text(l10n.sportEditAnswers),
-          ),
+          const _EditRow(),
         ],
       );
     }
 
     final total = plan.workouts.length;
     final doneCount = plan.workouts.where((w) => done.contains(w.id)).length;
+    final progress = l10n.sportWeekProgress(doneCount, total);
+    final lead = '$doneCount';
+    final nextNumber = next == null
+        ? 0
+        : plan.workouts.indexWhere((w) => w.id == next.id) + 1;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Container(
-          padding: const EdgeInsets.all(18),
-          decoration: BoxDecoration(
-            color: ParlaColors.sportBlue,
-            borderRadius: BorderRadius.circular(22),
-          ),
+        BluePebble(
           child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              Text(
-                l10n.sportWeekTitle.toUpperCase(),
-                style: text.labelMedium?.copyWith(
-                  color: ParlaColors.sportBlueText,
-                  letterSpacing: .8,
-                ),
-              ),
-              const SizedBox(height: 4),
-              Semantics(
-                liveRegion: true,
-                child: Text(
-                  l10n.sportWeekProgress(doneCount, total),
-                  style: text.headlineSmall?.copyWith(
-                    color: ParlaColors.sportBlueText,
+              Eyebrow(l10n.sportWeekTitle),
+              const SizedBox(height: 12),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Expanded(
+                    child: Semantics(
+                      liveRegion: true,
+                      label: progress,
+                      excludeSemantics: true,
+                      // The count large and thin, the rest of the sentence
+                      // smaller (the same localized sentence).
+                      child: Text.rich(
+                        progress.startsWith(lead)
+                            ? TextSpan(
+                                text: lead,
+                                children: [
+                                  TextSpan(
+                                    text: progress.substring(lead.length),
+                                    style: const TextStyle(
+                                      fontSize: 22,
+                                      color: Color(0xBFF4E9FF),
+                                    ),
+                                  ),
+                                ],
+                              )
+                            : TextSpan(
+                                text: progress,
+                                style: const TextStyle(fontSize: 28),
+                              ),
+                        style: const TextStyle(
+                          fontSize: 44,
+                          fontWeight: FontWeight.w200,
+                          height: 1,
+                          color: SportNight.ink,
+                        ),
+                      ),
+                    ),
                   ),
-                ),
-              ),
-              const SizedBox(height: 10),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(6),
-                child: LinearProgressIndicator(
-                  value: total == 0 ? 0 : doneCount / total,
-                  minHeight: 8,
-                  backgroundColor: ParlaColors.sportBlueText.withValues(
-                    alpha: .2,
+                  const SizedBox(width: 8),
+                  ExcludeSemantics(
+                    child: Wrap(
+                      spacing: 6,
+                      runSpacing: 6,
+                      children: [
+                        for (final w in plan.workouts)
+                          Container(
+                            width: 26,
+                            height: 26,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: done.contains(w.id)
+                                  ? SportNight.ink
+                                  : null,
+                              border: done.contains(w.id)
+                                  ? null
+                                  : Border.all(
+                                      color: const Color(0x80F4E9FF),
+                                      width: 1.5,
+                                    ),
+                            ),
+                          ),
+                      ],
+                    ),
                   ),
-                  color: ParlaColors.sun,
-                ),
+                ],
               ),
-              if (next == null) ...[
-                const SizedBox(height: 10),
+              const SizedBox(height: 14),
+              if (next != null)
+                OrbPill(
+                  key: const ValueKey('sport-next'),
+                  label:
+                      '${l10n.sportWorkoutTitle(nextNumber)} · '
+                      '${l10n.sportWorkoutMeta(sportTypeLabel(l10n, next.type), next.minutes)}',
+                  onPressed: () => context.go(Routes.workout, extra: next.id),
+                )
+              else
                 Text(
                   l10n.sportAllDone,
-                  style: text.bodyMedium?.copyWith(
-                    color: ParlaColors.sportBlueText,
-                  ),
+                  style: const TextStyle(fontSize: 14, color: SportNight.ink),
                 ),
-              ],
             ],
           ),
         ),
         if (plan.gentle) ...[
           const SizedBox(height: 12),
-          Container(
+          GlassRow(
             key: const ValueKey('sport-gentle'),
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: ParlaColors.sky,
-              borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
+            highlight: true,
+            child: Text(
+              l10n.sportGentleNote,
+              style: const TextStyle(
+                fontSize: 14,
+                height: 1.45,
+                color: SportNight.ink,
+              ),
             ),
-            child: Text(l10n.sportGentleNote, style: text.bodyMedium),
           ),
         ],
-        const SizedBox(height: 16),
+        const SizedBox(height: 12),
+        const _EditRow(),
+        const SizedBox(height: 22),
+        _SectionLabel(l10n.sportWeekTitle),
+        const SizedBox(height: 10),
         for (var i = 0; i < plan.workouts.length; i++) ...[
           _WorkoutCard(
             workout: plan.workouts[i],
             number: i + 1,
             done: done.contains(plan.workouts[i].id),
-            isNext: plan.workouts[i] == next,
+            isNext: plan.workouts[i].id == next?.id,
           ),
           const SizedBox(height: 10),
         ],
-        const SizedBox(height: 6),
-        OutlinedButton(
-          key: const ValueKey('sport-edit'),
-          onPressed: () => context.go(Routes.sportQuiz),
-          child: Text(l10n.sportEditAnswers),
-        ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 8),
         Text(l10n.sportDraftNote, style: muted),
         const SizedBox(height: 6),
         Text(
@@ -304,69 +388,37 @@ class _WorkoutCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final text = Theme.of(context).textTheme;
     final focus = workout.focus.map((a) => sportAreaLabel(l10n, a)).join(', ');
-    return Material(
+    return GlassRow(
       key: ValueKey('workout-${workout.id}'),
-      color: isNext ? ParlaColors.sky : ParlaColors.white,
-      borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
-        onTap: () => context.go(Routes.workout, extra: workout.id),
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Row(
-            children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: done ? ParlaColors.sun : ParlaColors.sportBlue,
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                alignment: Alignment.center,
-                child: ParlaIcon(
-                  done ? ParlaIconName.check : ParlaIconName.dumbbell,
-                  size: 22,
-                  color: done
-                      ? ParlaColors.espresso
-                      : ParlaColors.sportBlueText,
-                ),
+      highlight: isNext,
+      onTap: () => context.go(Routes.workout, extra: workout.id),
+      child: Row(
+        children: [
+          TickDot(done: done),
+          const SizedBox(width: 12),
+          Expanded(
+            child: RowTexts(
+              title: l10n.sportWorkoutTitle(number),
+              subtitle: l10n.sportWorkoutMeta(
+                sportTypeLabel(l10n, workout.type),
+                workout.minutes,
               ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      l10n.sportWorkoutTitle(number),
-                      style: text.titleMedium,
-                    ),
-                    Text(
-                      l10n.sportWorkoutMeta(
-                        sportTypeLabel(l10n, workout.type),
-                        workout.minutes,
-                      ),
-                      style: text.bodySmall,
-                    ),
-                    Text(
-                      focus,
-                      style: text.bodySmall?.copyWith(color: ParlaColors.muted),
-                    ),
-                  ],
-                ),
-              ),
-              if (done || isNext)
-                Text(
-                  done ? l10n.sportDone : l10n.sportNextLabel,
-                  style: text.labelMedium?.copyWith(
-                    color: ParlaColors.sportBlue,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-            ],
+              extra: focus,
+            ),
           ),
-        ),
+          if (done || isNext)
+            Padding(
+              padding: const EdgeInsets.only(left: 8),
+              child: Text(
+                done ? l10n.sportDone : l10n.sportNextLabel,
+                style: const TextStyle(
+                  fontSize: kMinTextSize,
+                  color: SportNight.ink,
+                ),
+              ),
+            ),
+        ],
       ),
     );
   }
@@ -388,60 +440,29 @@ class _SessionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final text = Theme.of(context).textTheme;
     final faceYoga = workout.id == faceYogaWorkoutId;
-    return Material(
+    return GlassRow(
       key: ValueKey(faceYoga ? 'face-yoga' : 'session-${workout.id}'),
-      color: ParlaColors.white,
-      borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
-      child: InkWell(
-        borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
-        onTap: () => context.go(Routes.workout, extra: workout.id),
-        child: Padding(
-          padding: const EdgeInsets.all(14),
-          child: Row(
-            children: [
-              Container(
-                width: 44,
-                height: 44,
-                decoration: BoxDecoration(
-                  color: done ? ParlaColors.sun : ParlaColors.sky,
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                alignment: Alignment.center,
-                child: ParlaIcon(
-                  done ? ParlaIconName.check : icon,
-                  size: 22,
-                  color: ParlaColors.espresso,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      sessionTitle(l10n, workout.id),
-                      style: text.titleMedium,
+      onTap: () => context.go(Routes.workout, extra: workout.id),
+      child: Row(
+        children: [
+          TickDot(done: done, icon: icon),
+          const SizedBox(width: 12),
+          Expanded(
+            child: RowTexts(
+              title: sessionTitle(l10n, workout.id),
+              subtitle: faceYoga
+                  ? l10n.sportFaceYogaCardBody(workout.minutes)
+                  : l10n.sportSessionCardBody(
+                      workout.items.length,
+                      workout.minutes,
                     ),
-                    Text(
-                      faceYoga
-                          ? l10n.sportFaceYogaCardBody(workout.minutes)
-                          : l10n.sportSessionCardBody(
-                              workout.items.length,
-                              workout.minutes,
-                            ),
-                      style: text.bodySmall,
-                    ),
-                  ],
-                ),
-              ),
-              const ExcludeSemantics(
-                child: Icon(Icons.chevron_right, color: ParlaColors.muted),
-              ),
-            ],
+            ),
           ),
-        ),
+          const ExcludeSemantics(
+            child: Icon(Icons.chevron_right, color: SportNight.soft),
+          ),
+        ],
       ),
     );
   }

@@ -9,6 +9,7 @@ import '../parla_scope.dart';
 import '../routes.dart';
 import '../services/parla_api.dart';
 import '../ui/brand.dart';
+import '../ui/night.dart';
 import '../ui/parla_icons.dart';
 import 'blog_widgets.dart';
 import 'discover_bento.dart';
@@ -199,10 +200,12 @@ class BlogPostScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: ParlaColors.lemon,
-              borderRadius: BorderRadius.circular(
-                ParlaSpace.cardRadius,
+              gradient: const LinearGradient(
+                begin: Alignment(-0.4, -1),
+                end: Alignment(0.4, 1),
+                colors: PebbleCard.stops,
               ),
+              borderRadius: BorderRadius.circular(28),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -376,8 +379,9 @@ class _ExpertCard extends StatelessWidget {
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(14),
       decoration: BoxDecoration(
-        color: ParlaColors.white,
-        borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
+        color: NightColors.glass,
+        border: Border.all(color: NightColors.glassLine),
+        borderRadius: BorderRadius.circular(28),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -398,7 +402,7 @@ class _ExpertCard extends StatelessWidget {
                 ExcludeSemantics(
                   child: CircleAvatar(
                     radius: 24,
-                    backgroundColor: ParlaColors.sky,
+                    backgroundColor: MeshTone.blue.to,
                     child: Text(initials, style: text.titleMedium),
                   ),
                 ),
@@ -519,8 +523,9 @@ class NutritionScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: ParlaColors.sageTint,
-                borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
+                color: NightColors.glass,
+                border: Border.all(color: NightColors.glassLine),
+                borderRadius: BorderRadius.circular(28),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -574,8 +579,12 @@ class NutritionScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: ParlaColors.lemon,
-                borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
+                gradient: const LinearGradient(
+                  begin: Alignment(-0.4, -1),
+                  end: Alignment(0.4, 1),
+                  colors: PebbleCard.stops,
+                ),
+                borderRadius: BorderRadius.circular(28),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

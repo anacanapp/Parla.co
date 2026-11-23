@@ -3,6 +3,7 @@ import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 
 import '../services/parla_api.dart';
 import '../ui/brand.dart';
+import '../ui/night.dart';
 import 'discover_screens.dart';
 import 'discover_widgets.dart';
 
@@ -34,7 +35,8 @@ class ArticleBody extends StatelessWidget {
         blockSpacing: 12,
         listBullet: text.bodyLarge,
         blockquoteDecoration: BoxDecoration(
-          color: ParlaColors.lemon,
+          color: NightColors.glass,
+          border: Border.all(color: NightColors.glassLine),
           borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
         ),
         blockquotePadding: const EdgeInsets.all(12),

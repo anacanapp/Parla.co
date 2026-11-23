@@ -11,6 +11,7 @@ import '../push/push_client.dart';
 import '../routes.dart';
 import '../services/parla_api.dart';
 import '../ui/brand.dart';
+import '../ui/night.dart';
 import '../ui/common.dart';
 
 /// Messages: the team's announcements and the user's own support
@@ -120,8 +121,11 @@ class _MessagesScreenState extends State<MessagesScreen> {
           Padding(
             padding: const EdgeInsets.only(bottom: 16),
             child: Material(
-              color: ParlaColors.white,
-              borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
+              color: NightColors.glass,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(28),
+                side: const BorderSide(color: NightColors.glassLine),
+              ),
               clipBehavior: Clip.antiAlias,
               child: SwitchListTile(
                 key: const ValueKey('push-switch'),
@@ -162,10 +166,9 @@ class _MessagesScreenState extends State<MessagesScreen> {
                     margin: const EdgeInsets.only(bottom: 10),
                     padding: const EdgeInsets.all(14),
                     decoration: BoxDecoration(
-                      color: ParlaColors.white,
-                      borderRadius: BorderRadius.circular(
-                        ParlaSpace.cardRadius,
-                      ),
+                      color: NightColors.glass,
+                      border: Border.all(color: NightColors.glassLine),
+                      borderRadius: BorderRadius.circular(28),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -215,7 +218,8 @@ class _MessagesScreenState extends State<MessagesScreen> {
                 padding: const EdgeInsets.all(12),
                 constraints: const BoxConstraints(maxWidth: 320),
                 decoration: BoxDecoration(
-                  color: m.fromTeam ? ParlaColors.white : ParlaColors.lemon,
+                  color: m.fromTeam ? NightColors.glass : ParlaColors.lemon,
+                  border: Border.all(color: NightColors.glassLine),
                   borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
                 ),
                 child: Column(

@@ -160,6 +160,12 @@ final _answerSets = <QuizAnswers?>[
   ),
 ];
 
+/// The done/total count in the progress card of the open slot.
+Finder _progress(String count) => find.descendant(
+  of: find.byKey(const ValueKey('routine-progress')),
+  matching: find.text(count),
+);
+
 void main() {
   test('every step the area rules can produce has text in every '
       'language', () {
@@ -250,7 +256,7 @@ void main() {
     await _open(tester, habits: habits);
     await _tap(tester, find.byKey(const ValueKey('area-hair')));
     await _tap(tester, find.byKey(const ValueKey('slot-weekly')));
-    expect(find.text('Weekly · 0/2'), findsOneWidget);
+    expect(_progress('0/2'), findsOneWidget);
     await _tap(
       tester,
       find.descendant(
@@ -258,17 +264,19 @@ void main() {
         matching: find.byType(InkResponse),
       ),
     );
-    expect(find.text('Weekly · 1/2'), findsOneWidget);
+    expect(_progress('1/2'), findsOneWidget);
 
     // Saturday of the same week.
     await _open(tester, habits: habits, now: DateTime(2026, 11, 14, 10));
     await _tap(tester, find.byKey(const ValueKey('area-hair')));
-    expect(find.text('Weekly · 1/2'), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('slot-weekly')));
+    expect(_progress('1/2'), findsOneWidget);
 
     // Monday of the next week.
     await _open(tester, habits: habits, now: DateTime(2026, 11, 16, 10));
     await _tap(tester, find.byKey(const ValueKey('area-hair')));
-    expect(find.text('Weekly · 0/2'), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('slot-weekly')));
+    expect(_progress('0/2'), findsOneWidget);
   });
 
   testWidgets('an own routine is made, kept on the phone and ticked off', (

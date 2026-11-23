@@ -90,6 +90,12 @@ void main() {
   Finder summary(int done) =>
       find.bySemanticsLabel('Morning routine: $done of 4 steps done');
 
+  /// A text on the routine tile at the top.
+  Finder onHero(String text) => find.descendant(
+    of: find.byKey(const ValueKey('routine-hero')),
+    matching: find.text(text),
+  );
+
   Future<void> tick(WidgetTester tester, String step) =>
       _tap(tester, find.bySemanticsLabel('$step: mark as done'));
 
@@ -98,9 +104,10 @@ void main() {
   ) async {
     await _pumpHome(tester);
     expect(find.text('Good morning!'), findsOneWidget);
-    expect(find.text('MORNING ROUTINE'), findsOneWidget);
-    expect(find.text("Let's begin"), findsOneWidget);
-    expect(find.text('About 4 min left'), findsOneWidget);
+    expect(onHero('Morning routine'), findsOneWidget);
+    // The slide pill names the next step.
+    expect(onHero('Gentle cleanser'), findsOneWidget);
+    expect(onHero('About 4 min left'), findsOneWidget);
     expect(summary(0), findsOneWidget);
     for (final step in steps) {
       expect(find.bySemanticsLabel('$step: mark as done'), findsOneWidget);
@@ -115,13 +122,13 @@ void main() {
     await _toTop(tester);
 
     expect(summary(1), findsOneWidget);
-    expect(find.text('3 steps to go'), findsOneWidget);
-    expect(find.text('About 3 min left'), findsOneWidget);
+    expect(onHero('Niacinamide serum'), findsOneWidget);
+    expect(onHero('About 3 min left'), findsOneWidget);
 
     await tick(tester, 'Niacinamide serum');
     await tick(tester, 'Moisturiser');
     await _toTop(tester);
-    expect(find.text('1 step to go'), findsOneWidget);
+    expect(onHero('Sunscreen SPF 30+'), findsOneWidget);
   });
 
   testWidgets('finishing every step shows the success card; restart '
@@ -132,7 +139,7 @@ void main() {
     }
     await _toTop(tester);
     expect(summary(4), findsOneWidget);
-    expect(find.text('All done'), findsOneWidget);
+    expect(onHero('All done'), findsOneWidget);
     expect(find.text('You glowed again today.'), findsOneWidget);
 
     await _tap(tester, find.text('Start again'));
@@ -159,8 +166,11 @@ void main() {
   ) async {
     await _pumpHome(tester);
     await _tap(tester, find.text('Evening'));
-    expect(find.text('EVENING ROUTINE'), findsOneWidget);
-    expect(find.text('Evening cleanser'), findsOneWidget);
+    expect(onHero('Evening routine'), findsOneWidget);
+    expect(
+      find.bySemanticsLabel('Evening cleanser: mark as done'),
+      findsOneWidget,
+    );
   });
 
   testWidgets('in the evening the evening routine opens first', (
@@ -168,7 +178,7 @@ void main() {
   ) async {
     await _pumpHome(tester, now: DateTime(2026, 11, 12, 20));
     expect(find.text('Good evening!'), findsOneWidget);
-    expect(find.text('EVENING ROUTINE'), findsOneWidget);
+    expect(onHero('Evening routine'), findsOneWidget);
   });
 
   testWidgets('without a quiz the default routine shows with a quiz '
@@ -195,15 +205,15 @@ void main() {
     final remove = find.bySemanticsLabel('Remove a glass');
 
     await _tap(tester, remove);
-    expect(find.text('0 of 8 glasses'), findsOneWidget);
+    expect(find.bySemanticsLabel('0 of 8 glasses'), findsOneWidget);
 
     for (var i = 0; i < 10; i++) {
       await _tap(tester, add);
     }
-    expect(find.text('8 of 8 glasses'), findsOneWidget);
+    expect(find.bySemanticsLabel('8 of 8 glasses'), findsOneWidget);
 
     await _tap(tester, remove);
-    expect(find.text('7 of 8 glasses'), findsOneWidget);
+    expect(find.bySemanticsLabel('7 of 8 glasses'), findsOneWidget);
   });
 
   testWidgets('water and ticked steps are kept on the device across app '
@@ -224,7 +234,7 @@ void main() {
     });
 
     await _pumpHome(tester, store: store);
-    expect(find.text('2 of 8 glasses'), findsOneWidget);
+    expect(find.bySemanticsLabel('2 of 8 glasses'), findsOneWidget);
     await _toTop(tester);
     expect(summary(1), findsOneWidget);
   });
@@ -237,7 +247,7 @@ void main() {
     await _tap(tester, find.bySemanticsLabel('Add a glass'));
 
     await _pumpHome(tester, store: store, userId: 'user-2');
-    expect(find.text('0 of 8 glasses'), findsOneWidget);
+    expect(find.bySemanticsLabel('0 of 8 glasses'), findsOneWidget);
     expect(store.data.keys, ['user-1']);
   });
 
@@ -247,7 +257,7 @@ void main() {
     await _tap(tester, find.bySemanticsLabel('Add a glass'));
 
     await _pumpHome(tester, store: store, now: DateTime(2026, 11, 13, 8));
-    expect(find.text('0 of 8 glasses'), findsOneWidget);
+    expect(find.bySemanticsLabel('0 of 8 glasses'), findsOneWidget);
   });
 
   testWidgets('sleep is logged in half hours from the home tile', (
