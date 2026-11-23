@@ -11,6 +11,7 @@ import '../discover/discover_widgets.dart';
 import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
 import '../routes.dart';
+import '../services/parla_api.dart';
 import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
 import '../ui/parla_ui.dart';
@@ -642,10 +643,40 @@ class _Media extends StatelessWidget {
             aspectRatio: 4 / 3,
           );
     final video = item?.video;
+    // The stage takes the video's own shape (a 3:4 portrait video shows
+    // whole), at most about half the screen high so the timer still fits.
+    final aspect = video != null && video.width > 0 && video.height > 0
+        ? video.width / video.height
+        : 4 / 3;
+    final maxHeight = MediaQuery.sizeOf(context).height * .45;
+    return LayoutBuilder(
+      builder: (context, box) {
+        final width = box.maxWidth.isFinite
+            ? (box.maxWidth < maxHeight * aspect
+                  ? box.maxWidth
+                  : maxHeight * aspect)
+            : maxHeight * aspect;
+        return Center(
+          child: SizedBox(
+            key: const ValueKey('workout-stage'),
+            width: width,
+            child: _stage(context, aspect, video, still),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _stage(
+    BuildContext context,
+    double aspect,
+    ContentImageRef? video,
+    Widget still,
+  ) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(ParlaShape.card),
       child: AspectRatio(
-        aspectRatio: 4 / 3,
+        aspectRatio: aspect,
         child: Stack(
           fit: StackFit.expand,
           children: [

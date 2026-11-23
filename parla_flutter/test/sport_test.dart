@@ -377,6 +377,44 @@ void main() {
     expect(played[url], isFalse);
   });
 
+  testWidgets('a 3:4 video gets a 3:4 stage, not a cropped 4:3 one', (
+    tester,
+  ) async {
+    ExerciseVideo.debugPlayer = (video, playing) =>
+        const SizedBox(key: ValueKey('test-player'));
+    addTearDown(() => ExerciseVideo.debugPlayer = null);
+    final api = FakeApi()
+      ..signedIn = true
+      ..profile = const ProfileSummary(countryCode: 'AZ', language: 'en')
+      ..published['exercise'] = [
+        PublishedItem(
+          id: 1,
+          kind: 'exercise',
+          slug: 'fy_forehead_smooth',
+          category: 'catalogue',
+          data: const {},
+          publishedAt: DateTime.utc(2026, 11, 23),
+          video: const ContentImageRef(
+            id: 100,
+            url: 'https://parla.test/media/fy.mp4',
+            width: 540,
+            height: 720,
+            alt: {'en': 'A woman smoothing her forehead'},
+          ),
+        ),
+      ];
+    await _open(tester, api: api);
+    await _tap(tester, find.byKey(const ValueKey('face-yoga')));
+    await _tap(tester, find.byKey(const ValueKey('workout-start')));
+    expect(find.byKey(const ValueKey('test-player')), findsOneWidget);
+    final stage = tester.getSize(find.byKey(const ValueKey('workout-stage')));
+    final shown = tester.getSize(find.byKey(const ValueKey('test-player')));
+    expect(shown.width / shown.height, closeTo(3 / 4, .01));
+    expect(shown.height, lessThanOrEqualTo(844 * .45 + 1));
+    expect(stage.width, closeTo(shown.width, 1));
+    await _tap(tester, find.byKey(const ValueKey('workout-stop')));
+  });
+
   testWidgets('the sound switch is kept', (tester) async {
     final app = await _open(tester);
     await _answer(tester);
