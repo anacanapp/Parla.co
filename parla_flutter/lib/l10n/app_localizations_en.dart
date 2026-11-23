@@ -1277,6 +1277,30 @@ class AppLocalizationsEn extends AppLocalizations {
   String get sportTypeFaceYoga => 'Face yoga';
 
   @override
+  String get sportTypeYoga => 'Yoga';
+
+  @override
+  String get sportYogaMorning => 'Morning flow';
+
+  @override
+  String get sportYogaEvening => 'Evening calm';
+
+  @override
+  String get sportYogaStretch => 'Stretch & release';
+
+  @override
+  String sportSessionCardBody(int count, int minutes) {
+    return '$count moves · about $minutes min';
+  }
+
+  @override
+  String get sportYogaSafetyTitle => 'Before you start';
+
+  @override
+  String get sportYogaSafetyBody =>
+      'Move slowly, don\'t hold your breath and stop if anything hurts. If you are pregnant, have high blood pressure or a back, knee or wrist injury, talk to a doctor first. If you noted an injury or pregnancy in the questions, poses that don\'t suit you are left out.';
+
+  @override
   String sportFaceYogaCardBody(int minutes) {
     return '12 moves · about $minutes min. In front of a mirror, any time.';
   }

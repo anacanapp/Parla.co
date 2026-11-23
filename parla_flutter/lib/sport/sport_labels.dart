@@ -24,6 +24,7 @@ String sportTypeLabel(AppLocalizations l10n, String id) => switch (id) {
   'wall_pilates' => l10n.sportTypeWallPilates,
   'stretching' => l10n.sportTypeStretching,
   'face_yoga' => l10n.sportTypeFaceYoga,
+  'yoga' => l10n.sportTypeYoga,
   _ => l10n.sportTypeCardio,
 };
 
@@ -44,4 +45,12 @@ String injuryLabel(AppLocalizations l10n, String id) => switch (id) {
   'back' => l10n.sportInjBack,
   'shoulder' => l10n.sportInjShoulder,
   _ => l10n.sportInjWrist,
+};
+
+/// The title of a fixed session.
+String sessionTitle(AppLocalizations l10n, String id) => switch (id) {
+  'yoga_morning' => l10n.sportYogaMorning,
+  'yoga_evening' => l10n.sportYogaEvening,
+  'yoga_stretch' => l10n.sportYogaStretch,
+  _ => l10n.sportTypeFaceYoga,
 };

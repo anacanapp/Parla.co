@@ -67,7 +67,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
   }
 
   Workout? _workout(BuildContext context) {
-    if (fixedWorkoutById(widget.workoutId) case final fixed?) return fixed;
+    if (fixedWorkoutById(widget.workoutId) case final fixed?) {
+      // The same safety answers as the plan leave moves out.
+      return withoutAvoided(fixed, ParlaScope.of(context).sport.answers);
+    }
     for (final w in ParlaScope.of(context).sport.plan?.workouts ?? const []) {
       if (w.id == widget.workoutId) return w;
     }
@@ -295,9 +298,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
         Semantics(
           header: true,
           child: Text(
-            fixed
-                ? sportTypeLabel(l10n, w.type)
-                : l10n.sportWorkoutTitle(number),
+            fixed ? sessionTitle(l10n, w.id) : l10n.sportWorkoutTitle(number),
             style: text.headlineMedium,
           ),
         ),
@@ -306,9 +307,11 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
         ),
         const SizedBox(height: 12),
-        if (w.type == 'face_yoga') ...[
+        if (w.type == 'face_yoga' || w.type == 'yoga') ...[
           Container(
-            key: const ValueKey('face-yoga-safety'),
+            key: ValueKey(
+              w.type == 'yoga' ? 'yoga-safety' : 'face-yoga-safety',
+            ),
             padding: const EdgeInsets.all(14),
             decoration: BoxDecoration(
               color: ParlaColors.sky,
@@ -317,9 +320,19 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(l10n.sportFaceYogaSafetyTitle, style: text.titleMedium),
+                Text(
+                  w.type == 'yoga'
+                      ? l10n.sportYogaSafetyTitle
+                      : l10n.sportFaceYogaSafetyTitle,
+                  style: text.titleMedium,
+                ),
                 const SizedBox(height: 4),
-                Text(l10n.sportFaceYogaSafetyBody, style: text.bodyMedium),
+                Text(
+                  w.type == 'yoga'
+                      ? l10n.sportYogaSafetyBody
+                      : l10n.sportFaceYogaSafetyBody,
+                  style: text.bodyMedium,
+                ),
               ],
             ),
           ),

@@ -1256,6 +1256,30 @@ class AppLocalizationsAz extends AppLocalizations {
   String get sportTypeFaceYoga => 'Üz yoqası';
 
   @override
+  String get sportTypeYoga => 'Yoqa';
+
+  @override
+  String get sportYogaMorning => 'Səhər axını';
+
+  @override
+  String get sportYogaEvening => 'Axşam sakitliyi';
+
+  @override
+  String get sportYogaStretch => 'Dartma və rahatlama';
+
+  @override
+  String sportSessionCardBody(int count, int minutes) {
+    return '$count hərəkət · təxminən $minutes dəq';
+  }
+
+  @override
+  String get sportYogaSafetyTitle => 'Başlamazdan əvvəl';
+
+  @override
+  String get sportYogaSafetyBody =>
+      'Yavaş hərəkət et, nəfəsini saxlama, ağrı olarsa dayan. Hamiləlikdə, yüksək qan təzyiqində, bel, diz və ya bilək zədəsində əvvəlcə həkimə müraciət et. Sorğuda zədə və ya hamiləlik qeyd etmisənsə, sənə uyğun olmayan duruşlar seansdan çıxarılır.';
+
+  @override
   String sportFaceYogaCardBody(int minutes) {
     return '12 hərəkət · təxminən $minutes dəq. Güzgü önündə, istənilən vaxt.';
   }

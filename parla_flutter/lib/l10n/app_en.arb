@@ -696,6 +696,23 @@
   "sportTypeStretching": "Stretching",
   "sportTypeCardio": "Low-impact cardio",
   "sportTypeFaceYoga": "Face yoga",
+  "sportTypeYoga": "Yoga",
+  "sportYogaMorning": "Morning flow",
+  "sportYogaEvening": "Evening calm",
+  "sportYogaStretch": "Stretch & release",
+  "sportSessionCardBody": "{count} moves · about {minutes} min",
+  "@sportSessionCardBody": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      },
+      "minutes": {
+        "type": "int"
+      }
+    }
+  },
+  "sportYogaSafetyTitle": "Before you start",
+  "sportYogaSafetyBody": "Move slowly, don't hold your breath and stop if anything hurts. If you are pregnant, have high blood pressure or a back, knee or wrist injury, talk to a doctor first. If you noted an injury or pregnancy in the questions, poses that don't suit you are left out.",
   "sportFaceYogaCardBody": "12 moves · about {minutes} min. In front of a mirror, any time.",
   "@sportFaceYogaCardBody": {
     "placeholders": {

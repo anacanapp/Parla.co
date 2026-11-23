@@ -294,6 +294,31 @@ void main() {
     );
   });
 
+  testWidgets('a yoga session opens without the questions and is logged', (
+    tester,
+  ) async {
+    final app = await _open(tester);
+    await _tap(tester, find.byKey(const ValueKey('session-yoga_evening')));
+    expect(find.text('Evening calm'), findsWidgets);
+    expect(find.byKey(const ValueKey('yoga-safety')), findsOneWidget);
+    expect(find.text('Reclined twist'), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('workout-start')));
+    expect(find.text('Move 1 of 7'), findsOneWidget);
+    var guard = 0;
+    while (find.text('Workout done').evaluate().isEmpty && guard++ < 400) {
+      final skip = find.byKey(const ValueKey('workout-skip'));
+      if (skip.evaluate().isEmpty) {
+        await tester.pump(const Duration(seconds: 3));
+      } else {
+        await _tap(tester, skip);
+      }
+    }
+    expect(find.text('Workout done'), findsOneWidget);
+    expect(_local(app.store)['log'], {
+      '2026-11-15': ['yoga_evening'],
+    });
+  });
+
   testWidgets('pause holds the timer; previous goes back a move; stopping '
       'asks first and logs nothing', (tester) async {
     final app = await _open(tester);
