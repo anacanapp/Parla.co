@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../ui/brand.dart';
+import '../../ui/night.dart';
 import '../../ui/parla_icons.dart';
 import '../../ui/parla_ui.dart';
 import '../routine.dart';
@@ -20,17 +21,8 @@ class SoftCard extends StatelessWidget {
   final double radius;
 
   @override
-  Widget build(BuildContext context) => Container(
-    padding: padding,
-    decoration: BoxDecoration(
-      color: const Color(0x0FFFFFFF),
-      borderRadius: BorderRadius.circular(radius),
-      border: Border.all(color: const Color(0x1FFFFFFF)),
-    ),
-    // Ink splashes of buttons and list tiles inside the card paint on this
-    // transparent Material instead of under the card's background.
-    child: Material(type: MaterialType.transparency, child: child),
-  );
+  Widget build(BuildContext context) =>
+      LiquidGlass(radius: radius, padding: padding, child: child);
 }
 
 /// Small spaced capitals label, e.g. "NÖVBƏTİ ADDIM".
@@ -333,16 +325,11 @@ class _StepTileState extends State<StepTile> {
         ),
       ),
     );
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
+    return LiquidGlass(
+      radius: 28,
+      color: widget.highlighted ? LiquidGlass.bright : null,
+      shadow: false,
       padding: const EdgeInsets.fromLTRB(8, 6, 16, 6),
-      decoration: BoxDecoration(
-        color: Color(widget.highlighted ? 0x1AFFFFFF : 0x0FFFFFFF),
-        borderRadius: BorderRadius.circular(28),
-        border: Border.all(
-          color: Color(widget.highlighted ? 0x38FFFFFF : 0x1FFFFFFF),
-        ),
-      ),
       child: Row(
         children: [
           check,

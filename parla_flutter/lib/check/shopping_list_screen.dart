@@ -244,14 +244,10 @@ class _ItemTile extends StatelessWidget {
     final done = item.bought;
     return Semantics(
       checked: done,
-      child: Material(
-        color: done ? Glass.fill : Glass.buttonFill,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(28),
-          side: BorderSide(
-            color: done ? Glass.line : const Color(0x38FFFFFF),
-          ),
-        ),
+      child: LiquidGlass(
+        radius: 28,
+        color: done ? null : LiquidGlass.bright,
+        shadow: false,
         child: InkWell(
           borderRadius: BorderRadius.circular(28),
           onTap: () => book.toggleBought(item.id),

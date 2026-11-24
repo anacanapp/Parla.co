@@ -309,11 +309,9 @@ class ProductCard extends StatelessWidget {
     final sponsor = sponsorOf(item);
     const shape = RoundedRectangleBorder(
       borderRadius: BorderRadius.all(Radius.circular(34)),
-      side: BorderSide(color: Color(0x24FFFFFF)),
     );
-    return Material(
+    return LiquidGlass(
       key: ValueKey('product-${item.slug}'),
-      color: const Color(0x12FFFFFF),
       shape: shape,
       child: InkWell(
         customBorder: shape,

@@ -57,9 +57,9 @@ class GlassBack extends StatelessWidget {
   final VoidCallback onPressed;
 
   @override
-  Widget build(BuildContext context) => Material(
-    color: Glass.buttonFill,
-    shape: const CircleBorder(side: BorderSide(color: Glass.buttonLine)),
+  Widget build(BuildContext context) => LiquidGlass(
+    shape: const CircleBorder(),
+    shadow: false,
     child: BackButton(onPressed: onPressed, color: ParlaColors.espresso),
   );
 }
@@ -87,9 +87,9 @@ class GlassPill extends StatelessWidget {
   Widget build(BuildContext context) => Semantics(
     button: true,
     enabled: onPressed != null,
-    child: Material(
-      color: Glass.buttonFill,
-      shape: const StadiumBorder(side: BorderSide(color: Glass.buttonLine)),
+    child: LiquidGlass(
+      shape: const StadiumBorder(),
+      shadow: false,
       child: InkWell(
         customBorder: const StadiumBorder(),
         onTap: onPressed,
@@ -142,13 +142,10 @@ class GlassChip extends StatelessWidget {
   Widget build(BuildContext context) => Semantics(
     button: true,
     selected: selected,
-    child: Material(
-      color: selected ? ParlaColors.espresso : const Color(0x0FFFFFFF),
-      shape: StadiumBorder(
-        side: selected
-            ? BorderSide.none
-            : const BorderSide(color: Glass.buttonLine),
-      ),
+    child: LiquidGlass(
+      color: selected ? ParlaColors.espresso : null,
+      shape: const StadiumBorder(),
+      shadow: false,
       child: InkWell(
         customBorder: const StadiumBorder(),
         onTap: onTap,
@@ -185,19 +182,8 @@ class GlassCard extends StatelessWidget {
   final double radius;
 
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-    decoration: ShapeDecoration(
-      color: Glass.fill,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(radius),
-        side: const BorderSide(color: Glass.line),
-      ),
-    ),
-    child: Material(
-      type: MaterialType.transparency,
-      child: Padding(padding: padding, child: child),
-    ),
-  );
+  Widget build(BuildContext context) =>
+      LiquidGlass(radius: radius, padding: padding, child: child);
 }
 
 /// Rows in one glass card, split by faint lines.
@@ -209,6 +195,7 @@ class GlassGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ClipRRect(
     borderRadius: BorderRadius.circular(32),
+    clipBehavior: Clip.none,
     child: GlassCard(
       padding: EdgeInsets.zero,
       child: Column(

@@ -13,6 +13,7 @@ import '../parla_scope.dart';
 import '../routes.dart';
 import '../services/parla_api.dart';
 import '../ui/brand.dart';
+import '../ui/night.dart';
 import '../ui/parla_icons.dart';
 import 'exercise_text.dart';
 import 'exercise_video.dart';
@@ -767,95 +768,93 @@ class _Controls extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return Row(
       children: [
-        SizedBox(
-          width: 56,
-          height: 56,
-          child: IconButton(
-            key: const ValueKey('workout-previous'),
-            tooltip: l10n.sportPrevious,
-            onPressed: onPrevious,
-            style: IconButton.styleFrom(
-              backgroundColor: const Color(0x1AFFFFFF),
-              foregroundColor: SportNight.ink,
-              shape: const CircleBorder(
-                side: BorderSide(color: Color(0x2EFFFFFF)),
-              ),
+        LiquidGlass(
+          shape: const CircleBorder(),
+          shadow: false,
+          child: SizedBox(
+            width: 56,
+            height: 56,
+            child: IconButton(
+              key: const ValueKey('workout-previous'),
+              tooltip: l10n.sportPrevious,
+              onPressed: onPrevious,
+              style: IconButton.styleFrom(foregroundColor: SportNight.ink),
+              icon: const Icon(Icons.skip_previous_rounded),
             ),
-            icon: const Icon(Icons.skip_previous_rounded),
           ),
         ),
         const SizedBox(width: 10),
         Expanded(
-          child: Container(
-            height: 68,
+          child: LiquidGlass(
+            color: const Color(0x99140620),
+            shape: const StadiumBorder(),
             padding: const EdgeInsets.all(7),
-            decoration: const ShapeDecoration(
-              color: Color(0x99140620),
-              shape: StadiumBorder(side: BorderSide(color: Color(0x24FFFFFF))),
-            ),
-            child: Row(
-              children: [
-                IconButton(
-                  key: const ValueKey('workout-pause'),
-                  tooltip: paused ? l10n.sportResume : l10n.sportPause,
-                  onPressed: onPause,
-                  padding: EdgeInsets.zero,
-                  constraints: const BoxConstraints.tightFor(
-                    width: 54,
-                    height: 54,
+            child: SizedBox(
+              height: 54,
+              child: Row(
+                children: [
+                  IconButton(
+                    key: const ValueKey('workout-pause'),
+                    tooltip: paused ? l10n.sportResume : l10n.sportPause,
+                    onPressed: onPause,
+                    padding: EdgeInsets.zero,
+                    constraints: const BoxConstraints.tightFor(
+                      width: 54,
+                      height: 54,
+                    ),
+                    icon: SportOrb(
+                      icon: paused
+                          ? Icons.play_arrow_rounded
+                          : Icons.pause_rounded,
+                      size: 54,
+                    ),
                   ),
-                  icon: SportOrb(
-                    icon: paused
-                        ? Icons.play_arrow_rounded
-                        : Icons.pause_rounded,
-                    size: 54,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: ExcludeSemantics(
-                    child: Text(
-                      paused ? l10n.sportResume : l10n.sportPause,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
-                        fontSize: 15,
-                        color: SportNight.ink,
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: ExcludeSemantics(
+                      child: Text(
+                        paused ? l10n.sportResume : l10n.sportPause,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          color: SportNight.ink,
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Tooltip(
-                  message: l10n.sportNextMove,
-                  excludeFromSemantics: true,
-                  child: Semantics(
-                    button: true,
-                    label: l10n.sportNextMove,
-                    excludeSemantics: true,
-                    child: InkWell(
-                      key: const ValueKey('workout-skip'),
-                      customBorder: const StadiumBorder(),
-                      onTap: onNext,
-                      child: ConstrainedBox(
-                        constraints: const BoxConstraints(
-                          minHeight: 54,
-                          minWidth: 54,
-                        ),
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 14),
-                          child: Center(
-                            widthFactor: 1,
-                            child: Icon(
-                              Icons.skip_next_rounded,
-                              color: Color(0x99F4E9FF),
+                  Tooltip(
+                    message: l10n.sportNextMove,
+                    excludeFromSemantics: true,
+                    child: Semantics(
+                      button: true,
+                      label: l10n.sportNextMove,
+                      excludeSemantics: true,
+                      child: InkWell(
+                        key: const ValueKey('workout-skip'),
+                        customBorder: const StadiumBorder(),
+                        onTap: onNext,
+                        child: ConstrainedBox(
+                          constraints: const BoxConstraints(
+                            minHeight: 54,
+                            minWidth: 54,
+                          ),
+                          child: const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 14),
+                            child: Center(
+                              widthFactor: 1,
+                              child: Icon(
+                                Icons.skip_next_rounded,
+                                color: Color(0x99F4E9FF),
+                              ),
                             ),
                           ),
                         ),
                       ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
         ),

@@ -402,15 +402,9 @@ class _KindSwitch extends StatelessWidget {
   Widget build(BuildContext context) => Semantics(
     container: true,
     label: semanticLabel,
-    child: Container(
+    child: LiquidGlass(
       padding: const EdgeInsets.all(5),
-      decoration: ShapeDecoration(
-        color: const Color(0x14FFFFFF),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(28),
-          side: const BorderSide(color: Color(0x24FFFFFF)),
-        ),
-      ),
+      shadow: false,
       child: Row(
         children: [
           for (final kind in RoutineKind.values)
@@ -614,9 +608,10 @@ class _TileButton extends StatelessWidget {
     enabled: onPressed != null,
     label: label,
     excludeSemantics: true,
-    child: Material(
-      color: const Color(0x2EFFFFFF),
-      shape: const CircleBorder(side: BorderSide(color: Color(0x40FFFFFF))),
+    child: LiquidGlass(
+      color: LiquidGlass.bright,
+      shape: const CircleBorder(),
+      shadow: false,
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: onPressed,
@@ -973,13 +968,8 @@ class _TodayRoutines extends StatelessWidget {
             style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
           ),
         for (final row in rows) ...[
-          Material(
+          LiquidGlass(
             key: ValueKey(row.key),
-            color: const Color(0x0FFFFFFF),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(28),
-              side: const BorderSide(color: Color(0x1FFFFFFF)),
-            ),
             child: InkWell(
               borderRadius: BorderRadius.circular(28),
               onTap: () => context.go(row.route),
@@ -1086,12 +1076,10 @@ class _MessagesButtonState extends State<_MessagesButton> {
           button: true,
           label: _unread ? l10n.messagesButtonUnread : l10n.messagesButton,
           excludeSemantics: true,
-          child: Material(
+          child: LiquidGlass(
             key: const ValueKey('home-messages'),
-            color: const Color(0x1AFFFFFF),
-            shape: const CircleBorder(
-              side: BorderSide(color: Color(0x2EFFFFFF)),
-            ),
+            shape: const CircleBorder(),
+            shadow: false,
             child: InkWell(
               customBorder: const CircleBorder(),
               onTap: () => context.go(Routes.messages),

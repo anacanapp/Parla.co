@@ -215,12 +215,10 @@ class _SlotSwitch extends StatelessWidget {
   final ValueChanged<RoutineSlot> onChanged;
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) => LiquidGlass(
     padding: const EdgeInsets.all(5),
-    decoration: ShapeDecoration(
-      color: const Color(0x14FFFFFF),
-      shape: const StadiumBorder(side: BorderSide(color: Color(0x24FFFFFF))),
-    ),
+    shape: const StadiumBorder(),
+    shadow: false,
     child: Row(
       children: [
         for (final s in slots)
@@ -313,33 +311,29 @@ class _AreaChip extends StatelessWidget {
       // A 44 px tap area around the 40 px capsule.
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 2),
-        child: Container(
-          height: 40,
-          constraints: const BoxConstraints(minWidth: 44),
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          decoration: ShapeDecoration(
-            gradient: selected
-                ? const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [Color(0xFFC653B0), Color(0xFF7A2FA8)],
-                  )
-                : null,
-            color: selected ? null : const Color(0x0FFFFFFF),
-            shape: StadiumBorder(
-              side: selected
-                  ? BorderSide.none
-                  : const BorderSide(color: Color(0x2EFFFFFF)),
-            ),
-          ),
-          child: Center(
-            widthFactor: 1,
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: selected ? FontWeight.w500 : FontWeight.w400,
-                color: selected ? const Color(0xFFFFFFFF) : _ink,
+        child: LiquidGlass(
+          shape: const StadiumBorder(),
+          shadow: false,
+          gradient: selected
+              ? const LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Color(0xE6C653B0), Color(0xE67A2FA8)],
+                )
+              : null,
+          child: Container(
+            height: 40,
+            constraints: const BoxConstraints(minWidth: 44),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Center(
+              widthFactor: 1,
+              child: Text(
+                label,
+                style: TextStyle(
+                  fontSize: 13,
+                  fontWeight: selected ? FontWeight.w500 : FontWeight.w400,
+                  color: selected ? const Color(0xFFFFFFFF) : _ink,
+                ),
               ),
             ),
           ),
@@ -369,24 +363,14 @@ class _ProgressPebble extends StatelessWidget {
   Widget build(BuildContext context) => Semantics(
     container: true,
     liveRegion: true,
-    child: Container(
+    child: LiquidGlass(
+      radius: 40,
       padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(40),
-        gradient: const LinearGradient(
-          begin: Alignment(-0.35, -1),
-          end: Alignment(0.35, 1),
-          colors: [Color(0xFFA8429A), Color(0xFF6E2A9A), Color(0xFF2B0F45)],
-          stops: [0, .55, 1],
-        ),
-        border: Border.all(color: const Color(0x2EFFFFFF)),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x4D280050),
-            blurRadius: 40,
-            offset: Offset(0, 16),
-          ),
-        ],
+      gradient: const LinearGradient(
+        begin: Alignment(-0.35, -1),
+        end: Alignment(0.35, 1),
+        colors: [Color(0xE6A8429A), Color(0xE66E2A9A), Color(0xE62B0F45)],
+        stops: [0, .55, 1],
       ),
       child: Row(
         children: [
@@ -456,18 +440,11 @@ class _GlassStepRowState extends State<_GlassStepRow> {
     final step = widget.step;
     final done = widget.done;
     final hint = done ? l10n.stepStatusDone : step.meta;
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
+    return LiquidGlass(
+      radius: 28,
+      color: widget.current ? LiquidGlass.bright : null,
+      shadow: false,
       padding: const EdgeInsets.fromLTRB(8, 6, 16, 6),
-      decoration: ShapeDecoration(
-        color: Color(widget.current ? 0x1AFFFFFF : 0x0FFFFFFF),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(28),
-          side: BorderSide(
-            color: Color(widget.current ? 0x38FFFFFF : 0x1FFFFFFF),
-          ),
-        ),
-      ),
       child: Row(
         children: [
           Semantics(

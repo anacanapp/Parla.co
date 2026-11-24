@@ -105,8 +105,172 @@ class _GrainPainter extends CustomPainter {
   bool shouldRepaint(_GrainPainter oldDelegate) => false;
 }
 
-/// A glass surface: a faint white fill with a hairline, optionally
-/// blurring what lies behind it.
+/// Liquid glass (owner, 2026-11-24: "glass effektli olsun"): what lies
+/// behind is blurred and brightened, the surface keeps its own colour a
+/// little see-through, a soft light falls on its top, and a thin rim
+/// catches the light at the top left and fades towards the bottom right.
+///
+/// Every glass surface of the app goes through this widget, so the effect
+/// is the same everywhere. Pages wrap their content in a [BackdropGroup]
+/// (see `routes.dart`), so all glass on a page shares one backdrop read.
+class LiquidGlass extends StatelessWidget {
+  const LiquidGlass({
+    super.key,
+    required this.child,
+    this.radius = 28,
+    this.shape,
+    this.color,
+    this.gradient,
+    this.padding,
+    this.shadow = true,
+  });
+
+  final Widget child;
+
+  /// Corner radius when no [shape] is given.
+  final double radius;
+
+  /// The outline (stadium, circle); a rounded rectangle by default.
+  final OutlinedBorder? shape;
+
+  /// The surface colour; clear glass when neither this nor [gradient] is
+  /// given.
+  final Color? color;
+  final Gradient? gradient;
+  final EdgeInsetsGeometry? padding;
+  final bool shadow;
+
+  /// The see-through white of clear glass.
+  static const clear = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [Color(0x33FFFFFF), Color(0x0FFFFFFF), Color(0x1FFFFFFF)],
+    stops: [0, .5, 1],
+  );
+
+  /// Brighter clear glass for the current or chosen row.
+  static const bright = Color(0x2EFFFFFF);
+
+  static const blurSigma = 22.0;
+
+  @override
+  Widget build(BuildContext context) {
+    final outline =
+        (shape ??
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(radius),
+                ))
+            .copyWith(side: BorderSide.none);
+    final filter = ui.ImageFilter.compose(
+      outer: ui.ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma),
+      inner: const ColorFilter.matrix(_brighten),
+    );
+    final grouped = BackdropGroup.of(context) != null;
+    final body = Stack(
+      children: [
+        Positioned.fill(
+          child: grouped
+              ? BackdropFilter.grouped(filter: filter, child: const SizedBox())
+              : BackdropFilter(filter: filter, child: const SizedBox()),
+        ),
+        Positioned.fill(
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              color: color,
+              gradient: color == null ? (gradient ?? clear) : null,
+            ),
+          ),
+        ),
+        // The light on the top of the surface.
+        const Positioned.fill(
+          child: IgnorePointer(
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Color(0x59FFFFFF),
+                    Color(0x12FFFFFF),
+                    Color(0x00FFFFFF),
+                  ],
+                  stops: [0, .38, .6],
+                ),
+              ),
+            ),
+          ),
+        ),
+        Padding(padding: padding ?? EdgeInsets.zero, child: child),
+        Positioned.fill(
+          child: IgnorePointer(
+            child: CustomPaint(painter: _RimPainter(outline)),
+          ),
+        ),
+      ],
+    );
+    return DecoratedBox(
+      decoration: ShapeDecoration(
+        shape: outline,
+        shadows: shadow
+            ? const [
+                BoxShadow(
+                  color: Color(0x59060220),
+                  blurRadius: 40,
+                  offset: Offset(0, 18),
+                ),
+              ]
+            : null,
+      ),
+      child: ClipPath(
+        clipper: ShapeBorderClipper(shape: outline),
+        child: Material(type: MaterialType.transparency, child: body),
+      ),
+    );
+  }
+}
+
+/// Lifts what shows through the glass a little (brighter, more colour).
+const _brighten = <double>[
+  1.25, -.12, -.12, 0, 14, //
+  -.12, 1.25, -.12, 0, 14, //
+  -.12, -.12, 1.25, 0, 14, //
+  0, 0, 0, 1, 0,
+];
+
+/// The rim: bright at the top left, fading, a softer glint at the bottom
+/// right.
+class _RimPainter extends CustomPainter {
+  _RimPainter(this.shape);
+
+  final OutlinedBorder shape;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final rect = (Offset.zero & size).deflate(.6);
+    canvas.drawPath(
+      shape.getOuterPath(rect),
+      Paint()
+        ..style = PaintingStyle.stroke
+        ..strokeWidth = 1.2
+        ..shader = const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xE6FFFFFF),
+            Color(0x26FFFFFF),
+            Color(0x14FFFFFF),
+            Color(0x59FFFFFF),
+          ],
+          stops: [0, .35, .7, 1],
+        ).createShader(rect),
+    );
+  }
+
+  @override
+  bool shouldRepaint(_RimPainter old) => old.shape != shape;
+}
+
+/// Clear liquid glass with a corner [radius] (see [LiquidGlass]).
 class GlassSurface extends StatelessWidget {
   const GlassSurface({
     super.key,
@@ -120,30 +284,12 @@ class GlassSurface extends StatelessWidget {
   final double radius;
   final EdgeInsetsGeometry? padding;
 
-  /// Blurs the content behind the surface (the menu, floating bars).
+  /// Kept for callers; every glass surface blurs now ([LiquidGlass]).
   final bool blur;
 
   @override
-  Widget build(BuildContext context) {
-    final shape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(radius),
-      side: const BorderSide(color: NightColors.glassLine),
-    );
-    Widget surface = DecoratedBox(
-      decoration: ShapeDecoration(color: NightColors.glass, shape: shape),
-      child: Padding(padding: padding ?? EdgeInsets.zero, child: child),
-    );
-    if (blur) {
-      surface = ClipRRect(
-        borderRadius: BorderRadius.circular(radius),
-        child: BackdropFilter(
-          filter: ui.ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-          child: surface,
-        ),
-      );
-    }
-    return surface;
-  }
+  Widget build(BuildContext context) =>
+      LiquidGlass(radius: radius, padding: padding, child: child);
 }
 
 /// The colour moods of [MeshTile]: a two-stop gradient, a dark blob and
@@ -201,6 +347,10 @@ class MeshTile extends StatelessWidget {
   final VoidCallback? onTap;
   final String? semanticLabel;
 
+  /// How much of a tile's colour covers the glass (the rest shows the
+  /// blurred page behind).
+  static const opacity = .9;
+
   @override
   Widget build(BuildContext context) {
     final border = BorderRadius.circular(radius);
@@ -211,22 +361,23 @@ class MeshTile extends StatelessWidget {
         child: Padding(padding: padding, child: child),
       ),
     );
+    // The tone's own colours, a touch see-through, as liquid glass.
     return Semantics(
       container: true,
       button: onTap != null,
       label: semanticLabel,
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: border,
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [tone.from, tone.to],
-          ),
+      child: LiquidGlass(
+        radius: radius,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            tone.from.withValues(alpha: MeshTile.opacity),
+            tone.to.withValues(alpha: MeshTile.opacity),
+          ],
         ),
         child: DecoratedBox(
           decoration: BoxDecoration(
-            borderRadius: border,
             gradient: RadialGradient(
               center: blobAt,
               radius: 0.6,
@@ -236,22 +387,15 @@ class MeshTile extends StatelessWidget {
               ],
             ),
           ),
-          child: Material(
-            type: MaterialType.transparency,
-            child: InkWell(
-              borderRadius: border,
-              onTap: onTap,
-              child: body,
-            ),
-          ),
+          child: InkWell(borderRadius: border, onTap: onTap, child: body),
         ),
       ),
     );
   }
 }
 
-/// The plum "pebble" card of the night design: a deep plum gradient with a
-/// soft inner highlight, light ink.
+/// The plum "pebble" card: the deep plum gradient as liquid glass, light
+/// ink.
 class PebbleCard extends StatelessWidget {
   const PebbleCard({
     super.key,
@@ -272,22 +416,12 @@ class PebbleCard extends StatelessWidget {
   ];
 
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(radius),
-      gradient: const LinearGradient(
-        begin: Alignment(-0.4, -1),
-        end: Alignment(0.4, 1),
-        colors: stops,
-      ),
-      border: Border.all(color: const Color(0x33FFFFFF)),
-      boxShadow: const [
-        BoxShadow(
-          color: Color(0x66000000),
-          blurRadius: 40,
-          offset: Offset(0, 20),
-        ),
-      ],
+  Widget build(BuildContext context) => LiquidGlass(
+    radius: radius,
+    gradient: LinearGradient(
+      begin: const Alignment(-0.4, -1),
+      end: const Alignment(0.4, 1),
+      colors: [for (final c in stops) c.withValues(alpha: MeshTile.opacity)],
     ),
     child: DefaultTextStyle.merge(
       style: const TextStyle(color: ParlaColors.espresso),

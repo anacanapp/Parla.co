@@ -7,6 +7,7 @@ import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
 import '../routes.dart';
 import '../ui/brand.dart';
+import '../ui/night.dart';
 import '../ui/parla_icons.dart';
 import 'sport_book.dart';
 import 'sport_labels.dart';
@@ -122,14 +123,11 @@ class _SectionChips extends StatelessWidget {
           Semantics(
             button: true,
             selected: id == selected,
-            child: Material(
+            child: LiquidGlass(
               key: ValueKey('sport-section-$id'),
-              color: id == selected ? SportNight.ink : const Color(0x0FFFFFFF),
-              shape: StadiumBorder(
-                side: id == selected
-                    ? BorderSide.none
-                    : const BorderSide(color: Color(0x2EFFFFFF)),
-              ),
+              color: id == selected ? SportNight.ink : null,
+              shape: const StadiumBorder(),
+              shadow: false,
               child: InkWell(
                 customBorder: const StadiumBorder(),
                 onTap: () => onSelected(id),

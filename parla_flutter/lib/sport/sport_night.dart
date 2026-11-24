@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../ui/brand.dart';
+import '../ui/night.dart';
 import '../ui/parla_icons.dart';
 
 /// Night design pieces of the sport screens (prototypes "Gecə · İdman"
@@ -39,18 +40,18 @@ class GlassIconButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   @override
-  Widget build(BuildContext context) => IconButton(
-    tooltip: tooltip,
-    onPressed: onPressed,
-    iconSize: 20,
-    constraints: const BoxConstraints.tightFor(width: 44, height: 44),
-    padding: EdgeInsets.zero,
-    style: IconButton.styleFrom(
-      backgroundColor: const Color(0x1AFFFFFF),
-      foregroundColor: SportNight.ink,
-      shape: const CircleBorder(side: BorderSide(color: Color(0x2EFFFFFF))),
+  Widget build(BuildContext context) => LiquidGlass(
+    shape: const CircleBorder(),
+    shadow: false,
+    child: IconButton(
+      tooltip: tooltip,
+      onPressed: onPressed,
+      iconSize: 20,
+      constraints: const BoxConstraints.tightFor(width: 44, height: 44),
+      padding: EdgeInsets.zero,
+      style: IconButton.styleFrom(foregroundColor: SportNight.ink),
+      icon: icon,
     ),
-    icon: icon,
   );
 }
 
@@ -115,15 +116,9 @@ class GlassRow extends StatelessWidget {
   final double radius;
 
   @override
-  Widget build(BuildContext context) => Material(
-    color: highlight ? SportNight.glassHigh : SportNight.glass,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(radius),
-      side: BorderSide(
-        color: highlight ? SportNight.glassHighLine : SportNight.glassLine,
-      ),
-    ),
-    clipBehavior: Clip.antiAlias,
+  Widget build(BuildContext context) => LiquidGlass(
+    radius: radius,
+    color: highlight ? LiquidGlass.bright : null,
     child: InkWell(
       onTap: onTap,
       child: Padding(padding: padding, child: child),
@@ -252,10 +247,10 @@ class OrbPill extends StatelessWidget {
     button: true,
     label: label,
     excludeSemantics: true,
-    child: Material(
+    child: LiquidGlass(
       color: background,
-      shape: const StadiumBorder(side: BorderSide(color: Color(0x24FFFFFF))),
-      clipBehavior: Clip.antiAlias,
+      shape: const StadiumBorder(),
+      shadow: false,
       child: InkWell(
         onTap: onPressed,
         child: ConstrainedBox(
@@ -288,22 +283,14 @@ class BluePebble extends StatelessWidget {
   final Widget child;
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) => LiquidGlass(
+    radius: 40,
     padding: const EdgeInsets.all(20),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(40),
-      gradient: const LinearGradient(
-        begin: Alignment(-0.5, -1),
-        end: Alignment(0.5, 1),
-        colors: SportNight.blue,
-      ),
-      border: Border.all(color: const Color(0x2EFFFFFF)),
-      boxShadow: const [
-        BoxShadow(
-          color: Color(0x8C14145A),
-          blurRadius: 50,
-          offset: Offset(0, 26),
-        ),
+    gradient: LinearGradient(
+      begin: const Alignment(-0.5, -1),
+      end: const Alignment(0.5, 1),
+      colors: [
+        for (final c in SportNight.blue) c.withValues(alpha: MeshTile.opacity),
       ],
     ),
     child: DefaultTextStyle.merge(

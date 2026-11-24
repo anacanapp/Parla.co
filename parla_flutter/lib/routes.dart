@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 import 'ui/night.dart';
@@ -224,5 +225,6 @@ GoRoute _page({
 }) => GoRoute(
   path: path,
   redirect: redirect,
-  builder: (context, state) => NightBackdrop(child: builder(context, state)),
+  builder: (context, state) =>
+      NightBackdrop(child: BackdropGroup(child: builder(context, state))),
 );
