@@ -23,7 +23,7 @@ abstract final class SportNight {
   static const glassHighLine = Color(0x38FFFFFF);
 
   /// The blue pebble of the week card (light ink passes AA on each stop).
-  static const blue = [Color(0xFF3B48DB), Color(0xFF2B2F9E), Color(0xFF120F3A)];
+  static const blue = [Color(0xFF4E62C6), Color(0xFF3A49A8), Color(0xFF1F2566)];
 }
 
 /// A round glass button (back, sound, stop): 44 px, faint fill, hairline.

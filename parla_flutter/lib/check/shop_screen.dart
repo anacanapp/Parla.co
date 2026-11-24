@@ -217,8 +217,8 @@ class RoundBack extends StatelessWidget {
 /// The two picture moods of product cards without a photo: plum and blue,
 /// alternating through the grid.
 const _productMoods = [
-  [Color(0xFFC653B0), Color(0xFF7A2FA8), Color(0xFF2B0F45)],
-  [Color(0xFF4A5BFF), Color(0xFF2B2F9E), Color(0xFF120F3A)],
+  [Color(0xFF9E4D8C), Color(0xFF7E4BA6), Color(0xFF3E1D55)],
+  [Color(0xFF4E62C6), Color(0xFF3A49A8), Color(0xFF1F2566)],
 ];
 
 /// A product picture placeholder: a gradient with a soft bottle shape.

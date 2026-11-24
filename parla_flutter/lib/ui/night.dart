@@ -327,16 +327,18 @@ class GlassSurface extends StatelessWidget {
       LiquidGlass(radius: radius, padding: padding, child: child);
 }
 
-/// The colour moods of [MeshTile]: a two-stop gradient, a dark blob and
-/// the ink that reads on the gradient (WCAG AA against both stops,
-/// checked in `test/night_palette_test.dart`).
+/// The colour moods of [MeshTile], soft versions of the reference video's
+/// palette (owner, 2026-11-24): magenta to violet, lavender, blue, orchid,
+/// rose and plum. Each runs [from] → [to] → [deep] and carries light ink
+/// that passes WCAG AA on all three (checked in
+/// `test/night_palette_test.dart`). The names are the tiles' old ones.
 enum MeshTone {
-  pink(Color(0xFFF0B8D4), Color(0xFFC77BA8), Color(0xFF3E0828), _darkPink),
-  sage(Color(0xFFB4C6B1), Color(0xFF8AA28C), Color(0xFF0E1410), _darkSage),
-  blue(Color(0xFF3B5BD6), Color(0xFF1F2E8C), Color(0xFF050B2E), _light),
-  orange(Color(0xFFEFA070), Color(0xFFD98A5C), Color(0xFF2E4CF0), _darkOrange),
-  rose(Color(0xFFF2B6D6), Color(0xFFE399C2), Color(0xFF5C0D3E), _darkPink),
-  plum(Color(0xFF8E3BA6), Color(0xFF2B0F45), Color(0xFF14061F), _light);
+  pink(Color(0xFF9E4D8C), Color(0xFF7E4BA6), Color(0xFF3E0828), _light),
+  sage(Color(0xFF7558B2), Color(0xFF5A3F99), Color(0xFF0E1410), _light),
+  blue(Color(0xFF4E62C6), Color(0xFF3A49A8), Color(0xFF050B2E), _light),
+  orange(Color(0xFF9A4E95), Color(0xFF80479A), Color(0xFF2E4CF0), _light),
+  rose(Color(0xFF9C4A82), Color(0xFF7A3470), Color(0xFF5C0D3E), _light),
+  plum(Color(0xFF8E4FA8), Color(0xFF5E2F8C), Color(0xFF14061F), _light);
 
   const MeshTone(this.from, this.to, this.blob, this.ink);
 
@@ -363,8 +365,6 @@ enum MeshTone {
 
 const _light = Color(0xFFF4E9FF);
 const _darkPink = Color(0xFF2A0A1C);
-const _darkSage = Color(0xFF10170F);
-const _darkOrange = Color(0xFF2A1206);
 
 /// A rounded tile in a [MeshTone]'s colours as satin glass ([LiquidGlass]):
 /// one smooth colour from top to bottom. Gives the [DefaultTextStyle] and
@@ -439,9 +439,9 @@ class PebbleCard extends StatelessWidget {
 
   /// The gradient's stops, top to bottom (light ink passes AA on each).
   static const stops = [
-    Color(0xFFA8429A),
-    Color(0xFF6E2A9A),
-    Color(0xFF2B0F45),
+    Color(0xFF8E4FA8),
+    Color(0xFF5E2F8C),
+    Color(0xFF2E1550),
   ];
 
   @override

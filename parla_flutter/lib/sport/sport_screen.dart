@@ -242,7 +242,7 @@ class _EditRow extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [Color(0xFFC653B0), Color(0xFF7A2FA8)],
+                colors: [Color(0xFF9E4D8C), Color(0xFF7E4BA6)],
               ),
             ),
             alignment: Alignment.center,

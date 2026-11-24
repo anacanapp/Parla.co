@@ -318,7 +318,7 @@ class _AreaChip extends StatelessWidget {
               ? const LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
-                  colors: [Color(0xFFC653B0), Color(0xFF7A2FA8)],
+                  colors: [Color(0xFF9E4D8C), Color(0xFF7E4BA6)],
                 )
               : null,
           child: Container(
@@ -369,7 +369,7 @@ class _ProgressPebble extends StatelessWidget {
       gradient: const LinearGradient(
         begin: Alignment.topCenter,
         end: Alignment.bottomCenter,
-        colors: [Color(0xFFA8429A), Color(0xFF6E2A9A), Color(0xFF2B0F45)],
+        colors: [Color(0xFF8E4FA8), Color(0xFF5E2F8C), Color(0xFF2E1550)],
         stops: [0, .55, 1],
       ),
       child: Row(

@@ -763,10 +763,11 @@ class _SmallPill extends StatelessWidget {
             widthFactor: 1,
             child: Text(
               label,
-              style: TextStyle(
+              // Dark ink on the white pill, whatever the tile's ink.
+              style: const TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w600,
-                color: ink,
+                color: Color(0xFF1A0B2A),
               ),
             ),
           ),
@@ -920,8 +921,8 @@ class _TodayRoutines extends StatelessWidget {
             steps: ids.length,
             done: done,
             tile: area == RoutineArea.hair
-                ? const Color(0xFF7A2FA8)
-                : const Color(0xFF3B5BD6),
+                ? const Color(0xFF7E4BA6)
+                : const Color(0xFF4E62C6),
           ),
         );
       }

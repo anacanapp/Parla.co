@@ -441,7 +441,7 @@ class _WideTile extends StatelessWidget {
                         child: ParlaIcon(
                           section.icon,
                           size: 16,
-                          color: tone.ink,
+                          color: const Color(0xFF1A0B2A),
                         ),
                       ),
                     ],
