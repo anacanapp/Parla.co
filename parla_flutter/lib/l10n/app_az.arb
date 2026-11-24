@@ -115,6 +115,8 @@
   "error_consent_health_required": "Bu cavablar üçün sağlamlıq razılığı lazımdır.",
   "privacyTitle": "Məxfilik mərkəzi",
   "privacyIntro": "Sənin datan, sənin seçimin. Hər hüququn bir toxunuş uzaqlığındadır.",
+  "profileAccountTitle": "Hesabın",
+  "profileAccountNote": "Ad soruşmuruq · yalnız e-poçt",
   "privacyConsentsTitle": "Razılıqlar",
   "privacyHealthWithdrawTitle": "Sağlamlıq razılığını geri götürürsünüz?",
   "privacyHealthWithdrawBody": "Sağlamlıq cavablarınız və öz rutinlərinizin serverdəki nüsxəsi dərhal silinəcək, rutin daha ehtiyatlı qurulacaq. Öz rutinləriniz bu telefonda qalır. Razılığı sonra yenidən verə bilərsiniz.",

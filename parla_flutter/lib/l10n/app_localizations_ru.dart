@@ -397,6 +397,12 @@ class AppLocalizationsRu extends AppLocalizations {
       'Ваши данные — ваш выбор. Каждое право — в одно касание.';
 
   @override
+  String get profileAccountTitle => 'Ваш аккаунт';
+
+  @override
+  String get profileAccountNote => 'Имя не спрашиваем · только e-mail';
+
+  @override
   String get privacyConsentsTitle => 'Согласия';
 
   @override

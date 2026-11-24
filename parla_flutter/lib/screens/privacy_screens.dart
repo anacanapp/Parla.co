@@ -157,7 +157,7 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
           children: [
             WarmHeader(title: l10n.navProfile),
             const SizedBox(height: 14),
-            // The account card: what the app keeps, and the user's rights.
+            // The account: no name is ever asked, only the email address.
             SquircleCard(
               tone: SquircleTone.rose,
               padding: const EdgeInsets.all(16),
@@ -170,12 +170,12 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          l10n.privacyTitle,
+                          l10n.profileAccountTitle,
                           style: const TextStyle(fontSize: 20),
                         ),
                         const SizedBox(height: 2),
                         Text(
-                          l10n.privacyIntro,
+                          l10n.profileAccountNote,
                           style: const TextStyle(
                             fontSize: kMinTextSize,
                             height: 1.35,
@@ -233,6 +233,31 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
               },
             ),
             const SizedBox(height: 18),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Semantics(
+                    header: true,
+                    child: Text(
+                      l10n.privacyTitle,
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w200,
+                        letterSpacing: -.5,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    l10n.privacyIntro,
+                    style: text.bodySmall?.copyWith(color: ParlaColors.muted),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6),
               child: Semantics(
