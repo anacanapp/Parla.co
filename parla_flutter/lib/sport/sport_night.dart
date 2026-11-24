@@ -286,12 +286,10 @@ class BluePebble extends StatelessWidget {
   Widget build(BuildContext context) => LiquidGlass(
     radius: 40,
     padding: const EdgeInsets.all(20),
-    gradient: LinearGradient(
-      begin: const Alignment(-0.5, -1),
-      end: const Alignment(0.5, 1),
-      colors: [
-        for (final c in SportNight.blue) c.withValues(alpha: MeshTile.opacity),
-      ],
+    gradient: const LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: SportNight.blue,
     ),
     child: DefaultTextStyle.merge(
       style: const TextStyle(color: SportNight.ink),

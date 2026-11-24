@@ -74,6 +74,11 @@ void main() {
         greaterThanOrEqualTo(4.5),
         reason: '${tone.name} bottom',
       );
+      expect(
+        contrast(tone.ink, tone.deep),
+        greaterThanOrEqualTo(4.5),
+        reason: '${tone.name} deepest',
+      );
     }
   });
 

@@ -105,14 +105,16 @@ class _GrainPainter extends CustomPainter {
   bool shouldRepaint(_GrainPainter oldDelegate) => false;
 }
 
-/// Liquid glass (owner, 2026-11-24: "glass effektli olsun"): what lies
-/// behind is blurred and brightened, the surface keeps its own colour a
-/// little see-through, a soft light falls on its top, and a thin rim
-/// catches the light at the top left and fades towards the bottom right.
+/// Satin glass (owner, 2026-11-24, after the "AI Glucose Scan" card of
+/// the reference video): a smooth top-to-bottom colour, a fine grain that
+/// makes the surface frosted and matte, a soft light along the top, a
+/// little shade along the bottom so the card looks thick, and a thin rim
+/// that is light at the top and fades downwards. Clear surfaces also blur
+/// what lies behind them.
 ///
 /// Every glass surface of the app goes through this widget, so the effect
 /// is the same everywhere. Pages wrap their content in a [BackdropGroup]
-/// (see `routes.dart`), so all glass on a page shares one backdrop read.
+/// (see `routes.dart`), so all blurs on a page share one backdrop read.
 class LiquidGlass extends StatelessWidget {
   const LiquidGlass({
     super.key,
@@ -133,19 +135,18 @@ class LiquidGlass extends StatelessWidget {
   /// The outline (stadium, circle); a rounded rectangle by default.
   final OutlinedBorder? shape;
 
-  /// The surface colour; clear glass when neither this nor [gradient] is
-  /// given.
+  /// The surface colour; frosted clear glass when neither this nor
+  /// [gradient] is given.
   final Color? color;
   final Gradient? gradient;
   final EdgeInsetsGeometry? padding;
   final bool shadow;
 
-  /// The see-through white of clear glass.
+  /// Frosted clear glass.
   static const clear = LinearGradient(
-    begin: Alignment.topLeft,
-    end: Alignment.bottomRight,
-    colors: [Color(0x33FFFFFF), Color(0x0FFFFFFF), Color(0x1FFFFFFF)],
-    stops: [0, .5, 1],
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [Color(0x24FFFFFF), Color(0x0FFFFFFF)],
   );
 
   /// Brighter clear glass for the current or chosen row.
@@ -161,18 +162,22 @@ class LiquidGlass extends StatelessWidget {
                   borderRadius: BorderRadius.circular(radius),
                 ))
             .copyWith(side: BorderSide.none);
-    final filter = ui.ImageFilter.compose(
-      outer: ui.ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma),
-      inner: const ColorFilter.matrix(_brighten),
-    );
+    final see = color == null
+        ? gradient == null || gradient!.colors.any((c) => c.a < .95)
+        : color!.a < .95;
+    final filter = ui.ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma);
     final grouped = BackdropGroup.of(context) != null;
     final body = Stack(
       children: [
-        Positioned.fill(
-          child: grouped
-              ? BackdropFilter.grouped(filter: filter, child: const SizedBox())
-              : BackdropFilter(filter: filter, child: const SizedBox()),
-        ),
+        if (see)
+          Positioned.fill(
+            child: grouped
+                ? BackdropFilter.grouped(
+                    filter: filter,
+                    child: const SizedBox(),
+                  )
+                : BackdropFilter(filter: filter, child: const SizedBox()),
+          ),
         Positioned.fill(
           child: DecoratedBox(
             decoration: BoxDecoration(
@@ -181,7 +186,7 @@ class LiquidGlass extends StatelessWidget {
             ),
           ),
         ),
-        // The light on the top of the surface.
+        // Light along the top and shade along the bottom: a thick card.
         const Positioned.fill(
           child: IgnorePointer(
             child: DecoratedBox(
@@ -190,14 +195,21 @@ class LiquidGlass extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color(0x59FFFFFF),
-                    Color(0x12FFFFFF),
+                    Color(0x33FFFFFF),
                     Color(0x00FFFFFF),
+                    Color(0x00000000),
+                    Color(0x29000000),
                   ],
-                  stops: [0, .38, .6],
+                  stops: [0, .28, .7, 1],
                 ),
               ),
             ),
+          ),
+        ),
+        // The fine grain of frosted glass.
+        const Positioned.fill(
+          child: IgnorePointer(
+            child: RepaintBoundary(child: CustomPaint(painter: _SatinGrain())),
           ),
         ),
         Padding(padding: padding ?? EdgeInsets.zero, child: child),
@@ -214,8 +226,8 @@ class LiquidGlass extends StatelessWidget {
         shadows: shadow
             ? const [
                 BoxShadow(
-                  color: Color(0x59060220),
-                  blurRadius: 40,
+                  color: Color(0x66050118),
+                  blurRadius: 36,
                   offset: Offset(0, 18),
                 ),
               ]
@@ -229,16 +241,44 @@ class LiquidGlass extends StatelessWidget {
   }
 }
 
-/// Lifts what shows through the glass a little (brighter, more colour).
-const _brighten = <double>[
-  1.25, -.12, -.12, 0, 14, //
-  -.12, 1.25, -.12, 0, 14, //
-  -.12, -.12, 1.25, 0, 14, //
-  0, 0, 0, 1, 0,
-];
+/// A fixed, fine grain: light and dark specks, the same for a given size.
+class _SatinGrain extends CustomPainter {
+  const _SatinGrain();
 
-/// The rim: bright at the top left, fading, a softer glint at the bottom
-/// right.
+  @override
+  void paint(Canvas canvas, Size size) {
+    final random = math.Random(size.width.round() * 31 + size.height.round());
+    final count = (size.width * size.height / 7).clamp(0, 30000).toInt();
+    final light = <Offset>[];
+    final dark = <Offset>[];
+    for (var i = 0; i < count; i++) {
+      final point = Offset(
+        random.nextDouble() * size.width,
+        random.nextDouble() * size.height,
+      );
+      (i.isEven ? light : dark).add(point);
+    }
+    final paint = Paint()
+      ..strokeWidth = 1
+      ..strokeCap = StrokeCap.square;
+    canvas
+      ..drawPoints(
+        ui.PointMode.points,
+        light,
+        paint..color = const Color(0x1AFFFFFF),
+      )
+      ..drawPoints(
+        ui.PointMode.points,
+        dark,
+        paint..color = const Color(0x1F000000),
+      );
+  }
+
+  @override
+  bool shouldRepaint(_SatinGrain oldDelegate) => false;
+}
+
+/// The rim: light along the top, fading down the sides.
 class _RimPainter extends CustomPainter {
   _RimPainter(this.shape);
 
@@ -251,17 +291,12 @@ class _RimPainter extends CustomPainter {
       shape.getOuterPath(rect),
       Paint()
         ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.2
+        ..strokeWidth = 1.1
         ..shader = const LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xE6FFFFFF),
-            Color(0x26FFFFFF),
-            Color(0x14FFFFFF),
-            Color(0x59FFFFFF),
-          ],
-          stops: [0, .35, .7, 1],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [Color(0x8CFFFFFF), Color(0x1FFFFFFF), Color(0x0FFFFFFF)],
+          stops: [0, .45, 1],
         ).createShader(rect),
     );
   }
@@ -319,6 +354,11 @@ enum MeshTone {
 
   /// A light tile: dark ink on a pale gradient.
   bool get isLight => ink.computeLuminance() < .2;
+
+  /// The bottom of the tile: [to] a little deeper (light tiles less, so
+  /// their dark ink keeps AA).
+  Color get deep =>
+      Color.lerp(to, const Color(0xFF000000), isLight ? .1 : .35)!;
 }
 
 const _light = Color(0xFFF4E9FF);
@@ -326,10 +366,10 @@ const _darkPink = Color(0xFF2A0A1C);
 const _darkSage = Color(0xFF10170F);
 const _darkOrange = Color(0xFF2A1206);
 
-/// A rounded tile with a [MeshTone] gradient and its glow. The glow sits
-/// at [blobAt], away from the text (top left by default), so the ink keeps
-/// its contrast. Gives the [DefaultTextStyle] and [IconTheme] the tone's
-/// ink.
+/// A rounded tile in a [MeshTone]'s colours as satin glass ([LiquidGlass]):
+/// one smooth colour from top to bottom. Gives the [DefaultTextStyle] and
+/// [IconTheme] the tone's ink. [blobAt] is kept for callers; the tiles no
+/// longer draw a blob.
 class MeshTile extends StatelessWidget {
   const MeshTile({
     super.key,
@@ -364,7 +404,7 @@ class MeshTile extends StatelessWidget {
         child: Padding(padding: padding, child: child),
       ),
     );
-    // The tone's own colours, a touch see-through, as liquid glass.
+    // The reference card: one smooth colour from top to bottom, no blob.
     return Semantics(
       container: true,
       button: onTap != null,
@@ -372,44 +412,12 @@ class MeshTile extends StatelessWidget {
       child: LiquidGlass(
         radius: radius,
         gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            tone.from.withValues(alpha: MeshTile.opacity),
-            tone.to.withValues(alpha: MeshTile.opacity),
-          ],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [tone.from, tone.to, tone.deep],
+          stops: const [0, .55, 1],
         ),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            // Light tiles (pink, sage, orange, rose): their own glow, wide
-            // and soft so it melts into the glass instead of reading as a
-            // stain (owner, 2026-11-24); dark tiles keep their deep glow.
-            gradient: RadialGradient(
-              center: blobAt,
-              radius: tone.isLight ? 0.95 : 0.6,
-              colors: tone.isLight
-                  ? [
-                      tone.blob.withValues(alpha: .42),
-                      tone.blob.withValues(alpha: .16),
-                      tone.blob.withAlpha(0),
-                    ]
-                  : [tone.blob.withValues(alpha: .85), tone.blob.withAlpha(0)],
-              stops: tone.isLight ? const [0, .5, 1] : null,
-            ),
-          ),
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: tone.isLight
-                  ? const RadialGradient(
-                      center: Alignment(-0.7, -0.9),
-                      radius: 1.1,
-                      colors: [Color(0x38FFFFFF), Color(0x00FFFFFF)],
-                    )
-                  : null,
-            ),
-            child: InkWell(borderRadius: border, onTap: onTap, child: body),
-          ),
-        ),
+        child: InkWell(borderRadius: border, onTap: onTap, child: body),
       ),
     );
   }
@@ -439,10 +447,10 @@ class PebbleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) => LiquidGlass(
     radius: radius,
-    gradient: LinearGradient(
-      begin: const Alignment(-0.4, -1),
-      end: const Alignment(0.4, 1),
-      colors: [for (final c in stops) c.withValues(alpha: MeshTile.opacity)],
+    gradient: const LinearGradient(
+      begin: Alignment.topCenter,
+      end: Alignment.bottomCenter,
+      colors: stops,
     ),
     child: DefaultTextStyle.merge(
       style: const TextStyle(color: ParlaColors.espresso),
