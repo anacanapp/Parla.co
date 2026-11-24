@@ -188,6 +188,7 @@ final _published = <String, List<PublishedItem>>{
         'title': _l('Berry oats'),
         'minutes': 10,
         'servings': 1,
+        'kcal': 280,
         'groups': ['whole_grain', 'fruit'],
         'ingredients': [
           {'name': _l('Oats'), 'amount': _l('4 tbsp')},
@@ -983,7 +984,7 @@ void main() {
     final app = await _open(tester);
     await _tap(tester, find.text('Nutrition').first);
     expect(find.text('0 of 6 groups'), findsOneWidget);
-    expect(find.textContaining('do not count calories'), findsOneWidget);
+    expect(find.textContaining('does not count calories'), findsOneWidget);
     expect(find.text("Tip of the day"), findsOneWidget);
 
     await _tap(tester, find.byKey(const ValueKey('plate-vegetables')));
@@ -1004,13 +1005,31 @@ void main() {
     expect(find.text('Oats en'), findsOneWidget);
     expect(find.text('4 tbsp en'), findsOneWidget);
     expect(find.text('Contains: gluten, milk'), findsOneWidget);
+    expect(find.text('≈ 280 kcal · 1 serving (approximate)'), findsOneWidget);
     await _tap(tester, find.byKey(const ValueKey('recipe-add')));
     expect(find.text('2 items added to your shopping list.'), findsOneWidget);
+
+    // Saved recipes are listed on the nutrition page (this phone only).
+    await _tap(tester, find.byKey(const ValueKey('recipe-save')));
+    expect(find.byTooltip('Remove from saved'), findsOneWidget);
+    final prefs = await SharedPreferences.getInstance();
+    expect(prefs.getStringList('savedRecipes:user-1'), ['oats']);
     final list = jsonDecode(app.careList.data['user-1']!) as Map;
     expect(
       [for (final i in list['shopping'] as List) (i as Map)['origin']],
       ['recipe', 'recipe'],
     );
+  });
+
+  testWidgets('nutrition: today\'s pick, plate ideas and saved recipes', (
+    tester,
+  ) async {
+    await _open(tester);
+    await _tap(tester, find.text('Nutrition').first);
+    expect(find.text("Today's pick"), findsOneWidget);
+    expect(find.byKey(const ValueKey('daily-recipe')), findsOneWidget);
+    expect(find.text('Fill your plate'), findsOneWidget);
+    expect(find.text('Saved recipes'), findsNothing);
   });
 
   testWidgets('with the health consent the plate is kept on the server', (

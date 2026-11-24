@@ -1782,7 +1782,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nutritionNoCalories =>
-      'We do not count calories. Just variety: a colourful plate every day.';
+      'The plate does not count calories. Just variety: a colourful plate every day.';
 
   @override
   String get nutritionTip => 'Tip of the day';
@@ -1827,6 +1827,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recipeAddAll => 'Add the ingredients to my shopping list';
+
+  @override
+  String get recipeSave => 'Save recipe';
+
+  @override
+  String get recipeUnsave => 'Remove from saved';
+
+  @override
+  String get nutritionDailyRecipe => 'Today\'s pick';
+
+  @override
+  String get nutritionPlateIdeas => 'Fill your plate';
+
+  @override
+  String get nutritionPlateIdeasNote =>
+      'Recipes for the groups you haven\'t had today.';
+
+  @override
+  String get nutritionSaved => 'Saved recipes';
+
+  @override
+  String recipeKcal(int kcal) {
+    return '≈ $kcal kcal · 1 serving (approximate)';
+  }
 
   @override
   String recipeAdded(int count) {

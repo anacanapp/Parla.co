@@ -6,6 +6,7 @@ import 'package:image/image.dart' as img;
 import 'package:parla_server/src/auth/verification_code_sender.dart';
 import 'package:parla_server/src/content/content_admin_endpoint.dart';
 import 'package:parla_server/src/content/content_images_task.dart';
+import 'package:parla_server/src/content/recipe_kcal.dart';
 import 'package:parla_server/src/content/content_import.dart';
 import 'package:parla_server/src/content/sample_experts.dart';
 import 'package:parla_server/src/content/content_seed_import.dart';
@@ -790,6 +791,59 @@ void main() {
         1,
       );
     });
+
+    test(
+      'the kcal task fills recipes without kcal, keeps panel values',
+      () async {
+        await team();
+        final db = sessionBuilder.build();
+        final admin = (await StaffMember.db.findFirstRow(db))!.authUserId;
+        final now = DateTime.now().toUtc();
+        Future<ContentItem> recipe(String slug, Map<String, Object?> json) =>
+            ContentItem.db.insertRow(
+              db,
+              ContentItem(
+                kind: 'recipe',
+                slug: slug,
+                category: 'lunch',
+                status: ContentStatus.published,
+                draftJson: jsonEncode(json),
+                publishedJson: jsonEncode(json),
+                createdBy: admin,
+                updatedBy: admin,
+                createdAt: now,
+                updatedAt: now,
+                publishedAt: now,
+              ),
+            );
+        final plain = await recipe('plain', {'minutes': 10});
+        final set = await recipe('set', {'minutes': 10, 'kcal': 111});
+        final result = await runSetRecipeKcalTask(
+          db,
+          'first-admin@example.com',
+          values: {'plain': 320, 'set': 500, 'gone': 200},
+        );
+        expect(
+          result,
+          'Set kcal on 1 recipes. Skipped: set (has kcal). No item: gone.',
+        );
+        final p = (await ContentItem.db.findById(db, plain.id!))!;
+        expect(jsonDecode(p.publishedJson!)['kcal'], 320);
+        expect(jsonDecode(p.draftJson)['kcal'], 320);
+        expect(p.status, ContentStatus.published);
+        final k = (await ContentItem.db.findById(db, set.id!))!;
+        expect(jsonDecode(k.publishedJson!)['kcal'], 111);
+        expect(
+          await AuditLogEntry.db.count(
+            db,
+            where: (t) => t.action.equals('content.kcal_set'),
+          ),
+          1,
+        );
+        // Every shipped value passes the shared rule.
+        expect(recipeKcal.values.every((v) => v >= 10 && v <= 2000), isTrue);
+      },
+    );
 
     test('the task publishes named exercise drafts', () async {
       final t = await team();

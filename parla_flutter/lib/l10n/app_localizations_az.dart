@@ -1760,7 +1760,7 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get nutritionNoCalories =>
-      'Kalori saymırıq. Sadəcə müxtəliflik: hər gün rəngli boşqab.';
+      'Boşqabda kalori saymırıq. Sadəcə müxtəliflik: hər gün rəngli boşqab.';
 
   @override
   String get nutritionTip => 'Günün məsləhəti';
@@ -1805,6 +1805,30 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get recipeAddAll => 'Tərkibi alış siyahısına əlavə et';
+
+  @override
+  String get recipeSave => 'Resepti saxla';
+
+  @override
+  String get recipeUnsave => 'Saxlanılanlardan çıxar';
+
+  @override
+  String get nutritionDailyRecipe => 'Bu günün tövsiyəsi';
+
+  @override
+  String get nutritionPlateIdeas => 'Boşqabını tamamla';
+
+  @override
+  String get nutritionPlateIdeasNote =>
+      'Bu gün hələ seçmədiyin qruplar üçün reseptlər.';
+
+  @override
+  String get nutritionSaved => 'Saxladıqların';
+
+  @override
+  String recipeKcal(int kcal) {
+    return '≈ $kcal kkal · 1 porsiya (təxmini)';
+  }
 
   @override
   String recipeAdded(int count) {

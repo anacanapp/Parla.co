@@ -15,6 +15,7 @@ import 'services/usage_meter.dart';
 import 'routes.dart';
 import 'check/care_list.dart';
 import 'routines/custom_routines.dart';
+import 'discover/saved_recipes.dart';
 import 'discover/banner_strip.dart';
 import 'discover/content_library.dart';
 import 'push/push_client.dart';
@@ -117,6 +118,8 @@ class _ParlaAppState extends State<ParlaApp> {
     clock: widget.clock,
   );
 
+  final SavedRecipes _savedRecipes = SavedRecipes();
+
   late final CareListBook _careList = CareListBook(
     store: widget.careListStore,
     api: widget.api,
@@ -182,6 +185,7 @@ class _ParlaAppState extends State<ParlaApp> {
     _reminders.dispose();
     _routines.dispose();
     _careList.dispose();
+    _savedRecipes.dispose();
     _sport.dispose();
     _nutrition.dispose();
     _journal.dispose();
@@ -210,6 +214,7 @@ class _ParlaAppState extends State<ParlaApp> {
       nutrition: _nutrition,
       journal: _journal,
       content: _content,
+      savedRecipes: _savedRecipes,
       usage: _usage,
       ingredients: widget.ingredientDataset ?? euIngredientDataset,
       child: ListenableBuilder(

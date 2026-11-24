@@ -1039,7 +1039,7 @@
       }
     }
   },
-  "nutritionNoCalories": "We do not count calories. Just variety: a colourful plate every day.",
+  "nutritionNoCalories": "The plate does not count calories. Just variety: a colourful plate every day.",
   "nutritionTip": "Tip of the day",
   "nutritionRecipes": "Beauty recipes",
   "nutritionDisclaimer": "This is general information, not a diet or medical advice. If you have special dietary needs, talk to a dietitian.",
@@ -1066,6 +1066,20 @@
   "recipeIngredients": "Ingredients",
   "recipeSteps": "Method",
   "recipeAddAll": "Add the ingredients to my shopping list",
+  "recipeSave": "Save recipe",
+  "recipeUnsave": "Remove from saved",
+  "nutritionDailyRecipe": "Today's pick",
+  "nutritionPlateIdeas": "Fill your plate",
+  "nutritionPlateIdeasNote": "Recipes for the groups you haven't had today.",
+  "nutritionSaved": "Saved recipes",
+  "recipeKcal": "≈ {kcal} kcal · 1 serving (approximate)",
+  "@recipeKcal": {
+    "placeholders": {
+      "kcal": {
+        "type": "int"
+      }
+    }
+  },
   "recipeAdded": "{count} items added to your shopping list.",
   "@recipeAdded": {
     "placeholders": {

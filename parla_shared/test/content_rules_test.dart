@@ -88,6 +88,19 @@ void main() {
     expect(_p(ContentKind.expert, noContact), contains('contact.missing'));
   });
 
+  test('a recipe may carry an approximate kcal per serving', () {
+    expect(_p(ContentKind.recipe, {...recipe, 'kcal': 320}), isEmpty);
+    expect(_p(ContentKind.recipe, recipe), isEmpty);
+    expect(
+      _p(ContentKind.recipe, {...recipe, 'kcal': 5}),
+      contains('kcal.invalid'),
+    );
+    expect(
+      _p(ContentKind.recipe, {...recipe, 'kcal': '320'}),
+      contains('kcal.invalid'),
+    );
+  });
+
   test('recipes must name their allergens, or none explicitly', () {
     expect(
       _p(ContentKind.recipe, {...recipe}..remove('allergens')),

@@ -1791,7 +1791,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get nutritionNoCalories =>
-      'Мы не считаем калории. Просто разнообразие: каждый день яркая тарелка.';
+      'На тарелке мы не считаем калории. Просто разнообразие: каждый день яркая тарелка.';
 
   @override
   String get nutritionTip => 'Совет дня';
@@ -1836,6 +1836,30 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get recipeAddAll => 'Добавить ингредиенты в список покупок';
+
+  @override
+  String get recipeSave => 'Сохранить рецепт';
+
+  @override
+  String get recipeUnsave => 'Убрать из сохранённых';
+
+  @override
+  String get nutritionDailyRecipe => 'Рецепт дня';
+
+  @override
+  String get nutritionPlateIdeas => 'Дополни тарелку';
+
+  @override
+  String get nutritionPlateIdeasNote =>
+      'Рецепты для групп, которых сегодня ещё не было.';
+
+  @override
+  String get nutritionSaved => 'Сохранённые';
+
+  @override
+  String recipeKcal(int kcal) {
+    return '≈ $kcal ккал · 1 порция (примерно)';
+  }
 
   @override
   String recipeAdded(int count) {

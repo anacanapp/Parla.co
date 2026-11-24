@@ -4,6 +4,7 @@ import 'package:flutter/widgets.dart';
 import 'package:parla_shared/parla_shared.dart';
 
 import 'habits/habit_tracker.dart';
+import 'discover/saved_recipes.dart';
 import 'reminders/reminder_controller.dart';
 import 'check/care_list.dart';
 import 'routines/custom_routines.dart';
@@ -33,6 +34,7 @@ class ParlaScope extends InheritedWidget {
     required this.nutrition,
     required this.journal,
     required this.content,
+    required this.savedRecipes,
     required this.usage,
     required this.ingredients,
     required super.child,
@@ -72,6 +74,9 @@ class ParlaScope extends InheritedWidget {
   /// Published articles, recipes and expert profiles.
   final ContentLibrary content;
 
+  /// Recipes the account saved (this phone only).
+  final SavedRecipes savedRecipes;
+
   /// Anonymous usage counts (only with the analytics consent).
   final UsageMeter usage;
 
@@ -89,6 +94,7 @@ class ParlaScope extends InheritedWidget {
       sport.attach(id),
       nutrition.attach(id),
       journal.attach(id),
+      savedRecipes.attach(id),
     ]);
     // Own-routine ticks moved from the habit log to the routines.
     if (id != null && api.accountId == id) {
@@ -117,6 +123,7 @@ class ParlaScope extends InheritedWidget {
     sport.detach();
     nutrition.detach();
     journal.detach();
+    savedRecipes.detach();
     await reminders.detach();
   }
 
@@ -134,6 +141,8 @@ class ParlaScope extends InheritedWidget {
     nutrition.detach();
     await journal.erase();
     journal.detach();
+    await savedRecipes.erase();
+    savedRecipes.detach();
     await reminders.erase();
   }
 
