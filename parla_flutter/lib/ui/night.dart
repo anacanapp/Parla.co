@@ -195,21 +195,29 @@ class LiquidGlass extends StatelessWidget {
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                   colors: [
-                    Color(0x33FFFFFF),
+                    Color(0x38FFFFFF),
                     Color(0x00FFFFFF),
                     Color(0x00000000),
-                    Color(0x29000000),
+                    Color(0x1F000000),
                   ],
-                  stops: [0, .28, .7, 1],
+                  stops: [0, .32, .72, 1],
                 ),
               ),
             ),
           ),
         ),
-        // The fine grain of frosted glass.
+        // A specular glint at the top left.
         const Positioned.fill(
           child: IgnorePointer(
-            child: RepaintBoundary(child: CustomPaint(painter: _SatinGrain())),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: RadialGradient(
+                  center: Alignment(-0.85, -1.05),
+                  radius: 0.75,
+                  colors: [Color(0x47FFFFFF), Color(0x00FFFFFF)],
+                ),
+              ),
+            ),
           ),
         ),
         Padding(padding: padding ?? EdgeInsets.zero, child: child),
@@ -241,44 +249,9 @@ class LiquidGlass extends StatelessWidget {
   }
 }
 
-/// A fixed, fine grain: light and dark specks, the same for a given size.
-class _SatinGrain extends CustomPainter {
-  const _SatinGrain();
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final random = math.Random(size.width.round() * 31 + size.height.round());
-    final count = (size.width * size.height / 7).clamp(0, 30000).toInt();
-    final light = <Offset>[];
-    final dark = <Offset>[];
-    for (var i = 0; i < count; i++) {
-      final point = Offset(
-        random.nextDouble() * size.width,
-        random.nextDouble() * size.height,
-      );
-      (i.isEven ? light : dark).add(point);
-    }
-    final paint = Paint()
-      ..strokeWidth = 1
-      ..strokeCap = StrokeCap.square;
-    canvas
-      ..drawPoints(
-        ui.PointMode.points,
-        light,
-        paint..color = const Color(0x1AFFFFFF),
-      )
-      ..drawPoints(
-        ui.PointMode.points,
-        dark,
-        paint..color = const Color(0x1F000000),
-      );
-  }
-
-  @override
-  bool shouldRepaint(_SatinGrain oldDelegate) => false;
-}
-
-/// The rim: light along the top, fading down the sides.
+/// The glass edge: a crisp line lit at the top left and again, softer, at
+/// the bottom right, over a blurred inner glow that gives the glass its
+/// thickness.
 class _RimPainter extends CustomPainter {
   _RimPainter(this.shape);
 
@@ -287,18 +260,41 @@ class _RimPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final rect = (Offset.zero & size).deflate(.6);
-    canvas.drawPath(
-      shape.getOuterPath(rect),
-      Paint()
-        ..style = PaintingStyle.stroke
-        ..strokeWidth = 1.1
-        ..shader = const LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          colors: [Color(0x8CFFFFFF), Color(0x1FFFFFFF), Color(0x0FFFFFFF)],
-          stops: [0, .45, 1],
-        ).createShader(rect),
+    final path = shape.getOuterPath(rect);
+    const light = LinearGradient(
+      begin: Alignment.topLeft,
+      end: Alignment.bottomRight,
+      colors: [
+        Color(0xF2FFFFFF),
+        Color(0x33FFFFFF),
+        Color(0x14FFFFFF),
+        Color(0x80FFFFFF),
+      ],
+      stops: [0, .3, .65, 1],
     );
+    canvas
+      ..drawPath(
+        shape.getOuterPath((Offset.zero & size).deflate(2.5)),
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 4
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3)
+          ..shader = LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [
+              for (final c in light.colors) c.withValues(alpha: c.a * .45),
+            ],
+            stops: light.stops,
+          ).createShader(rect),
+      )
+      ..drawPath(
+        path,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.2
+          ..shader = light.createShader(rect),
+      );
   }
 
   @override
@@ -392,7 +388,7 @@ class MeshTile extends StatelessWidget {
 
   /// How much of a tile's colour covers the glass (the rest shows the
   /// blurred page behind).
-  static const opacity = .9;
+  static const opacity = .82;
 
   @override
   Widget build(BuildContext context) {
@@ -414,7 +410,11 @@ class MeshTile extends StatelessWidget {
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [tone.from, tone.to, tone.deep],
+          colors: [
+            tone.from.withValues(alpha: MeshTile.opacity),
+            tone.to.withValues(alpha: MeshTile.opacity),
+            tone.deep.withValues(alpha: MeshTile.opacity),
+          ],
           stops: const [0, .55, 1],
         ),
         child: InkWell(borderRadius: border, onTap: onTap, child: body),
