@@ -54,17 +54,22 @@ class GlassTitle extends StatelessWidget {
   );
 }
 
-/// A round black back button, 44 px (warm design headers).
+/// A round light glass back button, 44 px (HR design headers).
 class GlassBack extends StatelessWidget {
   const GlassBack({super.key, required this.onPressed});
 
   final VoidCallback onPressed;
 
   @override
-  Widget build(BuildContext context) => Material(
-    color: Warm.black,
-    shape: const CircleBorder(),
-    child: BackButton(onPressed: onPressed, color: Colors.white),
+  Widget build(BuildContext context) => SizedBox(
+    width: 44,
+    height: 44,
+    child: SmokyGlass(
+      shape: const CircleBorder(),
+      milk: true,
+      shadow: false,
+      child: BackButton(onPressed: onPressed, color: Warm.ink),
+    ),
   );
 }
 

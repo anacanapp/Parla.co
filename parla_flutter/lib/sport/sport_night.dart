@@ -39,17 +39,23 @@ class GlassIconButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   @override
-  Widget build(BuildContext context) => Material(
-    color: Warm.black,
-    shape: const CircleBorder(),
-    child: IconButton(
-      tooltip: tooltip,
-      onPressed: onPressed,
-      iconSize: 20,
-      constraints: const BoxConstraints.tightFor(width: 44, height: 44),
-      padding: EdgeInsets.zero,
-      style: IconButton.styleFrom(foregroundColor: SportNight.ink),
-      icon: icon,
+  Widget build(BuildContext context) => SizedBox(
+    width: 44,
+    height: 44,
+    // HR design: a light glass circle with a dark icon.
+    child: SmokyGlass(
+      shape: const CircleBorder(),
+      milk: true,
+      shadow: false,
+      child: IconButton(
+        tooltip: tooltip,
+        onPressed: onPressed,
+        iconSize: 20,
+        constraints: const BoxConstraints.tightFor(width: 44, height: 44),
+        padding: EdgeInsets.zero,
+        style: IconButton.styleFrom(foregroundColor: Warm.ink),
+        icon: icon,
+      ),
     ),
   );
 }
