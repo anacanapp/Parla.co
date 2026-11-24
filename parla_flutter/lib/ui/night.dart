@@ -316,6 +316,9 @@ enum MeshTone {
 
   /// Secondary text on the tile.
   Color get softInk => ink.withValues(alpha: .8);
+
+  /// A light tile: dark ink on a pale gradient.
+  bool get isLight => ink.computeLuminance() < .2;
 }
 
 const _light = Color(0xFFF4E9FF);
@@ -378,14 +381,23 @@ class MeshTile extends StatelessWidget {
         ),
         child: DecoratedBox(
           decoration: BoxDecoration(
-            gradient: RadialGradient(
-              center: blobAt,
-              radius: 0.6,
-              colors: [
-                tone.blob.withValues(alpha: .85),
-                tone.blob.withAlpha(0),
-              ],
-            ),
+            // Light tiles (pink, sage, orange, rose) get a soft glassy light
+            // instead of a dark blob, which read as a stain (owner,
+            // 2026-11-24); dark tiles keep their deep glow.
+            gradient: tone.isLight
+                ? const RadialGradient(
+                    center: Alignment(-0.7, -0.9),
+                    radius: 1.1,
+                    colors: [Color(0x40FFFFFF), Color(0x00FFFFFF)],
+                  )
+                : RadialGradient(
+                    center: blobAt,
+                    radius: 0.6,
+                    colors: [
+                      tone.blob.withValues(alpha: .85),
+                      tone.blob.withAlpha(0),
+                    ],
+                  ),
           ),
           child: InkWell(borderRadius: border, onTap: onTap, child: body),
         ),
