@@ -1,58 +1,57 @@
 import 'package:flutter/material.dart';
 
-/// Parla night palette (design 3.0, 2026-11-23: one dark mode only).
-///
-/// The names are the ones the screens already use, so each keeps its role:
-/// [cream] is the page, [white] a card surface, [espresso] the main ink.
-/// Text is always [espresso], [sunInk] or [muted]; each passes WCAG AA
-/// (4.5:1) on [cream], [white], [lemon], [sky], [sage], [sageTint],
-/// [blush] and [lilac] (checked in `test/night_palette_test.dart`).
-/// A surface in [espresso] (the selected or main action) carries [white]
-/// text, and [sun] carries [espresso] text.
+/// Parla warm day palette (design "isti B", owner 2026-11-24): a cream
+/// page with a soft motion-blurred figure, smoky glass and lime and rose
+/// cards (see `warm.dart`). The names are the ones the screens already
+/// use, so each keeps its role: [cream] is the page, [white] a card
+/// surface, [espresso] the main ink. Text is always [espresso], [sunInk]
+/// or [muted]; each passes WCAG AA on [cream], [white] and the tints
+/// (checked in `test/night_palette_test.dart`). A surface in [espresso]
+/// carries [white] text, and [sun] carries [espresso] text.
 abstract final class ParlaColors {
-  /// Accent surface: selected chips and tabs, rings (plum, 4.9:1 under
-  /// [espresso] text).
-  static const sun = Color(0xFFA23C9A);
+  /// Warm accent surface: rings, fills, chosen states (4.8:1 under
+  /// [espresso]).
+  static const sun = Color(0xFFCC6E30);
 
-  /// The page background behind everything.
-  static const cream = Color(0xFF0C0A1C);
+  /// The page behind everything (warm cream).
+  static const cream = Color(0xFFF3EBE3);
 
   /// Main ink: text and icons, and the surface of the main action.
-  static const espresso = Color(0xFFF4E9FF);
+  static const espresso = Color(0xFF1A1A1E);
 
-  /// Tinted surfaces (dark plum, blue and green).
-  static const lemon = Color(0xFF2A1A40);
-  static const sky = Color(0xFF172246);
-  static const sage = Color(0xFF1E2C25);
+  /// Tinted surfaces (peach, lavender-grey, sage).
+  static const lemon = Color(0xFFF6E3D3);
+  static const sky = Color(0xFFE6E2EC);
+  static const sage = Color(0xFFE3E8D8);
 
-  /// Accent text: eyebrows, accent lines, links.
-  static const sunInk = Color(0xFFF0B8D4);
+  /// Accent text: eyebrows, accent lines, links (burnt orange).
+  static const sunInk = Color(0xFF9A4A1C);
 
-  /// Card surface (dark glass), and the text on an [espresso] surface.
-  static const white = Color(0xFF1C1733);
+  /// Card surface, and the text on an [espresso] surface.
+  static const white = Color(0xFFFFFFFF);
 
-  /// Secondary text and inactive icons (8.2:1 on [white]).
-  static const muted = Color(0xFFB8AECB);
+  /// Secondary text and inactive icons.
+  static const muted = Color(0xFF5C5560);
 
-  /// Outline of an unchecked control (4:1 on [white]).
-  static const outline = Color(0xFF7F7596);
+  /// Outline of an unchecked control.
+  static const outline = Color(0xFF8E8590);
 
   /// Hairlines, card borders and the track of progress bars.
-  static const line = Color(0xFF332B4D);
+  static const line = Color(0xFFE6DAD0);
 
-  /// Dark tints for cards.
-  static const sageTint = Color(0xFF1A261F);
-  static const blush = Color(0xFF331A2B);
-  static const lilac = Color(0xFF271D3F);
+  /// Light tints for cards.
+  static const sageTint = Color(0xFFEEF0E6);
+  static const blush = Color(0xFFF6E0DC);
+  static const lilac = Color(0xFFECE4EE);
 
-  /// Fitness section: deep blue surface and its light text (9:1).
-  static const sportBlue = Color(0xFF1F2E8C);
-  static const sportBlueText = Color(0xFFDCE4FF);
+  /// Sport surface (deep olive) and its light text.
+  static const sportBlue = Color(0xFF4E5C0E);
+  static const sportBlueText = Color(0xFFF3F6DC);
 
   /// Progress fills that must stand out from their tile.
-  static const waterFill = Color(0xFF7C95FF);
-  static const moveFill = Color(0xFFA9BCA6);
-  static const moveTrack = Color(0xFF2B3A31);
+  static const waterFill = Color(0xFF667A14);
+  static const moveFill = Color(0xFFB8622A);
+  static const moveTrack = Color(0xFFEADFD4);
 
   /// The small lime marker of the design (never text).
   static const marker = Color(0xFFE8F06A);
@@ -87,7 +86,7 @@ abstract final class ParlaSpace {
 
 /// Card shadow used across the app: soft, never a hard edge.
 const List<BoxShadow> kSoftShadow = [
-  BoxShadow(color: Color(0x40000000), blurRadius: 24, offset: Offset(0, 8)),
+  BoxShadow(color: Color(0x1A3A2418), blurRadius: 24, offset: Offset(0, 8)),
 ];
 
 /// The italic accent line ("Hər gün bir az daha sən."). Playfair Display
@@ -147,7 +146,7 @@ ThemeData parlaTheme() {
 
   return ThemeData(
     useMaterial3: true,
-    brightness: Brightness.dark,
+    brightness: Brightness.light,
     fontFamily: ParlaFonts.sans,
     fontFamilyFallback: ParlaFonts.fallback,
     // Every page carries the night backdrop (see `_page` in routes.dart),
@@ -155,7 +154,7 @@ ThemeData parlaTheme() {
     scaffoldBackgroundColor: Colors.transparent,
     colorScheme: ColorScheme.fromSeed(
       seedColor: ParlaColors.sun,
-      brightness: Brightness.dark,
+      brightness: Brightness.light,
       primary: ParlaColors.espresso,
       onPrimary: ParlaColors.white,
       secondary: ParlaColors.sun,
@@ -166,8 +165,8 @@ ThemeData parlaTheme() {
       outline: ParlaColors.outline,
       outlineVariant: ParlaColors.line,
       surfaceContainerHighest: ParlaColors.white,
-      error: const Color(0xFFFFB4C0),
-      onError: const Color(0xFF3A0A14),
+      error: const Color(0xFFB3261E),
+      onError: const Color(0xFFFFFFFF),
     ),
     dividerColor: ParlaColors.line,
     iconTheme: const IconThemeData(color: ParlaColors.espresso),

@@ -8,6 +8,7 @@ import '../parla_scope.dart';
 import '../routes.dart';
 import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
+import '../ui/warm.dart';
 import 'sport_book.dart';
 import 'sport_labels.dart';
 import 'sport_night.dart';
@@ -55,7 +56,7 @@ class _SportScreenState extends State<SportScreen> {
         child: ListenableBuilder(
           listenable: book,
           builder: (context, _) => ListView(
-            padding: const EdgeInsets.fromLTRB(22, 14, 22, 120),
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 120),
             children: [
               SportHeader(
                 title: l10n.sportTitle,
@@ -104,7 +105,7 @@ class _SportScreenState extends State<SportScreen> {
   }
 }
 
-/// The five sections as capsules; the open one is light.
+/// The five sections as capsules; the open one is white.
 class _SectionChips extends StatelessWidget {
   const _SectionChips({required this.selected, required this.onSelected});
 
@@ -119,43 +120,11 @@ class _SectionChips extends StatelessWidget {
       runSpacing: 8,
       children: [
         for (final id in SportScreen.sections)
-          Semantics(
-            button: true,
+          WarmChip(
+            key: ValueKey('sport-section-$id'),
+            label: sportTypeLabel(l10n, id),
             selected: id == selected,
-            child: Material(
-              key: ValueKey('sport-section-$id'),
-              color: id == selected ? SportNight.ink : const Color(0x0FFFFFFF),
-              shape: StadiumBorder(
-                side: id == selected
-                    ? BorderSide.none
-                    : const BorderSide(color: Color(0x2EFFFFFF)),
-              ),
-              child: InkWell(
-                customBorder: const StadiumBorder(),
-                onTap: () => onSelected(id),
-                child: ConstrainedBox(
-                  constraints: const BoxConstraints(minHeight: 44),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 10,
-                    ),
-                    child: Text(
-                      sportTypeLabel(l10n, id),
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: id == selected
-                            ? FontWeight.w600
-                            : FontWeight.w400,
-                        color: id == selected
-                            ? const Color(0xFF1A0B2A)
-                            : SportNight.ink,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            onTap: () => onSelected(id),
           ),
       ],
     );
@@ -175,7 +144,7 @@ class _SectionLabel extends StatelessWidget {
       padding: const EdgeInsets.only(left: 4),
       child: Text(
         text,
-        style: const TextStyle(fontSize: 13, color: SportNight.soft),
+        style: const TextStyle(fontSize: 13, color: SportNight.pageSoft),
       ),
     ),
   );
@@ -231,8 +200,7 @@ class _EditRow extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     return GlassRow(
       key: const ValueKey('sport-edit'),
-      radius: 32,
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.fromLTRB(10, 10, 20, 10),
       onTap: () => context.go(Routes.sportQuiz, extra: section),
       child: Row(
         children: [
@@ -244,7 +212,7 @@ class _EditRow extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [Color(0xFFC653B0), Color(0xFF7A2FA8)],
+                colors: [Color(0xFFFFC896), Color(0xFFF0823C)],
               ),
             ),
             alignment: Alignment.center,
@@ -280,7 +248,7 @@ class _PlanView extends StatelessWidget {
     const muted = TextStyle(
       fontSize: kMinTextSize,
       height: 1.4,
-      color: SportNight.soft,
+      color: SportNight.pageSoft,
     );
 
     if (plan.blocked) {
@@ -355,7 +323,7 @@ class _PlanView extends StatelessWidget {
                                     text: progress.substring(lead.length),
                                     style: const TextStyle(
                                       fontSize: 22,
-                                      color: Color(0xBFF4E9FF),
+                                      color: SportNight.soft,
                                     ),
                                   ),
                                 ],
@@ -391,7 +359,7 @@ class _PlanView extends StatelessWidget {
                               border: done.contains(w.id)
                                   ? null
                                   : Border.all(
-                                      color: const Color(0x80F4E9FF),
+                                      color: const Color(0x99FFFFFF),
                                       width: 1.5,
                                     ),
                             ),
@@ -433,8 +401,6 @@ class _PlanView extends StatelessWidget {
             ),
           ),
         ],
-        const SizedBox(height: 12),
-        _EditRow(section: section),
         const SizedBox(height: 22),
         _SectionLabel(l10n.sportWeekTitle),
         const SizedBox(height: 10),
@@ -447,7 +413,10 @@ class _PlanView extends StatelessWidget {
           ),
           const SizedBox(height: 10),
         ],
-        const SizedBox(height: 8),
+        // Owner 2026-11-24: retaking the quiz comes after the workouts.
+        const SizedBox(height: 4),
+        _EditRow(section: section),
+        const SizedBox(height: 14),
         Text(l10n.sportDraftNote, style: muted),
         const SizedBox(height: 6),
         Text(

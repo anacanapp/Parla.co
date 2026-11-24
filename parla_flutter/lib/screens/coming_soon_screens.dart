@@ -9,6 +9,7 @@ import '../parla_scope.dart';
 import '../routes.dart';
 import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
+import '../ui/warm.dart';
 
 /// Discover tab: blogs, experts, nutrition, the shopping list and the shop
 /// ("coming soon"), and the newest articles.
@@ -76,32 +77,17 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
               ),
               children: [
                 Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 6),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Semantics(
-                        header: true,
-                        child: Text(
-                          l10n.discoverTitle,
-                          style: text.displayMedium?.copyWith(
-                            fontSize: 34,
-                            letterSpacing: -1,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(height: 2),
-                      Text(
-                        l10n.homeTagline,
-                        style: text.bodySmall?.copyWith(
-                          color: ParlaColors.muted,
-                        ),
-                      ),
-                    ],
+                  padding: const EdgeInsets.symmetric(horizontal: 2),
+                  child: WarmHeader(
+                    title: l10n.discoverTitle,
+                    above: l10n.homeTagline,
                   ),
                 ),
                 const SizedBox(height: ParlaSpace.gap),
                 DiscoverBento(
+                  sportFraction: plan == null || plan.workouts.isEmpty
+                      ? 0
+                      : sportDone / plan.workouts.length,
                   blogs: BentoSection(
                     title: l10n.discoverBlogs,
                     hint: articles.isEmpty
@@ -112,7 +98,7 @@ class _DiscoverScreenState extends State<DiscoverScreen> {
                     icon: ParlaIconName.book,
                     onTap: () => go(Routes.blog),
                   ),
-                  latestLabel: l10n.discoverLatest,
+                  latestLabel: articles.isEmpty ? null : l10n.discoverLatest,
                   latestTitle: articles.firstOrNull?.text(
                     'title',
                     locale.languageCode,

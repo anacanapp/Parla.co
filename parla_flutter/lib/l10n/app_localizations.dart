@@ -3067,7 +3067,7 @@ abstract class AppLocalizations {
   /// No description provided for @nutritionTip.
   ///
   /// In en, this message translates to:
-  /// **'Today\'s tip for your skin'**
+  /// **'Tip of the day'**
   String get nutritionTip;
 
   /// No description provided for @nutritionRecipes.

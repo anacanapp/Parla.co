@@ -12,6 +12,7 @@ import '../parla_scope.dart';
 import '../home/widgets/parla_nav_bar.dart';
 import '../routes.dart';
 import '../ui/brand.dart';
+import '../ui/warm.dart';
 import '../ui/parla_icons.dart';
 import '../ui/parla_ui.dart';
 import '../ui/common.dart';
@@ -154,37 +155,84 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
         child: ListView(
           padding: const EdgeInsets.fromLTRB(22, 22, 22, 120),
           children: [
-            GlassTitle(l10n.navProfile),
+            WarmHeader(title: l10n.navProfile),
             const SizedBox(height: 14),
             // The account: no name is ever asked, only the email address.
-            PebbleHeader(
-              icon: ParlaIconName.profile,
-              title: l10n.profileAccountTitle,
-              subtitle: l10n.profileAccountNote,
+            SquircleCard(
+              tone: SquircleTone.rose,
+              padding: const EdgeInsets.all(16),
+              child: Row(
+                children: [
+                  const RingIcon(icon: ParlaIconName.profile, size: 56),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          l10n.profileAccountTitle,
+                          style: const TextStyle(fontSize: 20),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          l10n.profileAccountNote,
+                          style: const TextStyle(
+                            fontSize: kMinTextSize,
+                            height: 1.35,
+                            color: Warm.onCardSoft,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: 10),
             ListenableBuilder(
               listenable: reminders,
               builder: (context, _) {
                 final on = ReminderKind.values
                     .where((k) => reminders.settings[k].enabled)
                     .length;
-                return GlassGroup(
+                final given = consents == null
+                    ? null
+                    : ConsentKind.values
+                          .where((k) => consents[k] ?? false)
+                          .length;
+                return Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    GlassRow(
-                      key: const ValueKey('privacy-reminders'),
-                      icon: ParlaIconName.moon,
-                      label: l10n.remindersTitle,
-                      value: on == 0
-                          ? l10n.remindersSummaryOff
-                          : l10n.remindersSummaryOn(on),
-                      onTap: () => context.push(Routes.reminders),
+                    Expanded(
+                      child: StatPill(
+                        key: const ValueKey('privacy-reminders'),
+                        title: l10n.remindersTitle,
+                        value: '$on',
+                        icon: ParlaIconName.moon,
+                        height: 104,
+                        semanticLabel:
+                            '${l10n.remindersTitle}: '
+                            '${on == 0 ? l10n.remindersSummaryOff : l10n.remindersSummaryOn(on)}',
+                        onTap: () => context.push(Routes.reminders),
+                      ),
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: StatPill(
+                        title: l10n.privacyConsentsTitle,
+                        value: given == null
+                            ? '…'
+                            : '$given/${ConsentKind.values.length}',
+                        icon: ParlaIconName.lock,
+                        tint: SmokyTint.burnt,
+                        height: 104,
+                      ),
                     ),
                   ],
                 );
               },
             ),
-            const SizedBox(height: 22),
+            const SizedBox(height: 18),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6),
               child: Column(
@@ -219,29 +267,42 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                   style: text.titleLarge?.copyWith(
                     fontSize: 18,
                     fontWeight: FontWeight.w400,
+                    color: Warm.ink,
                   ),
                 ),
               ),
             ),
             const SizedBox(height: 10),
-            consents == null
-                ? const GlassCard(
-                    child: Center(child: CircularProgressIndicator()),
-                  )
-                : GlassGroup(
-                    children: [
+            _SmokyGroup(
+              children: consents == null
+                  ? const [
+                      Padding(
+                        padding: EdgeInsets.all(18),
+                        child: Center(
+                          child: CircularProgressIndicator(color: Colors.white),
+                        ),
+                      ),
+                    ]
+                  : [
                       for (final kind in ConsentKind.values)
                         SwitchListTile(
                           key: ValueKey('consent-switch-${kind.name}'),
                           contentPadding: const EdgeInsets.fromLTRB(
-                            18,
+                            20,
                             4,
                             12,
                             4,
                           ),
+                          activeThumbColor: Warm.black,
+                          activeTrackColor: Colors.white,
+                          inactiveThumbColor: Colors.white,
+                          inactiveTrackColor: const Color(0x33FFFFFF),
                           title: Text(
                             _title(l10n, kind),
-                            style: const TextStyle(fontSize: 15),
+                            style: const TextStyle(
+                              fontSize: 15,
+                              color: Warm.onCard,
+                            ),
                           ),
                           value: consents[kind] ?? false,
                           onChanged: _busy
@@ -249,59 +310,67 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                               : (value) => _change(kind, value),
                         ),
                     ],
-                  ),
-            const SizedBox(height: 14),
+            ),
+            const SizedBox(height: 10),
             _ActionCard(
               title: l10n.privacyExportTitle,
               body: l10n.privacyExportBody,
-              button: GlassPill(
+              button: _WhitePill(
                 label: l10n.privacyExportButton,
-                expand: true,
-                fontSize: 15,
                 onPressed: _busy ? null : _export,
               ),
             ),
-            const SizedBox(height: 14),
+            const SizedBox(height: 10),
             _ActionCard(
               title: l10n.privacyHabitsTitle,
               body: l10n.privacyHabitsBody,
-              button: GlassPill(
+              button: _WhitePill(
                 key: const ValueKey('delete-habits'),
                 label: l10n.privacyHabitsDelete,
-                expand: true,
-                fontSize: 15,
                 onPressed: _busy ? null : _deleteHabits,
               ),
             ),
-            const SizedBox(height: 14),
-            GlassGroup(
+            const SizedBox(height: 10),
+            _SmokyGroup(
               children: [
-                GlassRow(
+                _SmokyRow(
                   key: const ValueKey('privacy-legal'),
                   icon: ParlaIconName.book,
                   label: l10n.privacyLegalTitle,
-                  trailing: const Icon(
-                    Icons.chevron_right,
-                    color: Glass.soft,
-                  ),
                   onTap: () => context.go(Routes.legal),
                 ),
-                GlassRow(
+                _SmokyRow(
                   key: const ValueKey('privacy-delete'),
                   icon: ParlaIconName.minus,
                   label: l10n.privacyDeleteTitle,
-                  color: Glass.danger,
+                  color: Glass.dangerOnSmoke,
                   onTap: () => context.go(Routes.deleteAccount),
                 ),
               ],
             ),
-            const SizedBox(height: 14),
-            GlassPill(
-              label: l10n.privacySignOut,
-              expand: true,
-              height: 60,
-              fontSize: 15,
-              onPressed: _signOut,
+            const SizedBox(height: 12),
+            Semantics(
+              button: true,
+              child: Material(
+                color: Warm.black,
+                shape: const StadiumBorder(),
+                child: InkWell(
+                  customBorder: const StadiumBorder(),
+                  onTap: _signOut,
+                  child: ConstrainedBox(
+                    constraints: const BoxConstraints(minHeight: 56),
+                    child: Center(
+                      child: Text(
+                        l10n.privacySignOut,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          color: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
             ),
           ],
         ),
@@ -310,7 +379,98 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
   }
 }
 
-/// A glass card with a title, a line of text and one action.
+/// Rows in one smoky glass card, split by faint lines.
+class _SmokyGroup extends StatelessWidget {
+  const _SmokyGroup({required this.children});
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) => SmokyGlass(
+    radius: 36,
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (var i = 0; i < children.length; i++) ...[
+          if (i > 0) const Divider(height: 1, color: Color(0x1FFFFFFF)),
+          children[i],
+        ],
+      ],
+    ),
+  );
+}
+
+/// A row of a [_SmokyGroup]: icon, label and a chevron.
+class _SmokyRow extends StatelessWidget {
+  const _SmokyRow({
+    super.key,
+    required this.icon,
+    required this.label,
+    required this.onTap,
+    this.color = Warm.onCard,
+  });
+
+  final ParlaIconName icon;
+  final String label;
+  final VoidCallback onTap;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) => InkWell(
+    onTap: onTap,
+    child: ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 58),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: Row(
+          children: [
+            ExcludeSemantics(child: ParlaIcon(icon, size: 18, color: color)),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(label, style: TextStyle(fontSize: 15, color: color)),
+            ),
+            const ExcludeSemantics(
+              child: Icon(Icons.chevron_right, color: Warm.onCardSoft),
+            ),
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+/// A white capsule action on smoky glass (dark text), full width.
+class _WhitePill extends StatelessWidget {
+  const _WhitePill({super.key, required this.label, required this.onPressed});
+
+  final String label;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) => Semantics(
+    button: true,
+    enabled: onPressed != null,
+    child: Material(
+      color: onPressed == null ? const Color(0x99FFFFFF) : Colors.white,
+      shape: const StadiumBorder(),
+      child: InkWell(
+        customBorder: const StadiumBorder(),
+        onTap: onPressed,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 48),
+          child: Center(
+            child: Text(
+              label,
+              style: const TextStyle(fontSize: 15, color: Warm.black),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+/// A smoky glass card with a title, a line of text and one action.
 class _ActionCard extends StatelessWidget {
   const _ActionCard({
     required this.title,
@@ -323,18 +483,21 @@ class _ActionCard extends StatelessWidget {
   final Widget button;
 
   @override
-  Widget build(BuildContext context) => GlassCard(
+  Widget build(BuildContext context) => SmokyGlass(
+    radius: 36,
+    padding: const EdgeInsets.all(20),
     child: Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          title,
-          style: const TextStyle(fontSize: 17, color: ParlaColors.espresso),
-        ),
+        Text(title, style: const TextStyle(fontSize: 17)),
         const SizedBox(height: 6),
         Text(
           body,
-          style: const TextStyle(fontSize: 13, height: 1.4, color: Glass.soft),
+          style: const TextStyle(
+            fontSize: 13,
+            height: 1.4,
+            color: Warm.onCardSoft,
+          ),
         ),
         const SizedBox(height: 14),
         button,

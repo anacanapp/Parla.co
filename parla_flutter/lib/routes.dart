@@ -1,3 +1,4 @@
+import 'package:flutter/widgets.dart';
 import 'package:go_router/go_router.dart';
 
 import 'ui/night.dart';
@@ -224,5 +225,21 @@ GoRoute _page({
 }) => GoRoute(
   path: path,
   redirect: redirect,
-  builder: (context, state) => NightBackdrop(child: builder(context, state)),
+  builder: (context, state) => NightBackdrop(
+    figure: _figurePages.contains(path),
+    child: BackdropGroup(child: builder(context, state)),
+  ),
 );
+
+/// The pages designed over the dark figure (the main tabs and their glass
+/// cards); pages of running text show the plain warm page.
+const _figurePages = {
+  Routes.home,
+  Routes.habits,
+  Routes.products,
+  Routes.shop,
+  Routes.sport,
+  Routes.workout,
+  Routes.discover,
+  Routes.privacy,
+};

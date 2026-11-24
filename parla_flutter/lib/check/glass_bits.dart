@@ -3,29 +3,33 @@ import 'package:flutter/material.dart';
 import '../ui/brand.dart';
 import '../ui/night.dart';
 import '../ui/parla_icons.dart';
+import '../ui/warm.dart';
 
-/// Small glass pieces of the night design shared by the Shop, the
-/// shopping list, Check and the profile (prototype "Parla 3.0", variant A).
+/// Small glass pieces shared by the Shop, the shopping list, Check and the
+/// profile, tuned for the warm light page (design "isti B", 2026-11-24).
 abstract final class Glass {
   /// Ink on the light capsule of a selected chip or tab.
   static const darkInk = Color(0xFF1A0B2A);
 
   /// Faint glass fill of cards and lists, and its hairline.
-  static const fill = Color(0x0FFFFFFF);
-  static const line = Color(0x1FFFFFFF);
+  static const fill = Color(0x99FFFFFF);
+  static const line = Color(0xCCFFFFFF);
 
   /// Slightly stronger fill of buttons and chips, and its hairline.
-  static const buttonFill = Color(0x1AFFFFFF);
-  static const buttonLine = Color(0x2EFFFFFF);
+  static const buttonFill = Color(0xA6FFFFFF);
+  static const buttonLine = Color(0xE6FFFFFF);
 
   /// Divider between rows of a [GlassGroup].
-  static const divider = Color(0x14FFFFFF);
+  static const divider = Color(0x1A1A1A1E);
 
-  /// Secondary text (65 % of the ink, as in the prototype).
-  static const soft = Color(0xA6F4E9FF);
+  /// Secondary text on the light page and light glass.
+  static const soft = ParlaColors.muted;
 
-  /// The pink of destructive rows ("Delete account").
-  static const danger = Color(0xFFFFB4D9);
+  /// The red of destructive rows ("Delete account") on light glass.
+  static const danger = Color(0xFFB3261E);
+
+  /// The coral of destructive rows on smoky glass.
+  static const dangerOnSmoke = Color(0xFFFFC2B0);
 }
 
 /// The large thin page title ("Mağaza", "Profil").
@@ -50,17 +54,22 @@ class GlassTitle extends StatelessWidget {
   );
 }
 
-/// A round glass back button, 44 px.
+/// A round light glass back button, 44 px (HR design headers).
 class GlassBack extends StatelessWidget {
   const GlassBack({super.key, required this.onPressed});
 
   final VoidCallback onPressed;
 
   @override
-  Widget build(BuildContext context) => Material(
-    color: Glass.buttonFill,
-    shape: const CircleBorder(side: BorderSide(color: Glass.buttonLine)),
-    child: BackButton(onPressed: onPressed, color: ParlaColors.espresso),
+  Widget build(BuildContext context) => SizedBox(
+    width: 44,
+    height: 44,
+    child: SmokyGlass(
+      shape: const CircleBorder(),
+      milk: true,
+      shadow: false,
+      child: BackButton(onPressed: onPressed, color: Warm.ink),
+    ),
   );
 }
 
@@ -87,9 +96,9 @@ class GlassPill extends StatelessWidget {
   Widget build(BuildContext context) => Semantics(
     button: true,
     enabled: onPressed != null,
-    child: Material(
-      color: Glass.buttonFill,
-      shape: const StadiumBorder(side: BorderSide(color: Glass.buttonLine)),
+    child: LiquidGlass(
+      shape: const StadiumBorder(),
+      shadow: false,
       child: InkWell(
         customBorder: const StadiumBorder(),
         onTap: onPressed,
@@ -142,13 +151,10 @@ class GlassChip extends StatelessWidget {
   Widget build(BuildContext context) => Semantics(
     button: true,
     selected: selected,
-    child: Material(
-      color: selected ? ParlaColors.espresso : const Color(0x0FFFFFFF),
-      shape: StadiumBorder(
-        side: selected
-            ? BorderSide.none
-            : const BorderSide(color: Glass.buttonLine),
-      ),
+    child: LiquidGlass(
+      color: selected ? ParlaColors.espresso : null,
+      shape: const StadiumBorder(),
+      shadow: false,
       child: InkWell(
         customBorder: const StadiumBorder(),
         onTap: onTap,
@@ -161,7 +167,7 @@ class GlassChip extends StatelessWidget {
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-                color: selected ? Glass.darkInk : ParlaColors.espresso,
+                color: selected ? Colors.white : ParlaColors.espresso,
               ),
             ),
           ),
@@ -185,19 +191,8 @@ class GlassCard extends StatelessWidget {
   final double radius;
 
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-    decoration: ShapeDecoration(
-      color: Glass.fill,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(radius),
-        side: const BorderSide(color: Glass.line),
-      ),
-    ),
-    child: Material(
-      type: MaterialType.transparency,
-      child: Padding(padding: padding, child: child),
-    ),
-  );
+  Widget build(BuildContext context) =>
+      LiquidGlass(radius: radius, padding: padding, child: child);
 }
 
 /// Rows in one glass card, split by faint lines.
@@ -209,6 +204,7 @@ class GlassGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ClipRRect(
     borderRadius: BorderRadius.circular(32),
+    clipBehavior: Clip.none,
     child: GlassCard(
       padding: EdgeInsets.zero,
       child: Column(
@@ -307,7 +303,7 @@ class PebbleHeader extends StatelessWidget {
           ),
           alignment: Alignment.center,
           child: ExcludeSemantics(
-            child: ParlaIcon(icon, size: 24, color: ParlaColors.espresso),
+            child: ParlaIcon(icon, size: 24, color: Colors.white),
           ),
         ),
         const SizedBox(width: 14),
@@ -317,10 +313,7 @@ class PebbleHeader extends StatelessWidget {
             children: [
               Text(
                 title,
-                style: const TextStyle(
-                  fontSize: 17,
-                  color: ParlaColors.espresso,
-                ),
+                style: const TextStyle(fontSize: 17, color: Colors.white),
               ),
               const SizedBox(height: 2),
               Text(
@@ -328,7 +321,7 @@ class PebbleHeader extends StatelessWidget {
                 style: const TextStyle(
                   fontSize: kMinTextSize,
                   height: 1.35,
-                  color: Color(0xBFF4E9FF),
+                  color: Warm.onCardSoft,
                 ),
               ),
             ],

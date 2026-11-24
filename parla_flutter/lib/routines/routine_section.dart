@@ -9,7 +9,7 @@ import '../l10n/app_localizations.dart';
 import '../routes.dart';
 import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
-import '../ui/night.dart';
+import '../ui/warm.dart';
 import 'custom_routines.dart';
 
 /// Label of a care area.
@@ -81,7 +81,6 @@ class _RoutinesSectionState extends State<RoutinesSection> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final text = Theme.of(context).textTheme;
     final language = Localizations.localeOf(context).languageCode;
     final plan = planArea(_area, widget.answers);
     final slots = [
@@ -103,32 +102,42 @@ class _RoutinesSectionState extends State<RoutinesSection> {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         if (slots.isNotEmpty)
-          _SlotSwitch(
-            slots: slots,
+          WarmSegmented<RoutineSlot>(
+            values: slots,
             selected: slot,
             labelOf: (s) => slotLabel(l10n, s),
+            keyOf: (s) => ValueKey('slot-${s.name}'),
             onChanged: (s) => setState(() => _slot = s),
           ),
-        const SizedBox(height: 16),
-        _AreaChips(
-          selected: _area,
-          onChanged: (area) => setState(() {
-            _area = area;
-            _slot = null;
-          }),
+        const SizedBox(height: 12),
+        Wrap(
+          spacing: 8,
+          runSpacing: 8,
+          children: [
+            for (final area in RoutineArea.values)
+              WarmChip(
+                key: ValueKey('area-${area.name}'),
+                label: areaLabel(l10n, area),
+                selected: area == _area,
+                onTap: () => setState(() {
+                  _area = area;
+                  _slot = null;
+                }),
+              ),
+          ],
         ),
-        const SizedBox(height: 16),
+        const SizedBox(height: 12),
         if (steps.isNotEmpty)
-          _ProgressPebble(
+          _ProgressCard(
             key: const ValueKey('routine-progress'),
-            title:
-                '${areaLabel(l10n, _area)} · '
-                '${slotLabel(l10n, slot).toLowerCase()}',
+            area: areaLabel(l10n, _area),
+            slot: slotLabel(l10n, slot).toLowerCase(),
             done: done,
             total: steps.length,
-            subtitle: next == null
-                ? l10n.stepStatusDone
-                : l10n.sportNextUp(next.title),
+            next: next?.title,
+            onDoneNext: next == null
+                ? null
+                : () => widget.habits.toggleIn(slot, next.id),
           ),
         if (slot == RoutineSlot.weekly) ...[
           const SizedBox(height: 10),
@@ -136,18 +145,18 @@ class _RoutinesSectionState extends State<RoutinesSection> {
             padding: const EdgeInsets.symmetric(horizontal: 6),
             child: Text(
               l10n.routineWeeklyHint,
-              style: text.bodySmall?.copyWith(color: ParlaColors.muted),
+              style: const TextStyle(fontSize: 13, color: Warm.muted),
             ),
           ),
         ],
-        const SizedBox(height: 16),
+        const SizedBox(height: 12),
         if (steps.isEmpty)
           Text(
             l10n.routineSlotEmpty,
-            style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
+            style: const TextStyle(fontSize: 15, color: Warm.muted),
           ),
         for (final step in steps) ...[
-          _GlassStepRow(
+          _StepRow(
             key: ValueKey('routine-step-${step.id}'),
             step: step,
             done: widget.habits.isDoneIn(slot, step.id),
@@ -156,7 +165,7 @@ class _RoutinesSectionState extends State<RoutinesSection> {
           ),
           const SizedBox(height: 10),
         ],
-        const SizedBox(height: 14),
+        const SizedBox(height: 8),
         if (own.isEmpty)
           _OwnRoutineInvite(onAdd: () => context.go(Routes.routineBuilder))
         else ...[
@@ -165,18 +174,30 @@ class _RoutinesSectionState extends State<RoutinesSection> {
               Expanded(
                 child: Semantics(
                   header: true,
-                  child: Text(l10n.routineOwnSection, style: text.titleLarge),
+                  child: Text(
+                    l10n.routineOwnSection,
+                    style: const TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w300,
+                      color: Warm.ink,
+                    ),
+                  ),
                 ),
               ),
               TextButton.icon(
                 key: const ValueKey('routine-own-add'),
+                style: TextButton.styleFrom(foregroundColor: Warm.ink),
                 onPressed: () => context.go(Routes.routineBuilder),
-                icon: const ParlaIcon(ParlaIconName.plus, size: 18),
+                icon: const ParlaIcon(
+                  ParlaIconName.plus,
+                  size: 18,
+                  color: Warm.ink,
+                ),
                 label: Text(l10n.routineOwnButton),
               ),
             ],
           ),
-          const SizedBox(height: 4),
+          const SizedBox(height: 6),
           for (final routine in own) ...[
             _OwnRoutineCard(
               key: ValueKey('own-${routine.id}'),
@@ -195,242 +216,124 @@ class _RoutinesSectionState extends State<RoutinesSection> {
       ids.where((id) => widget.habits.isDoneIn(slot, id)).length;
 }
 
-/// Light ink on the night page and the dark ink on a light pill.
-const _ink = ParlaColors.espresso;
-const _pillInk = Color(0xFF1A0B2A);
-
-/// Morning, evening (and weekly) in a glass capsule; the open slot is a
-/// light pill.
-class _SlotSwitch extends StatelessWidget {
-  const _SlotSwitch({
-    required this.slots,
-    required this.selected,
-    required this.labelOf,
-    required this.onChanged,
+/// The rose progress card of the prototype: area and slot with a black
+/// arrow that ticks off the next step, "done/total" large, a tick meter
+/// and the next step at the bottom.
+class _ProgressCard extends StatelessWidget {
+  const _ProgressCard({
+    super.key,
+    required this.area,
+    required this.slot,
+    required this.done,
+    required this.total,
+    required this.next,
+    required this.onDoneNext,
   });
 
-  final List<RoutineSlot> slots;
-  final RoutineSlot selected;
-  final String Function(RoutineSlot slot) labelOf;
-  final ValueChanged<RoutineSlot> onChanged;
-
-  @override
-  Widget build(BuildContext context) => Container(
-    padding: const EdgeInsets.all(5),
-    decoration: ShapeDecoration(
-      color: const Color(0x14FFFFFF),
-      shape: const StadiumBorder(side: BorderSide(color: Color(0x24FFFFFF))),
-    ),
-    child: Row(
-      children: [
-        for (final s in slots)
-          Expanded(
-            child: Semantics(
-              button: true,
-              selected: s == selected,
-              child: GestureDetector(
-                key: ValueKey('slot-${s.name}'),
-                behavior: HitTestBehavior.opaque,
-                onTap: () => onChanged(s),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 180),
-                  constraints: const BoxConstraints(minHeight: 44),
-                  alignment: Alignment.center,
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  decoration: ShapeDecoration(
-                    color: s == selected ? _ink : Colors.transparent,
-                    shape: const StadiumBorder(),
-                  ),
-                  child: Text(
-                    labelOf(s),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: s == selected
-                          ? FontWeight.w600
-                          : FontWeight.w400,
-                      color: s == selected ? _pillInk : _ink,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-      ],
-    ),
-  );
-}
-
-/// Face, hair and body as capsules: the open area in the plum gradient,
-/// the others glass.
-class _AreaChips extends StatelessWidget {
-  const _AreaChips({required this.selected, required this.onChanged});
-
-  final RoutineArea selected;
-  final ValueChanged<RoutineArea> onChanged;
+  final String area;
+  final String slot;
+  final int done;
+  final int total;
+  final String? next;
+  final VoidCallback? onDoneNext;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    return Wrap(
-      spacing: 8,
-      runSpacing: 8,
-      children: [
-        for (final area in RoutineArea.values)
-          _AreaChip(
-            key: ValueKey('area-${area.name}'),
-            label: areaLabel(l10n, area),
-            selected: area == selected,
-            onTap: () => onChanged(area),
-          ),
-      ],
-    );
-  }
-}
-
-class _AreaChip extends StatelessWidget {
-  const _AreaChip({
-    super.key,
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) => Semantics(
-    button: true,
-    selected: selected,
-    excludeSemantics: true,
-    label: label,
-    child: GestureDetector(
-      behavior: HitTestBehavior.opaque,
-      onTap: onTap,
-      // A 44 px tap area around the 40 px capsule.
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 2),
-        child: Container(
-          height: 40,
-          constraints: const BoxConstraints(minWidth: 44),
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          decoration: ShapeDecoration(
-            gradient: selected
-                ? const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [Color(0xFFC653B0), Color(0xFF7A2FA8)],
-                  )
-                : null,
-            color: selected ? null : const Color(0x0FFFFFFF),
-            shape: StadiumBorder(
-              side: selected
-                  ? BorderSide.none
-                  : const BorderSide(color: Color(0x2EFFFFFF)),
+    final left = total - done;
+    return Semantics(
+      container: true,
+      liveRegion: true,
+      label: l10n.routineProgressLabel('$area · $slot', done, total),
+      child: SquircleCard(
+        tone: SquircleTone.rose,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            SquircleHead(
+              icon: ParlaIconName.sparkle,
+              title: area,
+              subtitle: slot,
+              onOpen: onDoneNext,
+              openLabel: next == null ? null : l10n.stepMarkDone(next!),
             ),
-          ),
-          child: Center(
-            widthFactor: 1,
-            child: Text(
-              label,
-              style: TextStyle(
-                fontSize: 13,
-                fontWeight: selected ? FontWeight.w500 : FontWeight.w400,
-                color: selected ? const Color(0xFFFFFFFF) : _ink,
-              ),
-            ),
-          ),
-        ),
-      ),
-    ),
-  );
-}
-
-/// The plum progress card: a tick ring with "done/total", the area and
-/// slot, and the next step.
-class _ProgressPebble extends StatelessWidget {
-  const _ProgressPebble({
-    super.key,
-    required this.title,
-    required this.subtitle,
-    required this.done,
-    required this.total,
-  });
-
-  final String title;
-  final String subtitle;
-  final int done;
-  final int total;
-
-  @override
-  Widget build(BuildContext context) => Semantics(
-    container: true,
-    liveRegion: true,
-    child: Container(
-      padding: const EdgeInsets.all(18),
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(40),
-        gradient: const LinearGradient(
-          begin: Alignment(-0.35, -1),
-          end: Alignment(0.35, 1),
-          colors: [Color(0xFFA8429A), Color(0xFF6E2A9A), Color(0xFF2B0F45)],
-          stops: [0, .55, 1],
-        ),
-        border: Border.all(color: const Color(0x2EFFFFFF)),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x4D280050),
-            blurRadius: 40,
-            offset: Offset(0, 16),
-          ),
-        ],
-      ),
-      child: Row(
-        children: [
-          TickRing(
-            fraction: total == 0 ? 0 : done / total,
-            label: '$done/$total',
-            size: 84,
-            color: _ink,
-          ),
-          const SizedBox(width: 16),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            const SizedBox(height: 22),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                Text(
-                  title,
-                  style: const TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w400,
-                    color: _ink,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        left > 0
+                            ? l10n.routineStatusLeft(left)
+                            : l10n.stepStatusDone,
+                        style: const TextStyle(
+                          fontSize: kMinTextSize,
+                          color: Warm.onCardSoft,
+                        ),
+                      ),
+                      Text(
+                        '$done/$total',
+                        style: const TextStyle(
+                          fontSize: 32,
+                          fontWeight: FontWeight.w500,
+                          height: 1.1,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-                const SizedBox(height: 2),
                 Text(
-                  subtitle,
-                  style: TextStyle(
-                    fontSize: 13,
-                    color: _ink.withValues(alpha: .8),
+                  l10n.routineOwnSteps(total),
+                  style: const TextStyle(
+                    fontSize: kMinTextSize,
+                    color: Warm.onCardSoft,
                   ),
                 ),
               ],
             ),
-          ),
-        ],
+            const SizedBox(height: 6),
+            TicksMeter(fraction: total == 0 ? 0 : done / total, count: 28),
+            const SizedBox(height: 6),
+            Row(
+              children: [
+                Text(
+                  next == null ? l10n.stepStatusDone : l10n.sportNextLabel,
+                  style: const TextStyle(
+                    fontSize: kMinTextSize,
+                    color: Warm.onCardSoft,
+                  ),
+                ),
+                const SizedBox(width: 12),
+                if (next != null)
+                  Expanded(
+                    child: Text(
+                      next!,
+                      textAlign: TextAlign.end,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: const TextStyle(
+                        fontSize: kMinTextSize,
+                        color: Warm.onCardSoft,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+          ],
+        ),
       ),
-    ),
-  );
+    );
+  }
 }
 
-/// One step as a glass row: a round toggle (light with a tick when done),
-/// the title (struck through when done) and how to do it. The next step
-/// to do is brighter. Tapping the text shows the whole hint.
-class _GlassStepRow extends StatefulWidget {
-  const _GlassStepRow({
+/// One step as a smoky capsule: a round toggle (white with a tick when
+/// done), the title (struck through when done) and how to do it. The next
+/// step to do glows burnt orange. Tapping the text shows the whole hint.
+class _StepRow extends StatefulWidget {
+  const _StepRow({
     super.key,
     required this.step,
     required this.done,
@@ -444,10 +347,10 @@ class _GlassStepRow extends StatefulWidget {
   final VoidCallback onToggle;
 
   @override
-  State<_GlassStepRow> createState() => _GlassStepRowState();
+  State<_StepRow> createState() => _StepRowState();
 }
 
-class _GlassStepRowState extends State<_GlassStepRow> {
+class _StepRowState extends State<_StepRow> {
   bool _open = false;
 
   @override
@@ -456,114 +359,115 @@ class _GlassStepRowState extends State<_GlassStepRow> {
     final step = widget.step;
     final done = widget.done;
     final hint = done ? l10n.stepStatusDone : step.meta;
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      padding: const EdgeInsets.fromLTRB(8, 6, 16, 6),
-      decoration: ShapeDecoration(
-        color: Color(widget.current ? 0x1AFFFFFF : 0x0FFFFFFF),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(28),
-          side: BorderSide(
-            color: Color(widget.current ? 0x38FFFFFF : 0x1FFFFFFF),
-          ),
-        ),
-      ),
-      child: Row(
-        children: [
-          Semantics(
-            button: true,
-            toggled: done,
-            label: done
-                ? l10n.stepMarkUndone(step.title)
-                : l10n.stepMarkDone(step.title),
-            excludeSemantics: true,
-            child: InkResponse(
-              onTap: widget.onToggle,
-              radius: 24,
-              child: SizedBox(
-                width: 48,
-                height: 48,
-                child: Center(
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 200),
-                    width: 36,
-                    height: 36,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: done ? _ink : Colors.transparent,
-                      border: done
-                          ? null
-                          : Border.all(
-                              color: _ink.withValues(alpha: .6),
-                              width: 1.5,
-                            ),
+    return ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 54),
+      child: SmokyGlass(
+        radius: 27,
+        tint: widget.current && !done ? SmokyTint.coral : SmokyTint.none,
+        shadow: false,
+        padding: const EdgeInsets.fromLTRB(6, 2, 16, 2),
+        child: Row(
+          children: [
+            Semantics(
+              button: true,
+              toggled: done,
+              label: done
+                  ? l10n.stepMarkUndone(step.title)
+                  : l10n.stepMarkDone(step.title),
+              excludeSemantics: true,
+              child: InkResponse(
+                onTap: widget.onToggle,
+                radius: 24,
+                child: SizedBox(
+                  width: 44,
+                  height: 44,
+                  child: Center(
+                    child: AnimatedContainer(
+                      duration: const Duration(milliseconds: 200),
+                      width: 28,
+                      height: 28,
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: done ? Colors.white : Colors.transparent,
+                        border: done
+                            ? null
+                            : Border.all(
+                                color: const Color(0x99FFFFFF),
+                                width: 1.5,
+                              ),
+                      ),
+                      alignment: Alignment.center,
+                      child: done
+                          ? const ParlaIcon(
+                              ParlaIconName.check,
+                              size: 15,
+                              color: Warm.black,
+                            )
+                          : null,
                     ),
-                    alignment: Alignment.center,
-                    child: done
-                        ? const ParlaIcon(
-                            ParlaIconName.check,
-                            size: 18,
-                            color: _pillInk,
-                          )
-                        : null,
                   ),
                 ),
               ),
             ),
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: GestureDetector(
-              behavior: HitTestBehavior.opaque,
-              onTap: done ? null : () => setState(() => _open = !_open),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      step.title,
-                      style: TextStyle(
-                        fontSize: 15,
-                        color: done ? _ink.withValues(alpha: .6) : _ink,
-                        decoration: done ? TextDecoration.lineThrough : null,
-                        decorationColor: _ink.withValues(alpha: .6),
-                      ),
-                    ),
-                    if (hint.isNotEmpty)
-                      AnimatedSize(
-                        duration: const Duration(milliseconds: 160),
-                        alignment: Alignment.topLeft,
-                        child: Text(
-                          hint,
-                          maxLines: _open && !done ? null : 1,
-                          overflow: _open && !done
-                              ? TextOverflow.visible
-                              : TextOverflow.ellipsis,
-                          style: TextStyle(
-                            fontSize: kMinTextSize,
-                            color: _ink.withValues(alpha: done ? .5 : .65),
-                          ),
+            const SizedBox(width: 6),
+            Expanded(
+              child: GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: done ? null : () => setState(() => _open = !_open),
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 7),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        step.title,
+                        style: TextStyle(
+                          fontSize: 14,
+                          color: done ? Warm.onCardSoft : Warm.onCard,
+                          decoration: done ? TextDecoration.lineThrough : null,
+                          decorationColor: Warm.onCardSoft,
                         ),
                       ),
-                  ],
+                      if (hint.isNotEmpty)
+                        AnimatedSize(
+                          duration: const Duration(milliseconds: 160),
+                          alignment: Alignment.topLeft,
+                          child: Text(
+                            hint,
+                            maxLines: _open && !done ? null : 1,
+                            overflow: _open && !done
+                                ? TextOverflow.visible
+                                : TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: kMinTextSize,
+                              color: Warm.onCardSoft,
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          if (widget.current && !done) ...[
-            const SizedBox(width: 8),
-            const ExcludeSemantics(
-              child: ParlaIcon(ParlaIconName.arrowRight, size: 18, color: _ink),
-            ),
+            if (widget.current && !done) ...[
+              const SizedBox(width: 8),
+              const ExcludeSemantics(
+                child: ParlaIcon(
+                  ParlaIconName.arrowRight,
+                  size: 18,
+                  color: Warm.onCard,
+                ),
+              ),
+            ],
           ],
-        ],
+        ),
       ),
     );
   }
 }
 
-/// Before the first own routine: a glass card that invites to make one.
+/// Before the first own routine: a smoky capsule that invites to make one,
+/// with the glowing "+".
 class _OwnRoutineInvite extends StatelessWidget {
   const _OwnRoutineInvite({required this.onAdd});
 
@@ -572,9 +476,9 @@ class _OwnRoutineInvite extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final text = Theme.of(context).textTheme;
-    return GlassSurface(
-      padding: const EdgeInsets.fromLTRB(18, 16, 12, 16),
+    return SmokyGlass(
+      radius: 40,
+      padding: const EdgeInsets.fromLTRB(22, 12, 12, 12),
       child: Row(
         children: [
           Expanded(
@@ -585,42 +489,26 @@ class _OwnRoutineInvite extends StatelessWidget {
                   header: true,
                   child: Text(
                     l10n.routineOwnSection,
-                    style: text.titleMedium,
+                    style: const TextStyle(fontSize: 15),
                   ),
                 ),
                 const SizedBox(height: 2),
                 Text(
                   l10n.routineOwnEmpty,
-                  style: text.bodySmall?.copyWith(color: ParlaColors.muted),
+                  style: const TextStyle(
+                    fontSize: kMinTextSize,
+                    color: Warm.onCardSoft,
+                  ),
                 ),
               ],
             ),
           ),
           const SizedBox(width: 12),
-          Semantics(
-            button: true,
+          GlowPlusButton(
+            key: const ValueKey('routine-own-add'),
+            onPressed: onAdd,
             label: l10n.routineOwnButton,
-            excludeSemantics: true,
-            child: Material(
-              color: _ink,
-              shape: const CircleBorder(),
-              child: InkWell(
-                key: const ValueKey('routine-own-add'),
-                customBorder: const CircleBorder(),
-                onTap: onAdd,
-                child: const SizedBox(
-                  width: 48,
-                  height: 48,
-                  child: Center(
-                    child: ParlaIcon(
-                      ParlaIconName.plus,
-                      size: 22,
-                      color: _pillInk,
-                    ),
-                  ),
-                ),
-              ),
-            ),
+            size: 60,
           ),
         ],
       ),
@@ -645,13 +533,23 @@ class _OwnRoutineCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final text = Theme.of(context).textTheme;
     final done = routine.steps.where((s) => book.isTicked(s.id)).length;
-    return GlassSurface(
-      radius: 28,
-      padding: const EdgeInsets.fromLTRB(16, 10, 6, 10),
-      child: Material(
-        type: MaterialType.transparency,
+    return SmokyGlass(
+      radius: 32,
+      shadow: false,
+      padding: const EdgeInsets.fromLTRB(18, 10, 6, 10),
+      child: Theme(
+        data: Theme.of(context).copyWith(
+          checkboxTheme: CheckboxThemeData(
+            side: const BorderSide(color: Color(0x99FFFFFF), width: 1.5),
+            fillColor: WidgetStateProperty.resolveWith(
+              (states) => states.contains(WidgetState.selected)
+                  ? Colors.white
+                  : Colors.transparent,
+            ),
+            checkColor: const WidgetStatePropertyAll(Warm.black),
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -661,13 +559,14 @@ class _OwnRoutineCard extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(routine.name, style: text.titleMedium),
+                      Text(routine.name, style: const TextStyle(fontSize: 16)),
                       Text(
                         '${customWhen(context, routine)} · '
                         '${l10n.routineOwnSteps(routine.steps.length)}'
                         '${dueToday ? ' · $done/${routine.steps.length}' : ''}',
-                        style: text.bodySmall?.copyWith(
-                          color: ParlaColors.muted,
+                        style: const TextStyle(
+                          fontSize: kMinTextSize,
+                          color: Warm.onCardSoft,
                         ),
                       ),
                     ],
@@ -675,6 +574,7 @@ class _OwnRoutineCard extends StatelessWidget {
                 ),
                 IconButton(
                   tooltip: l10n.routineOwnEdit(routine.name),
+                  color: Warm.onCard,
                   onPressed: () =>
                       context.go(Routes.routineBuilder, extra: routine.id),
                   icon: const Icon(Icons.edit_outlined, size: 20),
@@ -690,7 +590,10 @@ class _OwnRoutineCard extends StatelessWidget {
                   controlAffinity: ListTileControlAffinity.leading,
                   value: book.isTicked(step.id),
                   onChanged: (_) => book.toggleTick(step.id),
-                  title: Text(step.title, style: text.bodyMedium),
+                  title: Text(
+                    step.title,
+                    style: const TextStyle(fontSize: 15, color: Warm.onCard),
+                  ),
                 ),
           ],
         ),

@@ -17,6 +17,7 @@ import 'discover_widgets.dart';
 import 'skin_tips.dart';
 import 'article_body.dart';
 import 'banner_strip.dart';
+import '../ui/text_case.dart';
 
 /// Blogs: category chips and the published articles.
 class BlogListScreen extends StatefulWidget {
@@ -663,7 +664,7 @@ class RecipeScreen extends StatelessWidget {
       onBack: back,
       children: [
         Text(
-          _recipeMeta(l10n, r).toUpperCase(),
+          _recipeMeta(l10n, r).upperIn(context),
           style: text.labelMedium?.copyWith(
             color: ParlaColors.sunInk,
             letterSpacing: .6,

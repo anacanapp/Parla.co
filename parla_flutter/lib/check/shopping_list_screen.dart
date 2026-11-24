@@ -11,6 +11,7 @@ import '../ui/parla_icons.dart';
 import 'care_list.dart';
 import 'glass_bits.dart';
 import 'shop_screen.dart' show RoundBack;
+import '../ui/text_case.dart';
 
 String _areaLabel(AppLocalizations l10n, String area) => switch (area) {
   'face' => l10n.routineAreaFace,
@@ -130,9 +131,11 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                 ),
                 const SizedBox(height: 20),
                 if (items.isEmpty)
-                  Text(
-                    l10n.shoppingEmpty,
-                    style: text.bodyMedium?.copyWith(color: Glass.soft),
+                  GlassCard(
+                    child: Text(
+                      l10n.shoppingEmpty,
+                      style: text.bodyMedium?.copyWith(color: Glass.soft),
+                    ),
                   ),
                 for (final area in CareListRules.areas)
                   if (items.any((i) => i.area == area)) ...[
@@ -141,7 +144,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                       child: Semantics(
                         header: true,
                         child: Text(
-                          _areaLabel(l10n, area).toUpperCase(),
+                          _areaLabel(l10n, area).upperIn(context),
                           style: const TextStyle(
                             fontSize: kMinTextSize,
                             letterSpacing: 1,
@@ -196,9 +199,12 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                Text(
-                  book.isSynced ? l10n.careListSynced : l10n.careListDevice,
-                  style: text.bodySmall?.copyWith(color: Glass.soft),
+                GlassCard(
+                  padding: const EdgeInsets.all(16),
+                  child: Text(
+                    book.isSynced ? l10n.careListSynced : l10n.careListDevice,
+                    style: text.bodySmall?.copyWith(color: Glass.soft),
+                  ),
                 ),
               ],
             ),
@@ -244,14 +250,10 @@ class _ItemTile extends StatelessWidget {
     final done = item.bought;
     return Semantics(
       checked: done,
-      child: Material(
-        color: done ? Glass.fill : Glass.buttonFill,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(28),
-          side: BorderSide(
-            color: done ? Glass.line : const Color(0x38FFFFFF),
-          ),
-        ),
+      child: LiquidGlass(
+        radius: 28,
+        color: done ? null : LiquidGlass.bright,
+        shadow: false,
         child: InkWell(
           borderRadius: BorderRadius.circular(28),
           onTap: () => book.toggleBought(item.id),
@@ -268,7 +270,7 @@ class _ItemTile extends StatelessWidget {
                     border: done
                         ? null
                         : Border.all(
-                            color: const Color(0x99F4E9FF),
+                            color: ParlaColors.outline,
                             width: 1.5,
                           ),
                   ),
@@ -277,7 +279,7 @@ class _ItemTile extends StatelessWidget {
                       ? const ParlaIcon(
                           ParlaIconName.check,
                           size: 18,
-                          color: Glass.darkInk,
+                          color: Colors.white,
                         )
                       : null,
                 ),
@@ -292,7 +294,7 @@ class _ItemTile extends StatelessWidget {
                           fontSize: 15,
                           decoration: done ? TextDecoration.lineThrough : null,
                           decorationColor: Glass.soft,
-                          color: done ? const Color(0x99F4E9FF) : null,
+                          color: done ? Glass.soft : null,
                         ),
                       ),
                       if (item.origin == 'check')

@@ -1700,7 +1700,7 @@ class AppLocalizationsAz extends AppLocalizations {
       'Kalori saymırıq. Sadəcə müxtəliflik: hər gün rəngli boşqab.';
 
   @override
-  String get nutritionTip => 'Dəri üçün günün ipucu';
+  String get nutritionTip => 'Günün məsləhəti';
 
   @override
   String get nutritionRecipes => 'Gözəllik reseptləri';

@@ -14,7 +14,9 @@ import '../ui/brand.dart';
 import '../ui/night.dart';
 import '../ui/parla_icons.dart';
 import '../ui/parla_ui.dart';
+import '../ui/warm.dart';
 import 'glass_bits.dart';
+import '../ui/text_case.dart';
 
 String shopCategoryText(AppLocalizations l10n, String id) => switch (id) {
   'face' => l10n.shopCategoryFace,
@@ -111,35 +113,30 @@ class _ShopScreenState extends State<ShopScreen> {
           backgroundColor: Colors.transparent,
           body: SafeArea(
             child: ListView(
-              padding: const EdgeInsets.fromLTRB(22, 14, 22, 32),
+              padding: const EdgeInsets.fromLTRB(16, 14, 16, 32),
               children: [
                 Row(
                   children: [
                     RoundBack(onPressed: back),
                     const Spacer(),
                     if (ShopSales.open.value)
-                      GlassPill(
+                      _SmokyCapsule(
                         key: const ValueKey('shop-orders'),
                         label: l10n.shopMyOrders,
                         onPressed: () => context.go(Routes.shopOrders),
                       ),
                   ],
                 ),
-                const SizedBox(height: 14),
-                GlassTitle(l10n.shopTitle),
-                const SizedBox(height: 2),
-                Text(
-                  l10n.shopIntro,
-                  style: const TextStyle(fontSize: 13, color: Glass.soft),
-                ),
-                const SizedBox(height: 14),
+                const SizedBox(height: 12),
+                WarmHeader(title: l10n.shopTitle, above: l10n.shopIntro),
+                const SizedBox(height: 12),
                 if (categories.length > 1) ...[
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
                     children: [
                       for (final c in [null, ...categories])
-                        GlassChip(
+                        WarmChip(
                           key: ValueKey('shop-cat-${c ?? 'all'}'),
                           label: c == null
                               ? l10n.shopAll
@@ -149,7 +146,7 @@ class _ShopScreenState extends State<ShopScreen> {
                         ),
                     ],
                   ),
-                  const SizedBox(height: 14),
+                  const SizedBox(height: 12),
                 ],
                 if (shown.isEmpty)
                   Padding(
@@ -167,7 +164,7 @@ class _ShopScreenState extends State<ShopScreen> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         for (var i = 0; i < 2; i++) ...[
-                          if (i == 1) const SizedBox(width: 12),
+                          if (i == 1) const SizedBox(width: 10),
                           Expanded(
                             child: i < row.length
                                 ? ProductCard(
@@ -184,15 +181,12 @@ class _ShopScreenState extends State<ShopScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 12),
+                  const SizedBox(height: 10),
                 ],
-                const SizedBox(height: 8),
-                GlassPill(
+                const SizedBox(height: 2),
+                AddPill(
                   label: l10n.shopOpenList,
-                  icon: ParlaIconName.routine,
-                  expand: true,
-                  height: 56,
-                  fontSize: 15,
+                  height: 90,
                   onPressed: () => context.go(Routes.shoppingList),
                 ),
               ],
@@ -204,7 +198,34 @@ class _ShopScreenState extends State<ShopScreen> {
   }
 }
 
-/// A round glass back button (night design headers).
+/// A smoky glass capsule button (warm design), 44 px high.
+class _SmokyCapsule extends StatelessWidget {
+  const _SmokyCapsule({
+    super.key,
+    required this.label,
+    required this.onPressed,
+  });
+
+  final String label;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) => Semantics(
+    button: true,
+    child: ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 44),
+      child: SmokyGlass(
+        shape: const StadiumBorder(),
+        shadow: false,
+        onTap: onPressed,
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Text(label, style: const TextStyle(fontSize: 13)),
+      ),
+    ),
+  );
+}
+
+/// A round black back button (warm design headers).
 class RoundBack extends StatelessWidget {
   const RoundBack({super.key, required this.onPressed});
 
@@ -214,79 +235,72 @@ class RoundBack extends StatelessWidget {
   Widget build(BuildContext context) => GlassBack(onPressed: onPressed);
 }
 
-/// The two picture moods of product cards without a photo: plum and blue,
-/// alternating through the grid.
-const _productMoods = [
-  [Color(0xFFC653B0), Color(0xFF7A2FA8), Color(0xFF2B0F45)],
-  [Color(0xFF4A5BFF), Color(0xFF2B2F9E), Color(0xFF120F3A)],
-];
-
-/// A product picture placeholder: a gradient with a soft bottle shape.
+/// A product picture placeholder: a soft bottle shape (on the card's own
+/// rose or lime colour).
 class _ProductArt extends StatelessWidget {
-  const _ProductArt({required this.mood, this.height = 150});
+  const _ProductArt({required this.mood, this.height = 120});
 
   final int mood;
   final double height;
 
   @override
-  Widget build(BuildContext context) {
-    final colors = _productMoods[mood % _productMoods.length];
-    return ExcludeSemantics(
-      child: Container(
-        height: height,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(28),
-          gradient: LinearGradient(
-            begin: const Alignment(-0.4, -1),
-            end: const Alignment(0.4, 1),
-            colors: colors,
-            stops: const [0, .6, 1],
-          ),
-        ),
+  Widget build(BuildContext context) => ExcludeSemantics(
+    child: SizedBox(
+      height: height,
+      child: Align(
         alignment: Alignment.bottomCenter,
-        padding: EdgeInsets.only(bottom: height * .12),
-        child: mood.isEven
-            ? Container(
-                width: height * .27,
-                height: height * .64,
-                decoration: const BoxDecoration(
-                  color: Color(0xD9FFFFFF),
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(20),
-                    bottom: Radius.circular(10),
+        child: Padding(
+          padding: const EdgeInsets.only(bottom: 10),
+          child: mood.isEven
+              ? Container(
+                  width: 38,
+                  height: 92,
+                  decoration: const BoxDecoration(
+                    color: Color(0xE0FFFFFF),
+                    borderRadius: BorderRadius.vertical(
+                      top: Radius.circular(19),
+                      bottom: Radius.circular(9),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Color(0x26000000),
+                        blurRadius: 20,
+                        offset: Offset(0, 10),
+                      ),
+                    ],
                   ),
+                )
+              : Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Container(
+                      width: 30,
+                      height: 96,
+                      decoration: BoxDecoration(
+                        color: const Color(0xE0FFFFFF),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                    const SizedBox(width: 8),
+                    Container(
+                      width: 30,
+                      height: 70,
+                      decoration: BoxDecoration(
+                        color: const Color(0x80FFFFFF),
+                        borderRadius: BorderRadius.circular(15),
+                      ),
+                    ),
+                  ],
                 ),
-              )
-            : Row(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Container(
-                    width: height * .2,
-                    height: height * .73,
-                    decoration: BoxDecoration(
-                      color: const Color(0xD9FFFFFF),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  Container(
-                    width: height * .2,
-                    height: height * .53,
-                    decoration: BoxDecoration(
-                      color: const Color(0x80FFFFFF),
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                  ),
-                ],
-              ),
+        ),
       ),
-    );
-  }
+    ),
+  );
 }
 
-/// A product in the grid: picture (with the ad label), brand, name and
-/// price.
+/// A product in the grid (warm design): a rose or lime card with the
+/// picture, the ad label, brand, name, price and a black arrow.
 class ProductCard extends StatelessWidget {
   const ProductCard({
     super.key,
@@ -298,87 +312,80 @@ class ProductCard extends StatelessWidget {
   final PublishedItem item;
   final VoidCallback onTap;
 
-  /// Position in the grid; picks the placeholder's colour.
+  /// Position in the grid; rose and lime cards alternate.
   final int index;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final text = Theme.of(context).textTheme;
     final language = Localizations.localeOf(context).languageCode;
     final sponsor = sponsorOf(item);
-    const shape = RoundedRectangleBorder(
-      borderRadius: BorderRadius.all(Radius.circular(34)),
-      side: BorderSide(color: Color(0x24FFFFFF)),
-    );
-    return Material(
+    final name = item.text('name', language);
+    return SquircleCard(
       key: ValueKey('product-${item.slug}'),
-      color: const Color(0x12FFFFFF),
-      shape: shape,
-      child: InkWell(
-        customBorder: shape,
-        onTap: onTap,
-        child: Padding(
-          padding: const EdgeInsets.all(8),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
+      tone: index.isEven ? SquircleTone.rose : SquircleTone.lime,
+      radius: 40,
+      padding: const EdgeInsets.all(12),
+      onTap: onTap,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Stack(
             children: [
-              Stack(
-                children: [
-                  item.image == null
-                      ? _ProductArt(mood: index)
-                      : ContentImage(
-                          image: item.image!,
-                          aspectRatio: 1,
-                          radius: 28,
-                        ),
-                  if (sponsor != null)
-                    PositionedDirectional(
-                      start: 10,
-                      top: 10,
-                      child: AdLabel(
-                        text: l10n.bannerAd(sponsor),
-                        filled: true,
-                      ),
+              item.image == null
+                  ? _ProductArt(mood: index)
+                  : ContentImage(
+                      image: item.image!,
+                      aspectRatio: 1,
+                      radius: 28,
                     ),
-                ],
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(6, 10, 6, 8),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+              if (sponsor != null)
+                PositionedDirectional(
+                  start: 0,
+                  top: 0,
+                  child: AdLabel(text: l10n.bannerAd(sponsor), filled: true),
+                ),
+            ],
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(6, 8, 0, 0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  '${item.data['brand'] ?? ''}'.toUpperCase(),
+                  style: const TextStyle(
+                    fontSize: kMinTextSize,
+                    letterSpacing: 1,
+                    color: Warm.onCardSoft,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Text(name, style: const TextStyle(fontSize: 14, height: 1.3)),
+                const SizedBox(height: 4),
+                Row(
                   children: [
-                    Text(
-                      '${item.data['brand'] ?? ''}'.toUpperCase(),
-                      style: const TextStyle(
-                        fontSize: kMinTextSize,
-                        letterSpacing: 1,
-                        color: Color(0x99F4E9FF),
+                    Expanded(
+                      child: Text(
+                        l10n.shopPrice('${item.data['price'] ?? ''}'),
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w500,
+                        ),
                       ),
                     ),
-                    const SizedBox(height: 2),
-                    Text(
-                      item.text('name', language),
-                      style: const TextStyle(
-                        fontSize: 14,
-                        height: 1.3,
-                        color: ParlaColors.espresso,
-                      ),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      l10n.shopPrice('${item.data['price'] ?? ''}'),
-                      style: text.titleLarge?.copyWith(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w300,
-                      ),
+                    BlackCircleButton(
+                      icon: ParlaIconName.arrowRight,
+                      onPressed: onTap,
+                      label: name,
+                      size: 34,
                     ),
                   ],
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }
@@ -399,15 +406,15 @@ class AdLabel extends StatelessWidget {
     constraints: const BoxConstraints(minHeight: 24),
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
     decoration: BoxDecoration(
-      color: filled ? const Color(0x990C0A1C) : Glass.buttonFill,
+      color: filled ? const Color(0x8C0F0F12) : Glass.buttonFill,
       border: filled ? null : Border.all(color: Glass.buttonLine),
       borderRadius: BorderRadius.circular(ParlaShape.pill),
     ),
     child: Text(
       text,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: kMinTextSize,
-        color: ParlaColors.espresso,
+        color: filled ? Colors.white : ParlaColors.espresso,
       ),
     ),
   );
@@ -473,24 +480,26 @@ class ShopProductScreen extends StatelessWidget {
                     child: RoundBack(onPressed: back),
                   ),
                   const SizedBox(height: 14),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(34),
-                    child: item.image == null
-                        ? _ProductArt(mood: 0, height: 300)
-                        : ContentImage(
-                            image: item.image!,
-                            aspectRatio: 1,
-                            radius: 34,
-                          ),
-                  ),
+                  item.image == null
+                      ? const SquircleCard(
+                          tone: SquircleTone.rose,
+                          child: _ProductArt(mood: 0, height: 270),
+                        )
+                      : ContentImage(
+                          image: item.image!,
+                          aspectRatio: 1,
+                          radius: 40,
+                        ),
                 ],
               ),
             ),
           ),
+          // Texts sit on light glass so they read over the page's figure.
           Padding(
-            padding: const EdgeInsets.only(top: 14),
-            child: Container(
-              padding: const EdgeInsets.fromLTRB(22, 8, 22, 0),
+            padding: const EdgeInsets.fromLTRB(16, 14, 16, 0),
+            child: GlassCard(
+              radius: 36,
+              padding: const EdgeInsets.fromLTRB(20, 18, 20, 20),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -500,7 +509,7 @@ class ShopProductScreen extends StatelessWidget {
                         AdLabel(text: l10n.bannerAd(sponsor)),
                       const Spacer(),
                       Text(
-                        shopCategoryText(l10n, item.category).toUpperCase(),
+                        shopCategoryText(l10n, item.category).upperIn(context),
                         style: const TextStyle(
                           fontSize: kMinTextSize,
                           letterSpacing: 1,

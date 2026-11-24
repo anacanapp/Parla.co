@@ -1722,7 +1722,7 @@ class AppLocalizationsEn extends AppLocalizations {
       'We do not count calories. Just variety: a colourful plate every day.';
 
   @override
-  String get nutritionTip => 'Today\'s tip for your skin';
+  String get nutritionTip => 'Tip of the day';
 
   @override
   String get nutritionRecipes => 'Beauty recipes';

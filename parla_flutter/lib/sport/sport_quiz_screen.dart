@@ -7,8 +7,8 @@ import '../parla_scope.dart';
 import '../routes.dart';
 import '../ui/brand.dart';
 import '../ui/common.dart';
+import '../ui/warm.dart';
 import 'sport_labels.dart';
-import 'sport_night.dart';
 
 /// The questions of one sport section, one topic per page. Earlier
 /// answers are filled in (another section's when this one is new). Only
@@ -296,46 +296,13 @@ class _SportQuizScreenState extends State<SportQuizScreen> {
     spacing: 8,
     runSpacing: 8,
     children: [
+      // Warm chips: the chosen one white, the rest smoky glass.
       for (final v in values)
-        // Night pill chips: the chosen one light with dark ink, the rest
-        // glass (prototype "Gecə · İdman").
-        Semantics(
-          button: true,
+        WarmChip(
+          key: ValueKey('$key-$v'),
+          label: label(v),
           selected: current == v,
-          child: Material(
-            key: ValueKey('$key-$v'),
-            color: current == v ? SportNight.ink : SportNight.glass,
-            shape: StadiumBorder(
-              side: current == v
-                  ? BorderSide.none
-                  : const BorderSide(color: Color(0x2EFFFFFF)),
-            ),
-            clipBehavior: Clip.antiAlias,
-            child: InkWell(
-              onTap: () => setState(() => pick(v)),
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(minHeight: 44),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Center(
-                    widthFactor: 1,
-                    child: Text(
-                      label(v),
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: current == v
-                            ? FontWeight.w600
-                            : FontWeight.w400,
-                        color: current == v
-                            ? SportNight.inkDark
-                            : SportNight.ink,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
+          onTap: () => setState(() => pick(v)),
         ),
     ],
   );

@@ -226,34 +226,44 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
             const SizedBox(height: 12),
           ],
         const SizedBox(height: 8),
-        Wrap(
-          alignment: WrapAlignment.spaceBetween,
-          crossAxisAlignment: WrapCrossAlignment.center,
-          children: [
-            SizedBox(
-              child: Semantics(
-                header: true,
-                child: Text(l10n.checkPrefsTitle, style: text.titleLarge),
+        // On light glass so the texts read over the page's figure.
+        GlassCard(
+          radius: 32,
+          padding: const EdgeInsets.fromLTRB(18, 10, 10, 16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Wrap(
+                alignment: WrapAlignment.spaceBetween,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  SizedBox(
+                    child: Semantics(
+                      header: true,
+                      child: Text(l10n.checkPrefsTitle, style: text.titleLarge),
+                    ),
+                  ),
+                  TextButton(
+                    key: const ValueKey('prefs-edit'),
+                    onPressed: () => editPreferences(context, book),
+                    child: Text(
+                      book.preferences.isEmpty
+                          ? l10n.checkPrefsAdd
+                          : l10n.checkPrefsEdit,
+                    ),
+                  ),
+                ],
               ),
-            ),
-            TextButton(
-              key: const ValueKey('prefs-edit'),
-              onPressed: () => editPreferences(context, book),
-              child: Text(
-                book.preferences.isEmpty
-                    ? l10n.checkPrefsAdd
-                    : l10n.checkPrefsEdit,
-              ),
-            ),
-          ],
+              if (book.preferences.isEmpty)
+                Text(
+                  l10n.checkPrefsEmpty,
+                  style: text.bodyMedium?.copyWith(color: Glass.soft),
+                )
+              else
+                PreferenceChips(ids: book.preferences),
+            ],
+          ),
         ),
-        if (book.preferences.isEmpty)
-          Text(
-            l10n.checkPrefsEmpty,
-            style: text.bodyMedium?.copyWith(color: Glass.soft),
-          )
-        else
-          PreferenceChips(ids: book.preferences),
         if (_suggested
                 .difference(book.preferences.toSet())
                 .difference(ContentLibrary.hiddenIds('preference'))
@@ -266,12 +276,15 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(l10n.checkSuggestTitle, style: text.titleMedium),
+                Text(
+                  l10n.checkSuggestTitle,
+                  style: text.titleMedium?.copyWith(color: Colors.white),
+                ),
                 const SizedBox(height: 4),
                 Text(
                   l10n.checkSuggestBody,
                   style: text.bodySmall?.copyWith(
-                    color: const Color(0xD9F4E9FF),
+                    color: const Color(0xD9FFFFFF),
                   ),
                 ),
                 const SizedBox(height: 8),
