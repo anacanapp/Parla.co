@@ -4,13 +4,15 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parla_shared/parla_shared.dart';
 
+import '../check/glass_bits.dart';
 import '../push/push_client.dart';
-import '../home/widgets/home_cards.dart';
+import '../reminders/reminder_settings.dart';
 import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
 import '../home/widgets/parla_nav_bar.dart';
 import '../routes.dart';
 import '../ui/brand.dart';
+import '../ui/parla_icons.dart';
 import '../ui/parla_ui.dart';
 import '../ui/common.dart';
 
@@ -143,38 +145,78 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
     final consents = _consents;
+    final reminders = ParlaScope.of(context).reminders;
     return Scaffold(
       extendBody: true,
       bottomNavigationBar: const ParlaNavBar(selected: ParlaTab.profile),
-      appBar: AppBar(
-        backgroundColor: ParlaColors.cream,
-        automaticallyImplyLeading: false,
-      ),
-      body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 120),
-        children: [
-          Semantics(
-            header: true,
-            child: Text(l10n.privacyTitle, style: text.headlineMedium),
-          ),
-          const SizedBox(height: 8),
-          Text(l10n.privacyIntro, style: text.bodyLarge),
-          const SizedBox(height: 24),
-          Text(l10n.privacyConsentsTitle, style: text.headlineSmall),
-          const SizedBox(height: 12),
-          SoftCard(
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: consents == null
-                ? const Padding(
-                    padding: EdgeInsets.all(24),
+      body: SafeArea(
+        bottom: false,
+        child: ListView(
+          padding: const EdgeInsets.fromLTRB(22, 22, 22, 120),
+          children: [
+            GlassTitle(l10n.navProfile),
+            const SizedBox(height: 14),
+            PebbleHeader(
+              icon: ParlaIconName.lock,
+              title: l10n.privacyTitle,
+              subtitle: l10n.privacyIntro,
+            ),
+            const SizedBox(height: 14),
+            ListenableBuilder(
+              listenable: reminders,
+              builder: (context, _) {
+                final on = ReminderKind.values
+                    .where((k) => reminders.settings[k].enabled)
+                    .length;
+                return GlassGroup(
+                  children: [
+                    GlassRow(
+                      key: const ValueKey('privacy-reminders'),
+                      icon: ParlaIconName.moon,
+                      label: l10n.remindersTitle,
+                      value: on == 0
+                          ? l10n.remindersSummaryOff
+                          : l10n.remindersSummaryOn(on),
+                      onTap: () => context.push(Routes.reminders),
+                    ),
+                  ],
+                );
+              },
+            ),
+            const SizedBox(height: 22),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6),
+              child: Semantics(
+                header: true,
+                child: Text(
+                  l10n.privacyConsentsTitle,
+                  style: text.titleLarge?.copyWith(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            consents == null
+                ? const GlassCard(
                     child: Center(child: CircularProgressIndicator()),
                   )
-                : Column(
+                : GlassGroup(
                     children: [
                       for (final kind in ConsentKind.values)
                         SwitchListTile(
                           key: ValueKey('consent-switch-${kind.name}'),
-                          title: Text(_title(l10n, kind)),
+                          contentPadding: const EdgeInsets.fromLTRB(
+                            18,
+                            4,
+                            12,
+                            4,
+                          ),
+                          title: Text(
+                            _title(l10n, kind),
+                            style: const TextStyle(fontSize: 15),
+                          ),
                           value: consents[kind] ?? false,
                           onChanged: _busy
                               ? null
@@ -182,56 +224,97 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                         ),
                     ],
                   ),
-          ),
-          const SizedBox(height: 24),
-          SoftCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
+            const SizedBox(height: 14),
+            _ActionCard(
+              title: l10n.privacyExportTitle,
+              body: l10n.privacyExportBody,
+              button: GlassPill(
+                label: l10n.privacyExportButton,
+                expand: true,
+                fontSize: 15,
+                onPressed: _busy ? null : _export,
+              ),
+            ),
+            const SizedBox(height: 14),
+            _ActionCard(
+              title: l10n.privacyHabitsTitle,
+              body: l10n.privacyHabitsBody,
+              button: GlassPill(
+                key: const ValueKey('delete-habits'),
+                label: l10n.privacyHabitsDelete,
+                expand: true,
+                fontSize: 15,
+                onPressed: _busy ? null : _deleteHabits,
+              ),
+            ),
+            const SizedBox(height: 14),
+            GlassGroup(
               children: [
-                Text(l10n.privacyExportTitle, style: text.titleLarge),
-                const SizedBox(height: 6),
-                Text(l10n.privacyExportBody, style: text.bodyMedium),
-                const SizedBox(height: 16),
-                OutlinedButton(
-                  onPressed: _busy ? null : _export,
-                  child: Text(l10n.privacyExportButton),
+                GlassRow(
+                  key: const ValueKey('privacy-legal'),
+                  icon: ParlaIconName.book,
+                  label: l10n.privacyLegalTitle,
+                  trailing: const Icon(
+                    Icons.chevron_right,
+                    color: Glass.soft,
+                  ),
+                  onTap: () => context.go(Routes.legal),
+                ),
+                GlassRow(
+                  key: const ValueKey('privacy-delete'),
+                  icon: ParlaIconName.minus,
+                  label: l10n.privacyDeleteTitle,
+                  color: Glass.danger,
+                  onTap: () => context.go(Routes.deleteAccount),
                 ),
               ],
             ),
-          ),
-          const SizedBox(height: 16),
-          SoftCard(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(l10n.privacyHabitsTitle, style: text.titleLarge),
-                const SizedBox(height: 6),
-                Text(l10n.privacyHabitsBody, style: text.bodyMedium),
-                const SizedBox(height: 16),
-                OutlinedButton(
-                  key: const ValueKey('delete-habits'),
-                  onPressed: _busy ? null : _deleteHabits,
-                  child: Text(l10n.privacyHabitsDelete),
-                ),
-              ],
+            const SizedBox(height: 14),
+            GlassPill(
+              label: l10n.privacySignOut,
+              expand: true,
+              height: 60,
+              fontSize: 15,
+              onPressed: _signOut,
             ),
-          ),
-          const SizedBox(height: 16),
-          _LinkTile(
-            key: const ValueKey('privacy-legal'),
-            label: l10n.privacyLegalTitle,
-            onTap: () => context.go(Routes.legal),
-          ),
-          _LinkTile(label: l10n.privacySignOut, onTap: _signOut),
-          _LinkTile(
-            key: const ValueKey('privacy-delete'),
-            label: l10n.privacyDeleteTitle,
-            onTap: () => context.go(Routes.deleteAccount),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
+}
+
+/// A glass card with a title, a line of text and one action.
+class _ActionCard extends StatelessWidget {
+  const _ActionCard({
+    required this.title,
+    required this.body,
+    required this.button,
+  });
+
+  final String title;
+  final String body;
+  final Widget button;
+
+  @override
+  Widget build(BuildContext context) => GlassCard(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          title,
+          style: const TextStyle(fontSize: 17, color: ParlaColors.espresso),
+        ),
+        const SizedBox(height: 6),
+        Text(
+          body,
+          style: const TextStyle(fontSize: 13, height: 1.4, color: Glass.soft),
+        ),
+        const SizedBox(height: 14),
+        button,
+      ],
+    ),
+  );
 }
 
 /// Exports the user's data and opens the share sheet. Shared by the privacy
@@ -266,22 +349,6 @@ Future<void> exportAndShare(
   }
 }
 
-class _LinkTile extends StatelessWidget {
-  const _LinkTile({super.key, required this.label, required this.onTap});
-
-  final String label;
-  final VoidCallback onTap;
-
-  @override
-  Widget build(BuildContext context) => ListTile(
-    contentPadding: const EdgeInsets.symmetric(horizontal: 4),
-    minVerticalPadding: 14,
-    title: Text(label, style: Theme.of(context).textTheme.titleMedium),
-    trailing: const Icon(Icons.chevron_right, color: ParlaColors.espresso),
-    onTap: onTap,
-  );
-}
-
 /// M-34: legal documents and the "not medical advice" statement.
 class LegalScreen extends StatelessWidget {
   const LegalScreen({super.key});
@@ -294,16 +361,29 @@ class LegalScreen extends StatelessWidget {
         ParlaScope.of(context).settings.language ?? defaultLanguage;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ParlaColors.cream,
+        backgroundColor: Colors.transparent,
         leadingWidth: roundBackWidth,
-        leading: RoundBackButton(onPressed: () => context.go(Routes.privacy)),
+        leading: Padding(
+          padding: const EdgeInsetsDirectional.only(start: 14),
+          child: Center(
+            child: GlassBack(onPressed: () => context.go(Routes.privacy)),
+          ),
+        ),
       ),
       body: ListView(
         padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
         children: [
           Semantics(
             header: true,
-            child: Text(l10n.legalTitle, style: text.headlineMedium),
+            child: Text(
+              l10n.legalTitle,
+              style: const TextStyle(
+                fontSize: 34,
+                fontWeight: FontWeight.w200,
+                letterSpacing: -1,
+                height: 1.1,
+              ),
+            ),
           ),
           const SizedBox(height: 24),
           Text(l10n.legalMedicalTitle, style: text.titleLarge),
@@ -317,7 +397,8 @@ class LegalScreen extends StatelessWidget {
           Text(l10n.legalConsentsTitle, style: text.titleLarge),
           for (final kind in ConsentKind.values) ...[
             const SizedBox(height: 12),
-            SoftCard(
+            GlassCard(
+              radius: 28,
               padding: const EdgeInsets.all(16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -391,9 +472,14 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
     final matches = _fold(_confirm.text) == _fold(word);
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ParlaColors.cream,
+        backgroundColor: Colors.transparent,
         leadingWidth: roundBackWidth,
-        leading: RoundBackButton(onPressed: () => context.go(Routes.privacy)),
+        leading: Padding(
+          padding: const EdgeInsetsDirectional.only(start: 14),
+          child: Center(
+            child: GlassBack(onPressed: () => context.go(Routes.privacy)),
+          ),
+        ),
       ),
       body: ParlaPage(
         title: l10n.deleteTitle,

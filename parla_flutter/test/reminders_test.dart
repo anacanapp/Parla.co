@@ -214,7 +214,7 @@ void main() {
     final app = await _open(tester);
     await _tap(tester, _switch(ReminderKind.morningRoutine));
     await _tap(tester, find.byType(BackButton));
-    await _tap(tester, find.text('Today').last);
+    await _tap(tester, find.bySemanticsLabel('Today').last);
     await _tap(
       tester,
       find
@@ -235,7 +235,7 @@ void main() {
     final app = await _open(tester);
     await _tap(tester, _switch(ReminderKind.morningRoutine));
     await _tap(tester, find.byType(BackButton));
-    await _tap(tester, find.text('Today').last);
+    await _tap(tester, find.bySemanticsLabel('Today').last);
     await _tap(
       tester,
       find

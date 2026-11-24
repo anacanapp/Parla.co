@@ -1,0 +1,360 @@
+import 'package:flutter/material.dart';
+
+import '../ui/brand.dart';
+import '../ui/night.dart';
+import '../ui/parla_icons.dart';
+
+/// Small glass pieces of the night design shared by the Shop, the
+/// shopping list, Check and the profile (prototype "Parla 3.0", variant A).
+abstract final class Glass {
+  /// Ink on the light capsule of a selected chip or tab.
+  static const darkInk = Color(0xFF1A0B2A);
+
+  /// Faint glass fill of cards and lists, and its hairline.
+  static const fill = Color(0x0FFFFFFF);
+  static const line = Color(0x1FFFFFFF);
+
+  /// Slightly stronger fill of buttons and chips, and its hairline.
+  static const buttonFill = Color(0x1AFFFFFF);
+  static const buttonLine = Color(0x2EFFFFFF);
+
+  /// Divider between rows of a [GlassGroup].
+  static const divider = Color(0x14FFFFFF);
+
+  /// Secondary text (65 % of the ink, as in the prototype).
+  static const soft = Color(0xA6F4E9FF);
+
+  /// The pink of destructive rows ("Delete account").
+  static const danger = Color(0xFFFFB4D9);
+}
+
+/// The large thin page title ("Mağaza", "Profil").
+class GlassTitle extends StatelessWidget {
+  const GlassTitle(this.text, {super.key});
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Semantics(
+    header: true,
+    child: Text(
+      text,
+      style: const TextStyle(
+        fontSize: 34,
+        fontWeight: FontWeight.w200,
+        letterSpacing: -1,
+        height: 1.1,
+        color: ParlaColors.espresso,
+      ),
+    ),
+  );
+}
+
+/// A round glass back button, 44 px.
+class GlassBack extends StatelessWidget {
+  const GlassBack({super.key, required this.onPressed});
+
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) => Material(
+    color: Glass.buttonFill,
+    shape: const CircleBorder(side: BorderSide(color: Glass.buttonLine)),
+    child: BackButton(onPressed: onPressed, color: ParlaColors.espresso),
+  );
+}
+
+/// A glass capsule button (44 px) with an optional icon.
+class GlassPill extends StatelessWidget {
+  const GlassPill({
+    super.key,
+    required this.label,
+    required this.onPressed,
+    this.icon,
+    this.expand = false,
+    this.height = 44,
+    this.fontSize = 13,
+  });
+
+  final String label;
+  final VoidCallback? onPressed;
+  final ParlaIconName? icon;
+  final bool expand;
+  final double height;
+  final double fontSize;
+
+  @override
+  Widget build(BuildContext context) => Semantics(
+    button: true,
+    enabled: onPressed != null,
+    child: Material(
+      color: Glass.buttonFill,
+      shape: const StadiumBorder(side: BorderSide(color: Glass.buttonLine)),
+      child: InkWell(
+        customBorder: const StadiumBorder(),
+        onTap: onPressed,
+        child: ConstrainedBox(
+          constraints: BoxConstraints(minHeight: height),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: Row(
+              mainAxisSize: expand ? MainAxisSize.max : MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (icon != null) ...[
+                  ParlaIcon(icon!, size: 18, color: ParlaColors.espresso),
+                  const SizedBox(width: 6),
+                ],
+                Flexible(
+                  child: Text(
+                    label,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.center,
+                    style: TextStyle(
+                      fontSize: fontSize,
+                      color: ParlaColors.espresso,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+/// A filter chip: light capsule when selected, glass otherwise.
+class GlassChip extends StatelessWidget {
+  const GlassChip({
+    super.key,
+    required this.label,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => Semantics(
+    button: true,
+    selected: selected,
+    child: Material(
+      color: selected ? ParlaColors.espresso : const Color(0x0FFFFFFF),
+      shape: StadiumBorder(
+        side: selected
+            ? BorderSide.none
+            : const BorderSide(color: Glass.buttonLine),
+      ),
+      child: InkWell(
+        customBorder: const StadiumBorder(),
+        onTap: onTap,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 44),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+            child: Text(
+              label,
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
+                color: selected ? Glass.darkInk : ParlaColors.espresso,
+              ),
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+/// A glass card (radius 32 by default).
+class GlassCard extends StatelessWidget {
+  const GlassCard({
+    super.key,
+    required this.child,
+    this.padding = const EdgeInsets.all(18),
+    this.radius = 32,
+  });
+
+  final Widget child;
+  final EdgeInsetsGeometry padding;
+  final double radius;
+
+  @override
+  Widget build(BuildContext context) => DecoratedBox(
+    decoration: ShapeDecoration(
+      color: Glass.fill,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(radius),
+        side: const BorderSide(color: Glass.line),
+      ),
+    ),
+    child: Material(
+      type: MaterialType.transparency,
+      child: Padding(padding: padding, child: child),
+    ),
+  );
+}
+
+/// Rows in one glass card, split by faint lines.
+class GlassGroup extends StatelessWidget {
+  const GlassGroup({super.key, required this.children});
+
+  final List<Widget> children;
+
+  @override
+  Widget build(BuildContext context) => ClipRRect(
+    borderRadius: BorderRadius.circular(32),
+    child: GlassCard(
+      padding: EdgeInsets.zero,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          for (var i = 0; i < children.length; i++) ...[
+            if (i > 0) const Divider(height: 1, color: Glass.divider),
+            children[i],
+          ],
+        ],
+      ),
+    ),
+  );
+}
+
+/// A row of a [GlassGroup]: optional icon, label, optional value on the
+/// right, at least 58 px high.
+class GlassRow extends StatelessWidget {
+  const GlassRow({
+    super.key,
+    required this.label,
+    this.onTap,
+    this.icon,
+    this.value,
+    this.color = ParlaColors.espresso,
+    this.trailing,
+  });
+
+  final String label;
+  final VoidCallback? onTap;
+  final ParlaIconName? icon;
+  final String? value;
+  final Color color;
+  final Widget? trailing;
+
+  @override
+  Widget build(BuildContext context) => InkWell(
+    onTap: onTap,
+    child: ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 58),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+        child: Row(
+          children: [
+            if (icon != null) ...[
+              ExcludeSemantics(child: ParlaIcon(icon!, size: 20, color: color)),
+              const SizedBox(width: 12),
+            ],
+            Expanded(
+              child: Text(label, style: TextStyle(fontSize: 15, color: color)),
+            ),
+            if (value != null) ...[
+              const SizedBox(width: 12),
+              Flexible(
+                child: Text(
+                  value!,
+                  textAlign: TextAlign.end,
+                  style: const TextStyle(fontSize: 13, color: Glass.soft),
+                ),
+              ),
+            ],
+            if (trailing != null) ...[const SizedBox(width: 8), trailing!],
+          ],
+        ),
+      ),
+    ),
+  );
+}
+
+/// The plum pebble header card with a round glass icon, a title and a
+/// line under it (profile, check).
+class PebbleHeader extends StatelessWidget {
+  const PebbleHeader({
+    super.key,
+    required this.icon,
+    required this.title,
+    required this.subtitle,
+  });
+
+  final ParlaIconName icon;
+  final String title;
+  final String subtitle;
+
+  @override
+  Widget build(BuildContext context) => PebbleCard(
+    padding: const EdgeInsets.all(18),
+    child: Row(
+      children: [
+        Container(
+          width: 56,
+          height: 56,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: const Color(0x29FFFFFF),
+            border: Border.all(color: const Color(0x4DFFFFFF)),
+          ),
+          alignment: Alignment.center,
+          child: ExcludeSemantics(
+            child: ParlaIcon(icon, size: 24, color: ParlaColors.espresso),
+          ),
+        ),
+        const SizedBox(width: 14),
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                title,
+                style: const TextStyle(
+                  fontSize: 17,
+                  color: ParlaColors.espresso,
+                ),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                subtitle,
+                style: const TextStyle(
+                  fontSize: kMinTextSize,
+                  height: 1.35,
+                  color: Color(0xBFF4E9FF),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}
+
+/// A glass text field's decoration: faint fill, capsule-like corners.
+InputDecoration glassInput(String hint, {Widget? prefixIcon}) {
+  OutlineInputBorder border(Color color, [double width = 1]) =>
+      OutlineInputBorder(
+        borderRadius: BorderRadius.circular(28),
+        borderSide: BorderSide(color: color, width: width),
+      );
+  return InputDecoration(
+    hintText: hint,
+    hintStyle: const TextStyle(color: Glass.soft),
+    prefixIcon: prefixIcon,
+    filled: true,
+    fillColor: Glass.buttonFill,
+    contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 18),
+    border: border(Glass.buttonLine),
+    enabledBorder: border(Glass.buttonLine),
+    focusedBorder: border(ParlaColors.espresso, 1.5),
+  );
+}

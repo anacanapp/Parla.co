@@ -128,6 +128,11 @@ void main() {
     await _tap(tester, find.text('Gentle Cream'));
     expect(find.text('4 ingredients · 2 have an EU entry'), findsOneWidget);
     expect(find.text('EU: allowed with restrictions'), findsOneWidget);
+    await tester.scrollUntilVisible(
+      find.text('EU: on the list of prohibited substances'),
+      200,
+      scrollable: find.byType(Scrollable).first,
+    );
     expect(find.text('EU: on the list of prohibited substances'), findsOne);
     expect(
       find.text('No separate entry found in the EU annexes'),

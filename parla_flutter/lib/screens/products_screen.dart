@@ -4,15 +4,16 @@ import 'package:parla_shared/parla_shared.dart';
 
 import '../discover/content_library.dart';
 import '../check/care_list.dart';
+import '../check/glass_bits.dart';
 import '../check/ingredient_texts.dart';
 import '../check/preference_ui.dart';
-import '../home/widgets/home_cards.dart';
 import '../home/widgets/parla_nav_bar.dart';
 import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
 import '../routes.dart';
 import '../services/parla_api.dart';
 import '../ui/brand.dart';
+import '../ui/night.dart';
 import '../ui/parla_ui.dart';
 import '../ui/common.dart';
 import '../ui/parla_icons.dart';
@@ -95,7 +96,7 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
   Widget build(BuildContext context) {
     final results = _results;
     return Scaffold(
-      backgroundColor: ParlaColors.cream,
+      backgroundColor: Colors.transparent,
       extendBody: true,
       bottomNavigationBar: const ParlaNavBar(selected: ParlaTab.check),
       body: SafeArea(
@@ -113,28 +114,27 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
     final text = Theme.of(context).textTheme;
     final book = ParlaScope.of(context).careList;
     return ListView(
-      padding: const EdgeInsets.fromLTRB(20, 20, 20, 120),
+      padding: const EdgeInsets.fromLTRB(22, 22, 22, 120),
       children: [
-        Semantics(
-          header: true,
-          child: Text(l10n.productsTitle, style: text.headlineLarge),
+        GlassTitle(l10n.productsTitle),
+        const SizedBox(height: 4),
+        Text(
+          l10n.productsIntro,
+          style: text.bodyMedium?.copyWith(color: Glass.soft),
         ),
-        const SizedBox(height: 6),
-        Text(l10n.productsIntro, style: text.bodyLarge),
-        const SizedBox(height: 20),
+        const SizedBox(height: 18),
         TextField(
           key: const ValueKey('product-query'),
           controller: _query,
           textInputAction: TextInputAction.search,
           maxLength: 80,
-          decoration: InputDecoration(
-            labelText: l10n.productsSearchLabel,
-            errorText: _hint,
-            counterText: '',
-            border: const OutlineInputBorder(),
-            filled: true,
-            fillColor: ParlaColors.white,
-          ),
+          decoration: glassInput(
+            l10n.productsSearchLabel,
+            prefixIcon: const Padding(
+              padding: EdgeInsetsDirectional.only(start: 16, end: 8),
+              child: Icon(Icons.search, color: Glass.soft),
+            ),
+          ).copyWith(errorText: _hint, counterText: ''),
           onSubmitted: (_) => _search(),
         ),
         const SizedBox(height: 12),
@@ -157,26 +157,56 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: ParlaColors.white,
+                color: Glass.fill,
                 borderRadius: BorderRadius.circular(999),
-                border: Border.all(color: ParlaColors.line),
+                border: Border.all(color: Glass.line),
               ),
               child: Text(
                 l10n.checkBarcodeSoon,
-                style: text.labelMedium?.copyWith(color: ParlaColors.muted),
+                style: text.labelMedium?.copyWith(color: Glass.soft),
               ),
-            ),
-            TextButton.icon(
-              key: const ValueKey('open-shopping'),
-              onPressed: () => context.go(Routes.shoppingList),
-              icon: const ParlaIcon(ParlaIconName.check, size: 18),
-              label: Text(l10n.discoverShopping),
             ),
           ],
         ),
+        const SizedBox(height: 12),
+        MeshTile(
+          key: const ValueKey('open-shopping'),
+          tone: MeshTone.orange,
+          radius: 34,
+          blobAt: const Alignment(0.6, 0),
+          padding: const EdgeInsets.fromLTRB(18, 12, 12, 12),
+          onTap: () => context.go(Routes.shoppingList),
+          child: Row(
+            children: [
+              Expanded(
+                child: Text(
+                  l10n.discoverShopping,
+                  style: text.titleMedium?.copyWith(
+                    fontSize: 16,
+                    color: MeshTone.orange.ink,
+                  ),
+                ),
+              ),
+              Container(
+                width: 44,
+                height: 44,
+                decoration: const BoxDecoration(
+                  color: Color(0xFFFFFFFF),
+                  shape: BoxShape.circle,
+                ),
+                alignment: Alignment.center,
+                child: const ParlaIcon(
+                  ParlaIconName.arrowRight,
+                  size: 18,
+                  color: Glass.darkInk,
+                ),
+              ),
+            ],
+          ),
+        ),
         const SizedBox(height: 20),
         if (results != null && results.isEmpty)
-          SoftCard(
+          GlassCard(
             key: const ValueKey('products-not-found'),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -220,7 +250,7 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
         if (book.preferences.isEmpty)
           Text(
             l10n.checkPrefsEmpty,
-            style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
+            style: text.bodyMedium?.copyWith(color: Glass.soft),
           )
         else
           PreferenceChips(ids: book.preferences),
@@ -229,15 +259,21 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
                 .difference(ContentLibrary.hiddenIds('preference'))
             case final open when open.isNotEmpty) ...[
           const SizedBox(height: 12),
-          SoftCard(
+          PebbleCard(
             key: const ValueKey('check-suggestions'),
-            padding: const EdgeInsets.all(16),
+            radius: 34,
+            padding: const EdgeInsets.all(18),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(l10n.checkSuggestTitle, style: text.titleMedium),
                 const SizedBox(height: 4),
-                Text(l10n.checkSuggestBody, style: text.bodySmall),
+                Text(
+                  l10n.checkSuggestBody,
+                  style: text.bodySmall?.copyWith(
+                    color: const Color(0xD9F4E9FF),
+                  ),
+                ),
                 const SizedBox(height: 8),
                 Wrap(
                   spacing: 8,
@@ -288,15 +324,23 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
               ),
             ],
           ),
-          for (final r in book.recent)
-            ListTile(
-              key: ValueKey('recent-${r.code}'),
-              contentPadding: EdgeInsets.zero,
-              title: Text(r.name, style: text.titleMedium),
-              subtitle: r.brand == null ? null : Text(r.brand!),
-              trailing: const Icon(Icons.search, size: 20),
-              onTap: () => _search(r.name),
-            ),
+          const SizedBox(height: 4),
+          GlassGroup(
+            children: [
+              for (final r in book.recent)
+                GlassRow(
+                  key: ValueKey('recent-${r.code}'),
+                  label: r.name,
+                  value: r.brand,
+                  trailing: const Icon(
+                    Icons.search,
+                    size: 20,
+                    color: Glass.soft,
+                  ),
+                  onTap: () => _search(r.name),
+                ),
+            ],
+          ),
         ],
       ],
     );
@@ -316,17 +360,19 @@ class _ProductTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    return SoftCard(
+    return GlassCard(
+      radius: 28,
       padding: EdgeInsets.zero,
       child: ListTile(
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+        contentPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
         title: Text(product.name, style: text.titleMedium),
         subtitle: Text(
           [
             if (product.brand != null) product.brand!,
             _sourceLabel(l10n, product.source),
           ].join(' · '),
-          style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
+          style: text.bodyMedium?.copyWith(color: Glass.soft),
         ),
         trailing: const Icon(Icons.chevron_right, color: ParlaColors.espresso),
         onTap: onTap,
@@ -410,30 +456,49 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     final listed = matches.where((m) => m.entry != null).length;
 
     return Scaffold(
-      backgroundColor: ParlaColors.cream,
+      backgroundColor: Colors.transparent,
       appBar: AppBar(
-        backgroundColor: ParlaColors.cream,
+        backgroundColor: Colors.transparent,
         leadingWidth: roundBackWidth,
-        leading: RoundBackButton(
-          onPressed: () => context.go(
-            GoRouterState.of(context).uri.queryParameters['from'] == 'discover'
-                ? Routes.discover
-                : Routes.products,
+        leading: Padding(
+          padding: const EdgeInsetsDirectional.only(start: 14),
+          child: Center(
+            child: GlassBack(
+              onPressed: () => context.go(
+                GoRouterState.of(context).uri.queryParameters['from'] ==
+                        'discover'
+                    ? Routes.discover
+                    : Routes.products,
+              ),
+            ),
           ),
         ),
       ),
       body: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
+        padding: const EdgeInsets.fromLTRB(22, 4, 22, 32),
         children: [
           Semantics(
             header: true,
-            child: Text(product.name, style: text.headlineMedium),
+            child: Text(
+              product.name,
+              style: const TextStyle(
+                fontSize: 30,
+                fontWeight: FontWeight.w200,
+                letterSpacing: -.8,
+                height: 1.15,
+                color: ParlaColors.espresso,
+              ),
+            ),
           ),
           if (product.brand != null) ...[
             const SizedBox(height: 4),
             Text(
-              product.brand!,
-              style: text.bodyLarge?.copyWith(color: ParlaColors.muted),
+              product.brand!.toUpperCase(),
+              style: const TextStyle(
+                fontSize: kMinTextSize,
+                letterSpacing: 1,
+                color: Glass.soft,
+              ),
             ),
           ],
           const SizedBox(height: 16),
@@ -462,7 +527,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 l10n.productIngredientCount(matches.length),
                 if (!dataset.isEmpty) l10n.productListedCount(listed),
               ].join(' · '),
-              style: text.bodyMedium?.copyWith(color: ParlaColors.sunInk),
+              style: text.bodyMedium?.copyWith(color: Glass.soft),
             ),
             const SizedBox(height: 12),
             if (dataset.isEmpty) ...[
@@ -485,14 +550,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             const SizedBox(height: 12),
             Text(
               l10n.productLegalNotice(dataset.exportedOn ?? ''),
-              style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
+              style: text.bodyMedium?.copyWith(color: Glass.soft),
             ),
           ],
           if (product.source != 'parla') ...[
             const SizedBox(height: 12),
             Text(
               l10n.productAttribution,
-              style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
+              style: text.bodyMedium?.copyWith(color: Glass.soft),
             ),
           ],
         ],
@@ -515,9 +580,9 @@ class _PreferencesCard extends StatelessWidget {
     final text = Theme.of(context).textTheme;
     final known = results.where((r) => r.outcome != PreferenceOutcome.unknown);
     final fits = known.where((r) => r.outcome == PreferenceOutcome.fits).length;
-    return SoftCard(
+    return GlassCard(
       key: const ValueKey('prefs-result'),
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(18),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -594,7 +659,7 @@ class _PreferencesCard extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             l10n.resultPrefsNote,
-            style: text.bodySmall?.copyWith(color: ParlaColors.muted),
+            style: text.bodySmall?.copyWith(color: Glass.soft),
           ),
         ],
       ),
@@ -613,7 +678,8 @@ class _Notice extends StatelessWidget {
     padding: const EdgeInsets.all(16),
     decoration: BoxDecoration(
       color: color,
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(28),
+      border: Border.all(color: Glass.line),
     ),
     child: Text(text, style: Theme.of(context).textTheme.bodyMedium),
   );
@@ -629,7 +695,7 @@ String annexLabel(AppLocalizations l10n, EuAnnex annex) => switch (annex) {
 
 /// Neutral surfaces only: a status is information, not a warning colour.
 Color _annexColor(EuAnnex annex) => switch (annex) {
-  EuAnnex.ii => ParlaColors.white,
+  EuAnnex.ii => Glass.buttonFill,
   EuAnnex.iii => ParlaColors.lemon,
   EuAnnex.iv || EuAnnex.vi => ParlaColors.sky,
   EuAnnex.v => ParlaColors.sage,
@@ -650,10 +716,11 @@ class _IngredientTile extends StatelessWidget {
       match.name,
       Localizations.localeOf(context).languageCode,
     );
-    return SoftCard(
+    return GlassCard(
+      radius: 28,
       padding: EdgeInsets.zero,
       child: InkWell(
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(28),
         onTap: entry == null ? null : () => _showDetail(context, entry),
         child: Padding(
           padding: const EdgeInsets.fromLTRB(16, 12, 12, 12),
@@ -688,7 +755,7 @@ class _IngredientTile extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   l10n.ingredientNoEntry,
-                  style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
+                  style: text.bodyMedium?.copyWith(color: Glass.soft),
                 ),
               ],
             ],
@@ -703,7 +770,7 @@ class _IngredientTile extends StatelessWidget {
     final text = Theme.of(context).textTheme;
     showModalBottomSheet<void>(
       context: context,
-      backgroundColor: ParlaColors.cream,
+      backgroundColor: Colors.transparent,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(32)),
@@ -744,7 +811,7 @@ class _IngredientTile extends StatelessWidget {
               const SizedBox(height: 16),
               Text(
                 l10n.ingredientSheetSource(dataset.exportedOn ?? ''),
-                style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
+                style: text.bodyMedium?.copyWith(color: Glass.soft),
               ),
             ],
           ),
@@ -765,8 +832,8 @@ class _StatusChip extends StatelessWidget {
     padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
     decoration: BoxDecoration(
       color: _annexColor(rule.annex),
-      borderRadius: BorderRadius.circular(14),
-      border: Border.all(color: ParlaColors.outline),
+      borderRadius: BorderRadius.circular(ParlaShape.pill),
+      border: Border.all(color: Glass.buttonLine),
     ),
     child: Row(
       mainAxisSize: MainAxisSize.min,

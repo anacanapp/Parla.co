@@ -30,30 +30,30 @@ abstract final class ParlaShape {
 
 /// A card's soft shadow.
 const List<BoxShadow> kCardShadow = [
-  BoxShadow(color: Color(0x0F1F1A14), blurRadius: 30, offset: Offset(0, 10)),
+  BoxShadow(color: Color(0x33000000), blurRadius: 30, offset: Offset(0, 10)),
 ];
 
 /// The shadow of things that float over the page (the menu, bars).
 const List<BoxShadow> kFloatShadow = [
-  BoxShadow(color: Color(0x1F1F1A14), blurRadius: 30, offset: Offset(0, 12)),
+  BoxShadow(color: Color(0x59000000), blurRadius: 30, offset: Offset(0, 12)),
 ];
 
-/// The hero's soft sun glow at the top right.
+/// The hero's magenta glow at the top right.
 const heroSunGlow = RadialGradient(
   center: Alignment(0.85, -1),
   radius: 1.1,
-  colors: [Color(0x8CFFCE00), Color(0x00FFCE00)],
+  colors: [Color(0x66D62EA0), Color(0x00D62EA0)],
 );
 
-/// The hero's sky glow at the bottom left.
+/// The hero's blue glow at the bottom left.
 const heroSkyGlow = RadialGradient(
   center: Alignment(-1, 1),
   radius: 0.9,
-  colors: [Color(0xBFCFE3F7), Color(0x00CFE3F7)],
+  colors: [Color(0x734056FF), Color(0x004056FF)],
 );
 
-/// A hero area: lemon with a sun and a sky glow, rounded at the bottom
-/// (or as [radius] says).
+/// A hero area: dark plum with a magenta and a blue glow, rounded at the
+/// bottom (or as [radius] says).
 class HeroGlow extends StatelessWidget {
   const HeroGlow({
     super.key,
@@ -433,7 +433,7 @@ class MiniStat extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final fg = dark ? ParlaColors.white : ParlaColors.espresso;
+    final fg = dark ? ParlaColors.sportBlueText : ParlaColors.espresso;
     final soft = dark ? ParlaColors.sportBlueText : ParlaColors.muted;
     return Material(
       color: dark ? ParlaColors.sportBlue : ParlaColors.white,
@@ -486,7 +486,7 @@ class MiniStat extends StatelessWidget {
                     minHeight: 6,
                     color: dark ? ParlaColors.sun : fill,
                     backgroundColor: dark
-                        ? const Color(0x2EFFF9E8)
+                        ? const Color(0x2EF4E9FF)
                         : ParlaColors.lemon,
                   ),
                 ),

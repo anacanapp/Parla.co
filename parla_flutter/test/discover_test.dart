@@ -329,18 +329,36 @@ void main() {
 
   testWidgets('the bento shows the counts and opens sport', (tester) async {
     await _open(tester);
-    expect(find.text('3 articles · Care, beauty, fashion'), findsOneWidget);
-    expect(find.text('1 recipe'), findsOneWidget);
-    expect(find.text('Your weekly plan'), findsOneWidget);
-    // The newest article's cover shows on the Blogs tile.
+    // Each tile is one button; its words are read out together.
+    expect(
+      find.bySemanticsLabel(RegExp(r'^Blogs\. 3\. 3 articles · Care')),
+      findsOneWidget,
+    );
+    expect(find.bySemanticsLabel(RegExp(r'1 recipe')), findsOneWidget);
+    // The large number and its caption on the nutrition tile.
     expect(
       find.descendant(
         of: find.byType(DiscoverBento),
-        matching: find.byType(ContentImage),
+        matching: find.text('recipe'),
       ),
       findsOneWidget,
     );
-    await _tap(tester, find.text('Your weekly plan'));
+    // The Blogs tile shows the newest article's title.
+    expect(
+      find.descendant(
+        of: find.byType(DiscoverBento),
+        matching: find.text('New articles'),
+      ),
+      findsOneWidget,
+    );
+    expect(
+      find.descendant(
+        of: find.byType(DiscoverBento),
+        matching: find.text('Fitness · Yoga · Face yoga'),
+      ),
+      findsOneWidget,
+    );
+    await _tap(tester, find.text('Fitness · Yoga · Face yoga'));
     expect(find.text('A workout plan made for you'), findsOneWidget);
   });
 

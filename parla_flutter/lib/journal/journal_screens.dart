@@ -7,6 +7,7 @@ import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
 import '../routes.dart';
 import '../ui/brand.dart';
+import '../ui/night.dart';
 import '../ui/parla_ui.dart';
 import '../ui/parla_icons.dart';
 import 'journal_book.dart';
@@ -43,8 +44,12 @@ class JournalScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: ParlaColors.lilac,
-                borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
+                gradient: const LinearGradient(
+                  begin: Alignment(-0.4, -1),
+                  end: Alignment(0.4, 1),
+                  colors: PebbleCard.stops,
+                ),
+                borderRadius: BorderRadius.circular(28),
               ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -90,8 +95,11 @@ class JournalScreen extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 10),
                   child: Material(
-                    color: ParlaColors.white,
-                    borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
+                    color: NightColors.glass,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(28),
+                      side: const BorderSide(color: NightColors.glassLine),
+                    ),
                     clipBehavior: Clip.antiAlias,
                     child: InkWell(
                       key: ValueKey('journal-${e.id}'),
@@ -226,9 +234,9 @@ class _JournalEntryScreenState extends State<JournalEntryScreen> {
         if (!didPop) _close();
       },
       child: Scaffold(
-        backgroundColor: ParlaColors.cream,
+        backgroundColor: Colors.transparent,
         appBar: AppBar(
-          backgroundColor: ParlaColors.cream,
+          backgroundColor: Colors.transparent,
           leadingWidth: roundBackWidth,
           leading: RoundBackButton(onPressed: _close),
           title: Text(l10n.journalEntryTitle),

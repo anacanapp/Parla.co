@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../l10n/app_localizations.dart';
 import '../services/parla_api.dart';
 import '../ui/brand.dart';
+import '../ui/night.dart';
 import '../ui/parla_icons.dart';
 import 'discover_widgets.dart';
 
@@ -98,8 +99,11 @@ class FeaturedArticleCard extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.only(bottom: 18),
       child: Material(
-        color: ParlaColors.white,
-        borderRadius: BorderRadius.circular(24),
+        color: NightColors.glass,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(28),
+          side: const BorderSide(color: NightColors.glassLine),
+        ),
         clipBehavior: Clip.antiAlias,
         child: InkWell(
           key: ValueKey('article-${item.slug}'),
@@ -201,9 +205,9 @@ class SourceChips extends StatelessWidget {
       children: [
         for (final uri in sources)
           Material(
-            color: ParlaColors.white,
+            color: NightColors.glass,
             shape: const StadiumBorder(
-              side: BorderSide(color: ParlaColors.line, width: 1.5),
+              side: BorderSide(color: NightColors.glassLine),
             ),
             clipBehavior: Clip.antiAlias,
             child: InkWell(
@@ -260,7 +264,7 @@ class CoverPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final padding = MediaQuery.paddingOf(context);
     return Scaffold(
-      backgroundColor: ParlaColors.cream,
+      backgroundColor: Colors.transparent,
       body: ListView(
         padding: EdgeInsets.zero,
         children: [
@@ -274,10 +278,10 @@ class CoverPage extends StatelessWidget {
                 top: padding.top + 8,
                 start: 12,
                 child: Material(
-                  color: ParlaColors.white,
-                  shape: const CircleBorder(),
-                  elevation: 2,
-                  shadowColor: const Color(0x331F1A14),
+                  color: const Color(0x9908070F),
+                  shape: const CircleBorder(
+                    side: BorderSide(color: NightColors.glassLine),
+                  ),
                   child: BackButton(onPressed: onBack),
                 ),
               ),

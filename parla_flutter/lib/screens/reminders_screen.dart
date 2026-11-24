@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../check/glass_bits.dart';
+
 import '../habits/habit_sheets.dart';
-import '../home/widgets/home_cards.dart';
 import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
 import '../reminders/reminder_settings.dart';
 import '../routes.dart';
-import '../ui/brand.dart';
 import '../ui/parla_ui.dart';
 import '../ui/common.dart';
 import '../ui/parla_icons.dart';
@@ -86,21 +86,30 @@ class _RemindersScreenState extends State<RemindersScreen> {
     final reminders = ParlaScope.of(context).reminders;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: ParlaColors.cream,
+        backgroundColor: Colors.transparent,
         leadingWidth: roundBackWidth,
-        leading: RoundBackButton(onPressed: () => context.go(Routes.habits)),
+        leading: Padding(
+          padding: const EdgeInsetsDirectional.only(start: 14),
+          child: Center(
+            // Opened from the profile (pushed) or from Routine.
+            child: GlassBack(
+              onPressed: () =>
+                  context.canPop() ? context.pop() : context.go(Routes.habits),
+            ),
+          ),
+        ),
       ),
       body: ListenableBuilder(
         listenable: reminders,
         builder: (context, _) => ListView(
-          padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
+          padding: const EdgeInsets.fromLTRB(22, 4, 22, 32),
           children: [
-            Semantics(
-              header: true,
-              child: Text(l10n.remindersTitle, style: text.headlineMedium),
+            GlassTitle(l10n.remindersTitle),
+            const SizedBox(height: 6),
+            Text(
+              l10n.remindersIntro,
+              style: text.bodyMedium?.copyWith(color: Glass.soft),
             ),
-            const SizedBox(height: 8),
-            Text(l10n.remindersIntro, style: text.bodyLarge),
             const SizedBox(height: 24),
             for (final kind in ReminderKind.values) ...[
               _ReminderCard(
@@ -122,7 +131,7 @@ class _RemindersScreenState extends State<RemindersScreen> {
             const SizedBox(height: 12),
             Text(
               l10n.remindersNote,
-              style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
+              style: text.bodyMedium?.copyWith(color: Glass.soft),
             ),
           ],
         ),
@@ -153,7 +162,8 @@ class _ReminderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    return SoftCard(
+    return GlassCard(
+      radius: 28,
       padding: const EdgeInsets.fromLTRB(16, 8, 8, 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -162,7 +172,10 @@ class _ReminderCard extends StatelessWidget {
             contentPadding: EdgeInsets.zero,
             secondary: ParlaIcon(icon, size: 28),
             title: Text(title, style: text.titleMedium),
-            subtitle: Text(time, style: text.bodyMedium),
+            subtitle: Text(
+              time,
+              style: text.bodyMedium?.copyWith(color: Glass.soft),
+            ),
             value: enabled,
             onChanged: onToggle,
           ),

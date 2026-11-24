@@ -69,7 +69,7 @@ Future<StepperResult?> showStepperSheet(
   bool canClear = false,
 }) => showModalBottomSheet<StepperResult>(
   context: context,
-  backgroundColor: ParlaColors.cream,
+  backgroundColor: ParlaColors.white,
   isScrollControlled: true,
   shape: const RoundedRectangleBorder(
     borderRadius: BorderRadius.vertical(top: Radius.circular(32)),

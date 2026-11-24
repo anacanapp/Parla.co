@@ -26,7 +26,10 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
     'assets/fonts/PlusJakartaSans-ExtraBold.ttf',
   ]);
   await load('Onest', [
+    'assets/fonts/Onest-ExtraLight.ttf',
+    'assets/fonts/Onest-Light.ttf',
     'assets/fonts/Onest-Regular.ttf',
+    'assets/fonts/Onest-Medium.ttf',
     'assets/fonts/Onest-SemiBold.ttf',
     'assets/fonts/Onest-Bold.ttf',
     'assets/fonts/Onest-ExtraBold.ttf',

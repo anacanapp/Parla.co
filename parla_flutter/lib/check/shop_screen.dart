@@ -11,8 +11,10 @@ import '../parla_scope.dart';
 import '../routes.dart';
 import '../services/parla_api.dart';
 import '../ui/brand.dart';
+import '../ui/night.dart';
 import '../ui/parla_icons.dart';
 import '../ui/parla_ui.dart';
+import 'glass_bits.dart';
 
 String shopCategoryText(AppLocalizations l10n, String id) => switch (id) {
   'face' => l10n.shopCategoryFace,
@@ -106,33 +108,29 @@ class _ShopScreenState extends State<ShopScreen> {
             shown.sublist(i, i + 2 > shown.length ? shown.length : i + 2),
         ];
         return Scaffold(
-          backgroundColor: ParlaColors.cream,
+          backgroundColor: Colors.transparent,
           body: SafeArea(
             child: ListView(
-              padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+              padding: const EdgeInsets.fromLTRB(22, 14, 22, 32),
               children: [
                 Row(
                   children: [
                     RoundBack(onPressed: back),
                     const Spacer(),
                     if (ShopSales.open.value)
-                      PillButton(
+                      GlassPill(
                         key: const ValueKey('shop-orders'),
                         label: l10n.shopMyOrders,
-                        icon: ParlaIconName.routine,
                         onPressed: () => context.go(Routes.shopOrders),
                       ),
                   ],
                 ),
-                const SizedBox(height: 12),
-                Semantics(
-                  header: true,
-                  child: Text(l10n.shopTitle, style: text.headlineLarge),
-                ),
-                const SizedBox(height: 6),
+                const SizedBox(height: 14),
+                GlassTitle(l10n.shopTitle),
+                const SizedBox(height: 2),
                 Text(
                   l10n.shopIntro,
-                  style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
+                  style: const TextStyle(fontSize: 13, color: Glass.soft),
                 ),
                 const SizedBox(height: 14),
                 if (categories.length > 1) ...[
@@ -141,7 +139,7 @@ class _ShopScreenState extends State<ShopScreen> {
                     runSpacing: 8,
                     children: [
                       for (final c in [null, ...categories])
-                        PillChip(
+                        GlassChip(
                           key: ValueKey('shop-cat-${c ?? 'all'}'),
                           label: c == null
                               ? l10n.shopAll
@@ -163,17 +161,18 @@ class _ShopScreenState extends State<ShopScreen> {
                       ),
                     ),
                   ),
-                for (final row in rows) ...[
+                for (final (r, row) in rows.indexed) ...[
                   IntrinsicHeight(
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         for (var i = 0; i < 2; i++) ...[
-                          if (i == 1) const SizedBox(width: 10),
+                          if (i == 1) const SizedBox(width: 12),
                           Expanded(
                             child: i < row.length
                                 ? ProductCard(
                                     item: row[i],
+                                    index: r * 2 + i,
                                     onTap: () => context.go(
                                       Routes.shopProduct,
                                       extra: row[i].slug,
@@ -185,13 +184,15 @@ class _ShopScreenState extends State<ShopScreen> {
                       ],
                     ),
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 12),
                 ],
                 const SizedBox(height: 8),
-                PillButton(
+                GlassPill(
                   label: l10n.shopOpenList,
                   icon: ParlaIconName.routine,
                   expand: true,
+                  height: 56,
+                  fontSize: 15,
                   onPressed: () => context.go(Routes.shoppingList),
                 ),
               ],
@@ -203,27 +204,102 @@ class _ShopScreenState extends State<ShopScreen> {
   }
 }
 
-/// A round white back button (Parla 2.0 headers).
+/// A round glass back button (night design headers).
 class RoundBack extends StatelessWidget {
   const RoundBack({super.key, required this.onPressed});
 
   final VoidCallback onPressed;
 
   @override
-  Widget build(BuildContext context) => Material(
-    color: ParlaColors.white,
-    shape: const CircleBorder(side: BorderSide(color: ParlaColors.line)),
-    child: BackButton(onPressed: onPressed, color: ParlaColors.espresso),
-  );
+  Widget build(BuildContext context) => GlassBack(onPressed: onPressed);
+}
+
+/// The two picture moods of product cards without a photo: plum and blue,
+/// alternating through the grid.
+const _productMoods = [
+  [Color(0xFFC653B0), Color(0xFF7A2FA8), Color(0xFF2B0F45)],
+  [Color(0xFF4A5BFF), Color(0xFF2B2F9E), Color(0xFF120F3A)],
+];
+
+/// A product picture placeholder: a gradient with a soft bottle shape.
+class _ProductArt extends StatelessWidget {
+  const _ProductArt({required this.mood, this.height = 150});
+
+  final int mood;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = _productMoods[mood % _productMoods.length];
+    return ExcludeSemantics(
+      child: Container(
+        height: height,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(28),
+          gradient: LinearGradient(
+            begin: const Alignment(-0.4, -1),
+            end: const Alignment(0.4, 1),
+            colors: colors,
+            stops: const [0, .6, 1],
+          ),
+        ),
+        alignment: Alignment.bottomCenter,
+        padding: EdgeInsets.only(bottom: height * .12),
+        child: mood.isEven
+            ? Container(
+                width: height * .27,
+                height: height * .64,
+                decoration: const BoxDecoration(
+                  color: Color(0xD9FFFFFF),
+                  borderRadius: BorderRadius.vertical(
+                    top: Radius.circular(20),
+                    bottom: Radius.circular(10),
+                  ),
+                ),
+              )
+            : Row(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Container(
+                    width: height * .2,
+                    height: height * .73,
+                    decoration: BoxDecoration(
+                      color: const Color(0xD9FFFFFF),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  Container(
+                    width: height * .2,
+                    height: height * .53,
+                    decoration: BoxDecoration(
+                      color: const Color(0x80FFFFFF),
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                  ),
+                ],
+              ),
+      ),
+    );
+  }
 }
 
 /// A product in the grid: picture (with the ad label), brand, name and
 /// price.
 class ProductCard extends StatelessWidget {
-  const ProductCard({super.key, required this.item, required this.onTap});
+  const ProductCard({
+    super.key,
+    required this.item,
+    required this.onTap,
+    this.index = 0,
+  });
 
   final PublishedItem item;
   final VoidCallback onTap;
+
+  /// Position in the grid; picks the placeholder's colour.
+  final int index;
 
   @override
   Widget build(BuildContext context) {
@@ -231,12 +307,16 @@ class ProductCard extends StatelessWidget {
     final text = Theme.of(context).textTheme;
     final language = Localizations.localeOf(context).languageCode;
     final sponsor = sponsorOf(item);
+    const shape = RoundedRectangleBorder(
+      borderRadius: BorderRadius.all(Radius.circular(34)),
+      side: BorderSide(color: Color(0x24FFFFFF)),
+    );
     return Material(
       key: ValueKey('product-${item.slug}'),
-      color: ParlaColors.white,
-      borderRadius: BorderRadius.circular(ParlaShape.card),
+      color: const Color(0x12FFFFFF),
+      shape: shape,
       child: InkWell(
-        borderRadius: BorderRadius.circular(ParlaShape.card),
+        customBorder: shape,
         onTap: onTap,
         child: Padding(
           padding: const EdgeInsets.all(8),
@@ -246,33 +326,16 @@ class ProductCard extends StatelessWidget {
               Stack(
                 children: [
                   item.image == null
-                      ? AspectRatio(
-                          aspectRatio: 1,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: ParlaColors.lemon,
-                              borderRadius: BorderRadius.circular(
-                                ParlaShape.tile,
-                              ),
-                            ),
-                            child: const Center(
-                              child: ParlaIcon(
-                                ParlaIconName.bag,
-                                size: 32,
-                                color: ParlaColors.sunInk,
-                              ),
-                            ),
-                          ),
-                        )
+                      ? _ProductArt(mood: index)
                       : ContentImage(
                           image: item.image!,
                           aspectRatio: 1,
-                          radius: ParlaShape.tile,
+                          radius: 28,
                         ),
                   if (sponsor != null)
                     PositionedDirectional(
-                      start: 8,
-                      top: 8,
+                      start: 10,
+                      top: 10,
                       child: AdLabel(
                         text: l10n.bannerAd(sponsor),
                         filled: true,
@@ -281,24 +344,33 @@ class ProductCard extends StatelessWidget {
                 ],
               ),
               Padding(
-                padding: const EdgeInsets.fromLTRB(6, 10, 6, 6),
+                padding: const EdgeInsets.fromLTRB(6, 10, 6, 8),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
                       '${item.data['brand'] ?? ''}'.toUpperCase(),
-                      style: text.labelMedium?.copyWith(
-                        color: ParlaColors.sunInk,
-                        letterSpacing: .6,
+                      style: const TextStyle(
+                        fontSize: kMinTextSize,
+                        letterSpacing: 1,
+                        color: Color(0x99F4E9FF),
                       ),
                     ),
                     const SizedBox(height: 2),
-                    Text(item.text('name', language), style: text.titleSmall),
-                    const SizedBox(height: 6),
+                    Text(
+                      item.text('name', language),
+                      style: const TextStyle(
+                        fontSize: 14,
+                        height: 1.3,
+                        color: ParlaColors.espresso,
+                      ),
+                    ),
+                    const SizedBox(height: 4),
                     Text(
                       l10n.shopPrice('${item.data['price'] ?? ''}'),
-                      style: text.titleSmall?.copyWith(
-                        fontWeight: FontWeight.w800,
+                      style: text.titleLarge?.copyWith(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w300,
                       ),
                     ),
                   ],
@@ -324,13 +396,20 @@ class AdLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Container(
     key: const ValueKey('product-ad-label'),
-    padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+    constraints: const BoxConstraints(minHeight: 24),
+    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
     decoration: BoxDecoration(
-      color: filled ? ParlaColors.white : null,
-      border: Border.all(color: ParlaColors.outline),
+      color: filled ? const Color(0x990C0A1C) : Glass.buttonFill,
+      border: filled ? null : Border.all(color: Glass.buttonLine),
       borderRadius: BorderRadius.circular(ParlaShape.pill),
     ),
-    child: Text(text, style: Theme.of(context).textTheme.labelMedium),
+    child: Text(
+      text,
+      style: const TextStyle(
+        fontSize: kMinTextSize,
+        color: ParlaColors.espresso,
+      ),
+    ),
   );
 }
 
@@ -377,55 +456,41 @@ class ShopProductScreen extends StatelessWidget {
     final campaign = item.data['campaign'];
     final own = item.data['sale'] == 'own';
     return Scaffold(
-      backgroundColor: ParlaColors.cream,
+      backgroundColor: Colors.transparent,
       extendBody: true,
       body: ListView(
         padding: const EdgeInsets.only(bottom: 120),
         children: [
-          HeroGlow(
-            padding: EdgeInsets.zero,
-            radius: BorderRadius.zero,
-            child: SafeArea(
-              bottom: false,
-              child: SizedBox(
-                height: 320,
-                child: Stack(
-                  children: [
-                    Center(
-                      child: Padding(
-                        padding: const EdgeInsets.fromLTRB(56, 16, 56, 44),
-                        child: item.image == null
-                            ? const ParlaIcon(
-                                ParlaIconName.bag,
-                                size: 72,
-                                color: ParlaColors.sunInk,
-                              )
-                            : ContentImage(
-                                image: item.image!,
-                                radius: ParlaShape.card,
-                              ),
-                      ),
-                    ),
-                    PositionedDirectional(
-                      start: 12,
-                      top: 8,
-                      child: RoundBack(onPressed: back),
-                    ),
-                  ],
-                ),
+          SafeArea(
+            bottom: false,
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(22, 14, 22, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Align(
+                    alignment: AlignmentDirectional.centerStart,
+                    child: RoundBack(onPressed: back),
+                  ),
+                  const SizedBox(height: 14),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(34),
+                    child: item.image == null
+                        ? _ProductArt(mood: 0, height: 300)
+                        : ContentImage(
+                            image: item.image!,
+                            aspectRatio: 1,
+                            radius: 34,
+                          ),
+                  ),
+                ],
               ),
             ),
           ),
-          Transform.translate(
-            offset: const Offset(0, -32),
+          Padding(
+            padding: const EdgeInsets.only(top: 14),
             child: Container(
-              decoration: const BoxDecoration(
-                color: ParlaColors.cream,
-                borderRadius: BorderRadius.vertical(
-                  top: Radius.circular(ParlaShape.sheet),
-                ),
-              ),
-              padding: const EdgeInsets.fromLTRB(20, 24, 20, 0),
+              padding: const EdgeInsets.fromLTRB(22, 8, 22, 0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
@@ -436,9 +501,10 @@ class ShopProductScreen extends StatelessWidget {
                       const Spacer(),
                       Text(
                         shopCategoryText(l10n, item.category).toUpperCase(),
-                        style: text.labelMedium?.copyWith(
-                          color: ParlaColors.sunInk,
-                          letterSpacing: .6,
+                        style: const TextStyle(
+                          fontSize: kMinTextSize,
+                          letterSpacing: 1,
+                          color: Glass.soft,
                         ),
                       ),
                     ],
@@ -446,9 +512,10 @@ class ShopProductScreen extends StatelessWidget {
                   const SizedBox(height: 12),
                   Text(
                     '${item.data['brand'] ?? ''}'.toUpperCase(),
-                    style: text.labelMedium?.copyWith(
-                      color: ParlaColors.sunInk,
-                      letterSpacing: .8,
+                    style: const TextStyle(
+                      fontSize: kMinTextSize,
+                      letterSpacing: 1,
+                      color: Glass.soft,
                     ),
                   ),
                   const SizedBox(height: 4),
@@ -456,7 +523,13 @@ class ShopProductScreen extends StatelessWidget {
                     header: true,
                     child: Text(
                       item.text('name', language),
-                      style: text.headlineMedium,
+                      style: const TextStyle(
+                        fontSize: 30,
+                        fontWeight: FontWeight.w200,
+                        letterSpacing: -.8,
+                        height: 1.15,
+                        color: ParlaColors.espresso,
+                      ),
                     ),
                   ),
                   if (description.isNotEmpty) ...[
@@ -466,7 +539,7 @@ class ShopProductScreen extends StatelessWidget {
                   const SizedBox(height: 16),
                   Text(
                     l10n.shopPriceNote,
-                    style: text.bodySmall?.copyWith(color: ParlaColors.muted),
+                    style: text.bodySmall?.copyWith(color: Glass.soft),
                   ),
                 ],
               ),
@@ -478,13 +551,10 @@ class ShopProductScreen extends StatelessWidget {
         minimum: const EdgeInsets.only(bottom: 12),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Container(
+          child: GlassSurface(
+            radius: 40,
+            blur: true,
             padding: const EdgeInsets.fromLTRB(22, 8, 8, 8),
-            decoration: const ShapeDecoration(
-              color: ParlaColors.white,
-              shape: StadiumBorder(side: BorderSide(color: ParlaColors.line)),
-              shadows: kFloatShadow,
-            ),
             child: Row(
               children: [
                 Expanded(
@@ -492,7 +562,8 @@ class ShopProductScreen extends StatelessWidget {
                     l10n.shopPrice('${item.data['price'] ?? ''}'),
                     key: const ValueKey('shop-price'),
                     style: text.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w800,
+                      fontSize: 22,
+                      fontWeight: FontWeight.w300,
                     ),
                   ),
                 ),
@@ -500,14 +571,14 @@ class ShopProductScreen extends StatelessWidget {
                   PillButton(
                     key: const ValueKey('shop-buy'),
                     label: l10n.shopBuy,
-                    tone: PillTone.sun,
+                    tone: PillTone.dark,
                     onPressed: () => buyProduct(context, item),
                   ),
                 if (!own && url is String)
                   PillButton(
                     key: const ValueKey('shop-visit'),
                     label: l10n.shopVisitPartner,
-                    tone: PillTone.sun,
+                    tone: PillTone.dark,
                     onPressed: () {
                       scope.usage.count(UsageEvent.productTap, item.slug);
                       openPartnerSite(
@@ -666,20 +737,17 @@ class _ShopOrdersScreenState extends State<ShopOrdersScreen>
     return SubPage(
       title: l10n.shopMyOrders,
       onBack: () => context.go(Routes.shop),
-      background: ParlaColors.blush,
+      background: Colors.transparent,
       children: [
         if (orders == null && !_failed)
           const Center(child: CircularProgressIndicator()),
         if (_failed && orders == null) Text(l10n.shopBuyError),
         if (orders != null && orders.isEmpty) Text(l10n.shopOrdersEmpty),
         for (final o in orders ?? const <ShopOrderItem>[]) ...[
-          Container(
+          GlassCard(
             key: ValueKey('my-order-${o.number}'),
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: ParlaColors.white,
-              borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
-            ),
+            radius: 28,
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -690,7 +758,7 @@ class _ShopOrdersScreenState extends State<ShopOrdersScreen>
                 const SizedBox(height: 4),
                 Text(
                   l10n.shopOrderMeta(o.number, day(o.createdAt), o.quantity),
-                  style: text.bodySmall?.copyWith(color: ParlaColors.muted),
+                  style: text.bodySmall?.copyWith(color: Glass.soft),
                 ),
                 const SizedBox(height: 8),
                 Row(

@@ -8,6 +8,7 @@ import '../parla_scope.dart';
 import '../routes.dart';
 import '../services/parla_api.dart';
 import '../ui/brand.dart';
+import '../ui/night.dart';
 import 'content_library.dart';
 import 'discover_widgets.dart';
 
@@ -167,8 +168,11 @@ class BannerCard extends StatelessWidget {
     final usage = ParlaScope.of(context).usage..bannerShown(item.id);
     return Material(
       key: ValueKey('banner-${item.slug}'),
-      color: ParlaColors.white,
-      borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
+      color: NightColors.glass,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(28),
+        side: const BorderSide(color: NightColors.glassLine),
+      ),
       child: InkWell(
         borderRadius: BorderRadius.circular(ParlaSpace.cardRadius),
         onTap: site != null

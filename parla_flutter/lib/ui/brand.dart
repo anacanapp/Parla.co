@@ -1,52 +1,71 @@
 import 'package:flutter/material.dart';
 
-/// Parla Sun brand palette (brand guidelines v2.0, section 03).
+/// Parla night palette (design 3.0, 2026-11-23: one dark mode only).
 ///
-/// Text is always [espresso], [sunInk] or [muted]: each passes WCAG AA on
-/// [cream], [white], [lemon], [sky] and [sage]. [sun] is a surface and
-/// accent colour only, never text on a light background.
+/// The names are the ones the screens already use, so each keeps its role:
+/// [cream] is the page, [white] a card surface, [espresso] the main ink.
+/// Text is always [espresso], [sunInk] or [muted]; each passes WCAG AA
+/// (4.5:1) on [cream], [white], [lemon], [sky], [sage], [sageTint],
+/// [blush] and [lilac] (checked in `test/night_palette_test.dart`).
+/// A surface in [espresso] (the selected or main action) carries [white]
+/// text, and [sun] carries [espresso] text.
 abstract final class ParlaColors {
-  static const sun = Color(0xFFFFCE00);
-  static const cream = Color(0xFFFFF9E8);
-  static const espresso = Color(0xFF1F1A14);
-  static const lemon = Color(0xFFFFEDA1);
-  static const sky = Color(0xFFCFE3F7);
-  static const sage = Color(0xFFB8CBB0);
-  static const sunInk = Color(0xFF7A5C00);
-  static const white = Color(0xFFFFFFFF);
+  /// Accent surface: selected chips and tabs, rings (plum, 4.9:1 under
+  /// [espresso] text).
+  static const sun = Color(0xFFA23C9A);
 
-  /// Secondary text and inactive icons (7.6:1 on white).
-  static const muted = Color(0xFF5C5246);
+  /// The page background behind everything.
+  static const cream = Color(0xFF0C0A1C);
 
-  /// Outline of an unchecked control (3.4:1 on white, enough for UI parts).
-  static const outline = Color(0xFF8A8170);
+  /// Main ink: text and icons, and the surface of the main action.
+  static const espresso = Color(0xFFF4E9FF);
 
-  /// Hairlines and the track of progress bars on cream.
-  static const line = Color(0xFFEFE4C6);
+  /// Tinted surfaces (dark plum, blue and green).
+  static const lemon = Color(0xFF2A1A40);
+  static const sky = Color(0xFF172246);
+  static const sage = Color(0xFF1E2C25);
 
-  /// Light tints for cards (redesign 2026-11).
-  static const sageTint = Color(0xFFE4EDDF);
-  static const blush = Color(0xFFF7E1E1);
-  static const lilac = Color(0xFFEBE3F5);
+  /// Accent text: eyebrows, accent lines, links.
+  static const sunInk = Color(0xFFF0B8D4);
 
-  /// Fitness section (redesign 2026-11): deep blue surface and its light
-  /// text (contrast 9.8:1).
-  static const sportBlue = Color(0xFF1E3A5F);
-  static const sportBlueText = Color(0xFFDCE8F5);
+  /// Card surface (dark glass), and the text on an [espresso] surface.
+  static const white = Color(0xFF1C1733);
+
+  /// Secondary text and inactive icons (8.2:1 on [white]).
+  static const muted = Color(0xFFB8AECB);
+
+  /// Outline of an unchecked control (4:1 on [white]).
+  static const outline = Color(0xFF7F7596);
+
+  /// Hairlines, card borders and the track of progress bars.
+  static const line = Color(0xFF332B4D);
+
+  /// Dark tints for cards.
+  static const sageTint = Color(0xFF1A261F);
+  static const blush = Color(0xFF331A2B);
+  static const lilac = Color(0xFF271D3F);
+
+  /// Fitness section: deep blue surface and its light text (9:1).
+  static const sportBlue = Color(0xFF1F2E8C);
+  static const sportBlueText = Color(0xFFDCE4FF);
 
   /// Progress fills that must stand out from their tile.
-  static const waterFill = Color(0xFF3A5A7A);
-  static const moveFill = Color(0xFF3F4A3A);
-  static const moveTrack = Color(0xFFE3ECDE);
+  static const waterFill = Color(0xFF7C95FF);
+  static const moveFill = Color(0xFFA9BCA6);
+  static const moveTrack = Color(0xFF2B3A31);
+
+  /// The small lime marker of the design (never text).
+  static const marker = Color(0xFFE8F06A);
 }
 
 /// Font families bundled in `assets/fonts` (SIL OFL 1.1).
 abstract final class ParlaFonts {
-  /// Interface text. Has no Cyrillic glyphs, so [fallback] draws Russian.
-  static const sans = 'PlusJakartaSans';
+  /// Interface text: Onest covers Latin, Azerbaijani and Cyrillic, from
+  /// ExtraLight (200) to ExtraBold (800).
+  static const sans = 'Onest';
 
-  /// Cyrillic (and Azerbaijani) fallback for [sans].
-  static const fallback = ['Onest'];
+  /// Fallback for anything [sans] lacks.
+  static const fallback = ['PlusJakartaSans'];
 
   /// Italic accent lines; covers Latin, Azerbaijani and Cyrillic.
   static const accent = 'PlayfairDisplay';
@@ -68,7 +87,7 @@ abstract final class ParlaSpace {
 
 /// Card shadow used across the app: soft, never a hard edge.
 const List<BoxShadow> kSoftShadow = [
-  BoxShadow(color: Color(0x0F1F1A14), blurRadius: 24, offset: Offset(0, 8)),
+  BoxShadow(color: Color(0x40000000), blurRadius: 24, offset: Offset(0, 8)),
 ];
 
 /// The italic accent line ("Hər gün bir az daha sən."). Playfair Display
@@ -102,40 +121,66 @@ ThemeData parlaTheme() {
     color: ink,
   );
 
+  // Night design: thin, large headlines (Onest 200–300) and medium
+  // titles; body text stays regular for legibility.
   final textTheme = TextTheme(
-    displayLarge: style(34, FontWeight.w800, height: 1.08, letterSpacing: -1),
-    headlineLarge: style(28, FontWeight.w800, height: 1.12, letterSpacing: -.6),
+    displayLarge: style(40, FontWeight.w200, height: 1.05, letterSpacing: -1.2),
+    displayMedium: style(32, FontWeight.w200, height: 1.05, letterSpacing: -.8),
+    headlineLarge: style(30, FontWeight.w300, height: 1.1, letterSpacing: -.8),
     headlineMedium: style(
       24,
-      FontWeight.w800,
+      FontWeight.w300,
       height: 1.15,
       letterSpacing: -.5,
     ),
-    headlineSmall: style(20, FontWeight.w800, height: 1.2, letterSpacing: -.3),
-    titleLarge: style(17, FontWeight.w800, height: 1.25),
-    titleMedium: style(15, FontWeight.w700),
-    titleSmall: style(14, FontWeight.w700),
+    headlineSmall: style(20, FontWeight.w500, height: 1.2, letterSpacing: -.3),
+    titleLarge: style(17, FontWeight.w600, height: 1.25),
+    titleMedium: style(15, FontWeight.w600),
+    titleSmall: style(14, FontWeight.w600),
     bodyLarge: style(16, FontWeight.w400, height: 1.45),
     bodyMedium: style(15, FontWeight.w400, height: 1.45),
     bodySmall: style(13, FontWeight.w400, height: 1.4),
-    labelLarge: style(16, FontWeight.w700),
-    labelMedium: style(13, FontWeight.w600),
-    labelSmall: style(12, FontWeight.w700, letterSpacing: 1),
+    labelLarge: style(16, FontWeight.w600),
+    labelMedium: style(13, FontWeight.w500),
+    labelSmall: style(12, FontWeight.w600, letterSpacing: 1),
   );
 
   return ThemeData(
     useMaterial3: true,
+    brightness: Brightness.dark,
     fontFamily: ParlaFonts.sans,
     fontFamilyFallback: ParlaFonts.fallback,
-    scaffoldBackgroundColor: ParlaColors.cream,
+    // Every page carries the night backdrop (see `_page` in routes.dart),
+    // so scaffolds stay transparent over it.
+    scaffoldBackgroundColor: Colors.transparent,
     colorScheme: ColorScheme.fromSeed(
       seedColor: ParlaColors.sun,
+      brightness: Brightness.dark,
       primary: ParlaColors.espresso,
       onPrimary: ParlaColors.white,
       secondary: ParlaColors.sun,
       onSecondary: ParlaColors.espresso,
       surface: ParlaColors.cream,
       onSurface: ParlaColors.espresso,
+      onSurfaceVariant: ParlaColors.muted,
+      outline: ParlaColors.outline,
+      outlineVariant: ParlaColors.line,
+      surfaceContainerHighest: ParlaColors.white,
+      error: const Color(0xFFFFB4C0),
+      onError: const Color(0xFF3A0A14),
+    ),
+    dividerColor: ParlaColors.line,
+    iconTheme: const IconThemeData(color: ParlaColors.espresso),
+    appBarTheme: const AppBarTheme(
+      backgroundColor: Colors.transparent,
+      foregroundColor: ParlaColors.espresso,
+      surfaceTintColor: Colors.transparent,
+      elevation: 0,
+      scrolledUnderElevation: 0,
+    ),
+    progressIndicatorTheme: const ProgressIndicatorThemeData(
+      color: ParlaColors.espresso,
+      linearTrackColor: ParlaColors.line,
     ),
     textTheme: textTheme,
     filledButtonTheme: FilledButtonThemeData(
@@ -199,14 +244,18 @@ ThemeData parlaTheme() {
     cardTheme: CardThemeData(
       color: ParlaColors.white,
       elevation: 0,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(22)),
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(22),
+        side: const BorderSide(color: ParlaColors.line),
+      ),
     ),
     dialogTheme: DialogThemeData(
-      backgroundColor: ParlaColors.cream,
+      backgroundColor: ParlaColors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
     ),
     bottomSheetTheme: const BottomSheetThemeData(
-      backgroundColor: ParlaColors.cream,
+      backgroundColor: ParlaColors.white,
+      dragHandleColor: ParlaColors.outline,
       showDragHandle: true,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
@@ -218,7 +267,7 @@ ThemeData parlaTheme() {
     snackBarTheme: SnackBarThemeData(
       backgroundColor: ParlaColors.espresso,
       contentTextStyle: style(15, FontWeight.w500).copyWith(
-        color: ParlaColors.cream,
+        color: ParlaColors.white,
       ),
       behavior: SnackBarBehavior.floating,
     ),

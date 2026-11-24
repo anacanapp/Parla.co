@@ -15,7 +15,7 @@ import '../routines/custom_routines.dart';
 import '../routines/routine_section.dart';
 import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
-import '../ui/parla_ui.dart';
+import '../ui/night.dart';
 
 /// M-17 "Rutin": face, hair and body routines, the user's own routines,
 /// today's habits and the last seven days.
@@ -63,7 +63,7 @@ class _HabitsScreenState extends State<HabitsScreen> {
     final scope = ParlaScope.of(context);
     final habits = scope.habits;
     return Scaffold(
-      backgroundColor: ParlaColors.cream,
+      backgroundColor: Colors.transparent,
       extendBody: true,
       bottomNavigationBar: const ParlaNavBar(selected: ParlaTab.routine),
       body: ListenableBuilder(
@@ -116,37 +116,29 @@ class _HabitsBody extends StatelessWidget {
     return SafeArea(
       bottom: false,
       child: ListView(
-        padding: const EdgeInsets.fromLTRB(20, 24, 20, 120),
+        padding: const EdgeInsets.fromLTRB(22, 22, 22, 120),
         children: [
           Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Semantics(
-                      header: true,
-                      child: Text(
-                        l10n.habitsScreenTitle,
-                        style: text.headlineLarge,
-                      ),
+                child: Semantics(
+                  header: true,
+                  child: Text(
+                    l10n.habitsScreenTitle,
+                    style: const TextStyle(
+                      fontSize: 34,
+                      fontWeight: FontWeight.w200,
+                      letterSpacing: -1,
+                      height: 1.1,
+                      color: ParlaColors.espresso,
                     ),
-                    const SizedBox(height: 4),
-                    Text(
-                      l10n.habitsScreenIntro,
-                      style: accentStyle(
-                        Localizations.localeOf(context),
-                        size: 18,
-                      ).copyWith(color: ParlaColors.sunInk),
-                    ),
-                  ],
+                  ),
                 ),
               ),
               const SizedBox(width: 12),
               Tooltip(
                 message: l10n.skinCardBody,
-                child: PillButton(
+                child: _GlassPill(
                   key: const ValueKey('habits-skin-analysis'),
                   label: l10n.skinCardTitle,
                   icon: ParlaIconName.scan,
@@ -155,7 +147,7 @@ class _HabitsBody extends StatelessWidget {
               ),
             ],
           ),
-          const SizedBox(height: 20),
+          const SizedBox(height: 16),
           RoutinesSection(
             key: ValueKey('routines-${query['area']}-${query['slot']}'),
             initialArea: RoutineArea.values
@@ -228,7 +220,7 @@ class _HabitsBody extends StatelessWidget {
             _LogRow(
               key: const ValueKey('habits-reminders'),
               icon: ParlaIconName.sparkle,
-              background: ParlaColors.white,
+              background: ParlaColors.lilac,
               title: l10n.remindersTitle,
               value: enabledReminders == 0
                   ? l10n.remindersSummaryOff
@@ -350,15 +342,20 @@ class _LogRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
-    return Container(
+    return GlassSurface(
       padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
-      decoration: BoxDecoration(
-        color: background,
-        borderRadius: BorderRadius.circular(24),
-      ),
       child: Row(
         children: [
-          ParlaIcon(icon, size: 28),
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: background,
+              shape: BoxShape.circle,
+            ),
+            alignment: Alignment.center,
+            child: ParlaIcon(icon, size: 22),
+          ),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
@@ -407,7 +404,7 @@ class _WeekCard extends StatelessWidget {
     final text = Theme.of(context).textTheme;
     final locale = Localizations.localeOf(context).toString();
     final weekday = DateFormat.E(locale);
-    return SoftCard(
+    return GlassSurface(
       padding: const EdgeInsets.all(16),
       child: Semantics(
         container: true,
@@ -431,7 +428,7 @@ class _WeekCard extends StatelessWidget {
                           height: _barHeight,
                           alignment: Alignment.bottomCenter,
                           decoration: BoxDecoration(
-                            color: ParlaColors.cream,
+                            color: const Color(0x14FFFFFF),
                             borderRadius: BorderRadius.circular(9),
                           ),
                           child: FractionallySizedBox(
@@ -474,4 +471,54 @@ class _WeekCard extends StatelessWidget {
     final clean = shortName.replaceAll('.', '');
     return clean.length <= 2 ? clean : clean.substring(0, 2);
   }
+}
+
+/// A small glass capsule button with an icon (skin analysis).
+class _GlassPill extends StatelessWidget {
+  const _GlassPill({
+    super.key,
+    required this.label,
+    required this.icon,
+    required this.onPressed,
+  });
+
+  final String label;
+  final ParlaIconName icon;
+  final VoidCallback onPressed;
+
+  @override
+  Widget build(BuildContext context) => Semantics(
+    button: true,
+    child: Material(
+      color: NightColors.glass,
+      shape: const StadiumBorder(
+        side: BorderSide(color: NightColors.glassLine),
+      ),
+      child: InkWell(
+        customBorder: const StadiumBorder(),
+        onTap: onPressed,
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(minHeight: 44),
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ParlaIcon(icon, size: 18),
+                const SizedBox(width: 8),
+                Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w500,
+                    color: ParlaColors.espresso,
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
 }
