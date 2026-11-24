@@ -430,10 +430,10 @@ abstract final class ContentRules {
       }
     }
 
-    void number(String key, int min, int max) {
+    void number(String key, int min, int max, {bool required = true}) {
       final v = json[key];
       if (v == null) {
-        if (complete) out.add('$key.missing');
+        if (complete && required) out.add('$key.missing');
         return;
       }
       if (v is! int || v < min || v > max) out.add('$key.invalid');
@@ -524,10 +524,14 @@ abstract final class ContentRules {
           'note',
           'allergens',
           'image',
+          'kcal',
         });
         text('title', maxTitle);
         number('minutes', 1, 240);
         number('servings', 1, 24);
+        // Approximate energy of one serving (owner 2026-11-24), shown
+        // as an estimate; optional.
+        number('kcal', 10, 2000, required: false);
         final groups = json['groups'];
         if (groups == null) {
           if (complete) out.add('groups.missing');

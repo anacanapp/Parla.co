@@ -457,11 +457,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteWhatGoes =>
-      'Deleted right away: your profile, quiz answers, health answers, your own routines and their encryption key, and your sign-in account. Your habit entries and the copy of your own routines on this phone are deleted too.';
+      'Deleted right away: your profile, quiz and health answers, your own routines kept on the server, your shopping list, your fitness and plate entries (with their encryption key), your support conversations and your sign-in account. Your habit entries, journal and saved recipes on this phone are deleted too.';
 
   @override
   String get deleteWhatStays =>
-      'Kept as proof, without your name or email: your consent history (3 years) and security log entries (1 year).';
+      'Kept without your email and unlinked from your account: your consent history (3 years) and security log entries (1 year) as proof, and your orders (if any) for accounting.';
 
   @override
   String get deleteExportFirst => 'Download my data first';
@@ -1782,7 +1782,7 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get nutritionNoCalories =>
-      'We do not count calories. Just variety: a colourful plate every day.';
+      'The plate does not count calories. Just variety: a colourful plate every day.';
 
   @override
   String get nutritionTip => 'Tip of the day';
@@ -1827,6 +1827,30 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get recipeAddAll => 'Add the ingredients to my shopping list';
+
+  @override
+  String get recipeSave => 'Save recipe';
+
+  @override
+  String get recipeUnsave => 'Remove from saved';
+
+  @override
+  String get nutritionDailyRecipe => 'Today\'s pick';
+
+  @override
+  String get nutritionPlateIdeas => 'Fill your plate';
+
+  @override
+  String get nutritionPlateIdeasNote =>
+      'Recipes for the groups you haven\'t had today.';
+
+  @override
+  String get nutritionSaved => 'Saved recipes';
+
+  @override
+  String recipeKcal(int kcal) {
+    return '≈ $kcal kcal · 1 serving (approximate)';
+  }
 
   @override
   String recipeAdded(int count) {

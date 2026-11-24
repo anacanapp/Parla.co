@@ -14,6 +14,7 @@ import '../ui/parla_icons.dart';
 import 'blog_widgets.dart';
 import 'discover_bento.dart';
 import 'discover_widgets.dart';
+import 'recipe_picks.dart';
 import 'skin_tips.dart';
 import 'article_body.dart';
 import 'banner_strip.dart';
@@ -511,10 +512,24 @@ class NutritionScreen extends StatelessWidget {
         scope.nutrition,
         scope.content,
         scope.habits,
+        scope.savedRecipes,
       ]),
       builder: (context, _) {
         final plate = scope.nutrition.today;
         final recipes = scope.content.items('recipe');
+        final now = scope.clock();
+        final pick = dailyRecipe(recipes, now);
+        final ideas = plateIdeas(recipes, plate, now);
+        final saved = [
+          for (final slug in scope.savedRecipes.slugs)
+            ?scope.content.find('recipe', slug),
+        ];
+        Widget row(PublishedItem r, {Key? key}) => ArticleRow(
+          tapKey: key,
+          item: r,
+          meta: _recipeMeta(l10n, r),
+          onTap: () => context.go(Routes.recipe, extra: r.slug),
+        );
         return SubPage(
           title: l10n.discoverNutrition,
           onBack: () => context.go(Routes.discover),
@@ -573,6 +588,15 @@ class NutritionScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 4),
                   Text(l10n.nutritionNoCalories, style: muted),
+                  if (ideas.isNotEmpty) ...[
+                    const SizedBox(height: 14),
+                    Text(l10n.nutritionPlateIdeas, style: text.titleSmall),
+                    const SizedBox(height: 2),
+                    Text(l10n.nutritionPlateIdeasNote, style: muted),
+                    const SizedBox(height: 8),
+                    for (final r in ideas)
+                      row(r, key: ValueKey('plate-idea-${r.slug}')),
+                  ],
                 ],
               ),
             ),
@@ -599,6 +623,27 @@ class NutritionScreen extends StatelessWidget {
                 ],
               ),
             ),
+            if (pick != null) ...[
+              const SizedBox(height: 20),
+              Semantics(
+                header: true,
+                child: Text(
+                  l10n.nutritionDailyRecipe,
+                  style: text.titleLarge,
+                ),
+              ),
+              const SizedBox(height: 8),
+              row(pick, key: const ValueKey('daily-recipe')),
+            ],
+            if (saved.isNotEmpty) ...[
+              const SizedBox(height: 12),
+              Semantics(
+                header: true,
+                child: Text(l10n.nutritionSaved, style: text.titleLarge),
+              ),
+              const SizedBox(height: 8),
+              for (final r in saved) row(r, key: ValueKey('saved-${r.slug}')),
+            ],
             const SizedBox(height: 20),
             Semantics(
               header: true,
@@ -671,10 +716,43 @@ class RecipeScreen extends StatelessWidget {
           ),
         ),
         const SizedBox(height: 8),
-        Semantics(
-          header: true,
-          child: Text(r.text('title', language), style: text.headlineLarge),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Semantics(
+                header: true,
+                child: Text(
+                  r.text('title', language),
+                  style: text.headlineLarge,
+                ),
+              ),
+            ),
+            ListenableBuilder(
+              listenable: scope.savedRecipes,
+              builder: (context, _) {
+                final saved = scope.savedRecipes.contains(r.slug);
+                return IconButton(
+                  key: const ValueKey('recipe-save'),
+                  tooltip: saved ? l10n.recipeUnsave : l10n.recipeSave,
+                  isSelected: saved,
+                  onPressed: () => scope.savedRecipes.toggle(r.slug),
+                  icon: Icon(
+                    saved ? Icons.bookmark_rounded : Icons.bookmark_border,
+                  ),
+                );
+              },
+            ),
+          ],
         ),
+        if ((r.data['kcal'] as num?)?.toInt() case final kcal?) ...[
+          const SizedBox(height: 4),
+          Text(
+            l10n.recipeKcal(kcal),
+            key: const ValueKey('recipe-kcal'),
+            style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
+          ),
+        ],
         const SizedBox(height: 12),
         Wrap(
           spacing: 6,

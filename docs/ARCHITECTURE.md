@@ -392,6 +392,16 @@ messages and push notifications (D) follow.
   that needs the expert review. A recipe's ingredients can be added to the
   shopping list (origin `recipe`). The tool says that it is general
   information, not a diet or medical advice.
+- **Recipes (owner 2026-11-24).**
+  - **Today's pick:** one recipe a day, chosen by the date (the same all day and on every phone).
+  - **Fill your plate:** up to three recipes that add the plate groups not yet ticked today.
+  - **Saved recipes:** only the slugs, kept on this phone per account (`savedRecipes:<account>` in the shared preferences). Never sent; part of the data download (`deviceSavedRecipes`) and erased with the account.
+  - **Calories:**
+    - A recipe may carry `kcal`, an approximate energy of one serving (10–2000, optional), shown on the recipe as an estimate.
+    - The plate itself still counts no calories.
+    - The 76 values in `recipe_kcal.dart` were estimated from the ingredients and are applied once with `PARLA_TASK=set-recipe-kcal` (only where no `kcal` is set; audited `content.kcal_set`).
+    - The same task fills three recipes' missing amounts once (`recipeIngredientFixes`: butter for herb-qutab, the vegetables of hummus-veg, the oil of steak-chimichurri; audited `content.ingredients_fixed`).
+    - **Needs a dietitian** to check the values.
 
 ## Content from the sheet
 

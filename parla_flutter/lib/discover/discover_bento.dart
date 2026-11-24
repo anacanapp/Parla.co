@@ -577,10 +577,15 @@ class ArticleRow extends StatelessWidget {
     required this.item,
     required this.onTap,
     this.meta,
+    this.tapKey,
   });
 
   final PublishedItem item;
   final VoidCallback onTap;
+
+  /// The tap target's key; `<kind>-<slug>` by default. Rows of the same
+  /// item elsewhere on the page (today's pick, saved) need their own.
+  final Key? tapKey;
 
   /// The line above the title; the article kicker when `null`.
   final String? meta;
@@ -598,7 +603,7 @@ class ArticleRow extends StatelessWidget {
           borderRadius: BorderRadius.circular(28),
           clipBehavior: Clip.antiAlias,
           child: InkWell(
-            key: ValueKey('${item.kind}-${item.slug}'),
+            key: tapKey ?? ValueKey('${item.kind}-${item.slug}'),
             onTap: onTap,
             child: Padding(
               padding: const EdgeInsets.all(8),

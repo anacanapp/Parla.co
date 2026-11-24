@@ -901,13 +901,13 @@ abstract class AppLocalizations {
   /// No description provided for @deleteWhatGoes.
   ///
   /// In en, this message translates to:
-  /// **'Deleted right away: your profile, quiz answers, health answers, your own routines and their encryption key, and your sign-in account. Your habit entries and the copy of your own routines on this phone are deleted too.'**
+  /// **'Deleted right away: your profile, quiz and health answers, your own routines kept on the server, your shopping list, your fitness and plate entries (with their encryption key), your support conversations and your sign-in account. Your habit entries, journal and saved recipes on this phone are deleted too.'**
   String get deleteWhatGoes;
 
   /// No description provided for @deleteWhatStays.
   ///
   /// In en, this message translates to:
-  /// **'Kept as proof, without your name or email: your consent history (3 years) and security log entries (1 year).'**
+  /// **'Kept without your email and unlinked from your account: your consent history (3 years) and security log entries (1 year) as proof, and your orders (if any) for accounting.'**
   String get deleteWhatStays;
 
   /// No description provided for @deleteExportFirst.
@@ -3187,7 +3187,7 @@ abstract class AppLocalizations {
   /// No description provided for @nutritionNoCalories.
   ///
   /// In en, this message translates to:
-  /// **'We do not count calories. Just variety: a colourful plate every day.'**
+  /// **'The plate does not count calories. Just variety: a colourful plate every day.'**
   String get nutritionNoCalories;
 
   /// No description provided for @nutritionTip.
@@ -3267,6 +3267,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Add the ingredients to my shopping list'**
   String get recipeAddAll;
+
+  /// No description provided for @recipeSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save recipe'**
+  String get recipeSave;
+
+  /// No description provided for @recipeUnsave.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from saved'**
+  String get recipeUnsave;
+
+  /// No description provided for @nutritionDailyRecipe.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s pick'**
+  String get nutritionDailyRecipe;
+
+  /// No description provided for @nutritionPlateIdeas.
+  ///
+  /// In en, this message translates to:
+  /// **'Fill your plate'**
+  String get nutritionPlateIdeas;
+
+  /// No description provided for @nutritionPlateIdeasNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Recipes for the groups you haven\'t had today.'**
+  String get nutritionPlateIdeasNote;
+
+  /// No description provided for @nutritionSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved recipes'**
+  String get nutritionSaved;
+
+  /// No description provided for @recipeKcal.
+  ///
+  /// In en, this message translates to:
+  /// **'≈ {kcal} kcal · 1 serving (approximate)'**
+  String recipeKcal(int kcal);
 
   /// No description provided for @recipeAdded.
   ///

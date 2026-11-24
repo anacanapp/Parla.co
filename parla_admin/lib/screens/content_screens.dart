@@ -859,6 +859,13 @@ const _fields = <String, List<_Field>>{
     _Field('note', 'Qeyd', _FieldType.multiline),
     _Field('minutes', 'Vaxt (dəq)', _FieldType.number, localized: false),
     _Field('servings', 'Nəfər', _FieldType.number, localized: false),
+    _Field(
+      'kcal',
+      'Kalori, 1 porsiya (təxmini, kkal)',
+      _FieldType.number,
+      localized: false,
+      help: 'Boş qala bilər. Dietoloq yoxlamalıdır.',
+    ),
     _Field('groups', 'Boşqab qrupları', _FieldType.groups, localized: false),
     _Field('allergens', 'Allergenlər', _FieldType.allergens, localized: false),
   ],

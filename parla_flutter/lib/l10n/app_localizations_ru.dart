@@ -455,11 +455,11 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get deleteWhatGoes =>
-      'Сразу удаляются: профиль, ответы теста, ответы о здоровье, ваши рутины и их ключ шифрования, аккаунт для входа. Записи о привычках и копия ваших рутин на этом телефоне тоже удаляются.';
+      'Сразу удаляются: профиль, ответы теста и ответы о здоровье, ваши рутины на сервере, список покупок, записи о тренировках и тарелке (вместе с ключом шифрования), переписка с поддержкой и аккаунт для входа. Записи о привычках, дневник и сохранённые рецепты на этом телефоне тоже удаляются.';
 
   @override
   String get deleteWhatStays =>
-      'Остаются как доказательство, без имени и почты: история согласий (3 года) и записи безопасности (1 год).';
+      'Остаются без вашей почты и без связи с аккаунтом: история согласий (3 года) и записи безопасности (1 год) как доказательство, а ваши заказы (если были) — для бухгалтерии.';
 
   @override
   String get deleteExportFirst => 'Сначала скачать мои данные';
@@ -1791,7 +1791,7 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get nutritionNoCalories =>
-      'Мы не считаем калории. Просто разнообразие: каждый день яркая тарелка.';
+      'На тарелке мы не считаем калории. Просто разнообразие: каждый день яркая тарелка.';
 
   @override
   String get nutritionTip => 'Совет дня';
@@ -1836,6 +1836,30 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get recipeAddAll => 'Добавить ингредиенты в список покупок';
+
+  @override
+  String get recipeSave => 'Сохранить рецепт';
+
+  @override
+  String get recipeUnsave => 'Убрать из сохранённых';
+
+  @override
+  String get nutritionDailyRecipe => 'Рецепт дня';
+
+  @override
+  String get nutritionPlateIdeas => 'Дополни тарелку';
+
+  @override
+  String get nutritionPlateIdeasNote =>
+      'Рецепты для групп, которых сегодня ещё не было.';
+
+  @override
+  String get nutritionSaved => 'Сохранённые';
+
+  @override
+  String recipeKcal(int kcal) {
+    return '≈ $kcal ккал · 1 порция (примерно)';
+  }
 
   @override
   String recipeAdded(int count) {
