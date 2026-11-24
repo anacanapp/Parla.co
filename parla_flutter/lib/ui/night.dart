@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 
 import 'brand.dart';
 import 'parla_icons.dart';
+import 'warm.dart';
 
 /// Building blocks of the night design (Parla 3.0, prototype "Parla 3.0 —
 /// şüşə dizayn", variant A, 2026-11-23): a dark page with soft blue and
@@ -25,84 +26,15 @@ abstract final class NightColors {
   static const glassLine = Color(0x2EFFFFFF);
 }
 
-/// The night page: deep background, two glows and a still grain. Put it
-/// behind a [Scaffold] with a transparent background.
+/// The page behind every route: now the warm day backdrop
+/// ([WarmBackdrop]); the name stays for the routes that use it.
 class NightBackdrop extends StatelessWidget {
   const NightBackdrop({super.key, required this.child});
 
   final Widget child;
 
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-    decoration: const BoxDecoration(color: NightColors.deep),
-    child: Stack(
-      fit: StackFit.expand,
-      children: [
-        const ExcludeSemantics(
-          child: RepaintBoundary(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: RadialGradient(
-                  center: Alignment(-0.7, -0.75),
-                  radius: 0.9,
-                  colors: [NightColors.glowBlue, Color(0x004056FF)],
-                ),
-              ),
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: RadialGradient(
-                    center: Alignment(1, 0.2),
-                    radius: 0.9,
-                    colors: [NightColors.glowMagenta, Color(0x00D62EA0)],
-                  ),
-                ),
-                child: CustomPaint(painter: _GrainPainter()),
-              ),
-            ),
-          ),
-        ),
-        child,
-      ],
-    ),
-  );
-}
-
-/// A fixed, faint grain: the same dots every time, painted once and cached
-/// by the surrounding [RepaintBoundary].
-class _GrainPainter extends CustomPainter {
-  const _GrainPainter();
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final random = math.Random(7);
-    final count = (size.width * size.height / 90).clamp(0, 12000).toInt();
-    final light = <Offset>[];
-    final dark = <Offset>[];
-    for (var i = 0; i < count; i++) {
-      final point = Offset(
-        random.nextDouble() * size.width,
-        random.nextDouble() * size.height,
-      );
-      (i.isEven ? light : dark).add(point);
-    }
-    final paint = Paint()
-      ..strokeWidth = 1
-      ..strokeCap = StrokeCap.square;
-    canvas
-      ..drawPoints(
-        ui.PointMode.points,
-        light,
-        paint..color = const Color(0x0FFFFFFF),
-      )
-      ..drawPoints(
-        ui.PointMode.points,
-        dark,
-        paint..color = const Color(0x14000000),
-      );
-  }
-
-  @override
-  bool shouldRepaint(_GrainPainter oldDelegate) => false;
+  Widget build(BuildContext context) => WarmBackdrop(child: child);
 }
 
 /// Satin glass (owner, 2026-11-24, after the "AI Glucose Scan" card of
@@ -146,11 +78,11 @@ class LiquidGlass extends StatelessWidget {
   static const clear = LinearGradient(
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
-    colors: [Color(0x24FFFFFF), Color(0x0FFFFFFF)],
+    colors: [Color(0xA6FFFFFF), Color(0x66FFFFFF)],
   );
 
   /// Brighter clear glass for the current or chosen row.
-  static const bright = Color(0x2EFFFFFF);
+  static const bright = Color(0xD9FFFFFF);
 
   static const blurSigma = 22.0;
 
@@ -323,18 +255,17 @@ class GlassSurface extends StatelessWidget {
       LiquidGlass(radius: radius, padding: padding, child: child);
 }
 
-/// The colour moods of [MeshTile], soft versions of the reference video's
-/// palette (owner, 2026-11-24): magenta to violet, lavender, blue, orchid,
-/// rose and plum. Each runs [from] → [to] → [deep] and carries light ink
+/// The colour moods of [MeshTile] in the warm day design: rose, lime,
+/// smoky brown, burnt orange, coral and dark smoke (the old names stay). Each runs [from] → [to] → [deep] and carries light ink
 /// that passes WCAG AA on all three (checked in
 /// `test/night_palette_test.dart`). The names are the tiles' old ones.
 enum MeshTone {
-  pink(Color(0xFF9E4D8C), Color(0xFF7E4BA6), Color(0xFF3E0828), _light),
-  sage(Color(0xFF7558B2), Color(0xFF5A3F99), Color(0xFF0E1410), _light),
-  blue(Color(0xFF4E62C6), Color(0xFF3A49A8), Color(0xFF050B2E), _light),
-  orange(Color(0xFF9A4E95), Color(0xFF80479A), Color(0xFF2E4CF0), _light),
-  rose(Color(0xFF9C4A82), Color(0xFF7A3470), Color(0xFF5C0D3E), _light),
-  plum(Color(0xFF8E4FA8), Color(0xFF5E2F8C), Color(0xFF14061F), _light);
+  pink(Color(0xFFA5625A), Color(0xFFA6664F), Color(0xFF6E3A30), _light),
+  sage(Color(0xFF56650F), Color(0xFF667A14), Color(0xFF3A4608), _light),
+  blue(Color(0xFF5A4E4A), Color(0xFF3E3532), Color(0xFF241C18), _light),
+  orange(Color(0xFFA9561C), Color(0xFF9A4A16), Color(0xFF5A2A0C), _light),
+  rose(Color(0xFFA9503E), Color(0xFF9C4A3A), Color(0xFF5E2A20), _light),
+  plum(Color(0xFF6A4A3E), Color(0xFF4A342C), Color(0xFF2E201A), _light);
 
   const MeshTone(this.from, this.to, this.blob, this.ink);
 
@@ -359,7 +290,7 @@ enum MeshTone {
       Color.lerp(to, const Color(0xFF000000), isLight ? .1 : .35)!;
 }
 
-const _light = Color(0xFFF4E9FF);
+const _light = Color(0xFFFFFFFF);
 const _darkPink = Color(0xFF2A0A1C);
 
 /// A rounded tile in a [MeshTone]'s colours as satin glass ([LiquidGlass]):
@@ -439,9 +370,9 @@ class PebbleCard extends StatelessWidget {
 
   /// The gradient's stops, top to bottom (light ink passes AA on each).
   static const stops = [
-    Color(0xFF8E4FA8),
-    Color(0xFF5E2F8C),
-    Color(0xFF2E1550),
+    Color(0xFF6A4A3E),
+    Color(0xFF4A342C),
+    Color(0xFF2E201A),
   ];
 
   @override
@@ -453,9 +384,9 @@ class PebbleCard extends StatelessWidget {
       colors: stops,
     ),
     child: DefaultTextStyle.merge(
-      style: const TextStyle(color: ParlaColors.espresso),
+      style: const TextStyle(color: _light),
       child: IconTheme.merge(
-        data: const IconThemeData(color: ParlaColors.espresso),
+        data: const IconThemeData(color: _light),
         child: Padding(padding: padding, child: child),
       ),
     ),

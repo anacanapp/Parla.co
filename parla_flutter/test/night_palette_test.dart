@@ -85,7 +85,7 @@ void main() {
   test('light ink passes AA on every pebble stop', () {
     for (final stop in PebbleCard.stops) {
       expect(
-        contrast(ParlaColors.espresso, stop),
+        contrast(const Color(0xFFFFFFFF), stop),
         greaterThanOrEqualTo(4.5),
         reason: '$stop',
       );

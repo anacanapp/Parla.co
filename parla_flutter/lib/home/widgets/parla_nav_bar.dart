@@ -3,9 +3,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../routes.dart';
-import '../../ui/brand.dart';
 import '../../ui/parla_icons.dart';
-import '../../ui/night.dart';
 
 /// The five main tabs (owner's order, 2026-11-20). Sport opens from
 /// Discover; the profile and privacy centre is the last tab.
@@ -54,11 +52,21 @@ class ParlaNavBar extends StatelessWidget {
         minimum: const EdgeInsets.only(bottom: 18),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: GlassSurface(
+          // Warm day design: a black capsule; the open tab is white.
+          child: Container(
             key: const ValueKey('parla-nav'),
-            radius: 33,
-            blur: true,
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 6),
+            decoration: const ShapeDecoration(
+              color: Color(0xE00F0F12),
+              shape: StadiumBorder(),
+              shadows: [
+                BoxShadow(
+                  color: Color(0x33281409),
+                  blurRadius: 30,
+                  offset: Offset(0, 12),
+                ),
+              ],
+            ),
             child: SizedBox(
               height: 64,
               child: Row(
@@ -108,7 +116,7 @@ class _NavItem extends StatelessWidget {
   Widget build(BuildContext context) {
     // The open tab: a light capsule with dark ink; the others are light
     // icons at 75 % on the glass.
-    final color = selected ? _ink : const Color(0xBFF4E9FF);
+    final color = selected ? _ink : const Color(0xD9FFFFFF);
     return Semantics(
       button: true,
       selected: selected,
@@ -123,7 +131,7 @@ class _NavItem extends StatelessWidget {
           constraints: const BoxConstraints(minWidth: 50),
           padding: EdgeInsets.symmetric(horizontal: selected ? 16 : 0),
           decoration: ShapeDecoration(
-            color: selected ? ParlaColors.espresso : Colors.transparent,
+            color: selected ? Colors.white : Colors.transparent,
             shape: const StadiumBorder(),
           ),
           child: Row(
