@@ -502,6 +502,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'These documents are being prepared with a lawyer and will appear here before launch.';
 
   @override
+  String get legalPrivacyPolicy => 'Privacy policy';
+
+  @override
+  String get legalTerms => 'Terms of use';
+
+  @override
   String get legalConsentsTitle => 'Consent texts';
 
   @override

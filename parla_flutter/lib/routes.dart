@@ -14,6 +14,7 @@ import 'routines/routine_builder_screen.dart';
 import 'sport/sport_quiz_screen.dart';
 import 'sport/sport_screen.dart';
 import 'sport/workout_screen.dart';
+import 'screens/legal_docs.dart';
 import 'screens/age_screen.dart';
 import 'screens/consent_screen.dart';
 import 'screens/coming_soon_screens.dart';
@@ -92,6 +93,7 @@ abstract final class Routes {
   static const messages = '/messages'; // Announcements and support (D2)
   static const privacy = '/privacy'; // M-25, M-27, M-28
   static const legal = '/privacy/legal'; // M-34
+  static const legalDoc = '/privacy/legal/doc';
   static const deleteAccount = '/privacy/delete'; // M-32
   static const accountDeleted = '/account-deleted'; // M-33
 }
@@ -205,6 +207,11 @@ GoRouter buildRouter() => GoRouter(
     _page(path: Routes.messages, builder: (_, _) => const MessagesScreen()),
     _page(path: Routes.privacy, builder: (_, _) => const PrivacyScreen()),
     _page(path: Routes.legal, builder: (_, _) => const LegalScreen()),
+    _page(
+      path: Routes.legalDoc,
+      redirect: (_, state) => state.extra is LegalDoc ? null : Routes.legal,
+      builder: (_, state) => LegalDocScreen(doc: state.extra! as LegalDoc),
+    ),
     _page(
       path: Routes.deleteAccount,
       builder: (_, _) => const DeleteAccountScreen(),
