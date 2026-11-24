@@ -122,13 +122,13 @@ void main() {
 
   test('one workout per day, types rotate, length follows minutes', () {
     final plan = planSport(
-      _a(types: ['fitness', 'pilates', 'wall_pilates'], days: 4, minutes: 40),
+      _a(types: ['fitness', 'cardio'], days: 4, minutes: 40),
     );
     expect(plan.workouts.map((w) => w.type), [
       'fitness',
-      'pilates',
-      'wall_pilates',
+      'cardio',
       'fitness',
+      'cardio',
     ]);
     expect(plan.workouts.map((w) => w.id), ['w1', 'w2', 'w3', 'w4']);
     for (final w in plan.workouts) {
@@ -212,6 +212,54 @@ void main() {
     expect(plan.workouts, isEmpty);
   });
 
+  test('each section plans only with its own types and ids', () {
+    final mixed = _a(types: ['fitness', 'pilates', 'cardio'], days: 3);
+    final fitness = planSport(mixed);
+    expect(fitness.workouts.map((w) => w.type), [
+      'fitness',
+      'cardio',
+      'fitness',
+    ]);
+    for (final (section, prefix) in [('pilates', 'p'), ('wall_pilates', 'v')]) {
+      final plan = planSport(mixed, section: section);
+      expect(plan.workouts.map((w) => w.id), [
+        '${prefix}1',
+        '${prefix}2',
+        '${prefix}3',
+      ]);
+      expect(plan.workouts.map((w) => w.type).toSet(), {section});
+      // Short of moves (safety), a section fills with stretching only.
+      expect(
+        _all(
+          plan,
+        ).map((e) => e.type).toSet().difference({section, 'stretching'}),
+        isEmpty,
+      );
+    }
+    // A section without any of its types still plans its own type.
+    expect(
+      planSport(_a(types: ['pilates']), section: 'fitness').workouts.first.type,
+      'fitness',
+    );
+  });
+
+  test('a workout id names its section', () {
+    expect(SportOptions.sectionOfWorkout('w2'), 'fitness');
+    expect(SportOptions.sectionOfWorkout('p1'), 'pilates');
+    expect(SportOptions.sectionOfWorkout('v3'), 'wall_pilates');
+    expect(SportOptions.sectionOfWorkout('yoga_evening'), 'yoga');
+    expect(SportOptions.sectionOfWorkout('face_yoga'), 'face_yoga');
+  });
+
+  test('sections share the latest safety answers', () {
+    final pilates = _a(types: ['pilates']);
+    final latest = _a(pregnancy: 'pregnant', injuries: {'knee'});
+    final synced = pilates.withSafetyOf(latest);
+    expect(synced.pregnancy, 'pregnant');
+    expect(synced.injuries, {'knee'});
+    expect(synced.types, ['pilates']);
+  });
+
   group('stored document', () {
     String doc(Object? answers, {Object? log}) => jsonEncode({
       'format': 1,
@@ -266,6 +314,41 @@ void main() {
             },
           ),
         ),
+        isFalse,
+      );
+    });
+
+    test('other sections are stored beside the fitness answers', () {
+      String withSections(Map<String, Object?> sections) => jsonEncode({
+        'format': 1,
+        'answers': _a().toJson(),
+        'sections': sections,
+        'log': {
+          '2026-11-15': ['w1', 'p1', 'v2', 'yoga_evening'],
+        },
+        'sound': true,
+      });
+      expect(
+        SportRules.isValid(
+          withSections({
+            'pilates': _a(types: ['pilates']).toJson(),
+            'wall_pilates': _a(types: ['wall_pilates']).toJson(),
+          }),
+        ),
+        isTrue,
+      );
+      // Fitness lives in "answers"; unknown sections and foreign types are
+      // refused.
+      expect(
+        SportRules.isValid(withSections({'fitness': _a().toJson()})),
+        isFalse,
+      );
+      expect(
+        SportRules.isValid(withSections({'yoga': _a().toJson()})),
+        isFalse,
+      );
+      expect(
+        SportRules.isValid(withSections({'pilates': _a().toJson()})),
         isFalse,
       );
     });

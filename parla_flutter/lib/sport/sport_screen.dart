@@ -12,9 +12,16 @@ import 'sport_book.dart';
 import 'sport_labels.dart';
 import 'sport_night.dart';
 
-/// Fitness tab: the questions first, then the weekly plan.
+/// Sport: five sections as chips (owner, 2026-11-24). Fitness, pilates and
+/// wall pilates ask their own questions first, then show their weekly plan;
+/// yoga and face yoga are fixed sessions without questions.
 class SportScreen extends StatefulWidget {
-  const SportScreen({super.key});
+  const SportScreen({super.key, this.section});
+
+  /// The section to open; fitness when `null` or unknown.
+  final String? section;
+
+  static const sections = [...SportOptions.sections, 'yoga', 'face_yoga'];
 
   @override
   State<SportScreen> createState() => _SportScreenState();
@@ -22,6 +29,9 @@ class SportScreen extends StatefulWidget {
 
 class _SportScreenState extends State<SportScreen> {
   bool _attached = false;
+  late String _section = SportScreen.sections.contains(widget.section)
+      ? widget.section!
+      : 'fitness';
 
   @override
   void didChangeDependencies() {
@@ -51,31 +61,103 @@ class _SportScreenState extends State<SportScreen> {
                 title: l10n.sportTitle,
                 onBack: () => context.go(Routes.discover),
               ),
-              const SizedBox(height: 18),
-              if (book.plan == null) const _Intro() else _PlanView(book: book),
-              const SizedBox(height: 22),
-              _SectionLabel(l10n.sportTypeFaceYoga),
-              const SizedBox(height: 10),
-              _SessionCard(
-                workout: faceYogaWorkout,
-                done: book.doneThisWeek.contains(faceYogaWorkoutId),
-                icon: ParlaIconName.sparkle,
+              const SizedBox(height: 14),
+              _SectionChips(
+                selected: _section,
+                onSelected: (s) => setState(() => _section = s),
               ),
-              const SizedBox(height: 22),
-              _SectionLabel(l10n.sportTypeYoga),
-              const SizedBox(height: 10),
-              for (final w in yogaWorkouts) ...[
-                _SessionCard(
-                  workout: w,
-                  done: book.doneThisWeek.contains(w.id),
-                  icon: ParlaIconName.moon,
-                ),
-                const SizedBox(height: 10),
-              ],
+              const SizedBox(height: 18),
+              ...switch (_section) {
+                'yoga' => [
+                  _SectionLabel(l10n.sportTypeYoga),
+                  const SizedBox(height: 10),
+                  for (final w in yogaWorkouts) ...[
+                    _SessionCard(
+                      workout: w,
+                      done: book.doneThisWeek.contains(w.id),
+                      icon: ParlaIconName.moon,
+                    ),
+                    const SizedBox(height: 10),
+                  ],
+                ],
+                'face_yoga' => [
+                  _SectionLabel(l10n.sportTypeFaceYoga),
+                  const SizedBox(height: 10),
+                  _SessionCard(
+                    workout: faceYogaWorkout,
+                    done: book.doneThisWeek.contains(faceYogaWorkoutId),
+                    icon: ParlaIconName.sparkle,
+                  ),
+                ],
+                final section => [
+                  if (book.planOf(section) == null)
+                    _Intro(section: section)
+                  else
+                    _PlanView(book: book, section: section),
+                ],
+              },
             ],
           ),
         ),
       ),
+    );
+  }
+}
+
+/// The five sections as capsules; the open one is light.
+class _SectionChips extends StatelessWidget {
+  const _SectionChips({required this.selected, required this.onSelected});
+
+  final String selected;
+  final ValueChanged<String> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      children: [
+        for (final id in SportScreen.sections)
+          Semantics(
+            button: true,
+            selected: id == selected,
+            child: Material(
+              key: ValueKey('sport-section-$id'),
+              color: id == selected ? SportNight.ink : const Color(0x0FFFFFFF),
+              shape: StadiumBorder(
+                side: id == selected
+                    ? BorderSide.none
+                    : const BorderSide(color: Color(0x2EFFFFFF)),
+              ),
+              child: InkWell(
+                customBorder: const StadiumBorder(),
+                onTap: () => onSelected(id),
+                child: ConstrainedBox(
+                  constraints: const BoxConstraints(minHeight: 44),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 10,
+                    ),
+                    child: Text(
+                      sportTypeLabel(l10n, id),
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: id == selected
+                            ? FontWeight.w600
+                            : FontWeight.w400,
+                        color: id == selected
+                            ? const Color(0xFF1A0B2A)
+                            : SportNight.ink,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }
@@ -101,7 +183,9 @@ class _SectionLabel extends StatelessWidget {
 
 /// The blue pebble shown before the questions.
 class _Intro extends StatelessWidget {
-  const _Intro();
+  const _Intro({required this.section});
+
+  final String section;
 
   @override
   Widget build(BuildContext context) {
@@ -128,7 +212,7 @@ class _Intro extends StatelessWidget {
           OrbPill(
             key: const ValueKey('sport-start'),
             label: l10n.sportStart,
-            onPressed: () => context.go(Routes.sportQuiz),
+            onPressed: () => context.go(Routes.sportQuiz, extra: section),
           ),
         ],
       ),
@@ -138,7 +222,9 @@ class _Intro extends StatelessWidget {
 
 /// "Edit my answers": a glass row with a plum orb.
 class _EditRow extends StatelessWidget {
-  const _EditRow();
+  const _EditRow({required this.section});
+
+  final String section;
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +233,7 @@ class _EditRow extends StatelessWidget {
       key: const ValueKey('sport-edit'),
       radius: 32,
       padding: const EdgeInsets.all(16),
-      onTap: () => context.go(Routes.sportQuiz),
+      onTap: () => context.go(Routes.sportQuiz, extra: section),
       child: Row(
         children: [
           Container(
@@ -180,16 +266,17 @@ class _EditRow extends StatelessWidget {
 }
 
 class _PlanView extends StatelessWidget {
-  const _PlanView({required this.book});
+  const _PlanView({required this.book, required this.section});
 
   final SportBook book;
+  final String section;
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final plan = book.plan!;
+    final plan = book.planOf(section)!;
     final done = book.doneThisWeek;
-    final next = book.next;
+    final next = book.nextOf(section);
     const muted = TextStyle(
       fontSize: kMinTextSize,
       height: 1.4,
@@ -228,7 +315,7 @@ class _PlanView extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 12),
-          const _EditRow(),
+          _EditRow(section: section),
         ],
       );
     }
@@ -347,7 +434,7 @@ class _PlanView extends StatelessWidget {
           ),
         ],
         const SizedBox(height: 12),
-        const _EditRow(),
+        _EditRow(section: section),
         const SizedBox(height: 22),
         _SectionLabel(l10n.sportWeekTitle),
         const SizedBox(height: 10),

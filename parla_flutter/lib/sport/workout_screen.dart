@@ -71,7 +71,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
       // The same safety answers as the plan leave moves out.
       return withoutAvoided(fixed, ParlaScope.of(context).sport.answers);
     }
-    for (final w in ParlaScope.of(context).sport.plan?.workouts ?? const []) {
+    for (final w in ParlaScope.of(context).sport.allWorkouts) {
       if (w.id == widget.workoutId) return w;
     }
     return null;
@@ -208,7 +208,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     }
     _timer?.cancel();
     WakelockPlus.disable().ignore();
-    context.go(Routes.sport);
+    context.go(
+      Routes.sport,
+      extra: SportOptions.sectionOfWorkout(widget.workoutId),
+    );
   }
 
   Future<void> _finish(Workout w) async {
@@ -256,7 +259,12 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                             tooltip: MaterialLocalizations.of(
                               context,
                             ).backButtonTooltip,
-                            onPressed: () => context.go(Routes.sport),
+                            onPressed: () => context.go(
+                              Routes.sport,
+                              extra: SportOptions.sectionOfWorkout(
+                                widget.workoutId,
+                              ),
+                            ),
                             icon: const Icon(Icons.arrow_back),
                           ),
                         ),
@@ -278,8 +286,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     final l10n = AppLocalizations.of(context);
     final language = Localizations.localeOf(context).languageCode;
     final fixed = fixedWorkoutById(w.id) != null;
-    final plan = ParlaScope.of(context).sport.plan;
-    final number = (plan?.workouts.indexOf(w) ?? -1) + 1;
+    // Plan workouts are numbered in their ids ("w2", "p1", "v3").
+    final number = fixed ? 0 : int.tryParse(w.id.substring(1)) ?? 1;
     const body = TextStyle(fontSize: 14, height: 1.45, color: SportNight.ink);
     const muted = TextStyle(
       fontSize: kMinTextSize,
@@ -293,7 +301,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           title: fixed
               ? sessionTitle(l10n, w.id)
               : l10n.sportWorkoutTitle(number),
-          onBack: () => context.go(Routes.sport),
+          onBack: () => context.go(
+            Routes.sport,
+            extra: SportOptions.sectionOfWorkout(widget.workoutId),
+          ),
           trailing: sound,
         ),
         const SizedBox(height: 6),
@@ -573,7 +584,10 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           label: l10n.sportBackToPlan,
           height: 68,
           background: const Color(0x99140620),
-          onPressed: () => context.go(Routes.sport),
+          onPressed: () => context.go(
+            Routes.sport,
+            extra: SportOptions.sectionOfWorkout(widget.workoutId),
+          ),
         ),
       ],
     );

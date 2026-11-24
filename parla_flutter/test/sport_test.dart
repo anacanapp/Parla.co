@@ -109,8 +109,12 @@ Future<void> _answer(
   List<String> goals = const ['tone'],
   List<String> areas = const ['full'],
   List<String> types = const ['fitness'],
+  String section = 'fitness',
   Future<void> Function()? safety,
 }) async {
+  if (section != 'fitness') {
+    await _tap(tester, find.byKey(ValueKey('sport-section-$section')));
+  }
   await _tap(tester, find.byKey(const ValueKey('sport-start')));
   for (final g in goals) {
     await _tap(tester, find.byKey(ValueKey('opt-$g')));
@@ -120,10 +124,12 @@ Future<void> _answer(
     await _tap(tester, find.byKey(ValueKey('opt-$a')));
   }
   await _next(tester);
-  for (final t in types) {
-    await _tap(tester, find.byKey(ValueKey('opt-$t')));
+  if (section == 'fitness') {
+    for (final t in types) {
+      await _tap(tester, find.byKey(ValueKey('opt-$t')));
+    }
+    await _next(tester);
   }
-  await _next(tester);
   await _next(tester); // level
   await _next(tester); // schedule
   if (safety != null) await safety();
@@ -165,14 +171,14 @@ void main() {
       tester,
       goals: ['muscle'],
       areas: ['arms', 'glutes'],
-      types: ['fitness', 'wall_pilates'],
+      types: ['fitness', 'stretching'],
     );
     expect(find.text('0 of 3 workouts'), findsOneWidget);
     expect(find.byKey(const ValueKey('workout-w1')), findsOneWidget);
     expect(find.text('Workout 2'), findsOneWidget);
     final answers = _local(app.store)['answers']! as Map;
     expect(answers['goals'], ['muscle']);
-    expect(answers['types'], ['fitness', 'wall_pilates']);
+    expect(answers['types'], ['fitness', 'stretching']);
     expect(app.api.sport, isNull);
   });
 
@@ -219,8 +225,8 @@ void main() {
   testWidgets('a workout runs through countdowns, sets, rests and timers, '
       'then is logged with its minutes', (tester) async {
     final app = await _open(tester);
-    await _answer(tester, types: ['wall_pilates']);
-    await _tap(tester, find.byKey(const ValueKey('workout-w1')));
+    await _answer(tester, section: 'wall_pilates');
+    await _tap(tester, find.byKey(const ValueKey('workout-v1')));
     expect(find.textContaining('Play music from your own music app'), findsOne);
     await _tap(tester, find.byKey(const ValueKey('workout-start')));
     expect(find.text('Move 1 of 7'), findsOneWidget);
@@ -253,7 +259,7 @@ void main() {
     }
     expect(find.text('Workout done'), findsOneWidget);
     expect(_local(app.store)['log'], {
-      '2026-11-15': ['w1'],
+      '2026-11-15': ['v1'],
     });
     expect(app.habits.data['user-1'], contains('moveMinutes'));
 
@@ -264,6 +270,7 @@ void main() {
   testWidgets('face yoga opens without the questions, warns first and is '
       'logged', (tester) async {
     final app = await _open(tester);
+    await _tap(tester, find.byKey(const ValueKey('sport-section-face_yoga')));
     await _tap(tester, find.byKey(const ValueKey('face-yoga')));
     expect(find.text('Face yoga'), findsWidgets);
     expect(find.byKey(const ValueKey('face-yoga-safety')), findsOneWidget);
@@ -298,6 +305,7 @@ void main() {
     tester,
   ) async {
     final app = await _open(tester);
+    await _tap(tester, find.byKey(const ValueKey('sport-section-yoga')));
     await _tap(tester, find.byKey(const ValueKey('session-yoga_evening')));
     expect(find.text('Evening calm'), findsWidgets);
     expect(find.byKey(const ValueKey('yoga-safety')), findsOneWidget);
@@ -429,6 +437,7 @@ void main() {
         ),
       ];
     await _open(tester, api: api);
+    await _tap(tester, find.byKey(const ValueKey('sport-section-face_yoga')));
     await _tap(tester, find.byKey(const ValueKey('face-yoga')));
     await _tap(tester, find.byKey(const ValueKey('workout-start')));
     expect(find.byKey(const ValueKey('test-player')), findsOneWidget);
@@ -477,7 +486,39 @@ void main() {
         ).toJson(),
       });
     await _open(tester, api: api);
+    // A pilates-only plan from before sections opens as the pilates section.
+    expect(find.byKey(const ValueKey('sport-start')), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('sport-section-pilates')));
     expect(find.text('0 of 2 workouts'), findsOneWidget);
+    expect(find.byKey(const ValueKey('workout-p1')), findsOneWidget);
+  });
+
+  testWidgets('pilates asks its own questions, without the types page, and '
+      'shares the safety answers with fitness', (tester) async {
+    final app = await _open(tester);
+    await _answer(tester);
+    await _tap(tester, find.byKey(const ValueKey('sport-section-pilates')));
+    expect(find.byKey(const ValueKey('workout-p1')), findsNothing);
+    await _tap(tester, find.byKey(const ValueKey('sport-start')));
+    expect(find.text('PILATES'), findsOneWidget);
+    await _next(tester); // goals filled from fitness
+    await _next(tester); // areas filled from fitness
+    expect(find.byKey(const ValueKey('opt-fitness')), findsNothing);
+    await _next(tester); // level
+    await _next(tester); // schedule
+    await _tap(tester, find.byKey(const ValueKey('opt-knee')));
+    await _tap(tester, find.text('Build my plan'));
+    expect(find.byKey(const ValueKey('workout-p1')), findsOneWidget);
+    expect(find.byKey(const ValueKey('workout-w1')), findsNothing);
+
+    final doc = _local(app.store);
+    final pilates = (doc['sections']! as Map)['pilates']! as Map;
+    expect(pilates['types'], ['pilates']);
+    expect(pilates['injuries'], ['knee']);
+    expect((doc['answers']! as Map)['injuries'], ['knee']);
+
+    await _tap(tester, find.byKey(const ValueKey('workout-p1')));
+    expect(find.byKey(const ValueKey('workout-start')), findsOneWidget);
   });
 
   for (final language in ['az', 'ru', 'en']) {

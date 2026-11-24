@@ -44,6 +44,35 @@ abstract final class SportOptions {
 
   /// Areas of the fixed sessions (not asked about in the questions).
   static const sessionAreas = ['face'];
+
+  /// Sections with their own questions and weekly plan (owner,
+  /// 2026-11-24). Yoga and face yoga are fixed sessions without questions.
+  static const sections = ['fitness', 'pilates', 'wall_pilates'];
+
+  /// Workout types each section plans with; stretching and cardio belong
+  /// to fitness.
+  static List<String> typesOf(String section) => switch (section) {
+    'pilates' => const ['pilates'],
+    'wall_pilates' => const ['wall_pilates'],
+    _ => const ['fitness', 'stretching', 'cardio'],
+  };
+
+  /// The section a workout id belongs to ("p2" is pilates, "yoga_evening"
+  /// is yoga); fitness for anything else.
+  static String sectionOfWorkout(String id) => switch (id) {
+    'face_yoga' => 'face_yoga',
+    _ when id.startsWith('yoga_') => 'yoga',
+    _ when id.startsWith('p') => 'pilates',
+    _ when id.startsWith('v') => 'wall_pilates',
+    _ => 'fitness',
+  };
+
+  /// The first letter of a section's workout ids ("w1", "p1", "v1").
+  static String idPrefixOf(String section) => switch (section) {
+    'pilates' => 'p',
+    'wall_pilates' => 'v',
+    _ => 'w',
+  };
 }
 
 /// The answers to the sport questions.
@@ -91,6 +120,43 @@ class SportAnswers {
   final bool doctorLimit;
 
   int get levelIndex => SportOptions.levels.indexOf(level).clamp(0, 2);
+
+  /// These answers for [section]: only the types that section plans with
+  /// (the section's own type when none is left).
+  SportAnswers forSection(String section) {
+    final allowed = SportOptions.typesOf(section);
+    final kept = [
+      for (final t in types)
+        if (allowed.contains(t)) t,
+    ];
+    return copyWith(types: kept.isEmpty ? [allowed.first] : kept);
+  }
+
+  /// These answers with the safety answers (pregnancy, injuries, doctor's
+  /// limit) of [other]: one person, so every section uses the latest ones.
+  SportAnswers withSafetyOf(SportAnswers other) => copyWith(
+    pregnancy: other.pregnancy,
+    injuries: other.injuries,
+    doctorLimit: other.doctorLimit,
+  );
+
+  SportAnswers copyWith({
+    List<String>? types,
+    String? pregnancy,
+    Set<String>? injuries,
+    bool? doctorLimit,
+  }) => SportAnswers(
+    goals: goals,
+    areas: areas,
+    types: types ?? this.types,
+    level: level,
+    days: days,
+    minutes: minutes,
+    dumbbells: dumbbells,
+    pregnancy: pregnancy ?? this.pregnancy,
+    injuries: injuries ?? this.injuries,
+    doctorLimit: doctorLimit ?? this.doctorLimit,
+  );
 
   Map<String, Object?> toJson() => {
     'goals': goals,
@@ -569,7 +635,8 @@ class Workout {
     required this.items,
   });
 
-  /// "w1" … "w5", stable for the same answers.
+  /// "w1" … "w5" (pilates "p1" …, wall pilates "v1" …), stable for the
+  /// same answers.
   final String id;
   final String type;
 
@@ -593,16 +660,19 @@ class SportPlan {
   final bool gentle;
 }
 
-/// Builds the weekly plan for [a].
-/// The weekly plan for [a]. Exercises in [exclude] (hidden by the team in
-/// the admin panel) are never picked.
-SportPlan planSport(SportAnswers a, {Set<String> exclude = const {}}) {
+/// The weekly plan of [section] for [a]. Exercises in [exclude] (hidden by
+/// the team in the admin panel) are never picked.
+SportPlan planSport(
+  SportAnswers a, {
+  Set<String> exclude = const {},
+  String section = 'fitness',
+}) {
   if (a.doctorLimit) return const SportPlan([], blocked: true);
   final gentle = a.pregnancy != 'no';
   final avoid = {...a.injuries, if (gentle) _p};
   final level = gentle ? 0 : a.levelIndex;
-  final types = a.types.where(SportOptions.types.contains).toList();
-  if (types.isEmpty) types.add('fitness');
+  final types = a.forSection(section).types;
+  final prefix = SportOptions.idPrefixOf(section);
   final focusAll = a.areas.isEmpty || a.areas.contains('full');
   final areas = focusAll
       ? const ['full']
@@ -663,7 +733,7 @@ SportPlan planSport(SportAnswers a, {Set<String> exclude = const {}}) {
     }
     workouts.add(
       Workout(
-        id: 'w${day + 1}',
+        id: '$prefix${day + 1}',
         type: type,
         focus: focus,
         items: [for (final e in chosen) _dose(e, a, level, gentle)],
@@ -713,9 +783,12 @@ abstract final class SportRules {
   static const keepLogDays = 90;
   static const maxBytes = 32 * 1024;
 
+  /// Finished workouts a day can hold (all sections and sessions).
+  static const maxPerDay = 12;
+
   static final _date = RegExp(r'^\d{4}-\d{2}-\d{2}$');
   static final _workout = RegExp(
-    r'^(w[1-5]|face_yoga|yoga_morning|yoga_evening|yoga_stretch)$',
+    r'^([wpv][1-5]|face_yoga|yoga_morning|yoga_evening|yoga_stretch)$',
   );
 
   static bool isValid(String encoded) {
@@ -727,7 +800,8 @@ abstract final class SportRules {
       return false;
     }
     if (json is! Map<String, Object?>) return false;
-    if (!json.keys.every({'format', 'answers', 'log', 'sound'}.contains)) {
+    const keys = {'format', 'answers', 'sections', 'log', 'sound'};
+    if (!json.keys.every(keys.contains)) {
       return false;
     }
     if (json['format'] != format) return false;
@@ -737,13 +811,28 @@ abstract final class SportRules {
     final answers = json['answers'];
     if (answers != null && !_answersValid(answers)) return false;
 
+    // Answers of the other planned sections; fitness stays in "answers"
+    // so older documents keep working.
+    final sections = json['sections'];
+    if (sections != null) {
+      if (sections is! Map<String, Object?>) return false;
+      for (final MapEntry(:key, :value) in sections.entries) {
+        if (key == 'fitness' || !SportOptions.sections.contains(key)) {
+          return false;
+        }
+        if (value == null || !_answersValid(value)) return false;
+        final types = (value as Map)['types'] as List;
+        if (!types.every(SportOptions.typesOf(key).contains)) return false;
+      }
+    }
+
     final log = json['log'] ?? const <String, Object?>{};
     if (log is! Map<String, Object?> || log.length > keepLogDays + 1) {
       return false;
     }
     for (final MapEntry(:key, :value) in log.entries) {
       if (!_date.hasMatch(key) || DateTime.tryParse(key) == null) return false;
-      if (value is! List || value.length > 9) return false;
+      if (value is! List || value.length > maxPerDay) return false;
       if (!value.every((w) => w is String && _workout.hasMatch(w))) {
         return false;
       }

@@ -219,9 +219,21 @@ wording rules and open legal questions: `docs/INGREDIENTS.md`.
 
 ## Fitness (redesign step 4)
 
+- **Sections** (owner, 2026-11-24): İdman has five chips: Fitnes,
+  Pilates, Divar pilatesi, Yoqa and Üz yoqası.
+  - Fitnes, Pilates and Divar pilatesi each ask their own questions and
+    keep their own weekly plan (`SportOptions.sections`).
+  - Stretching and low-impact cardio belong to Fitnes.
+  - Yoga and face yoga are fixed sessions without questions.
+  - Workout ids carry the section: `w1`, `p1`, `v1`
+    (`SportOptions.sectionOfWorkout`).
+  - The safety answers belong to the person, so saving one section copies
+    them into the others (`SportAnswers.withSafetyOf`).
+  - A document from before sections that chose pilates or wall pilates
+    opens those sections with the same answers.
 - **Questions**: one or two goals (tone, muscle, flexibility, posture,
-  endurance, unwind), focus areas, workout types (fitness, pilates, wall
-  pilates, stretching, low-impact cardio), level, days per week, minutes,
+  endurance, unwind), focus areas, workout types (Fitnes only: fitness,
+  stretching, low-impact cardio), level, days per week, minutes,
   dumbbells, and safety questions (pregnancy or the six months after
   birth, pain or injury, a doctor's limit).
 - **Plan** (`planSport` in `parla_shared`): one workout per day, with the
@@ -251,8 +263,9 @@ wording rules and open legal questions: `docs/INGREDIENTS.md`.
     only).
   - A finished workout is logged and its minutes are added to today's
     movement entry.
-- **Stored** like the other documents: the answers, the workout log (90
-  days) and the sound setting. The server keeps them encrypted in
+- **Stored** like the other documents: the fitness answers (`answers`),
+  the other sections' answers (`sections`), the workout log (90 days, at
+  most 12 a day) and the sound setting. The server keeps them encrypted in
   `sport_record`, only with a health consent that covers them
   (`healthVersionsCoveringSport`, from `health-2026-11-draft4`), and checks
   them against `SportRules`. Without that consent they stay on the phone,
