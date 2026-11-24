@@ -400,6 +400,12 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your data, your choices. Every right is one tap away.';
 
   @override
+  String get profileAccountTitle => 'Your account';
+
+  @override
+  String get profileAccountNote => 'We don\'t ask your name · email only';
+
+  @override
   String get privacyConsentsTitle => 'Consents';
 
   @override

@@ -790,6 +790,18 @@ abstract class AppLocalizations {
   /// **'Your data, your choices. Every right is one tap away.'**
   String get privacyIntro;
 
+  /// No description provided for @profileAccountTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Your account'**
+  String get profileAccountTitle;
+
+  /// Profile card under the account title: the app never asks for a name, the account is only an email address.
+  ///
+  /// In en, this message translates to:
+  /// **'We don\'t ask your name · email only'**
+  String get profileAccountNote;
+
   /// No description provided for @privacyConsentsTitle.
   ///
   /// In en, this message translates to:

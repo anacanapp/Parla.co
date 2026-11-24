@@ -156,10 +156,11 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
           children: [
             GlassTitle(l10n.navProfile),
             const SizedBox(height: 14),
+            // The account: no name is ever asked, only the email address.
             PebbleHeader(
-              icon: ParlaIconName.lock,
-              title: l10n.privacyTitle,
-              subtitle: l10n.privacyIntro,
+              icon: ParlaIconName.profile,
+              title: l10n.profileAccountTitle,
+              subtitle: l10n.profileAccountNote,
             ),
             const SizedBox(height: 14),
             ListenableBuilder(
@@ -184,6 +185,31 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
               },
             ),
             const SizedBox(height: 22),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Semantics(
+                    header: true,
+                    child: Text(
+                      l10n.privacyTitle,
+                      style: const TextStyle(
+                        fontSize: 24,
+                        fontWeight: FontWeight.w200,
+                        letterSpacing: -.5,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    l10n.privacyIntro,
+                    style: text.bodySmall?.copyWith(color: ParlaColors.muted),
+                  ),
+                ],
+              ),
+            ),
+            const SizedBox(height: 16),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6),
               child: Semantics(

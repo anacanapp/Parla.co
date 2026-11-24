@@ -389,6 +389,12 @@ class AppLocalizationsAz extends AppLocalizations {
       'Sənin datan, sənin seçimin. Hər hüququn bir toxunuş uzaqlığındadır.';
 
   @override
+  String get profileAccountTitle => 'Hesabın';
+
+  @override
+  String get profileAccountNote => 'Ad soruşmuruq · yalnız e-poçt';
+
+  @override
   String get privacyConsentsTitle => 'Razılıqlar';
 
   @override
