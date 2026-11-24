@@ -457,11 +457,11 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get deleteWhatGoes =>
-      'Deleted right away: your profile, quiz answers, health answers, your own routines and their encryption key, and your sign-in account. Your habit entries and the copy of your own routines on this phone are deleted too.';
+      'Deleted right away: your profile, quiz and health answers, your own routines kept on the server, your shopping list, your fitness and plate entries (with their encryption key), your support conversations and your sign-in account. Your habit entries, journal and saved recipes on this phone are deleted too.';
 
   @override
   String get deleteWhatStays =>
-      'Kept as proof, without your name or email: your consent history (3 years) and security log entries (1 year).';
+      'Kept without your email and unlinked from your account: your consent history (3 years) and security log entries (1 year) as proof, and your orders (if any) for accounting.';
 
   @override
   String get deleteExportFirst => 'Download my data first';

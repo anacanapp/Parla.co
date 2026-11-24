@@ -58,7 +58,7 @@ const recipeKcal = <String, int>{
   'green-beans-eggs': 210,
   'green-kiwi-smoothie': 160,
   'herb-kuku': 180,
-  'herb-qutab': 220,
+  'herb-qutab': 250,
   'hummus-veg': 280,
   'lamb-chops-pomegranate': 510,
   'lentil-pumpkin-feta-salad': 350,
@@ -90,6 +90,75 @@ const recipeKcal = <String, int>{
   'yoghurt-chicken-skewers': 230,
 };
 
+/// Fixes to the ingredients of three published recipes whose amounts were
+/// missing (owner 2026-11-24): `add` appends an ingredient, `amount`
+/// replaces the amount of the ingredient with that English name. Applied
+/// once: an ingredient already added, or an amount already set, is left.
+const recipeIngredientFixes = <String, List<Map<String, Object?>>>{
+  'herb-qutab': [
+    {
+      'add': {
+        'name': {
+          'az': 'Kərə yağı (üstünə sürtmək üçün)',
+          'ru': 'Сливочное масло (для смазывания)',
+          'en': 'Butter (for brushing)',
+        },
+        'amount': {'az': '1 xörək qaşığı', 'ru': '1 ст. ложка', 'en': '1 tbsp'},
+      },
+    },
+  ],
+  'hummus-veg': [
+    {
+      'amount': 'Carrot, cucumber, pepper',
+      'to': {
+        'az': '250 q, çubuq şəklində',
+        'ru': '250 г, соломкой',
+        'en': '250 g, cut into sticks',
+      },
+    },
+  ],
+  'steak-chimichurri': [
+    {
+      'amount': 'Olive oil',
+      'to': {
+        'az': '3 xörək qaşığı (sous və tərəvəz üçün)',
+        'ru': '3 ст. л. (для соуса и овощей)',
+        'en': '3 tbsp (sauce and vegetables)',
+      },
+    },
+  ],
+};
+
+/// [json] with the [fixes] applied; the same map when nothing changes.
+Map<String, Object?> applyIngredientFixes(
+  Map<String, Object?> json,
+  List<Map<String, Object?>> fixes,
+) {
+  final items = [
+    for (final i in (json['ingredients'] as List? ?? const []))
+      Map<String, Object?>.from(i as Map),
+  ];
+  var changed = false;
+  String en(Map<String, Object?> i) => '${(i['name'] as Map?)?['en']}';
+  for (final fix in fixes) {
+    if (fix['add'] case final Map<String, Object?> add) {
+      if (!items.any((i) => en(i) == en(add))) {
+        items.add(add);
+        changed = true;
+      }
+    } else if (fix['amount'] case final String name) {
+      for (final i in items) {
+        if (en(i) == name &&
+            '${(i['amount'] as Map?)?['en']}' != (fix['to']! as Map)['en']) {
+          i['amount'] = fix['to'];
+          changed = true;
+        }
+      }
+    }
+  }
+  return changed ? {...json, 'ingredients': items} : json;
+}
+
 /// The one-off task `PARLA_TASK=set-recipe-kcal`: writes [recipeKcal] into
 /// the working and the published copy of each recipe that has no
 /// `kcal` yet (a value set in the panel wins). Status and review stay as they are;
@@ -98,6 +167,7 @@ Future<String> runSetRecipeKcalTask(
   Session session,
   String email, {
   Map<String, int> values = recipeKcal,
+  Map<String, List<Map<String, Object?>>> fixes = recipeIngredientFixes,
 }) async {
   final staff = await taskAdmin(session, email);
   final rows = await ContentItem.db.find(
@@ -105,42 +175,66 @@ Future<String> runSetRecipeKcalTask(
     where: (t) => t.kind.equals(ContentKind.recipe.name),
   );
   var set = 0;
+  var fixed = 0;
   final skipped = <String>[];
   for (var row in rows) {
     final kcal = values[row.slug];
-    if (kcal == null) continue;
-    final draft = jsonDecode(row.draftJson) as Map<String, Object?>;
-    final published = row.publishedJson == null
+    final fix = fixes[row.slug];
+    if (kcal == null && fix == null) continue;
+    var draft = jsonDecode(row.draftJson) as Map<String, Object?>;
+    var published = row.publishedJson == null
         ? null
         : jsonDecode(row.publishedJson!) as Map<String, Object?>;
-    if (draft['kcal'] != null || published?['kcal'] != null) {
-      skipped.add('${row.slug} (has kcal)');
-      continue;
+    var fixedHere = false;
+    if (fix != null) {
+      final d = applyIngredientFixes(draft, fix);
+      final p = published == null ? null : applyIngredientFixes(published, fix);
+      fixedHere = !identical(d, draft) || !identical(p, published);
+      (draft, published) = (d, p);
     }
+    var kcalHere = false;
+    if (kcal != null) {
+      if (draft['kcal'] != null || published?['kcal'] != null) {
+        skipped.add('${row.slug} (has kcal)');
+      } else {
+        draft = {...draft, 'kcal': kcal};
+        published = published == null ? null : {...published, 'kcal': kcal};
+        kcalHere = true;
+      }
+    }
+    if (!fixedHere && !kcalHere) continue;
     row = await ContentItem.db.updateRow(
       session,
       row.copyWith(
-        draftJson: jsonEncode({...draft, 'kcal': kcal}),
-        publishedJson: published == null
-            ? null
-            : jsonEncode({...published, 'kcal': kcal}),
+        draftJson: jsonEncode(draft),
+        publishedJson: published == null ? null : jsonEncode(published),
         updatedBy: staff.authUserId,
         updatedAt: DateTime.now().toUtc(),
       ),
     );
-    await writeAudit(
-      session,
-      actorId: staff.authUserId,
-      actorRole: AuditActor.staff,
-      action: 'content.kcal_set',
-      objectType: 'content_item',
-      objectId: row.id.toString(),
-    );
-    set++;
+    for (final (done, action) in [
+      (kcalHere, 'content.kcal_set'),
+      (fixedHere, 'content.ingredients_fixed'),
+    ]) {
+      if (!done) continue;
+      await writeAudit(
+        session,
+        actorId: staff.authUserId,
+        actorRole: AuditActor.staff,
+        action: action,
+        objectType: 'content_item',
+        objectId: row.id.toString(),
+      );
+    }
+    if (kcalHere) set++;
+    if (fixedHere) fixed++;
   }
-  final missing = values.keys.where((s) => !rows.any((r) => r.slug == s));
+  final missing = {
+    ...values.keys,
+    ...fixes.keys,
+  }.where((s) => !rows.any((r) => r.slug == s));
   return [
-    'Set kcal on $set recipes.',
+    'Set kcal on $set recipes; fixed ingredients of $fixed.',
     if (skipped.isNotEmpty) 'Skipped: ${skipped.join('; ')}.',
     if (missing.isNotEmpty) 'No item: ${missing.join(', ')}.',
   ].join(' ');

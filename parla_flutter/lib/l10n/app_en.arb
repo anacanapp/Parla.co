@@ -232,8 +232,8 @@
   "privacySignOut": "Sign out",
   "privacyDeleteTitle": "Delete account",
   "deleteTitle": "Delete your account?",
-  "deleteWhatGoes": "Deleted right away: your profile, quiz answers, health answers, your own routines and their encryption key, and your sign-in account. Your habit entries and the copy of your own routines on this phone are deleted too.",
-  "deleteWhatStays": "Kept as proof, without your name or email: your consent history (3 years) and security log entries (1 year).",
+  "deleteWhatGoes": "Deleted right away: your profile, quiz and health answers, your own routines kept on the server, your shopping list, your fitness and plate entries (with their encryption key), your support conversations and your sign-in account. Your habit entries, journal and saved recipes on this phone are deleted too.",
+  "deleteWhatStays": "Kept without your email and unlinked from your account: your consent history (3 years) and security log entries (1 year) as proof, and your orders (if any) for accounting.",
   "deleteExportFirst": "Download my data first",
   "deleteConfirmLabel": "Type {word} to confirm",
   "@deleteConfirmLabel": {

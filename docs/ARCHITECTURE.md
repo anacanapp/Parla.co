@@ -400,6 +400,7 @@ messages and push notifications (D) follow.
     - A recipe may carry `kcal`, an approximate energy of one serving (10–2000, optional), shown on the recipe as an estimate.
     - The plate itself still counts no calories.
     - The 76 values in `recipe_kcal.dart` were estimated from the ingredients and are applied once with `PARLA_TASK=set-recipe-kcal` (only where no `kcal` is set; audited `content.kcal_set`).
+    - The same task fills three recipes' missing amounts once (`recipeIngredientFixes`: butter for herb-qutab, the vegetables of hummus-veg, the oil of steak-chimichurri; audited `content.ingredients_fixed`).
     - **Needs a dietitian** to check the values.
 
 ## Content from the sheet

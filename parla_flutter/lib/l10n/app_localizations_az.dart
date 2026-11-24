@@ -447,11 +447,11 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get deleteWhatGoes =>
-      'Dərhal silinir: profiliniz, test cavablarınız, sağlamlıq cavablarınız, öz rutinləriniz və onların şifrə açarı, giriş hesabınız. Bu telefondakı vərdiş qeydləriniz və öz rutinlərinizin nüsxəsi də silinir.';
+      'Dərhal silinir: profiliniz, test və sağlamlıq cavablarınız, serverdə saxlanan öz rutinləriniz, alış siyahınız, idman və boşqab qeydləriniz (şifrə açarı ilə birlikdə), dəstək yazışmalarınız və giriş hesabınız. Bu telefondakı vərdiş qeydləri, gündəlik və saxlanılan reseptlər də silinir.';
 
   @override
   String get deleteWhatStays =>
-      'Adınız və e-poçtunuz olmadan sübut kimi qalır: razılıq tarixçəsi (3 il) və təhlükəsizlik qeydləri (1 il).';
+      'E-poçtunuz və hesabınızla əlaqəsi olmadan qalır: razılıq tarixçəsi (3 il) və təhlükəsizlik qeydləri (1 il) sübut kimi, sifarişləriniz (varsa) isə mühasibat üçün.';
 
   @override
   String get deleteExportFirst => 'Əvvəlcə datamı yüklə';

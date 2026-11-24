@@ -792,58 +792,122 @@ void main() {
       );
     });
 
-    test(
-      'the kcal task fills recipes without kcal, keeps panel values',
-      () async {
-        await team();
-        final db = sessionBuilder.build();
-        final admin = (await StaffMember.db.findFirstRow(db))!.authUserId;
-        final now = DateTime.now().toUtc();
-        Future<ContentItem> recipe(String slug, Map<String, Object?> json) =>
-            ContentItem.db.insertRow(
-              db,
-              ContentItem(
-                kind: 'recipe',
-                slug: slug,
-                category: 'lunch',
-                status: ContentStatus.published,
-                draftJson: jsonEncode(json),
-                publishedJson: jsonEncode(json),
-                createdBy: admin,
-                updatedBy: admin,
-                createdAt: now,
-                updatedAt: now,
-                publishedAt: now,
-              ),
-            );
-        final plain = await recipe('plain', {'minutes': 10});
-        final set = await recipe('set', {'minutes': 10, 'kcal': 111});
-        final result = await runSetRecipeKcalTask(
-          db,
-          'first-admin@example.com',
-          values: {'plain': 320, 'set': 500, 'gone': 200},
-        );
-        expect(
-          result,
-          'Set kcal on 1 recipes. Skipped: set (has kcal). No item: gone.',
-        );
-        final p = (await ContentItem.db.findById(db, plain.id!))!;
-        expect(jsonDecode(p.publishedJson!)['kcal'], 320);
-        expect(jsonDecode(p.draftJson)['kcal'], 320);
-        expect(p.status, ContentStatus.published);
-        final k = (await ContentItem.db.findById(db, set.id!))!;
-        expect(jsonDecode(k.publishedJson!)['kcal'], 111);
+    test('the kcal task fills recipes without kcal, keeps panel values, '
+        'and fixes listed ingredients once', () async {
+      await team();
+      final db = sessionBuilder.build();
+      final admin = (await StaffMember.db.findFirstRow(db))!.authUserId;
+      final now = DateTime.now().toUtc();
+      Future<ContentItem> recipe(String slug, Map<String, Object?> json) =>
+          ContentItem.db.insertRow(
+            db,
+            ContentItem(
+              kind: 'recipe',
+              slug: slug,
+              category: 'lunch',
+              status: ContentStatus.published,
+              draftJson: jsonEncode(json),
+              publishedJson: jsonEncode(json),
+              createdBy: admin,
+              updatedBy: admin,
+              createdAt: now,
+              updatedAt: now,
+              publishedAt: now,
+            ),
+          );
+      Map<String, Object?> l(String v) => {'az': v, 'ru': v, 'en': v};
+      final plain = await recipe('plain', {
+        'minutes': 10,
+        'ingredients': [
+          {'name': l('Olive oil'), 'amount': l('3 tbsp')},
+        ],
+      });
+      final set = await recipe('set', {'minutes': 10, 'kcal': 111});
+      final fixes = {
+        'plain': [
+          {'amount': 'Olive oil', 'to': l('3 tbsp (for all)')},
+        ],
+        'set': [
+          {
+            'add': {'name': l('Butter'), 'amount': l('1 tbsp')},
+          },
+        ],
+      };
+      final result = await runSetRecipeKcalTask(
+        db,
+        'first-admin@example.com',
+        values: {'plain': 320, 'set': 500, 'gone': 200},
+        fixes: fixes,
+      );
+      expect(
+        result,
+        'Set kcal on 1 recipes; fixed ingredients of 2. '
+        'Skipped: set (has kcal). No item: gone.',
+      );
+      final p = (await ContentItem.db.findById(db, plain.id!))!;
+      final pj = jsonDecode(p.publishedJson!) as Map<String, Object?>;
+      expect(pj['kcal'], 320);
+      expect(jsonDecode(p.draftJson)['kcal'], 320);
+      expect(
+        (((pj['ingredients']! as List).single as Map)['amount'] as Map)['en'],
+        '3 tbsp (for all)',
+      );
+      expect(p.status, ContentStatus.published);
+      final k = (await ContentItem.db.findById(db, set.id!))!;
+      final kj = jsonDecode(k.publishedJson!) as Map<String, Object?>;
+      expect(kj['kcal'], 111);
+      expect(
+        (((kj['ingredients']! as List).single as Map)['name'] as Map)['en'],
+        'Butter',
+      );
+      for (final (action, n) in [
+        ('content.kcal_set', 1),
+        ('content.ingredients_fixed', 2),
+      ]) {
         expect(
           await AuditLogEntry.db.count(
             db,
-            where: (t) => t.action.equals('content.kcal_set'),
+            where: (t) => t.action.equals(action),
           ),
-          1,
+          n,
+          reason: action,
         );
-        // Every shipped value passes the shared rule.
-        expect(recipeKcal.values.every((v) => v >= 10 && v <= 2000), isTrue);
-      },
-    );
+      }
+      // Run again: nothing changes.
+      final again = await runSetRecipeKcalTask(
+        db,
+        'first-admin@example.com',
+        values: {'plain': 320},
+        fixes: fixes,
+      );
+      expect(
+        again,
+        startsWith('Set kcal on 0 recipes; fixed ingredients of 0.'),
+      );
+      // Every shipped value and fixed recipe passes the shared rule.
+      expect(recipeKcal.values.every((v) => v >= 10 && v <= 2000), isTrue);
+      for (final e in recipeIngredientFixes.entries) {
+        final fixed = applyIngredientFixes({
+          'ingredients': [
+            {'name': l('Carrot, cucumber, pepper'), 'amount': l('x')},
+            {'name': l('Olive oil'), 'amount': l('x')},
+          ],
+        }, e.value);
+        for (final i in fixed['ingredients']! as List) {
+          for (final f in ['name', 'amount']) {
+            final v = (i as Map)[f] as Map;
+            expect(v.keys.toSet(), {'az', 'ru', 'en'}, reason: e.key);
+            expect(
+              v.values.every(
+                (t) => (t as String).length <= (f == 'name' ? 80 : 40),
+              ),
+              isTrue,
+              reason: '${e.key} $f',
+            );
+          }
+        }
+      }
+    });
 
     test('the task publishes named exercise drafts', () async {
       final t = await team();
