@@ -10,16 +10,28 @@ import '../ui/common.dart';
 import 'sport_labels.dart';
 import 'sport_night.dart';
 
-/// The sport questions, one topic per page. Earlier answers are filled in.
+/// The questions of one sport section, one topic per page. Earlier
+/// answers are filled in (another section's when this one is new). Only
+/// fitness asks for workout types; pilates and wall pilates are their own.
 class SportQuizScreen extends StatefulWidget {
-  const SportQuizScreen({super.key});
+  const SportQuizScreen({super.key, this.section = 'fitness'});
+
+  /// One of [SportOptions.sections].
+  final String section;
 
   @override
   State<SportQuizScreen> createState() => _SportQuizScreenState();
 }
 
+enum _Page { goals, areas, types, level, schedule, safety }
+
 class _SportQuizScreenState extends State<SportQuizScreen> {
-  static const _steps = 6;
+  late final _pages = [
+    for (final p in _Page.values)
+      if (p != _Page.types || widget.section == 'fitness') p,
+  ];
+
+  int get _steps => _pages.length;
 
   int _step = 0;
   String? _error;
@@ -40,11 +52,13 @@ class _SportQuizScreenState extends State<SportQuizScreen> {
     super.didChangeDependencies();
     if (_loaded) return;
     _loaded = true;
-    final a = ParlaScope.of(context).sport.answers;
+    final book = ParlaScope.of(context).sport;
+    final own = book.answersOf(widget.section);
+    final a = own ?? book.answers;
     if (a == null) return;
     _goals.addAll(a.goals);
     _areas.addAll(a.areas);
-    _types.addAll(a.types);
+    if (own != null) _types.addAll(own.types);
     _level = a.level;
     _days = a.days;
     _minutes = a.minutes;
@@ -54,10 +68,10 @@ class _SportQuizScreenState extends State<SportQuizScreen> {
     _doctorLimit = a.doctorLimit;
   }
 
-  bool get _stepFilled => switch (_step) {
-    0 => _goals.isNotEmpty,
-    1 => _areas.isNotEmpty,
-    2 => _types.isNotEmpty,
+  bool get _stepFilled => switch (_pages[_step]) {
+    _Page.goals => _goals.isNotEmpty,
+    _Page.areas => _areas.isNotEmpty,
+    _Page.types => _types.isNotEmpty,
     _ => true,
   };
 
@@ -78,10 +92,12 @@ class _SportQuizScreenState extends State<SportQuizScreen> {
       SportAnswers(
         goals: List.of(_goals),
         areas: Set.of(_areas),
-        types: [
-          for (final t in SportOptions.types)
-            if (_types.contains(t)) t,
-        ],
+        types: widget.section == 'fitness'
+            ? [
+                for (final t in SportOptions.typesOf('fitness'))
+                  if (_types.contains(t)) t,
+              ]
+            : [widget.section],
         level: _level,
         days: _days,
         minutes: _minutes,
@@ -90,13 +106,14 @@ class _SportQuizScreenState extends State<SportQuizScreen> {
         injuries: Set.of(_injuries),
         doctorLimit: _doctorLimit,
       ),
+      section: widget.section,
     );
-    if (mounted) context.go(Routes.sport);
+    if (mounted) context.go(Routes.sport, extra: widget.section);
   }
 
   void _back() {
     if (_step == 0) {
-      context.go(Routes.sport);
+      context.go(Routes.sport, extra: widget.section);
     } else {
       setState(() {
         _step--;
@@ -109,8 +126,8 @@ class _SportQuizScreenState extends State<SportQuizScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    final (title, subtitle, body) = switch (_step) {
-      0 => (
+    final (title, subtitle, body) = switch (_pages[_step]) {
+      _Page.goals => (
         l10n.sportQGoals,
         l10n.sportQGoalsHint,
         _multi(SportOptions.goals, _goals.contains, (id, on) {
@@ -120,21 +137,21 @@ class _SportQuizScreenState extends State<SportQuizScreen> {
           on ? _goals.add(id) : _goals.remove(id);
         }, (id) => goalLabel(l10n, id)),
       ),
-      1 => (
+      _Page.areas => (
         l10n.sportQAreas,
         l10n.sportAreasNote,
         _multi(SportOptions.areas, _areas.contains, (id, on) {
           on ? _areas.add(id) : _areas.remove(id);
         }, (id) => sportAreaLabel(l10n, id)),
       ),
-      2 => (
+      _Page.types => (
         l10n.sportQTypes,
         null,
-        _multi(SportOptions.types, _types.contains, (id, on) {
+        _multi(SportOptions.typesOf('fitness'), _types.contains, (id, on) {
           on ? _types.add(id) : _types.remove(id);
         }, (id) => sportTypeLabel(l10n, id)),
       ),
-      3 => (
+      _Page.level => (
         l10n.sportQLevel,
         null,
         <Widget>[
@@ -147,7 +164,7 @@ class _SportQuizScreenState extends State<SportQuizScreen> {
             ),
         ],
       ),
-      4 => (
+      _Page.schedule => (
         l10n.sportQSchedule,
         null,
         <Widget>[
@@ -180,7 +197,7 @@ class _SportQuizScreenState extends State<SportQuizScreen> {
           ),
         ],
       ),
-      _ => (
+      _Page.safety => (
         l10n.sportQSafety,
         l10n.sportSafetyIntro,
         <Widget>[
@@ -211,6 +228,7 @@ class _SportQuizScreenState extends State<SportQuizScreen> {
       ),
     };
     return ParlaPage(
+      eyebrow: sportTypeLabel(l10n, widget.section),
       title: title,
       subtitle: subtitle,
       step: _step + 1,

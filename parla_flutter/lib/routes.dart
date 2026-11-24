@@ -152,10 +152,20 @@ GoRouter buildRouter() => GoRouter(
       redirect: (_, state) => state.extra is String ? null : Routes.shop,
       builder: (_, state) => ShopProductScreen(slug: state.extra! as String),
     ),
-    _page(path: Routes.sport, builder: (_, _) => const SportScreen()),
+    // The extra names the section to open (see SportOptions.sections).
+    _page(
+      path: Routes.sport,
+      builder: (_, state) => SportScreen(
+        section: state.extra is String ? state.extra! as String : null,
+      ),
+    ),
     _page(
       path: Routes.sportQuiz,
-      builder: (_, _) => const SportQuizScreen(),
+      builder: (_, state) => SportQuizScreen(
+        section: SportOptions.sections.contains(state.extra)
+            ? state.extra! as String
+            : 'fitness',
+      ),
     ),
     _page(
       path: Routes.workout,
