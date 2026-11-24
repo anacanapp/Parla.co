@@ -11,6 +11,7 @@ import '../ui/parla_icons.dart';
 import 'care_list.dart';
 import 'glass_bits.dart';
 import 'shop_screen.dart' show RoundBack;
+import '../ui/text_case.dart';
 
 String _areaLabel(AppLocalizations l10n, String area) => switch (area) {
   'face' => l10n.routineAreaFace,
@@ -143,7 +144,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                       child: Semantics(
                         header: true,
                         child: Text(
-                          _areaLabel(l10n, area).toUpperCase(),
+                          _areaLabel(l10n, area).upperIn(context),
                           style: const TextStyle(
                             fontSize: kMinTextSize,
                             letterSpacing: 1,
