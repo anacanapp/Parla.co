@@ -60,6 +60,7 @@ Future<Uint8List> _phoneVideo() async {
       '-metadata', 'location=+40.4093+049.8671/',
       '-metadata', 'title=Secret name',
       '-metadata', 'creation_time=2026-11-20T10:00:00Z',
+      '-metadata:s:a:0', 'title=Secret track',
       '-c:v', 'libx264', '-c:a', 'aac', out,
     ]);
     expect(r.exitCode, 0, reason: '${r.stderr}');
@@ -431,8 +432,8 @@ void main() {
         );
       }
 
-      test('a video is re-encoded without sound or metadata and joins '
-          'an exercise', () async {
+      test('a video is re-encoded with its sound but no metadata and '
+          'joins an exercise', () async {
         final t = await team();
         final clip = await _phoneVideo();
         expect(clip.length, greaterThan(16 * 1024));
@@ -450,7 +451,12 @@ void main() {
 
         final probe = await _probe(store.objects.values.single);
         final streams = probe['streams']! as List;
-        expect(streams.map((s) => (s as Map)['codec_type']), ['video']);
+        // Its sound is kept as AAC (owner 2026-11-24); nothing else.
+        expect(
+          [for (final s in streams) (s as Map)['codec_type']],
+          ['video', 'audio'],
+        );
+        expect((streams[1] as Map)['codec_name'], 'aac');
         final tags = jsonEncode([
           (probe['format']! as Map)['tags'],
           for (final s in streams) (s as Map)['tags'],

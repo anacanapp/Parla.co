@@ -4,9 +4,10 @@ import 'package:video_player/video_player.dart';
 
 import '../services/parla_api.dart';
 
-/// An exercise's video: muted and looping, from our own server (the team
-/// uploads it; the server strips sound and metadata). It mixes with the
-/// user's own music instead of pausing it. With "reduce motion" on, it
+/// An exercise's video: looping, from our own server (the team uploads it;
+/// the server keeps one sound track and strips metadata). Its sound
+/// follows [sound]; it mixes with the user's own music instead of pausing
+/// it. With "reduce motion" on, it
 /// waits on its first frame until tapped. Shows [fallback] while loading
 /// and if it cannot play.
 class ExerciseVideo extends StatefulWidget {
@@ -15,6 +16,7 @@ class ExerciseVideo extends StatefulWidget {
     required this.video,
     required this.fallback,
     this.playing = true,
+    this.sound = true,
   });
 
   final ContentImageRef video;
@@ -22,6 +24,9 @@ class ExerciseVideo extends StatefulWidget {
 
   /// Follows the workout's pause.
   final bool playing;
+
+  /// The video's own sound; off plays it muted.
+  final bool sound;
 
   /// Replaces the player in tests (no video plugin there).
   static Widget Function(ContentImageRef video, bool playing)? debugPlayer;
@@ -50,8 +55,11 @@ class _ExerciseVideoState extends State<ExerciseVideo> {
       _close();
       _tapped = false;
       _open();
-    } else if (old.playing != widget.playing) {
-      _sync();
+    } else {
+      if (old.playing != widget.playing) _sync();
+      if (old.sound != widget.sound && _ready) {
+        _controller?.setVolume(widget.sound ? 1 : 0);
+      }
     }
   }
 
@@ -82,7 +90,7 @@ class _ExerciseVideoState extends State<ExerciseVideo> {
     _failed = false;
     try {
       await controller.initialize();
-      await controller.setVolume(0);
+      await controller.setVolume(widget.sound ? 1 : 0);
       await controller.setLooping(true);
       if (!mounted || _controller != controller) return;
       setState(() => _ready = true);

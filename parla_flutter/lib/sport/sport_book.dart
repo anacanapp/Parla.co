@@ -5,7 +5,7 @@ import '../habits/habit_log.dart';
 import '../services/parla_api.dart';
 import '../sync/synced_document.dart';
 
-/// The sport answers, the finished workouts and the sound setting. Kept
+/// The sport answers, the finished workouts and the sound settings. Kept
 /// like own routines: on the server (encrypted) with a covering health
 /// consent, otherwise on this phone; see [SyncedDocument].
 class SportBook extends SyncedDocument {
@@ -24,6 +24,7 @@ class SportBook extends SyncedDocument {
   /// Finished workout ids per day ("2026-11-15").
   final Map<String, Set<String>> _log = {};
   bool _sound = true;
+  bool _videoSound = true;
 
   @override
   int get format => SportRules.format;
@@ -90,6 +91,14 @@ class SportBook extends SyncedDocument {
     return changed();
   }
 
+  /// The exercise videos' own sound (music); off plays them muted.
+  bool get videoSound => _videoSound;
+
+  Future<void> setVideoSound(bool on) {
+    _videoSound = on;
+    return changed();
+  }
+
   /// Workout ids finished this week (Monday to Sunday).
   Set<String> get doneThisWeek {
     final today = _clock();
@@ -135,6 +144,7 @@ class SportBook extends SyncedDocument {
         if (e.value.isNotEmpty) e.key: e.value.toList()..sort(),
     },
     'sound': _sound,
+    'videoSound': _videoSound,
   };
 
   @override
@@ -170,6 +180,7 @@ class SportBook extends SyncedDocument {
       _log[e.key] = {...(e.value! as List).cast<String>()};
     }
     _sound = json['sound'] as bool? ?? true;
+    _videoSound = json['videoSound'] as bool? ?? true;
   }
 
   @override
@@ -178,6 +189,7 @@ class SportBook extends SyncedDocument {
     _sections.clear();
     _log.clear();
     _sound = true;
+    _videoSound = true;
   }
 
   @override

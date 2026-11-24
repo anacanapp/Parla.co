@@ -26,7 +26,7 @@ enum _Phase { overview, countdown, work, rest, finished }
 /// with a 3-2-1 countdown and runs on a timer (a move counted in reps gets
 /// [WorkoutPace.secondsPerRep] a rep), then a rest; everything moves on by
 /// itself, with pause, previous, next and stop. The move's video plays
-/// muted and looping. Music plays from the user's own app; Parla only
+/// looping, with its own sound unless the user turns it off. Parla only
 /// gives a short signal (sound and vibration, or vibration only) and keeps
 /// the screen on while the workout runs.
 class WorkoutScreen extends StatefulWidget {
@@ -400,6 +400,22 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   ),
                 ),
               ),
+              GlassIconButton(
+                key: const ValueKey('sport-video-sound'),
+                tooltip: ParlaScope.of(context).sport.videoSound
+                    ? l10n.sportVideoSoundOn
+                    : l10n.sportVideoSoundOff,
+                onPressed: () {
+                  final book = ParlaScope.of(context).sport;
+                  book.setVideoSound(!book.videoSound);
+                },
+                icon: Icon(
+                  ParlaScope.of(context).sport.videoSound
+                      ? Icons.music_note_outlined
+                      : Icons.music_off_outlined,
+                ),
+              ),
+              const SizedBox(width: 8),
               sound,
             ],
           ),
@@ -714,6 +730,7 @@ class _Media extends StatelessWidget {
                     key: ValueKey('workout-video-$exerciseId'),
                     video: video,
                     playing: playing && countdown == null,
+                    sound: ParlaScope.of(context).sport.videoSound,
                     fallback: still,
                   )
                 else

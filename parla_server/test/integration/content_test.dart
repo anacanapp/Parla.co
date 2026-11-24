@@ -758,6 +758,37 @@ void main() {
         'first-admin@example.com',
       );
       expect(again, contains('squat (has a video)'));
+
+      // Asked to replace it (to bring back its sound): a new video is
+      // published and the old one is no longer public, but kept.
+      await store.put(
+        contentImagesManifest,
+        Uint8List.fromList(
+          utf8.encode(
+            jsonEncode([
+              {...entry('squat', 'squat.mp4'), 'replace': true},
+            ]),
+          ),
+        ),
+        'application/json',
+      );
+      final replaced = await runAttachContentImagesTask(
+        db,
+        'first-admin@example.com',
+      );
+      expect(replaced, 'Attached 0 covers and 1 videos.');
+      final after = (await ContentItem.db.findById(db, squat.id!))!;
+      final newId =
+          (jsonDecode(after.publishedJson!) as Map<String, Object?>)['video'];
+      expect(newId, isNot(asset.id));
+      expect((await MediaAsset.db.findById(db, asset.id!))!.public, isFalse);
+      expect(
+        await AuditLogEntry.db.count(
+          db,
+          where: (t) => t.action.equals('content.video_replaced'),
+        ),
+        1,
+      );
     });
 
     test('the task publishes named exercise drafts', () async {

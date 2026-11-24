@@ -256,8 +256,10 @@ wording rules and open legal questions: `docs/INGREDIENTS.md`.
   - Controls: pause, previous move, next, and stop (it asks first and logs
     nothing).
   - The screen stays on while it runs (`wakelock_plus`, no permission).
-  - The move's video plays muted and looping and mixes with the user's own
-    music. It holds on its first frame during the countdown, while paused,
+  - The move's video plays looping with its own sound, which a button
+    turns off (kept on the phone with the sport settings); it mixes with
+    the user's own music. Videos uploaded before 2026-11-24 have no sound
+    (it was stripped) until they are uploaded again. It holds on its first frame during the countdown, while paused,
     and when the phone's "reduce motion" is on (then it plays on a tap).
   - Parla only gives a short signal (sound and vibration, or vibration
     only).
@@ -470,10 +472,14 @@ draft content until the named expert reviews it.
     the published copy (status and review unchanged: covers need no expert
     review, owner's decision), audited (`media.uploaded`,
     `content.cover_attached`) and then deleted from `incoming/`. An item
-    that already has a cover is skipped, so the task is safe to run again.
+    that already has a cover is skipped, so the task is safe to run again,
+    unless its entry says `"replace": true`: then the new file takes the
+    place of the old one (audited `content.cover_replaced` or
+    `content.video_replaced`; the old asset is kept but no longer public).
+    Used on 2026-11-24 to bring back the exercise videos' sound.
     The same task attaches exercise videos (`"media": "video"` entries):
     each is re-encoded like a panel video upload (`VideoCleaner`: H.264,
-    no sound, no metadata, longest side 720 px, aspect kept) and set as the
+    AAC sound kept, no metadata, longest side 720 px, aspect kept) and set as the
     exercise's video; an exercise without a content item gets one,
     published with the texts the app ships with. The workout player shows
     a video in its own shape (a 3:4 portrait video whole, at most about
@@ -557,8 +563,9 @@ three languages, public only while published), with these differences:
   - The file type is checked by its first bytes. ffmpeg may read only the
     local file (`-protocol_whitelist file`), so a playlist cannot make the
     server fetch URLs.
-  - Only the first video stream is kept: no sound, subtitles, chapters or
-    metadata (location, camera, title, dates).
+  - Only the first video stream and the first sound stream are kept (the
+    sound re-encoded to AAC, 96 kb/s; owner 2026-11-24). No subtitles,
+    chapters or metadata (location, camera, title, dates).
   - At most 720 px, 30 fps, 30 s, H.264 MP4 with the index first, and at
     most 12 MiB afterwards.
   - One video at a time, two threads, a three-minute limit.

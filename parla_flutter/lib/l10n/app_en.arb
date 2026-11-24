@@ -835,7 +835,9 @@
     }
   },
   "sportStartWorkout": "Start workout",
-  "sportMusicNote": "Play music from your own music app. Parla only gives short signals.",
+  "sportMusicNote": "The videos have their own music; you can turn it off with the button. Parla also gives short signals.",
+  "sportVideoSoundOn": "Video sound on",
+  "sportVideoSoundOff": "Video sound off",
   "sportSoundOn": "Sound signals on",
   "sportSoundOff": "Sound off, vibration only",
   "sportSetOf": "Set {set} of {sets}",

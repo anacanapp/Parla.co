@@ -21,6 +21,7 @@ class ContentImage {
     this.file,
     this.alt, {
     this.video = false,
+    this.replace = false,
   });
 
   final ContentKind kind;
@@ -35,6 +36,11 @@ class ContentImage {
   /// A video (`"media": "video"` in the manifest) instead of an image.
   final bool video;
 
+  /// Replaces a cover or video the item already has (`"replace": true`),
+  /// e.g. to bring back a video's sound (owner 2026-11-24). The old asset
+  /// is kept; it stops being public once nothing published uses it.
+  final bool replace;
+
   /// Reads one entry of the manifest; `null` when it is malformed.
   static ContentImage? fromJson(Object? json) {
     if (json is! Map<String, Object?>) return null;
@@ -43,7 +49,9 @@ class ContentImage {
     final file = json['file'];
     final alt = json['alt'];
     final media = json['media'] ?? 'image';
+    final replace = json['replace'] ?? false;
     if (kind == null ||
+        replace is! bool ||
         (media != 'image' && media != 'video') ||
         slug is! String ||
         file is! String ||
@@ -58,6 +66,7 @@ class ContentImage {
       file,
       alt.cast<String, String>(),
       video: media == 'video',
+      replace: replace,
     );
   }
 }
@@ -91,7 +100,8 @@ Future<List<ContentImage>> readContentImagesManifest() async {
 }
 
 /// The one-off task `PARLA_TASK=attach-content-images`: for each entry of
-/// the manifest (or [images]) whose item has no cover (or video) yet,
+/// the manifest (or [images]) whose item has no cover (or video) yet, or
+/// that asks to replace it,
 /// re-encodes the waiting file like a panel upload, stores it as a media
 /// asset and sets it on the working and the published copy. An exercise
 /// without an item gets one, published with the app's own texts. The item's status and review stay as
@@ -130,7 +140,8 @@ Future<String> runAttachContentImagesTask(
         : row.publishedJson == null
         ? null
         : jsonDecode(row.publishedJson!) as Map<String, Object?>;
-    if (draft[field] != null || published?[field] != null) {
+    final had = draft[field] != null || published?[field] != null;
+    if (had && !image.replace) {
       skipped.add('${image.slug} (has ${image.video ? 'a video' : 'a cover'})');
       continue;
     }
@@ -249,7 +260,12 @@ Future<String> runAttachContentImagesTask(
     await _audit(
       session,
       staff,
-      image.video ? 'content.video_attached' : 'content.cover_attached',
+      switch ((image.video, had)) {
+        (true, false) => 'content.video_attached',
+        (true, true) => 'content.video_replaced',
+        (false, false) => 'content.cover_attached',
+        (false, true) => 'content.cover_replaced',
+      },
       'content_item',
       row.id!,
     );

@@ -2629,8 +2629,20 @@ abstract class AppLocalizations {
   /// No description provided for @sportMusicNote.
   ///
   /// In en, this message translates to:
-  /// **'Play music from your own music app. Parla only gives short signals.'**
+  /// **'The videos have their own music; you can turn it off with the button. Parla also gives short signals.'**
   String get sportMusicNote;
+
+  /// No description provided for @sportVideoSoundOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Video sound on'**
+  String get sportVideoSoundOn;
+
+  /// No description provided for @sportVideoSoundOff.
+  ///
+  /// In en, this message translates to:
+  /// **'Video sound off'**
+  String get sportVideoSoundOff;
 
   /// No description provided for @sportSoundOn.
   ///

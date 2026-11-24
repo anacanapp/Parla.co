@@ -282,6 +282,19 @@ void main() {
       );
     });
 
+    test('the video sound switch is a bool', () {
+      Map<String, Object?> base() =>
+          jsonDecode(doc(_a().toJson())) as Map<String, Object?>;
+      expect(
+        SportRules.isValid(jsonEncode({...base(), 'videoSound': false})),
+        isTrue,
+      );
+      expect(
+        SportRules.isValid(jsonEncode({...base(), 'videoSound': 'on'})),
+        isFalse,
+      );
+    });
+
     test('unknown options, fields and workout ids are refused', () {
       expect(
         SportRules.isValid(doc({..._a().toJson(), 'weight': 60})),

@@ -1463,7 +1463,13 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get sportMusicNote =>
-      'Включи музыку в своём музыкальном приложении. Parla подаёт только короткие сигналы.';
+      'У видео своя музыка, её можно выключить кнопкой. Parla также подаёт сигналы.';
+
+  @override
+  String get sportVideoSoundOn => 'Звук видео включён';
+
+  @override
+  String get sportVideoSoundOff => 'Звук видео выключен';
 
   @override
   String get sportSoundOn => 'Звуковые сигналы включены';
