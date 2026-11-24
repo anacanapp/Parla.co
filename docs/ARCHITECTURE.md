@@ -472,7 +472,11 @@ draft content until the named expert reviews it.
     the published copy (status and review unchanged: covers need no expert
     review, owner's decision), audited (`media.uploaded`,
     `content.cover_attached`) and then deleted from `incoming/`. An item
-    that already has a cover is skipped, so the task is safe to run again.
+    that already has a cover is skipped, so the task is safe to run again,
+    unless its entry says `"replace": true`: then the new file takes the
+    place of the old one (audited `content.cover_replaced` or
+    `content.video_replaced`; the old asset is kept but no longer public).
+    Used on 2026-11-24 to bring back the exercise videos' sound.
     The same task attaches exercise videos (`"media": "video"` entries):
     each is re-encoded like a panel video upload (`VideoCleaner`: H.264,
     AAC sound kept, no metadata, longest side 720 px, aspect kept) and set as the
