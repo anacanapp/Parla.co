@@ -800,13 +800,22 @@ abstract final class SportRules {
       return false;
     }
     if (json is! Map<String, Object?>) return false;
-    const keys = {'format', 'answers', 'sections', 'log', 'sound'};
+    const keys = {
+      'format',
+      'answers',
+      'sections',
+      'log',
+      'sound',
+      'videoSound',
+    };
     if (!json.keys.every(keys.contains)) {
       return false;
     }
     if (json['format'] != format) return false;
     final sound = json['sound'];
     if (sound != null && sound is! bool) return false;
+    final videoSound = json['videoSound'];
+    if (videoSound != null && videoSound is! bool) return false;
 
     final answers = json['answers'];
     if (answers != null && !_answersValid(answers)) return false;

@@ -227,7 +227,7 @@ void main() {
     final app = await _open(tester);
     await _answer(tester, section: 'wall_pilates');
     await _tap(tester, find.byKey(const ValueKey('workout-v1')));
-    expect(find.textContaining('Play music from your own music app'), findsOne);
+    expect(find.textContaining('The videos have their own music'), findsOne);
     await _tap(tester, find.byKey(const ValueKey('workout-start')));
     expect(find.text('Move 1 of 7'), findsOneWidget);
     expect(find.text('Get ready · Set 1 of 2'), findsOneWidget);
@@ -457,6 +457,18 @@ void main() {
     await _tap(tester, find.byKey(const ValueKey('sport-sound')));
     expect(find.byTooltip('Sound off, vibration only'), findsOneWidget);
     expect(_local(app.store)['sound'], isFalse);
+  });
+
+  testWidgets('the video sound switch is kept', (tester) async {
+    final app = await _open(tester);
+    await _answer(tester);
+    await _tap(tester, find.byKey(const ValueKey('workout-w1')));
+    await _tap(tester, find.byKey(const ValueKey('workout-start')));
+    expect(find.byTooltip('Video sound on'), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('sport-video-sound')));
+    expect(find.byTooltip('Video sound off'), findsOneWidget);
+    expect(_local(app.store)['videoSound'], isFalse);
+    await _tap(tester, find.byKey(const ValueKey('workout-stop')));
   });
 
   testWidgets('with the health consent the answers are kept on the server', (

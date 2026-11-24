@@ -25,7 +25,7 @@ abstract final class MediaRules {
       (maxVideoUploadBytes + videoChunkBytes - 1) ~/ videoChunkBytes;
 
   /// A stored video: longest side, longest duration and largest file after
-  /// the server re-encodes it (H.264 MP4, no sound).
+  /// the server re-encodes it (H.264 MP4, AAC sound kept).
   static const maxVideoSide = 720;
   static const maxVideoSeconds = 30;
   static const maxVideoBytes = 12 * 1024 * 1024;

@@ -5,7 +5,8 @@ import 'dart:typed_data';
 
 import 'package:parla_shared/parla_shared.dart';
 
-/// A cleaned video ready to store: H.264 MP4, no sound, no metadata.
+/// A cleaned video ready to store: H.264 MP4 with at most one AAC sound
+/// track, no metadata.
 class CleanVideo {
   const CleanVideo(this.mp4, this.width, this.height, this.durationMs);
 
@@ -47,7 +48,8 @@ abstract class VideoCleaner {
 
 /// Re-encodes with ffmpeg (installed in the server's Docker image):
 ///
-/// - only the first video stream is kept: no sound, subtitles, data
+/// - only the first video and first sound stream are kept (sound
+///   re-encoded to AAC): no subtitles, data
 ///   streams, chapters or metadata (camera, location, dates, file names);
 /// - at most [MediaRules.maxVideoSide] pixels on the longest side, 30
 ///   frames a second and [MediaRules.maxVideoSeconds] seconds;
@@ -102,7 +104,11 @@ class FfmpegVideoCleaner implements VideoCleaner {
         '${MediaRules.maxVideoSeconds}',
         '-map',
         '0:v:0',
-        '-an',
+        // The first sound track, if any (owner 2026-11-24: videos keep
+        // their music). Re-encoded, so nothing of the original stream
+        // survives but the audio itself.
+        '-map',
+        '0:a:0?',
         '-sn',
         '-dn',
         '-map_metadata',
@@ -125,6 +131,14 @@ class FfmpegVideoCleaner implements VideoCleaner {
         '-fflags',
         '+bitexact',
         '-flags:v',
+        '+bitexact',
+        '-c:a',
+        'aac',
+        '-b:a',
+        '96k',
+        '-ac',
+        '2',
+        '-flags:a',
         '+bitexact',
         '-threads',
         '2',

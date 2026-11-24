@@ -1458,7 +1458,13 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get sportMusicNote =>
-      'Play music from your own music app. Parla only gives short signals.';
+      'The videos have their own music; you can turn it off with the button. Parla also gives short signals.';
+
+  @override
+  String get sportVideoSoundOn => 'Video sound on';
+
+  @override
+  String get sportVideoSoundOff => 'Video sound off';
 
   @override
   String get sportSoundOn => 'Sound signals on';

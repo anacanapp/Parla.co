@@ -1437,7 +1437,13 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get sportMusicNote =>
-      'Musiqini öz musiqi tətbiqindən aç. Parla yalnız qısa siqnal verir.';
+      'Videoların öz musiqisi var, onu düymə ilə bağlaya bilərsən. Parla siqnal da verir.';
+
+  @override
+  String get sportVideoSoundOn => 'Video səsi açıqdır';
+
+  @override
+  String get sportVideoSoundOff => 'Video səsi bağlıdır';
 
   @override
   String get sportSoundOn => 'Siqnal səsi açıqdır';
