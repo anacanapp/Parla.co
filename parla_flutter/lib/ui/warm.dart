@@ -6,16 +6,19 @@ import 'package:flutter/material.dart';
 import 'brand.dart';
 import 'parla_icons.dart';
 
-/// The warm day design ("isti B", owner 2026-11-24; prototype boards
-/// `X1TodayW` … `X7ProfileW`): a cream page with a soft, motion-blurred
-/// figure and a peach glow behind smoky glass, lime and rose cards, white
-/// chosen states and a black menu. Sizes follow the 390 × 844 prototype.
+/// The day design "HR" (owner 2026-11-24; prototype boards `HR1Today` …
+/// `HR7Profile`): a soft photo of a woman in profile on a neutral cream
+/// page behind milky glass cards with coral and burnt orange glows, dark
+/// chosen states and a glass menu. Sizes follow the 390 × 844 prototype.
 abstract final class Warm {
   static const ink = ParlaColors.espresso;
   static const muted = ParlaColors.muted;
 
-  /// Black of round buttons and the menu.
-  static const black = Color(0xFF0F0F12);
+  /// Dark warm brown of chosen chips and round buttons.
+  static const black = Color(0xFF2A2320);
+
+  /// The neutral cream under the photo and of text pages.
+  static const page = Color(0xFFF0EDEA);
 
   /// The small lime marker of meters (never text).
   static const marker = Color(0xFFE8F06A);
@@ -34,152 +37,100 @@ abstract final class Warm {
   static const roseGlow = Color(0x80D28C8C);
 }
 
-/// The page: cream with a soft white light at the top, a peach glow and a
-/// warm, horizontally motion-blurred figure behind the cards.
+/// The page: neutral cream with the soft photo of a woman in profile
+/// (an AI image made for Parla, no real person) behind the cards.
 class WarmBackdrop extends StatelessWidget {
   const WarmBackdrop({super.key, required this.child, this.figure = true});
 
+  /// The photo, kept in the app (nothing is fetched at runtime).
+  static const asset = 'assets/images/backdrop.jpg';
+
   final Widget child;
 
-  /// The dark figure behind the cards. Pages of running text (sign-up,
+  /// The photo behind the cards. Pages of running text (sign-up,
   /// consents, legal texts, articles) leave it out so dark text stays
   /// legible.
   final bool figure;
 
   @override
-  Widget build(BuildContext context) => DecoratedBox(
-    decoration: const BoxDecoration(
-      gradient: LinearGradient(
-        begin: Alignment.topCenter,
-        end: Alignment.bottomCenter,
-        colors: [Color(0xFFF5EDE4), Color(0xFFF3E6DA), Color(0xFFF1D8C4)],
-        stops: [0, .6, 1],
-      ),
-    ),
+  Widget build(BuildContext context) => ColoredBox(
+    color: Warm.page,
     child: Stack(
       fit: StackFit.expand,
       children: [
-        ExcludeSemantics(
-          child: RepaintBoundary(
-            child: CustomPaint(painter: _FigurePainter(figure: figure)),
+        if (figure)
+          ExcludeSemantics(
+            child: RepaintBoundary(
+              child: LayoutBuilder(
+                builder: (context, box) {
+                  // As in the prototype: 120 % of the width, 42 % across,
+                  // 40 px above the top (in 844 px).
+                  final width = box.maxWidth * 1.2;
+                  return Stack(
+                    clipBehavior: Clip.hardEdge,
+                    children: [
+                      Positioned(
+                        left: (box.maxWidth - width) * .42,
+                        top: -40 * box.maxHeight / 844,
+                        width: width,
+                        child: Image.asset(
+                          asset,
+                          fit: BoxFit.fitWidth,
+                          gaplessPlayback: true,
+                          errorBuilder: (_, _, _) => const SizedBox(),
+                        ),
+                      ),
+                      // A soft cream fade at the top keeps page titles
+                      // legible over the hair.
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        top: 0,
+                        height: box.maxHeight * .27,
+                        child: const DecoratedBox(
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Color(0xF2F0EDEA),
+                                Color(0xBFF0EDEA),
+                                Color(0x00F0EDEA),
+                              ],
+                              stops: [0, .55, 1],
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+          )
+        else
+          const DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [Color(0xFFF4F1EE), Warm.page],
+              ),
+            ),
           ),
-        ),
         child,
       ],
     ),
   );
 }
 
-/// The figure, painted once: a top light, a peach glow, and a head, body
-/// and streaks blurred mostly sideways (motion).
-class _FigurePainter extends CustomPainter {
-  const _FigurePainter({this.figure = true});
-
-  final bool figure;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final sx = size.width / 390;
-    final sy = size.height / 844;
-    Offset p(double x, double y) => Offset(x * sx, y * sy);
-
-    // Soft white light at the top right.
-    canvas.drawRect(
-      Offset.zero & size,
-      Paint()
-        ..shader = ui.Gradient.radial(
-          p(312, 0),
-          size.width * .9,
-          const [Color(0xFFFBF4EC), Color(0x00FBF4EC)],
-        ),
-    );
-
-    if (!figure) {
-      // A softer peach glow only.
-      canvas
-        ..saveLayer(
-          Offset.zero & size,
-          Paint()
-            ..imageFilter = ui.ImageFilter.blur(
-              sigmaX: 60 * sx,
-              sigmaY: 40 * sy,
-            ),
-        )
-        ..drawOval(
-          Rect.fromCenter(
-            center: p(60, 700),
-            width: 320 * sx,
-            height: 320 * sy,
-          ),
-          Paint()..color = const Color(0x59F0915A),
-        )
-        ..restore();
-      return;
-    }
-
-    // Peach glow on the left.
-    canvas
-      ..saveLayer(
-        Offset.zero & size,
-        Paint()
-          ..imageFilter = ui.ImageFilter.blur(sigmaX: 44 * sx, sigmaY: 10 * sy),
-      )
-      ..drawOval(
-        Rect.fromCenter(center: p(130, 560), width: 300 * sx, height: 600 * sy),
-        Paint()..color = const Color(0xD9F0915A),
-      )
-      ..restore();
-
-    // The figure: warm brown, blurred mostly sideways.
-    final body = Paint()..color = const Color(0xD15A3A2A);
-    canvas
-      ..saveLayer(
-        Offset.zero & size,
-        Paint()
-          ..imageFilter = ui.ImageFilter.blur(sigmaX: 30 * sx, sigmaY: 5 * sy),
-      )
-      ..drawOval(
-        Rect.fromCenter(center: p(215, 200), width: 220 * sx, height: 180 * sy),
-        body,
-      )
-      ..drawPath(
-        Path()
-          ..moveTo(80 * sx, 290 * sy)
-          ..cubicTo(130 * sx, 240 * sy, 300 * sx, 240 * sy, 340 * sx, 310 * sy)
-          ..lineTo(360 * sx, size.height + 20)
-          ..lineTo(50 * sx, size.height + 20)
-          ..close(),
-        Paint()..color = const Color(0xD1523426),
-      );
-    final streak = Paint()..color = const Color(0x8C4A2E22);
-    for (var i = 0; i < 14; i++) {
-      canvas.drawRRect(
-        RRect.fromRectAndRadius(
-          Rect.fromLTWH(
-            (20 + i % 3 * 15) * sx,
-            (280 + i * 42) * sy,
-            (300 - i % 4 * 30) * sx,
-            14 * sy,
-          ),
-          Radius.circular(7 * sx),
-        ),
-        streak,
-      );
-    }
-    canvas.restore();
-  }
-
-  @override
-  bool shouldRepaint(_FigurePainter oldDelegate) =>
-      oldDelegate.figure != figure;
-}
-
 /// Tints of [SmokyGlass].
 enum SmokyTint { none, coral, burnt }
 
-/// Smoky glass: a warm grey, see-through surface that blurs what lies
-/// behind, with a bright top edge and white text. Optional coral or burnt
-/// orange glow inside.
+/// Milky glass: a see-through surface that blurs what lies behind, a
+/// light warm tint, a white edge with a milky inner glow, and white text.
+/// Optional coral or burnt orange glow inside. A [milk] surface is
+/// lighter, with dark text (chips, header buttons).
 class SmokyGlass extends StatelessWidget {
   const SmokyGlass({
     super.key,
@@ -190,6 +141,7 @@ class SmokyGlass extends StatelessWidget {
     this.padding,
     this.onTap,
     this.shadow = true,
+    this.milk = false,
   });
 
   final Widget child;
@@ -202,6 +154,9 @@ class SmokyGlass extends StatelessWidget {
   final VoidCallback? onTap;
   final bool shadow;
 
+  /// The light variant with dark text.
+  final bool milk;
+
   @override
   Widget build(BuildContext context) {
     final outline =
@@ -211,23 +166,31 @@ class SmokyGlass extends StatelessWidget {
     final grouped = BackdropGroup.of(context) != null;
     final glow = switch (tint) {
       SmokyTint.coral => const RadialGradient(
-        center: Alignment(-0.4, -0.4),
-        radius: 0.9,
-        colors: [Color(0xCCF06E50), Color(0x5950403C)],
+        center: Alignment(-0.44, -0.1),
+        radius: 1,
+        colors: [Color(0xCCEC6046), Color(0x40EC6046), Color(0x00EC6046)],
+        stops: [0, .55, 1],
         transform: _StretchToWidth(),
       ),
       SmokyTint.burnt => const RadialGradient(
-        center: Alignment(-0.4, 0.6),
-        radius: 0.9,
-        colors: [Color(0xD9DC6E1E), Color(0x7350321E)],
+        center: Alignment(-0.36, 0.7),
+        radius: 1.1,
+        colors: [Color(0xEBE26C16), Color(0x59AA5014), Color(0x00AA5014)],
+        stops: [0, .55, 1],
         transform: _StretchToWidth(),
       ),
       SmokyTint.none => null,
     };
+    final ink = milk ? Warm.ink : Warm.onCard;
     final body = DefaultTextStyle.merge(
-      style: const TextStyle(color: Warm.onCard),
+      style: TextStyle(
+        color: ink,
+        shadows: milk
+            ? null
+            : const [Shadow(color: Color(0x591E0F0A), blurRadius: 10)],
+      ),
       child: IconTheme.merge(
-        data: const IconThemeData(color: Warm.onCard),
+        data: IconThemeData(color: ink),
         child: Padding(padding: padding ?? EdgeInsets.zero, child: child),
       ),
     );
@@ -237,9 +200,9 @@ class SmokyGlass extends StatelessWidget {
         shadows: shadow
             ? const [
                 BoxShadow(
-                  color: Color(0x40281409),
-                  blurRadius: 40,
-                  offset: Offset(0, 20),
+                  color: Color(0x1A28140A),
+                  blurRadius: 30,
+                  offset: Offset(0, 12),
                 ),
               ]
             : null,
@@ -256,13 +219,34 @@ class SmokyGlass extends StatelessWidget {
                     )
                   : BackdropFilter(filter: filter, child: const SizedBox()),
             ),
+            // A warm tint under a milky white sheen; a milk surface is
+            // light instead.
+            Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  color: milk ? const Color(0x73FFFFFF) : null,
+                  gradient: milk
+                      ? null
+                      : const LinearGradient(
+                          begin: Alignment.topCenter,
+                          end: Alignment.bottomCenter,
+                          colors: [Color(0x57341E16), Color(0x521E100A)],
+                        ),
+                ),
+              ),
+            ),
             const Positioned.fill(
               child: DecoratedBox(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    begin: Alignment(-0.5, -1),
-                    end: Alignment(0.5, 1),
-                    colors: [Color(0x755A504B), Color(0x5728221F)],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0x2EFFFFFF),
+                      Color(0x0DFFFFFF),
+                      Color(0x1AFFFFFF),
+                    ],
+                    stops: [0, .55, 1],
                   ),
                 ),
               ),
@@ -307,8 +291,8 @@ class _StretchToWidth extends GradientTransform {
   }
 }
 
-/// The glass edge: a thin white line, bright along the top, and a soft
-/// inner glow.
+/// The glass edge: a milky white inner glow, a bright line along the
+/// top and a 1.5 px white border.
 class _EdgePainter extends CustomPainter {
   _EdgePainter(this.shape);
 
@@ -316,27 +300,40 @@ class _EdgePainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final rect = (Offset.zero & size).deflate(.5);
+    final box = Offset.zero & size;
+    final outer = shape.getOuterPath(box);
     canvas
+      ..save()
+      ..clipPath(outer)
+      // Inner milky glow: a wide blurred white stroke along the edge.
       ..drawPath(
-        shape.getOuterPath((Offset.zero & size).deflate(3)),
+        outer,
         Paint()
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 5
-          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 6)
-          ..color = const Color(0x1AFFFFFF),
+          ..strokeWidth = 18
+          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 12)
+          ..color = const Color(0x4DFFFFFF),
       )
+      // The bright top line.
       ..drawPath(
-        shape.getOuterPath(rect),
+        shape.getOuterPath(box.translate(0, 1.5)),
         Paint()
           ..style = PaintingStyle.stroke
-          ..strokeWidth = 1
+          ..strokeWidth = 1.5
           ..shader = const LinearGradient(
             begin: Alignment.topCenter,
             end: Alignment.bottomCenter,
-            colors: [Color(0xA6FFFFFF), Color(0x4DFFFFFF), Color(0x40FFFFFF)],
-            stops: [0, .12, 1],
-          ).createShader(rect),
+            colors: [Color(0xD9FFFFFF), Color(0x00FFFFFF)],
+            stops: [0, .25],
+          ).createShader(box),
+      )
+      ..restore()
+      ..drawPath(
+        shape.getOuterPath(box.deflate(.75)),
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1.5
+          ..color = const Color(0x8CFFFFFF),
       );
   }
 
@@ -347,8 +344,9 @@ class _EdgePainter extends CustomPainter {
 /// The colour of a [SquircleCard].
 enum SquircleTone { lime, rose }
 
-/// A lime or rose rounded card with white text, a soft glow, a light top
-/// edge and depth at the bottom.
+/// A rounded glass card with white text: plain milky glass ([lime]) or
+/// with a coral glow ([rose]). The tone names are kept from the earlier
+/// design.
 class SquircleCard extends StatelessWidget {
   const SquircleCard({
     super.key,
@@ -368,71 +366,16 @@ class SquircleCard extends StatelessWidget {
   final double? height;
 
   @override
-  Widget build(BuildContext context) {
-    final border = BorderRadius.circular(radius);
-    final body = DefaultTextStyle.merge(
-      style: const TextStyle(color: Warm.onCard),
-      child: IconTheme.merge(
-        data: const IconThemeData(color: Warm.onCard),
-        child: Padding(padding: padding, child: child),
-      ),
-    );
-    final (colors, glow, glowAt) = switch (tone) {
-      SquircleTone.lime => (Warm.lime, Warm.limeGlow, const Alignment(.4, .7)),
-      SquircleTone.rose => (Warm.rose, Warm.roseGlow, const Alignment(-.4, .2)),
-    };
-    return Container(
-      height: height,
-      decoration: BoxDecoration(
-        borderRadius: border,
-        gradient: LinearGradient(
-          begin: const Alignment(-0.6, -1),
-          end: const Alignment(0.6, 1),
-          colors: colors,
-          stops: const [0, .6, 1],
-        ),
-        boxShadow: const [
-          BoxShadow(
-            color: Color(0x40281E28),
-            blurRadius: 40,
-            offset: Offset(0, 20),
-          ),
-        ],
-      ),
-      child: DecoratedBox(
-        decoration: BoxDecoration(
-          borderRadius: border,
-          gradient: RadialGradient(
-            center: glowAt,
-            radius: .8,
-            colors: [glow, glow.withAlpha(0)],
-          ),
-        ),
-        child: DecoratedBox(
-          decoration: BoxDecoration(
-            borderRadius: border,
-            gradient: const LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color(0x33FFFFFF),
-                Color(0x00FFFFFF),
-                Color(0x00000000),
-                Color(0x1A000000),
-              ],
-              stops: [0, .08, .7, 1],
-            ),
-          ),
-          child: Material(
-            type: MaterialType.transparency,
-            child: onTap == null
-                ? body
-                : InkWell(borderRadius: border, onTap: onTap, child: body),
-          ),
-        ),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => SizedBox(
+    height: height,
+    child: SmokyGlass(
+      radius: radius,
+      tint: tone == SquircleTone.rose ? SmokyTint.coral : SmokyTint.none,
+      padding: padding,
+      onTap: onTap,
+      child: child,
+    ),
+  );
 }
 
 /// The head of a [SquircleCard]: a ring icon, two short lines and a black
@@ -571,6 +514,42 @@ class BlackCircleButton extends StatelessWidget {
   );
 }
 
+/// A light glass round button with a dark icon (page heads: messages,
+/// back, sound). At least 44 px to tap.
+class GlassCircleButton extends StatelessWidget {
+  const GlassCircleButton({
+    super.key,
+    required this.icon,
+    required this.onPressed,
+    required this.label,
+    this.size = 44,
+  });
+
+  final ParlaIconName icon;
+  final VoidCallback onPressed;
+  final String label;
+  final double size;
+
+  @override
+  Widget build(BuildContext context) => Semantics(
+    button: true,
+    label: label,
+    excludeSemantics: true,
+    child: SizedBox(
+      width: math.max(size, 44),
+      height: math.max(size, 44),
+      child: SmokyGlass(
+        shape: const CircleBorder(),
+        milk: true,
+        onTap: onPressed,
+        child: Center(
+          child: ParlaIcon(icon, size: size * .42, color: Warm.ink),
+        ),
+      ),
+    ),
+  );
+}
+
 /// The glowing peach round "+" button of the design.
 class GlowPlusButton extends StatelessWidget {
   const GlowPlusButton({
@@ -599,10 +578,15 @@ class GlowPlusButton extends StatelessWidget {
         height: size,
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
-          gradient: RadialGradient(
-            center: Alignment(-.2, -.2),
-            colors: [Color(0xF2FFC896), Color(0x8CF0823C)],
+          border: Border.fromBorderSide(
+            BorderSide(color: Color(0xBFFFFFFF), width: 1.5),
           ),
+          gradient: RadialGradient(
+            center: Alignment(-.1, -.2),
+            colors: [Color(0xFAFFF0E0), Color(0x99FFB076), Color(0x2EFFFFFF)],
+            stops: [0, .55, .78],
+          ),
+          boxShadow: [BoxShadow(color: Color(0x99FFA05A), blurRadius: 34)],
         ),
         alignment: Alignment.center,
         child: ParlaIcon(icon, size: size * .32, color: Colors.white),
@@ -623,8 +607,9 @@ class OutlineBadge extends StatelessWidget {
     constraints: const BoxConstraints(minHeight: 26),
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
     decoration: ShapeDecoration(
+      color: const Color(0x14FFFFFF),
       shape: StadiumBorder(
-        side: BorderSide(color: color.withValues(alpha: .5)),
+        side: BorderSide(color: color.withValues(alpha: .6)),
       ),
     ),
     child: Text(
@@ -946,7 +931,7 @@ class OutlineCircleButton extends StatelessWidget {
     excludeSemantics: true,
     child: Material(
       type: MaterialType.transparency,
-      shape: const CircleBorder(side: BorderSide(color: Color(0x66FFFFFF))),
+      shape: const CircleBorder(side: BorderSide(color: Color(0x73FFFFFF))),
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: onPressed,
@@ -1084,8 +1069,8 @@ class AddPill extends StatelessWidget {
   );
 }
 
-/// A choice capsule: white with dark text when chosen, smoky glass
-/// otherwise.
+/// A choice capsule: dark with white text when chosen, light milky
+/// glass with dark text otherwise.
 class WarmChip extends StatelessWidget {
   const WarmChip({
     super.key,
@@ -1105,7 +1090,7 @@ class WarmChip extends StatelessWidget {
       style: TextStyle(
         fontSize: 13,
         fontWeight: selected ? FontWeight.w500 : FontWeight.w400,
-        color: selected ? Warm.black : Warm.onCard,
+        color: selected ? Warm.onCard : Warm.ink,
       ),
     );
     const pad = EdgeInsets.symmetric(horizontal: 16, vertical: 11);
@@ -1116,8 +1101,10 @@ class WarmChip extends StatelessWidget {
         constraints: const BoxConstraints(minHeight: 44),
         child: selected
             ? Material(
-                color: Colors.white,
-                shape: const StadiumBorder(),
+                color: Warm.black,
+                shape: const StadiumBorder(
+                  side: BorderSide(color: Color(0x40FFFFFF), width: 1.5),
+                ),
                 child: InkWell(
                   customBorder: const StadiumBorder(),
                   onTap: onTap,
@@ -1127,6 +1114,7 @@ class WarmChip extends StatelessWidget {
             : SmokyGlass(
                 shape: const StadiumBorder(),
                 shadow: false,
+                milk: true,
                 onTap: onTap,
                 padding: pad,
                 child: text,
@@ -1136,7 +1124,7 @@ class WarmChip extends StatelessWidget {
   }
 }
 
-/// Two choices in a smoky capsule; the chosen one is white.
+/// Two choices in a light glass capsule; the chosen one is dark.
 class WarmSegmented<T> extends StatelessWidget {
   const WarmSegmented({
     super.key,
@@ -1157,6 +1145,7 @@ class WarmSegmented<T> extends StatelessWidget {
   Widget build(BuildContext context) => SmokyGlass(
     radius: 28,
     shadow: false,
+    milk: true,
     padding: const EdgeInsets.all(5),
     child: Row(
       children: [
@@ -1174,7 +1163,7 @@ class WarmSegmented<T> extends StatelessWidget {
                   constraints: const BoxConstraints(minHeight: 44),
                   alignment: Alignment.center,
                   decoration: ShapeDecoration(
-                    color: v == selected ? Colors.white : Colors.transparent,
+                    color: v == selected ? Warm.black : Colors.transparent,
                     shape: const StadiumBorder(),
                   ),
                   child: Text(
@@ -1186,7 +1175,7 @@ class WarmSegmented<T> extends StatelessWidget {
                       fontWeight: v == selected
                           ? FontWeight.w500
                           : FontWeight.w400,
-                      color: v == selected ? Warm.black : Warm.onCard,
+                      color: v == selected ? Warm.onCard : Warm.ink,
                     ),
                   ),
                 ),
@@ -1199,7 +1188,7 @@ class WarmSegmented<T> extends StatelessWidget {
 }
 
 /// A step or item row: a status circle (white tick when done), a title
-/// and a line; the current one glows burnt orange.
+/// and a line; the current one glows coral.
 class WarmStepRow extends StatelessWidget {
   const WarmStepRow({
     super.key,
@@ -1247,7 +1236,7 @@ class WarmStepRow extends StatelessWidget {
       constraints: const BoxConstraints(minHeight: 64),
       child: SmokyGlass(
         shape: const StadiumBorder(),
-        tint: current ? SmokyTint.burnt : SmokyTint.none,
+        tint: current ? SmokyTint.coral : SmokyTint.none,
         shadow: false,
         onTap: onTap,
         padding: const EdgeInsets.fromLTRB(8, 6, 18, 6),

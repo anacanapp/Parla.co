@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import '../../l10n/app_localizations.dart';
 import '../../routes.dart';
 import '../../ui/parla_icons.dart';
+import '../../ui/warm.dart';
 
 /// The five main tabs (owner's order, 2026-11-20). Sport opens from
 /// Discover; the profile and privacy centre is the last tab.
@@ -28,7 +29,7 @@ enum ParlaTab {
   };
 }
 
-/// Bottom navigation (night design 3.0): a floating glass capsule with
+/// Bottom navigation (HR design): a floating milky glass capsule with
 /// five tabs. The open tab is a light capsule with its icon and name; the
 /// others show their icon, and every tab's name is in the semantics.
 ///
@@ -52,21 +53,11 @@ class ParlaNavBar extends StatelessWidget {
         minimum: const EdgeInsets.only(bottom: 18),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          // Warm day design: a black capsule; the open tab is white.
-          child: Container(
+          // HR design: a milky glass capsule; the open tab is white.
+          child: SmokyGlass(
             key: const ValueKey('parla-nav'),
+            shape: const StadiumBorder(),
             padding: const EdgeInsets.symmetric(horizontal: 6),
-            decoration: const ShapeDecoration(
-              color: Color(0xE00F0F12),
-              shape: StadiumBorder(),
-              shadows: [
-                BoxShadow(
-                  color: Color(0x33281409),
-                  blurRadius: 30,
-                  offset: Offset(0, 12),
-                ),
-              ],
-            ),
             child: SizedBox(
               height: 64,
               child: Row(
@@ -116,7 +107,7 @@ class _NavItem extends StatelessWidget {
   Widget build(BuildContext context) {
     // The open tab: a light capsule with dark ink; the others are light
     // icons at 75 % on the glass.
-    final color = selected ? _ink : const Color(0xD9FFFFFF);
+    final color = selected ? _ink : Warm.onCard;
     return Semantics(
       button: true,
       selected: selected,
@@ -166,4 +157,4 @@ class _NavItem extends StatelessWidget {
 }
 
 /// Dark ink on the light capsule.
-const _ink = Color(0xFF1A0B2A);
+const _ink = Warm.ink;

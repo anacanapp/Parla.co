@@ -1055,17 +1055,16 @@ class _MessagesButtonState extends State<_MessagesButton> {
           button: true,
           label: _unread ? l10n.messagesButtonUnread : l10n.messagesButton,
           excludeSemantics: true,
-          child: Material(
+          child: SizedBox(
             key: const ValueKey('home-messages'),
-            color: Warm.black,
-            shape: const CircleBorder(),
-            child: InkWell(
-              customBorder: const CircleBorder(),
+            width: 44,
+            height: 44,
+            child: SmokyGlass(
+              shape: const CircleBorder(),
+              milk: true,
               onTap: () => context.go(Routes.messages),
-              child: const SizedBox(
-                width: 44,
-                height: 44,
-                child: Icon(Icons.mail_outline, size: 20, color: Colors.white),
+              child: const Center(
+                child: ParlaIcon(ParlaIconName.bell, size: 20, color: Warm.ink),
               ),
             ),
           ),
