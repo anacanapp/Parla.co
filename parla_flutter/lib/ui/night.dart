@@ -381,25 +381,34 @@ class MeshTile extends StatelessWidget {
         ),
         child: DecoratedBox(
           decoration: BoxDecoration(
-            // Light tiles (pink, sage, orange, rose) get a soft glassy light
-            // instead of a dark blob, which read as a stain (owner,
-            // 2026-11-24); dark tiles keep their deep glow.
-            gradient: tone.isLight
-                ? const RadialGradient(
-                    center: Alignment(-0.7, -0.9),
-                    radius: 1.1,
-                    colors: [Color(0x40FFFFFF), Color(0x00FFFFFF)],
-                  )
-                : RadialGradient(
-                    center: blobAt,
-                    radius: 0.6,
-                    colors: [
-                      tone.blob.withValues(alpha: .85),
+            // Light tiles (pink, sage, orange, rose): their own glow, wide
+            // and soft so it melts into the glass instead of reading as a
+            // stain (owner, 2026-11-24); dark tiles keep their deep glow.
+            gradient: RadialGradient(
+              center: blobAt,
+              radius: tone.isLight ? 0.95 : 0.6,
+              colors: tone.isLight
+                  ? [
+                      tone.blob.withValues(alpha: .42),
+                      tone.blob.withValues(alpha: .16),
                       tone.blob.withAlpha(0),
-                    ],
-                  ),
+                    ]
+                  : [tone.blob.withValues(alpha: .85), tone.blob.withAlpha(0)],
+              stops: tone.isLight ? const [0, .5, 1] : null,
+            ),
           ),
-          child: InkWell(borderRadius: border, onTap: onTap, child: body),
+          child: DecoratedBox(
+            decoration: BoxDecoration(
+              gradient: tone.isLight
+                  ? const RadialGradient(
+                      center: Alignment(-0.7, -0.9),
+                      radius: 1.1,
+                      colors: [Color(0x38FFFFFF), Color(0x00FFFFFF)],
+                    )
+                  : null,
+            ),
+            child: InkWell(borderRadius: border, onTap: onTap, child: body),
+          ),
         ),
       ),
     );
