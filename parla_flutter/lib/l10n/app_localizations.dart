@@ -976,6 +976,18 @@ abstract class AppLocalizations {
   /// **'These documents are being prepared with a lawyer and will appear here before launch.'**
   String get legalPolicyBody;
 
+  /// No description provided for @legalPrivacyPolicy.
+  ///
+  /// In en, this message translates to:
+  /// **'Privacy policy'**
+  String get legalPrivacyPolicy;
+
+  /// No description provided for @legalTerms.
+  ///
+  /// In en, this message translates to:
+  /// **'Terms of use'**
+  String get legalTerms;
+
   /// No description provided for @legalConsentsTitle.
   ///
   /// In en, this message translates to:

@@ -492,6 +492,12 @@ class AppLocalizationsAz extends AppLocalizations {
       'Bu sənədlər hüquqşünasla hazırlanır və launch-dan əvvəl burada görünəcək.';
 
   @override
+  String get legalPrivacyPolicy => 'Məxfilik siyasəti';
+
+  @override
+  String get legalTerms => 'İstifadə şərtləri';
+
+  @override
   String get legalConsentsTitle => 'Razılıq mətnləri';
 
   @override

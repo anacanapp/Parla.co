@@ -500,6 +500,12 @@ class AppLocalizationsRu extends AppLocalizations {
       'Эти документы готовятся с юристом и появятся здесь до запуска.';
 
   @override
+  String get legalPrivacyPolicy => 'Политика конфиденциальности';
+
+  @override
+  String get legalTerms => 'Условия использования';
+
+  @override
   String get legalConsentsTitle => 'Тексты согласий';
 
   @override

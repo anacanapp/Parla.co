@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown_plus/flutter_markdown_plus.dart';
 import 'package:go_router/go_router.dart';
 import 'package:parla_shared/parla_shared.dart';
 
@@ -18,6 +19,7 @@ import '../ui/warm.dart';
 import '../ui/parla_icons.dart';
 import '../ui/parla_ui.dart';
 import '../ui/common.dart';
+import 'legal_docs.dart';
 
 /// M-25/M-27/M-28: profile and privacy centre. Every right is reachable in
 /// one or two taps (checklist CON-5, DEL-1, EXP-1).
@@ -593,9 +595,7 @@ class LegalScreen extends StatelessWidget {
           const SizedBox(height: 6),
           Text(l10n.legalMedicalBody, style: text.bodyLarge),
           const SizedBox(height: 24),
-          Text(l10n.legalPolicyTitle, style: text.titleLarge),
-          const SizedBox(height: 6),
-          Text(l10n.legalPolicyBody, style: text.bodyLarge),
+          _LegalDocs(language: language),
           const SizedBox(height: 24),
           Text(l10n.legalConsentsTitle, style: text.titleLarge),
           for (final kind in ConsentKind.values) ...[
@@ -779,6 +779,122 @@ class _AccountFacts extends StatelessWidget {
             ),
           ),
       ],
+    );
+  }
+}
+
+/// The privacy policy and the terms, each once it is ready (see
+/// [LegalDoc.isReady]); until then the "being prepared" note.
+class _LegalDocs extends StatefulWidget {
+  const _LegalDocs({required this.language});
+
+  final String language;
+
+  @override
+  State<_LegalDocs> createState() => _LegalDocsState();
+}
+
+class _LegalDocsState extends State<_LegalDocs> {
+  late Future<List<LegalDoc>> _ready = _load();
+
+  Future<List<LegalDoc>> _load() async => [
+    for (final doc in LegalDoc.values)
+      if (await doc.load(widget.language) != null) doc,
+  ];
+
+  @override
+  void didUpdateWidget(_LegalDocs old) {
+    super.didUpdateWidget(old);
+    if (old.language != widget.language) _ready = _load();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final text = Theme.of(context).textTheme;
+    return FutureBuilder<List<LegalDoc>>(
+      future: _ready,
+      builder: (context, snap) {
+        final ready = snap.data ?? const <LegalDoc>[];
+        if (ready.isEmpty) {
+          return Column(
+            key: const ValueKey('legal-pending'),
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(l10n.legalPolicyTitle, style: text.titleLarge),
+              const SizedBox(height: 6),
+              Text(l10n.legalPolicyBody, style: text.bodyLarge),
+            ],
+          );
+        }
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            for (final doc in ready)
+              ListTile(
+                key: ValueKey('legal-${doc.name}'),
+                contentPadding: EdgeInsets.zero,
+                title: Text(
+                  doc == LegalDoc.privacy
+                      ? l10n.legalPrivacyPolicy
+                      : l10n.legalTerms,
+                  style: text.titleLarge,
+                ),
+                trailing: const Icon(Icons.chevron_right),
+                onTap: () => context.go(Routes.legalDoc, extra: doc),
+              ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+/// One legal document in Markdown (shown only when ready).
+class LegalDocScreen extends StatelessWidget {
+  const LegalDocScreen({super.key, required this.doc});
+
+  final LegalDoc doc;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final theme = Theme.of(context);
+    final language =
+        ParlaScope.of(context).settings.language ?? defaultLanguage;
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        leadingWidth: roundBackWidth,
+        leading: Padding(
+          padding: const EdgeInsetsDirectional.only(start: 14),
+          child: Center(
+            child: GlassBack(onPressed: () => context.go(Routes.legal)),
+          ),
+        ),
+      ),
+      body: FutureBuilder<String?>(
+        future: doc.load(language),
+        builder: (context, snap) {
+          final markdown = snap.data;
+          if (markdown == null) {
+            return snap.connectionState == ConnectionState.done
+                ? Padding(
+                    padding: const EdgeInsets.all(20),
+                    child: Text(l10n.legalPolicyBody),
+                  )
+                : const SizedBox();
+          }
+          return Markdown(
+            key: const ValueKey('legal-doc'),
+            data: markdown,
+            padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
+            styleSheet: MarkdownStyleSheet.fromTheme(
+              theme,
+            ).copyWith(p: theme.textTheme.bodyLarge),
+          );
+        },
+      ),
     );
   }
 }

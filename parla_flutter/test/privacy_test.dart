@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -6,6 +7,7 @@ import 'package:parla/home/widgets/parla_nav_bar.dart';
 import 'package:parla/ui/brand.dart';
 import 'package:parla/app.dart';
 import 'package:parla/habits/habit_store.dart';
+import 'package:parla/screens/legal_docs.dart';
 import 'package:parla/services/parla_api.dart';
 import 'package:parla/state/app_settings.dart';
 import 'package:parla_shared/parla_shared.dart';
@@ -299,6 +301,46 @@ void main() {
       find.textContaining(currentConsentText(ConsentKind.health).version),
       findsOneWidget,
     );
+  });
+
+  test('the shipped legal drafts are not shown until they are ready', () {
+    for (final f in Directory('assets/legal').listSync().whereType<File>()) {
+      expect(
+        LegalDoc.isReady(f.readAsStringSync()),
+        isFalse,
+        reason: '${f.path} is still a draft with placeholders',
+      );
+    }
+    const ready = '# Privacy policy\n\nParla LLC, VOEN 123.';
+    expect(LegalDoc.isReady(ready), isTrue);
+    expect(LegalDoc.isReady('$ready [VÖEN]'), isFalse);
+    expect(
+      LegalDoc.isReady('$ready\n> ⚖️ Hüquqşünas yoxlamalıdır: x'),
+      isFalse,
+    );
+  });
+
+  testWidgets('legal documents open once they are ready', (tester) async {
+    final read = LegalDoc.read;
+    addTearDown(() => LegalDoc.read = read);
+    LegalDoc.read = (path) async => path.contains('privacy.az')
+        ? '# Məxfilik siyasəti\n\nParla MMC.'
+        : throw StateError('none');
+    await _openPrivacy(tester, language: 'en');
+    await _tap(tester, find.byKey(const ValueKey('privacy-legal')));
+    expect(find.byKey(const ValueKey('legal-pending')), findsNothing);
+    expect(find.byKey(const ValueKey('legal-terms')), findsNothing);
+    // English is not ready: the Azerbaijani text is shown.
+    await _tap(tester, find.byKey(const ValueKey('legal-privacy')));
+    expect(find.byKey(const ValueKey('legal-doc')), findsOneWidget);
+    expect(find.text('Parla MMC.'), findsOneWidget);
+  });
+
+  testWidgets('drafts keep the "being prepared" note', (tester) async {
+    await _openPrivacy(tester);
+    await _tap(tester, find.byKey(const ValueKey('privacy-legal')));
+    expect(find.byKey(const ValueKey('legal-pending')), findsOneWidget);
+    expect(find.byKey(const ValueKey('legal-privacy')), findsNothing);
   });
 
   for (final language in ['az', 'ru', 'en']) {
