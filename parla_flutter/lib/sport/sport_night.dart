@@ -3,29 +3,29 @@ import 'dart:math' as math;
 import 'package:flutter/material.dart';
 
 import '../ui/brand.dart';
+import '../ui/night.dart';
 import '../ui/parla_icons.dart';
+import '../ui/warm.dart';
 
-/// Night design pieces of the sport screens (prototypes "Gecə · İdman"
-/// and "Gecə · Məşq", 2026-11-23). Shared by the sport files only.
+/// Warm day design pieces of the sport screens (prototypes `X4SportW` and
+/// `X5WorkoutW`, owner 2026-11-24). Shared by the sport files only.
 abstract final class SportNight {
-  /// Main ink and the dark ink on light capsules (14:1 on [ink]).
-  static const ink = ParlaColors.espresso;
-  static const inkDark = Color(0xFF1A0B2A);
+  /// Ink on cards (white) and the dark ink on light capsules.
+  static const ink = Warm.onCard;
+  static const inkDark = Warm.black;
 
-  /// Secondary text on the page (about 9:1 on the night page).
-  static const soft = Color(0xA6F4E9FF);
+  /// Secondary text on cards.
+  static const soft = Warm.onCardSoft;
 
-  /// Glass rows: calm and highlighted (the next workout).
-  static const glass = Color(0x0FFFFFFF);
-  static const glassLine = Color(0x1FFFFFFF);
-  static const glassHigh = Color(0x1AFFFFFF);
-  static const glassHighLine = Color(0x38FFFFFF);
+  /// Text straight on the cream page.
+  static const page = Warm.ink;
+  static const pageSoft = Warm.muted;
 
-  /// The blue pebble of the week card (light ink passes AA on each stop).
-  static const blue = [Color(0xFF3B48DB), Color(0xFF2B2F9E), Color(0xFF120F3A)];
+  /// The lime week card's stops.
+  static const blue = Warm.lime;
 }
 
-/// A round glass button (back, sound, stop): 44 px, faint fill, hairline.
+/// A round black button (back, sound, stop): 44 px, white icon.
 class GlassIconButton extends StatelessWidget {
   const GlassIconButton({
     super.key,
@@ -39,18 +39,24 @@ class GlassIconButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   @override
-  Widget build(BuildContext context) => IconButton(
-    tooltip: tooltip,
-    onPressed: onPressed,
-    iconSize: 20,
-    constraints: const BoxConstraints.tightFor(width: 44, height: 44),
-    padding: EdgeInsets.zero,
-    style: IconButton.styleFrom(
-      backgroundColor: const Color(0x1AFFFFFF),
-      foregroundColor: SportNight.ink,
-      shape: const CircleBorder(side: BorderSide(color: Color(0x2EFFFFFF))),
+  Widget build(BuildContext context) => SizedBox(
+    width: 44,
+    height: 44,
+    // HR design: a light glass circle with a dark icon.
+    child: SmokyGlass(
+      shape: const CircleBorder(),
+      milk: true,
+      shadow: false,
+      child: IconButton(
+        tooltip: tooltip,
+        onPressed: onPressed,
+        iconSize: 20,
+        constraints: const BoxConstraints.tightFor(width: 44, height: 44),
+        padding: EdgeInsets.zero,
+        style: IconButton.styleFrom(foregroundColor: Warm.ink),
+        icon: icon,
+      ),
     ),
-    icon: icon,
   );
 }
 
@@ -82,11 +88,11 @@ class SportHeader extends StatelessWidget {
           child: Text(
             title,
             style: const TextStyle(
-              fontSize: 30,
+              fontSize: 38,
               fontWeight: FontWeight.w200,
               letterSpacing: -1,
-              height: 1.1,
-              color: SportNight.ink,
+              height: 1.05,
+              color: SportNight.page,
             ),
           ),
         ),
@@ -96,7 +102,7 @@ class SportHeader extends StatelessWidget {
   );
 }
 
-/// A glass row: rounded 28, faint fill and hairline; brighter when
+/// A smoky glass row (a stadium by default); burnt orange when
 /// [highlight]ed. The whole row is one button when [onTap] is set.
 class GlassRow extends StatelessWidget {
   const GlassRow({
@@ -104,30 +110,27 @@ class GlassRow extends StatelessWidget {
     required this.child,
     this.onTap,
     this.highlight = false,
-    this.padding = const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-    this.radius = 28,
+    this.padding = const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+    this.radius,
   });
 
   final Widget child;
   final VoidCallback? onTap;
   final bool highlight;
   final EdgeInsetsGeometry padding;
-  final double radius;
+
+  /// Corner radius; a stadium when `null`.
+  final double? radius;
 
   @override
-  Widget build(BuildContext context) => Material(
-    color: highlight ? SportNight.glassHigh : SportNight.glass,
-    shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.circular(radius),
-      side: BorderSide(
-        color: highlight ? SportNight.glassHighLine : SportNight.glassLine,
-      ),
-    ),
-    clipBehavior: Clip.antiAlias,
-    child: InkWell(
-      onTap: onTap,
-      child: Padding(padding: padding, child: child),
-    ),
+  Widget build(BuildContext context) => SmokyGlass(
+    shape: radius == null ? const StadiumBorder() : null,
+    radius: radius ?? 44,
+    tint: highlight ? SmokyTint.burnt : SmokyTint.none,
+    shadow: false,
+    onTap: onTap,
+    padding: padding,
+    child: child,
   );
 }
 
@@ -149,10 +152,10 @@ class TickDot extends StatelessWidget {
       height: 36,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: done ? SportNight.ink : null,
+        color: done ? Colors.white : null,
         border: done
             ? null
-            : Border.all(color: const Color(0x99F4E9FF), width: 1.5),
+            : Border.all(color: const Color(0x99FFFFFF), width: 1.5),
       ),
       alignment: Alignment.center,
       child: done
@@ -221,7 +224,7 @@ class SportOrb extends StatelessWidget {
       shape: BoxShape.circle,
       gradient: RadialGradient(
         center: Alignment(-0.3, -0.4),
-        colors: [Color(0xFFFFFFFF), Color(0xFFDCD3E6)],
+        colors: [Color(0xFFFFFFFF), Color(0xFFEDE6E0)],
       ),
     ),
     alignment: Alignment.center,
@@ -238,7 +241,7 @@ class OrbPill extends StatelessWidget {
     required this.onPressed,
     this.icon = Icons.arrow_forward,
     this.height = 60,
-    this.background = const Color(0x8C0A0824),
+    this.background = const Color(0x660F0F12),
   });
 
   final String label;
@@ -252,10 +255,10 @@ class OrbPill extends StatelessWidget {
     button: true,
     label: label,
     excludeSemantics: true,
-    child: Material(
+    child: LiquidGlass(
       color: background,
-      shape: const StadiumBorder(side: BorderSide(color: Color(0x24FFFFFF))),
-      clipBehavior: Clip.antiAlias,
+      shape: const StadiumBorder(),
+      shadow: false,
       child: InkWell(
         onTap: onPressed,
         child: ConstrainedBox(
@@ -281,35 +284,18 @@ class OrbPill extends StatelessWidget {
   );
 }
 
-/// The blue pebble card (the week's plan and the questions' invitation).
+/// The lime card of the design (the week's plan and the questions'
+/// invitation): white text.
 class BluePebble extends StatelessWidget {
   const BluePebble({super.key, required this.child});
 
   final Widget child;
 
   @override
-  Widget build(BuildContext context) => Container(
+  Widget build(BuildContext context) => SquircleCard(
+    tone: SquircleTone.lime,
     padding: const EdgeInsets.all(20),
-    decoration: BoxDecoration(
-      borderRadius: BorderRadius.circular(40),
-      gradient: const LinearGradient(
-        begin: Alignment(-0.5, -1),
-        end: Alignment(0.5, 1),
-        colors: SportNight.blue,
-      ),
-      border: Border.all(color: const Color(0x2EFFFFFF)),
-      boxShadow: const [
-        BoxShadow(
-          color: Color(0x8C14145A),
-          blurRadius: 50,
-          offset: Offset(0, 26),
-        ),
-      ],
-    ),
-    child: DefaultTextStyle.merge(
-      style: const TextStyle(color: SportNight.ink),
-      child: child,
-    ),
+    child: child,
   );
 }
 
@@ -369,7 +355,7 @@ class _DashedRingPainter extends CustomPainter {
     final radius = size.shortestSide / 2 - 3;
     final center = size.center(Offset.zero);
     final track = Paint()
-      ..color = const Color(0x1FFFFFFF)
+      ..color = const Color(0x40FFFFFF)
       ..strokeWidth = 2
       ..strokeCap = StrokeCap.round;
     final step = 8 / radius;

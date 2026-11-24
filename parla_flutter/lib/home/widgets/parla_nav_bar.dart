@@ -3,9 +3,8 @@ import 'package:go_router/go_router.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../routes.dart';
-import '../../ui/brand.dart';
 import '../../ui/parla_icons.dart';
-import '../../ui/night.dart';
+import '../../ui/warm.dart';
 
 /// The five main tabs (owner's order, 2026-11-20). Sport opens from
 /// Discover; the profile and privacy centre is the last tab.
@@ -30,7 +29,7 @@ enum ParlaTab {
   };
 }
 
-/// Bottom navigation (night design 3.0): a floating glass capsule with
+/// Bottom navigation (HR design): a floating milky glass capsule with
 /// five tabs. The open tab is a light capsule with its icon and name; the
 /// others show their icon, and every tab's name is in the semantics.
 ///
@@ -54,11 +53,11 @@ class ParlaNavBar extends StatelessWidget {
         minimum: const EdgeInsets.only(bottom: 18),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: GlassSurface(
+          // HR design: a milky glass capsule; the open tab is white.
+          child: SmokyGlass(
             key: const ValueKey('parla-nav'),
-            radius: 33,
-            blur: true,
-            padding: const EdgeInsets.symmetric(horizontal: 8),
+            shape: const StadiumBorder(),
+            padding: const EdgeInsets.symmetric(horizontal: 6),
             child: SizedBox(
               height: 64,
               child: Row(
@@ -108,7 +107,7 @@ class _NavItem extends StatelessWidget {
   Widget build(BuildContext context) {
     // The open tab: a light capsule with dark ink; the others are light
     // icons at 75 % on the glass.
-    final color = selected ? _ink : const Color(0xBFF4E9FF);
+    final color = selected ? _ink : Warm.onCard;
     return Semantics(
       button: true,
       selected: selected,
@@ -123,7 +122,7 @@ class _NavItem extends StatelessWidget {
           constraints: const BoxConstraints(minWidth: 50),
           padding: EdgeInsets.symmetric(horizontal: selected ? 16 : 0),
           decoration: ShapeDecoration(
-            color: selected ? ParlaColors.espresso : Colors.transparent,
+            color: selected ? Colors.white : Colors.transparent,
             shape: const StadiumBorder(),
           ),
           child: Row(
@@ -158,4 +157,4 @@ class _NavItem extends StatelessWidget {
 }
 
 /// Dark ink on the light capsule.
-const _ink = Color(0xFF1A0B2A);
+const _ink = Warm.ink;

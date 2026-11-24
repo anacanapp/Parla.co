@@ -7,6 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
+import 'package:parla/ui/warm.dart';
 import 'package:parla/app.dart';
 import 'package:parla/habits/habit_log.dart';
 import 'package:parla/habits/habit_store.dart';
@@ -128,6 +129,13 @@ Future<void> _open(WidgetTester tester) async {
       habitStore: _store(),
       reminderScheduler: FakeReminderScheduler(),
       ingredientDataset: _dataset,
+    ),
+  );
+  // Decode the backdrop photo before the first shot.
+  await tester.runAsync(
+    () => precacheImage(
+      const AssetImage(WarmBackdrop.asset),
+      tester.element(find.byType(ParlaApp)),
     ),
   );
   await tester.pumpAndSettle();

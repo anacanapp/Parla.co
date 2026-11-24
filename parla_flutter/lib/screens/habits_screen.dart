@@ -6,16 +6,14 @@ import 'package:parla_shared/parla_shared.dart';
 import '../habits/habit_log.dart';
 import '../habits/habit_sheets.dart';
 import '../habits/habit_tracker.dart';
-import '../home/widgets/home_cards.dart';
 import '../home/widgets/parla_nav_bar.dart';
 import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
 import '../routes.dart';
 import '../routines/custom_routines.dart';
 import '../routines/routine_section.dart';
-import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
-import '../ui/night.dart';
+import '../ui/warm.dart';
 
 /// M-17 "Rutin": face, hair and body routines, the user's own routines,
 /// today's habits and the last seven days.
@@ -99,7 +97,6 @@ class _HabitsBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final text = Theme.of(context).textTheme;
     final query = GoRouterState.of(context).uri.queryParameters;
     final week = WeekSummary(
       habits.log,
@@ -116,38 +113,21 @@ class _HabitsBody extends StatelessWidget {
     return SafeArea(
       bottom: false,
       child: ListView(
-        padding: const EdgeInsets.fromLTRB(22, 22, 22, 120),
+        padding: const EdgeInsets.fromLTRB(16, 22, 16, 120),
         children: [
-          Row(
-            children: [
-              Expanded(
-                child: Semantics(
-                  header: true,
-                  child: Text(
-                    l10n.habitsScreenTitle,
-                    style: const TextStyle(
-                      fontSize: 34,
-                      fontWeight: FontWeight.w200,
-                      letterSpacing: -1,
-                      height: 1.1,
-                      color: ParlaColors.espresso,
-                    ),
-                  ),
-                ),
+          WarmHeader(
+            title: l10n.habitsScreenTitle,
+            trailing: Tooltip(
+              message: l10n.skinCardBody,
+              child: _SmokyCapsule(
+                key: const ValueKey('habits-skin-analysis'),
+                label: l10n.skinCardTitle,
+                icon: ParlaIconName.scan,
+                onPressed: () => context.go(Routes.quiz),
               ),
-              const SizedBox(width: 12),
-              Tooltip(
-                message: l10n.skinCardBody,
-                child: _GlassPill(
-                  key: const ValueKey('habits-skin-analysis'),
-                  label: l10n.skinCardTitle,
-                  icon: ParlaIconName.scan,
-                  onPressed: () => context.go(Routes.quiz),
-                ),
-              ),
-            ],
+            ),
           ),
-          const SizedBox(height: 16),
+          const SizedBox(height: 14),
           RoutinesSection(
             key: ValueKey('routines-${query['area']}-${query['slot']}'),
             initialArea: RoutineArea.values
@@ -161,41 +141,26 @@ class _HabitsBody extends StatelessWidget {
             book: book,
             today: today,
           ),
-          const SizedBox(height: 28),
-          Semantics(
-            header: true,
-            child: Text(l10n.routineDayHabits, style: text.headlineSmall),
-          ),
+          const SizedBox(height: 26),
+          _SectionTitle(l10n.routineDayHabits),
           const SizedBox(height: 12),
-          HabitCard(
+          _WaterCard(
             key: const ValueKey('habits-water'),
-            icon: ParlaIconName.drop,
             title: l10n.habitWater,
             value: l10n.habitWaterCount(habits.water, HabitTracker.waterGoal),
-            background: ParlaColors.sky,
-            fill: ParlaColors.waterFill,
             fraction: habits.water / HabitTracker.waterGoal,
-            actions: [
-              RoundIconButton(
-                icon: ParlaIconName.minus,
-                label: l10n.habitWaterRemove,
-                background: ParlaColors.cream,
-                onPressed: habits.water == 0 ? null : habits.removeWater,
-              ),
-              RoundIconButton(
-                icon: ParlaIconName.plus,
-                label: l10n.habitWaterAdd,
-                onPressed: habits.water >= HabitTracker.waterGoal
-                    ? null
-                    : habits.addWater,
-              ),
-            ],
+            removeLabel: l10n.habitWaterRemove,
+            addLabel: l10n.habitWaterAdd,
+            onRemove: habits.water == 0 ? null : habits.removeWater,
+            onAdd: habits.water >= HabitTracker.waterGoal
+                ? null
+                : habits.addWater,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
           _LogRow(
             key: const ValueKey('habits-sleep'),
             icon: ParlaIconName.moon,
-            background: ParlaColors.lemon,
+            tint: SmokyTint.burnt,
             title: l10n.habitSleep,
             value: habits.sleepHours == null
                 ? l10n.habitNoEntry
@@ -203,11 +168,11 @@ class _HabitsBody extends StatelessWidget {
             action: habits.sleepHours == null ? l10n.habitLog : l10n.habitEdit,
             onTap: () => logSleep(context, habits),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
           _LogRow(
             key: const ValueKey('habits-move'),
             icon: ParlaIconName.move,
-            background: ParlaColors.sage,
+            tint: SmokyTint.coral,
             title: l10n.habitMove,
             value: habits.moveMinutes == null
                 ? l10n.habitNoEntry
@@ -216,11 +181,10 @@ class _HabitsBody extends StatelessWidget {
             onTap: () => logMove(context, habits),
           ),
           if (reminders.supported) ...[
-            const SizedBox(height: 12),
+            const SizedBox(height: 10),
             _LogRow(
               key: const ValueKey('habits-reminders'),
               icon: ParlaIconName.sparkle,
-              background: ParlaColors.lilac,
               title: l10n.remindersTitle,
               value: enabledReminders == 0
                   ? l10n.remindersSummaryOff
@@ -229,11 +193,8 @@ class _HabitsBody extends StatelessWidget {
               onTap: () => context.go(Routes.reminders),
             ),
           ],
-          const SizedBox(height: 32),
-          Semantics(
-            header: true,
-            child: Text(l10n.habitsWeekTitle, style: text.headlineSmall),
-          ),
+          const SizedBox(height: 28),
+          _SectionTitle(l10n.habitsWeekTitle),
           const SizedBox(height: 12),
           _WeekCard(
             key: const ValueKey('week-care'),
@@ -243,9 +204,9 @@ class _HabitsBody extends StatelessWidget {
             fractions: [
               for (final c in week.care) c ? 1 : 0,
             ],
-            fill: ParlaColors.sunInk,
+            fill: const Color(0xFFF6A35C),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
           _WeekCard(
             key: const ValueKey('week-water'),
             title: l10n.habitWater,
@@ -256,9 +217,9 @@ class _HabitsBody extends StatelessWidget {
             fractions: [
               for (final w in week.water) w / HabitTracker.waterGoal,
             ],
-            fill: ParlaColors.waterFill,
+            fill: const Color(0xFFC9E04A),
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
           _WeekCard(
             key: const ValueKey('week-sleep'),
             title: l10n.habitSleep,
@@ -272,9 +233,9 @@ class _HabitsBody extends StatelessWidget {
             fractions: [
               for (final s in week.sleep) (s ?? 0) / HabitTracker.maxSleepHours,
             ],
-            fill: ParlaColors.espresso,
+            fill: Colors.white,
           ),
-          const SizedBox(height: 12),
+          const SizedBox(height: 10),
           _WeekCard(
             key: const ValueKey('week-move'),
             title: l10n.habitMove,
@@ -283,21 +244,29 @@ class _HabitsBody extends StatelessWidget {
                 : l10n.habitsWeekMoveValue(week.moveTotal, week.moveDays),
             dates: week.dates,
             fractions: _relative(week.move),
-            fill: ParlaColors.moveFill,
+            fill: const Color(0xFFF08A6E),
           ),
-          const SizedBox(height: 24),
+          const SizedBox(height: 22),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const Padding(
                 padding: EdgeInsets.only(top: 2),
-                child: ParlaIcon(ParlaIconName.check, size: 22),
+                child: ParlaIcon(
+                  ParlaIconName.check,
+                  size: 22,
+                  color: Warm.ink,
+                ),
               ),
               const SizedBox(width: 10),
               Expanded(
                 child: Text(
                   l10n.habitsPrivacyNote,
-                  style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    height: 1.45,
+                    color: Warm.muted,
+                  ),
                 ),
               ),
             ],
@@ -320,63 +289,209 @@ class _HabitsBody extends StatelessWidget {
   }
 }
 
-/// A full-width tile with a value and a log or edit action.
+/// A section heading on the page (dark, thin).
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle(this.text);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.only(left: 4),
+    child: Semantics(
+      header: true,
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 24,
+          fontWeight: FontWeight.w300,
+          letterSpacing: -.4,
+          color: Warm.ink,
+        ),
+      ),
+    ),
+  );
+}
+
+/// Water as a smoky card with a coral glow: the count, a dot meter and
+/// round − and + buttons.
+class _WaterCard extends StatelessWidget {
+  const _WaterCard({
+    super.key,
+    required this.title,
+    required this.value,
+    required this.fraction,
+    required this.removeLabel,
+    required this.addLabel,
+    required this.onRemove,
+    required this.onAdd,
+  });
+
+  final String title;
+  final String value;
+  final double fraction;
+  final String removeLabel;
+  final String addLabel;
+  final VoidCallback? onRemove;
+  final VoidCallback? onAdd;
+
+  @override
+  Widget build(BuildContext context) => SmokyGlass(
+    radius: 40,
+    tint: SmokyTint.coral,
+    padding: const EdgeInsets.fromLTRB(22, 16, 14, 16),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(title, style: const TextStyle(fontSize: 13)),
+                  const SizedBox(height: 4),
+                  Semantics(
+                    liveRegion: true,
+                    child: Text(
+                      value,
+                      style: const TextStyle(
+                        fontSize: 22,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            _GlassRound(
+              icon: ParlaIconName.minus,
+              label: removeLabel,
+              onPressed: onRemove,
+            ),
+            const SizedBox(width: 8),
+            _GlassRound(
+              icon: ParlaIconName.plus,
+              label: addLabel,
+              onPressed: onAdd,
+            ),
+          ],
+        ),
+        const SizedBox(height: 10),
+        DotsMeter(fraction: fraction, columns: 24),
+      ],
+    ),
+  );
+}
+
+/// A 48 px round button with a white ring on glass.
+class _GlassRound extends StatelessWidget {
+  const _GlassRound({
+    required this.icon,
+    required this.label,
+    required this.onPressed,
+  });
+
+  final ParlaIconName icon;
+  final String label;
+  final VoidCallback? onPressed;
+
+  @override
+  Widget build(BuildContext context) => Semantics(
+    button: true,
+    enabled: onPressed != null,
+    label: label,
+    excludeSemantics: true,
+    child: Material(
+      color: const Color(0x26FFFFFF),
+      shape: const CircleBorder(side: BorderSide(color: Color(0x66FFFFFF))),
+      child: InkWell(
+        customBorder: const CircleBorder(),
+        onTap: onPressed,
+        child: SizedBox(
+          width: 48,
+          height: 48,
+          child: Center(
+            child: ParlaIcon(
+              icon,
+              size: 20,
+              color: onPressed == null ? Warm.onCardSoft : Warm.onCard,
+            ),
+          ),
+        ),
+      ),
+    ),
+  );
+}
+
+/// A smoky capsule with a ring icon, a value and a log or edit action.
 class _LogRow extends StatelessWidget {
   const _LogRow({
     super.key,
     required this.icon,
-    required this.background,
     required this.title,
     required this.value,
     required this.action,
     required this.onTap,
+    this.tint = SmokyTint.none,
   });
 
   final ParlaIconName icon;
-  final Color background;
+  final SmokyTint tint;
   final String title;
   final String value;
   final String action;
   final VoidCallback onTap;
 
   @override
-  Widget build(BuildContext context) {
-    final text = Theme.of(context).textTheme;
-    return GlassSurface(
-      padding: const EdgeInsets.fromLTRB(16, 12, 8, 12),
+  Widget build(BuildContext context) => ConstrainedBox(
+    constraints: const BoxConstraints(minHeight: 72),
+    child: SmokyGlass(
+      shape: const StadiumBorder(),
+      tint: tint,
+      shadow: false,
+      padding: const EdgeInsets.fromLTRB(14, 10, 8, 10),
       child: Row(
         children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: background,
-              shape: BoxShape.circle,
-            ),
-            alignment: Alignment.center,
-            child: ParlaIcon(icon, size: 22),
-          ),
+          RingIcon(icon: icon),
           const SizedBox(width: 12),
           Expanded(
             child: Column(
+              mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(title, style: text.titleMedium),
+                Text(title, style: const TextStyle(fontSize: 13)),
                 Semantics(
                   liveRegion: true,
-                  child: Text(value, style: text.bodyMedium),
+                  child: Text(
+                    value,
+                    style: const TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w300,
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
           TextButton(
+            style: TextButton.styleFrom(
+              foregroundColor: Warm.black,
+              backgroundColor: Colors.white,
+              shape: const StadiumBorder(),
+              minimumSize: const Size(64, 44),
+              textStyle: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
             onPressed: onTap,
             child: Text(action, semanticsLabel: '$action: $title'),
           ),
         ],
       ),
-    );
-  }
+    ),
+  );
 }
 
 /// A habit over the last seven days: a summary line and one bar per day,
@@ -401,20 +516,27 @@ class _WeekCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final text = Theme.of(context).textTheme;
     final locale = Localizations.localeOf(context).toString();
     final weekday = DateFormat.E(locale);
-    return GlassSurface(
-      padding: const EdgeInsets.all(16),
-      child: Semantics(
-        container: true,
-        label: '$title. $value',
-        excludeSemantics: true,
+    return Semantics(
+      container: true,
+      label: '$title. $value',
+      excludeSemantics: true,
+      child: SmokyGlass(
+        radius: 34,
+        shadow: false,
+        padding: const EdgeInsets.all(18),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            Text(title, style: text.titleMedium),
-            Text(value, style: text.bodyMedium),
+            Text(title, style: const TextStyle(fontSize: 15)),
+            Text(
+              value,
+              style: const TextStyle(
+                fontSize: 13,
+                color: Warm.onCardSoft,
+              ),
+            ),
             const SizedBox(height: 12),
             Row(
               crossAxisAlignment: CrossAxisAlignment.end,
@@ -428,7 +550,7 @@ class _WeekCard extends StatelessWidget {
                           height: _barHeight,
                           alignment: Alignment.bottomCenter,
                           decoration: BoxDecoration(
-                            color: const Color(0x14FFFFFF),
+                            color: const Color(0x24FFFFFF),
                             borderRadius: BorderRadius.circular(9),
                           ),
                           child: FractionallySizedBox(
@@ -446,13 +568,14 @@ class _WeekCard extends StatelessWidget {
                         Text(
                           // First letters of the short weekday name.
                           _initial(weekday.format(dates[i])),
-                          style: text.labelMedium?.copyWith(
+                          style: TextStyle(
+                            fontSize: 13,
                             fontWeight: i == dates.length - 1
-                                ? FontWeight.w800
+                                ? FontWeight.w700
                                 : FontWeight.w400,
                             color: i == dates.length - 1
-                                ? ParlaColors.espresso
-                                : ParlaColors.muted,
+                                ? Warm.onCard
+                                : Warm.onCardSoft,
                           ),
                         ),
                       ],
@@ -473,9 +596,9 @@ class _WeekCard extends StatelessWidget {
   }
 }
 
-/// A small glass capsule button with an icon (skin analysis).
-class _GlassPill extends StatelessWidget {
-  const _GlassPill({
+/// A small smoky capsule button with an icon (skin analysis).
+class _SmokyCapsule extends StatelessWidget {
+  const _SmokyCapsule({
     super.key,
     required this.label,
     required this.icon,
@@ -489,34 +612,20 @@ class _GlassPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Semantics(
     button: true,
-    child: Material(
-      color: NightColors.glass,
-      shape: const StadiumBorder(
-        side: BorderSide(color: NightColors.glassLine),
-      ),
-      child: InkWell(
-        customBorder: const StadiumBorder(),
+    child: ConstrainedBox(
+      constraints: const BoxConstraints(minHeight: 44),
+      child: SmokyGlass(
+        shape: const StadiumBorder(),
+        shadow: false,
         onTap: onPressed,
-        child: ConstrainedBox(
-          constraints: const BoxConstraints(minHeight: 44),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ParlaIcon(icon, size: 18),
-                const SizedBox(width: 8),
-                Text(
-                  label,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
-                    color: ParlaColors.espresso,
-                  ),
-                ),
-              ],
-            ),
-          ),
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 11),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ParlaIcon(icon, size: 16, color: Warm.onCard),
+            const SizedBox(width: 6),
+            Text(label, style: const TextStyle(fontSize: 13)),
+          ],
         ),
       ),
     ),

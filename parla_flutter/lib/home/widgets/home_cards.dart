@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../ui/brand.dart';
+import '../../ui/night.dart';
 import '../../ui/parla_icons.dart';
 import '../../ui/parla_ui.dart';
+import '../../ui/warm.dart';
 import '../routine.dart';
 
 /// A glass card of the night design: a faint white fill and hairline.
@@ -20,17 +22,8 @@ class SoftCard extends StatelessWidget {
   final double radius;
 
   @override
-  Widget build(BuildContext context) => Container(
-    padding: padding,
-    decoration: BoxDecoration(
-      color: const Color(0x0FFFFFFF),
-      borderRadius: BorderRadius.circular(radius),
-      border: Border.all(color: const Color(0x1FFFFFFF)),
-    ),
-    // Ink splashes of buttons and list tiles inside the card paint on this
-    // transparent Material instead of under the card's background.
-    child: Material(type: MaterialType.transparency, child: child),
-  );
+  Widget build(BuildContext context) =>
+      LiquidGlass(radius: radius, padding: padding, child: child);
 }
 
 /// Small spaced capitals label, e.g. "NÖVBƏTİ ADDIM".
@@ -293,7 +286,10 @@ class _StepTileState extends State<StepTile> {
     final step = widget.step;
     final done = widget.done;
     final hint = done ? l10n.stepStatusDone : step.meta;
+    // Its own node: the glass around it is a tap target that would
+    // otherwise merge this label into its own.
     final check = Semantics(
+      container: true,
       button: true,
       toggled: done,
       label: done
@@ -314,10 +310,10 @@ class _StepTileState extends State<StepTile> {
               height: 36,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: done ? ParlaColors.espresso : Colors.transparent,
+                color: done ? Colors.white : Colors.transparent,
                 border: done
                     ? null
-                    : Border.all(color: const Color(0x99F4E9FF), width: 1.5),
+                    : Border.all(color: const Color(0x99FFFFFF), width: 1.5),
               ),
               alignment: Alignment.center,
               child: done
@@ -325,7 +321,7 @@ class _StepTileState extends State<StepTile> {
                       ParlaIconName.check,
                       size: 18,
                       strokeWidth: 2.5,
-                      color: Color(0xFF1A0B2A),
+                      color: Warm.black,
                     )
                   : null,
             ),
@@ -333,16 +329,13 @@ class _StepTileState extends State<StepTile> {
         ),
       ),
     );
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      padding: const EdgeInsets.fromLTRB(8, 6, 16, 6),
-      decoration: BoxDecoration(
-        color: Color(widget.highlighted ? 0x1AFFFFFF : 0x0FFFFFFF),
-        borderRadius: BorderRadius.circular(28),
-        border: Border.all(
-          color: Color(widget.highlighted ? 0x38FFFFFF : 0x1FFFFFFF),
-        ),
-      ),
+    // Warm day design: a smoky glass capsule; the next step glows burnt
+    // orange.
+    return SmokyGlass(
+      shape: const StadiumBorder(),
+      tint: widget.highlighted ? SmokyTint.burnt : SmokyTint.none,
+      shadow: false,
+      padding: const EdgeInsets.fromLTRB(8, 6, 20, 6),
       child: Row(
         children: [
           check,
@@ -360,11 +353,9 @@ class _StepTileState extends State<StepTile> {
                       step.title,
                       style: TextStyle(
                         fontSize: 15,
-                        color: done
-                            ? const Color(0x99F4E9FF)
-                            : ParlaColors.espresso,
+                        color: done ? Warm.onCardSoft : Warm.onCard,
                         decoration: done ? TextDecoration.lineThrough : null,
-                        decorationColor: const Color(0x99F4E9FF),
+                        decorationColor: Warm.onCardSoft,
                       ),
                     ),
                     if (hint.isNotEmpty)
@@ -379,7 +370,7 @@ class _StepTileState extends State<StepTile> {
                               : TextOverflow.ellipsis,
                           style: const TextStyle(
                             fontSize: kMinTextSize,
-                            color: ParlaColors.muted,
+                            color: Warm.onCardSoft,
                           ),
                         ),
                       ),
