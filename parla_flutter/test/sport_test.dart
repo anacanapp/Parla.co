@@ -8,6 +8,7 @@ import 'package:parla/home/widgets/parla_nav_bar.dart';
 import 'package:parla/services/parla_api.dart';
 import 'package:parla/sport/exercise_text.dart';
 import 'package:parla/sport/exercise_video.dart';
+import 'package:parla/sport/sport_night.dart';
 import 'package:parla/state/app_settings.dart';
 import 'package:parla/ui/brand.dart';
 import 'package:parla_shared/parla_shared.dart';
@@ -175,7 +176,7 @@ void main() {
     );
     expect(find.text('0 of 3 workouts'), findsOneWidget);
     expect(find.byKey(const ValueKey('workout-w1')), findsOneWidget);
-    expect(find.text('Workout 2'), findsOneWidget);
+    expect(find.text('Leg day'), findsOneWidget);
     final answers = _local(app.store)['answers']! as Map;
     expect(answers['goals'], ['muscle']);
     expect(answers['types'], ['fitness', 'stretching']);
@@ -220,6 +221,40 @@ void main() {
           _tap(tester, find.byKey(const ValueKey('pregnancy-pregnant'))),
     );
     expect(find.byKey(const ValueKey('sport-gentle')), findsOneWidget);
+  });
+
+  testWidgets('start comes before the moves; the player fits one screen '
+      'and swipes between moves', (tester) async {
+    await _open(tester);
+    await _answer(tester, section: 'wall_pilates');
+    await _tap(tester, find.byKey(const ValueKey('workout-v1')));
+    expect(find.text('Meet the wall'), findsWidgets);
+    final start = tester.getTopLeft(
+      find.byKey(const ValueKey('workout-start')),
+    );
+    final firstMove = tester.getTopLeft(find.byType(TickDot).first);
+    expect(start.dy, lessThan(firstMove.dy));
+    await _tap(tester, find.byKey(const ValueKey('workout-start')));
+    expect(find.text('Move 1 of 7'), findsOneWidget);
+    // Pause is on screen without scrolling.
+    final pause = tester.getRect(find.byKey(const ValueKey('workout-pause')));
+    expect(pause.bottom, lessThanOrEqualTo(844));
+    // Swipe left: the next move; swipe right: back.
+    await tester.fling(
+      find.byKey(const ValueKey('workout-swipe')),
+      const Offset(-300, 0),
+      1000,
+    );
+    await tester.pump();
+    expect(find.text('Move 2 of 7'), findsOneWidget);
+    await tester.fling(
+      find.byKey(const ValueKey('workout-swipe')),
+      const Offset(300, 0),
+      1000,
+    );
+    await tester.pump();
+    expect(find.text('Move 1 of 7'), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('workout-stop')));
   });
 
   testWidgets('a workout runs through countdowns, sets, rests and timers, '

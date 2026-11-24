@@ -11,6 +11,7 @@ import '../ui/parla_icons.dart';
 import '../ui/warm.dart';
 import 'sport_book.dart';
 import 'sport_labels.dart';
+import 'workout_names.dart';
 import 'sport_night.dart';
 
 /// Sport: five sections as chips (owner, 2026-11-24). Fitness, pilates and
@@ -292,9 +293,6 @@ class _PlanView extends StatelessWidget {
     final doneCount = plan.workouts.where((w) => done.contains(w.id)).length;
     final progress = l10n.sportWeekProgress(doneCount, total);
     final lead = '$doneCount';
-    final nextNumber = next == null
-        ? 0
-        : plan.workouts.indexWhere((w) => w.id == next.id) + 1;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -374,7 +372,7 @@ class _PlanView extends StatelessWidget {
                 OrbPill(
                   key: const ValueKey('sport-next'),
                   label:
-                      '${l10n.sportWorkoutTitle(nextNumber)} · '
+                      '${workoutName(l10n, next.id)} · '
                       '${l10n.sportWorkoutMeta(sportTypeLabel(l10n, next.type), next.minutes)}',
                   onPressed: () => context.go(Routes.workout, extra: next.id),
                 )
@@ -455,7 +453,7 @@ class _WorkoutCard extends StatelessWidget {
           const SizedBox(width: 12),
           Expanded(
             child: RowTexts(
-              title: l10n.sportWorkoutTitle(number),
+              title: workoutName(l10n, workout.id),
               subtitle: l10n.sportWorkoutMeta(
                 sportTypeLabel(l10n, workout.type),
                 workout.minutes,

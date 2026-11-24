@@ -1419,6 +1419,51 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get sportWorkoutName_w1 => 'Strong start';
+
+  @override
+  String get sportWorkoutName_w2 => 'Leg day';
+
+  @override
+  String get sportWorkoutName_w3 => 'Full body';
+
+  @override
+  String get sportWorkoutName_w4 => 'Energy wave';
+
+  @override
+  String get sportWorkoutName_w5 => 'Strength and balance';
+
+  @override
+  String get sportWorkoutName_p1 => 'Core awakening';
+
+  @override
+  String get sportWorkoutName_p2 => 'Soft flow';
+
+  @override
+  String get sportWorkoutName_p3 => 'Posture and breath';
+
+  @override
+  String get sportWorkoutName_p4 => 'Long lines';
+
+  @override
+  String get sportWorkoutName_p5 => 'Quiet strength';
+
+  @override
+  String get sportWorkoutName_v1 => 'Meet the wall';
+
+  @override
+  String get sportWorkoutName_v2 => 'Wall support';
+
+  @override
+  String get sportWorkoutName_v3 => 'Wall flow';
+
+  @override
+  String get sportWorkoutName_v4 => 'Wall rhythm';
+
+  @override
+  String get sportWorkoutName_v5 => 'Wall balance';
+
+  @override
   String sportWorkoutMeta(String type, int minutes) {
     return '$type · ~$minutes min';
   }
