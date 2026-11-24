@@ -3,6 +3,7 @@ import 'package:parla_server/src/generated/protocol.dart';
 import 'package:parla_server/src/profile/profile_endpoint.dart';
 import 'package:parla_shared/parla_shared.dart';
 import 'package:serverpod/serverpod.dart';
+import 'package:serverpod_auth_idp_server/core.dart';
 import 'package:test/test.dart';
 
 import 'test_tools/serverpod_test_tools.dart';
@@ -133,6 +134,34 @@ void main() {
           language: 'ru',
         ),
         throwsA(_parlaError(ProfileErrors.profileExists)),
+      );
+    });
+
+    test('the email is the caller\'s own', () async {
+      final db = sessionBuilder.build();
+      Future<String> user(String email) async {
+        final u = await const AuthUsers().create(db);
+        await EmailAccount.db.insertRow(
+          db,
+          EmailAccount(authUserId: u.id, email: email, passwordHash: 'x'),
+        );
+        return u.id.toString();
+      }
+
+      final a = await user('a@example.com');
+      final b = await user('b@example.com');
+      expect(
+        await endpoints.profile.email(_as(sessionBuilder, a)),
+        'a@example.com',
+      );
+      expect(
+        await endpoints.profile.email(_as(sessionBuilder, b)),
+        'b@example.com',
+      );
+      expect(await endpoints.profile.email(_as(sessionBuilder, alice)), isNull);
+      await expectLater(
+        endpoints.profile.email(sessionBuilder),
+        throwsA(isA<ServerpodUnauthenticatedException>()),
       );
     });
 

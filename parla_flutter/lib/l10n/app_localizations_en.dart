@@ -406,6 +406,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileAccountNote => 'We don\'t ask your name · email only';
 
   @override
+  String get profileEmailLabel => 'Email';
+
+  @override
+  String get profileAgeLabel => 'Age';
+
+  @override
+  String get profileCountryLabel => 'Country';
+
+  @override
+  String get profileLanguageLabel => 'Language';
+
+  @override
   String get privacyConsentsTitle => 'Consents';
 
   @override

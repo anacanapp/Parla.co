@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:parla_shared/parla_shared.dart';
 
 import '../l10n/app_localizations.dart';
+import '../l10n/names.dart';
 import '../parla_scope.dart';
 import '../routes.dart';
 import '../ui/common.dart';
@@ -17,14 +18,6 @@ class CountryScreen extends StatefulWidget {
 
 class _CountryScreenState extends State<CountryScreen> {
   String? _selected;
-
-  String _name(AppLocalizations l10n, String code) => switch (code) {
-    'AZ' => l10n.countryName_AZ,
-    'TR' => l10n.countryName_TR,
-    'KZ' => l10n.countryName_KZ,
-    'UZ' => l10n.countryName_UZ,
-    _ => code,
-  };
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +49,7 @@ class _CountryScreenState extends State<CountryScreen> {
                     key: ValueKey('country-${market.countryCode}'),
                     value: market.countryCode,
                     enabled: market.open,
-                    title: Text(_name(l10n, market.countryCode)),
+                    title: Text(countryName(l10n, market.countryCode)),
                     subtitle: market.open ? null : Text(l10n.countryComingSoon),
                   ),
                 ),

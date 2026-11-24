@@ -40,7 +40,12 @@ Future<_Harness> _openPrivacy(
   final habitStore = store ?? MemoryHabitStore();
   final api = FakeApi()
     ..signedIn = true
-    ..profile = ProfileSummary(countryCode: 'AZ', language: language)
+    ..profile = ProfileSummary(
+      countryCode: 'AZ',
+      language: language,
+      birthYear: 1995,
+      email: 'member@example.com',
+    )
     ..healthConsent = true
     ..quizAnswers = const QuizAnswers(
       chosen: {
@@ -104,6 +109,24 @@ void main() {
     expect(find.text('Privacy centre'), findsOneWidget);
     expect(_switch(tester, ConsentKind.health).value, isTrue);
     expect(_switch(tester, ConsentKind.analytics).value, isFalse);
+  });
+
+  testWidgets('the account card shows email, age, country and language, '
+      'and no name', (tester) async {
+    await _openPrivacy(tester);
+    final facts = find.byKey(const ValueKey('profile-account-facts'));
+    expect(facts, findsOneWidget);
+    String all() => tester
+        .widgetList<Text>(
+          find.descendant(of: facts, matching: find.byType(Text)),
+        )
+        .map((t) => t.textSpan?.toPlainText() ?? t.data)
+        .join(' | ');
+    expect(all(), contains('member@example.com'));
+    expect(all(), contains('Age  ${DateTime.now().year - 1995}'));
+    expect(all(), contains('Country  Azerbaijan'));
+    expect(all(), contains('Language  English'));
+    expect(all(), isNot(contains('Name')));
   });
 
   testWidgets('granting a consent records the current text version', (

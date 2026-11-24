@@ -116,7 +116,12 @@ Future<void> _open(WidgetTester tester) async {
   final api = FakeApi()
     ..signedIn = true
     ..healthConsent = true
-    ..profile = const ProfileSummary(countryCode: 'AZ', language: _language)
+    ..profile = const ProfileSummary(
+      countryCode: 'AZ',
+      language: _language,
+      birthYear: 1997,
+      email: 'user@example.com',
+    )
     ..quizAnswers = _answers
     ..products = const [_product];
   api.published.addAll(_content);

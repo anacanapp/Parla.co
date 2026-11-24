@@ -861,6 +861,15 @@ class EndpointProfile extends _isc.EndpointRef {
         {},
       );
 
+  /// The caller's own sign-in email, shown on the profile's account card
+  /// (owner 2026-11-24). Only ever the caller's own; `null` without an
+  /// email account.
+  _ida.Future<String?> email() => caller.callServerEndpoint<String?>(
+    'profile',
+    'email',
+    {},
+  );
+
   /// Creates the profile once, after the age gate and country choice.
   ///
   /// The age rule is checked again here: the app's check can be bypassed.
