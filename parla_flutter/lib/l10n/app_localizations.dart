@@ -2548,6 +2548,96 @@ abstract class AppLocalizations {
   /// **'Workout {number}'**
   String sportWorkoutTitle(int number);
 
+  /// No description provided for @sportWorkoutName_w1.
+  ///
+  /// In en, this message translates to:
+  /// **'Strong start'**
+  String get sportWorkoutName_w1;
+
+  /// No description provided for @sportWorkoutName_w2.
+  ///
+  /// In en, this message translates to:
+  /// **'Leg day'**
+  String get sportWorkoutName_w2;
+
+  /// No description provided for @sportWorkoutName_w3.
+  ///
+  /// In en, this message translates to:
+  /// **'Full body'**
+  String get sportWorkoutName_w3;
+
+  /// No description provided for @sportWorkoutName_w4.
+  ///
+  /// In en, this message translates to:
+  /// **'Energy wave'**
+  String get sportWorkoutName_w4;
+
+  /// No description provided for @sportWorkoutName_w5.
+  ///
+  /// In en, this message translates to:
+  /// **'Strength and balance'**
+  String get sportWorkoutName_w5;
+
+  /// No description provided for @sportWorkoutName_p1.
+  ///
+  /// In en, this message translates to:
+  /// **'Core awakening'**
+  String get sportWorkoutName_p1;
+
+  /// No description provided for @sportWorkoutName_p2.
+  ///
+  /// In en, this message translates to:
+  /// **'Soft flow'**
+  String get sportWorkoutName_p2;
+
+  /// No description provided for @sportWorkoutName_p3.
+  ///
+  /// In en, this message translates to:
+  /// **'Posture and breath'**
+  String get sportWorkoutName_p3;
+
+  /// No description provided for @sportWorkoutName_p4.
+  ///
+  /// In en, this message translates to:
+  /// **'Long lines'**
+  String get sportWorkoutName_p4;
+
+  /// No description provided for @sportWorkoutName_p5.
+  ///
+  /// In en, this message translates to:
+  /// **'Quiet strength'**
+  String get sportWorkoutName_p5;
+
+  /// No description provided for @sportWorkoutName_v1.
+  ///
+  /// In en, this message translates to:
+  /// **'Meet the wall'**
+  String get sportWorkoutName_v1;
+
+  /// No description provided for @sportWorkoutName_v2.
+  ///
+  /// In en, this message translates to:
+  /// **'Wall support'**
+  String get sportWorkoutName_v2;
+
+  /// No description provided for @sportWorkoutName_v3.
+  ///
+  /// In en, this message translates to:
+  /// **'Wall flow'**
+  String get sportWorkoutName_v3;
+
+  /// No description provided for @sportWorkoutName_v4.
+  ///
+  /// In en, this message translates to:
+  /// **'Wall rhythm'**
+  String get sportWorkoutName_v4;
+
+  /// No description provided for @sportWorkoutName_v5.
+  ///
+  /// In en, this message translates to:
+  /// **'Wall balance'**
+  String get sportWorkoutName_v5;
+
   /// No description provided for @sportWorkoutMeta.
   ///
   /// In en, this message translates to:

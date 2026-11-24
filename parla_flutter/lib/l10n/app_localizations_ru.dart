@@ -1412,6 +1412,51 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get sportWorkoutName_w1 => 'Мощный старт';
+
+  @override
+  String get sportWorkoutName_w2 => 'День ног';
+
+  @override
+  String get sportWorkoutName_w3 => 'Всё тело';
+
+  @override
+  String get sportWorkoutName_w4 => 'Волна энергии';
+
+  @override
+  String get sportWorkoutName_w5 => 'Сила и баланс';
+
+  @override
+  String get sportWorkoutName_p1 => 'Пробуждение центра';
+
+  @override
+  String get sportWorkoutName_p2 => 'Мягкий поток';
+
+  @override
+  String get sportWorkoutName_p3 => 'Осанка и дыхание';
+
+  @override
+  String get sportWorkoutName_p4 => 'Длинные линии';
+
+  @override
+  String get sportWorkoutName_p5 => 'Спокойная сила';
+
+  @override
+  String get sportWorkoutName_v1 => 'Знакомство со стеной';
+
+  @override
+  String get sportWorkoutName_v2 => 'Опора стены';
+
+  @override
+  String get sportWorkoutName_v3 => 'Поток у стены';
+
+  @override
+  String get sportWorkoutName_v4 => 'Ритм у стены';
+
+  @override
+  String get sportWorkoutName_v5 => 'Баланс у стены';
+
+  @override
   String sportWorkoutMeta(String type, int minutes) {
     return '$type · ~$minutes мин';
   }

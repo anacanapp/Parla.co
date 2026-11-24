@@ -18,6 +18,7 @@ import 'exercise_text.dart';
 import 'exercise_video.dart';
 import 'sport_labels.dart';
 import '../ui/warm.dart';
+import 'workout_names.dart';
 import 'sport_night.dart';
 
 enum _Phase { overview, countdown, work, rest, finished }
@@ -165,6 +166,16 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
 
   /// Back to the move before the one on screen (or the start of the
   /// first move).
+  /// A swipe to the left: straight to the next move's first set (the
+  /// "Next" button steps through sets and rests instead).
+  void _nextMove(Workout w) {
+    final shown = _shownIndex(w);
+    if (shown >= w.items.length - 1) return;
+    _index = shown + 1;
+    _set = 1;
+    _countdown();
+  }
+
   void _previous(Workout w) {
     final shown = _shownIndex(w);
     _index = shown > 0 ? shown - 1 : 0;
@@ -287,8 +298,6 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     final l10n = AppLocalizations.of(context);
     final language = Localizations.localeOf(context).languageCode;
     final fixed = fixedWorkoutById(w.id) != null;
-    // Plan workouts are numbered in their ids ("w2", "p1", "v3").
-    final number = fixed ? 0 : int.tryParse(w.id.substring(1)) ?? 1;
     const body = TextStyle(fontSize: 14, height: 1.45, color: SportNight.ink);
     const muted = TextStyle(
       fontSize: kMinTextSize,
@@ -299,9 +308,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
       padding: const EdgeInsets.fromLTRB(22, 14, 22, 32),
       children: [
         SportHeader(
-          title: fixed
-              ? sessionTitle(l10n, w.id)
-              : l10n.sportWorkoutTitle(number),
+          title: fixed ? sessionTitle(l10n, w.id) : workoutName(l10n, w.id),
           onBack: () => context.go(
             Routes.sport,
             extra: SportOptions.sectionOfWorkout(widget.workoutId),
@@ -349,13 +356,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           ),
           const SizedBox(height: 12),
         ],
-        Text(l10n.sportMusicNote, style: muted),
-        const SizedBox(height: 16),
-        for (var i = 0; i < w.items.length; i++) ...[
-          _ItemRow(item: w.items[i], number: i + 1, language: language),
-          const SizedBox(height: 10),
-        ],
-        const SizedBox(height: 12),
+        // Owner 2026-11-24: the start button comes before the moves.
         OrbPill(
           key: const ValueKey('workout-start'),
           label: l10n.sportStartWorkout,
@@ -364,7 +365,14 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           background: const Color(0xE60F0F12),
           onPressed: () => _start(w),
         ),
-        const SizedBox(height: 14),
+        const SizedBox(height: 12),
+        Text(l10n.sportMusicNote, style: muted),
+        const SizedBox(height: 16),
+        for (var i = 0; i < w.items.length; i++) ...[
+          _ItemRow(item: w.items[i], number: i + 1, language: language),
+          const SizedBox(height: 10),
+        ],
+        const SizedBox(height: 4),
         Text(l10n.sportDraftNote, style: muted),
       ],
     );
@@ -379,175 +387,196 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     final (name, how) = exerciseText(item.exercise.id, language);
     final caution = exerciseCaution(item.exercise.id, language);
     final reps = item.exercise.mode == ExerciseMode.reps;
-    return DecoratedBox(
-      decoration: const BoxDecoration(),
-      child: ListView(
-        padding: const EdgeInsets.fromLTRB(22, 14, 22, 32),
-        children: [
-          Row(
+    // Owner 2026-11-24: the controls stay at the bottom, so nothing needs
+    // scrolling to pause; the steps below the clock may scroll.
+    return Column(
+      children: [
+        Expanded(
+          child: ListView(
+            padding: const EdgeInsets.fromLTRB(22, 14, 22, 16),
             children: [
-              GlassIconButton(
-                key: const ValueKey('workout-stop'),
-                tooltip: l10n.sportQuit,
-                onPressed: _stop,
-                icon: const Icon(Icons.close),
+              Row(
+                children: [
+                  GlassIconButton(
+                    key: const ValueKey('workout-stop'),
+                    tooltip: l10n.sportQuit,
+                    onPressed: _stop,
+                    icon: const Icon(Icons.close),
+                  ),
+                  Expanded(
+                    child: Center(
+                      child: OutlineBadge(
+                        l10n.sportExerciseOf(_index + 1, w.items.length),
+                        color: SportNight.page,
+                      ),
+                    ),
+                  ),
+                  GlassIconButton(
+                    key: const ValueKey('sport-video-sound'),
+                    tooltip: ParlaScope.of(context).sport.videoSound
+                        ? l10n.sportVideoSoundOn
+                        : l10n.sportVideoSoundOff,
+                    onPressed: () {
+                      final book = ParlaScope.of(context).sport;
+                      book.setVideoSound(!book.videoSound);
+                    },
+                    icon: Icon(
+                      ParlaScope.of(context).sport.videoSound
+                          ? Icons.music_note_outlined
+                          : Icons.music_off_outlined,
+                    ),
+                  ),
+                  const SizedBox(width: 8),
+                  sound,
+                ],
               ),
-              Expanded(
-                child: Center(
-                  child: OutlineBadge(
-                    l10n.sportExerciseOf(_index + 1, w.items.length),
+              const SizedBox(height: 14),
+              // Swipe left for the next move, right for the previous one.
+              GestureDetector(
+                key: const ValueKey('workout-swipe'),
+                behavior: HitTestBehavior.opaque,
+                onHorizontalDragEnd: (d) {
+                  final v = d.primaryVelocity ?? 0;
+                  if (v < -200) _nextMove(w);
+                  if (v > 200) _previous(w);
+                },
+                child: _Media(
+                  exerciseId: item.exercise.id,
+                  playing: !_paused,
+                  resting: resting,
+                  countdown: counting ? _left : null,
+                ),
+              ),
+              const SizedBox(height: 12),
+              // The burnt glass capsule of the prototype: the phase, the
+              // move's name, the clock and a tick line that empties.
+              SmokyGlass(
+                radius: 56,
+                tint: SmokyTint.burnt,
+                padding: const EdgeInsets.fromLTRB(20, 16, 20, 14),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Semantics(
+                      liveRegion: true,
+                      child: Text(
+                        switch (_phase) {
+                          _Phase.rest => l10n.sportNextUp(name),
+                          _Phase.countdown =>
+                            '${l10n.sportGetReady} · '
+                                '${l10n.sportSetOf(_set, item.sets)}',
+                          _ => l10n.sportSetOf(_set, item.sets),
+                        },
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: kMinTextSize,
+                          letterSpacing: 1.6,
+                          color: SportNight.soft,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 2),
+                    Semantics(
+                      header: true,
+                      child: Text(
+                        resting ? l10n.sportResting : name,
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w300,
+                          height: 1.2,
+                          color: SportNight.ink,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      counting ? '$_left' : _clock(_left),
+                      key: ValueKey(
+                        counting ? 'workout-countdown' : 'workout-count',
+                      ),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 38,
+                        fontWeight: FontWeight.w300,
+                        height: 1.1,
+                        color: SportNight.ink,
+                        fontFeatures: [FontFeature.tabularFigures()],
+                      ),
+                    ),
+                    if (!resting && !counting && reps)
+                      Text(
+                        l10n.sportRepsNow(item.amount),
+                        key: const ValueKey('workout-reps'),
+                        textAlign: TextAlign.center,
+                        style: const TextStyle(
+                          fontSize: kMinTextSize,
+                          color: SportNight.soft,
+                        ),
+                      ),
+                    const SizedBox(height: 6),
+                    TicksMeter(
+                      fraction: _total == 0 ? 0 : 1 - _left / _total,
+                      count: 28,
+                    ),
+                  ],
+                ),
+              ),
+              if (!resting && !counting && reps)
+                Padding(
+                  padding: const EdgeInsets.only(top: 8),
+                  child: Text(
+                    l10n.sportRepPace(WorkoutPace.secondsPerRep),
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                      fontSize: kMinTextSize,
+                      color: SportNight.pageSoft,
+                    ),
+                  ),
+                ),
+              const SizedBox(height: 16),
+              if (!resting)
+                Text(
+                  how,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    height: 1.5,
                     color: SportNight.page,
                   ),
                 ),
-              ),
-              GlassIconButton(
-                key: const ValueKey('sport-video-sound'),
-                tooltip: ParlaScope.of(context).sport.videoSound
-                    ? l10n.sportVideoSoundOn
-                    : l10n.sportVideoSoundOff,
-                onPressed: () {
-                  final book = ParlaScope.of(context).sport;
-                  book.setVideoSound(!book.videoSound);
-                },
-                icon: Icon(
-                  ParlaScope.of(context).sport.videoSound
-                      ? Icons.music_note_outlined
-                      : Icons.music_off_outlined,
+              if (!resting && caution != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 12),
+                  child: GlassRow(
+                    key: const ValueKey('workout-caution'),
+                    highlight: true,
+                    child: Text(
+                      caution,
+                      style: const TextStyle(
+                        fontSize: 14,
+                        height: 1.45,
+                        color: SportNight.ink,
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-              const SizedBox(width: 8),
-              sound,
             ],
           ),
-          const SizedBox(height: 18),
-          _Media(
-            exerciseId: item.exercise.id,
-            playing: !_paused,
-            resting: resting,
-            countdown: counting ? _left : null,
-          ),
-          const SizedBox(height: 18),
-          // The burnt glass capsule of the prototype: the phase, the
-          // move's name, the clock and a tick line that empties.
-          SmokyGlass(
-            radius: 56,
-            tint: SmokyTint.burnt,
-            padding: const EdgeInsets.fromLTRB(20, 16, 20, 14),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Semantics(
-                  liveRegion: true,
-                  child: Text(
-                    switch (_phase) {
-                      _Phase.rest => l10n.sportNextUp(name),
-                      _Phase.countdown =>
-                        '${l10n.sportGetReady} · '
-                            '${l10n.sportSetOf(_set, item.sets)}',
-                      _ => l10n.sportSetOf(_set, item.sets),
-                    },
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: kMinTextSize,
-                      letterSpacing: 1.6,
-                      color: SportNight.soft,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Semantics(
-                  header: true,
-                  child: Text(
-                    resting ? l10n.sportResting : name,
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.w300,
-                      height: 1.2,
-                      color: SportNight.ink,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 4),
-                Text(
-                  counting ? '$_left' : _clock(_left),
-                  key: ValueKey(
-                    counting ? 'workout-countdown' : 'workout-count',
-                  ),
-                  textAlign: TextAlign.center,
-                  style: const TextStyle(
-                    fontSize: 38,
-                    fontWeight: FontWeight.w300,
-                    height: 1.1,
-                    color: SportNight.ink,
-                    fontFeatures: [FontFeature.tabularFigures()],
-                  ),
-                ),
-                if (!resting && !counting && reps)
-                  Text(
-                    l10n.sportRepsNow(item.amount),
-                    key: const ValueKey('workout-reps'),
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: kMinTextSize,
-                      color: SportNight.soft,
-                    ),
-                  ),
-                const SizedBox(height: 6),
-                TicksMeter(
-                  fraction: _total == 0 ? 0 : 1 - _left / _total,
-                  count: 28,
-                ),
-              ],
+        ),
+        SafeArea(
+          top: false,
+          minimum: const EdgeInsets.only(bottom: 12),
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 4, 16, 0),
+            child: _Controls(
+              paused: _paused,
+              onPrevious: () => _previous(w),
+              onPause: () => setState(() => _paused = !_paused),
+              onNext: () => _next(w),
             ),
           ),
-          if (!resting && !counting && reps)
-            Padding(
-              padding: const EdgeInsets.only(top: 8),
-              child: Text(
-                l10n.sportRepPace(WorkoutPace.secondsPerRep),
-                textAlign: TextAlign.center,
-                style: const TextStyle(
-                  fontSize: kMinTextSize,
-                  color: SportNight.pageSoft,
-                ),
-              ),
-            ),
-          const SizedBox(height: 22),
-          _Controls(
-            paused: _paused,
-            onPrevious: () => _previous(w),
-            onPause: () => setState(() => _paused = !_paused),
-            onNext: () => _next(w),
-          ),
-          const SizedBox(height: 22),
-          if (!resting)
-            Text(
-              how,
-              style: const TextStyle(
-                fontSize: 15,
-                height: 1.5,
-                color: SportNight.page,
-              ),
-            ),
-          if (!resting && caution != null)
-            Padding(
-              padding: const EdgeInsets.only(top: 12),
-              child: GlassRow(
-                key: const ValueKey('workout-caution'),
-                highlight: true,
-                child: Text(
-                  caution,
-                  style: const TextStyle(
-                    fontSize: 14,
-                    height: 1.45,
-                    color: SportNight.ink,
-                  ),
-                ),
-              ),
-            ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -667,7 +696,7 @@ class _Media extends StatelessWidget {
     final aspect = video != null && video.width > 0 && video.height > 0
         ? video.width / video.height
         : 4 / 3;
-    final maxHeight = MediaQuery.sizeOf(context).height * .45;
+    final maxHeight = MediaQuery.sizeOf(context).height * .36;
     return LayoutBuilder(
       builder: (context, box) {
         final width = box.maxWidth.isFinite
@@ -803,7 +832,7 @@ class _Controls extends StatelessWidget {
               tooltip: l10n.sportPrevious,
               onPressed: onPrevious,
               style: IconButton.styleFrom(foregroundColor: SportNight.ink),
-              icon: const Icon(Icons.skip_previous_rounded),
+              icon: const Icon(Icons.arrow_back_rounded),
             ),
           ),
         ),
@@ -870,7 +899,7 @@ class _Controls extends StatelessWidget {
                             child: Center(
                               widthFactor: 1,
                               child: Icon(
-                                Icons.skip_next_rounded,
+                                Icons.arrow_forward_rounded,
                                 color: Color(0xCCFFFFFF),
                               ),
                             ),

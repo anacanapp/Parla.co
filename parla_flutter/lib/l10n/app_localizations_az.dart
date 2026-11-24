@@ -1386,6 +1386,51 @@ class AppLocalizationsAz extends AppLocalizations {
   }
 
   @override
+  String get sportWorkoutName_w1 => 'Güclü start';
+
+  @override
+  String get sportWorkoutName_w2 => 'Ayaq günü';
+
+  @override
+  String get sportWorkoutName_w3 => 'Tam bədən';
+
+  @override
+  String get sportWorkoutName_w4 => 'Enerji dalğası';
+
+  @override
+  String get sportWorkoutName_w5 => 'Güc və tarazlıq';
+
+  @override
+  String get sportWorkoutName_p1 => 'Mərkəz oyanışı';
+
+  @override
+  String get sportWorkoutName_p2 => 'Yumşaq axın';
+
+  @override
+  String get sportWorkoutName_p3 => 'Duruş və nəfəs';
+
+  @override
+  String get sportWorkoutName_p4 => 'Uzun xətlər';
+
+  @override
+  String get sportWorkoutName_p5 => 'Sakit güc';
+
+  @override
+  String get sportWorkoutName_v1 => 'Divarla tanışlıq';
+
+  @override
+  String get sportWorkoutName_v2 => 'Divar dəstəyi';
+
+  @override
+  String get sportWorkoutName_v3 => 'Divarda axın';
+
+  @override
+  String get sportWorkoutName_v4 => 'Divar ritmi';
+
+  @override
+  String get sportWorkoutName_v5 => 'Divar balansı';
+
+  @override
   String sportWorkoutMeta(String type, int minutes) {
     return '$type · ~$minutes dəq';
   }

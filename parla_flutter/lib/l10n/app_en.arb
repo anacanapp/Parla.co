@@ -778,6 +778,21 @@
     }
   },
   "sportWorkoutTitle": "Workout {number}",
+  "sportWorkoutName_w1": "Strong start",
+  "sportWorkoutName_w2": "Leg day",
+  "sportWorkoutName_w3": "Full body",
+  "sportWorkoutName_w4": "Energy wave",
+  "sportWorkoutName_w5": "Strength and balance",
+  "sportWorkoutName_p1": "Core awakening",
+  "sportWorkoutName_p2": "Soft flow",
+  "sportWorkoutName_p3": "Posture and breath",
+  "sportWorkoutName_p4": "Long lines",
+  "sportWorkoutName_p5": "Quiet strength",
+  "sportWorkoutName_v1": "Meet the wall",
+  "sportWorkoutName_v2": "Wall support",
+  "sportWorkoutName_v3": "Wall flow",
+  "sportWorkoutName_v4": "Wall rhythm",
+  "sportWorkoutName_v5": "Wall balance",
   "@sportWorkoutTitle": {
     "placeholders": {
       "number": {
