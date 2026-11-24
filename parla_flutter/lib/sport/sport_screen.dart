@@ -401,8 +401,6 @@ class _PlanView extends StatelessWidget {
             ),
           ),
         ],
-        const SizedBox(height: 12),
-        _EditRow(section: section),
         const SizedBox(height: 22),
         _SectionLabel(l10n.sportWeekTitle),
         const SizedBox(height: 10),
@@ -415,7 +413,10 @@ class _PlanView extends StatelessWidget {
           ),
           const SizedBox(height: 10),
         ],
-        const SizedBox(height: 8),
+        // Owner 2026-11-24: retaking the quiz comes after the workouts.
+        const SizedBox(height: 4),
+        _EditRow(section: section),
+        const SizedBox(height: 14),
         Text(l10n.sportDraftNote, style: muted),
         const SizedBox(height: 6),
         Text(

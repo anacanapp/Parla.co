@@ -6,6 +6,7 @@ import '../ui/brand.dart';
 import '../ui/night.dart';
 import '../ui/parla_icons.dart';
 import 'discover_widgets.dart';
+import '../ui/text_case.dart';
 
 /// The cover of an article, or a block in its category's tint with the
 /// blog icon until the team uploads one.
@@ -70,7 +71,9 @@ class ArticleKicker extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final minutes = (item.data['minutes'] as num?)?.toInt() ?? 1;
     return Text(
-      l10n.blogMeta(categoryText(l10n, item.category), minutes).toUpperCase(),
+      l10n
+          .blogMeta(categoryText(l10n, item.category), minutes)
+          .upperIn(context),
       style: Theme.of(context).textTheme.labelMedium?.copyWith(
         color: ParlaColors.sunInk,
         letterSpacing: .6,

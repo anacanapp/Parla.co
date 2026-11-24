@@ -6,6 +6,7 @@ import '../ui/brand.dart';
 import '../ui/night.dart';
 import '../ui/parla_icons.dart';
 import '../ui/warm.dart';
+import '../ui/text_case.dart';
 
 /// Warm day design pieces of the sport screens (prototypes `X4SportW` and
 /// `X5WorkoutW`, owner 2026-11-24). Shared by the sport files only.
@@ -308,7 +309,7 @@ class Eyebrow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => Text(
-    text.toUpperCase(),
+    text.upperIn(context),
     style: TextStyle(
       fontSize: kMinTextSize,
       letterSpacing: 1.4,

@@ -1725,7 +1725,7 @@ class AppLocalizationsRu extends AppLocalizations {
       'Мы не считаем калории. Просто разнообразие: каждый день яркая тарелка.';
 
   @override
-  String get nutritionTip => 'Совет дня для кожи';
+  String get nutritionTip => 'Совет дня';
 
   @override
   String get nutritionRecipes => 'Бьюти-рецепты';

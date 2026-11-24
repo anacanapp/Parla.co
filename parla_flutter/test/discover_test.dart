@@ -984,7 +984,7 @@ void main() {
     await _tap(tester, find.text('Nutrition').first);
     expect(find.text('0 of 6 groups'), findsOneWidget);
     expect(find.textContaining('do not count calories'), findsOneWidget);
-    expect(find.text("Today's tip for your skin"), findsOneWidget);
+    expect(find.text("Tip of the day"), findsOneWidget);
 
     await _tap(tester, find.byKey(const ValueKey('plate-vegetables')));
     await _tap(tester, find.byKey(const ValueKey('plate-protein')));

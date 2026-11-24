@@ -6,6 +6,7 @@ import '../ui/night.dart';
 import '../ui/warm.dart';
 import '../ui/parla_icons.dart';
 import 'blog_widgets.dart';
+import '../ui/text_case.dart';
 
 /// One section of the Discover tiles.
 class BentoSection {
@@ -619,7 +620,7 @@ class ArticleRow extends StatelessWidget {
                       children: [
                         if (meta case final meta?)
                           Text(
-                            meta.toUpperCase(),
+                            meta.upperIn(context),
                             style: text.labelMedium?.copyWith(
                               color: ParlaColors.sunInk,
                               letterSpacing: .6,

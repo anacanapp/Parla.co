@@ -9,6 +9,7 @@ import '../ui/brand.dart';
 import '../ui/night.dart';
 import '../ui/parla_ui.dart';
 import '../ui/parla_icons.dart';
+import '../ui/text_case.dart';
 
 String categoryText(AppLocalizations l10n, String id) => switch (id) {
   'care' => l10n.catCare,
@@ -190,7 +191,7 @@ class ArticleCard extends StatelessWidget {
                 Text(
                   l10n
                       .blogMeta(categoryText(l10n, item.category), minutes)
-                      .toUpperCase(),
+                      .upperIn(context),
                   style: text.labelMedium?.copyWith(
                     color: ParlaColors.sunInk,
                     letterSpacing: .6,

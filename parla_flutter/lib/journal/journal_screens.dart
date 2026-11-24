@@ -11,6 +11,7 @@ import '../ui/night.dart';
 import '../ui/parla_ui.dart';
 import '../ui/parla_icons.dart';
 import 'journal_book.dart';
+import '../ui/text_case.dart';
 
 /// The private journal: entries by day, newest first. Kept only on this
 /// phone (see [JournalBook]).
@@ -83,7 +84,7 @@ class JournalScreen extends StatelessWidget {
               Semantics(
                 header: true,
                 child: Text(
-                  day.key.toUpperCase(),
+                  day.key.upperIn(context),
                   style: text.labelMedium?.copyWith(
                     color: ParlaColors.sunInk,
                     letterSpacing: .6,

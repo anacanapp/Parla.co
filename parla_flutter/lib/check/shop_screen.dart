@@ -16,6 +16,7 @@ import '../ui/parla_icons.dart';
 import '../ui/parla_ui.dart';
 import '../ui/warm.dart';
 import 'glass_bits.dart';
+import '../ui/text_case.dart';
 
 String shopCategoryText(AppLocalizations l10n, String id) => switch (id) {
   'face' => l10n.shopCategoryFace,
@@ -508,7 +509,7 @@ class ShopProductScreen extends StatelessWidget {
                         AdLabel(text: l10n.bannerAd(sponsor)),
                       const Spacer(),
                       Text(
-                        shopCategoryText(l10n, item.category).toUpperCase(),
+                        shopCategoryText(l10n, item.category).upperIn(context),
                         style: const TextStyle(
                           fontSize: kMinTextSize,
                           letterSpacing: 1,

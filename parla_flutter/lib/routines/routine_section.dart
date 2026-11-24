@@ -360,12 +360,12 @@ class _StepRowState extends State<_StepRow> {
     final done = widget.done;
     final hint = done ? l10n.stepStatusDone : step.meta;
     return ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 64),
+      constraints: const BoxConstraints(minHeight: 54),
       child: SmokyGlass(
-        radius: 32,
-        tint: widget.current && !done ? SmokyTint.burnt : SmokyTint.none,
+        radius: 27,
+        tint: widget.current && !done ? SmokyTint.coral : SmokyTint.none,
         shadow: false,
-        padding: const EdgeInsets.fromLTRB(8, 4, 18, 4),
+        padding: const EdgeInsets.fromLTRB(6, 2, 16, 2),
         child: Row(
           children: [
             Semantics(
@@ -377,15 +377,15 @@ class _StepRowState extends State<_StepRow> {
               excludeSemantics: true,
               child: InkResponse(
                 onTap: widget.onToggle,
-                radius: 26,
+                radius: 24,
                 child: SizedBox(
-                  width: 48,
-                  height: 48,
+                  width: 44,
+                  height: 44,
                   child: Center(
                     child: AnimatedContainer(
                       duration: const Duration(milliseconds: 200),
-                      width: 34,
-                      height: 34,
+                      width: 28,
+                      height: 28,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
                         color: done ? Colors.white : Colors.transparent,
@@ -400,7 +400,7 @@ class _StepRowState extends State<_StepRow> {
                       child: done
                           ? const ParlaIcon(
                               ParlaIconName.check,
-                              size: 18,
+                              size: 15,
                               color: Warm.black,
                             )
                           : null,
@@ -415,14 +415,14 @@ class _StepRowState extends State<_StepRow> {
                 behavior: HitTestBehavior.opaque,
                 onTap: done ? null : () => setState(() => _open = !_open),
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  padding: const EdgeInsets.symmetric(vertical: 7),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         step.title,
                         style: TextStyle(
-                          fontSize: 15,
+                          fontSize: 14,
                           color: done ? Warm.onCardSoft : Warm.onCard,
                           decoration: done ? TextDecoration.lineThrough : null,
                           decorationColor: Warm.onCardSoft,

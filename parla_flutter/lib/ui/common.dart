@@ -4,6 +4,7 @@ import '../l10n/app_localizations.dart';
 import '../services/parla_api.dart';
 import 'brand.dart';
 import 'parla_icons.dart';
+import 'text_case.dart';
 
 /// Shared page layout: an optional back button and step progress, an
 /// eyebrow, a title and subtitle, a scrollable body and the primary action
@@ -59,7 +60,7 @@ class ParlaPage extends StatelessWidget {
                 children: [
                   if (eyebrow != null) ...[
                     Text(
-                      eyebrow!.toUpperCase(),
+                      eyebrow!.upperIn(context),
                       style: text.labelSmall?.copyWith(
                         color: ParlaColors.sunInk,
                       ),
