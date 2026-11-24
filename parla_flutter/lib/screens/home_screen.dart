@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:parla_shared/parla_shared.dart';
 
 import '../consent/consent_refresh.dart';
 import '../discover/banner_strip.dart';
+import '../habits/habit_log.dart';
 import '../habits/habit_sheets.dart';
 import '../habits/habit_tracker.dart';
 import '../home/home_controller.dart';
@@ -16,7 +18,7 @@ import '../routes.dart';
 import '../routines/routine_section.dart';
 import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
-import '../ui/night.dart';
+import '../ui/warm.dart';
 
 /// M-14 "Bu gün" (design A+): a lemon header with the greeting and the
 /// routine switch, then a cream sheet with the Smile Meter summary, the
@@ -140,11 +142,17 @@ class _HomeBody extends StatelessWidget {
         if (!progress.done[i]) progress.steps[i],
     ].firstOrNull;
 
-    // One scrolling column, so the hero stays built (and its progress
-    // readable by screen readers) while the steps below are scrolled.
-    // Night design 3.0 (prototype "Gecə · Bu gün"): wordmark, date and a
-    // thin greeting, the routine as a pink mesh tile, water and movement
-    // tiles, sleep as a wide orange tile, then the steps and routines.
+    // Warm day design (prototype "Fon B isti · Bu gün"): date and a thin
+    // greeting, the week's movement as a smoky glass card with a curve,
+    // water (lime) and the routine (rose) as rounded cards, then evening
+    // yoga and sleep as capsules; below, the routine switch, the steps
+    // and the other routines due today.
+    final monday = weekStart(now);
+    final week = [
+      for (var i = 0; i < 7; i++)
+        habits.log.peek(monday.add(Duration(days: i)))?.moveMinutes ?? 0,
+    ];
+    final eveningYoga = yogaWorkouts.firstWhere((w) => w.id == 'yoga_evening');
     return SafeArea(
       bottom: false,
       child: SingleChildScrollView(
@@ -152,76 +160,31 @@ class _HomeBody extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 6),
-              child: Row(
-                children: [_Wordmark(), Spacer(), _MessagesButton()],
-              ),
-            ),
-            const SizedBox(height: 12),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    MaterialLocalizations.of(context).formatFullDate(now),
-                    style: text.bodySmall?.copyWith(color: ParlaColors.muted),
-                  ),
-                  const SizedBox(height: 2),
-                  Semantics(
-                    header: true,
-                    child: Text(greeting, style: text.displayLarge),
-                  ),
-                ],
+              padding: const EdgeInsets.symmetric(horizontal: 4),
+              child: WarmHeader(
+                above: MaterialLocalizations.of(context).formatFullDate(now),
+                title: greeting,
+                trailing: const _MessagesButton(),
               ),
             ),
-            const SizedBox(height: 12),
-            _RoutineHero(
-              title: routineName,
-              caption: progress.allDone
-                  ? status
-                  : l10n.routineMinutesLeft(progress.minutesLeft),
-              doneCount: progress.doneCount,
-              total: progress.total,
-              semanticLabel: l10n.routineProgressLabel(
-                routineName,
-                progress.doneCount,
-                progress.total,
-              ),
-              next: nextStep?.title ?? l10n.navRoutine,
-              onOpen: () => context.go(Routes.habits),
-            ),
-            const SizedBox(height: 12),
-            _KindSwitch(
-              selected: kind,
-              onChanged: controller.selectKind,
-              semanticLabel: l10n.routineSwitchLabel,
-              labels: {
-                RoutineKind.morning: l10n.routineMorning,
-                RoutineKind.evening: l10n.routineEvening,
-              },
-            ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 14),
+            // A renewed consent is asked for first (it shows only then).
             const ConsentRefreshCard(),
-            if (showQuizPrompt) ...[
-              _QuizPromptCard(onStart: onQuiz),
-              const SizedBox(height: 12),
-            ],
-            if (progress.allDone) ...[
-              RoutineDoneCard(
-                routineName: routineName,
-                onRestart: controller.restart,
-              ),
-              const SizedBox(height: 12),
-            ],
-            const BannerStrip(placement: 'today'),
+            _MoveWeekCard(
+              key: const ValueKey('habit-move'),
+              week: week,
+              todayIndex: now.weekday - 1,
+              today: habits.moveMinutes,
+              onLog: () => logMove(context, habits),
+            ),
+            const SizedBox(height: 12),
             IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Expanded(
-                    child: _WaterTile(
+                    child: _WaterCard(
                       count: controller.water,
                       goal: HomeController.waterGoal,
                       onAdd: controller.water >= HomeController.waterGoal
@@ -234,35 +197,90 @@ class _HomeBody extends StatelessWidget {
                   ),
                   const SizedBox(width: 10),
                   Expanded(
-                    child: _MoveTile(
-                      key: const ValueKey('habit-move'),
-                      title: l10n.habitMove,
-                      value: habits.moveMinutes == null
-                          ? null
-                          : l10n.habitMoveMinutes(habits.moveMinutes!),
-                      empty: l10n.habitNoEntry,
-                      actionLabel: habits.moveMinutes == null
-                          ? l10n.habitLog
-                          : l10n.habitEdit,
-                      onAction: () => logMove(context, habits),
+                    child: _RoutineCard(
+                      title: routineName,
+                      caption: progress.allDone
+                          ? status
+                          : l10n.routineMinutesLeft(progress.minutesLeft),
+                      doneCount: progress.doneCount,
+                      total: progress.total,
+                      semanticLabel: l10n.routineProgressLabel(
+                        routineName,
+                        progress.doneCount,
+                        progress.total,
+                      ),
+                      next: nextStep?.title ?? l10n.navRoutine,
+                      onOpen: () => context.go(Routes.habits),
                     ),
                   ),
                 ],
               ),
             ),
             const SizedBox(height: 12),
-            _SleepTile(
-              key: const ValueKey('habit-sleep'),
-              title: l10n.habitSleep,
-              value: habits.sleepHours == null
-                  ? l10n.habitNoEntry
-                  : l10n.habitSleepHours(formatHours(habits.sleepHours!)),
-              actionLabel: habits.sleepHours == null
-                  ? l10n.habitLog
-                  : l10n.habitEdit,
-              onAction: () => logSleep(context, habits),
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(
+                    child: StatPill(
+                      key: const ValueKey('home-evening-yoga'),
+                      title: l10n.sportYogaEvening,
+                      value: '${eveningYoga.minutes}',
+                      badge: l10n.sportTypeYoga,
+                      icon: ParlaIconName.moon,
+                      tint: SmokyTint.burnt,
+                      height: 104,
+                      onTap: () =>
+                          context.go(Routes.workout, extra: eveningYoga.id),
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: _SleepPill(
+                      key: const ValueKey('habit-sleep'),
+                      title: l10n.habitSleep,
+                      value: habits.sleepHours == null
+                          ? l10n.habitNoEntry
+                          : l10n.habitSleepHours(
+                              formatHours(habits.sleepHours!),
+                            ),
+                      actionLabel: habits.sleepHours == null
+                          ? l10n.habitLog
+                          : l10n.habitEdit,
+                      onAction: () => logSleep(context, habits),
+                    ),
+                  ),
+                ],
+              ),
             ),
-            const SizedBox(height: 24),
+            const SizedBox(height: 18),
+            Semantics(
+              container: true,
+              label: l10n.routineSwitchLabel,
+              child: WarmSegmented<RoutineKind>(
+                values: RoutineKind.values,
+                labelOf: (k) => k == RoutineKind.morning
+                    ? l10n.routineMorning
+                    : l10n.routineEvening,
+                selected: kind,
+                onChanged: controller.selectKind,
+                keyOf: (k) => ValueKey('segment-$k'),
+              ),
+            ),
+            const SizedBox(height: 12),
+            if (showQuizPrompt) ...[
+              _QuizPromptCard(onStart: onQuiz),
+              const SizedBox(height: 12),
+            ],
+            if (progress.allDone) ...[
+              RoutineDoneCard(
+                routineName: routineName,
+                onRestart: controller.restart,
+              ),
+              const SizedBox(height: 12),
+            ],
+            const BannerStrip(placement: 'today'),
+            const SizedBox(height: 12),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 6),
               child: Row(
@@ -272,14 +290,18 @@ class _HomeBody extends StatelessWidget {
                   Expanded(
                     child: Semantics(
                       header: true,
-                      child: Text(routineName, style: text.titleLarge),
+                      child: Text(
+                        routineName,
+                        style: text.titleLarge?.copyWith(
+                          fontWeight: FontWeight.w400,
+                          color: Warm.ink,
+                        ),
+                      ),
                     ),
                   ),
                   Text(
                     '${progress.doneCount} / ${progress.total}',
-                    style: text.labelMedium?.copyWith(
-                      color: ParlaColors.muted,
-                    ),
+                    style: text.labelMedium?.copyWith(color: Warm.muted),
                   ),
                 ],
               ),
@@ -306,11 +328,234 @@ class _HomeBody extends StatelessWidget {
   }
 }
 
-/// The routine as the prototype's pink mesh tile: name and time left, the
-/// dashed tick ring, and the slide pill with the next step (opens the
-/// Routine tab).
-class _RoutineHero extends StatelessWidget {
-  const _RoutineHero({
+/// The week's movement (prototype's big smoky card): today's minutes under
+/// the title, a white capsule to log or edit, the curve of this week's
+/// logged minutes, the days with today in white, and the week's total.
+class _MoveWeekCard extends StatelessWidget {
+  const _MoveWeekCard({
+    super.key,
+    required this.week,
+    required this.todayIndex,
+    required this.today,
+    required this.onLog,
+  });
+
+  /// Logged minutes from Monday to Sunday (0 where nothing is logged).
+  final List<int> week;
+  final int todayIndex;
+
+  /// Today's minutes, or `null` when nothing is logged.
+  final int? today;
+  final VoidCallback onLog;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    // Short day names from Monday (Material's narrow names are digits in
+    // Azerbaijani). 2024-01-01 was a Monday.
+    final locale = Localizations.localeOf(context).toString();
+    final days = [
+      for (var i = 0; i < 7; i++)
+        DateFormat.E(
+          locale,
+        ).format(DateTime(2024, 1, 1 + i)).replaceAll('.', ''),
+    ];
+    final total = week.fold<int>(0, (a, b) => a + b);
+    final logged = week.where((m) => m > 0).length;
+    return SmokyGlass(
+      radius: 44,
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      l10n.habitMove,
+                      style: const TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w300,
+                      ),
+                    ),
+                    Text(
+                      today == null
+                          ? l10n.habitNoEntry
+                          : l10n.habitMoveMinutes(today!),
+                      style: const TextStyle(
+                        fontSize: kMinTextSize,
+                        color: Warm.onCardSoft,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 8),
+              _WhitePill(
+                label: today == null ? l10n.habitLog : l10n.habitEdit,
+                onPressed: onLog,
+              ),
+            ],
+          ),
+          const SizedBox(height: 6),
+          WeekCurve(
+            values: [for (final m in week) m.toDouble()],
+            selected: todayIndex,
+          ),
+          const SizedBox(height: 10),
+          _Days(labels: days, selected: todayIndex),
+          const SizedBox(height: 12),
+          Text(
+            '${l10n.sportWeekTitle} · ${l10n.habitsWeekMoveValue(total, logged)}',
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 13, color: Warm.onCardSoft),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// The seven days as outlined circles; today is white. Labels stay at
+/// the minimum text size.
+class _Days extends StatelessWidget {
+  const _Days({required this.labels, required this.selected});
+
+  final List<String> labels;
+  final int selected;
+
+  @override
+  Widget build(BuildContext context) => ExcludeSemantics(
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        for (var i = 0; i < labels.length; i++)
+          Container(
+            width: 36,
+            height: 36,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: i == selected ? Colors.white : null,
+              border: i == selected
+                  ? null
+                  : Border.all(color: const Color(0x59FFFFFF)),
+            ),
+            child: Text(
+              labels[i],
+              maxLines: 1,
+              style: TextStyle(
+                fontSize: kMinTextSize,
+                color: i == selected ? Warm.black : Warm.onCard,
+              ),
+            ),
+          ),
+      ],
+    ),
+  );
+}
+
+/// Water as the lime rounded card: − and + at the top, the count in large
+/// figures and a dot meter filling with each glass.
+class _WaterCard extends StatelessWidget {
+  const _WaterCard({
+    required this.count,
+    required this.goal,
+    required this.onAdd,
+    required this.onRemove,
+  });
+
+  final int count;
+  final int goal;
+  final VoidCallback? onAdd;
+  final VoidCallback? onRemove;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    return SquircleCard(
+      key: const ValueKey('habit-water'),
+      tone: SquircleTone.lime,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 154),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              children: [
+                const RingIcon(icon: ParlaIconName.drop),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    l10n.habitWater,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: const TextStyle(fontSize: 13),
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 10),
+            Row(
+              children: [
+                _RoundButton(
+                  icon: ParlaIconName.minus,
+                  label: l10n.habitWaterRemove,
+                  onPressed: onRemove,
+                  outlined: true,
+                ),
+                const Spacer(),
+                _RoundButton(
+                  icon: ParlaIconName.plus,
+                  label: l10n.habitWaterAdd,
+                  onPressed: onAdd,
+                ),
+              ],
+            ),
+            const SizedBox(height: 6),
+            Semantics(
+              container: true,
+              liveRegion: true,
+              label: l10n.habitWaterCount(count, goal),
+              excludeSemantics: true,
+              child: Text.rich(
+                TextSpan(
+                  text: '$count',
+                  children: [
+                    TextSpan(
+                      text: '/$goal',
+                      style: const TextStyle(color: Warm.onCardSoft),
+                    ),
+                  ],
+                ),
+                style: const TextStyle(
+                  fontSize: 32,
+                  fontWeight: FontWeight.w500,
+                  height: 1.1,
+                ),
+              ),
+            ),
+            SizedBox(
+              width: double.infinity,
+              child: DotsMeter(fraction: goal == 0 ? 0 : count / goal),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// The routine as the rose rounded card: name and time left, a black
+/// arrow to the Routine tab, done / total in large figures, a tick meter
+/// and the next step.
+class _RoutineCard extends StatelessWidget {
+  const _RoutineCard({
     required this.title,
     required this.caption,
     required this.doneCount,
@@ -330,457 +575,159 @@ class _RoutineHero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const tone = MeshTone.pink;
-    return MeshTile(
-      key: const ValueKey('routine-hero'),
-      tone: tone,
-      radius: 38,
-      padding: const EdgeInsets.all(18),
-      // The dark glow sits behind the ring, so its light number reads.
-      blobAt: const Alignment(0.62, -0.3),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      title,
-                      style: TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.w600,
-                        color: tone.ink,
-                      ),
-                    ),
-                    Text(
-                      caption,
-                      style: TextStyle(
-                        fontSize: kMinTextSize,
-                        color: tone.ink.withValues(alpha: .8),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 8),
-              Semantics(
-                container: true,
-                child: TickRing(
-                  fraction: total == 0 ? 0 : doneCount / total,
-                  label: '$doneCount/$total',
-                  semanticLabel: semanticLabel,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          SlidePill(label: next, onPressed: onOpen),
-        ],
-      ),
-    );
-  }
-}
-
-/// Morning / evening as a glass capsule; the open one is light.
-class _KindSwitch extends StatelessWidget {
-  const _KindSwitch({
-    required this.selected,
-    required this.onChanged,
-    required this.semanticLabel,
-    required this.labels,
-  });
-
-  final RoutineKind selected;
-  final ValueChanged<RoutineKind> onChanged;
-  final String semanticLabel;
-  final Map<RoutineKind, String> labels;
-
-  @override
-  Widget build(BuildContext context) => Semantics(
-    container: true,
-    label: semanticLabel,
-    child: LiquidGlass(
-      padding: const EdgeInsets.all(5),
-      shadow: false,
-      child: Row(
-        children: [
-          for (final kind in RoutineKind.values)
-            Expanded(
-              child: Semantics(
-                button: true,
-                selected: kind == selected,
-                child: GestureDetector(
-                  key: ValueKey('segment-$kind'),
-                  behavior: HitTestBehavior.opaque,
-                  onTap: () => onChanged(kind),
-                  child: AnimatedContainer(
-                    duration: const Duration(milliseconds: 180),
-                    constraints: const BoxConstraints(minHeight: 44),
-                    alignment: Alignment.center,
-                    padding: const EdgeInsets.symmetric(horizontal: 8),
-                    decoration: ShapeDecoration(
-                      color: kind == selected
-                          ? ParlaColors.espresso
-                          : Colors.transparent,
-                      shape: const StadiumBorder(),
-                    ),
-                    child: Text(
-                      labels[kind]!,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: TextStyle(
-                        fontSize: 14,
-                        fontWeight: kind == selected
-                            ? FontWeight.w600
-                            : FontWeight.w400,
-                        color: kind == selected ? _ink : ParlaColors.espresso,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-        ],
-      ),
-    ),
-  );
-}
-
-/// Dark ink on the light capsules of the night design.
-const _ink = Color(0xFF1A0B2A);
-
-/// Water as the prototype's blue tile: a tick scale with the lime marker
-/// at today's count, the count in thin large figures, and − / + buttons.
-class _WaterTile extends StatelessWidget {
-  const _WaterTile({
-    required this.count,
-    required this.goal,
-    required this.onAdd,
-    required this.onRemove,
-  });
-
-  final int count;
-  final int goal;
-  final VoidCallback? onAdd;
-  final VoidCallback? onRemove;
-
-  @override
-  Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    const tone = MeshTone.blue;
-    return MeshTile(
-      key: const ValueKey('habit-water'),
-      tone: tone,
-      blobAt: const Alignment(-0.2, 0.9),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Text(
-                  l10n.habitWater,
-                  style: const TextStyle(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w500,
+    return SquircleCard(
+      key: const ValueKey('routine-hero'),
+      tone: SquircleTone.rose,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 154),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const RingIcon(icon: ParlaIconName.sparkle),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        title,
+                        style: const TextStyle(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w500,
+                          height: 1.15,
+                        ),
+                      ),
+                      Text(
+                        caption,
+                        style: const TextStyle(
+                          fontSize: kMinTextSize,
+                          color: Warm.onCardSoft,
+                        ),
+                      ),
+                    ],
                   ),
                 ),
-              ),
-              _TileButton(
-                icon: ParlaIconName.minus,
-                label: l10n.habitWaterRemove,
-                onPressed: onRemove,
-              ),
-              const SizedBox(width: 4),
-              _TileButton(
-                icon: ParlaIconName.plus,
-                label: l10n.habitWaterAdd,
-                onPressed: onAdd,
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          ExcludeSemantics(
-            child: SizedBox(
-              height: 30,
-              width: double.infinity,
-              child: CustomPaint(painter: _WaterScale(count, goal)),
+              ],
             ),
-          ),
-          const Spacer(),
-          const SizedBox(height: 8),
-          Semantics(
-            container: true,
-            liveRegion: true,
-            label: l10n.habitWaterCount(count, goal),
-            excludeSemantics: true,
-            child: Text.rich(
-              TextSpan(
-                text: '$count',
-                children: [
-                  TextSpan(
-                    text: ' / $goal',
-                    style: TextStyle(
-                      fontSize: 15,
-                      color: tone.ink.withValues(alpha: .7),
+            const SizedBox(height: 6),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: [
+                Expanded(
+                  child: Semantics(
+                    container: true,
+                    label: semanticLabel,
+                    excludeSemantics: true,
+                    child: Text(
+                      '$doneCount/$total',
+                      style: const TextStyle(
+                        fontSize: 32,
+                        fontWeight: FontWeight.w500,
+                        height: 1.1,
+                      ),
                     ),
                   ),
-                ],
-              ),
-              style: const TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.w200,
-                height: 1,
-              ),
+                ),
+                BlackCircleButton(
+                  icon: ParlaIconName.arrowRight,
+                  onPressed: onOpen,
+                  label: '$title: $next',
+                  size: 38,
+                ),
+              ],
             ),
-          ),
-        ],
+            SizedBox(
+              width: double.infinity,
+              child: TicksMeter(fraction: total == 0 ? 0 : doneCount / total),
+            ),
+            Row(
+              children: [
+                Text(
+                  l10n.sportNextLabel,
+                  style: const TextStyle(
+                    fontSize: kMinTextSize,
+                    color: Warm.onCardSoft,
+                  ),
+                ),
+                const SizedBox(width: 6),
+                Expanded(
+                  child: Text(
+                    next,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.end,
+                    style: const TextStyle(fontSize: kMinTextSize),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
 }
 
-class _WaterScale extends CustomPainter {
-  _WaterScale(this.count, this.goal);
-
-  final int count;
-  final int goal;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final step = (size.width - 8) / goal;
-    final on = Paint()
-      ..color = const Color(0x8CF4E9FF)
-      ..strokeWidth = 1.4;
-    final off = Paint()
-      ..color = const Color(0x33F4E9FF)
-      ..strokeWidth = 1.4;
-    for (var i = 0; i < goal; i++) {
-      final x = 4 + step * i + step / 2;
-      final top = i.isEven ? size.height * .4 : size.height * .55;
-      canvas.drawLine(
-        Offset(x, top),
-        Offset(x, size.height - 4),
-        i < count ? on : off,
-      );
-    }
-    // The lime marker after the last glass.
-    final x = 4 + step * count.clamp(0, goal);
-    final marker = Paint()..color = ParlaColors.marker;
-    canvas
-      ..drawLine(
-        Offset(x, 6),
-        Offset(x, size.height - 4),
-        marker..strokeWidth = 2,
-      )
-      ..drawPath(
-        Path()
-          ..moveTo(x - 4, 0)
-          ..lineTo(x + 4, 0)
-          ..lineTo(x, 6)
-          ..close(),
-        marker,
-      );
-  }
-
-  @override
-  bool shouldRepaint(_WaterScale old) => old.count != count || old.goal != goal;
-}
-
-/// A 44 px round glass button on a mesh tile.
-class _TileButton extends StatelessWidget {
-  const _TileButton({
+/// A 44 px round button on a card: black, or outlined white.
+class _RoundButton extends StatelessWidget {
+  const _RoundButton({
     required this.icon,
     required this.label,
     required this.onPressed,
+    this.outlined = false,
   });
 
   final ParlaIconName icon;
   final String label;
   final VoidCallback? onPressed;
-
-  @override
-  Widget build(BuildContext context) => Semantics(
-    button: true,
-    enabled: onPressed != null,
-    label: label,
-    excludeSemantics: true,
-    child: LiquidGlass(
-      color: LiquidGlass.bright,
-      shape: const CircleBorder(),
-      shadow: false,
-      child: InkWell(
-        customBorder: const CircleBorder(),
-        onTap: onPressed,
-        child: SizedBox(
-          width: 44,
-          height: 44,
-          child: Center(
-            child: ParlaIcon(
-              icon,
-              size: 18,
-              strokeWidth: 2.5,
-              color: onPressed == null
-                  ? const Color(0x66F4E9FF)
-                  : ParlaColors.espresso,
-            ),
-          ),
-        ),
-      ),
-    ),
-  );
-}
-
-/// Movement as the prototype's sage tile: a rising line, the minutes in
-/// thin large figures and a small log button.
-class _MoveTile extends StatelessWidget {
-  const _MoveTile({
-    super.key,
-    required this.title,
-    required this.value,
-    required this.empty,
-    required this.actionLabel,
-    required this.onAction,
-  });
-
-  final String title;
-
-  /// The logged minutes, or `null` when nothing is logged yet.
-  final String? value;
-  final String empty;
-  final String actionLabel;
-  final VoidCallback onAction;
+  final bool outlined;
 
   @override
   Widget build(BuildContext context) {
-    const tone = MeshTone.sage;
-    return MeshTile(
-      tone: tone,
-      blobAt: const Alignment(1.1, 1.2),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(
+    final enabled = onPressed != null;
+    return Semantics(
+      container: true,
+      button: true,
+      enabled: enabled,
+      label: label,
+      excludeSemantics: true,
+      child: Material(
+        color: outlined ? Colors.transparent : Warm.black,
+        shape: CircleBorder(
+          side: outlined
+              ? const BorderSide(color: Color(0x99FFFFFF))
+              : BorderSide.none,
+        ),
+        child: InkWell(
+          customBorder: const CircleBorder(),
+          onTap: onPressed,
+          child: SizedBox(
+            width: 44,
             height: 44,
-            child: Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
-            ),
-          ),
-          const SizedBox(height: 8),
-          const ExcludeSemantics(
-            child: SizedBox(
-              height: 30,
-              width: double.infinity,
-              child: CustomPaint(painter: _MoveLine()),
-            ),
-          ),
-          const Spacer(),
-          const SizedBox(height: 8),
-          Text(
-            value ?? empty,
-            style: value == null
-                ? const TextStyle(fontSize: 13, fontWeight: FontWeight.w500)
-                : const TextStyle(
-                    fontSize: 32,
-                    fontWeight: FontWeight.w200,
-                    height: 1,
-                  ),
-          ),
-          const SizedBox(height: 6),
-          _SmallPill(label: actionLabel, onPressed: onAction, ink: tone.ink),
-        ],
-      ),
-    );
-  }
-}
-
-class _MoveLine extends CustomPainter {
-  const _MoveLine();
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final from = Offset(2, size.height - 6);
-    final to = Offset(size.width - 6, 6);
-    canvas.drawLine(
-      from,
-      to,
-      Paint()
-        ..strokeWidth = 3
-        ..strokeCap = StrokeCap.round
-        ..shader = const LinearGradient(
-          colors: [Color(0x3310170F), Color(0xFFFF6B7A)],
-        ).createShader(Rect.fromPoints(from, to)),
-    );
-    final mid = Offset.lerp(from, to, .55)!;
-    canvas.drawPath(
-      Path()
-        ..moveTo(mid.dx - 4, mid.dy - 2)
-        ..lineTo(mid.dx + 4, mid.dy + 5)
-        ..lineTo(mid.dx - 5, mid.dy + 6)
-        ..close(),
-      Paint()..color = ParlaColors.marker,
-    );
-  }
-
-  @override
-  bool shouldRepaint(_MoveLine oldDelegate) => false;
-}
-
-/// A white capsule with dark text (log / edit on a tile).
-class _SmallPill extends StatelessWidget {
-  const _SmallPill({
-    required this.label,
-    required this.onPressed,
-    required this.ink,
-  });
-
-  final String label;
-  final VoidCallback onPressed;
-  final Color ink;
-
-  @override
-  Widget build(BuildContext context) => Material(
-    color: const Color(0xFFFFFFFF),
-    shape: const StadiumBorder(),
-    child: InkWell(
-      customBorder: const StadiumBorder(),
-      onTap: onPressed,
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 44, minWidth: 64),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Center(
-            widthFactor: 1,
-            child: Text(
-              label,
-              // Dark ink on the white pill, whatever the tile's ink.
-              style: const TextStyle(
-                fontSize: 13,
-                fontWeight: FontWeight.w600,
-                color: Color(0xFF1A0B2A),
+            child: Center(
+              child: ParlaIcon(
+                icon,
+                size: 18,
+                strokeWidth: 2.5,
+                color: enabled ? Colors.white : const Color(0x66FFFFFF),
               ),
             ),
           ),
         ),
       ),
-    ),
-  );
+    );
+  }
 }
 
-/// Sleep as the prototype's wide orange tile: name, last night's hours and
-/// a white capsule to log or edit.
-class _SleepTile extends StatelessWidget {
-  const _SleepTile({
+/// Sleep as a smoky capsule: last night's hours and a white capsule to log
+/// or edit; the glowing round mark of the prototype's "add" capsule.
+class _SleepPill extends StatelessWidget {
+  const _SleepPill({
     super.key,
     required this.title,
     required this.value,
@@ -794,62 +741,75 @@ class _SleepTile extends StatelessWidget {
   final VoidCallback onAction;
 
   @override
-  Widget build(BuildContext context) {
-    const tone = MeshTone.orange;
-    return MeshTile(
-      tone: tone,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-      blobAt: const Alignment(0.55, 0),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(minHeight: 56),
-        child: Row(
-          children: [
-            Expanded(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w600,
-                    ),
+  Widget build(BuildContext context) => ConstrainedBox(
+    constraints: const BoxConstraints(minHeight: 104),
+    child: SmokyGlass(
+      shape: const StadiumBorder(),
+      onTap: onAction,
+      padding: const EdgeInsets.fromLTRB(20, 12, 12, 12),
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title, style: const TextStyle(fontSize: 13)),
+                const SizedBox(height: 2),
+                Text(
+                  value,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w300,
                   ),
-                  Text(
-                    value,
-                    style: TextStyle(
-                      fontSize: kMinTextSize,
-                      color: tone.ink.withValues(alpha: .8),
-                    ),
-                  ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 6),
+                OutlineBadge(actionLabel),
+              ],
             ),
-            const SizedBox(width: 12),
-            _SmallPill(label: actionLabel, onPressed: onAction, ink: tone.ink),
-          ],
-        ),
+          ),
+          const SizedBox(width: 6),
+          ExcludeSemantics(
+            child: GlowPlusButton(onPressed: onAction, label: title, size: 56),
+          ),
+        ],
       ),
-    );
-  }
+    ),
+  );
 }
 
-class _Wordmark extends StatelessWidget {
-  const _Wordmark();
+/// A white capsule with dark text (log / edit on a card).
+class _WhitePill extends StatelessWidget {
+  const _WhitePill({required this.label, required this.onPressed});
+
+  final String label;
+  final VoidCallback onPressed;
 
   @override
-  Widget build(BuildContext context) => Semantics(
-    label: 'Parla',
-    excludeSemantics: true,
-    child: const Text(
-      'parla',
-      style: TextStyle(
-        fontSize: 26,
-        fontWeight: FontWeight.w500,
-        letterSpacing: -0.5,
-        height: 1.2,
-        color: ParlaColors.espresso,
+  Widget build(BuildContext context) => Material(
+    color: Colors.white,
+    shape: const StadiumBorder(),
+    child: InkWell(
+      customBorder: const StadiumBorder(),
+      onTap: onPressed,
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(minHeight: 44, minWidth: 64),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+          child: Center(
+            widthFactor: 1,
+            child: Text(
+              label,
+              style: const TextStyle(
+                fontSize: 13,
+                fontWeight: FontWeight.w500,
+                color: Warm.black,
+              ),
+            ),
+          ),
+        ),
       ),
     ),
   );
@@ -865,15 +825,30 @@ class _QuizPromptCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    return PebbleCard(
+    return SmokyGlass(
+      tint: SmokyTint.coral,
+      padding: const EdgeInsets.all(20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          Text(l10n.homeQuizTitle, style: text.titleLarge),
+          Text(
+            l10n.homeQuizTitle,
+            style: text.titleLarge?.copyWith(color: Warm.onCard),
+          ),
           const SizedBox(height: 6),
-          Text(l10n.homeQuizBody, style: text.bodyMedium),
+          Text(
+            l10n.homeQuizBody,
+            style: text.bodyMedium?.copyWith(color: Warm.onCardSoft),
+          ),
           const SizedBox(height: 16),
-          FilledButton(onPressed: onStart, child: Text(l10n.homeQuizStart)),
+          FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Colors.white,
+              foregroundColor: Warm.black,
+            ),
+            onPressed: onStart,
+            child: Text(l10n.homeQuizStart),
+          ),
         ],
       ),
     );
@@ -921,8 +896,8 @@ class _TodayRoutines extends StatelessWidget {
             steps: ids.length,
             done: done,
             tile: area == RoutineArea.hair
-                ? const Color(0xFF7E4BA6)
-                : const Color(0xFF4E62C6),
+                ? const Color(0xFF61731A)
+                : const Color(0xFFA6664F),
           ),
         );
       }
@@ -935,7 +910,7 @@ class _TodayRoutines extends StatelessWidget {
           title: routine.name,
           steps: routine.steps.length,
           done: routine.steps.where((s) => book.isTicked(s.id)).length,
-          tile: const Color(0xFFA9558A),
+          tile: const Color(0xFFB8622A),
         ),
       );
     }
@@ -948,7 +923,13 @@ class _TodayRoutines extends StatelessWidget {
             Expanded(
               child: Semantics(
                 header: true,
-                child: Text(l10n.todayRoutinesTitle, style: text.headlineSmall),
+                child: Text(
+                  l10n.todayRoutinesTitle,
+                  style: text.headlineSmall?.copyWith(
+                    fontWeight: FontWeight.w300,
+                    color: Warm.ink,
+                  ),
+                ),
               ),
             ),
             TextButton(
@@ -966,53 +947,50 @@ class _TodayRoutines extends StatelessWidget {
         if (rows.isEmpty)
           Text(
             l10n.todayRoutinesNone,
-            style: text.bodyMedium?.copyWith(color: ParlaColors.muted),
+            style: text.bodyMedium?.copyWith(color: Warm.muted),
           ),
         for (final row in rows) ...[
-          LiquidGlass(
+          SmokyGlass(
             key: ValueKey(row.key),
-            child: InkWell(
-              borderRadius: BorderRadius.circular(28),
-              onTap: () => context.go(row.route),
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(14, 12, 16, 12),
-                child: Row(
-                  children: [
-                    Container(
-                      width: 36,
-                      height: 36,
-                      decoration: BoxDecoration(
-                        color: row.tile,
-                        shape: BoxShape.circle,
-                      ),
-                      alignment: Alignment.center,
-                      child: const ParlaIcon(ParlaIconName.sparkle, size: 18),
-                    ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(row.title, style: text.titleMedium),
-                          Text(
-                            l10n.routineOwnSteps(row.steps),
-                            style: text.bodySmall?.copyWith(
-                              color: ParlaColors.muted,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(width: 8),
-                    Text(
-                      '${row.done}/${row.steps}',
-                      style: text.labelMedium?.copyWith(
-                        color: ParlaColors.muted,
-                      ),
-                    ),
-                  ],
+            shape: const StadiumBorder(),
+            shadow: false,
+            onTap: () => context.go(row.route),
+            padding: const EdgeInsets.fromLTRB(10, 10, 20, 10),
+            child: Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: row.tile,
+                    shape: BoxShape.circle,
+                  ),
+                  alignment: Alignment.center,
+                  child: const ParlaIcon(
+                    ParlaIconName.sparkle,
+                    size: 18,
+                    color: Colors.white,
+                  ),
                 ),
-              ),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(row.title, style: const TextStyle(fontSize: 15)),
+                      Text(
+                        l10n.routineOwnSteps(row.steps),
+                        style: const TextStyle(
+                          fontSize: kMinTextSize,
+                          color: Warm.onCardSoft,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(width: 8),
+                OutlineBadge('${row.done}/${row.steps}'),
+              ],
             ),
           ),
           const SizedBox(height: 10),
@@ -1077,21 +1055,17 @@ class _MessagesButtonState extends State<_MessagesButton> {
           button: true,
           label: _unread ? l10n.messagesButtonUnread : l10n.messagesButton,
           excludeSemantics: true,
-          child: LiquidGlass(
+          child: Material(
             key: const ValueKey('home-messages'),
+            color: Warm.black,
             shape: const CircleBorder(),
-            shadow: false,
             child: InkWell(
               customBorder: const CircleBorder(),
               onTap: () => context.go(Routes.messages),
               child: const SizedBox(
                 width: 44,
                 height: 44,
-                child: Icon(
-                  Icons.mail_outline,
-                  size: 20,
-                  color: ParlaColors.espresso,
-                ),
+                child: Icon(Icons.mail_outline, size: 20, color: Colors.white),
               ),
             ),
           ),
@@ -1103,7 +1077,7 @@ class _MessagesButtonState extends State<_MessagesButton> {
             child: CircleAvatar(
               key: ValueKey('home-messages-dot'),
               radius: 5,
-              backgroundColor: ParlaColors.marker,
+              backgroundColor: Color(0xFFF0823C),
             ),
           ),
       ],

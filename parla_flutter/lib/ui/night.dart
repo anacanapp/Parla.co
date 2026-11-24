@@ -29,12 +29,16 @@ abstract final class NightColors {
 /// The page behind every route: now the warm day backdrop
 /// ([WarmBackdrop]); the name stays for the routes that use it.
 class NightBackdrop extends StatelessWidget {
-  const NightBackdrop({super.key, required this.child});
+  const NightBackdrop({super.key, required this.child, this.figure = true});
 
   final Widget child;
 
+  /// See [WarmBackdrop.figure].
+  final bool figure;
+
   @override
-  Widget build(BuildContext context) => WarmBackdrop(child: child);
+  Widget build(BuildContext context) =>
+      WarmBackdrop(figure: figure, child: child);
 }
 
 /// Satin glass (owner, 2026-11-24, after the "AI Glucose Scan" card of

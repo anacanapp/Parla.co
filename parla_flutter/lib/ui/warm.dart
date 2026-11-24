@@ -37,9 +37,14 @@ abstract final class Warm {
 /// The page: cream with a soft white light at the top, a peach glow and a
 /// warm, horizontally motion-blurred figure behind the cards.
 class WarmBackdrop extends StatelessWidget {
-  const WarmBackdrop({super.key, required this.child});
+  const WarmBackdrop({super.key, required this.child, this.figure = true});
 
   final Widget child;
+
+  /// The dark figure behind the cards. Pages of running text (sign-up,
+  /// consents, legal texts, articles) leave it out so dark text stays
+  /// legible.
+  final bool figure;
 
   @override
   Widget build(BuildContext context) => DecoratedBox(
@@ -54,8 +59,10 @@ class WarmBackdrop extends StatelessWidget {
     child: Stack(
       fit: StackFit.expand,
       children: [
-        const ExcludeSemantics(
-          child: RepaintBoundary(child: CustomPaint(painter: _FigurePainter())),
+        ExcludeSemantics(
+          child: RepaintBoundary(
+            child: CustomPaint(painter: _FigurePainter(figure: figure)),
+          ),
         ),
         child,
       ],
@@ -66,7 +73,9 @@ class WarmBackdrop extends StatelessWidget {
 /// The figure, painted once: a top light, a peach glow, and a head, body
 /// and streaks blurred mostly sideways (motion).
 class _FigurePainter extends CustomPainter {
-  const _FigurePainter();
+  const _FigurePainter({this.figure = true});
+
+  final bool figure;
 
   @override
   void paint(Canvas canvas, Size size) {
@@ -85,6 +94,29 @@ class _FigurePainter extends CustomPainter {
         ),
     );
 
+    if (!figure) {
+      // A softer peach glow only.
+      canvas
+        ..saveLayer(
+          Offset.zero & size,
+          Paint()
+            ..imageFilter = ui.ImageFilter.blur(
+              sigmaX: 60 * sx,
+              sigmaY: 40 * sy,
+            ),
+        )
+        ..drawOval(
+          Rect.fromCenter(
+            center: p(60, 700),
+            width: 320 * sx,
+            height: 320 * sy,
+          ),
+          Paint()..color = const Color(0x59F0915A),
+        )
+        ..restore();
+      return;
+    }
+
     // Peach glow on the left.
     canvas
       ..saveLayer(
@@ -99,7 +131,7 @@ class _FigurePainter extends CustomPainter {
       ..restore();
 
     // The figure: warm brown, blurred mostly sideways.
-    final figure = Paint()..color = const Color(0xD15A3A2A);
+    final body = Paint()..color = const Color(0xD15A3A2A);
     canvas
       ..saveLayer(
         Offset.zero & size,
@@ -108,7 +140,7 @@ class _FigurePainter extends CustomPainter {
       )
       ..drawOval(
         Rect.fromCenter(center: p(215, 200), width: 220 * sx, height: 180 * sy),
-        figure,
+        body,
       )
       ..drawPath(
         Path()
@@ -138,7 +170,8 @@ class _FigurePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_FigurePainter oldDelegate) => false;
+  bool shouldRepaint(_FigurePainter oldDelegate) =>
+      oldDelegate.figure != figure;
 }
 
 /// Tints of [SmokyGlass].
@@ -181,14 +214,23 @@ class SmokyGlass extends StatelessWidget {
         center: Alignment(-0.4, -0.4),
         radius: 0.9,
         colors: [Color(0xCCF06E50), Color(0x5950403C)],
+        transform: _StretchToWidth(),
       ),
       SmokyTint.burnt => const RadialGradient(
         center: Alignment(-0.4, 0.6),
         radius: 0.9,
         colors: [Color(0xD9DC6E1E), Color(0x7350321E)],
+        transform: _StretchToWidth(),
       ),
       SmokyTint.none => null,
     };
+    final body = DefaultTextStyle.merge(
+      style: const TextStyle(color: Warm.onCard),
+      child: IconTheme.merge(
+        data: const IconThemeData(color: Warm.onCard),
+        child: Padding(padding: padding ?? EdgeInsets.zero, child: child),
+      ),
+    );
     return DecoratedBox(
       decoration: ShapeDecoration(
         shape: outline,
@@ -234,27 +276,34 @@ class SmokyGlass extends StatelessWidget {
                 child: CustomPaint(painter: _EdgePainter(outline)),
               ),
             ),
+            // Only a tappable card is one button; otherwise the buttons
+            // inside keep their own labels.
             Material(
               type: MaterialType.transparency,
-              child: InkWell(
-                customBorder: outline,
-                onTap: onTap,
-                child: DefaultTextStyle.merge(
-                  style: const TextStyle(color: Warm.onCard),
-                  child: IconTheme.merge(
-                    data: const IconThemeData(color: Warm.onCard),
-                    child: Padding(
-                      padding: padding ?? EdgeInsets.zero,
-                      child: child,
-                    ),
-                  ),
-                ),
-              ),
+              child: onTap == null
+                  ? body
+                  : InkWell(customBorder: outline, onTap: onTap, child: body),
             ),
           ],
         ),
       ),
     );
+  }
+}
+
+/// Stretches a radial glow sideways to the box's width, so a wide stadium
+/// glows across, not in a small circle (radii count from the shorter side).
+class _StretchToWidth extends GradientTransform {
+  const _StretchToWidth();
+
+  @override
+  Matrix4? transform(Rect bounds, {TextDirection? textDirection}) {
+    if (bounds.height <= 0 || bounds.width <= bounds.height) return null;
+    final c = bounds.center;
+    return Matrix4.identity()
+      ..translateByDouble(c.dx, c.dy, 0, 1)
+      ..scaleByDouble(bounds.width / bounds.height, 1, 1, 1)
+      ..translateByDouble(-c.dx, -c.dy, 0, 1);
   }
 }
 
@@ -321,6 +370,13 @@ class SquircleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final border = BorderRadius.circular(radius);
+    final body = DefaultTextStyle.merge(
+      style: const TextStyle(color: Warm.onCard),
+      child: IconTheme.merge(
+        data: const IconThemeData(color: Warm.onCard),
+        child: Padding(padding: padding, child: child),
+      ),
+    );
     final (colors, glow, glowAt) = switch (tone) {
       SquircleTone.lime => (Warm.lime, Warm.limeGlow, const Alignment(.4, .7)),
       SquircleTone.rose => (Warm.rose, Warm.roseGlow, const Alignment(-.4, .2)),
@@ -369,17 +425,9 @@ class SquircleCard extends StatelessWidget {
           ),
           child: Material(
             type: MaterialType.transparency,
-            child: InkWell(
-              borderRadius: border,
-              onTap: onTap,
-              child: DefaultTextStyle.merge(
-                style: const TextStyle(color: Warm.onCard),
-                child: IconTheme.merge(
-                  data: const IconThemeData(color: Warm.onCard),
-                  child: Padding(padding: padding, child: child),
-                ),
-              ),
-            ),
+            child: onTap == null
+                ? body
+                : InkWell(borderRadius: border, onTap: onTap, child: body),
           ),
         ),
       ),

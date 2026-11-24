@@ -259,10 +259,13 @@ void main() {
     expect(_progress('0/2'), findsOneWidget);
     await _tap(
       tester,
-      find.descendant(
-        of: find.byKey(const ValueKey('routine-step-hair-shampoo')),
-        matching: find.byType(InkResponse),
-      ),
+      find
+          .descendant(
+            of: find.byKey(const ValueKey('routine-step-hair-shampoo')),
+            // The step's own toggle (the capsule itself is an InkWell too).
+            matching: find.byType(InkResponse),
+          )
+          .last,
     );
     expect(_progress('1/2'), findsOneWidget);
 
@@ -496,10 +499,12 @@ void main() {
     for (final id in ['hair-shampoo', 'hair-conditioner']) {
       await _tap(
         tester,
-        find.descendant(
-          of: find.byKey(ValueKey('routine-step-$id')),
-          matching: find.byType(InkResponse),
-        ),
+        find
+            .descendant(
+              of: find.byKey(ValueKey('routine-step-$id')),
+              matching: find.byType(InkResponse),
+            )
+            .last,
       );
     }
 
