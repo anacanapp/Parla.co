@@ -57,6 +57,7 @@ product:
   - search:
 profile:
   - me:
+  - email:
   - create:
 push:
   - register:

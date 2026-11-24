@@ -8,6 +8,8 @@ import '../check/glass_bits.dart';
 import '../push/push_client.dart';
 import '../reminders/reminder_settings.dart';
 import '../l10n/app_localizations.dart';
+import '../l10n/names.dart';
+import '../services/parla_api.dart';
 import '../parla_scope.dart';
 import '../home/widgets/parla_nav_bar.dart';
 import '../routes.dart';
@@ -28,6 +30,7 @@ class PrivacyScreen extends StatefulWidget {
 
 class _PrivacyScreenState extends State<PrivacyScreen> {
   Map<ConsentKind, bool>? _consents;
+  ProfileSummary? _profile;
   bool _busy = false;
 
   @override
@@ -39,8 +42,11 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
   Future<void> _load() async {
     final l10n = AppLocalizations.of(context);
     try {
-      final states = await ParlaScope.of(context).api.consentStates();
+      final api = ParlaScope.of(context).api;
+      final states = await api.consentStates();
       if (mounted) setState(() => _consents = states);
+      final profile = await api.myProfile();
+      if (mounted) setState(() => _profile = profile);
     } on Object catch (error) {
       if (mounted) showError(context, errorMessage(l10n, error));
     }
@@ -182,6 +188,10 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                             color: Warm.onCardSoft,
                           ),
                         ),
+                        if (_profile case final p?) ...[
+                          const SizedBox(height: 10),
+                          _AccountFacts(profile: p),
+                        ],
                       ],
                     ),
                   ),
@@ -233,8 +243,12 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
               },
             ),
             const SizedBox(height: 18),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 6),
+            // Light glass, so the dark title stays legible over the photo.
+            SmokyGlass(
+              radius: 28,
+              milk: true,
+              shadow: false,
+              padding: const EdgeInsets.fromLTRB(18, 14, 18, 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -721,6 +735,50 @@ class AccountDeletedScreen extends StatelessWidget {
       primaryLabel: l10n.close,
       onPrimary: () => context.go(Routes.welcome),
       children: [Text(l10n.deletedBody)],
+    );
+  }
+}
+
+/// The account's facts on the profile card: email, age (from the birth
+/// year only), country and language. Shown, not edited here.
+class _AccountFacts extends StatelessWidget {
+  const _AccountFacts({required this.profile});
+
+  final ProfileSummary profile;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final year = profile.birthYear;
+    final rows = [
+      if (profile.email case final email?) (l10n.profileEmailLabel, email),
+      if (year != null) (l10n.profileAgeLabel, '${DateTime.now().year - year}'),
+      (l10n.profileCountryLabel, countryName(l10n, profile.countryCode)),
+      (l10n.profileLanguageLabel, languageName(l10n, profile.language)),
+    ];
+    return Column(
+      key: const ValueKey('profile-account-facts'),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        for (final (label, value) in rows)
+          Padding(
+            padding: const EdgeInsets.only(top: 3),
+            child: Text.rich(
+              TextSpan(
+                children: [
+                  TextSpan(
+                    text: '$label  ',
+                    style: const TextStyle(color: Warm.onCardSoft),
+                  ),
+                  TextSpan(text: value),
+                ],
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: const TextStyle(fontSize: 13, height: 1.3),
+            ),
+          ),
+      ],
     );
   }
 }

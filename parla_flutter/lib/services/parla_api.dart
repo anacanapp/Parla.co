@@ -41,10 +41,21 @@ class ShopOrderItem {
 
 /// The part of a profile the app needs.
 class ProfileSummary {
-  const ProfileSummary({required this.countryCode, required this.language});
+  const ProfileSummary({
+    required this.countryCode,
+    required this.language,
+    this.birthYear,
+    this.email,
+  });
 
   final String countryCode;
   final String language;
+
+  /// Only the year is kept (age gate); the age shown is year-based.
+  final int? birthYear;
+
+  /// The sign-in email, shown on the profile's account card.
+  final String? email;
 }
 
 /// A product found by search (M-20, M-21). Public data only.

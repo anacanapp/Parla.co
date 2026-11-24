@@ -395,6 +395,18 @@ class AppLocalizationsAz extends AppLocalizations {
   String get profileAccountNote => 'Ad soruşmuruq · yalnız e-poçt';
 
   @override
+  String get profileEmailLabel => 'E-poçt';
+
+  @override
+  String get profileAgeLabel => 'Yaş';
+
+  @override
+  String get profileCountryLabel => 'Ölkə';
+
+  @override
+  String get profileLanguageLabel => 'Dil';
+
+  @override
   String get privacyConsentsTitle => 'Razılıqlar';
 
   @override

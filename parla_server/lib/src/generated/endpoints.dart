@@ -1315,6 +1315,16 @@ class Endpoints extends _is.EndpointDispatch {
                 session,
               ),
         ),
+        'email': _is.MethodConnector(
+          name: 'email',
+          params: {},
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async => (endpoints['profile'] as _i6ky944g.ProfileEndpoint)
+                  .email(session),
+        ),
         'create': _is.MethodConnector(
           name: 'create',
           params: {

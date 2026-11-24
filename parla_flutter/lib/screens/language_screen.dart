@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:parla_shared/parla_shared.dart';
 
 import '../l10n/app_localizations.dart';
+import '../l10n/names.dart';
 import '../parla_scope.dart';
 import '../routes.dart';
 import '../ui/common.dart';
@@ -29,12 +30,6 @@ class _LanguageScreenState extends State<LanguageScreen> {
     return supportedLanguages.contains(device) ? device : defaultLanguage;
   }
 
-  String _name(AppLocalizations l10n, String code) => switch (code) {
-    'az' => l10n.languageName_az,
-    'ru' => l10n.languageName_ru,
-    _ => l10n.languageName_en,
-  };
-
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
@@ -57,7 +52,7 @@ class _LanguageScreenState extends State<LanguageScreen> {
                   child: RadioListTile<String>(
                     key: ValueKey('language-$code'),
                     value: code,
-                    title: Text(_name(l10n, code)),
+                    title: Text(languageName(l10n, code)),
                   ),
                 ),
             ],

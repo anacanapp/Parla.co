@@ -213,6 +213,10 @@
   "privacyIntro": "Your data, your choices. Every right is one tap away.",
   "profileAccountTitle": "Your account",
   "profileAccountNote": "We don't ask your name · email only",
+  "profileEmailLabel": "Email",
+  "profileAgeLabel": "Age",
+  "profileCountryLabel": "Country",
+  "profileLanguageLabel": "Language",
   "@profileAccountNote": {
     "description": "Profile card under the account title: the app never asks for a name, the account is only an email address."
   },

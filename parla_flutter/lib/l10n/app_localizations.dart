@@ -802,6 +802,30 @@ abstract class AppLocalizations {
   /// **'We don\'t ask your name · email only'**
   String get profileAccountNote;
 
+  /// No description provided for @profileEmailLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Email'**
+  String get profileEmailLabel;
+
+  /// No description provided for @profileAgeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Age'**
+  String get profileAgeLabel;
+
+  /// No description provided for @profileCountryLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Country'**
+  String get profileCountryLabel;
+
+  /// No description provided for @profileLanguageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Language'**
+  String get profileLanguageLabel;
+
   /// No description provided for @privacyConsentsTitle.
   ///
   /// In en, this message translates to:

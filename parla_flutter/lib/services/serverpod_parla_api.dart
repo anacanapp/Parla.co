@@ -27,6 +27,8 @@ class ServerpodParlaApi implements ParlaApi {
     return ProfileSummary(
       countryCode: profile.countryCode,
       language: profile.language,
+      birthYear: profile.birthYear,
+      email: await _client.profile.email(),
     );
   });
 
