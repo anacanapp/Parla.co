@@ -3,6 +3,7 @@
 ### restart resumes where it stopped. Holds ids and counts only.
 class: PushJob
 table: push_job
+serverOnly: true
 fields:
   ### The published `push` content item.
   contentId: int

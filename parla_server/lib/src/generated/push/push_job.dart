@@ -120,17 +120,7 @@ abstract class PushJob
 
   @override
   Map<String, dynamic> toJsonForProtocol() {
-    return {
-      '__className__': 'PushJob',
-      if (id != null) 'id': id,
-      'contentId': contentId,
-      'status': status,
-      'sent': sent,
-      if (cursor != null) 'cursor': cursor?.toJson(),
-      if (leaseUntil != null) 'leaseUntil': leaseUntil?.toJson(),
-      'createdAt': createdAt.toJson(),
-      if (finishedAt != null) 'finishedAt': finishedAt?.toJson(),
-    };
+    return {};
   }
 
   static PushJobInclude include() {
