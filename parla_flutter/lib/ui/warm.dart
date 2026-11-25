@@ -42,8 +42,10 @@ abstract final class Warm {
 class WarmBackdrop extends StatelessWidget {
   const WarmBackdrop({super.key, required this.child, this.figure = true});
 
-  /// The photo, kept in the app (nothing is fetched at runtime).
-  static const asset = 'assets/images/backdrop.jpg';
+  /// The photo, kept in the app (nothing is fetched at runtime). It is
+  /// the original (`backdrop.jpg`, not bundled) with a light blur baked in
+  /// (owner, 2026-11-25), so no filter runs while scrolling.
+  static const asset = 'assets/images/backdrop_soft.jpg';
 
   final Widget child;
 
