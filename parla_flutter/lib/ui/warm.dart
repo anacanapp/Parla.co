@@ -45,6 +45,11 @@ class WarmBackdrop extends StatelessWidget {
   /// The photo, kept in the app (nothing is fetched at runtime).
   static const asset = 'assets/images/backdrop.jpg';
 
+  /// How strongly the photo shows over the cream page (1 is full).
+  static double photoOpacity = double.parse(
+    const String.fromEnvironment('BACKDROP_OPACITY', defaultValue: '1'),
+  );
+
   final Widget child;
 
   /// The photo behind the cards. Pages of running text (sign-up,
@@ -73,11 +78,14 @@ class WarmBackdrop extends StatelessWidget {
                         left: (box.maxWidth - width) * .42,
                         top: -40 * box.maxHeight / 844,
                         width: width,
-                        child: Image.asset(
-                          asset,
-                          fit: BoxFit.fitWidth,
-                          gaplessPlayback: true,
-                          errorBuilder: (_, _, _) => const SizedBox(),
+                        child: Opacity(
+                          opacity: photoOpacity,
+                          child: Image.asset(
+                            asset,
+                            fit: BoxFit.fitWidth,
+                            gaplessPlayback: true,
+                            errorBuilder: (_, _, _) => const SizedBox(),
+                          ),
                         ),
                       ),
                       // A soft cream fade at the top keeps page titles
