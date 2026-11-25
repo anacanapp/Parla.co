@@ -26,6 +26,7 @@
   "signInTitle": "Daxil olun və ya hesab yaradın",
   "signInBody": "E-poçtunuza birdəfəlik kod göndərəcəyik. Şifrə lazım deyil.",
   "signInFailed": "Giriş alınmadı. Yenidən cəhd edin.",
+  "signInLegalNote": "Hesab yaratmaqla İstifadə şərtlərini qəbul etmiş olursunuz. Məlumatlarınızın necə emal olunduğu Məxfilik siyasətində təsvir olunur.",
   "countryTitle": "Harada yaşayırsınız?",
   "countryWhy": "Məlumatlarınız ölkənizin regionunda saxlanılır. Parla əvvəlcə Azərbaycanda açılır.",
   "countryComingSoon": "Tezliklə",

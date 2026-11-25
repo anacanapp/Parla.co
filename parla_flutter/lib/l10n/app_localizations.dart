@@ -256,6 +256,12 @@ abstract class AppLocalizations {
   /// **'Sign-in failed. Please try again.'**
   String get signInFailed;
 
+  /// No description provided for @signInLegalNote.
+  ///
+  /// In en, this message translates to:
+  /// **'By creating an account you accept the Terms of use. How your data is processed is described in the Privacy policy.'**
+  String get signInLegalNote;
+
   /// M-07 heading
   ///
   /// In en, this message translates to:

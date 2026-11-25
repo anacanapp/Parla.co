@@ -41,6 +41,7 @@
   },
   "signInBody": "We will email you a one-time code. No password needed.",
   "signInFailed": "Sign-in failed. Please try again.",
+  "signInLegalNote": "By creating an account you accept the Terms of use. How your data is processed is described in the Privacy policy.",
   "countryTitle": "Where do you live?",
   "@countryTitle": {
     "description": "M-07 heading"
