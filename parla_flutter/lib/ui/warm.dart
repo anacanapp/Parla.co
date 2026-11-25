@@ -45,6 +45,11 @@ class WarmBackdrop extends StatelessWidget {
   /// The photo, kept in the app (nothing is fetched at runtime).
   static const asset = 'assets/images/backdrop.jpg';
 
+  /// The blur of the photo (0 is sharp).
+  static double photoBlur = double.parse(
+    const String.fromEnvironment('BACKDROP_BLUR', defaultValue: '0'),
+  );
+
   /// How strongly the photo shows over the cream page (1 is full).
   static double photoOpacity = double.parse(
     const String.fromEnvironment('BACKDROP_OPACITY', defaultValue: '1'),
@@ -80,11 +85,19 @@ class WarmBackdrop extends StatelessWidget {
                         width: width,
                         child: Opacity(
                           opacity: photoOpacity,
-                          child: Image.asset(
-                            asset,
-                            fit: BoxFit.fitWidth,
-                            gaplessPlayback: true,
-                            errorBuilder: (_, _, _) => const SizedBox(),
+                          child: ImageFiltered(
+                            enabled: photoBlur > 0,
+                            imageFilter: ui.ImageFilter.blur(
+                              sigmaX: photoBlur,
+                              sigmaY: photoBlur,
+                              tileMode: TileMode.decal,
+                            ),
+                            child: Image.asset(
+                              asset,
+                              fit: BoxFit.fitWidth,
+                              gaplessPlayback: true,
+                              errorBuilder: (_, _, _) => const SizedBox(),
+                            ),
                           ),
                         ),
                       ),
