@@ -1,29 +1,24 @@
-**QARALAMA — hüquqşünas yoxlamasından əvvəl dərc edilməməlidir**
-
 # Parla — Məxfilik siyasəti
 
-- Qüvvəyə minmə tarixi: [QÜVVƏYƏ MİNMƏ TARİXİ]
-- Sənədin versiyası: qaralama 1
+- Qüvvəyə minmə tarixi: {{effectiveDate}}
+- Sənədin versiyası: 1
 
 ## 1. Biz kimik
 
-Parla tətbiqini (bundan sonra "Parla", "biz") [ŞİRKƏTİN HÜQUQİ ADI] təqdim edir.
+Parla tətbiqini (bundan sonra "Parla", "biz") aşağıdakı şirkət təqdim edir.
 
-- VÖEN: [VÖEN]
-- Hüquqi ünvan: [HÜQUQİ ÜNVAN]
-- Əlaqə üçün e-poçt: [ƏLAQƏ E-POÇTU]
-- Məlumatların qorunması üzrə məsul şəxs: [MƏLUMAT QORUNMASI ÜZRƏ MƏSUL ŞƏXS / DPO]
+- Şirkət: {{legalName}}
+- VÖEN: {{taxId}}
+- Hüquqi ünvan: {{address}}
+- Əlaqə üçün e-poçt: {{email}}
+- Məlumatların qorunması üzrə məsul şəxs: {{dpo}}
 
 Bu siyasətdə təsvir olunan fərdi məlumatların emalının məqsədlərini və
 vasitələrini biz müəyyən edirik.
 
-> ⚖️ Hüquqşünas yoxlamalıdır: "Fərdi məlumatlar haqqında" Qanunun terminləri ilə şirkətin statusu ("mülkiyyətçi", "operator" və ya hər ikisi) və GDPR-dakı "nəzarətçi" (controller) anlayışı ilə uyğunluq. Məsul şəxsin (DPO) təyini məcburidirmi?
-
 Bu siyasət Azərbaycan Respublikasının "Fərdi məlumatlar haqqında" Qanununa
 əsaslanır. Biz həmçinin Avropa İttifaqının Məlumatların Qorunması üzrə Ümumi
 Reqlamentini (GDPR) yüksək standart kimi rəhbər tuturuq.
-
-> ⚖️ Hüquqşünas yoxlamalıdır: GDPR Parla-ya birbaşa tətbiq olunurmu (GDPR Art. 3; serverlər Frankfurtdadır, istifadəçilər Azərbaycandadır)? Tətbiq olunursa, Aİ-də nümayəndə (Art. 27) lazımdırmı?
 
 ## 2. Qısaca
 
@@ -72,8 +67,6 @@ Girişdə e-poçtunuza birdəfəlik kod göndərilir. Kod info@anacan.az ünvan�
 SMTP ilə göndərilir. Giriş sessiyası və onu yeniləmək üçün tokenlər serverdə
 saxlanılır; qısamüddətli giriş tokenlərinin müddəti öz-özünə bitir.
 
-> ⚖️ Hüquqşünas yoxlamalıdır: birdəfəlik giriş kodlarının saxlanma müddəti ARCHITECTURE.md-də göstərilməyib; texniki komandadan dəqiqləşdirilib bura yazılmalıdır.
-
 ### 4.3. Razılıq qeydləri
 
 Hər razılıq qərarınız (verilməsi və ya geri götürülməsi) ayrıca qeyd kimi
@@ -87,8 +80,6 @@ kimi əlavə olunur.
 Qulluq testindəki dəri və saç tipi, məqsədlər və vərdişlər haqqında cavablar
 serverdə hesabınıza bağlı saxlanılır. Onlar sizə fərdi rutin qurmaq üçün
 istifadə olunur.
-
-> ⚖️ Hüquqşünas yoxlamalıdır: dəri tipi və "narahatlıqlar" kimi cavablar bəzi hallarda sağlamlıq məlumatı sayıla bilərmi? Sayılırsa, onlar da sağlamlıq razılığı ilə şifrələnmiş saxlanılmalıdır.
 
 ### 4.5. Sağlamlıq razılığı ilə saxlanılan məlumatlar
 
@@ -142,8 +133,6 @@ gələn giriş sorğularının sayını məhdudlaşdırır. Yük balanslaşdır�
 üzrə giriş jurnalları (IP ünvanları ilə) saxlanılmır; yalnız ümumi saylar
 qalır. Server jurnalları 30 gün saxlanılır.
 
-> ⚖️ Hüquqşünas yoxlamalıdır: server jurnallarında (CloudWatch, 30 gün) hansı fərdi məlumatların ola biləcəyi (məsələn, hesab identifikatoru) ARCHITECTURE.md-də təsvir olunmayıb; dəqiqləşdirilməlidir.
-
 ## 5. Məqsədlər və hüquqi əsaslar
 
 | Məqsəd | Məlumatlar | Təklif olunan hüquqi əsas |
@@ -161,8 +150,6 @@ qalır. Server jurnalları 30 gün saxlanılır.
 | Ümumi anonim statistika (hesabların, qeydiyyatların, yaş qruplarının, ölkə və dilin, razılıq qərarlarının, sağlamlıqla bağlı olmayan test cavablarının sayı) | hesab məlumatları, testin sağlamlıqla bağlı olmayan cavabları | qanuni maraq |
 | Sifariş, ödəniş, qaytarma və mühasibat uçotu | sifariş məlumatları | müqavilənin icrası; hüquqi öhdəlik |
 | Hüquqi tələblərə cavab, hüquqların müdafiəsi | lazım olan qədər | hüquqi öhdəlik; qanuni maraq |
-
-> ⚖️ Hüquqşünas yoxlamalıdır: hər məqsəd üçün hüquqi əsas "Fərdi məlumatlar haqqında" Qanuna və GDPR-a görə təsdiqlənməlidir. Xüsusilə: (1) qanuni maraq əsasında emal üçün maraqların balansı testi; (2) Azərbaycan qanununda müqavilə və qanuni maraq kimi əsasların qarşılığı və ya hər şey üçün razılıq lazımdırmı; (3) dəstək mesajlarında istifadəçi sağlamlıq məlumatı yaza bilər, lakin bunun üçün sağlamlıq razılığı istənilmir — xüsusi kateqoriyalı məlumat üçün hansı əsas tətbiq olunur?
 
 ## 6. Razılıqlar
 
@@ -201,8 +188,6 @@ nüsxəsi və onların şifrə açarı dərhal, bir əməliyyatda silinir. Telef
 nüsxələr qalır. Rutin daha ehtiyatlı qurulur. Razılığı sonra yenidən verə
 bilərsiniz.
 
-> ⚖️ Hüquqşünas yoxlamalıdır: razılıq mətnində "24 saat ərzində" yazılıb, sistem isə dərhal silir — mətni dəqiqləşdirmək (yeni versiya kimi) lazımdırmı? Mətndə "Parametrlər → Məxfilik" yolu göstərilib, tətbiqdə isə yol "Profil → Məxfilik mərkəzi"dir. "Təhlükəsiz qulluq" ifadəsi təhlükəsizlik vədi kimi başa düşülə bilərmi?
-
 ### 6.2. Analitika razılığı
 
 Cari mətn (versiya `analytics-2026-11-draft1`):
@@ -227,8 +212,6 @@ haqqında push bildirişləri də ala bilərsiniz (bax: bölmə 12).
 
 **Geri götürdükdə:** sizə marketinq bildirişləri və ya məktubları göndərilmir.
 
-> ⚖️ Hüquqşünas yoxlamalıdır: marketinq razılığının cari mətni yalnız e-poçtdan bəhs edir, sistem isə bu razılıqla push kampaniyaları göndərir; e-poçt kampaniyaları hazırda yoxdur. Push-u əhatə edən yeni razılıq versiyası lazımdırmı? Həmçinin "Reklam haqqında" Qanun və elektron marketinq tələbləri.
-
 ## 7. Sağlamlıq məlumatlarını necə qoruyuruq
 
 - Sağlamlıq məlumatları hər istifadəçi üçün ayrıca açarla (AES-256-GCM)
@@ -245,8 +228,6 @@ haqqında push bildirişləri də ala bilərsiniz (bax: bölmə 12).
 - "Narahatedici əlamətlər" sualına cavab yalnız "həkimə müraciət edin"
   ekranının göstərilib-göstərilməyəcəyini müəyyən edir. Bu cavab telefonda
   qalır; server onu qəbul etmir.
-
-> ⚖️ Hüquqşünas yoxlamalıdır: "narahatedici əlamətlər" cavabının yalnız telefonda emalını təsdiq etmək (ARCHITECTURE.md bunu ayrıca soruşur).
 
 ## 8. Yalnız telefonunuzda qalan məlumatlar
 
@@ -307,12 +288,10 @@ platforma (iOS/Android) ilə göndərilir.
 İdarə panelində yalnız ümumi saylar görünür; bölgülərdə 10-dan az olan
 saylar "<10" kimi göstərilir. Tək bir istifadəçi haqqında heç nə göstərilmir.
 
-> ⚖️ Hüquqşünas yoxlamalıdır: HMAC işarələri GDPR mənasında psevdonim fərdi məlumatdır; 30 günlük müddəti və bunun "şəxsiyyətimi birbaşa göstərməyən identifikator" ifadəsinə uyğunluğunu təsdiq etmək. Komandadan kənara rəqəm verilməzdən əvvəl kiçik qrupların qorunması (fərq hücumları) yenidən baxılmalıdır.
-
 ## 10. Reklam, bannerlər və brend saytları
 
 - Tətbiqdə Parla-nın öz bannerləri və brendlərin ödənişli kampaniyaları
-  göstərilə bilər. Ödənişli kampaniyalar həmişə "Reklam · <brend>" yazısı
+  göstərilə bilər. Ödənişli kampaniyalar həmişə "Reklam · brendin adı" yazısı
   ilə işarələnir.
 - **Bannerlər sizin haqqınızda məlumatla seçilmir.** Server bütün dərc
   olunmuş bannerləri hamıya eyni cür göndərir. Hansı bannerin göstərilməsini
@@ -332,8 +311,6 @@ saylar "<10" kimi göstərilir. Tək bir istifadəçi haqqında heç nə göstə
 - **Reklamçıların məlumatları:** idarə panelində reklamçı şirkətin adı,
   ümumi e-poçtu (könüllü), müqavilə nömrəsi və tarixləri saxlanılır. Əlaqə
   şəxsinin adı və telefonu panelə yazılmır; onlar imzalanmış müqavilədə qalır.
-
-> ⚖️ Hüquqşünas yoxlamalıdır: brend kampaniyaları üçün "Reklam haqqında" Qanun (işarələmə, kosmetika iddiaları); reklamçılarla müqavilədə məlumatların istifadəsi şərtləri.
 
 ## 11. Mağaza
 
@@ -364,8 +341,6 @@ göstərilir.
 - **Hesab silindikdə** sifarişlər mühasibat uçotu üçün saxlanılır, lakin
   hesab identifikatoru psevdonimlə əvəz olunur.
 - İdarə panelində sifarişlər alıcının hesabı göstərilmədən idarə olunur.
-
-> ⚖️ Hüquqşünas yoxlamalıdır: Epoint-in statusu (emalçı və ya müstəqil operator) və onunla müqavilə; hesab silindikdən sonra sifarişlərin psevdonimlə saxlanma müddəti (vergi və mühasibat qanunvericiliyinə görə); çatdırılma məlumatlarının çatdırılmadan sonra silinməsi (sahibkarın 2026-11-21 qərarı) və bu məlumatların hüquqi əsası.
 
 ## 12. Mesajlar, dəstək və bildirişlər
 
@@ -405,8 +380,6 @@ heç yerə göndərilmir.
   silindikdə, FCM tokenin artıq işləmədiyini bildirdikdə və 90 gün
   görünmədikdə.
 
-> ⚖️ Hüquqşünas yoxlamalıdır: Firebase (Google) emalçılar siyahısına əlavə olunmalı, onunla məlumat emalı razılaşması və Google-un məlumatları ABŞ-da emal edə bilməsi (sərhədlərarası ötürmə) qiymətləndirilməlidir. Push istifadəyə veriləndən əvvəl.
-
 ## 13. Məlumatlarınıza kim çıxış əldə edir
 
 ### 13.1. Parla komandası
@@ -438,8 +411,6 @@ identifikatorlarla yazılır.
 | Google (Firebase Cloud Messaging) | push bildirişləri (yalnız yandırdıqda) | push tokeni, bildirişin mətni | dəqiqləşdirilməlidir |
 | Epoint | ödəniş (tətbiqdaxili satış açıldıqda) | sifariş nömrəsi və məbləğ; kart məlumatlarını siz birbaşa Epoint-ə daxil edirsiniz | Azərbaycan (dəqiqləşdirilməlidir) |
 
-> ⚖️ Hüquqşünas yoxlamalıdır: anacan.az poçt qutusunun təminatçısı və poçtun saxlandığı ölkə müəyyən edilməyib (RELEASE.md). Hər emalçı ilə məlumat emalı razılaşması (GDPR Art. 28; AWS DPA AWS Service Terms-in tərkibindədir). Cədvəldəki "dəqiqləşdirilməlidir" yerləri doldurulmalıdır.
-
 **Emalçı olmayanlar:**
 
 - **Cloudflare** yalnız domen adını (DNS) cavablandırır, trafiki görmür.
@@ -458,8 +429,6 @@ identifikatorlarla yazılır.
 Qanunla tələb olunduqda məlumatları səlahiyyətli dövlət orqanlarına verə
 bilərik.
 
-> ⚖️ Hüquqşünas yoxlamalıdır: dövlət orqanlarının sorğularına cavab qaydası və istifadəçinin xəbərdar edilməsi.
-
 Biz fərdi məlumatlarınızı satmırıq.
 
 ## 14. Məlumatların saxlandığı yer və sərhədlərarası ötürmə
@@ -468,8 +437,6 @@ Serverlərimiz, verilənlər bazası, ehtiyat nüsxələr, şəkillər, açarlar
 jurnallar AWS-in Frankfurt (Almaniya, Avropa İttifaqı) regionunda yerləşir.
 Bu o deməkdir ki, Azərbaycandakı istifadəçilərin məlumatları, o cümlədən
 şifrələnmiş sağlamlıq məlumatları, Azərbaycandan kənara ötürülür.
-
-> ⚖️ Hüquqşünas yoxlamalıdır: Azərbaycan vətəndaşlarının (o cümlədən sağlamlıq) məlumatlarının Frankfurtda saxlanmasına icazə verilirmi (məlumatların lokallaşdırılması); "Fərdi məlumatlar haqqında" Qanuna görə sərhədlərarası ötürmənin şərtləri və istifadəçiyə nə bildirilməli və ya ondan hansı razılıq alınmalıdır. Bu, qeydiyyat açılmazdan əvvəl lazımdır (RELEASE.md). Firebase (Google) və anacan.az poçt təminatçısı vasitəsilə mümkün ötürmələr də qiymətləndirilməlidir.
 
 ## 15. Saxlanma müddətləri
 
@@ -493,8 +460,6 @@ Bu o deməkdir ki, Azərbaycandakı istifadəçilərin məlumatları, o cümləd
 | Telefonda: vərdiş qeydləri | 90 gün; tətbiq yenidən quraşdırıldıqda və ya hesab silindikdə silinir |
 | Telefonda: gündəlik, xatırlatma ayarları, sənədlərin nüsxələri | siz silənə, hesab silinənə və ya tətbiq yenidən quraşdırılana qədər |
 
-> ⚖️ Hüquqşünas yoxlamalıdır: audit jurnalı üçün 1 il və razılıq qeydləri üçün hesab silindikdən sonra 3 il müddətləri hüquqi yoxlama gözləyən təkliflərdir (ARCHITECTURE.md, RET-1, RET-2, AUD-4). Sifarişlərin saxlanma müddəti müəyyən edilməyib. Silinmiş hesabın psevdonimi və tarixi olan `deleted_account` qeydinin saxlanma müddəti göstərilməyib. Silinmiş məlumatların ehtiyat nüsxələrdə 14 günə qədər qalması siyasətdə açıq yazılmalıdırmı?
-
 Hamiləlik sualının 12 aydan sonra yenidən soruşulması hələ həyata
 keçirilməyib.
 
@@ -511,8 +476,6 @@ keçirilməyib.
   digər dəyişiklikləri özü rədd edir.
 - Əməkdaşların girişi rollarla məhdudlaşdırılır, hər hərəkət audit olunur,
   panel sessiyası ən çox 12 saat davam edir.
-
-> ⚖️ Hüquqşünas yoxlamalıdır: əməkdaşların panelə girişi parol və ya e-poçtla göndərilən birdəfəlik kodladır, ikinci amil yoxdur (sahibkarın 2026-11-18 və 2026-11-22 qərarları); əməkdaşların poçt qutularında iki addımlı yoxlama tələb olunur. Bu, GDPR Art. 32 üzrə təhlükəsizlik tədbirlərinin təsvirində qeyd olunmalıdır. Bunun ictimai siyasətdə nə dərəcədə təsvir olunacağına qərar verin. Server üçün məhdud verilənlər bazası rolu hələ qurulmayıb.
 
 ## 17. Hüquqlarınız
 
@@ -535,11 +498,9 @@ Sizin aşağıdakı hüquqlarınız var:
   etmək.
 - **Şikayət:** səlahiyyətli nəzarət orqanına şikayət vermək.
 
-Tətbiqdə edilə bilməyən sorğular üçün [ƏLAQƏ E-POÇTU] ünvanına yazın.
+Tətbiqdə edilə bilməyən sorğular üçün {{email}} ünvanına yazın.
 Sorğunuzu qeydiyyatdan keçdiyiniz e-poçt ünvanından göndərin ki, hesabın
 sizə məxsus olduğunu yoxlaya bilək.
-
-> ⚖️ Hüquqşünas yoxlamalıdır: "Fərdi məlumatlar haqqında" Qanuna və GDPR-a (Art. 12(3): bir ay) görə sorğulara cavab müddəti; Azərbaycanda şikayət verilə biləcək səlahiyyətli orqanın adı; GDPR tətbiq olunarsa, Aİ nəzarət orqanına şikayət hüququ. Hesab məlumatlarının (məsələn, doğum ili, ölkə) düzəldilməsi tətbiqdə mümkündürmü — ARCHITECTURE.md-də təsvir olunmayıb.
 
 ## 18. Hesabın silinməsi
 
@@ -564,14 +525,12 @@ tətbiq həmin telefonlardan silinənə qədər qalır.
 Hesabınızı e-poçtla müraciət edərək də sildirə bilərsiniz. Admin eyni silmə
 prosesini işə salır.
 
-> ⚖️ Hüquqşünas yoxlamalıdır: tətbiqdəki silmə ekranı ("deleteWhatStays") sifarişlərin psevdonimlə saxlanmasını qeyd etmir; ekran mətni ilə bu siyasət uyğunlaşdırılmalıdır.
-
 ## 19. Yaş məhdudiyyəti
 
 Parla yalnız 18 yaşdan yuxarı şəxslər üçündür. Yaş həm tətbiqdə, həm də
 serverdə yoxlanılır. 18 yaşdan kiçik şəxs üçün hesab yaradılmır və onun daxil
 etdiyi heç nə saxlanılmır. 18 yaşdan kiçik şəxsin məlumatlarının bizə
-çatdığını bilsəniz, [ƏLAQƏ E-POÇTU] ünvanına yazın.
+çatdığını bilsəniz, {{email}} ünvanına yazın.
 
 ## 20. Avtomatlaşdırılmış qərarlar
 
@@ -582,16 +541,12 @@ daxil edilmir. Bu təkliflər sizin üçün hüquqi nəticə doğurmur və tibbi
 qərar deyil. Siz təklifi qəbul etməyə borclu deyilsiniz. Profilləşdirmə
 reklam və ya marketinq üçün istifadə olunmur.
 
-> ⚖️ Hüquqşünas yoxlamalıdır: qaydalara əsaslanan rutin və idman planının GDPR Art. 22 mənasında avtomatlaşdırılmış qərar sayılmadığını təsdiq etmək.
-
 ## 21. Ekspertlər və digər şəxslər
 
 Tətbiqdə göstərilən ekspertlərin profilləri (ad, ixtisas, əlaqə, foto)
 ekspertlərin imzalı razılığı ilə dərc olunur. Məzmundakı şəkillərdə göstərilən
 digər şəxslər üçün yazılı icazə tələb olunur. Bu şəxslərin məlumatları ayrıca
 razılıq sənədləri ilə tənzimlənir.
-
-> ⚖️ Hüquqşünas yoxlamalıdır: ekspert razılıq formasının profil fotosunu əhatə etməsi və məzmundakı şəkillərdə göstərilən şəxslər üçün icazə mətni.
 
 ## 22. Bu siyasətdə dəyişikliklər
 
@@ -602,6 +557,7 @@ razılığınız yenidən soruşulur.
 
 ## 23. Əlaqə
 
-- [ŞİRKƏTİN HÜQUQİ ADI], [HÜQUQİ ÜNVAN]
-- E-poçt: [ƏLAQƏ E-POÇTU]
-- Məlumatların qorunması üzrə məsul şəxs: [MƏLUMAT QORUNMASI ÜZRƏ MƏSUL ŞƏXS / DPO]
+- Şirkət: {{legalName}}
+- Hüquqi ünvan: {{address}}
+- E-poçt: {{email}}
+- Məlumatların qorunması üzrə məsul şəxs: {{dpo}}

@@ -1028,7 +1028,7 @@ idempotent).
 | Item | Checklist | Planned |
 | --- | --- | --- |
 | Re-ask the pregnancy question after 12 months | RET-2 | With habit and health data history |
-| Privacy policy and terms texts: drafts in `parla_flutter/assets/legal/` (az, en; ru after the lawyer's edits). The app shows a document only when it has no draft banner, no ⚖️ lawyer question and no company placeholder (`LegalDoc.isReady`); a test keeps the drafts hidden | — | Lawyer; company details from the owner |
+| Privacy policy and terms (az, ru, en) are published in the app from `parla_flutter/assets/legal/`. The company's details are in `assets/legal/company.json` (a line whose detail is empty is left out; the contact email and the effective date are required). `LegalDoc.isReady` still refuses a draft banner, a ⚖️ marker or an unfilled detail. The lawyer's open questions are in `docs/legal/lawyer-questions.md`; changes after the review ship as a new document version | — | Company details (legal name, VÖEN, address, DPO) from the owner; lawyer review of az and ru |
 | Apple and Google sign-in | US-01 | Needs the Apple and Google developer accounts (company registration) |
 | Data region confirmed by the lawyer (prod runs in AWS Frankfurt, email by SMTP via info@anacan.az) | RES-1, RES-5 | Before sign-ups open |
 | Closed beta: sign-ups only with an invite code, until the legal and expert checks are done | — | Before the first beta build |

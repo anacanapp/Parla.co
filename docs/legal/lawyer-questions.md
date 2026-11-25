@@ -1,0 +1,51 @@
+# Hüquqşünas üçün açıq suallar
+
+Məxfilik siyasəti və istifadə şərtləri tətbiqdə dərc olunub (`parla_flutter/assets/legal/`).
+Aşağıdakı suallar mətnin hazırlandığı zaman açıq qalıb; cavablara görə mətn dəyişərsə,
+sənədin yeni versiyası dərc olunur (versiya nömrəsi və qüvvəyə minmə tarixi yenilənir).
+Şirkət məlumatları (hüquqi ad, VÖEN, ünvan, DPO, tarix) `parla_flutter/assets/legal/company.json`
+faylındadır; boş sahənin sətri mətndə göstərilmir.
+
+Rus dilindəki mətn azərbaycan dilindəki mətnin tərcüməsidir və o da yoxlanmalıdır.
+
+## Məxfilik siyasəti
+
+1. **1. Biz kimik** — "Fərdi məlumatlar haqqında" Qanunun terminləri ilə şirkətin statusu ("mülkiyyətçi", "operator" və ya hər ikisi) və GDPR-dakı "nəzarətçi" (controller) anlayışı ilə uyğunluq. Məsul şəxsin (DPO) təyini məcburidirmi?
+2. **1. Biz kimik** — GDPR Parla-ya birbaşa tətbiq olunurmu (GDPR Art. 3; serverlər Frankfurtdadır, istifadəçilər Azərbaycandadır)? Tətbiq olunursa, Aİ-də nümayəndə (Art. 27) lazımdırmı?
+3. **4. Hansı məlumatları emal edirik** — birdəfəlik giriş kodlarının saxlanma müddəti ARCHITECTURE.md-də göstərilməyib; texniki komandadan dəqiqləşdirilib bura yazılmalıdır.
+4. **4. Hansı məlumatları emal edirik** — dəri tipi və "narahatlıqlar" kimi cavablar bəzi hallarda sağlamlıq məlumatı sayıla bilərmi? Sayılırsa, onlar da sağlamlıq razılığı ilə şifrələnmiş saxlanılmalıdır.
+5. **4. Hansı məlumatları emal edirik** — server jurnallarında (CloudWatch, 30 gün) hansı fərdi məlumatların ola biləcəyi (məsələn, hesab identifikatoru) ARCHITECTURE.md-də təsvir olunmayıb; dəqiqləşdirilməlidir.
+6. **5. Məqsədlər və hüquqi əsaslar** — hər məqsəd üçün hüquqi əsas "Fərdi məlumatlar haqqında" Qanuna və GDPR-a görə təsdiqlənməlidir. Xüsusilə: (1) qanuni maraq əsasında emal üçün maraqların balansı testi; (2) Azərbaycan qanununda müqavilə və qanuni maraq kimi əsasların qarşılığı və ya hər şey üçün razılıq lazımdırmı; (3) dəstək mesajlarında istifadəçi sağlamlıq məlumatı yaza bilər, lakin bunun üçün sağlamlıq razılığı istənilmir — xüsusi kateqoriyalı məlumat üçün hansı əsas tətbiq olunur?
+7. **6. Razılıqlar** — razılıq mətnində "24 saat ərzində" yazılıb, sistem isə dərhal silir — mətni dəqiqləşdirmək (yeni versiya kimi) lazımdırmı? Mətndə "Parametrlər → Məxfilik" yolu göstərilib, tətbiqdə isə yol "Profil → Məxfilik mərkəzi"dir. "Təhlükəsiz qulluq" ifadəsi təhlükəsizlik vədi kimi başa düşülə bilərmi?
+8. **6. Razılıqlar** — marketinq razılığının cari mətni yalnız e-poçtdan bəhs edir, sistem isə bu razılıqla push kampaniyaları göndərir; e-poçt kampaniyaları hazırda yoxdur. Push-u əhatə edən yeni razılıq versiyası lazımdırmı? Həmçinin "Reklam haqqında" Qanun və elektron marketinq tələbləri.
+9. **7. Sağlamlıq məlumatlarını necə qoruyuruq** — "narahatedici əlamətlər" cavabının yalnız telefonda emalını təsdiq etmək (ARCHITECTURE.md bunu ayrıca soruşur).
+10. **9. İstifadə statistikası (yalnız analitika razılığı ilə)** — HMAC işarələri GDPR mənasında psevdonim fərdi məlumatdır; 30 günlük müddəti və bunun "şəxsiyyətimi birbaşa göstərməyən identifikator" ifadəsinə uyğunluğunu təsdiq etmək. Komandadan kənara rəqəm verilməzdən əvvəl kiçik qrupların qorunması (fərq hücumları) yenidən baxılmalıdır.
+11. **10. Reklam, bannerlər və brend saytları** — brend kampaniyaları üçün "Reklam haqqında" Qanun (işarələmə, kosmetika iddiaları); reklamçılarla müqavilədə məlumatların istifadəsi şərtləri.
+12. **11. Mağaza** — Epoint-in statusu (emalçı və ya müstəqil operator) və onunla müqavilə; hesab silindikdən sonra sifarişlərin psevdonimlə saxlanma müddəti (vergi və mühasibat qanunvericiliyinə görə); çatdırılma məlumatlarının çatdırılmadan sonra silinməsi (sahibkarın 2026-11-21 qərarı) və bu məlumatların hüquqi əsası.
+13. **12. Mesajlar, dəstək və bildirişlər** — Firebase (Google) emalçılar siyahısına əlavə olunmalı, onunla məlumat emalı razılaşması və Google-un məlumatları ABŞ-da emal edə bilməsi (sərhədlərarası ötürmə) qiymətləndirilməlidir. Push istifadəyə veriləndən əvvəl.
+14. **13. Məlumatlarınıza kim çıxış əldə edir** — anacan.az poçt qutusunun təminatçısı və poçtun saxlandığı ölkə müəyyən edilməyib (RELEASE.md). Hər emalçı ilə məlumat emalı razılaşması (GDPR Art. 28; AWS DPA AWS Service Terms-in tərkibindədir). Cədvəldəki "dəqiqləşdirilməlidir" yerləri doldurulmalıdır.
+15. **13. Məlumatlarınıza kim çıxış əldə edir** — dövlət orqanlarının sorğularına cavab qaydası və istifadəçinin xəbərdar edilməsi.
+16. **14. Məlumatların saxlandığı yer və sərhədlərarası ötürmə** — Azərbaycan vətəndaşlarının (o cümlədən sağlamlıq) məlumatlarının Frankfurtda saxlanmasına icazə verilirmi (məlumatların lokallaşdırılması); "Fərdi məlumatlar haqqında" Qanuna görə sərhədlərarası ötürmənin şərtləri və istifadəçiyə nə bildirilməli və ya ondan hansı razılıq alınmalıdır. Bu, qeydiyyat açılmazdan əvvəl lazımdır (RELEASE.md). Firebase (Google) və anacan.az poçt təminatçısı vasitəsilə mümkün ötürmələr də qiymətləndirilməlidir.
+17. **15. Saxlanma müddətləri** — audit jurnalı üçün 1 il və razılıq qeydləri üçün hesab silindikdən sonra 3 il müddətləri hüquqi yoxlama gözləyən təkliflərdir (ARCHITECTURE.md, RET-1, RET-2, AUD-4). Sifarişlərin saxlanma müddəti müəyyən edilməyib. Silinmiş hesabın psevdonimi və tarixi olan `deleted_account` qeydinin saxlanma müddəti göstərilməyib. Silinmiş məlumatların ehtiyat nüsxələrdə 14 günə qədər qalması siyasətdə açıq yazılmalıdırmı?
+18. **16. Təhlükəsizlik** — əməkdaşların panelə girişi parol və ya e-poçtla göndərilən birdəfəlik kodladır, ikinci amil yoxdur (sahibkarın 2026-11-18 və 2026-11-22 qərarları); əməkdaşların poçt qutularında iki addımlı yoxlama tələb olunur. Bu, GDPR Art. 32 üzrə təhlükəsizlik tədbirlərinin təsvirində qeyd olunmalıdır. Bunun ictimai siyasətdə nə dərəcədə təsvir olunacağına qərar verin. Server üçün məhdud verilənlər bazası rolu hələ qurulmayıb.
+19. **17. Hüquqlarınız** — "Fərdi məlumatlar haqqında" Qanuna və GDPR-a (Art. 12(3): bir ay) görə sorğulara cavab müddəti; Azərbaycanda şikayət verilə biləcək səlahiyyətli orqanın adı; GDPR tətbiq olunarsa, Aİ nəzarət orqanına şikayət hüququ. Hesab məlumatlarının (məsələn, doğum ili, ölkə) düzəldilməsi tətbiqdə mümkündürmü — ARCHITECTURE.md-də təsvir olunmayıb.
+20. **18. Hesabın silinməsi** — tətbiqdəki silmə ekranı ("deleteWhatStays") sifarişlərin psevdonimlə saxlanmasını qeyd etmir; ekran mətni ilə bu siyasət uyğunlaşdırılmalıdır.
+21. **20. Avtomatlaşdırılmış qərarlar** — qaydalara əsaslanan rutin və idman planının GDPR Art. 22 mənasında avtomatlaşdırılmış qərar sayılmadığını təsdiq etmək.
+22. **21. Ekspertlər və digər şəxslər** — ekspert razılıq formasının profil fotosunu əhatə etməsi və məzmundakı şəkillərdə göstərilən şəxslər üçün icazə mətni.
+
+## İstifadə şərtləri
+
+1. **1. Ümumi müddəalar** — şərtlərin qəbulu üçün hansı forma lazımdır (qeydiyyatda ayrıca qeyd qutusu, qəbulun qeydə alınması)? Bu, hazırda tətbiqdə yoxdur. Apple App Store üçün öz şərtlərimizdən, yoxsa Apple-ın standart EULA-sından istifadə edəcəyik; öz şərtlər üçün Apple-ın tələb etdiyi müddəalar.
+2. **2. Kim istifadə edə bilər** — "qadınlar üçün" ifadəsinin ayrı-seçkiliyə qarşı qanunvericilik baxımından necə yazılmalı olduğu (xidmət cinsi yoxlamır və cins haqqında məlumat toplamır).
+3. **4. Parla nədir və nə deyil** — Aİ statuslarının göstərilməsi üçün Azərbaycanda düzgün istinad (INGREDIENTS.md, açıq sual 1) və avtomatik ad uyğunluğu üçün "qadağan olunmuş maddələr siyahısında" ifadəsinə əlavə izah lazımdırmı; tibbi cihazlar qaydaları ilə sərhəd (MDR).
+4. **6. Əqli mülkiyyət** — ODbL öhdəlikləri (INGREDIENTS.md, açıq sual 2); istifadəçi məzmunu üçün lisenziya müddəasının kifayət olub-olmaması.
+5. **7. Ekspertlər** — ekspertlərin xidmətlərinə görə məsuliyyətdən imtinanın istehlakçı hüququna görə etibarlılığı və ekspertlərlə müqavilənin bu şərtlərlə uyğunluğu.
+6. **8. Reklam və brend kampaniyaları** — "Reklam haqqında" Qanuna uyğunluq (reklamın işarələnməsi, kosmetika reklamında iddialar) — ilk brend kampaniyasından əvvəl.
+7. **9. Mağaza** — partnyor məhsulları üçün istehlakçı hüququ mətnləri (Parla göstərir, partnyor satır), qiymət və mövcudluq üzrə xəbərdarlıqlar, məhsul mətnlərində kosmetika iddiaları — Mağaza ictimaiyyətə açılmazdan əvvəl.
+8. **9. Mağaza** — satış şərtləri, qaytarma və müqavilədən imtina hüququ (məsafədən satış), satıcının göstərilməsi (Parla və ya ödəniş agenti kimi Parla ilə brend), Epoint ilə müqavilə — `shop_sales_open` açılmazdan əvvəl. Fiskal çeklər (e-kassa) və ƏDV mühasiblə yoxlanılmalıdır.
+9. **11. Ödənişlər** — gələcəkdə ödənişli funksiyalar (abunə) planlaşdırılırsa, bu bölmə yenilənməlidir.
+10. **13. Məsuliyyətin məhdudlaşdırılması** — məsuliyyət məhdudiyyətlərinin Azərbaycan Mülki Məcəlləsinə və "İstehlakçıların hüquqlarının müdafiəsi haqqında" Qanuna görə etibarlılığı; məsuliyyətin maksimum məbləği müəyyən edilməlidirmi; qəsd və kobud ehtiyatsızlıq istisnaları.
+11. **14. Hesabın dayandırılması və silinməsi** — bloklama üçün əsaslar, istifadəçiyə bildiriş və etiraz qaydası; bloklanmış hesabın məlumatlarının saxlanma müddəti (ARCHITECTURE.md-də göstərilməyib).
+12. **15. Şərtlərdə dəyişikliklər** — dəyişikliklər barədə əvvəlcədən bildiriş müddəti və yeni şərtlərin qəbulu forması.
+13. **16. Tətbiq olunan hüquq və mübahisələr** — tətbiq olunan hüquq və məhkəmə aidiyyəti; istehlakçının yaşadığı yerin məhkəməsinə müraciət hüququ; gələcəkdə digər ölkələr (Türkiyə, Qazaxıstan, Özbəkistan) açıldıqda yerli istehlakçı qanunlarının tətbiqi.
+14. **17. Dil** — azərbaycan dilindəki mətnin üstünlüyü müddəasının istehlakçılara münasibətdə etibarlılığı.

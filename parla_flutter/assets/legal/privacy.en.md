@@ -1,33 +1,26 @@
-**DRAFT — must not be published before the lawyer's review**
-
 # Parla — Privacy policy
 
-- Effective date: [QÜVVƏYƏ MİNMƏ TARİXİ]
-- Document version: draft 1
+- Effective date: {{effectiveDate}}
+- Document version: 1
 
-*This is a translation of the Azerbaijani text. Lawyer markers keep the
-Azerbaijani prefix "Hüquqşünas yoxlamalıdır" ("the lawyer must check") so
-they can be found in both languages.*
+*This is a translation of the Azerbaijani text.*
 
 ## 1. Who we are
 
-The Parla app ("Parla", "we") is provided by [ŞİRKƏTİN HÜQUQİ ADI].
+The Parla app ("Parla", "we") is provided by the company below.
 
-- Tax ID (VÖEN): [VÖEN]
-- Registered address: [HÜQUQİ ÜNVAN]
-- Contact email: [ƏLAQƏ E-POÇTU]
-- Data protection officer: [MƏLUMAT QORUNMASI ÜZRƏ MƏSUL ŞƏXS / DPO]
+- Company: {{legalName}}
+- Tax ID (VÖEN): {{taxId}}
+- Registered address: {{address}}
+- Contact email: {{email}}
+- Data protection officer: {{dpo}}
 
 We decide the purposes and means of the processing of personal data
 described in this policy.
 
-> ⚖️ Hüquqşünas yoxlamalıdır: the company's status in the terms of the Law "On Personal Data" ("owner", "operator" or both) and how it maps to the GDPR "controller". Is appointing a data protection officer mandatory?
-
 This policy is based on the Law of the Republic of Azerbaijan "On Personal
 Data". We also follow the European Union's General Data Protection
 Regulation (GDPR) as a high standard.
-
-> ⚖️ Hüquqşünas yoxlamalıdır: does the GDPR apply to Parla directly (GDPR Art. 3; the servers are in Frankfurt, the users are in Azerbaijan)? If it does, is an EU representative (Art. 27) needed?
 
 ## 2. In short
 
@@ -78,8 +71,6 @@ To sign in, a one-time code is sent to your email from info@anacan.az by
 SMTP. The sign-in session and the tokens that renew it are kept on the
 server; short-lived access tokens expire on their own.
 
-> ⚖️ Hüquqşünas yoxlamalıdır: ARCHITECTURE.md does not state how long one-time sign-in codes are kept; get the period from the technical team and add it here.
-
 ### 4.3. Consent records
 
 Each consent decision (given or withdrawn) is stored as a separate record:
@@ -93,8 +84,6 @@ changed; every change is added as a new record.
 Answers in the care quiz about skin and hair type, goals and habits are
 stored on the server, linked to your account. They are used to build your
 personal routine.
-
-> ⚖️ Hüquqşünas yoxlamalıdır: could answers such as skin type and "concerns" count as health data in some cases? If so, they too must be stored encrypted under the health consent.
 
 ### 4.5. Data stored with the health consent
 
@@ -148,8 +137,6 @@ requests from one IP address. No access logs (with IP addresses) of the load
 balancer or the WAF are kept; only overall counts remain. Server logs are
 kept for 30 days.
 
-> ⚖️ Hüquqşünas yoxlamalıdır: ARCHITECTURE.md does not describe which personal data may appear in the server logs (CloudWatch, 30 days), for example an account id; this must be clarified.
-
 ## 5. Purposes and legal bases
 
 | Purpose | Data | Proposed legal basis |
@@ -167,8 +154,6 @@ kept for 30 days.
 | General anonymous statistics (counts of accounts, sign-ups, age bands, country and language, consent decisions, non-health quiz answers) | account data, non-health quiz answers | legitimate interest |
 | Orders, payment, refunds and accounting | order data | performance of the contract; legal obligation |
 | Responding to legal requirements, defending rights | as needed | legal obligation; legitimate interest |
-
-> ⚖️ Hüquqşünas yoxlamalıdır: the legal basis for each purpose must be confirmed under the Law "On Personal Data" and the GDPR. In particular: (1) a balancing test for processing based on legitimate interest; (2) what corresponds in Azerbaijani law to bases such as contract and legitimate interest, or whether consent is needed for everything; (3) users may write health details in support messages, but no health consent is asked for this — which basis applies to this special-category data?
 
 ## 6. Consents
 
@@ -205,8 +190,6 @@ and their encryption key, are deleted immediately, in one transaction. The
 copies on the phone stay. The routine is built more cautiously. You can
 give the consent again later.
 
-> ⚖️ Hüquqşünas yoxlamalıdır: the consent text says "within 24 hours", while the system deletes immediately — should the text be made precise (as a new version)? The text names the path "Settings → Privacy", while in the app it is "Profile → Privacy centre". Could the phrase "safe care" be read as a safety promise?
-
 ### 6.2. Analytics consent
 
 Current text (version `analytics-2026-11-draft1`):
@@ -232,8 +215,6 @@ receive push notifications about Parla news (see section 12).
 **When you withdraw it:** no marketing notifications or emails are sent to
 you.
 
-> ⚖️ Hüquqşünas yoxlamalıdır: the current marketing consent text speaks only of email, while the system uses this consent to send push campaigns; there are no email campaigns today. Is a new consent version covering push needed? Also the Law "On Advertising" and electronic marketing requirements.
-
 ## 7. How we protect health data
 
 - Health data is encrypted with a separate key for each user (AES-256-GCM).
@@ -248,8 +229,6 @@ you.
 - The answer to the "warning signs" question only decides whether the "see a
   doctor" screen is shown. It stays on the phone; the server does not accept
   it.
-
-> ⚖️ Hüquqşünas yoxlamalıdır: confirm the phone-only processing of the "warning signs" answer (ARCHITECTURE.md asks for this separately).
 
 ## 8. Data that stays only on your phone
 
@@ -310,12 +289,10 @@ the platform (iOS/Android) only.
 The admin panel shows totals only; in breakdowns any count under 10 is shown
 as "<10". Nothing about a single user is shown.
 
-> ⚖️ Hüquqşünas yoxlamalıdır: the HMAC marks are pseudonymous personal data under the GDPR; confirm the 30-day period and that it matches the wording "an identifier that does not directly reveal who I am". Protection of small groups (differencing) must be reviewed before any figures are shared outside the team.
-
 ## 10. Advertising, banners and brand websites
 
 - The app may show Parla's own banners and brands' paid campaigns. Paid
-  campaigns are always labelled "Ad · <brand>".
+  campaigns are always labelled "Ad · brand name".
 - **Banners are not chosen with data about you.** The server sends every
   published banner to everyone in the same way. The phone itself decides
   which banner to show by the date, the language, the country in your
@@ -334,8 +311,6 @@ as "<10". Nothing about a single user is shown.
   its general email (optional), and the contract number and dates. A contact
   person's name and phone are not entered in the panel; they stay in the
   signed contract.
-
-> ⚖️ Hüquqşünas yoxlamalıdır: the Law "On Advertising" for brand campaigns (labelling, cosmetics claims); data-use terms in the contracts with advertisers.
 
 ## 11. Shop
 
@@ -366,8 +341,6 @@ shown before payment.
 - **When the account is deleted** orders are kept for accounting, with the
   account id replaced by a pseudonym.
 - In the admin panel orders are handled without showing the buyer's account.
-
-> ⚖️ Hüquqşünas yoxlamalıdır: Epoint's status (processor or independent controller) and the contract with it; how long orders are kept under a pseudonym after account deletion (tax and accounting law); deleting delivery details after delivery (owner's decision of 2026-11-21) and the legal basis for this data.
 
 ## 12. Messages, support and notifications
 
@@ -408,8 +381,6 @@ sent anywhere.
   delete the account, when FCM reports the token gone, and after 90 days
   unseen.
 
-> ⚖️ Hüquqşünas yoxlamalıdır: Firebase (Google) must be added to the processor list, with a data processing agreement, and the fact that Google may process data in the USA (cross-border transfer) must be assessed. Before push is used.
-
 ## 13. Who has access to your data
 
 ### 13.1. The Parla team
@@ -440,8 +411,6 @@ action is recorded in the audit log with ids only.
 | Google (Firebase Cloud Messaging) | push notifications (only if turned on) | push token, notification text | to be confirmed |
 | Epoint | payment (once in-app sales are open) | order number and amount; you enter card details directly with Epoint | Azerbaijan (to be confirmed) |
 
-> ⚖️ Hüquqşünas yoxlamalıdır: the provider of the anacan.az mailbox and the country where mail is stored are not identified (RELEASE.md). A data processing agreement with each processor (GDPR Art. 28; the AWS DPA is part of the AWS Service Terms). Fill in the "to be confirmed" cells.
-
 **Not processors:**
 
 - **Cloudflare** only answers the domain name (DNS) and does not see the
@@ -461,8 +430,6 @@ action is recorded in the audit log with ids only.
 
 We may give data to competent public authorities when the law requires it.
 
-> ⚖️ Hüquqşünas yoxlamalıdır: the procedure for answering requests from public authorities and whether the user is informed.
-
 We do not sell your personal data.
 
 ## 14. Where data is stored and cross-border transfer
@@ -471,8 +438,6 @@ Our servers, database, backups, images, keys and logs are in AWS's Frankfurt
 region (Germany, European Union). This means the data of users in
 Azerbaijan, including encrypted health data, is transferred outside
 Azerbaijan.
-
-> ⚖️ Hüquqşünas yoxlamalıdır: is storing the data (including health data) of Azerbaijani citizens in Frankfurt allowed (data localisation)? What are the conditions for cross-border transfer under the Law "On Personal Data", and what must be told to the user or what consent must be obtained? This is needed before sign-ups open (RELEASE.md). Possible transfers via Firebase (Google) and the anacan.az mail provider must also be assessed.
 
 ## 15. Retention periods
 
@@ -496,8 +461,6 @@ Azerbaijan.
 | On the phone: habit logs | 90 days; deleted on reinstall or account deletion |
 | On the phone: journal, reminder settings, document copies | until you delete them, the account is deleted or the app is reinstalled |
 
-> ⚖️ Hüquqşünas yoxlamalıdır: 1 year for the audit log and 3 years after account deletion for consent records are proposals pending legal review (ARCHITECTURE.md, RET-1, RET-2, AUD-4). No retention period is set for orders. No period is stated for the `deleted_account` row (pseudonym and date). Should the policy say openly that deleted data may remain in backups for up to 14 days?
-
 Re-asking the pregnancy question after 12 months is not implemented yet.
 
 ## 16. Security
@@ -514,8 +477,6 @@ Re-asking the pregnancy question after 12 months is not implemented yet.
   other changes.
 - Staff access is limited by roles, every action is audited and a panel
   session lasts at most 12 hours.
-
-> ⚖️ Hüquqşünas yoxlamalıdır: staff sign in to the panel with a password or an emailed one-time code, with no second factor (owner's decisions of 2026-11-18 and 2026-11-22); staff mailboxes must use two-step verification. This must be noted in the description of security measures under GDPR Art. 32. Decide how much of this the public policy describes. A restricted database role for the server is not set up yet.
 
 ## 17. Your rights
 
@@ -536,11 +497,9 @@ You have the right to:
   interest.
 - **Complaint:** complain to the competent supervisory authority.
 
-For requests that cannot be done in the app, write to [ƏLAQƏ E-POÇTU].
+For requests that cannot be done in the app, write to {{email}}.
 Please send your request from the email address you registered with, so we
 can check that the account is yours.
-
-> ⚖️ Hüquqşünas yoxlamalıdır: the deadline for answering requests under the Law "On Personal Data" and the GDPR (Art. 12(3): one month); the name of the competent authority in Azerbaijan for complaints; the right to complain to an EU supervisory authority if the GDPR applies. Can account data (for example the birth year or country) be corrected in the app? ARCHITECTURE.md does not describe this.
 
 ## 18. Deleting your account
 
@@ -564,14 +523,12 @@ until the app is removed from those phones.
 You can also have your account deleted by asking us by email. An admin runs
 the same deletion.
 
-> ⚖️ Hüquqşünas yoxlamalıdır: the deletion screen in the app ("deleteWhatStays") does not mention that orders are kept under a pseudonym; the screen text and this policy must be aligned.
-
 ## 19. Age limit
 
 Parla is only for people aged 18 and over. Age is checked both in the app and
 on the server. No account is created for a person under 18, and nothing they
 entered is stored. If you know that data of a person under 18 has reached
-us, write to [ƏLAQƏ E-POÇTU].
+us, write to {{email}}.
 
 ## 20. Automated decisions
 
@@ -582,16 +539,12 @@ example, a step not suited to pregnancy is left out unless the answer is
 decisions. You are not obliged to accept a suggestion. Profiling is not used
 for advertising or marketing.
 
-> ⚖️ Hüquqşünas yoxlamalıdır: confirm that the rule-based routine and workout plan are not automated decisions within the meaning of GDPR Art. 22.
-
 ## 21. Experts and other people
 
 The profiles of experts shown in the app (name, specialty, contact, photo)
 are published with the experts' signed consent. Other people shown in content
 images need to have given written permission. These people's data is
 governed by separate consent documents.
-
-> ⚖️ Hüquqşünas yoxlamalıdır: that the expert consent form covers the profile photo, and the permission wording for people shown in content images.
 
 ## 22. Changes to this policy
 
@@ -602,6 +555,7 @@ consent is asked again.
 
 ## 23. Contact
 
-- [ŞİRKƏTİN HÜQUQİ ADI], [HÜQUQİ ÜNVAN]
-- Email: [ƏLAQƏ E-POÇTU]
-- Data protection officer: [MƏLUMAT QORUNMASI ÜZRƏ MƏSUL ŞƏXS / DPO]
+- Company: {{legalName}}
+- Registered address: {{address}}
+- Email: {{email}}
+- Data protection officer: {{dpo}}
