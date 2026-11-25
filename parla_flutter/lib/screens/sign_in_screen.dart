@@ -5,6 +5,7 @@ import '../discover/content_library.dart';
 import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
 import '../routes.dart';
+import 'legal_docs.dart';
 import '../ui/common.dart';
 
 /// M-05 and M-06: sign in or create an account with an emailed one-time code.
@@ -49,6 +50,43 @@ class SignInScreen extends StatelessWidget {
           context,
           onSignedIn: () => _afterSignIn(context),
           onError: (_) => showError(context, l10n.signInFailed),
+        ),
+        const SizedBox(height: 20),
+        const _LegalNote(),
+      ],
+    );
+  }
+}
+
+/// What creating an account means, with the terms and the privacy policy
+/// one tap away (they open over this screen; back returns here).
+class _LegalNote extends StatelessWidget {
+  const _LegalNote();
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final text = Theme.of(context).textTheme;
+    Widget link(String label, LegalDoc doc) => TextButton(
+      key: ValueKey('sign-in-legal-${doc.name}'),
+      style: TextButton.styleFrom(
+        padding: const EdgeInsets.symmetric(horizontal: 4),
+        minimumSize: const Size(48, 48),
+      ),
+      onPressed: () => context.push(Routes.legalDoc, extra: doc),
+      child: Text(label),
+    );
+    return Column(
+      key: const ValueKey('sign-in-legal'),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(l10n.signInLegalNote, style: text.bodyMedium),
+        Wrap(
+          spacing: 8,
+          children: [
+            link(l10n.legalTerms, LegalDoc.terms),
+            link(l10n.legalPrivacyPolicy, LegalDoc.privacy),
+          ],
         ),
       ],
     );

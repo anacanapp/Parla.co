@@ -12,6 +12,8 @@ import '../ui/warm.dart';
 import 'sport_book.dart';
 import 'sport_labels.dart';
 import 'workout_names.dart';
+import 'workout_photo.dart';
+import '../habits/habit_log.dart';
 import 'sport_night.dart';
 
 /// Sport: five sections as chips (owner, 2026-11-24). Fitness, pilates and
@@ -244,13 +246,23 @@ class _PlanView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final plan = book.planOf(section)!;
-    final done = book.doneThisWeek;
-    final next = book.nextOf(section);
     const muted = TextStyle(
       fontSize: kMinTextSize,
       height: 1.4,
       color: SportNight.pageSoft,
     );
+    final footer = <Widget>[
+      // Owner 2026-11-24: retaking the quiz comes after the workouts.
+      const SizedBox(height: 18),
+      _EditRow(section: section),
+      const SizedBox(height: 14),
+      Text(l10n.sportDraftNote, style: muted),
+      const SizedBox(height: 6),
+      Text(
+        book.isSynced ? l10n.sportPrivacySynced : l10n.sportPrivacyDevice,
+        style: muted,
+      ),
+    ];
 
     if (plan.blocked) {
       return Column(
@@ -289,100 +301,83 @@ class _PlanView extends StatelessWidget {
       );
     }
 
-    final total = plan.workouts.length;
-    final doneCount = plan.workouts.where((w) => done.contains(w.id)).length;
-    final progress = l10n.sportWeekProgress(doneCount, total);
-    final lead = '$doneCount';
+    final month = book.monthOf(section);
+    final doneCount = [
+      for (final (day, w) in month)
+        if (book.doneOn(w.id, day)) w,
+    ].length;
+
+    if (book.monthOver(section)) {
+      return Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          BluePebble(
+            child: Column(
+              key: const ValueKey('sport-month-done'),
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  l10n.sportMonthDoneTitle,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w300,
+                    color: SportNight.ink,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  l10n.sportMonthDoneBody(doneCount),
+                  style: const TextStyle(
+                    fontSize: 14,
+                    height: 1.45,
+                    color: SportNight.ink,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                OrbPill(
+                  key: const ValueKey('sport-new-month'),
+                  label: l10n.sportNewMonth,
+                  onPressed: () => context.go(Routes.sportQuiz, extra: section),
+                ),
+              ],
+            ),
+          ),
+          ...footer,
+        ],
+      );
+    }
+
+    final today = book.today;
+    final todayWorkout = book.workoutOn(section, today);
+    final next = book.nextDayOf(section);
+    final index = book.todayIndexOf(section) ?? 0;
+    final week = SportMonth.weekOf(index);
+    String dayLabel(DateTime d) =>
+        '${l10n.sportWeekday('${d.weekday}')}, ${d.day}';
+    String badgeOf(Workout w, int week) =>
+        '${sportTypeLabel(l10n, w.type)} · '
+        '${week == 3 ? l10n.sportRecoveryWeek : l10n.sportWeekBadge(week + 1)}';
+    String meta(Workout w) => l10n.sportCardMeta(w.minutes, w.items.length);
+
+    final monday = weekStart(today);
+    final thisWeek = [
+      for (final (day, w) in month)
+        if (!day.isBefore(monday) &&
+            day.isBefore(monday.add(const Duration(days: 7))) &&
+            day != today)
+          (day, w),
+    ];
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        BluePebble(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Eyebrow(l10n.sportWeekTitle),
-              const SizedBox(height: 12),
-              Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: Semantics(
-                      liveRegion: true,
-                      label: progress,
-                      excludeSemantics: true,
-                      // The count large and thin, the rest of the sentence
-                      // smaller (the same localized sentence).
-                      child: Text.rich(
-                        progress.startsWith(lead)
-                            ? TextSpan(
-                                text: lead,
-                                children: [
-                                  TextSpan(
-                                    text: progress.substring(lead.length),
-                                    style: const TextStyle(
-                                      fontSize: 22,
-                                      color: SportNight.soft,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : TextSpan(
-                                text: progress,
-                                style: const TextStyle(fontSize: 28),
-                              ),
-                        style: const TextStyle(
-                          fontSize: 44,
-                          fontWeight: FontWeight.w200,
-                          height: 1,
-                          color: SportNight.ink,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  ExcludeSemantics(
-                    child: Wrap(
-                      spacing: 6,
-                      runSpacing: 6,
-                      children: [
-                        for (final w in plan.workouts)
-                          Container(
-                            width: 26,
-                            height: 26,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              color: done.contains(w.id)
-                                  ? SportNight.ink
-                                  : null,
-                              border: done.contains(w.id)
-                                  ? null
-                                  : Border.all(
-                                      color: const Color(0x99FFFFFF),
-                                      width: 1.5,
-                                    ),
-                            ),
-                          ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 14),
-              if (next != null)
-                OrbPill(
-                  key: const ValueKey('sport-next'),
-                  label:
-                      '${workoutName(l10n, next.id)} · '
-                      '${l10n.sportWorkoutMeta(sportTypeLabel(l10n, next.type), next.minutes)}',
-                  onPressed: () => context.go(Routes.workout, extra: next.id),
-                )
-              else
-                Text(
-                  l10n.sportAllDone,
-                  style: const TextStyle(fontSize: 14, color: SportNight.ink),
-                ),
-            ],
-          ),
+        _MonthCalendar(
+          book: book,
+          section: section,
+          today: today,
+          done: doneCount,
+          total: month.length,
+          title: l10n.sportMonthProgress(index + 1, week + 1),
         ),
         if (plan.gentle) ...[
           const SizedBox(height: 12),
@@ -399,80 +394,241 @@ class _PlanView extends StatelessWidget {
             ),
           ),
         ],
-        const SizedBox(height: 22),
-        _SectionLabel(l10n.sportWeekTitle),
+        const SizedBox(height: 20),
+        _SectionLabel(l10n.sportToday),
         const SizedBox(height: 10),
-        for (var i = 0; i < plan.workouts.length; i++) ...[
-          _WorkoutCard(
-            workout: plan.workouts[i],
-            number: i + 1,
-            done: done.contains(plan.workouts[i].id),
-            isNext: plan.workouts[i].id == next?.id,
+        if (todayWorkout != null)
+          WorkoutPhotoCard(
+            key: ValueKey('workout-${todayWorkout.id}'),
+            workout: todayWorkout,
+            title: workoutName(l10n, todayWorkout.id),
+            subtitle: meta(todayWorkout),
+            badge: badgeOf(todayWorkout, week),
+            done: book.doneOn(todayWorkout.id, today),
+            doneLabel: l10n.sportDone,
+            onTap: () => context.go(Routes.workout, extra: todayWorkout.id),
+          )
+        else ...[
+          GlassRow(
+            key: const ValueKey('sport-rest-today'),
+            child: RowTexts(
+              title: l10n.sportRestToday,
+              subtitle: next == null ? '' : l10n.sportNextOn(dayLabel(next.$1)),
+            ),
           ),
-          const SizedBox(height: 10),
+          if (next != null) ...[
+            const SizedBox(height: 10),
+            WorkoutPhotoCard(
+              key: ValueKey('workout-${next.$2.id}'),
+              workout: next.$2,
+              title: workoutName(l10n, next.$2.id),
+              subtitle: meta(next.$2),
+              badge: dayLabel(next.$1),
+              onTap: () => context.go(Routes.workout, extra: next.$2.id),
+            ),
+          ],
         ],
-        // Owner 2026-11-24: retaking the quiz comes after the workouts.
-        const SizedBox(height: 4),
-        _EditRow(section: section),
-        const SizedBox(height: 14),
-        Text(l10n.sportDraftNote, style: muted),
-        const SizedBox(height: 6),
-        Text(
-          book.isSynced ? l10n.sportPrivacySynced : l10n.sportPrivacyDevice,
-          style: muted,
-        ),
+        if (thisWeek.isNotEmpty) ...[
+          const SizedBox(height: 20),
+          _SectionLabel(l10n.sportWeekTitle),
+          const SizedBox(height: 10),
+          SizedBox(
+            height: 160,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              clipBehavior: Clip.none,
+              itemCount: thisWeek.length,
+              separatorBuilder: (_, _) => const SizedBox(width: 10),
+              itemBuilder: (context, i) {
+                final (day, w) = thisWeek[i];
+                return WorkoutPhotoCard(
+                  key: ValueKey('workout-${w.id}-${SportMonth.keyOf(day)}'),
+                  workout: w,
+                  width: 160,
+                  height: 160,
+                  titleSize: 15,
+                  title: workoutName(l10n, w.id),
+                  subtitle: meta(w),
+                  badge: dayLabel(day),
+                  done: book.doneOn(w.id, day),
+                  doneLabel: l10n.sportDone,
+                  onTap: () => context.go(Routes.workout, extra: w.id),
+                );
+              },
+            ),
+          ),
+        ],
+        ...footer,
       ],
     );
   }
 }
 
-class _WorkoutCard extends StatelessWidget {
-  const _WorkoutCard({
-    required this.workout,
-    required this.number,
+/// The month at a glance: four weeks from the plan's start, workouts in
+/// coral, finished ones white, rest days faint, today ringed.
+class _MonthCalendar extends StatelessWidget {
+  const _MonthCalendar({
+    required this.book,
+    required this.section,
+    required this.today,
     required this.done,
-    required this.isNext,
+    required this.total,
+    required this.title,
   });
 
-  final Workout workout;
-  final int number;
-  final bool done;
-  final bool isNext;
+  final SportBook book;
+  final String section;
+  final DateTime today;
+  final int done;
+  final int total;
+  final String title;
+
+  static const coral = Color(0xFFC4532B);
 
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final focus = workout.focus.map((a) => sportAreaLabel(l10n, a)).join(', ');
-    return GlassRow(
-      key: ValueKey('workout-${workout.id}'),
-      highlight: isNext,
-      onTap: () => context.go(Routes.workout, extra: workout.id),
-      child: Row(
-        children: [
-          TickDot(done: done),
-          const SizedBox(width: 12),
-          Expanded(
-            child: RowTexts(
-              title: workoutName(l10n, workout.id),
-              subtitle: l10n.sportWorkoutMeta(
-                sportTypeLabel(l10n, workout.type),
-                workout.minutes,
+    final start = book.startOf(section)!;
+    final first = weekStart(start);
+    final last = start.add(const Duration(days: SportMonth.days - 1));
+    final rows = <List<DateTime>>[];
+    for (var d = first; !d.isAfter(last); d = d.add(const Duration(days: 7))) {
+      rows.add([
+        for (var i = 0; i < 7; i++) DateTime(d.year, d.month, d.day + i),
+      ]);
+    }
+
+    Widget cell(DateTime d) {
+      final inMonth = SportMonth.indexOf(start, d) != null;
+      final w = inMonth ? book.workoutOn(section, d) : null;
+      final finished = w != null && book.doneOn(w.id, d);
+      final missed = w != null && !finished && d.isBefore(today);
+      final isToday = d == today;
+      final (Color? fill, Color text, BoxBorder? border) = switch (()) {
+        _ when finished => (Colors.white, Warm.black, null),
+        _ when missed => (
+          null,
+          Colors.white,
+          Border.all(color: coral, width: 2),
+        ),
+        _ when w != null => (coral, Colors.white, null),
+        _ => (
+          null,
+          Colors.white.withValues(alpha: inMonth ? 0.6 : 0.3),
+          null,
+        ),
+      };
+      return Center(
+        child: Container(
+          width: 36,
+          height: 36,
+          padding: const EdgeInsets.all(2),
+          decoration: isToday
+              ? BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.white, width: 2),
+                )
+              : null,
+          child: Container(
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: fill,
+              shape: BoxShape.circle,
+              border: border,
+            ),
+            child: Text(
+              '${d.day}',
+              style: TextStyle(
+                fontSize: 13,
+                fontWeight: w != null ? FontWeight.w600 : FontWeight.w400,
+                color: text,
               ),
-              extra: focus,
             ),
           ),
-          if (done || isNext)
-            Padding(
-              padding: const EdgeInsets.only(left: 8),
-              child: Text(
-                done ? l10n.sportDone : l10n.sportNextLabel,
-                style: const TextStyle(
-                  fontSize: kMinTextSize,
-                  color: SportNight.ink,
-                ),
+        ),
+      );
+    }
+
+    Widget legend(Color color, String label, {bool ring = false}) => Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 10,
+          height: 10,
+          decoration: BoxDecoration(
+            color: ring ? null : color,
+            shape: BoxShape.circle,
+            border: ring ? Border.all(color: color, width: 1.5) : null,
+          ),
+        ),
+        const SizedBox(width: 5),
+        Text(
+          label,
+          style: const TextStyle(fontSize: 12, color: SportNight.soft),
+        ),
+      ],
+    );
+
+    return BluePebble(
+      child: Semantics(
+        key: const ValueKey('sport-month'),
+        label:
+            '${l10n.sportMonthTitle}. $title. '
+            '${l10n.sportMonthCalendar(done, total - done)}',
+        excludeSemantics: true,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Eyebrow(l10n.sportMonthTitle),
+            const SizedBox(height: 6),
+            Text(
+              title,
+              style: const TextStyle(
+                fontSize: 20,
+                fontWeight: FontWeight.w300,
+                color: SportNight.ink,
               ),
             ),
-        ],
+            const SizedBox(height: 12),
+            Row(
+              children: [
+                for (var d = 1; d <= 7; d++)
+                  Expanded(
+                    child: Text(
+                      l10n.sportWeekday('$d'),
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: SportNight.soft,
+                      ),
+                    ),
+                  ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            for (final row in rows)
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 2),
+                child: Row(
+                  children: [for (final d in row) Expanded(child: cell(d))],
+                ),
+              ),
+            const SizedBox(height: 10),
+            Wrap(
+              spacing: 14,
+              runSpacing: 6,
+              children: [
+                legend(Colors.white, l10n.sportLegendDone),
+                legend(coral, l10n.sportLegendWorkout),
+                legend(
+                  Colors.white.withValues(alpha: 0.6),
+                  l10n.sportLegendRest,
+                  ring: true,
+                ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -495,29 +651,17 @@ class _SessionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final faceYoga = workout.id == faceYogaWorkoutId;
-    return GlassRow(
+    return WorkoutPhotoCard(
       key: ValueKey(faceYoga ? 'face-yoga' : 'session-${workout.id}'),
+      workout: workout,
+      height: 180,
+      title: sessionTitle(l10n, workout.id),
+      subtitle: faceYoga
+          ? l10n.sportFaceYogaCardBody(workout.minutes)
+          : l10n.sportSessionCardBody(workout.items.length, workout.minutes),
+      done: done,
+      doneLabel: l10n.sportDone,
       onTap: () => context.go(Routes.workout, extra: workout.id),
-      child: Row(
-        children: [
-          TickDot(done: done, icon: icon),
-          const SizedBox(width: 12),
-          Expanded(
-            child: RowTexts(
-              title: sessionTitle(l10n, workout.id),
-              subtitle: faceYoga
-                  ? l10n.sportFaceYogaCardBody(workout.minutes)
-                  : l10n.sportSessionCardBody(
-                      workout.items.length,
-                      workout.minutes,
-                    ),
-            ),
-          ),
-          const ExcludeSemantics(
-            child: Icon(Icons.chevron_right, color: SportNight.soft),
-          ),
-        ],
-      ),
     );
   }
 }

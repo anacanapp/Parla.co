@@ -1,6 +1,9 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:parla/app.dart';
+import 'package:parla/screens/legal_docs.dart';
 import 'package:parla/services/parla_api.dart';
 import 'package:parla/state/app_settings.dart';
 import 'package:parla_shared/parla_shared.dart';
@@ -102,6 +105,32 @@ void main() {
     );
     final continueButton = find.widgetWithText(FilledButton, 'Continue');
     expect(tester.widget<FilledButton>(continueButton).onPressed, isNull);
+  });
+
+  testWidgets('sign-in links the terms and the privacy policy, and back '
+      'returns to it', (tester) async {
+    final read = LegalDoc.read;
+    addTearDown(() => LegalDoc.read = read);
+    LegalDoc.read = (path) async => File(path).readAsStringSync();
+    await _pumpApp(tester, prefs: {'language': 'en'});
+    await _tapText(tester, 'Get started');
+    await _enterYear(tester, '1995');
+    await _tapText(tester, 'Continue');
+    expect(
+      find.textContaining('By creating an account you accept the Terms of use'),
+      findsOneWidget,
+    );
+    for (final doc in LegalDoc.values) {
+      final link = find.byKey(ValueKey('sign-in-legal-${doc.name}'));
+      await tester.ensureVisible(link);
+      await tester.pumpAndSettle();
+      await tester.tap(link);
+      await tester.pumpAndSettle();
+      expect(find.byKey(const ValueKey('legal-doc')), findsOneWidget);
+      await tester.pageBack();
+      await tester.pumpAndSettle();
+      expect(find.byKey(const ValueKey('sign-in-legal')), findsOneWidget);
+    }
   });
 
   testWidgets('closed countries cannot be chosen', (tester) async {

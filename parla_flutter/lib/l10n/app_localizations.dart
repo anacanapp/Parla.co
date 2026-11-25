@@ -256,6 +256,12 @@ abstract class AppLocalizations {
   /// **'Sign-in failed. Please try again.'**
   String get signInFailed;
 
+  /// No description provided for @signInLegalNote.
+  ///
+  /// In en, this message translates to:
+  /// **'By creating an account you accept the Terms of use. How your data is processed is described in the Privacy policy.'**
+  String get signInLegalNote;
+
   /// M-07 heading
   ///
   /// In en, this message translates to:
@@ -2583,6 +2589,168 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Workout {number}'**
   String sportWorkoutTitle(int number);
+
+  /// No description provided for @sportWorkoutName_w6.
+  ///
+  /// In en, this message translates to:
+  /// **'Easy stretch'**
+  String get sportWorkoutName_w6;
+
+  /// No description provided for @sportWorkoutName_w7.
+  ///
+  /// In en, this message translates to:
+  /// **'Week finale'**
+  String get sportWorkoutName_w7;
+
+  /// No description provided for @sportWorkoutName_p6.
+  ///
+  /// In en, this message translates to:
+  /// **'Soft flow'**
+  String get sportWorkoutName_p6;
+
+  /// No description provided for @sportWorkoutName_p7.
+  ///
+  /// In en, this message translates to:
+  /// **'Core finale'**
+  String get sportWorkoutName_p7;
+
+  /// No description provided for @sportWorkoutName_v6.
+  ///
+  /// In en, this message translates to:
+  /// **'Easy wall day'**
+  String get sportWorkoutName_v6;
+
+  /// No description provided for @sportWorkoutName_v7.
+  ///
+  /// In en, this message translates to:
+  /// **'Wall finale'**
+  String get sportWorkoutName_v7;
+
+  /// No description provided for @sportEveryDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day'**
+  String get sportEveryDay;
+
+  /// No description provided for @sportWeekdaysLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Which days?'**
+  String get sportWeekdaysLabel;
+
+  /// No description provided for @sportWeekdaysHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick {count} days. The days in between are for rest.'**
+  String sportWeekdaysHint(int count);
+
+  /// No description provided for @sportEveryDayNote.
+  ///
+  /// In en, this message translates to:
+  /// **'Every day: two days a week are light stretching so your muscles can recover.'**
+  String get sportEveryDayNote;
+
+  /// No description provided for @sportWeekday.
+  ///
+  /// In en, this message translates to:
+  /// **'{day, select, 1{Mon} 2{Tue} 3{Wed} 4{Thu} 5{Fri} 6{Sat} other{Sun}}'**
+  String sportWeekday(String day);
+
+  /// No description provided for @sportPickWeekdays.
+  ///
+  /// In en, this message translates to:
+  /// **'Pick exactly {count} days.'**
+  String sportPickWeekdays(int count);
+
+  /// No description provided for @sportMonthTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Monthly plan'**
+  String get sportMonthTitle;
+
+  /// No description provided for @sportMonthProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'Day {day} of 28 · Week {week}'**
+  String sportMonthProgress(int day, int week);
+
+  /// No description provided for @sportLegendDone.
+  ///
+  /// In en, this message translates to:
+  /// **'done'**
+  String get sportLegendDone;
+
+  /// No description provided for @sportLegendWorkout.
+  ///
+  /// In en, this message translates to:
+  /// **'workout'**
+  String get sportLegendWorkout;
+
+  /// No description provided for @sportLegendRest.
+  ///
+  /// In en, this message translates to:
+  /// **'rest'**
+  String get sportLegendRest;
+
+  /// No description provided for @sportToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today'**
+  String get sportToday;
+
+  /// No description provided for @sportRestToday.
+  ///
+  /// In en, this message translates to:
+  /// **'Today is a rest day'**
+  String get sportRestToday;
+
+  /// No description provided for @sportNextOn.
+  ///
+  /// In en, this message translates to:
+  /// **'Next workout: {when}'**
+  String sportNextOn(String when);
+
+  /// No description provided for @sportWeekBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'Week {week}'**
+  String sportWeekBadge(int week);
+
+  /// No description provided for @sportRecoveryWeek.
+  ///
+  /// In en, this message translates to:
+  /// **'Recovery week'**
+  String get sportRecoveryWeek;
+
+  /// No description provided for @sportCardMeta.
+  ///
+  /// In en, this message translates to:
+  /// **'{minutes} min · {moves} moves'**
+  String sportCardMeta(int minutes, int moves);
+
+  /// No description provided for @sportMonthDoneTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Month complete'**
+  String get sportMonthDoneTitle;
+
+  /// No description provided for @sportMonthDoneBody.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} workouts done. Before the next month, let\'s check your answers and level.'**
+  String sportMonthDoneBody(int done);
+
+  /// No description provided for @sportNewMonth.
+  ///
+  /// In en, this message translates to:
+  /// **'Next month'**
+  String get sportNewMonth;
+
+  /// No description provided for @sportMonthCalendar.
+  ///
+  /// In en, this message translates to:
+  /// **'Month calendar: {done} workouts done, {left} left'**
+  String sportMonthCalendar(int done, int left);
 
   /// No description provided for @sportWorkoutName_w1.
   ///

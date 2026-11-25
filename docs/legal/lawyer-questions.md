@@ -35,7 +35,7 @@ Rus dilindəki mətn azərbaycan dilindəki mətnin tərcüməsidir və o da yox
 
 ## İstifadə şərtləri
 
-1. **1. Ümumi müddəalar** — şərtlərin qəbulu üçün hansı forma lazımdır (qeydiyyatda ayrıca qeyd qutusu, qəbulun qeydə alınması)? Bu, hazırda tətbiqdə yoxdur. Apple App Store üçün öz şərtlərimizdən, yoxsa Apple-ın standart EULA-sından istifadə edəcəyik; öz şərtlər üçün Apple-ın tələb etdiyi müddəalar.
+1. **1. Ümumi müddəalar** — şərtlərin qəbulu üçün hansı forma lazımdır (qeydiyyatda ayrıca qeyd qutusu, qəbulun qeydə alınması)? Hazırda qeydiyyat ekranında yalnız qeyd var: "Hesab yaratmaqla İstifadə şərtlərini qəbul etmiş olursunuz…", hər iki sənədə linklə; ayrıca qeyd qutusu və qəbulun qeydə alınması yoxdur. Apple App Store üçün öz şərtlərimizdən, yoxsa Apple-ın standart EULA-sından istifadə edəcəyik; öz şərtlər üçün Apple-ın tələb etdiyi müddəalar.
 2. **2. Kim istifadə edə bilər** — "qadınlar üçün" ifadəsinin ayrı-seçkiliyə qarşı qanunvericilik baxımından necə yazılmalı olduğu (xidmət cinsi yoxlamır və cins haqqında məlumat toplamır).
 3. **4. Parla nədir və nə deyil** — Aİ statuslarının göstərilməsi üçün Azərbaycanda düzgün istinad (INGREDIENTS.md, açıq sual 1) və avtomatik ad uyğunluğu üçün "qadağan olunmuş maddələr siyahısında" ifadəsinə əlavə izah lazımdırmı; tibbi cihazlar qaydaları ilə sərhəd (MDR).
 4. **6. Əqli mülkiyyət** — ODbL öhdəlikləri (INGREDIENTS.md, açıq sual 2); istifadəçi məzmunu üçün lisenziya müddəasının kifayət olub-olmaması.

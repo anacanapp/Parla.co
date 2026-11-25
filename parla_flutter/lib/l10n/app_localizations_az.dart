@@ -92,6 +92,10 @@ class AppLocalizationsAz extends AppLocalizations {
   String get signInFailed => 'Giriş alınmadı. Yenidən cəhd edin.';
 
   @override
+  String get signInLegalNote =>
+      'Hesab yaratmaqla İstifadə şərtlərini qəbul etmiş olursunuz. Məlumatlarınızın necə emal olunduğu Məxfilik siyasətində təsvir olunur.';
+
+  @override
   String get countryTitle => 'Harada yaşayırsınız?';
 
   @override
@@ -1401,6 +1405,118 @@ class AppLocalizationsAz extends AppLocalizations {
   @override
   String sportWorkoutTitle(int number) {
     return 'Məşq $number';
+  }
+
+  @override
+  String get sportWorkoutName_w6 => 'Yüngül dartınma';
+
+  @override
+  String get sportWorkoutName_w7 => 'Həftənin finalı';
+
+  @override
+  String get sportWorkoutName_p6 => 'Yumşaq axın';
+
+  @override
+  String get sportWorkoutName_p7 => 'Mərkəz finalı';
+
+  @override
+  String get sportWorkoutName_v6 => 'Divarda rahatlıq';
+
+  @override
+  String get sportWorkoutName_v7 => 'Divar finalı';
+
+  @override
+  String get sportEveryDay => 'Hər gün';
+
+  @override
+  String get sportWeekdaysLabel => 'Hansı günlər?';
+
+  @override
+  String sportWeekdaysHint(int count) {
+    return '$count gün seç. Aradakı günlər istirahətdir.';
+  }
+
+  @override
+  String get sportEveryDayNote =>
+      'Hər gün: həftədə iki gün yüngül dartınma olur ki, əzələlər bərpa olunsun.';
+
+  @override
+  String sportWeekday(String day) {
+    String _temp0 = intl.Intl.selectLogic(
+      day,
+      {
+        '1': 'B.e',
+        '2': 'Ç.a',
+        '3': 'Ç',
+        '4': 'C.a',
+        '5': 'C',
+        '6': 'Ş',
+        'other': 'B',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sportPickWeekdays(int count) {
+    return 'Düz $count gün seç.';
+  }
+
+  @override
+  String get sportMonthTitle => 'Aylıq plan';
+
+  @override
+  String sportMonthProgress(int day, int week) {
+    return 'Gün $day / 28 · Həftə $week';
+  }
+
+  @override
+  String get sportLegendDone => 'edildi';
+
+  @override
+  String get sportLegendWorkout => 'məşq';
+
+  @override
+  String get sportLegendRest => 'istirahət';
+
+  @override
+  String get sportToday => 'Bu gün';
+
+  @override
+  String get sportRestToday => 'Bu gün istirahət günüdür';
+
+  @override
+  String sportNextOn(String when) {
+    return 'Növbəti məşq: $when';
+  }
+
+  @override
+  String sportWeekBadge(int week) {
+    return 'Həftə $week';
+  }
+
+  @override
+  String get sportRecoveryWeek => 'Bərpa həftəsi';
+
+  @override
+  String sportCardMeta(int minutes, int moves) {
+    return '$minutes dəq · $moves hərəkət';
+  }
+
+  @override
+  String get sportMonthDoneTitle => 'Ay tamamlandı';
+
+  @override
+  String sportMonthDoneBody(int done) {
+    return '$done məşq edildi. Növbəti aydan əvvəl cavablarını və səviyyəni yoxlayaq.';
+  }
+
+  @override
+  String get sportNewMonth => 'Növbəti ay';
+
+  @override
+  String sportMonthCalendar(int done, int left) {
+    return 'Ay təqvimi: $done məşq edildi, $left qaldı';
   }
 
   @override
