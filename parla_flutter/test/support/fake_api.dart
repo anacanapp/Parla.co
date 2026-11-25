@@ -60,6 +60,9 @@ class FakeApi implements ParlaApi {
 
   bool healthConsent = false;
   QuizAnswers? quizAnswers;
+
+  /// The month the fake server gives saved health answers.
+  String answerMonth = '2026-11';
   final savedQuizAnswers = <QuizAnswers>[];
 
   @override
@@ -89,6 +92,11 @@ class FakeApi implements ParlaApi {
           if (keep(e.key)) e.key: e.value,
       },
       declined: answers.declined.where(keep).toSet(),
+      // Like the server: kept health answers get this month.
+      months: {
+        for (final id in answers.chosen.keys)
+          if (keep(id) && quizQuestion(id)!.sensitive) id: answerMonth,
+      },
     );
     savedQuizAnswers.add(sent);
     quizAnswers = sent;

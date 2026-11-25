@@ -45,7 +45,14 @@ class QuizEndpoint extends Endpoint {
           ? question.declinable && answer.optionIds.isEmpty
           : question.accepts(answer.optionIds);
       if (!valid) throw ParlaException(code: QuizErrors.invalidAnswer);
-      (question.sensitive ? health : core).add(answer);
+      // The app never sets the month; the server does below.
+      (question.sensitive ? health : core).add(
+        QuizAnswerInput(
+          questionId: answer.questionId,
+          optionIds: answer.optionIds,
+          declined: answer.declined,
+        ),
+      );
     }
 
     if (health.isNotEmpty &&
@@ -83,8 +90,10 @@ class QuizEndpoint extends Endpoint {
           userId,
           transaction: transaction,
         );
+        // The server's month, whatever the app sent (RET-2).
+        final month = PregnancyRecheck.monthOf(now);
         for (final answer in health) {
-          merged[answer.questionId] = answer;
+          merged[answer.questionId] = answer.copyWith(answeredMonth: month);
         }
         await store.write(
           session,

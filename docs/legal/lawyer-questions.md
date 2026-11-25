@@ -32,6 +32,7 @@ Rus dilindəki mətn azərbaycan dilindəki mətnin tərcüməsidir və o da yox
 20. **18. Hesabın silinməsi** — tətbiqdəki silmə ekranı ("deleteWhatStays") sifarişlərin psevdonimlə saxlanmasını qeyd etmir; ekran mətni ilə bu siyasət uyğunlaşdırılmalıdır.
 21. **20. Avtomatlaşdırılmış qərarlar** — qaydalara əsaslanan rutin və idman planının GDPR Art. 22 mənasında avtomatlaşdırılmış qərar sayılmadığını təsdiq etmək.
 22. **21. Ekspertlər və digər şəxslər** — ekspert razılıq formasının profil fotosunu əhatə etməsi və məzmundakı şəkillərdə göstərilən şəxslər üçün icazə mətni.
+23. **15. Saxlanma müddətləri (RET-2)** — hamiləlik cavabının yenidən soruşulması: dəri testində 12 ay, idmanda "hamiləyəm" 12 ay, "doğuşdan sonrakı altı ay" 6 ay. Cavab verilməyənə qədər köhnə cavab qalır və ana səhifədə xatırlatma görünür (sahibin qərarı, 2026-11-25); avtomatik silinmə yoxdur. Bu müddətlər və yanaşma "Fərdi məlumatlar haqqında" Qanuna və GDPR-ın məlumatların dəqiqliyi və saxlanmanın məhdudlaşdırılması prinsiplərinə uyğundurmu? Kartın mətni yoxlanmalıdır.
 
 ## İstifadə şərtləri
 

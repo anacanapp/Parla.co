@@ -760,6 +760,60 @@ abstract class AppLocalizations {
   /// **'Show my routine'**
   String get resultSeeRoutine;
 
+  /// No description provided for @recheckTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Is your answer still right?'**
+  String get recheckTitle;
+
+  /// No description provided for @recheckSkinBody.
+  ///
+  /// In en, this message translates to:
+  /// **'About pregnancy, you answered “{answer}” in the quiz {months} months ago. Your routine is built around it.'**
+  String recheckSkinBody(String answer, int months);
+
+  /// No description provided for @recheckSportBody.
+  ///
+  /// In en, this message translates to:
+  /// **'In the sport questions you answered “{answer}” {months} months ago. That is why your plan is gentle.'**
+  String recheckSportBody(String answer, int months);
+
+  /// No description provided for @recheckYes.
+  ///
+  /// In en, this message translates to:
+  /// **'Yes, still true'**
+  String get recheckYes;
+
+  /// No description provided for @recheckChange.
+  ///
+  /// In en, this message translates to:
+  /// **'It has changed'**
+  String get recheckChange;
+
+  /// No description provided for @recheckRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete my answer'**
+  String get recheckRemove;
+
+  /// No description provided for @recheckChooseTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'What is it now?'**
+  String get recheckChooseTitle;
+
+  /// No description provided for @recheckSaved.
+  ///
+  /// In en, this message translates to:
+  /// **'Saved.'**
+  String get recheckSaved;
+
+  /// No description provided for @recheckPrivacy.
+  ///
+  /// In en, this message translates to:
+  /// **'Your answer is stored encrypted and only used for your routine and plan. If you delete it, your routine stays careful.'**
+  String get recheckPrivacy;
+
   /// No description provided for @homeQuizTitle.
   ///
   /// In en, this message translates to:

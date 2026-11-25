@@ -115,7 +115,19 @@ and expert checks in `docs/RELEASE.md` are done.
 - **Retention (RET-1, RET-2, AUD-4).** A daily timer (`scheduleDailyRetention`)
   deletes audit rows older than 1 year and the consent records of accounts
   deleted more than 3 years ago. Periods are proposals pending legal
-  review. Pregnancy re-asking after 12 months is not implemented yet.
+  review.
+- **Pregnancy answer asked again (RET-2, owner 2026-11-25).**
+  `PregnancyRecheck` (shared) decides when: skin quiz "pregnant",
+  "breastfeeding" and "planning" after 12 months; sport "pregnant" after 12
+  and "after birth" after 6 months; "no" never.
+  - The month is kept inside the encrypted data. The server sets it for
+    health quiz answers (`QuizAnswerInput.answeredMonth`, field `m` in
+    `health_record`). The app sets it in the sport document
+    (`SportAnswers.pregnancyMonth`). Answers saved before count from
+    `PregnancyRecheck.since`.
+  - Home shows a card until the person confirms, changes or (skin)
+    deletes the answer. The old answer keeps applying meanwhile, and
+    nothing is deleted automatically.
 - **Privacy centre (M-25 to M-34).** Reached from the Profile tab and the
   profile button: consents with a confirmation before the health consent is
   withdrawn, data download, legal documents, sign-out and account deletion
@@ -1059,7 +1071,6 @@ idempotent).
 
 | Item | Checklist | Planned |
 | --- | --- | --- |
-| Re-ask the pregnancy question after 12 months | RET-2 | With habit and health data history |
 | Privacy policy and terms (az, ru, en) are published in the app from `parla_flutter/assets/legal/`. The company's details are in `assets/legal/company.json` (a line whose detail is empty is left out; the contact email and the effective date are required). `LegalDoc.isReady` still refuses a draft banner, a ⚖️ marker or an unfilled detail. The lawyer's open questions are in `docs/legal/lawyer-questions.md`; changes after the review ship as a new document version | — | Company details (legal name, VÖEN, address, DPO) from the owner; lawyer review of az and ru |
 | Apple and Google sign-in | US-01 | Needs the Apple and Google developer accounts (company registration) |
 | Data region confirmed by the lawyer (prod runs in AWS Frankfurt, email by SMTP via info@anacan.az) | RES-1, RES-5 | Before sign-ups open |

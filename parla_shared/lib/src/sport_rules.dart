@@ -12,6 +12,8 @@ library;
 
 import 'dart:convert';
 
+import 'pregnancy_recheck.dart';
+
 /// Question option ids.
 abstract final class SportOptions {
   static const goals = [
@@ -102,6 +104,7 @@ class SportAnswers {
     this.doctorLimit = false,
     List<int>? weekdays,
     this.start,
+    this.pregnancyMonth,
     // A named parameter cannot be private.
     // ignore: prefer_initializing_formals
   }) : _weekdays = weekdays;
@@ -119,6 +122,7 @@ class SportAnswers {
     doctorLimit: json['doctorLimit'] as bool? ?? false,
     weekdays: _weekdaysOf(json),
     start: json['start'] as String?,
+    pregnancyMonth: json['pregnancyMonth'] as String?,
   );
 
   static List<int>? _weekdaysOf(Map<String, Object?> json) {
@@ -155,6 +159,10 @@ class SportAnswers {
   /// before it starts (the app sets it when the answers are saved).
   final String? start;
 
+  /// The month ("2026-11") the pregnancy answer was last given or
+  /// confirmed (RET-2, [PregnancyRecheck]); `null` for older answers.
+  final String? pregnancyMonth;
+
   int get levelIndex => SportOptions.levels.indexOf(level).clamp(0, 2);
 
   /// These answers for [section]: only the types that section plans with
@@ -172,6 +180,7 @@ class SportAnswers {
   /// limit) of [other]: one person, so every section uses the latest ones.
   SportAnswers withSafetyOf(SportAnswers other) => copyWith(
     pregnancy: other.pregnancy,
+    pregnancyMonth: other.pregnancyMonth,
     injuries: other.injuries,
     doctorLimit: other.doctorLimit,
   );
@@ -182,6 +191,7 @@ class SportAnswers {
     Set<String>? injuries,
     bool? doctorLimit,
     String? start,
+    String? pregnancyMonth,
   }) => SportAnswers(
     goals: goals,
     areas: areas,
@@ -195,6 +205,7 @@ class SportAnswers {
     doctorLimit: doctorLimit ?? this.doctorLimit,
     weekdays: weekdays,
     start: start ?? this.start,
+    pregnancyMonth: pregnancyMonth ?? this.pregnancyMonth,
   );
 
   Map<String, Object?> toJson() => {
@@ -216,6 +227,7 @@ class SportAnswers {
     'doctorLimit': doctorLimit,
     'weekdays': weekdays,
     if (start != null) 'start': start,
+    if (pregnancyMonth != null) 'pregnancyMonth': pregnancyMonth,
   };
 }
 
@@ -926,6 +938,7 @@ abstract final class SportRules {
       'doctorLimit',
       'weekdays',
       'start',
+      'pregnancyMonth',
     };
     if (!answers.keys.every(keys.contains)) return false;
     bool listOf(Object? v, List<String> allowed, int max) =>
@@ -951,6 +964,8 @@ abstract final class SportRules {
             weekdays.toSet().length != weekdays.length)) {
       return false;
     }
+    final month = answers['pregnancyMonth'];
+    if (month != null && !PregnancyRecheck.isMonth(month)) return false;
     final start = answers['start'];
     if (start != null &&
         (start is! String ||

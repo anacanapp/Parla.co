@@ -56,6 +56,34 @@ void main() {
       );
     });
 
+    test('health answers carry the server month, never the app\'s', () async {
+      final session = _as(sessionBuilder, alice);
+      await grantHealth(alice);
+      await endpoints.quiz.saveAnswers(session, [
+        QuizAnswerInput(
+          questionId: 'pregnancy',
+          optionIds: const ['pregnant'],
+          declined: false,
+          answeredMonth: '2001-01',
+        ),
+        QuizAnswerInput(
+          questionId: 'skin_type',
+          optionIds: const ['dry'],
+          declined: false,
+          answeredMonth: '2001-01',
+        ),
+      ]);
+      final answers = {
+        for (final a in await endpoints.quiz.myAnswers(session))
+          a.questionId: a,
+      };
+      expect(
+        answers['pregnancy']!.answeredMonth,
+        PregnancyRecheck.monthOf(DateTime.now().toUtc()),
+      );
+      expect(answers['skin_type']!.answeredMonth, isNull);
+    });
+
     test('answering again replaces the earlier answer', () async {
       final session = _as(sessionBuilder, alice);
       await endpoints.quiz.saveAnswers(session, [

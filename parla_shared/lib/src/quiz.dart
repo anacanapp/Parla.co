@@ -703,10 +703,18 @@ QuizQuestion? quizQuestion(String id) {
 /// Answers keyed by question id. A declined question is absent from
 /// [chosen] and present in [declined].
 class QuizAnswers {
-  const QuizAnswers({this.chosen = const {}, this.declined = const {}});
+  const QuizAnswers({
+    this.chosen = const {},
+    this.declined = const {},
+    this.months = const {},
+  });
 
   final Map<String, List<String>> chosen;
   final Set<String> declined;
+
+  /// The month ("2026-11") each health answer was last given or confirmed,
+  /// as the server stored it; missing for older answers.
+  final Map<String, String> months;
 
   List<String> of(String questionId) => chosen[questionId] ?? const [];
 
