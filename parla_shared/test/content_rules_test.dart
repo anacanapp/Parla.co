@@ -687,4 +687,30 @@ void main() {
       isFalse,
     );
   });
+
+  test('a sport photo is only an image, filed under a workout type', () {
+    expect(
+      ContentRules.categoriesFor(ContentKind.sportPhoto),
+      contains('pilates'),
+    );
+    expect(
+      ContentRules.problems(ContentKind.sportPhoto, jsonEncode({'image': 3})),
+      isEmpty,
+    );
+    expect(
+      ContentRules.problems(ContentKind.sportPhoto, '{}'),
+      contains('image.missing'),
+    );
+    expect(
+      ContentRules.problems(
+        ContentKind.sportPhoto,
+        jsonEncode({'image': 3, 'title': 'x'}),
+      ),
+      contains('title.unknown'),
+    );
+    expect(
+      ContentRules.adminPublishesDirectly(ContentKind.sportPhoto, const {}),
+      isTrue,
+    );
+  });
 }

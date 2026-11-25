@@ -102,6 +102,7 @@ String kindLabel(String kind) => switch (kind) {
   'message' => 'Elanlar',
   'push' => 'Push',
   'product' => 'Məhsullar',
+  'sportPhoto' => 'İdman şəkilləri',
   _ => 'Mütəxəssislər',
 };
 
@@ -130,6 +131,13 @@ String categoryLabel(String id) => switch (id) {
   'recipe' => 'Reseptin altı',
   'announcement' => 'Elan',
   'marketing' => 'Marketinq',
+  'fitness' => 'Güc (fitnes)',
+  'stretching' => 'Dartınma',
+  'cardio' => 'Kardio',
+  'pilates' => 'Pilates',
+  'wall_pilates' => 'Divar pilatesi',
+  'yoga' => 'Yoqa',
+  'face_yoga' => 'Üz yoqası',
   _ => id,
 };
 
