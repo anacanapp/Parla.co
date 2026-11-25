@@ -303,44 +303,87 @@ void main() {
     );
   });
 
-  test('the shipped legal drafts are not shown until they are ready', () {
-    for (final f in Directory('assets/legal').listSync().whereType<File>()) {
-      expect(
-        LegalDoc.isReady(f.readAsStringSync()),
-        isFalse,
-        reason: '${f.path} is still a draft with placeholders',
-      );
+  test('the shipped legal texts are ready in every language', () {
+    final company =
+        (jsonDecode(File('assets/legal/company.json').readAsStringSync())
+                as Map<String, dynamic>)
+            .cast<String, String>();
+    for (final doc in LegalDoc.values) {
+      for (final language in ['az', 'ru', 'en']) {
+        final path = 'assets/legal/${doc.name}.$language.md';
+        final text = LegalDoc.fill(File(path).readAsStringSync(), company);
+        expect(LegalDoc.isReady(text), isTrue, reason: path);
+        expect(text, contains(company['email']), reason: path);
+        expect(text, contains(company['effectiveDate']), reason: path);
+      }
     }
-    const ready = '# Privacy policy\n\nParla LLC, VOEN 123.';
+  });
+
+  test('company details fill in, and empty ones drop their line', () {
+    const text = '# Policy\n\n- Company: {{legalName}}\n- Email: {{email}}';
+    expect(
+      LegalDoc.fill(text, {'legalName': '', 'email': 'a@b.az'}),
+      '# Policy\n\n- Email: a@b.az',
+    );
+    expect(LegalDoc.isReady(LegalDoc.fill(text, {'email': 'a@b.az'})), isFalse);
+    const ready = '# Privacy policy\n\nParla LLC.';
     expect(LegalDoc.isReady(ready), isTrue);
-    expect(LegalDoc.isReady('$ready [VÖEN]'), isFalse);
+    expect(LegalDoc.isReady('**QARALAMA**\n$ready'), isFalse);
     expect(
       LegalDoc.isReady('$ready\n> ⚖️ Hüquqşünas yoxlamalıdır: x'),
       isFalse,
     );
+    expect(LegalDoc.fromLink('privacy.az.md'), LegalDoc.privacy);
+    expect(LegalDoc.fromLink('terms.ru.md'), LegalDoc.terms);
+    expect(LegalDoc.fromLink('https://example.com'), isNull);
   });
 
-  testWidgets('legal documents open once they are ready', (tester) async {
+  testWidgets('a language without its own text shows the Azerbaijani one', (
+    tester,
+  ) async {
     final read = LegalDoc.read;
     addTearDown(() => LegalDoc.read = read);
-    LegalDoc.read = (path) async => path.contains('privacy.az')
-        ? '# Məxfilik siyasəti\n\nParla MMC.'
-        : throw StateError('none');
+    LegalDoc.read = (path) async => switch (path) {
+      'assets/legal/company.json' =>
+        '{"email": "info@anacan.az", "effectiveDate": "1.1.2027"}',
+      'assets/legal/privacy.az.md' =>
+        '# Məxfilik siyasəti\n\nParla MMC. {{email}}',
+      _ => throw StateError('none'),
+    };
     await _openPrivacy(tester, language: 'en');
     await _tap(tester, find.byKey(const ValueKey('privacy-legal')));
     expect(find.byKey(const ValueKey('legal-pending')), findsNothing);
     expect(find.byKey(const ValueKey('legal-terms')), findsNothing);
-    // English is not ready: the Azerbaijani text is shown.
     await _tap(tester, find.byKey(const ValueKey('legal-privacy')));
     expect(find.byKey(const ValueKey('legal-doc')), findsOneWidget);
-    expect(find.text('Parla MMC.'), findsOneWidget);
+    expect(find.text('Parla MMC. info@anacan.az'), findsOneWidget);
   });
 
-  testWidgets('drafts keep the "being prepared" note', (tester) async {
+  testWidgets('without a contact email the "being prepared" note stays', (
+    tester,
+  ) async {
+    final read = LegalDoc.read;
+    addTearDown(() => LegalDoc.read = read);
+    LegalDoc.read = (path) async => path.endsWith('company.json')
+        ? '{"email": "", "effectiveDate": "1.1.2027"}'
+        : '# Policy';
     await _openPrivacy(tester);
     await _tap(tester, find.byKey(const ValueKey('privacy-legal')));
     expect(find.byKey(const ValueKey('legal-pending')), findsOneWidget);
     expect(find.byKey(const ValueKey('legal-privacy')), findsNothing);
+  });
+
+  testWidgets('the shipped privacy policy and terms open', (tester) async {
+    final read = LegalDoc.read;
+    addTearDown(() => LegalDoc.read = read);
+    // The shipped files, read without real (asynchronous) asset IO.
+    LegalDoc.read = (path) async => File(path).readAsStringSync();
+    await _openPrivacy(tester);
+    await _tap(tester, find.byKey(const ValueKey('privacy-legal')));
+    expect(find.byKey(const ValueKey('legal-privacy')), findsOneWidget);
+    expect(find.byKey(const ValueKey('legal-terms')), findsOneWidget);
+    await _tap(tester, find.byKey(const ValueKey('legal-terms')));
+    expect(find.byKey(const ValueKey('legal-doc')), findsOneWidget);
   });
 
   for (final language in ['az', 'ru', 'en']) {

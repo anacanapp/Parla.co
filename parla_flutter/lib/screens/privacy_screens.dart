@@ -890,6 +890,10 @@ class LegalDocScreen extends StatelessWidget {
             key: const ValueKey('legal-doc'),
             data: markdown,
             padding: const EdgeInsets.fromLTRB(20, 0, 20, 32),
+            onTapLink: (text, href, title) {
+              final other = href == null ? null : LegalDoc.fromLink(href);
+              if (other != null) context.go(Routes.legalDoc, extra: other);
+            },
             styleSheet: MarkdownStyleSheet.fromTheme(
               theme,
             ).copyWith(p: theme.textTheme.bodyLarge),
