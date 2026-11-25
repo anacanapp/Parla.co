@@ -71,6 +71,13 @@ const adminSections = [
     group: SectionGroup.manage,
   ),
   AdminSection(
+    '/audit',
+    'Audit jurnalı',
+    Icons.history_outlined,
+    roles: {StaffRole.admin},
+    group: SectionGroup.manage,
+  ),
+  AdminSection(
     '/staff',
     'İşçilər',
     Icons.badge_outlined,

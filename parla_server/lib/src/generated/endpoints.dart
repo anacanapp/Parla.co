@@ -29,6 +29,7 @@ import 'package:serverpod_auth_idp_server/serverpod_auth_idp_server.dart'
     as _iais;
 import '../account/account_endpoint.dart' as _it9bm8zx;
 import '../ads/ad_admin_endpoint.dart' as _i7up8gbb;
+import '../audit/audit_admin_endpoint.dart' as _ifvew15o;
 import '../auth/email_idp_endpoint.dart' as _iuc1hd5t;
 import '../auth/jwt_refresh_endpoint.dart' as _inwq3ztq;
 import '../consent/consent_endpoint.dart' as _iu5xf735;
@@ -68,6 +69,12 @@ class Endpoints extends _is.EndpointDispatch {
         ..initialize(
           server,
           'adAdmin',
+          null,
+        ),
+      'auditAdmin': _ifvew15o.AuditAdminEndpoint()
+        ..initialize(
+          server,
+          'auditAdmin',
           null,
         ),
       'emailIdp': _iuc1hd5t.EmailIdpEndpoint()
@@ -369,6 +376,68 @@ class Endpoints extends _is.EndpointDispatch {
                     session,
                     params['campaignId'],
                   ),
+        ),
+      },
+    );
+    connectors['auditAdmin'] = _is.EndpointConnector(
+      name: 'auditAdmin',
+      endpoint: endpoints['auditAdmin']!,
+      methodConnectors: {
+        'list': _is.MethodConnector(
+          name: 'list',
+          params: {
+            'actionPrefix': _is.ParameterDescription(
+              name: 'actionPrefix',
+              type: _is.getType<String?>(),
+              nullable: true,
+            ),
+            'actorRole': _is.ParameterDescription(
+              name: 'actorRole',
+              type: _is.getType<String?>(),
+              nullable: true,
+            ),
+            'objectType': _is.ParameterDescription(
+              name: 'objectType',
+              type: _is.getType<String?>(),
+              nullable: true,
+            ),
+            'objectId': _is.ParameterDescription(
+              name: 'objectId',
+              type: _is.getType<String?>(),
+              nullable: true,
+            ),
+            'from': _is.ParameterDescription(
+              name: 'from',
+              type: _is.getType<DateTime?>(),
+              nullable: true,
+            ),
+            'to': _is.ParameterDescription(
+              name: 'to',
+              type: _is.getType<DateTime?>(),
+              nullable: true,
+            ),
+            'beforeId': _is.ParameterDescription(
+              name: 'beforeId',
+              type: _is.getType<int?>(),
+              nullable: true,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['auditAdmin'] as _ifvew15o.AuditAdminEndpoint)
+                      .list(
+                        session,
+                        params['actionPrefix'],
+                        params['actorRole'],
+                        params['objectType'],
+                        params['objectId'],
+                        params['from'],
+                        params['to'],
+                        params['beforeId'],
+                      ),
         ),
       },
     );

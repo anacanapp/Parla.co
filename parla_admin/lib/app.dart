@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import 'api/admin_api.dart';
 import 'screens/ads_screen.dart';
+import 'screens/audit_screen.dart';
 import 'screens/auth_screens.dart';
 import 'screens/orders_screen.dart';
 import 'screens/content_screens.dart';
@@ -163,6 +164,11 @@ GoRouter _buildRouter(StaffState state) => GoRouter(
               ? null
               : '/overview',
           builder: (_, _) => SupportScreen(state: state),
+        ),
+        GoRoute(
+          path: '/audit',
+          redirect: (_, _) => state.isAdmin ? null : '/overview',
+          builder: (_, _) => AuditScreen(state: state),
         ),
         GoRoute(
           path: '/staff',

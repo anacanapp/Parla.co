@@ -249,6 +249,31 @@ class FakeAdminApi implements AdminApi {
   /// App accounts by email, for the users section.
   final Map<String, UserAdminView> users = {};
 
+  /// Audit rows, oldest first; [listAudit] pages them newest first.
+  final audit = <AuditLogEntry>[];
+  static const auditPageSize = 100;
+
+  @override
+  Future<List<AuditLogEntry>> listAudit(
+    AuditFilter filter, {
+    int? beforeId,
+  }) async {
+    calls.add(
+      'listAudit:${filter.actionPrefix}:${filter.actorRole}:'
+      '${filter.objectId}:${beforeId ?? ''}',
+    );
+    return audit.reversed
+        .where(
+          (e) =>
+              e.action.startsWith(filter.actionPrefix) &&
+              (filter.actorRole.isEmpty || e.actorRole == filter.actorRole) &&
+              (filter.objectId.isEmpty || e.objectId == filter.objectId) &&
+              (beforeId == null || e.id! < beforeId),
+        )
+        .take(auditPageSize)
+        .toList();
+  }
+
   @override
   Future<UserAdminView?> findUser(String email) async {
     calls.add('findUser:$email');

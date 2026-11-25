@@ -19,6 +19,8 @@ import 'package:parla_server/src/generated/ads/ad_campaign_option.dart'
     as _ixfd2xet;
 import 'package:parla_server/src/generated/ads/ad_report.dart' as _inil9hlx;
 import 'package:parla_server/src/generated/ads/advertiser.dart' as _iau35hq5;
+import 'package:parla_server/src/generated/audit/audit_log_entry.dart'
+    as _ixhbanhz;
 import 'package:parla_server/src/generated/consent/consent_state.dart'
     as _ianfun2u;
 import 'package:parla_server/src/generated/consent/consent_type.dart'
@@ -202,6 +204,8 @@ class TestEndpoints {
 
   late final _AdAdminEndpoint adAdmin;
 
+  late final _AuditAdminEndpoint auditAdmin;
+
   late final _EmailIdpEndpoint emailIdp;
 
   late final _JwtRefreshEndpoint jwtRefresh;
@@ -263,6 +267,10 @@ class _InternalTestEndpoints extends TestEndpoints
       serializationManager,
     );
     adAdmin = _AdAdminEndpoint(
+      endpoints,
+      serializationManager,
+    );
+    auditAdmin = _AuditAdminEndpoint(
       endpoints,
       serializationManager,
     );
@@ -684,6 +692,62 @@ class _AdAdminEndpoint {
                   _localCallContext.arguments,
                 )
                 as _ida.Future<_inil9hlx.AdReport>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+}
+
+class _AuditAdminEndpoint {
+  _AuditAdminEndpoint(
+    this._endpointDispatch,
+    this._serializationManager,
+  );
+
+  final _is.EndpointDispatch _endpointDispatch;
+
+  final _is.SerializationManager _serializationManager;
+
+  _ida.Future<List<_ixhbanhz.AuditLogEntry>> list(
+    _ist.TestSessionBuilder sessionBuilder,
+    String? actionPrefix,
+    String? actorRole,
+    String? objectType,
+    String? objectId,
+    DateTime? from,
+    DateTime? to,
+    int? beforeId,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'auditAdmin',
+            method: 'list',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'auditAdmin',
+          methodName: 'list',
+          parameters: _ist.testObjectToJson({
+            'actionPrefix': actionPrefix,
+            'actorRole': actorRole,
+            'objectType': objectType,
+            'objectId': objectId,
+            'from': from,
+            'to': to,
+            'beforeId': beforeId,
+          }),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<List<_ixhbanhz.AuditLogEntry>>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

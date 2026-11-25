@@ -10,6 +10,8 @@ adAdmin:
   - deleteCampaign:
   - campaignOptions:
   - report:
+auditAdmin:
+  - list:
 emailIdp:
   - startOtpLogin:
   - verifyOtpLoginCode:
