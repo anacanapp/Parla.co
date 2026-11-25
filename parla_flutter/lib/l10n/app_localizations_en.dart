@@ -94,6 +94,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get signInFailed => 'Sign-in failed. Please try again.';
 
   @override
+  String get signInLegalNote =>
+      'By creating an account you accept the Terms of use. How your data is processed is described in the Privacy policy.';
+
+  @override
   String get countryTitle => 'Where do you live?';
 
   @override

@@ -93,6 +93,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get signInFailed => 'Не удалось войти. Попробуйте ещё раз.';
 
   @override
+  String get signInLegalNote =>
+      'Создавая аккаунт, вы принимаете Условия использования. Как обрабатываются ваши данные, описано в Политике конфиденциальности.';
+
+  @override
   String get countryTitle => 'Где вы живёте?';
 
   @override

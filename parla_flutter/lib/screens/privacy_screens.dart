@@ -870,7 +870,10 @@ class LegalDocScreen extends StatelessWidget {
         leading: Padding(
           padding: const EdgeInsetsDirectional.only(start: 14),
           child: Center(
-            child: GlassBack(onPressed: () => context.go(Routes.legal)),
+            child: GlassBack(
+              onPressed: () =>
+                  context.canPop() ? context.pop() : context.go(Routes.legal),
+            ),
           ),
         ),
       ),

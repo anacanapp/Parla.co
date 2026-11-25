@@ -92,6 +92,10 @@ class AppLocalizationsAz extends AppLocalizations {
   String get signInFailed => 'Giriş alınmadı. Yenidən cəhd edin.';
 
   @override
+  String get signInLegalNote =>
+      'Hesab yaratmaqla İstifadə şərtlərini qəbul etmiş olursunuz. Məlumatlarınızın necə emal olunduğu Məxfilik siyasətində təsvir olunur.';
+
+  @override
   String get countryTitle => 'Harada yaşayırsınız?';
 
   @override
