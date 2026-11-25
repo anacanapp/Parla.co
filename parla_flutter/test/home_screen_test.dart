@@ -30,6 +30,7 @@ Future<FakeApi> _pumpHome(
   DateTime? now,
   QuizAnswers? quizAnswers = _standardAnswers,
   MemoryHabitStore? store,
+  MemoryHabitStore? sportStore,
   String userId = 'user-1',
 }) async {
   tester.view.physicalSize = const Size(390 * 3, 844 * 3);
@@ -52,6 +53,7 @@ Future<FakeApi> _pumpHome(
       settings: settings,
       clock: () => now ?? DateTime(2026, 11, 12, 8, 30),
       habitStore: store ?? MemoryHabitStore(),
+      sportStore: sportStore ?? MemoryHabitStore(),
     ),
   );
   await tester.pumpAndSettle();
@@ -331,4 +333,97 @@ void main() {
       },
     );
   }
+
+  group('pregnancy answer asked again (RET-2)', () {
+    QuizAnswers withPregnancy(String option, String month) => QuizAnswers(
+      chosen: {
+        ..._standardAnswers.chosen,
+        'pregnancy': [option],
+      },
+      months: {'pregnancy': month},
+    );
+
+    testWidgets('a year-old skin answer is asked again; yes keeps it', (
+      tester,
+    ) async {
+      final api = await _pumpHome(
+        tester,
+        quizAnswers: withPregnancy('breastfeeding', '2025-11'),
+      );
+      api.healthConsent = true;
+      expect(find.byKey(const ValueKey('recheck-skin')), findsOneWidget);
+      expect(find.textContaining('“Breastfeeding”'), findsOneWidget);
+      await _tap(tester, find.byKey(const ValueKey('recheck-skin-yes')));
+      expect(api.savedQuizAnswers.last.chosen, {
+        'pregnancy': ['breastfeeding'],
+      });
+      expect(find.byKey(const ValueKey('recheck-skin')), findsNothing);
+    });
+
+    testWidgets('the answer can change', (tester) async {
+      final api = await _pumpHome(
+        tester,
+        quizAnswers: withPregnancy('pregnant', '2025-10'),
+      );
+      api.healthConsent = true;
+      await _tap(tester, find.byKey(const ValueKey('recheck-skin-change')));
+      await _tap(tester, find.byKey(const ValueKey('recheck-option-no')));
+      expect(api.savedQuizAnswers.last.chosen, {
+        'pregnancy': ['no'],
+      });
+      expect(find.byKey(const ValueKey('recheck-skin')), findsNothing);
+    });
+
+    testWidgets('the answer can be deleted', (tester) async {
+      final api = await _pumpHome(
+        tester,
+        quizAnswers: withPregnancy('trying', '2025-10'),
+      );
+      api.healthConsent = true;
+      await _tap(tester, find.byKey(const ValueKey('recheck-skin-remove')));
+      expect(api.savedQuizAnswers.last.declined, {'pregnancy'});
+      expect(find.byKey(const ValueKey('recheck-skin')), findsNothing);
+    });
+
+    testWidgets('a recent or "no" answer is not asked again', (tester) async {
+      await _pumpHome(
+        tester,
+        quizAnswers: withPregnancy('pregnant', '2026-05'),
+      );
+      expect(find.byKey(const ValueKey('recheck-skin')), findsNothing);
+      await _pumpHome(tester, quizAnswers: withPregnancy('no', '2020-01'));
+      expect(find.byKey(const ValueKey('recheck-skin')), findsNothing);
+    });
+
+    testWidgets('sport: "after birth" is asked again after six months', (
+      tester,
+    ) async {
+      final sport = MemoryHabitStore()
+        ..data['user-1'] = jsonEncode({
+          'format': 1,
+          'answers': {
+            ...const SportAnswers(
+              goals: ['tone'],
+              areas: {'full'},
+              types: ['fitness'],
+              level: 'beginner',
+              days: 3,
+              minutes: 15,
+              pregnancy: 'postpartum',
+              pregnancyMonth: '2026-04',
+            ).toJson(),
+            'start': '2026-11-09',
+          },
+        });
+      await _pumpHome(tester, sportStore: sport);
+      expect(find.byKey(const ValueKey('recheck-sport')), findsOneWidget);
+      await _tap(tester, find.byKey(const ValueKey('recheck-sport-change')));
+      await _tap(tester, find.byKey(const ValueKey('recheck-option-no')));
+      expect(find.byKey(const ValueKey('recheck-sport')), findsNothing);
+      final answers =
+          (jsonDecode(sport.data['user-1']!) as Map)['answers'] as Map;
+      expect(answers['pregnancy'], 'no');
+      expect(answers['pregnancyMonth'], '2026-11');
+    });
+  });
 }

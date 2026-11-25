@@ -14,6 +14,7 @@ export 'src/ingredients.dart';
 export 'src/markets.dart';
 export 'src/media_rules.dart';
 export 'src/nutrition_rules.dart';
+export 'src/pregnancy_recheck.dart';
 export 'src/product_preferences.dart';
 export 'src/quiz.dart';
 export 'src/routine_rules.dart';

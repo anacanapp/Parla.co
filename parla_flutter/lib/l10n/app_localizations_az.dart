@@ -373,6 +373,38 @@ class AppLocalizationsAz extends AppLocalizations {
   String get resultSeeRoutine => 'Rutinimi göstər';
 
   @override
+  String get recheckTitle => 'Cavabın hələ də belədir?';
+
+  @override
+  String recheckSkinBody(String answer, int months) {
+    return 'Testdə hamiləlik barədə cavabın: «$answer». Bunu $months ay əvvəl qeyd etmişdin; rutinin buna görə qurulur.';
+  }
+
+  @override
+  String recheckSportBody(String answer, int months) {
+    return 'İdman sorğusunda cavabın: «$answer». Bunu $months ay əvvəl qeyd etmişdin; plan buna görə yumşaqdır.';
+  }
+
+  @override
+  String get recheckYes => 'Bəli, belədir';
+
+  @override
+  String get recheckChange => 'Dəyişdi';
+
+  @override
+  String get recheckRemove => 'Cavabı sil';
+
+  @override
+  String get recheckChooseTitle => 'İndi necədir?';
+
+  @override
+  String get recheckSaved => 'Yadda saxlandı.';
+
+  @override
+  String get recheckPrivacy =>
+      'Cavab şifrəli saxlanılır və yalnız rutinin və planın üçün istifadə olunur. Cavabı silsən, rutin ehtiyatlı qalır.';
+
+  @override
   String get homeQuizTitle => 'Rutininizi fərdiləşdirək';
 
   @override

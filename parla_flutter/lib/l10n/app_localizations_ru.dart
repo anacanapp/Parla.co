@@ -381,6 +381,38 @@ class AppLocalizationsRu extends AppLocalizations {
   String get resultSeeRoutine => 'Показать мой уход';
 
   @override
+  String get recheckTitle => 'Твой ответ всё ещё в силе?';
+
+  @override
+  String recheckSkinBody(String answer, int months) {
+    return 'О беременности в тесте ты ответила: «$answer». Это было $months мес. назад; уход подобран с учётом этого.';
+  }
+
+  @override
+  String recheckSportBody(String answer, int months) {
+    return 'В спортивной анкете ты ответила: «$answer». Это было $months мес. назад; поэтому план щадящий.';
+  }
+
+  @override
+  String get recheckYes => 'Да, всё так';
+
+  @override
+  String get recheckChange => 'Изменилось';
+
+  @override
+  String get recheckRemove => 'Удалить ответ';
+
+  @override
+  String get recheckChooseTitle => 'Как сейчас?';
+
+  @override
+  String get recheckSaved => 'Сохранено.';
+
+  @override
+  String get recheckPrivacy =>
+      'Ответ хранится в зашифрованном виде и используется только для твоего ухода и плана. Если удалить ответ, уход останется осторожным.';
+
+  @override
   String get homeQuizTitle => 'Давайте настроим уход под вас';
 
   @override

@@ -5,3 +5,7 @@ fields:
   questionId: String
   optionIds: List<String>
   declined: bool
+  ### The month a health answer was last given or confirmed ("2026-11"),
+  ### set by the server, never by the app. Kept inside the encrypted health
+  ### record; `null` for non-health answers and older records (RET-2).
+  answeredMonth: String?

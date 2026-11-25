@@ -214,6 +214,10 @@ class ServerpodParlaApi implements ParlaApi {
         for (final a in saved)
           if (a.declined) a.questionId,
       },
+      months: {
+        for (final a in saved)
+          if (a.answeredMonth != null) a.questionId: a.answeredMonth!,
+      },
     );
   });
 

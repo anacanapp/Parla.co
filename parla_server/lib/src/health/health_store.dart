@@ -91,6 +91,7 @@ class HealthStore {
           questionId: item['q'] as String,
           optionIds: (item['o'] as List).cast<String>(),
           declined: item['d'] as bool,
+          answeredMonth: item['m'] as String?,
         ),
     };
   }
@@ -107,7 +108,12 @@ class HealthStore {
     final json = jsonEncode({
       'answers': [
         for (final a in answers)
-          {'q': a.questionId, 'o': a.optionIds, 'd': a.declined},
+          {
+            'q': a.questionId,
+            'o': a.optionIds,
+            'd': a.declined,
+            if (a.answeredMonth != null) 'm': a.answeredMonth,
+          },
       ],
     });
     final sealed = await _crypto.seal(dataKey, json, userId.toString());

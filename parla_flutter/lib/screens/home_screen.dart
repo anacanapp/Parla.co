@@ -8,6 +8,7 @@ import '../discover/banner_strip.dart';
 import '../habits/habit_log.dart';
 import '../habits/habit_sheets.dart';
 import '../habits/habit_tracker.dart';
+import '../home/widgets/pregnancy_recheck_card.dart';
 import '../home/home_controller.dart';
 import '../home/routine.dart';
 import '../home/widgets/home_cards.dart';
@@ -86,6 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
           plan: _answers == null ? defaultRoutinePlan : planRoutine(_answers!),
           showQuizPrompt: _loaded && _answers == null,
           onQuiz: () => context.go(Routes.quiz),
+          onAnswersSaved: _loadAnswers,
         ),
       ),
     );
@@ -99,6 +101,7 @@ class _HomeBody extends StatelessWidget {
     required this.plan,
     required this.showQuizPrompt,
     required this.onQuiz,
+    required this.onAnswersSaved,
   });
 
   final HomeController controller;
@@ -106,6 +109,7 @@ class _HomeBody extends StatelessWidget {
   final RoutinePlan plan;
   final bool showQuizPrompt;
   final VoidCallback onQuiz;
+  final VoidCallback onAnswersSaved;
 
   @override
   Widget build(BuildContext context) {
@@ -268,6 +272,10 @@ class _HomeBody extends StatelessWidget {
               ),
             ),
             const SizedBox(height: 12),
+            PregnancyRecheckCards(
+              answers: answers,
+              onSkinSaved: onAnswersSaved,
+            ),
             if (showQuizPrompt) ...[
               _QuizPromptCard(onStart: onQuiz),
               const SizedBox(height: 12),

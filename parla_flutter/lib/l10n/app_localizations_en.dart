@@ -384,6 +384,38 @@ class AppLocalizationsEn extends AppLocalizations {
   String get resultSeeRoutine => 'Show my routine';
 
   @override
+  String get recheckTitle => 'Is your answer still right?';
+
+  @override
+  String recheckSkinBody(String answer, int months) {
+    return 'About pregnancy, you answered “$answer” in the quiz $months months ago. Your routine is built around it.';
+  }
+
+  @override
+  String recheckSportBody(String answer, int months) {
+    return 'In the sport questions you answered “$answer” $months months ago. That is why your plan is gentle.';
+  }
+
+  @override
+  String get recheckYes => 'Yes, still true';
+
+  @override
+  String get recheckChange => 'It has changed';
+
+  @override
+  String get recheckRemove => 'Delete my answer';
+
+  @override
+  String get recheckChooseTitle => 'What is it now?';
+
+  @override
+  String get recheckSaved => 'Saved.';
+
+  @override
+  String get recheckPrivacy =>
+      'Your answer is stored encrypted and only used for your routine and plan. If you delete it, your routine stays careful.';
+
+  @override
   String get homeQuizTitle => 'Let\'s personalise your routine';
 
   @override

@@ -158,12 +158,19 @@ class SportBook extends SyncedDocument {
   /// one whose month is over, starts a new month today.
   Future<void> setAnswers(SportAnswers answers, {String section = 'fitness'}) {
     final running = todayIndexOf(section) != null;
+    // A new pregnancy answer gets this month (RET-2); an unchanged one
+    // keeps the month it was given.
+    final before = this.answers;
+    final sameAnswer = before != null && before.pregnancy == answers.pregnancy;
     final own = answers
         .forSection(section)
         .copyWith(
           start: running
               ? answersOf(section)!.start
               : SportMonth.keyOf(_clock()),
+          pregnancyMonth: sameAnswer
+              ? before.pregnancyMonth
+              : PregnancyRecheck.monthOf(_clock()),
         );
     if (section == 'fitness') {
       _answers = own;
@@ -175,6 +182,29 @@ class SportBook extends SyncedDocument {
     }
     for (final key in [..._sections.keys]) {
       if (key != section) _sections[key] = _sections[key]!.withSafetyOf(own);
+    }
+    return changed();
+  }
+
+  /// Whether the pregnancy answer is due to be asked again (RET-2).
+  bool get pregnancyRecheckDue {
+    final a = answers;
+    return a != null &&
+        PregnancyRecheck.sportDue(a.pregnancy, a.pregnancyMonth, _clock());
+  }
+
+  /// Keeps the pregnancy answer and confirms it this month, or changes it
+  /// to [pregnancy], in every section.
+  Future<void> recheckPregnancy([String? pregnancy]) {
+    final month = PregnancyRecheck.monthOf(_clock());
+    SportAnswers update(SportAnswers a) => SportAnswers.fromJson({
+      ...a.toJson(),
+      'pregnancy': pregnancy ?? a.pregnancy,
+      'pregnancyMonth': month,
+    });
+    if (_answers != null) _answers = update(_answers!);
+    for (final s in [..._sections.keys]) {
+      _sections[s] = update(_sections[s]!);
     }
     return changed();
   }

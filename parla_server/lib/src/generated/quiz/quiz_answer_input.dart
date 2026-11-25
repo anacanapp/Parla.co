@@ -21,12 +21,14 @@ abstract class QuizAnswerInput
     required this.questionId,
     required this.optionIds,
     required this.declined,
+    this.answeredMonth,
   });
 
   factory QuizAnswerInput({
     required String questionId,
     required List<String> optionIds,
     required bool declined,
+    String? answeredMonth,
   }) = _QuizAnswerInputImpl;
 
   factory QuizAnswerInput.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -36,6 +38,7 @@ abstract class QuizAnswerInput
         jsonSerialization['optionIds'],
       ),
       declined: _is.BoolJsonExtension.fromJson(jsonSerialization['declined']),
+      answeredMonth: jsonSerialization['answeredMonth'] as String?,
     );
   }
 
@@ -45,6 +48,11 @@ abstract class QuizAnswerInput
 
   bool declined;
 
+  /// The month a health answer was last given or confirmed ("2026-11"),
+  /// set by the server, never by the app. Kept inside the encrypted health
+  /// record; `null` for non-health answers and older records (RET-2).
+  String? answeredMonth;
+
   /// Returns a shallow copy of this [QuizAnswerInput]
   /// with some or all fields replaced by the given arguments.
   @_is.useResult
@@ -52,6 +60,7 @@ abstract class QuizAnswerInput
     String? questionId,
     List<String>? optionIds,
     bool? declined,
+    String? answeredMonth,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -60,6 +69,7 @@ abstract class QuizAnswerInput
       'questionId': questionId,
       'optionIds': optionIds.toJson(),
       'declined': declined,
+      if (answeredMonth != null) 'answeredMonth': answeredMonth,
     };
   }
 
@@ -70,6 +80,7 @@ abstract class QuizAnswerInput
       'questionId': questionId,
       'optionIds': optionIds.toJson(),
       'declined': declined,
+      if (answeredMonth != null) 'answeredMonth': answeredMonth,
     };
   }
 
@@ -79,15 +90,19 @@ abstract class QuizAnswerInput
   }
 }
 
+class _Undefined {}
+
 class _QuizAnswerInputImpl extends QuizAnswerInput {
   _QuizAnswerInputImpl({
     required String questionId,
     required List<String> optionIds,
     required bool declined,
+    String? answeredMonth,
   }) : super._(
          questionId: questionId,
          optionIds: optionIds,
          declined: declined,
+         answeredMonth: answeredMonth,
        );
 
   /// Returns a shallow copy of this [QuizAnswerInput]
@@ -98,11 +113,15 @@ class _QuizAnswerInputImpl extends QuizAnswerInput {
     String? questionId,
     List<String>? optionIds,
     bool? declined,
+    Object? answeredMonth = _Undefined,
   }) {
     return QuizAnswerInput(
       questionId: questionId ?? this.questionId,
       optionIds: optionIds ?? this.optionIds.map((e0) => e0).toList(),
       declined: declined ?? this.declined,
+      answeredMonth: answeredMonth is String?
+          ? answeredMonth
+          : this.answeredMonth,
     );
   }
 }

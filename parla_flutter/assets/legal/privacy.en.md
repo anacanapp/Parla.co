@@ -1,7 +1,7 @@
 # Parla — Privacy policy
 
 - Effective date: {{effectiveDate}}
-- Document version: 1
+- Document version: 2
 
 *This is a translation of the Azerbaijani text.*
 
@@ -461,7 +461,13 @@ Azerbaijan.
 | On the phone: habit logs | 90 days; deleted on reinstall or account deletion |
 | On the phone: journal, reminder settings, document copies | until you delete them, the account is deleted or the app is reinstalled |
 
-Re-asking the pregnancy question after 12 months is not implemented yet.
+The pregnancy answer is asked again after a while: in the skin quiz,
+"pregnant", "breastfeeding" and "planning a pregnancy" after 12 months; in the
+sport questions, "pregnant" after 12 months and "the six months after birth"
+after 6 months. The month of the answer is kept inside the encrypted data.
+Until you confirm, change or delete the answer, a reminder shows on the home
+screen and the old answer keeps applying as the careful choice; nothing is
+deleted automatically.
 
 ## 16. Security
 

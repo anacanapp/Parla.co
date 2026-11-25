@@ -1,7 +1,7 @@
 # Parla — Məxfilik siyasəti
 
 - Qüvvəyə minmə tarixi: {{effectiveDate}}
-- Sənədin versiyası: 1
+- Sənədin versiyası: 2
 
 ## 1. Biz kimik
 
@@ -460,8 +460,13 @@ Bu o deməkdir ki, Azərbaycandakı istifadəçilərin məlumatları, o cümləd
 | Telefonda: vərdiş qeydləri | 90 gün; tətbiq yenidən quraşdırıldıqda və ya hesab silindikdə silinir |
 | Telefonda: gündəlik, xatırlatma ayarları, sənədlərin nüsxələri | siz silənə, hesab silinənə və ya tətbiq yenidən quraşdırılana qədər |
 
-Hamiləlik sualının 12 aydan sonra yenidən soruşulması hələ həyata
-keçirilməyib.
+Hamiləlik barədə cavab müəyyən müddətdən sonra yenidən soruşulur: dəri
+testində "hamiləyəm", "əmizdirirəm" və "hamiləlik planlaşdırıram" cavabları
+12 aydan, idman sorğusunda "hamiləyəm" 12 aydan, "doğuşdan sonrakı altı ay"
+isə 6 aydan sonra. Cavabın verildiyi ay şifrəli məlumatın içində saxlanılır.
+Siz cavabı təsdiqləyənə, dəyişənə və ya silənə qədər ana səhifədə xatırlatma
+görünür və köhnə cavab ehtiyatlı seçim kimi tətbiq olunmağa davam edir;
+heç nə avtomatik silinmir.
 
 ## 16. Təhlükəsizlik
 
