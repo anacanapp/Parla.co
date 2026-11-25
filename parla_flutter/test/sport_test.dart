@@ -112,6 +112,7 @@ Future<void> _answer(
   List<String> types = const ['fitness'],
   String section = 'fitness',
   Future<void> Function()? safety,
+  Future<void> Function()? schedule,
 }) async {
   if (section != 'fitness') {
     await _tap(tester, find.byKey(ValueKey('sport-section-$section')));
@@ -132,6 +133,7 @@ Future<void> _answer(
     await _next(tester);
   }
   await _next(tester); // level
+  if (schedule != null) await schedule();
   await _next(tester); // schedule
   if (safety != null) await safety();
   await _tap(tester, find.text('Build my plan'));
@@ -174,9 +176,13 @@ void main() {
       areas: ['arms', 'glutes'],
       types: ['fitness', 'stretching'],
     );
-    expect(find.text('0 of 3 workouts'), findsOneWidget);
+    // A monthly plan from today (Sunday 15 November): a rest day, the
+    // first workout on Monday.
+    expect(find.byKey(const ValueKey('sport-month')), findsOneWidget);
+    expect(find.text('Day 1 of 28 · Week 1'), findsOneWidget);
+    expect(find.byKey(const ValueKey('sport-rest-today')), findsOneWidget);
     expect(find.byKey(const ValueKey('workout-w1')), findsOneWidget);
-    expect(find.text('Leg day'), findsOneWidget);
+    expect(find.text('Next workout: Mon, 16'), findsOneWidget);
     final answers = _local(app.store)['answers']! as Map;
     expect(answers['goals'], ['muscle']);
     expect(answers['types'], ['fitness', 'stretching']);
@@ -299,7 +305,9 @@ void main() {
     expect(app.habits.data['user-1'], contains('moveMinutes'));
 
     await _tap(tester, find.byKey(const ValueKey('workout-back')));
-    expect(find.text('1 of 3 workouts'), findsOneWidget);
+    // Done a day early, Monday's workout counts: the next one is Wednesday's.
+    expect(find.byKey(const ValueKey('workout-v2')), findsOneWidget);
+    expect(find.text('Next workout: Wed, 18'), findsOneWidget);
   });
 
   testWidgets('face yoga opens without the questions, warns first and is '
@@ -536,7 +544,7 @@ void main() {
     // A pilates-only plan from before sections opens as the pilates section.
     expect(find.byKey(const ValueKey('sport-start')), findsOneWidget);
     await _tap(tester, find.byKey(const ValueKey('sport-section-pilates')));
-    expect(find.text('0 of 2 workouts'), findsOneWidget);
+    expect(find.byKey(const ValueKey('sport-month')), findsOneWidget);
     expect(find.byKey(const ValueKey('workout-p1')), findsOneWidget);
   });
 
@@ -602,4 +610,79 @@ void main() {
       check();
     });
   }
+
+  group('monthly plan', () {
+    testWidgets('the schedule page picks the weekdays and the month follows '
+        'them', (tester) async {
+      final app = await _open(tester);
+      await _answer(
+        tester,
+        schedule: () async {
+          await _tap(tester, find.byKey(const ValueKey('days-2')));
+          // Two days suggested (Mon, Thu); dropping one asks for exactly two.
+          await _tap(tester, find.byKey(const ValueKey('weekday-4')));
+          await _next(tester);
+          expect(find.text('Pick exactly 2 days.'), findsOneWidget);
+          await _tap(tester, find.byKey(const ValueKey('weekday-7')));
+        },
+      );
+      final answers = _local(app.store)['answers']! as Map;
+      expect(answers['weekdays'], [1, 7]);
+      expect(answers['start'], '2026-11-15');
+      // Today (Sunday) is the second chosen day: its workout is today's.
+      expect(find.byKey(const ValueKey('sport-rest-today')), findsNothing);
+      expect(find.byKey(const ValueKey('workout-w2')), findsOneWidget);
+      expect(find.text('Workout · Week 1'), findsNothing);
+    });
+
+    testWidgets('every day says two days are light', (tester) async {
+      await _open(tester);
+      await _tap(tester, find.byKey(const ValueKey('sport-start')));
+      await _tap(tester, find.byKey(const ValueKey('opt-tone')));
+      await _next(tester);
+      await _tap(tester, find.byKey(const ValueKey('opt-full')));
+      await _next(tester);
+      await _tap(tester, find.byKey(const ValueKey('opt-fitness')));
+      await _next(tester);
+      await _next(tester); // level
+      await _tap(tester, find.byKey(const ValueKey('days-7')));
+      expect(find.textContaining('two days a week are light'), findsOneWidget);
+      expect(find.byKey(const ValueKey('weekday-1')), findsNothing);
+    });
+
+    testWidgets('a finished month offers the next one, which starts today', (
+      tester,
+    ) async {
+      final store = MemoryHabitStore()
+        ..data['user-1'] = jsonEncode({
+          'format': 1,
+          'answers': {
+            ...const SportAnswers(
+              goals: ['tone'],
+              areas: {'full'},
+              types: ['fitness'],
+              level: 'beginner',
+              days: 3,
+              minutes: 15,
+            ).toJson(),
+            'start': '2026-10-01',
+          },
+          'log': {
+            '2026-10-30': ['w1'],
+          },
+        });
+      final app = await _open(tester, store: store);
+      expect(find.byKey(const ValueKey('sport-month-done')), findsOneWidget);
+      await _tap(tester, find.byKey(const ValueKey('sport-new-month')));
+      await _next(tester); // goals kept
+      await _next(tester); // areas kept
+      await _next(tester); // types kept
+      await _next(tester); // level
+      await _next(tester); // schedule
+      await _tap(tester, find.text('Build my plan'));
+      final answers = _local(app.store)['answers']! as Map;
+      expect(answers['start'], '2026-11-15');
+      expect(find.byKey(const ValueKey('sport-month')), findsOneWidget);
+    });
+  });
 }

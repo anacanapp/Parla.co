@@ -1425,6 +1425,118 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get sportWorkoutName_w6 => 'Easy stretch';
+
+  @override
+  String get sportWorkoutName_w7 => 'Week finale';
+
+  @override
+  String get sportWorkoutName_p6 => 'Soft flow';
+
+  @override
+  String get sportWorkoutName_p7 => 'Core finale';
+
+  @override
+  String get sportWorkoutName_v6 => 'Easy wall day';
+
+  @override
+  String get sportWorkoutName_v7 => 'Wall finale';
+
+  @override
+  String get sportEveryDay => 'Every day';
+
+  @override
+  String get sportWeekdaysLabel => 'Which days?';
+
+  @override
+  String sportWeekdaysHint(int count) {
+    return 'Pick $count days. The days in between are for rest.';
+  }
+
+  @override
+  String get sportEveryDayNote =>
+      'Every day: two days a week are light stretching so your muscles can recover.';
+
+  @override
+  String sportWeekday(String day) {
+    String _temp0 = intl.Intl.selectLogic(
+      day,
+      {
+        '1': 'Mon',
+        '2': 'Tue',
+        '3': 'Wed',
+        '4': 'Thu',
+        '5': 'Fri',
+        '6': 'Sat',
+        'other': 'Sun',
+      },
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String sportPickWeekdays(int count) {
+    return 'Pick exactly $count days.';
+  }
+
+  @override
+  String get sportMonthTitle => 'Monthly plan';
+
+  @override
+  String sportMonthProgress(int day, int week) {
+    return 'Day $day of 28 · Week $week';
+  }
+
+  @override
+  String get sportLegendDone => 'done';
+
+  @override
+  String get sportLegendWorkout => 'workout';
+
+  @override
+  String get sportLegendRest => 'rest';
+
+  @override
+  String get sportToday => 'Today';
+
+  @override
+  String get sportRestToday => 'Today is a rest day';
+
+  @override
+  String sportNextOn(String when) {
+    return 'Next workout: $when';
+  }
+
+  @override
+  String sportWeekBadge(int week) {
+    return 'Week $week';
+  }
+
+  @override
+  String get sportRecoveryWeek => 'Recovery week';
+
+  @override
+  String sportCardMeta(int minutes, int moves) {
+    return '$minutes min · $moves moves';
+  }
+
+  @override
+  String get sportMonthDoneTitle => 'Month complete';
+
+  @override
+  String sportMonthDoneBody(int done) {
+    return '$done workouts done. Before the next month, let\'s check your answers and level.';
+  }
+
+  @override
+  String get sportNewMonth => 'Next month';
+
+  @override
+  String sportMonthCalendar(int done, int left) {
+    return 'Month calendar: $done workouts done, $left left';
+  }
+
+  @override
   String get sportWorkoutName_w1 => 'Strong start';
 
   @override

@@ -40,6 +40,7 @@ class _SportQuizScreenState extends State<SportQuizScreen> {
   final _types = <String>[];
   String _level = 'beginner';
   int _days = 3;
+  List<int> _weekdays = SportOptions.defaultWeekdays(3);
   int _minutes = 25;
   bool _dumbbells = false;
   String _pregnancy = 'no';
@@ -61,6 +62,7 @@ class _SportQuizScreenState extends State<SportQuizScreen> {
     if (own != null) _types.addAll(own.types);
     _level = a.level;
     _days = a.days;
+    _weekdays = List.of(a.weekdays);
     _minutes = a.minutes;
     _dumbbells = a.dumbbells;
     _pregnancy = a.pregnancy;
@@ -72,12 +74,18 @@ class _SportQuizScreenState extends State<SportQuizScreen> {
     _Page.goals => _goals.isNotEmpty,
     _Page.areas => _areas.isNotEmpty,
     _Page.types => _types.isNotEmpty,
+    _Page.schedule => _weekdays.length == _days,
     _ => true,
   };
 
   Future<void> _next() async {
     if (!_stepFilled) {
-      setState(() => _error = AppLocalizations.of(context).sportNeedOne);
+      final l10n = AppLocalizations.of(context);
+      setState(
+        () => _error = _pages[_step] == _Page.schedule
+            ? l10n.sportPickWeekdays(_days)
+            : l10n.sportNeedOne,
+      );
       return;
     }
     if (_step < _steps - 1) {
@@ -100,6 +108,7 @@ class _SportQuizScreenState extends State<SportQuizScreen> {
             : [widget.section],
         level: _level,
         days: _days,
+        weekdays: List.of(_weekdays)..sort(),
         minutes: _minutes,
         dumbbells: _dumbbells,
         pregnancy: _pregnancy,
@@ -173,10 +182,41 @@ class _SportQuizScreenState extends State<SportQuizScreen> {
           _chips(
             SportOptions.days,
             _days,
-            (v) => _days = v,
-            (v) => l10n.sportDays(v),
+            (v) {
+              _days = v;
+              _weekdays = List.of(SportOptions.defaultWeekdays(v));
+              _error = null;
+            },
+            (v) => v == 7 ? l10n.sportEveryDay : l10n.sportDays(v),
             'days',
           ),
+          const SizedBox(height: 16),
+          if (_days == 7)
+            Text(l10n.sportEveryDayNote, style: text.bodyMedium)
+          else ...[
+            Text(l10n.sportWeekdaysLabel, style: text.titleMedium),
+            const SizedBox(height: 4),
+            Text(l10n.sportWeekdaysHint(_days), style: text.bodyMedium),
+            const SizedBox(height: 8),
+            Wrap(
+              spacing: 8,
+              runSpacing: 8,
+              children: [
+                for (var d = 1; d <= 7; d++)
+                  WarmChip(
+                    key: ValueKey('weekday-$d'),
+                    label: l10n.sportWeekday('$d'),
+                    selected: _weekdays.contains(d),
+                    onTap: () => setState(() {
+                      _weekdays.contains(d)
+                          ? _weekdays.remove(d)
+                          : _weekdays.add(d);
+                      _error = null;
+                    }),
+                  ),
+              ],
+            ),
+          ],
           const SizedBox(height: 16),
           Text(l10n.sportMinutesLabel, style: text.titleMedium),
           const SizedBox(height: 8),

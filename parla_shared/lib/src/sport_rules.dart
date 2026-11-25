@@ -31,7 +31,19 @@ abstract final class SportOptions {
     'cardio',
   ];
   static const levels = ['beginner', 'intermediate', 'advanced'];
-  static const days = [2, 3, 4, 5];
+
+  /// Workouts a week; 7 is every day, with two light (stretching) days.
+  static const days = [2, 3, 4, 5, 7];
+
+  /// The suggested weekdays (1 Monday to 7 Sunday) for [days] a week, with
+  /// rest days in between.
+  static List<int> defaultWeekdays(int days) => switch (days) {
+    2 => const [1, 4],
+    3 => const [1, 3, 5],
+    4 => const [1, 2, 4, 5],
+    5 => const [1, 2, 3, 4, 5],
+    _ => const [1, 2, 3, 4, 5, 6, 7],
+  };
   static const minutes = [15, 25, 40];
   static const pregnancy = ['no', 'pregnant', 'postpartum'];
   static const injuries = ['knee', 'back', 'shoulder', 'wrist'];
@@ -88,7 +100,11 @@ class SportAnswers {
     this.pregnancy = 'no',
     this.injuries = const {},
     this.doctorLimit = false,
-  });
+    List<int>? weekdays,
+    this.start,
+    // A named parameter cannot be private.
+    // ignore: prefer_initializing_formals
+  }) : _weekdays = weekdays;
 
   factory SportAnswers.fromJson(Map<String, Object?> json) => SportAnswers(
     goals: [...(json['goals'] as List? ?? const []).cast<String>()],
@@ -101,7 +117,17 @@ class SportAnswers {
     pregnancy: json['pregnancy'] as String? ?? 'no',
     injuries: {...(json['injuries'] as List? ?? const []).cast<String>()},
     doctorLimit: json['doctorLimit'] as bool? ?? false,
+    weekdays: _weekdaysOf(json),
+    start: json['start'] as String?,
   );
+
+  static List<int>? _weekdaysOf(Map<String, Object?> json) {
+    final days = (json['days'] as num?)?.toInt() ?? 3;
+    final list = [
+      ...(json['weekdays'] as List? ?? const []).cast<num>(),
+    ].map((d) => d.toInt()).toList();
+    return list.length == days ? (list..sort()) : null;
+  }
 
   /// One or two goals, the first is the main one.
   final List<String> goals;
@@ -118,6 +144,16 @@ class SportAnswers {
 
   /// A doctor said not to exercise, or to ask first.
   final bool doctorLimit;
+
+  final List<int>? _weekdays;
+
+  /// The workout weekdays (1 Monday to 7 Sunday), [days] of them, sorted;
+  /// the suggested ones when none were chosen.
+  List<int> get weekdays => _weekdays ?? SportOptions.defaultWeekdays(days);
+
+  /// The first day of the current monthly plan ("2026-11-25"), or `null`
+  /// before it starts (the app sets it when the answers are saved).
+  final String? start;
 
   int get levelIndex => SportOptions.levels.indexOf(level).clamp(0, 2);
 
@@ -145,6 +181,7 @@ class SportAnswers {
     String? pregnancy,
     Set<String>? injuries,
     bool? doctorLimit,
+    String? start,
   }) => SportAnswers(
     goals: goals,
     areas: areas,
@@ -156,6 +193,8 @@ class SportAnswers {
     pregnancy: pregnancy ?? this.pregnancy,
     injuries: injuries ?? this.injuries,
     doctorLimit: doctorLimit ?? this.doctorLimit,
+    weekdays: weekdays,
+    start: start ?? this.start,
   );
 
   Map<String, Object?> toJson() => {
@@ -175,6 +214,8 @@ class SportAnswers {
         if (injuries.contains(i)) i,
     ],
     'doctorLimit': doctorLimit,
+    'weekdays': weekdays,
+    if (start != null) 'start': start,
   };
 }
 
@@ -660,12 +701,15 @@ class SportPlan {
   final bool gentle;
 }
 
-/// The weekly plan of [section] for [a]. Exercises in [exclude] (hidden by
-/// the team in the admin panel) are never picked.
+/// The weekly plan of [section] for [a] in [week] (0 to 3) of the monthly
+/// plan: the doses grow a little in weeks 2 and 3 and ease off in week 4
+/// (recovery); the gentle plan stays the same. Exercises in [exclude]
+/// (hidden by the team in the admin panel) are never picked.
 SportPlan planSport(
   SportAnswers a, {
   Set<String> exclude = const {},
   String section = 'fitness',
+  int week = 0,
 }) {
   if (a.doctorLimit) return const SportPlan([], blocked: true);
   final gentle = a.pregnancy != 'no';
@@ -693,8 +737,11 @@ SportPlan planSport(
       e.avoid.intersection(avoid).isEmpty;
 
   final workouts = <Workout>[];
-  for (var day = 0; day < a.days.clamp(2, 5); day++) {
-    final type = types[day % types.length];
+  final count2 = a.days.clamp(2, 7);
+  for (var day = 0; day < count2; day++) {
+    // Every day: the third and sixth workouts are light stretching days.
+    final light = count2 == 7 && (day == 2 || day == 5);
+    final type = light ? 'stretching' : types[day % types.length];
     final focus = areas.length <= 2
         ? areas
         : [
@@ -736,7 +783,7 @@ SportPlan planSport(
         id: '$prefix${day + 1}',
         type: type,
         focus: focus,
-        items: [for (final e in chosen) _dose(e, a, level, gentle)],
+        items: [for (final e in chosen) _dose(e, a, level, gentle, week)],
       ),
     );
   }
@@ -749,10 +796,25 @@ List<Exercise> _rotate(List<Exercise> list, int by) {
   return [...list.skip(start), ...list.take(start)];
 }
 
-WorkoutItem _dose(Exercise e, SportAnswers a, int level, bool gentle) {
+/// Extra repetitions and seconds per week of the monthly plan: a little
+/// more in weeks 2 and 3, less in the recovery week 4. Drafts, NOT REVIEWED
+/// by a trainer yet.
+const sportWeekReps = [0, 1, 2, -2];
+const sportWeekSeconds = [0, 5, 10, -5];
+
+WorkoutItem _dose(
+  Exercise e,
+  SportAnswers a,
+  int level,
+  bool gentle,
+  int week,
+) {
   final goal = a.goals.isEmpty ? 'tone' : a.goals.first;
+  final w = week.clamp(0, 3);
   if (e.mode != ExerciseMode.reps) {
-    final seconds = gentle ? 20 : const [30, 40, 45][level];
+    final seconds = gentle
+        ? 20
+        : const [30, 40, 45][level] + sportWeekSeconds[w];
     final sets = e.type == 'stretching' ? 1 : (level == 0 ? 2 : 3);
     return WorkoutItem(
       exercise: e,
@@ -769,7 +831,7 @@ WorkoutItem _dose(Exercise e, SportAnswers a, int level, bool gentle) {
   return WorkoutItem(
     exercise: e,
     sets: gentle ? 2 : sets,
-    amount: gentle ? 10 : reps,
+    amount: gentle ? 10 : (reps + sportWeekReps[w]).clamp(6, 30),
     restSeconds: gentle ? 30 : rest,
   );
 }
@@ -788,7 +850,7 @@ abstract final class SportRules {
 
   static final _date = RegExp(r'^\d{4}-\d{2}-\d{2}$');
   static final _workout = RegExp(
-    r'^([wpv][1-5]|face_yoga|yoga_morning|yoga_evening|yoga_stretch)$',
+    r'^([wpv][1-7]|face_yoga|yoga_morning|yoga_evening|yoga_stretch)$',
   );
 
   static bool isValid(String encoded) {
@@ -862,6 +924,8 @@ abstract final class SportRules {
       'pregnancy',
       'injuries',
       'doctorLimit',
+      'weekdays',
+      'start',
     };
     if (!answers.keys.every(keys.contains)) return false;
     bool listOf(Object? v, List<String> allowed, int max) =>
@@ -879,6 +943,21 @@ abstract final class SportRules {
     }
     if (!SportOptions.levels.contains(answers['level'])) return false;
     if (!SportOptions.days.contains(answers['days'])) return false;
+    final weekdays = answers['weekdays'];
+    if (weekdays != null &&
+        (weekdays is! List ||
+            weekdays.length != answers['days'] ||
+            !weekdays.every((d) => d is int && d >= 1 && d <= 7) ||
+            weekdays.toSet().length != weekdays.length)) {
+      return false;
+    }
+    final start = answers['start'];
+    if (start != null &&
+        (start is! String ||
+            !_date.hasMatch(start) ||
+            DateTime.tryParse(start) == null)) {
+      return false;
+    }
     if (!SportOptions.minutes.contains(answers['minutes'])) return false;
     if (!SportOptions.pregnancy.contains(answers['pregnancy'] ?? 'no')) {
       return false;
@@ -888,5 +967,47 @@ abstract final class SportRules {
       if (v != null && v is! bool) return false;
     }
     return true;
+  }
+}
+
+/// The monthly plan: four weeks from [SportAnswers.start], workouts on the
+/// chosen weekdays and rest days in between.
+abstract final class SportMonth {
+  static const days = 28;
+
+  /// Calendar day of [d] (time of day dropped).
+  static DateTime dayOf(DateTime d) => DateTime(d.year, d.month, d.day);
+
+  /// "2026-11-25" for [d].
+  static String keyOf(DateTime d) =>
+      '${d.year.toString().padLeft(4, '0')}-'
+      '${d.month.toString().padLeft(2, '0')}-'
+      '${d.day.toString().padLeft(2, '0')}';
+
+  /// The start of [a]'s plan, or `null` when not set.
+  static DateTime? startOf(SportAnswers a) {
+    final s = a.start == null ? null : DateTime.tryParse(a.start!);
+    return s == null ? null : dayOf(s);
+  }
+
+  /// Day 0 to 27 of [date] in the plan from [start], or `null` outside it.
+  static int? indexOf(DateTime start, DateTime date) {
+    // Rounded hours cope with a daylight-saving hour.
+    final hours = dayOf(date).difference(dayOf(start)).inHours;
+    if (hours < 0) return null;
+    final days = (hours + 12) ~/ 24;
+    return days >= SportMonth.days ? null : days;
+  }
+
+  /// The week (0 to 3) of day [index].
+  static int weekOf(int index) => (index ~/ 7).clamp(0, 3);
+
+  /// Which workout of the weekly plan falls on [date] (0 for the first
+  /// chosen weekday, and so on), or `null` on a rest day or outside the
+  /// plan.
+  static int? workoutOn(SportAnswers a, DateTime start, DateTime date) {
+    if (indexOf(start, date) == null) return null;
+    final i = a.weekdays.indexOf(date.weekday);
+    return i < 0 ? null : i;
   }
 }

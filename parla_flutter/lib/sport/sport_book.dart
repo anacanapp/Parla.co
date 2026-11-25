@@ -47,16 +47,100 @@ class SportBook extends SyncedDocument {
   /// The fitness plan, or `null` before its questions.
   SportPlan? get plan => planOf('fitness');
 
-  /// The weekly plan of [section], or `null` before its questions.
-  SportPlan? planOf(String section) {
+  /// The weekly plan of [section] for the week of [on] (today by default)
+  /// in its monthly plan, or `null` before its questions.
+  SportPlan? planOf(String section, {DateTime? on}) {
     final a = answersOf(section);
-    return a == null
+    if (a == null) return null;
+    final start = SportMonth.startOf(a);
+    final index = start == null
         ? null
-        : planSport(
-            a,
-            section: section,
-            exclude: ContentLibrary.hiddenIds('exercise'),
-          );
+        : SportMonth.indexOf(start, on ?? _clock());
+    return planSport(
+      a,
+      section: section,
+      exclude: ContentLibrary.hiddenIds('exercise'),
+      week: index == null ? 0 : SportMonth.weekOf(index),
+    );
+  }
+
+  /// The first day of [section]'s monthly plan, or `null` before its
+  /// questions.
+  DateTime? startOf(String section) {
+    final a = answersOf(section);
+    return a == null ? null : SportMonth.startOf(a);
+  }
+
+  /// Day 0 to 27 of today in [section]'s plan, or `null` outside it.
+  int? todayIndexOf(String section) {
+    final start = startOf(section);
+    return start == null ? null : SportMonth.indexOf(start, _clock());
+  }
+
+  /// Today (the book's clock), without the time of day.
+  DateTime get today => SportMonth.dayOf(_clock());
+
+  /// Whether [section]'s 28 days are over.
+  bool monthOver(String section) {
+    final start = startOf(section);
+    return start != null &&
+        SportMonth.indexOf(start, _clock()) == null &&
+        !SportMonth.dayOf(_clock()).isBefore(start);
+  }
+
+  /// The workout of [section] planned on [day], or `null` on a rest day or
+  /// outside the plan.
+  Workout? workoutOn(String section, DateTime day) {
+    final a = answersOf(section);
+    final start = startOf(section);
+    if (a == null || start == null) return null;
+    final i = SportMonth.workoutOn(a, start, day);
+    final workouts = planOf(section, on: day)?.workouts ?? const <Workout>[];
+    return i == null || i >= workouts.length ? null : workouts[i];
+  }
+
+  /// Whether the workout [workoutId] planned on [day] is finished: on any
+  /// day of the same plan week (seven days from the start), so a workout
+  /// done a day early or late still counts once.
+  bool doneOn(String workoutId, DateTime day) {
+    final start = _startOfWorkout(workoutId);
+    final index = start == null ? null : SportMonth.indexOf(start, day);
+    if (start == null || index == null) {
+      return _log[SportMonth.keyOf(day)]?.contains(workoutId) ?? false;
+    }
+    final first = SportMonth.weekOf(index) * 7;
+    for (var i = first; i < first + 7; i++) {
+      final d = DateTime(start.year, start.month, start.day + i);
+      if (_log[SportMonth.keyOf(d)]?.contains(workoutId) ?? false) return true;
+    }
+    return false;
+  }
+
+  DateTime? _startOfWorkout(String workoutId) {
+    final section = SportOptions.sectionOfWorkout(workoutId);
+    return SportOptions.sections.contains(section) ? startOf(section) : null;
+  }
+
+  /// The planned days of [section]'s month with their workouts.
+  List<(DateTime, Workout)> monthOf(String section) {
+    final start = startOf(section);
+    if (start == null) return const [];
+    return [
+      for (var i = 0; i < SportMonth.days; i++)
+        if (workoutOn(section, DateTime(start.year, start.month, start.day + i))
+            case final w?)
+          (DateTime(start.year, start.month, start.day + i), w),
+    ];
+  }
+
+  /// The next planned day of [section] from today whose workout is not
+  /// finished yet, or `null` when none is left this month.
+  (DateTime, Workout)? nextDayOf(String section) {
+    final today = SportMonth.dayOf(_clock());
+    for (final (day, w) in monthOf(section)) {
+      if (!day.isBefore(today) && !doneOn(w.id, day)) return (day, w);
+    }
+    return null;
   }
 
   /// Every workout of every planned section.
@@ -70,8 +154,17 @@ class SportBook extends SyncedDocument {
 
   /// Saves the answers of [section]. Pregnancy, injuries and a doctor's
   /// limit belong to the person, so the other sections take them too.
+  /// A new answer set keeps the running month's start; a new section, or
+  /// one whose month is over, starts a new month today.
   Future<void> setAnswers(SportAnswers answers, {String section = 'fitness'}) {
-    final own = answers.forSection(section);
+    final running = todayIndexOf(section) != null;
+    final own = answers
+        .forSection(section)
+        .copyWith(
+          start: running
+              ? answersOf(section)!.start
+              : SportMonth.keyOf(_clock()),
+        );
     if (section == 'fitness') {
       _answers = own;
     } else {
@@ -115,14 +208,8 @@ class SportBook extends SyncedDocument {
   /// The first fitness workout not finished this week, or `null`.
   Workout? get next => nextOf('fitness');
 
-  /// The first workout of [section] not finished this week, or `null`.
-  Workout? nextOf(String section) {
-    final done = doneThisWeek;
-    for (final w in planOf(section)?.workouts ?? const <Workout>[]) {
-      if (!done.contains(w.id)) return w;
-    }
-    return null;
-  }
+  /// The next planned workout of [section] not finished yet, or `null`.
+  Workout? nextOf(String section) => nextDayOf(section)?.$2;
 
   Future<void> markDone(String workoutId) {
     _log.putIfAbsent(HabitLog.keyOf(_clock()), () => <String>{}).add(workoutId);
@@ -181,6 +268,16 @@ class SportBook extends SyncedDocument {
     }
     _sound = json['sound'] as bool? ?? true;
     _videoSound = json['videoSound'] as bool? ?? true;
+    // Answers from before the monthly plan: the month starts this Monday.
+    final monday = SportMonth.keyOf(weekStart(_clock()));
+    if (_answers != null && _answers!.start == null) {
+      _answers = _answers!.copyWith(start: monday);
+    }
+    for (final s in [..._sections.keys]) {
+      if (_sections[s]!.start == null) {
+        _sections[s] = _sections[s]!.copyWith(start: monday);
+      }
+    }
   }
 
   @override

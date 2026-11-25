@@ -125,6 +125,31 @@ Future<void> _open(WidgetTester tester) async {
     ..quizAnswers = _answers
     ..products = const [_product];
   api.published.addAll(_content);
+  api.sport = jsonEncode({
+    'format': 1,
+    'answers': {
+      ...const SportAnswers(
+        goals: ['tone'],
+        areas: {'full'},
+        types: ['fitness', 'stretching', 'cardio'],
+        level: 'beginner',
+        days: 4,
+        minutes: 25,
+        weekdays: [1, 2, 4, 5],
+      ).toJson(),
+      'start': '2026-11-02',
+    },
+    'log': {
+      for (final (d, w) in [
+        ('2026-11-02', 'w1'),
+        ('2026-11-03', 'w2'),
+        ('2026-11-05', 'w3'),
+        ('2026-11-06', 'w4'),
+        ('2026-11-09', 'w1'),
+      ])
+        d: [w],
+    },
+  });
   await tester.pumpWidget(
     ParlaApp(
       key: UniqueKey(),
@@ -143,6 +168,22 @@ Future<void> _open(WidgetTester tester) async {
       tester.element(find.byType(ParlaApp)),
     ),
   );
+  await tester.runAsync(() async {
+    for (final f in [
+      'fitness_1',
+      'fitness_2',
+      'fitness_3',
+      'stretching_1',
+      'stretching_2',
+      'cardio_1',
+      'cardio_2',
+    ]) {
+      await precacheImage(
+        AssetImage('assets/images/workouts/$f.jpg'),
+        tester.element(find.byType(ParlaApp)),
+      );
+    }
+  });
   await tester.pumpAndSettle();
 }
 
@@ -292,6 +333,11 @@ void main() {
         await _go(tester, route);
       }
       await _shoot(tester, name);
+      if (route == Routes.sport) {
+        await tester.drag(find.byType(Scrollable).first, const Offset(0, -560));
+        await tester.pumpAndSettle();
+        await _shoot(tester, '${name}_2');
+      }
     });
   }
 }

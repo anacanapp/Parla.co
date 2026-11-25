@@ -93,6 +93,7 @@ flutter:
   assets:
     - assets/config.json
     - assets/images/backdrop.jpg
+    - assets/images/workouts/
     - assets/legal/
 
   # Brand fonts, bundled so no font is fetched from Google at runtime

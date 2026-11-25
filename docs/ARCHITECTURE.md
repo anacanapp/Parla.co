@@ -236,6 +236,26 @@ wording rules and open legal questions: `docs/INGREDIENTS.md`.
   stretching, low-impact cardio), level, days per week, minutes,
   dumbbells, and safety questions (pregnancy or the six months after
   birth, pain or injury, a doctor's limit).
+- **Monthly plan** (owner, 2026-11-25): each planned section runs 28 days
+  from `SportAnswers.start`, set when its answers are saved (a running
+  month keeps its start; answers from before get this week's Monday).
+  - The schedule page asks how many days (2, 3, 4, 5 or every day) and
+    which weekdays (`SportAnswers.weekdays`, suggested with rest days in
+    between). Every day makes the third and sixth workouts light
+    stretching days.
+  - The dose grows a little in weeks 2 and 3 and eases off in the
+    recovery week 4 (`sportWeekReps`, `sportWeekSeconds`). The gentle plan
+    stays the same. These numbers are drafts for the trainer's review.
+  - The screen shows the month calendar (finished white, planned coral,
+    missed ringed, rest faint), today's workout or a rest-day note with
+    the next workout, and this week's other workouts. A workout counts as
+    done on any day of its plan week (`SportBook.doneOn`).
+  - After 28 days a "Month complete" card leads back to the questions;
+    saving them starts the next month that day.
+  - Every workout and session card shows a photo by workout type
+    (`workout_photo.dart`, `assets/images/workouts/`): AI images made for
+    Parla in the warm style, no real person, with room above the head so
+    the crop never cuts it.
 - **Plan** (`planSport` in `parla_shared`): one workout per day, with the
   types rotating and the chosen areas first. Sets, repetitions and rests
   follow the main goal and the level. The safety answers remove exercises:

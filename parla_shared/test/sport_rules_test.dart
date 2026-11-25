@@ -366,4 +366,103 @@ void main() {
       );
     });
   });
+
+  group('monthly plan', () {
+    test('suggested weekdays leave rest days and chosen ones round-trip', () {
+      expect(_a(days: 3).weekdays, [1, 3, 5]);
+      expect(_a(days: 7).weekdays, [1, 2, 3, 4, 5, 6, 7]);
+      final chosen = SportAnswers.fromJson({
+        ..._a(days: 2).toJson(),
+        'weekdays': [6, 2],
+        'start': '2026-11-23',
+      });
+      expect(chosen.weekdays, [2, 6]);
+      expect(chosen.start, '2026-11-23');
+      // A list that does not match the day count falls back.
+      expect(
+        SportAnswers.fromJson({
+          ..._a(days: 3).toJson(),
+          'weekdays': [1],
+        }).weekdays,
+        [1, 3, 5],
+      );
+    });
+
+    test('the stored document checks weekdays, start and 7 workouts', () {
+      String doc(Map<String, Object?> answers) => jsonEncode({
+        'format': SportRules.format,
+        'answers': answers,
+        'log': {
+          '2026-11-23': ['w7'],
+        },
+      });
+      final ok = {..._a(days: 7).toJson(), 'start': '2026-11-23'};
+      expect(SportRules.isValid(doc(ok)), isTrue);
+      expect(
+        SportRules.isValid(
+          doc({
+            ...ok,
+            'weekdays': [1, 2],
+          }),
+        ),
+        isFalse,
+      );
+      expect(
+        SportRules.isValid(
+          doc({
+            ...ok,
+            'weekdays': [1, 1, 2, 3, 4, 5, 6],
+          }),
+        ),
+        isFalse,
+      );
+      expect(SportRules.isValid(doc({...ok, 'start': 'soon'})), isFalse);
+      expect(SportRules.isValid(doc({..._a(days: 6).toJson()})), isFalse);
+      // Documents from before the monthly plan stay valid.
+      final old = _a().toJson()..remove('weekdays');
+      expect(SportRules.isValid(doc(old)), isTrue);
+    });
+
+    test('every day has two light stretching days', () {
+      final plan = planSport(_a(days: 7, minutes: 40));
+      expect(plan.workouts, hasLength(7));
+      expect(plan.workouts.map((w) => w.id).last, 'w7');
+      expect(plan.workouts[2].type, 'stretching');
+      expect(plan.workouts[5].type, 'stretching');
+      expect(plan.workouts[0].type, 'fitness');
+    });
+
+    test('doses grow in weeks 2 and 3 and ease off in week 4', () {
+      int reps(int week) => planSport(_a(), week: week).workouts.first.items
+          .firstWhere((i) => i.exercise.mode == ExerciseMode.reps)
+          .amount;
+      expect(reps(1), reps(0) + 1);
+      expect(reps(2), reps(0) + 2);
+      expect(reps(3), reps(0) - 2);
+      // The gentle plan does not grow.
+      int gentle(int week) => planSport(
+        _a(pregnancy: 'pregnant'),
+        week: week,
+      ).workouts.first.items.first.amount;
+      expect(gentle(2), gentle(0));
+    });
+
+    test('the month maps dates to workouts and rest days', () {
+      final a = SportAnswers.fromJson({
+        ..._a(days: 3).toJson(),
+        'start': '2026-11-25',
+      });
+      final start = SportMonth.startOf(a)!;
+      expect(SportMonth.indexOf(start, DateTime(2026, 11, 24)), isNull);
+      expect(SportMonth.indexOf(start, DateTime(2026, 11, 25, 23)), 0);
+      expect(SportMonth.indexOf(start, DateTime(2026, 12, 22)), 27);
+      expect(SportMonth.indexOf(start, DateTime(2026, 12, 23)), isNull);
+      expect(SportMonth.weekOf(20), 2);
+      // 25 Nov 2026 is a Wednesday: the second workout (Mon, Wed, Fri).
+      expect(SportMonth.workoutOn(a, start, DateTime(2026, 11, 25)), 1);
+      expect(SportMonth.workoutOn(a, start, DateTime(2026, 11, 26)), isNull);
+      expect(SportMonth.workoutOn(a, start, DateTime(2026, 11, 27)), 2);
+      expect(SportMonth.keyOf(DateTime(2026, 3, 4)), '2026-03-04');
+    });
+  });
 }
