@@ -905,9 +905,17 @@ the `shopSalesOpen` switch is on (Terraform `enable_shop_payments`,
     needs an admin's approval.
 - **No personal data** in any title or text.
 
-**Not yet done**
-- Sending is synchronous and one by one. Fine for the beta; move to a
-  queue before large audiences.
+**Sending in the background**
+- Publishing only queues the campaign (`push_job`, ids and counts only).
+  A server timer (`PushJobs.schedule`, every 30 s, and right after
+  publishing) sends it in batches of 500 accounts, 20 FCM requests at a
+  time.
+- The job keeps the last account handled (`cursor`) and a 2-minute lease,
+  so a restart, or a second server instance, resumes where it stopped and
+  nobody gets the campaign twice.
+- The marketing consent, language and country are checked right before
+  each batch. Unpublishing a campaign stops it (`stopped`).
+- The admin editor shows the progress (`contentAdmin.pushStatus`).
 
 ## Discover (B2a)
 

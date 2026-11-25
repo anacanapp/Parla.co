@@ -34,6 +34,7 @@ import 'package:parla_client/src/protocol/products/product_summary.dart'
     as _isvy2zc1;
 import 'package:parla_client/src/protocol/profile/member_profile.dart'
     as _isrsmpwu;
+import 'package:parla_client/src/protocol/push/push_job_view.dart' as _iw57ee7d;
 import 'package:parla_client/src/protocol/quiz/quiz_answer_input.dart'
     as _ikoicjb8;
 import 'package:parla_client/src/protocol/shop/shop_checkout.dart' as _iezvlbke;
@@ -675,6 +676,14 @@ class EndpointContentAdmin extends _isc.EndpointRef {
       caller.callServerEndpoint<_i9q5wd3k.ContentAdminItem>(
         'contentAdmin',
         'publish',
+        {'id': id},
+      );
+
+  /// How far the push campaign [id] has got, or `null` before it is sent.
+  _ida.Future<_iw57ee7d.PushJobView?> pushStatus(int id) =>
+      caller.callServerEndpoint<_iw57ee7d.PushJobView?>(
+        'contentAdmin',
+        'pushStatus',
         {'id': id},
       );
 

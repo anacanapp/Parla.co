@@ -12,6 +12,7 @@ export 'package:parla_client/parla_client.dart'
         MediaAdminItem,
         UserAdminView,
         AuditLogEntry,
+        PushJobView,
         ConsentState,
         ConsentType,
         StatsReport,
@@ -74,6 +75,9 @@ abstract interface class AdminApi {
   Future<ContentAdminItem> returnContent(int id, String note);
   Future<ContentAdminItem> recordConsent(int id, String reference);
   Future<ContentAdminItem> publishContent(int id);
+
+  /// How far a sent push campaign has got, or `null` before it is sent.
+  Future<PushJobView?> pushStatus(int id);
   Future<ContentAdminItem> unpublishContent(int id);
   Future<void> deleteContent(int id);
 

@@ -39,6 +39,7 @@ contentAdmin:
   - returnToWriter:
   - recordConsent:
   - publish:
+  - pushStatus:
   - unpublish:
   - importSheet:
   - publishImported:

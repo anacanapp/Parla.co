@@ -136,6 +136,10 @@ class ServerpodAdminApi implements AdminApi {
       _guard(() => _client.contentAdmin.recordConsent(id, reference));
 
   @override
+  Future<PushJobView?> pushStatus(int id) =>
+      _guard(() => _client.contentAdmin.pushStatus(id));
+
+  @override
   Future<ContentAdminItem> publishContent(int id) =>
       _guard(() => _client.contentAdmin.publish(id));
 

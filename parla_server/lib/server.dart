@@ -14,6 +14,7 @@ import 'src/generated/serverpod.dart';
 import 'src/health/health_kms.dart';
 import 'src/media/media_store.dart';
 import 'src/media/s3_media_store.dart';
+import 'src/push/push.dart';
 import 'src/push/push_sender.dart';
 import 'src/web/web_routes.dart';
 
@@ -122,6 +123,7 @@ void run(List<String> args) async {
   // Deletes data past its retention period once a day (RET-1, RET-2).
   if (pod.runMode != ServerpodRunMode.test) {
     scheduleDailyRetention(pod);
+    PushJobs.schedule(pod);
   }
 }
 
