@@ -15,6 +15,8 @@ import 'package:parla_client/src/protocol/ads/ad_campaign.dart' as _inapiarc;
 import 'package:parla_client/src/protocol/ads/ad_campaign_option.dart'
     as _i9ua3fbf;
 import 'package:parla_client/src/protocol/ads/advertiser.dart' as _ixi2a1cx;
+import 'package:parla_client/src/protocol/audit/audit_log_entry.dart'
+    as _ijguob4z;
 import 'package:parla_client/src/protocol/consent/consent_state.dart'
     as _iflgmsvc;
 import 'package:parla_client/src/protocol/content/content_admin_item.dart'
@@ -276,6 +278,7 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<List<_ixi2a1cx.Advertiser>>,
           _isc.getType<List<_inapiarc.AdCampaign>>,
           _isc.getType<List<_i9ua3fbf.AdCampaignOption>>,
+          _isc.getType<List<_ijguob4z.AuditLogEntry>>,
           _isc.getType<List<_iflgmsvc.ConsentState>>,
           _isc.getType<List<_i9q5wd3k.ContentAdminItem>>,
           _isc.getType<List<_iryaqqq7.PublicContent>>,
@@ -775,6 +778,12 @@ class Protocol extends _isc.SerializationManager
     if (t == List<_i9ua3fbf.AdCampaignOption>) {
       return (data as List)
               .map((e) => deserialize<_i9ua3fbf.AdCampaignOption>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_ijguob4z.AuditLogEntry>) {
+      return (data as List)
+              .map((e) => deserialize<_ijguob4z.AuditLogEntry>(e))
               .toList()
           as T;
     }

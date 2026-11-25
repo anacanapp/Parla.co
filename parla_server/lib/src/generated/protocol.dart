@@ -15,6 +15,8 @@ import 'package:parla_server/src/generated/ads/ad_campaign.dart' as _io8rol46;
 import 'package:parla_server/src/generated/ads/ad_campaign_option.dart'
     as _ixfd2xet;
 import 'package:parla_server/src/generated/ads/advertiser.dart' as _iau35hq5;
+import 'package:parla_server/src/generated/audit/audit_log_entry.dart'
+    as _ixhbanhz;
 import 'package:parla_server/src/generated/consent/consent_state.dart'
     as _ianfun2u;
 import 'package:parla_server/src/generated/content/content_admin_item.dart'
@@ -276,6 +278,7 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<List<_iau35hq5.Advertiser>>,
           _is.getType<List<_io8rol46.AdCampaign>>,
           _is.getType<List<_ixfd2xet.AdCampaignOption>>,
+          _is.getType<List<_ixhbanhz.AuditLogEntry>>,
           _is.getType<List<_ianfun2u.ConsentState>>,
           _is.getType<List<_itdeiy4d.ContentAdminItem>>,
           _is.getType<List<_ixzwgpmi.PublicContent>>,
@@ -2598,6 +2601,12 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == List<_ixfd2xet.AdCampaignOption>) {
       return (data as List)
               .map((e) => deserialize<_ixfd2xet.AdCampaignOption>(e))
+              .toList()
+          as T;
+    }
+    if (t == List<_ixhbanhz.AuditLogEntry>) {
+      return (data as List)
+              .map((e) => deserialize<_ixhbanhz.AuditLogEntry>(e))
               .toList()
           as T;
     }

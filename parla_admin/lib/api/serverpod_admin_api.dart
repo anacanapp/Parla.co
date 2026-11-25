@@ -246,6 +246,20 @@ class ServerpodAdminApi implements AdminApi {
   }
 
   @override
+  Future<List<AuditLogEntry>> listAudit(AuditFilter filter, {int? beforeId}) =>
+      _guard(
+        () => _client.auditAdmin.list(
+          filter.actionPrefix.isEmpty ? null : filter.actionPrefix,
+          filter.actorRole.isEmpty ? null : filter.actorRole,
+          null,
+          filter.objectId.isEmpty ? null : filter.objectId,
+          filter.from,
+          filter.to?.add(const Duration(days: 1)),
+          beforeId,
+        ),
+      );
+
+  @override
   Future<UserAdminView?> findUser(String email) =>
       _guard(() => _client.userAdmin.find(email));
 

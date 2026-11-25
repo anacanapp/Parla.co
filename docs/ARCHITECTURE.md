@@ -992,6 +992,18 @@ idempotent).
 - **Times:** the triggers use the database clock. A separate restricted
   database role for the server is still open for production.
 
+**Audit log view (admin panel, "Audit jurnalı").**
+- **Who:** admins only (`AuditAdminEndpoint.list`, `requireStaff` with the
+  admin role); editors, experts and support get `staff.forbidden`.
+- **What it shows:** newest first, 100 rows a page (cursor `beforeId`).
+  Filters: action prefix (`content.`, `consent.` …, where `_` matches
+  literally), actor role, object id and a date range.
+- **Ids only:** the view shows the stored ids, shortened, and copies the
+  whole id on tap. Nothing resolves an id to an email or a name.
+- **Read-only:** there is no update, delete or export.
+- **Audited itself:** opening the log (its first page) writes
+  `audit.viewed`; later pages do not.
+
 ## Blog articles: Markdown, Google Docs, images and hashtags
 
 **Text**

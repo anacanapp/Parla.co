@@ -11,6 +11,7 @@ export 'package:parla_client/parla_client.dart'
         ContentStatus,
         MediaAdminItem,
         UserAdminView,
+        AuditLogEntry,
         ConsentState,
         ConsentType,
         StatsReport,
@@ -75,6 +76,9 @@ abstract interface class AdminApi {
   Future<ContentAdminItem> publishContent(int id);
   Future<ContentAdminItem> unpublishContent(int id);
   Future<void> deleteContent(int id);
+
+  // Audit log (admins only), read-only, newest first, 100 per page.
+  Future<List<AuditLogEntry>> listAudit(AuditFilter filter, {int? beforeId});
 
   // Users (phase C, admins only). Exact email look-up only.
   Future<UserAdminView?> findUser(String email);
@@ -175,4 +179,25 @@ abstract interface class AdminApi {
   Future<UuidValue> startPasswordReset(String email);
   Future<String> verifyPasswordResetCode(UuidValue requestId, String code);
   Future<void> finishPasswordReset(String token, String password);
+}
+
+/// The filters of the audit log view; empty means "any".
+@immutable
+class AuditFilter {
+  const AuditFilter({
+    this.actionPrefix = '',
+    this.actorRole = '',
+    this.objectId = '',
+    this.from,
+    this.to,
+  });
+
+  /// The start of the action, for example `content.`.
+  final String actionPrefix;
+  final String actorRole;
+  final String objectId;
+
+  /// From this day (inclusive) to this day (inclusive), local time.
+  final DateTime? from;
+  final DateTime? to;
 }

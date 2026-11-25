@@ -18,6 +18,8 @@ import 'package:parla_client/src/protocol/ads/ad_campaign_option.dart'
     as _i9ua3fbf;
 import 'package:parla_client/src/protocol/ads/ad_report.dart' as _irrhq6po;
 import 'package:parla_client/src/protocol/ads/advertiser.dart' as _ixi2a1cx;
+import 'package:parla_client/src/protocol/audit/audit_log_entry.dart'
+    as _ijguob4z;
 import 'package:parla_client/src/protocol/consent/consent_state.dart'
     as _iflgmsvc;
 import 'package:parla_client/src/protocol/consent/consent_type.dart'
@@ -163,6 +165,46 @@ class EndpointAdAdmin extends _isc.EndpointRef {
         'report',
         {'campaignId': campaignId},
       );
+}
+
+/// The audit log, read-only, for admins (checklist AUD-1..AUD-4).
+///
+/// The rows hold ids only; nothing here resolves an id to an email or a
+/// name. There is no update, delete or export: the table is append-only
+/// and the panel only shows it. Opening the log (its first page) is itself
+/// audited as `audit.viewed`.
+/// {@category Endpoint}
+class EndpointAuditAdmin extends _isc.EndpointRef {
+  EndpointAuditAdmin(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'auditAdmin';
+
+  /// The newest entries first. [actionPrefix] matches the start of the
+  /// action (`content.` or `content.published`); [from] and [to] bound
+  /// `createdAt` (from inclusive, to exclusive); [beforeId] continues
+  /// after the last row of the previous page.
+  _ida.Future<List<_ijguob4z.AuditLogEntry>> list(
+    String? actionPrefix,
+    String? actorRole,
+    String? objectType,
+    String? objectId,
+    DateTime? from,
+    DateTime? to,
+    int? beforeId,
+  ) => caller.callServerEndpoint<List<_ijguob4z.AuditLogEntry>>(
+    'auditAdmin',
+    'list',
+    {
+      'actionPrefix': actionPrefix,
+      'actorRole': actorRole,
+      'objectType': objectType,
+      'objectId': objectId,
+      'from': from,
+      'to': to,
+      'beforeId': beforeId,
+    },
+  );
 }
 
 /// By extending [EmailOtpIdpBaseEndpoint], the email identity provider
@@ -1497,6 +1539,7 @@ class Client extends _isc.ServerpodClientShared {
        ) {
     account = EndpointAccount(this);
     adAdmin = EndpointAdAdmin(this);
+    auditAdmin = EndpointAuditAdmin(this);
     emailIdp = EndpointEmailIdp(this);
     jwtRefresh = EndpointJwtRefresh(this);
     consent = EndpointConsent(this);
@@ -1527,6 +1570,8 @@ class Client extends _isc.ServerpodClientShared {
   late final EndpointAccount account;
 
   late final EndpointAdAdmin adAdmin;
+
+  late final EndpointAuditAdmin auditAdmin;
 
   late final EndpointEmailIdp emailIdp;
 
@@ -1582,6 +1627,7 @@ class Client extends _isc.ServerpodClientShared {
   Map<String, _isc.EndpointRef> get endpointRefLookup => {
     'account': account,
     'adAdmin': adAdmin,
+    'auditAdmin': auditAdmin,
     'emailIdp': emailIdp,
     'jwtRefresh': jwtRefresh,
     'consent': consent,
