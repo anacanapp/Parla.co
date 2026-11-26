@@ -60,7 +60,7 @@ class LiquidGlass extends StatelessWidget {
     this.color,
     this.gradient,
     this.padding,
-    this.shadow = true,
+    this.shadow = false,
   });
 
   final Widget child;
@@ -122,26 +122,28 @@ class LiquidGlass extends StatelessWidget {
             ),
           ),
         ),
-        // Light along the top and shade along the bottom: a thick card.
-        const Positioned.fill(
-          child: IgnorePointer(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0x38FFFFFF),
-                    Color(0x00FFFFFF),
-                    Color(0x00000000),
-                    Color(0x1F000000),
-                  ],
-                  stops: [0, .32, .72, 1],
+        // Light along the top and shade along the bottom: a thick card
+        // (flat cards, without [shadow], keep no shade either).
+        if (shadow)
+          const Positioned.fill(
+            child: IgnorePointer(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0x38FFFFFF),
+                      Color(0x00FFFFFF),
+                      Color(0x00000000),
+                      Color(0x1F000000),
+                    ],
+                    stops: [0, .32, .72, 1],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
         // A specular glint at the top left.
         const Positioned.fill(
           child: IgnorePointer(
@@ -264,12 +266,12 @@ class GlassSurface extends StatelessWidget {
 /// that passes WCAG AA on all three (checked in
 /// `test/night_palette_test.dart`). The names are the tiles' old ones.
 enum MeshTone {
-  pink(Color(0xFFA5625A), Color(0xFFA6664F), Color(0xFF6E3A30), _light),
-  sage(Color(0xFF56650F), Color(0xFF667A14), Color(0xFF3A4608), _light),
-  blue(Color(0xFF5A4E4A), Color(0xFF3E3532), Color(0xFF241C18), _light),
-  orange(Color(0xFFA9561C), Color(0xFF9A4A16), Color(0xFF5A2A0C), _light),
-  rose(Color(0xFFA9503E), Color(0xFF9C4A3A), Color(0xFF5E2A20), _light),
-  plum(Color(0xFF6A4A3E), Color(0xFF4A342C), Color(0xFF2E201A), _light);
+  pink(Color(0xFFFFF6CF), Color(0xFFF6B4CF), Color(0xFFFFE15A), _ink),
+  sage(Color(0xFFFFF6CF), Color(0xFFFFE97A), Color(0xFFFFCE00), _ink),
+  blue(Color(0xFFF4F0FB), Color(0xFFBFD8F2), Color(0xFFC9B8F2), _ink),
+  orange(Color(0xFFFFE97A), Color(0xFFFFCE00), Color(0xFFF6B4CF), _ink),
+  rose(Color(0xFFFDE3EE), Color(0xFFF6B4CF), Color(0xFFC9B8F2), _ink),
+  plum(Color(0xFFF4F0FB), Color(0xFFC9B8F2), Color(0xFFBFD8F2), _ink);
 
   const MeshTone(this.from, this.to, this.blob, this.ink);
 
@@ -294,7 +296,8 @@ enum MeshTone {
       Color.lerp(to, const Color(0xFF000000), isLight ? .1 : .35)!;
 }
 
-const _light = Color(0xFFFFFFFF);
+/// Dark ink of the light tiles ("İşıq" design).
+const _ink = Color(0xFF16130F);
 const _darkPink = Color(0xFF2A0A1C);
 
 /// A rounded tile in a [MeshTone]'s colours as satin glass ([LiquidGlass]):
@@ -311,9 +314,13 @@ class MeshTile extends StatelessWidget {
     this.blobAt = const Alignment(0.75, 0.7),
     this.onTap,
     this.semanticLabel,
+    this.shadow = false,
   });
 
   final MeshTone tone;
+
+  /// The drop shadow and bottom shade; off for a flat tile.
+  final bool shadow;
   final Widget child;
   final double radius;
   final EdgeInsetsGeometry padding;
@@ -342,6 +349,7 @@ class MeshTile extends StatelessWidget {
       label: semanticLabel,
       child: LiquidGlass(
         radius: radius,
+        shadow: shadow,
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -366,31 +374,36 @@ class PebbleCard extends StatelessWidget {
     required this.child,
     this.radius = 40,
     this.padding = const EdgeInsets.all(20),
+    this.shadow = false,
   });
 
   final Widget child;
   final double radius;
   final EdgeInsetsGeometry padding;
 
+  /// The drop shadow and bottom shade; off for a flat card.
+  final bool shadow;
+
   /// The gradient's stops, top to bottom (light ink passes AA on each).
   static const stops = [
-    Color(0xFF6A4A3E),
-    Color(0xFF4A342C),
-    Color(0xFF2E201A),
+    Color(0xFFFFF6CF),
+    Color(0xFFFFE97A),
+    Color(0xFFFFE15A),
   ];
 
   @override
   Widget build(BuildContext context) => LiquidGlass(
     radius: radius,
+    shadow: shadow,
     gradient: const LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,
       colors: stops,
     ),
     child: DefaultTextStyle.merge(
-      style: const TextStyle(color: _light),
+      style: const TextStyle(color: _ink),
       child: IconTheme.merge(
-        data: const IconThemeData(color: _light),
+        data: const IconThemeData(color: _ink),
         child: Padding(padding: padding, child: child),
       ),
     ),
@@ -405,7 +418,7 @@ class SlidePill extends StatelessWidget {
     required this.label,
     required this.onPressed,
     this.icon = ParlaIconName.arrowRight,
-    this.background = const Color(0x8C2A0A1C),
+    this.background = const Color(0xFF16130F),
     this.foreground = const Color(0xFFFFF0F7),
   });
 

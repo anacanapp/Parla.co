@@ -814,6 +814,48 @@ abstract class AppLocalizations {
   /// **'Your answer is stored encrypted and only used for your routine and plan. If you delete it, your routine stays careful.'**
   String get recheckPrivacy;
 
+  /// No description provided for @homeFocusTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s focus'**
+  String get homeFocusTitle;
+
+  /// No description provided for @homeFocusSub.
+  ///
+  /// In en, this message translates to:
+  /// **'From your routine'**
+  String get homeFocusSub;
+
+  /// No description provided for @homeFocusDone.
+  ///
+  /// In en, this message translates to:
+  /// **'Today\'s routine is done. Take a moment for yourself.'**
+  String get homeFocusDone;
+
+  /// No description provided for @homeFocusOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open routine'**
+  String get homeFocusOpen;
+
+  /// No description provided for @homeFocusSteps.
+  ///
+  /// In en, this message translates to:
+  /// **'{done} / {total} steps'**
+  String homeFocusSteps(int done, int total);
+
+  /// No description provided for @homePulse.
+  ///
+  /// In en, this message translates to:
+  /// **'At a glance'**
+  String get homePulse;
+
+  /// No description provided for @homeLater.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get homeLater;
+
   /// No description provided for @homeQuizTitle.
   ///
   /// In en, this message translates to:

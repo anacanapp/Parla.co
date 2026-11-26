@@ -5,6 +5,8 @@ import '../l10n/app_localizations.dart';
 import '../routes.dart';
 import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
+import '../ui/parla_mark.dart';
+import '../ui/warm.dart';
 
 /// M-02: value proposition and the three ways in.
 class WelcomeScreen extends StatelessWidget {
@@ -14,14 +16,13 @@ class WelcomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    final locale = Localizations.localeOf(context);
     final points = [
       (ParlaIconName.sparkle, l10n.welcomeBody1),
       (ParlaIconName.scan, l10n.welcomeBody2),
       (ParlaIconName.drop, l10n.welcomeBody3),
     ];
+    // "İşıq": the light page of every screen shows through.
     return Scaffold(
-      backgroundColor: ParlaColors.lemon,
       body: SafeArea(
         child: Column(
           children: [
@@ -30,9 +31,17 @@ class WelcomeScreen extends StatelessWidget {
                 padding: const EdgeInsets.fromLTRB(20, 20, 20, 16),
                 children: [
                   ExcludeSemantics(
-                    child: Text(
-                      'parla',
-                      style: text.headlineMedium?.copyWith(letterSpacing: -.5),
+                    child: Row(
+                      children: [
+                        const ParlaMark(size: 30),
+                        const SizedBox(width: 10),
+                        Text(
+                          'parla',
+                          style: text.headlineMedium?.copyWith(
+                            letterSpacing: -.5,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -43,7 +52,10 @@ class WelcomeScreen extends StatelessWidget {
                     child: Text(l10n.welcomeTitle, style: text.displayLarge),
                   ),
                   const SizedBox(height: 6),
-                  Text(l10n.homeTagline, style: accentStyle(locale)),
+                  Text(
+                    l10n.homeTagline,
+                    style: text.titleMedium?.copyWith(color: Warm.muted),
+                  ),
                   const SizedBox(height: 16),
                   for (final (icon, line) in points)
                     Padding(
@@ -121,7 +133,7 @@ class _Hero extends StatelessWidget {
             decoration: BoxDecoration(
               color: color,
               borderRadius: BorderRadius.circular(22),
-              boxShadow: kSoftShadow,
+              border: Border.all(color: Warm.line),
             ),
             child: Row(
               children: [
@@ -178,12 +190,22 @@ class _Hero extends StatelessWidget {
             Positioned(
               right: 0,
               top: 78,
-              child: card(ParlaColors.sky, ParlaIconName.check, 210, .05),
+              child: card(
+                const Color(0xFFF1ECFB),
+                ParlaIconName.check,
+                210,
+                .05,
+              ),
             ),
             Positioned(
               left: 24,
               top: 146,
-              child: card(ParlaColors.sage, ParlaIconName.dumbbell, 200, -.03),
+              child: card(
+                const Color(0xFFFFF3C2),
+                ParlaIconName.dumbbell,
+                200,
+                -.03,
+              ),
             ),
           ],
         ),

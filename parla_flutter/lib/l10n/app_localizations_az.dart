@@ -405,6 +405,30 @@ class AppLocalizationsAz extends AppLocalizations {
       'Cavab şifrəli saxlanılır və yalnız rutinin və planın üçün istifadə olunur. Cavabı silsən, rutin ehtiyatlı qalır.';
 
   @override
+  String get homeFocusTitle => 'Günün fokusu';
+
+  @override
+  String get homeFocusSub => 'Rutinin əsasında';
+
+  @override
+  String get homeFocusDone =>
+      'Bu günün rutini tamamdır. Özünə bir az vaxt ayır.';
+
+  @override
+  String get homeFocusOpen => 'Rutini aç';
+
+  @override
+  String homeFocusSteps(int done, int total) {
+    return '$done / $total addım';
+  }
+
+  @override
+  String get homePulse => 'Qısa nəbz';
+
+  @override
+  String get homeLater => 'Davamı';
+
+  @override
   String get homeQuizTitle => 'Rutininizi fərdiləşdirək';
 
   @override

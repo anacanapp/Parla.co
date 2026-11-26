@@ -13,6 +13,7 @@ import '../parla_scope.dart';
 import '../routes.dart';
 import '../services/parla_api.dart';
 import '../ui/brand.dart';
+import '../ui/warm.dart';
 import '../ui/night.dart';
 import '../ui/parla_ui.dart';
 import '../ui/common.dart';
@@ -173,6 +174,7 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
           key: const ValueKey('open-shopping'),
           tone: MeshTone.orange,
           radius: 34,
+          shadow: false,
           blobAt: const Alignment(0.6, 0),
           padding: const EdgeInsets.fromLTRB(18, 12, 12, 12),
           onTap: () => context.go(Routes.shoppingList),
@@ -207,6 +209,7 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
         const SizedBox(height: 20),
         if (results != null && results.isEmpty)
           GlassCard(
+            shadow: false,
             key: const ValueKey('products-not-found'),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -228,6 +231,7 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
         const SizedBox(height: 8),
         // On light glass so the texts read over the page's figure.
         GlassCard(
+          shadow: false,
           radius: 32,
           padding: const EdgeInsets.fromLTRB(18, 10, 10, 16),
           child: Column(
@@ -272,20 +276,19 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
           PebbleCard(
             key: const ValueKey('check-suggestions'),
             radius: 34,
+            shadow: false,
             padding: const EdgeInsets.all(18),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
                   l10n.checkSuggestTitle,
-                  style: text.titleMedium?.copyWith(color: Colors.white),
+                  style: text.titleMedium?.copyWith(color: Warm.ink),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   l10n.checkSuggestBody,
-                  style: text.bodySmall?.copyWith(
-                    color: const Color(0xD9FFFFFF),
-                  ),
+                  style: text.bodySmall?.copyWith(color: Warm.muted),
                 ),
                 const SizedBox(height: 8),
                 Wrap(
@@ -339,6 +342,7 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
           ),
           const SizedBox(height: 4),
           GlassGroup(
+            shadow: false,
             children: [
               for (final r in book.recent)
                 GlassRow(
@@ -374,6 +378,7 @@ class _ProductTile extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
     return GlassCard(
+      shadow: false,
       radius: 28,
       padding: EdgeInsets.zero,
       child: ListTile(
@@ -594,6 +599,7 @@ class _PreferencesCard extends StatelessWidget {
     final known = results.where((r) => r.outcome != PreferenceOutcome.unknown);
     final fits = known.where((r) => r.outcome == PreferenceOutcome.fits).length;
     return GlassCard(
+      shadow: false,
       key: const ValueKey('prefs-result'),
       padding: const EdgeInsets.all(18),
       child: Column(
@@ -730,6 +736,7 @@ class _IngredientTile extends StatelessWidget {
       Localizations.localeOf(context).languageCode,
     );
     return GlassCard(
+      shadow: false,
       radius: 28,
       padding: EdgeInsets.zero,
       child: InkWell(

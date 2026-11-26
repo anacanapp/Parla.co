@@ -215,7 +215,7 @@ class _EditRow extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [Color(0xFFFFC896), Color(0xFFF0823C)],
+                colors: [Color(0xFFFFF6CF), Color(0xFFFFCE00)],
               ),
             ),
             alignment: Alignment.center,
@@ -483,7 +483,7 @@ class _MonthCalendar extends StatelessWidget {
   final int total;
   final String title;
 
-  static const coral = Color(0xFFC4532B);
+  static const coral = Color(0xFFFFCE00);
 
   @override
   Widget build(BuildContext context) {
@@ -505,16 +505,16 @@ class _MonthCalendar extends StatelessWidget {
       final missed = w != null && !finished && d.isBefore(today);
       final isToday = d == today;
       final (Color? fill, Color text, BoxBorder? border) = switch (()) {
-        _ when finished => (Colors.white, Warm.black, null),
+        _ when finished => (Warm.black, Colors.white, null),
         _ when missed => (
           null,
-          Colors.white,
-          Border.all(color: coral, width: 2),
+          Warm.ink,
+          Border.all(color: const Color(0xFFE0A800), width: 2),
         ),
-        _ when w != null => (coral, Colors.white, null),
+        _ when w != null => (coral, Warm.ink, null),
         _ => (
           null,
-          Colors.white.withValues(alpha: inMonth ? 0.6 : 0.3),
+          Warm.ink.withValues(alpha: inMonth ? 0.55 : 0.25),
           null,
         ),
       };
@@ -526,7 +526,7 @@ class _MonthCalendar extends StatelessWidget {
           decoration: isToday
               ? BoxDecoration(
                   shape: BoxShape.circle,
-                  border: Border.all(color: Colors.white, width: 2),
+                  border: Border.all(color: Warm.ink, width: 2),
                 )
               : null,
           child: Container(
@@ -618,10 +618,10 @@ class _MonthCalendar extends StatelessWidget {
               spacing: 14,
               runSpacing: 6,
               children: [
-                legend(Colors.white, l10n.sportLegendDone),
+                legend(Warm.black, l10n.sportLegendDone),
                 legend(coral, l10n.sportLegendWorkout),
                 legend(
-                  Colors.white.withValues(alpha: 0.6),
+                  Warm.ink.withValues(alpha: 0.5),
                   l10n.sportLegendRest,
                   ring: true,
                 ),

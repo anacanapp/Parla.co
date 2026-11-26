@@ -62,18 +62,20 @@ enum ParlaIconName {
 }
 
 /// An outlined brand icon. Decorative by default: pair it with visible text.
+/// Without [color] it takes the surrounding icon colour (dark ink on the
+/// light "İşıq" pages, white inside a dark button).
 class ParlaIcon extends StatelessWidget {
   const ParlaIcon(
     this.name, {
     super.key,
     this.size = 24,
-    this.color = const Color(0xFFF4E9FF),
+    this.color,
     this.strokeWidth = 2,
   });
 
   final ParlaIconName name;
   final double size;
-  final Color color;
+  final Color? color;
   final double strokeWidth;
 
   @override
@@ -87,7 +89,10 @@ class ParlaIcon extends StatelessWidget {
         svg,
         width: size,
         height: size,
-        colorFilter: ColorFilter.mode(color, BlendMode.srcIn),
+        colorFilter: ColorFilter.mode(
+          color ?? IconTheme.of(context).color ?? const Color(0xFF16130F),
+          BlendMode.srcIn,
+        ),
       ),
     );
   }

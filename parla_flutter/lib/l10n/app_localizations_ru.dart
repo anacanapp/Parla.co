@@ -413,6 +413,30 @@ class AppLocalizationsRu extends AppLocalizations {
       'Ответ хранится в зашифрованном виде и используется только для твоего ухода и плана. Если удалить ответ, уход останется осторожным.';
 
   @override
+  String get homeFocusTitle => 'Фокус дня';
+
+  @override
+  String get homeFocusSub => 'По твоей рутине';
+
+  @override
+  String get homeFocusDone =>
+      'Рутина на сегодня выполнена. Удели себе немного времени.';
+
+  @override
+  String get homeFocusOpen => 'Открыть рутину';
+
+  @override
+  String homeFocusSteps(int done, int total) {
+    return '$done / $total шагов';
+  }
+
+  @override
+  String get homePulse => 'Коротко';
+
+  @override
+  String get homeLater => 'Дальше';
+
+  @override
   String get homeQuizTitle => 'Давайте настроим уход под вас';
 
   @override

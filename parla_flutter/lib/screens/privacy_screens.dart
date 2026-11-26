@@ -309,10 +309,6 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                             12,
                             4,
                           ),
-                          activeThumbColor: Warm.black,
-                          activeTrackColor: Colors.white,
-                          inactiveThumbColor: Colors.white,
-                          inactiveTrackColor: const Color(0x33FFFFFF),
                           title: Text(
                             _title(l10n, kind),
                             style: const TextStyle(
