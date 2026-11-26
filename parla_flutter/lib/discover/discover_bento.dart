@@ -211,7 +211,7 @@ class _BlogsCard extends StatelessWidget {
                       ),
                       Text(
                         latestLabel ?? section.hint,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: kMinTextSize,
                           color: Warm.onCardSoft,
                         ),
@@ -272,7 +272,7 @@ class _ArrowRing extends StatelessWidget {
       border: Border.all(color: const Color(0x66FFFFFF)),
     ),
     alignment: Alignment.center,
-    child: const ParlaIcon(
+    child: ParlaIcon(
       ParlaIconName.arrowRight,
       size: 18,
       color: Warm.onCard,
@@ -358,7 +358,7 @@ class _SquircleTile extends StatelessWidget {
               section.hint,
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: kMinTextSize,
                 color: Warm.onCardSoft,
               ),
@@ -378,12 +378,12 @@ class _BlackArrow extends StatelessWidget {
   Widget build(BuildContext context) => Container(
     width: 38,
     height: 38,
-    decoration: const BoxDecoration(color: Warm.black, shape: BoxShape.circle),
+    decoration: BoxDecoration(color: Warm.black, shape: BoxShape.circle),
     alignment: Alignment.center,
-    child: const ParlaIcon(
+    child: ParlaIcon(
       ParlaIconName.arrowRight,
       size: 16,
-      color: Colors.white,
+      color: Warm.onBlack,
     ),
   );
 }
@@ -487,7 +487,7 @@ class _WidePill extends StatelessWidget {
                   ),
                   Text(
                     section.hint,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: kMinTextSize,
                       color: Warm.onCardSoft,
                     ),
@@ -518,10 +518,10 @@ class _WidePill extends StatelessWidget {
                         shape: BoxShape.circle,
                       ),
                       alignment: Alignment.center,
-                      child: const ParlaIcon(
+                      child: ParlaIcon(
                         ParlaIconName.arrowRight,
                         size: 16,
-                        color: Warm.black,
+                        color: Warm.dayInk,
                       ),
                     ),
                   ],

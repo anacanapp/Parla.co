@@ -164,7 +164,7 @@ class _RoutinesSectionState extends State<RoutinesSection> {
             padding: const EdgeInsets.symmetric(horizontal: 6),
             child: Text(
               l10n.routineWeeklyHint,
-              style: const TextStyle(fontSize: 13, color: Warm.muted),
+              style: TextStyle(fontSize: 13, color: Warm.muted),
             ),
           ),
         ],
@@ -172,7 +172,7 @@ class _RoutinesSectionState extends State<RoutinesSection> {
         if (steps.isEmpty)
           Text(
             l10n.routineSlotEmpty,
-            style: const TextStyle(fontSize: 15, color: Warm.muted),
+            style: TextStyle(fontSize: 15, color: Warm.muted),
           ),
         for (final (i, step) in steps.indexed) ...[
           _StepRow(
@@ -197,7 +197,7 @@ class _RoutinesSectionState extends State<RoutinesSection> {
                   header: true,
                   child: Text(
                     l10n.routineOwnSection,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: 22,
                       fontWeight: FontWeight.w300,
                       color: Warm.ink,
@@ -209,7 +209,7 @@ class _RoutinesSectionState extends State<RoutinesSection> {
                 key: const ValueKey('routine-own-add'),
                 style: TextButton.styleFrom(foregroundColor: Warm.ink),
                 onPressed: () => context.go(Routes.routineBuilder),
-                icon: const ParlaIcon(
+                icon: ParlaIcon(
                   ParlaIconName.plus,
                   size: 18,
                   color: Warm.ink,
@@ -290,7 +290,7 @@ class _ProgressCard extends StatelessWidget {
                         left > 0
                             ? l10n.routineStatusLeft(left)
                             : l10n.stepStatusDone,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: kMinTextSize,
                           color: Warm.onCardSoft,
                         ),
@@ -308,7 +308,7 @@ class _ProgressCard extends StatelessWidget {
                 ),
                 Text(
                   l10n.routineOwnSteps(total),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: kMinTextSize,
                     color: Warm.onCardSoft,
                   ),
@@ -322,7 +322,7 @@ class _ProgressCard extends StatelessWidget {
               children: [
                 Text(
                   next == null ? l10n.stepStatusDone : l10n.sportNextLabel,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: kMinTextSize,
                     color: Warm.onCardSoft,
                   ),
@@ -335,7 +335,7 @@ class _ProgressCard extends StatelessWidget {
                       textAlign: TextAlign.end,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: kMinTextSize,
                         color: Warm.onCardSoft,
                       ),
@@ -393,7 +393,7 @@ class _WeekStrip extends StatelessWidget {
                     children: [
                       Text(
                         DateFormat.E(locale).format(day).replaceAll('.', ''),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: kMinTextSize,
                           color: Warm.muted,
                         ),
@@ -411,7 +411,7 @@ class _WeekStrip extends StatelessWidget {
                           '${day.day}',
                           style: TextStyle(
                             fontSize: 16,
-                            color: isToday ? Colors.white : Warm.ink,
+                            color: isToday ? Warm.onBlack : Warm.ink,
                           ),
                         ),
                       ),
@@ -472,14 +472,18 @@ class _StepRowState extends State<_StepRow> {
             padding: const EdgeInsets.only(top: 14),
             child: Text(
               start == null ? '' : _clock(start),
-              style: const TextStyle(fontSize: 12, color: Warm.muted),
+              style: TextStyle(fontSize: 12, color: Warm.muted),
             ),
           ),
         ),
         Expanded(
           child: Container(
             decoration: BoxDecoration(
-              color: widget.current && !done
+              color: Tone.dark
+                  ? (widget.current && !done
+                        ? Warm.nightCardRaised
+                        : Warm.nightCard)
+                  : widget.current && !done
                   ? const Color(0xFFFFFDF2)
                   : const Color(0xF2FFFFFF),
               borderRadius: BorderRadius.circular(18),
@@ -512,7 +516,7 @@ class _StepRowState extends State<_StepRow> {
                           const SizedBox(height: 2),
                           Row(
                             children: [
-                              const Icon(
+                              Icon(
                                 Icons.schedule,
                                 size: 12,
                                 color: Warm.muted,
@@ -520,7 +524,7 @@ class _StepRowState extends State<_StepRow> {
                               const SizedBox(width: 4),
                               Text(
                                 '${_clock(start)} – ${_clock(start + step.minutes)}',
-                                style: const TextStyle(
+                                style: TextStyle(
                                   fontSize: kMinTextSize,
                                   color: Warm.muted,
                                 ),
@@ -539,7 +543,7 @@ class _StepRowState extends State<_StepRow> {
                               overflow: _open && !done
                                   ? TextOverflow.visible
                                   : TextOverflow.ellipsis,
-                              style: const TextStyle(
+                              style: TextStyle(
                                 fontSize: kMinTextSize,
                                 color: Warm.muted,
                               ),
@@ -558,7 +562,7 @@ class _StepRowState extends State<_StepRow> {
                           ),
                           child: Text(
                             l10n.sportMinutes(step.minutes),
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: kMinTextSize,
                               fontWeight: FontWeight.w600,
                               color: Warm.ink,
@@ -626,7 +630,7 @@ class _OwnRoutineInvite extends StatelessWidget {
                 const SizedBox(height: 2),
                 Text(
                   l10n.routineOwnEmpty,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: kMinTextSize,
                     color: Warm.onCardSoft,
                   ),
@@ -684,7 +688,7 @@ class _OwnRoutineCard extends StatelessWidget {
                   ? Warm.banana
                   : Colors.transparent,
             ),
-            checkColor: const WidgetStatePropertyAll(Warm.ink),
+            checkColor: WidgetStatePropertyAll(Warm.ink),
           ),
         ),
         child: Column(
@@ -701,7 +705,7 @@ class _OwnRoutineCard extends StatelessWidget {
                         '${customWhen(context, routine)} · '
                         '${l10n.routineOwnSteps(routine.steps.length)}'
                         '${dueToday ? ' · $done/${routine.steps.length}' : ''}',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: kMinTextSize,
                           color: Warm.onCardSoft,
                         ),
@@ -729,7 +733,7 @@ class _OwnRoutineCard extends StatelessWidget {
                   onChanged: (_) => book.toggleTick(step.id),
                   title: Text(
                     step.title,
-                    style: const TextStyle(fontSize: 15, color: Warm.onCard),
+                    style: TextStyle(fontSize: 15, color: Warm.onCard),
                   ),
                 ),
           ],

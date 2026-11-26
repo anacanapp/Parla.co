@@ -354,7 +354,7 @@ class ProductCard extends StatelessWidget {
               children: [
                 Text(
                   '${item.data['brand'] ?? ''}'.toUpperCase(),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: kMinTextSize,
                     letterSpacing: 1,
                     color: Warm.onCardSoft,
@@ -510,7 +510,7 @@ class ShopProductScreen extends StatelessWidget {
                       const Spacer(),
                       Text(
                         shopCategoryText(l10n, item.category).upperIn(context),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: kMinTextSize,
                           letterSpacing: 1,
                           color: Glass.soft,
@@ -521,7 +521,7 @@ class ShopProductScreen extends StatelessWidget {
                   const SizedBox(height: 12),
                   Text(
                     '${item.data['brand'] ?? ''}'.toUpperCase(),
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: kMinTextSize,
                       letterSpacing: 1,
                       color: Glass.soft,
@@ -532,7 +532,7 @@ class ShopProductScreen extends StatelessWidget {
                     header: true,
                     child: Text(
                       item.text('name', language),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.w200,
                         letterSpacing: -.8,

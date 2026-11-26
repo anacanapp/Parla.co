@@ -193,9 +193,7 @@ class PillChip extends StatelessWidget {
     child: Material(
       color: selected ? ParlaColors.sun : ParlaColors.white,
       shape: StadiumBorder(
-        side: selected
-            ? BorderSide.none
-            : const BorderSide(color: ParlaColors.line),
+        side: selected ? BorderSide.none : BorderSide(color: ParlaColors.line),
       ),
       child: InkWell(
         customBorder: const StadiumBorder(),
@@ -254,7 +252,7 @@ class PillSegmented<T> extends StatelessWidget {
     label: semanticLabel,
     child: Container(
       padding: const EdgeInsets.all(4),
-      decoration: const ShapeDecoration(
+      decoration: ShapeDecoration(
         color: ParlaColors.lemon,
         shape: StadiumBorder(),
       ),
@@ -325,16 +323,17 @@ class PillSegmented<T> extends StatelessWidget {
 
 /// A round progress ring with a label in the middle (e.g. "2/4").
 class ProgressRing extends StatelessWidget {
-  const ProgressRing({
+  ProgressRing({
     super.key,
     required this.fraction,
     required this.label,
     this.size = 52,
     this.stroke = 6,
     this.color = ParlaColors.sun,
-    this.track = ParlaColors.lemon,
-    this.labelColor = ParlaColors.espresso,
-  });
+    Color? track,
+    Color? labelColor,
+  }) : track = track ?? ParlaColors.lemon,
+       labelColor = labelColor ?? ParlaColors.espresso;
 
   final double fraction;
   final String label;
@@ -408,16 +407,16 @@ class _RingPainter extends CustomPainter {
 
 /// A small statistic tile: label, value with unit and a thin bar.
 class MiniStat extends StatelessWidget {
-  const MiniStat({
+  MiniStat({
     super.key,
     required this.label,
     required this.value,
     this.unit,
     this.fraction,
     this.dark = false,
-    this.fill = ParlaColors.sunInk,
+    Color? fill,
     this.onTap,
-  });
+  }) : fill = fill ?? ParlaColors.sunInk;
 
   final String label;
   final String value;
@@ -512,7 +511,7 @@ class RoundBackButton extends StatelessWidget {
     child: Center(
       child: Material(
         color: ParlaColors.white,
-        shape: const CircleBorder(side: BorderSide(color: ParlaColors.line)),
+        shape: CircleBorder(side: BorderSide(color: ParlaColors.line)),
         child: BackButton(onPressed: onPressed, color: ParlaColors.espresso),
       ),
     ),

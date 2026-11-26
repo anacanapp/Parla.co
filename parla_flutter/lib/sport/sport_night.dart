@@ -12,15 +12,15 @@ import '../ui/text_case.dart';
 /// `X5WorkoutW`, owner 2026-11-24). Shared by the sport files only.
 abstract final class SportNight {
   /// Ink on cards (white) and the dark ink on light capsules.
-  static const ink = Warm.onCard;
-  static const inkDark = Warm.black;
+  static Color get ink => Warm.onCard;
+  static Color get inkDark => Warm.black;
 
   /// Secondary text on cards.
-  static const soft = Warm.onCardSoft;
+  static Color get soft => Warm.onCardSoft;
 
   /// Text straight on the cream page.
-  static const page = Warm.ink;
-  static const pageSoft = Warm.muted;
+  static Color get page => Warm.ink;
+  static Color get pageSoft => Warm.muted;
 
   /// The lime week card's stops.
   static const blue = Warm.lime;
@@ -88,7 +88,7 @@ class SportHeader extends StatelessWidget {
           header: true,
           child: Text(
             title,
-            style: const TextStyle(
+            style: TextStyle(
               fontSize: 38,
               fontWeight: FontWeight.w200,
               letterSpacing: -1,
@@ -159,7 +159,7 @@ class TickDot extends StatelessWidget {
       ),
       alignment: Alignment.center,
       child: done
-          ? const ParlaIcon(
+          ? ParlaIcon(
               ParlaIconName.check,
               size: 18,
               strokeWidth: 2.2,
@@ -170,7 +170,7 @@ class TickDot extends StatelessWidget {
           : label != null
           ? Text(
               label!,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
                 fontWeight: FontWeight.w500,
                 color: SportNight.ink,
@@ -195,12 +195,12 @@ class RowTexts extends StatelessWidget {
     children: [
       Text(
         title,
-        style: const TextStyle(fontSize: 15, color: SportNight.ink),
+        style: TextStyle(fontSize: 15, color: SportNight.ink),
       ),
       for (final line in [?subtitle, ?extra])
         Text(
           line,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: kMinTextSize,
             height: 1.35,
             color: SportNight.soft,
@@ -229,7 +229,7 @@ class SportOrb extends StatelessWidget {
       ),
     ),
     alignment: Alignment.center,
-    child: Icon(icon, size: size * .45, color: SportNight.inkDark),
+    child: Icon(icon, size: size * .45, color: Warm.dayInk),
   );
 }
 
@@ -305,7 +305,8 @@ class BluePebble extends StatelessWidget {
 
 /// The small upper-case label of a card ("BU HƏFTƏ").
 class Eyebrow extends StatelessWidget {
-  const Eyebrow(this.text, {super.key, this.color = SportNight.ink});
+  Eyebrow(this.text, {super.key, Color? color})
+    : color = color ?? SportNight.ink;
 
   final String text;
   final Color color;

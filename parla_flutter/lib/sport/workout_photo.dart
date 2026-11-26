@@ -101,7 +101,7 @@ class WorkoutPhotoCard extends StatelessWidget {
         child: ClipRRect(
           borderRadius: radius,
           child: Material(
-            color: Warm.black,
+            color: Warm.dayInk,
             child: InkWell(
               onTap: onTap,
               child: Stack(
@@ -118,8 +118,7 @@ class WorkoutPhotoCard extends StatelessWidget {
                       fit: BoxFit.cover,
                       alignment: const Alignment(0, -0.35),
                       excludeFromSemantics: true,
-                      errorBuilder: (_, _, _) =>
-                          const ColoredBox(color: Warm.black),
+                      errorBuilder: (_, _, _) => ColoredBox(color: Warm.dayInk),
                     ),
                   ),
                   const DecoratedBox(
@@ -147,10 +146,10 @@ class WorkoutPhotoCard extends StatelessWidget {
                         ),
                         child: Text(
                           badge!,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 12,
                             fontWeight: FontWeight.w500,
-                            color: Warm.black,
+                            color: Warm.dayInk,
                           ),
                         ),
                       ),
@@ -166,10 +165,10 @@ class WorkoutPhotoCard extends StatelessWidget {
                           color: Colors.white,
                           shape: BoxShape.circle,
                         ),
-                        child: const Icon(
+                        child: Icon(
                           Icons.check,
                           size: 18,
-                          color: Warm.black,
+                          color: Warm.dayInk,
                         ),
                       ),
                     ),

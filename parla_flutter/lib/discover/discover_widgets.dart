@@ -146,8 +146,7 @@ class ContentImage extends StatelessWidget {
             image: provider(image.url),
             fit: BoxFit.cover,
             excludeFromSemantics: true,
-            errorBuilder: (_, _, _) =>
-                const ColoredBox(color: ParlaColors.line),
+            errorBuilder: (_, _, _) => ColoredBox(color: ParlaColors.line),
           ),
         ),
       ),

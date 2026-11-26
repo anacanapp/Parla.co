@@ -575,7 +575,7 @@ class _BigSmile extends StatelessWidget {
     child: Container(
       width: 120,
       height: 120,
-      decoration: const BoxDecoration(
+      decoration: BoxDecoration(
         color: ParlaColors.espresso,
         shape: BoxShape.circle,
       ),
@@ -679,7 +679,7 @@ class _SkinCard extends StatelessWidget {
     selected: selected,
     inMutuallyExclusiveGroup: true,
     child: Material(
-      color: Colors.white,
+      color: Warm.surface,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(22),
         side: BorderSide(
@@ -702,7 +702,7 @@ class _SkinCard extends StatelessWidget {
                   Expanded(
                     child: Text(
                       label,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 15,
                         fontWeight: FontWeight.w500,
                         color: Warm.ink,
@@ -721,7 +721,7 @@ class _SkinCard extends StatelessWidget {
                     ),
                     alignment: Alignment.center,
                     child: selected
-                        ? const Icon(Icons.check, size: 13, color: Colors.white)
+                        ? Icon(Icons.check, size: 13, color: Warm.onBlack)
                         : null,
                   ),
                 ],

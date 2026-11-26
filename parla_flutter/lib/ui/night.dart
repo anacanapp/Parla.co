@@ -98,7 +98,12 @@ class LiquidGlass extends StatelessWidget {
                   borderRadius: BorderRadius.circular(radius),
                 ))
             .copyWith(side: BorderSide.none);
-    final see = color == null
+    // Night: clear glass is the flat espresso card with a hairline
+    // (owner 2026-11-26); coloured glass keeps its colours.
+    final night = Tone.dark && color == null && gradient == null;
+    final see = night
+        ? false
+        : color == null
         ? gradient == null || gradient!.colors.any((c) => c.a < .95)
         : color!.a < .95;
     final filter = ui.ImageFilter.blur(sigmaX: blurSigma, sigmaY: blurSigma);
@@ -117,8 +122,8 @@ class LiquidGlass extends StatelessWidget {
         Positioned.fill(
           child: DecoratedBox(
             decoration: BoxDecoration(
-              color: color,
-              gradient: color == null ? (gradient ?? clear) : null,
+              color: night ? Warm.nightCard : color,
+              gradient: night || color != null ? null : (gradient ?? clear),
             ),
           ),
         ),
@@ -145,23 +150,24 @@ class LiquidGlass extends StatelessWidget {
             ),
           ),
         // A specular glint at the top left.
-        const Positioned.fill(
-          child: IgnorePointer(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: RadialGradient(
-                  center: Alignment(-0.85, -1.05),
-                  radius: 0.75,
-                  colors: [Color(0x47FFFFFF), Color(0x00FFFFFF)],
+        if (!night)
+          const Positioned.fill(
+            child: IgnorePointer(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: RadialGradient(
+                    center: Alignment(-0.85, -1.05),
+                    radius: 0.75,
+                    colors: [Color(0x47FFFFFF), Color(0x00FFFFFF)],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
         Padding(padding: padding ?? EdgeInsets.zero, child: child),
         Positioned.fill(
           child: IgnorePointer(
-            child: CustomPaint(painter: _RimPainter(outline)),
+            child: CustomPaint(painter: _RimPainter(outline, night: night)),
           ),
         ),
       ],
@@ -191,14 +197,27 @@ class LiquidGlass extends StatelessWidget {
 /// the bottom right, over a blurred inner glow that gives the glass its
 /// thickness.
 class _RimPainter extends CustomPainter {
-  _RimPainter(this.shape);
+  _RimPainter(this.shape, {this.night = false});
 
   final OutlinedBorder shape;
+
+  /// The night card's plain hairline instead of the lit rim.
+  final bool night;
 
   @override
   void paint(Canvas canvas, Size size) {
     final rect = (Offset.zero & size).deflate(.6);
     final path = shape.getOuterPath(rect);
+    if (night) {
+      canvas.drawPath(
+        path,
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1
+          ..color = Warm.nightEdge,
+      );
+      return;
+    }
     const light = LinearGradient(
       begin: Alignment.topLeft,
       end: Alignment.bottomRight,
@@ -236,7 +255,8 @@ class _RimPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_RimPainter old) => old.shape != shape;
+  bool shouldRepaint(_RimPainter old) =>
+      old.shape != shape || old.night != night;
 }
 
 /// Clear liquid glass with a corner [radius] (see [LiquidGlass]).

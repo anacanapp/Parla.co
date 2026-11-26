@@ -25,6 +25,7 @@ const _language = String.fromEnvironment(
   defaultValue: 'az',
 );
 const _dir = String.fromEnvironment('PREVIEW_DIR');
+const _dark = bool.fromEnvironment('PREVIEW_DARK');
 final _today = DateTime(2026, 11, 12, 9);
 
 const _answers = QuizAnswers(
@@ -110,7 +111,10 @@ Future<void> _open(WidgetTester tester, {DateTime? at}) async {
   tester.view.devicePixelRatio = 2;
   addTearDown(tester.view.reset);
 
-  SharedPreferences.setMockInitialValues({'language': _language});
+  SharedPreferences.setMockInitialValues({
+    'language': _language,
+    if (_dark) 'appearance': 'dark',
+  });
   final settings = await AppSettings.load();
   final api = FakeApi()
     ..signedIn = true
@@ -379,7 +383,10 @@ void main() {
       tester.view.physicalSize = const Size(780, 1688);
       tester.view.devicePixelRatio = 2;
       addTearDown(tester.view.reset);
-      SharedPreferences.setMockInitialValues({'language': _language});
+      SharedPreferences.setMockInitialValues({
+        'language': _language,
+        if (_dark) 'appearance': 'dark',
+      });
       final settings = await AppSettings.load();
       await tester.pumpWidget(
         ParlaApp(

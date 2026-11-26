@@ -250,7 +250,7 @@ class _HabitsBody extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Padding(
+              Padding(
                 padding: EdgeInsets.only(top: 2),
                 child: ParlaIcon(
                   ParlaIconName.check,
@@ -262,7 +262,7 @@ class _HabitsBody extends StatelessWidget {
               Expanded(
                 child: Text(
                   l10n.habitsPrivacyNote,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     height: 1.45,
                     color: Warm.muted,
@@ -302,7 +302,7 @@ class _SectionTitle extends StatelessWidget {
       header: true,
       child: Text(
         text,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 24,
           fontWeight: FontWeight.w300,
           letterSpacing: -.4,
@@ -478,7 +478,7 @@ class _LogRow extends StatelessWidget {
           ),
           TextButton(
             style: TextButton.styleFrom(
-              foregroundColor: Warm.black,
+              foregroundColor: Warm.dayInk,
               backgroundColor: Colors.white,
               shape: const StadiumBorder(),
               minimumSize: const Size(64, 44),
@@ -534,7 +534,7 @@ class _WeekCard extends StatelessWidget {
             Text(title, style: const TextStyle(fontSize: 15)),
             Text(
               value,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13,
                 color: Warm.onCardSoft,
               ),

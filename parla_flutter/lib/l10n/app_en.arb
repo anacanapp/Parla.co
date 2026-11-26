@@ -1225,5 +1225,9 @@
   "consentRefreshIntro": "This is a new version of the text you agreed to. Agreeing is voluntary; you can withdraw at any time under Privacy.",
   "consentRefreshAgree": "I agree",
   "consentRefreshLater": "Not now",
-  "consentRefreshDone": "Consent updated."
+  "consentRefreshDone": "Consent updated.",
+  "appearanceTitle": "Appearance",
+  "appearanceSystem": "System",
+  "appearanceLight": "Light",
+  "appearanceDark": "Dark"
 }

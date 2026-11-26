@@ -27,6 +27,7 @@ import 'services/parla_api.dart';
 import 'state/app_settings.dart';
 import 'state/onboarding_state.dart';
 import 'ui/brand.dart';
+import 'ui/tone_scope.dart';
 
 /// The Parla user app.
 class ParlaApp extends StatefulWidget {
@@ -219,20 +220,29 @@ class _ParlaAppState extends State<ParlaApp> {
       ingredients: widget.ingredientDataset ?? euIngredientDataset,
       child: ListenableBuilder(
         listenable: widget.settings,
-        builder: (context, _) => MaterialApp.router(
-          debugShowCheckedModeBanner: false,
-          onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
-          // Night design 3.0: one dark theme only (owner, 2026-11-23).
-          theme: parlaTheme(),
-          locale: widget.settings.locale,
-          supportedLocales: AppLocalizations.supportedLocales,
-          localizationsDelegates: const [
-            AppLocalizations.delegate,
-            GlobalMaterialLocalizations.delegate,
-            GlobalWidgetsLocalizations.delegate,
-            GlobalCupertinoLocalizations.delegate,
-          ],
-          routerConfig: _router,
+        builder: (context, _) => ToneScope(
+          dark: switch (widget.settings.appearance) {
+            Appearance.light => false,
+            Appearance.dark => true,
+            Appearance.system =>
+              MediaQuery.platformBrightnessOf(context) == Brightness.dark,
+          },
+          // A fresh theme for the tone just set (the tokens read it).
+          builder: (context) => MaterialApp.router(
+            debugShowCheckedModeBanner: false,
+            onGenerateTitle: (context) => AppLocalizations.of(context).appTitle,
+            // Day "İşıq" or night "Espresso" (owner, 2026-11-26).
+            theme: parlaTheme(),
+            locale: widget.settings.locale,
+            supportedLocales: AppLocalizations.supportedLocales,
+            localizationsDelegates: const [
+              AppLocalizations.delegate,
+              GlobalMaterialLocalizations.delegate,
+              GlobalWidgetsLocalizations.delegate,
+              GlobalCupertinoLocalizations.delegate,
+            ],
+            routerConfig: _router,
+          ),
         ),
       ),
     );

@@ -633,5 +633,9 @@
   "consentRefreshIntro": "Это новая версия текста, с которым ты соглашалась. Согласие добровольное; его можно отозвать в любой момент в разделе «Приватность».",
   "consentRefreshAgree": "Согласна",
   "consentRefreshLater": "Не сейчас",
-  "consentRefreshDone": "Согласие обновлено."
+  "consentRefreshDone": "Согласие обновлено.",
+  "appearanceTitle": "Оформление",
+  "appearanceSystem": "Как в системе",
+  "appearanceLight": "Светлое",
+  "appearanceDark": "Тёмное"
 }

@@ -2182,4 +2182,16 @@ class AppLocalizationsAz extends AppLocalizations {
 
   @override
   String get consentRefreshDone => 'Razılıq yeniləndi.';
+
+  @override
+  String get appearanceTitle => 'Görünüş';
+
+  @override
+  String get appearanceSystem => 'Sistem';
+
+  @override
+  String get appearanceLight => 'Açıq';
+
+  @override
+  String get appearanceDark => 'Tünd';
 }
