@@ -54,6 +54,7 @@ class SupportAdminEndpoint extends Endpoint {
       await SupportThread.db.updateRow(
         session,
         thread.copyWith(unreadByStaff: false),
+        columns: (t) => [t.unreadByStaff],
       );
     }
     return readSupportThread(session, thread);
@@ -92,7 +93,11 @@ class SupportAdminEndpoint extends Endpoint {
   Future<void> close(Session session, int threadId) async {
     final staff = await requireStaff(session, roles: _roles);
     final thread = await _get(session, threadId);
-    await SupportThread.db.updateRow(session, thread.copyWith(open: false));
+    await SupportThread.db.updateRow(
+      session,
+      thread.copyWith(open: false),
+      columns: (t) => [t.open],
+    );
     await writeAudit(
       session,
       actorId: staff.authUserId,

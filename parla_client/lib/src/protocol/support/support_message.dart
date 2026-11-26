@@ -12,8 +12,8 @@
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:serverpod_client/serverpod_client.dart' as _isc;
 
-/// One support message, sealed with a key derived from the server KEK and
-/// bound to the thread's owner. [staffId] is set for the team's replies.
+/// One support message, sealed with AES-GCM and bound to the thread's
+/// owner. [staffId] is set for the team's replies.
 abstract class SupportMessage
     implements _isc.SerializableModel, _isc.ProtocolSerialization {
   SupportMessage._({

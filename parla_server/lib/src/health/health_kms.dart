@@ -8,10 +8,16 @@ import '../media/s3_media_store.dart';
 
 /// Wraps users' data keys with a KMS key that never leaves AWS (ENC-3).
 /// The account id is passed as encryption context, so a wrapped key only
-/// unwraps for its own account.
+/// unwraps for its own account. A [purpose] (support messages) is added to
+/// the context too, so such a key never unwraps as a health key or the
+/// other way round; health keys have none.
 abstract class KmsKeyWrapper {
-  Future<String> wrap(List<int> dataKey, UuidValue owner);
-  Future<List<int>> unwrap(String wrapped, UuidValue owner);
+  Future<String> wrap(List<int> dataKey, UuidValue owner, {String? purpose});
+  Future<List<int>> unwrap(
+    String wrapped,
+    UuidValue owner, {
+    String? purpose,
+  });
 }
 
 /// The server's KMS wrapper, or `null` to keep the KEK from the secrets
@@ -74,30 +80,39 @@ class AwsKmsKeyWrapper implements KmsKeyWrapper {
     return jsonDecode(res.body) as Map<String, Object?>;
   }
 
-  Map<String, String> _context(UuidValue owner) => {
+  Map<String, String> _context(UuidValue owner, String? purpose) => {
     'parla:user': owner.toString(),
+    'parla:purpose': ?purpose,
   };
 
   @override
-  Future<String> wrap(List<int> dataKey, UuidValue owner) async {
+  Future<String> wrap(
+    List<int> dataKey,
+    UuidValue owner, {
+    String? purpose,
+  }) async {
     final res = await _call('Encrypt', {
       'KeyId': keyId,
       'Plaintext': base64.encode(dataKey),
-      'EncryptionContext': _context(owner),
+      'EncryptionContext': _context(owner, purpose),
     });
     return res['CiphertextBlob']! as String;
   }
 
   @override
-  Future<List<int>> unwrap(String wrapped, UuidValue owner) async {
+  Future<List<int>> unwrap(
+    String wrapped,
+    UuidValue owner, {
+    String? purpose,
+  }) async {
     final now = DateTime.now();
-    final cacheKey = '$owner|$wrapped';
+    final cacheKey = '$owner|${purpose ?? ''}|$wrapped';
     final hit = _cache[cacheKey];
     if (hit != null && hit.until.isAfter(now)) return hit.key;
     final res = await _call('Decrypt', {
       'KeyId': keyId,
       'CiphertextBlob': wrapped,
-      'EncryptionContext': _context(owner),
+      'EncryptionContext': _context(owner, purpose),
     });
     final key = base64.decode(res['Plaintext']! as String);
     if (_cache.length > 1000) _cache.clear();
@@ -113,24 +128,32 @@ class FakeKmsKeyWrapper implements KmsKeyWrapper {
   int calls = 0;
 
   @override
-  Future<String> wrap(List<int> dataKey, UuidValue owner) async {
+  Future<String> wrap(
+    List<int> dataKey,
+    UuidValue owner, {
+    String? purpose,
+  }) async {
     calls++;
-    final mask = _mask(owner);
+    final mask = _mask(owner, purpose);
     return base64.encode([
       for (var i = 0; i < dataKey.length; i++) dataKey[i] ^ mask[i % 32],
     ]);
   }
 
   @override
-  Future<List<int>> unwrap(String wrapped, UuidValue owner) async {
+  Future<List<int>> unwrap(
+    String wrapped,
+    UuidValue owner, {
+    String? purpose,
+  }) async {
     calls++;
-    final mask = _mask(owner);
+    final mask = _mask(owner, purpose);
     final bytes = base64.decode(wrapped);
     return [for (var i = 0; i < bytes.length; i++) bytes[i] ^ mask[i % 32]];
   }
 
-  List<int> _mask(UuidValue owner) {
-    final o = utf8.encode(owner.toString());
+  List<int> _mask(UuidValue owner, String? purpose) {
+    final o = utf8.encode('${purpose ?? ''}|$owner');
     return [for (var i = 0; i < 32; i++) _key[i] ^ o[i % o.length]];
   }
 }

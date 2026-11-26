@@ -24,6 +24,7 @@ class SupportEndpoint extends Endpoint {
       await SupportThread.db.updateRow(
         session,
         thread.copyWith(unreadByUser: false),
+        columns: (t) => [t.unreadByUser],
       );
     }
     return readSupportThread(session, thread);

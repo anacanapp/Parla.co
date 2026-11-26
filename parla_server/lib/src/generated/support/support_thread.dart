@@ -26,6 +26,7 @@ abstract class SupportThread
     required this.unreadByUser,
     required this.createdAt,
     required this.lastMessageAt,
+    this.wrappedKey,
   });
 
   factory SupportThread({
@@ -36,6 +37,7 @@ abstract class SupportThread
     required bool unreadByUser,
     required DateTime createdAt,
     required DateTime lastMessageAt,
+    String? wrappedKey,
   }) = _SupportThreadImpl;
 
   factory SupportThread.fromJson(Map<String, dynamic> jsonSerialization) {
@@ -57,6 +59,7 @@ abstract class SupportThread
       lastMessageAt: _is.DateTimeJsonExtension.fromJson(
         jsonSerialization['lastMessageAt'],
       ),
+      wrappedKey: jsonSerialization['wrappedKey'] as String?,
     );
   }
 
@@ -79,6 +82,11 @@ abstract class SupportThread
 
   DateTime lastMessageAt;
 
+  /// The thread's message key, wrapped by the KMS health key with the
+  /// context parla:user = [authUserId] and parla:purpose = support (ENC-3).
+  /// Set with the first message sealed under KMS; `null` before.
+  String? wrappedKey;
+
   @override
   _is.Table<int?> get table => t;
 
@@ -93,6 +101,7 @@ abstract class SupportThread
     bool? unreadByUser,
     DateTime? createdAt,
     DateTime? lastMessageAt,
+    String? wrappedKey,
   });
   @override
   Map<String, dynamic> toJson() {
@@ -105,6 +114,7 @@ abstract class SupportThread
       'unreadByUser': unreadByUser,
       'createdAt': createdAt.toJson(),
       'lastMessageAt': lastMessageAt.toJson(),
+      if (wrappedKey != null) 'wrappedKey': wrappedKey,
     };
   }
 
@@ -161,6 +171,7 @@ class _SupportThreadImpl extends SupportThread {
     required bool unreadByUser,
     required DateTime createdAt,
     required DateTime lastMessageAt,
+    String? wrappedKey,
   }) : super._(
          id: id,
          authUserId: authUserId,
@@ -169,6 +180,7 @@ class _SupportThreadImpl extends SupportThread {
          unreadByUser: unreadByUser,
          createdAt: createdAt,
          lastMessageAt: lastMessageAt,
+         wrappedKey: wrappedKey,
        );
 
   /// Returns a shallow copy of this [SupportThread]
@@ -183,6 +195,7 @@ class _SupportThreadImpl extends SupportThread {
     bool? unreadByUser,
     DateTime? createdAt,
     DateTime? lastMessageAt,
+    Object? wrappedKey = _Undefined,
   }) {
     return SupportThread(
       id: id is int? ? id : this.id,
@@ -192,6 +205,7 @@ class _SupportThreadImpl extends SupportThread {
       unreadByUser: unreadByUser ?? this.unreadByUser,
       createdAt: createdAt ?? this.createdAt,
       lastMessageAt: lastMessageAt ?? this.lastMessageAt,
+      wrappedKey: wrappedKey is String? ? wrappedKey : this.wrappedKey,
     );
   }
 }
@@ -232,6 +246,11 @@ class SupportThreadUpdateTable extends _is.UpdateTable<SupportThreadTable> {
         table.lastMessageAt,
         value,
       );
+
+  _is.ColumnValue<String, String> wrappedKey(String? value) => _is.ColumnValue(
+    table.wrappedKey,
+    value,
+  );
 }
 
 class SupportThreadTable extends _is.Table<int?> {
@@ -262,6 +281,10 @@ class SupportThreadTable extends _is.Table<int?> {
       'lastMessageAt',
       this,
     );
+    wrappedKey = _is.ColumnString(
+      'wrappedKey',
+      this,
+    );
   }
 
   late final SupportThreadUpdateTable updateTable;
@@ -278,6 +301,11 @@ class SupportThreadTable extends _is.Table<int?> {
 
   late final _is.ColumnDateTime lastMessageAt;
 
+  /// The thread's message key, wrapped by the KMS health key with the
+  /// context parla:user = [authUserId] and parla:purpose = support (ENC-3).
+  /// Set with the first message sealed under KMS; `null` before.
+  late final _is.ColumnString wrappedKey;
+
   @override
   List<_is.Column> get columns => [
     id,
@@ -287,6 +315,7 @@ class SupportThreadTable extends _is.Table<int?> {
     unreadByUser,
     createdAt,
     lastMessageAt,
+    wrappedKey,
   ];
 }
 

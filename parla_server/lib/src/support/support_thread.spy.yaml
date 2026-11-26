@@ -10,6 +10,10 @@ fields:
   unreadByUser: bool
   createdAt: DateTime
   lastMessageAt: DateTime
+  ### The thread's message key, wrapped by the KMS health key with the
+  ### context parla:user = [authUserId] and parla:purpose = support (ENC-3).
+  ### Set with the first message sealed under KMS; `null` before.
+  wrappedKey: String?, scope=serverOnly
 indexes:
   support_thread_user_idx:
     fields: authUserId

@@ -1,7 +1,6 @@
 import 'package:serverpod/serverpod.dart';
 
 import '../generated/protocol.dart';
-import '../health/health_crypto.dart';
 import 'support_crypto.dart';
 
 /// Rules of the support conversation.
@@ -37,15 +36,15 @@ Future<List<SupportEntry>> readSupportThread(
     where: (t) => t.threadId.equals(thread.id!),
     orderBy: (t) => t.createdAt,
   );
-  final crypto = await SupportCrypto.of(session);
+  // The thread as stored now: its key may have been made after [thread]
+  // was read.
+  final fresh = await SupportThread.db.findById(session, thread.id!) ?? thread;
+  final keys = SupportCrypto.forReading(session, fresh);
   return [
     for (final r in rows)
       SupportEntry(
         fromStaff: r.fromStaff,
-        text: await crypto.open(
-          Sealed(ciphertext: r.ciphertext, nonce: r.nonce),
-          thread.authUserId,
-        ),
+        text: await keys.open(r),
         createdAt: r.createdAt,
       ),
   ];
@@ -58,9 +57,8 @@ Future<SupportThread> addSupportMessage(
   String text, {
   UuidValue? staffId,
 }) async {
-  final sealed = await (await SupportCrypto.of(
-    session,
-  )).seal(text, thread.authUserId);
+  final crypto = await SupportCrypto.forWriting(session, thread);
+  final sealed = await crypto.seal(text, thread.authUserId);
   final now = DateTime.now().toUtc();
   return session.db.transaction((transaction) async {
     await SupportMessage.db.insertRow(
@@ -71,6 +69,7 @@ Future<SupportThread> addSupportMessage(
         staffId: staffId,
         ciphertext: sealed.ciphertext,
         nonce: sealed.nonce,
+        keyVersion: crypto.version,
         createdAt: now,
       ),
       transaction: transaction,
@@ -83,6 +82,13 @@ Future<SupportThread> addSupportMessage(
         unreadByStaff: staffId == null ? true : thread.unreadByStaff,
         unreadByUser: staffId != null ? true : thread.unreadByUser,
       ),
+      // Never the key: [thread] may have been read before it was made.
+      columns: (t) => [
+        t.open,
+        t.lastMessageAt,
+        t.unreadByStaff,
+        t.unreadByUser,
+      ],
       transaction: transaction,
     );
   });
