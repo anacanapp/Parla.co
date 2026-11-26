@@ -583,29 +583,7 @@ class _StepRowState extends State<_StepRow> {
                       width: 44,
                       height: 44,
                       child: Center(
-                        child: AnimatedContainer(
-                          duration: const Duration(milliseconds: 200),
-                          width: 24,
-                          height: 24,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: done ? Warm.black : Colors.transparent,
-                            border: done
-                                ? null
-                                : Border.all(
-                                    color: const Color(0xFFD6CFC8),
-                                    width: 1.5,
-                                  ),
-                          ),
-                          alignment: Alignment.center,
-                          child: done
-                              ? const ParlaIcon(
-                                  ParlaIconName.check,
-                                  size: 13,
-                                  color: Colors.white,
-                                )
-                              : null,
-                        ),
+                        child: CheckCircle(done: done, size: 26),
                       ),
                     ),
                   ),
@@ -693,14 +671,20 @@ class _OwnRoutineCard extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(18, 10, 6, 10),
       child: Theme(
         data: Theme.of(context).copyWith(
+          // Variant C (owner 2026-11-26): thin ring, banana when done.
           checkboxTheme: CheckboxThemeData(
-            side: const BorderSide(color: Color(0x99FFFFFF), width: 1.5),
+            shape: const CircleBorder(),
+            side: WidgetStateBorderSide.resolveWith(
+              (states) => states.contains(WidgetState.selected)
+                  ? BorderSide.none
+                  : const BorderSide(color: CheckCircle.ring, width: 1.2),
+            ),
             fillColor: WidgetStateProperty.resolveWith(
               (states) => states.contains(WidgetState.selected)
-                  ? Colors.white
+                  ? Warm.banana
                   : Colors.transparent,
             ),
-            checkColor: const WidgetStatePropertyAll(Warm.black),
+            checkColor: const WidgetStatePropertyAll(Warm.ink),
           ),
         ),
         child: Column(

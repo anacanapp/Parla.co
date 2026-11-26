@@ -296,36 +296,15 @@ class _StepTileState extends State<StepTile> {
           ? l10n.stepMarkUndone(step.title)
           : l10n.stepMarkDone(step.title),
       excludeSemantics: true,
-      // A 36 px circle in a 48 px tap area.
+      // A thin 28 px circle in a 48 px tap area (owner 2026-11-26,
+      // variant C): a banana disc with an ink tick when done.
       child: InkResponse(
         onTap: widget.onToggle,
         radius: 24,
         child: SizedBox(
           width: 48,
           height: 48,
-          child: Center(
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              width: 36,
-              height: 36,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: done ? Colors.white : Colors.transparent,
-                border: done
-                    ? null
-                    : Border.all(color: const Color(0x99FFFFFF), width: 1.5),
-              ),
-              alignment: Alignment.center,
-              child: done
-                  ? const ParlaIcon(
-                      ParlaIconName.check,
-                      size: 18,
-                      strokeWidth: 2.5,
-                      color: Warm.black,
-                    )
-                  : null,
-            ),
-          ),
+          child: Center(child: CheckCircle(done: done)),
         ),
       ),
     );

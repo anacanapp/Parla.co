@@ -153,17 +153,17 @@ class TickDot extends StatelessWidget {
       height: 36,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: done ? Colors.white : null,
-        border: done
-            ? null
-            : Border.all(color: const Color(0x99FFFFFF), width: 1.5),
+        // Variant C (owner 2026-11-26): thin ring, banana when done.
+        color: done ? Warm.banana : null,
+        border: done ? null : Border.all(color: CheckCircle.ring, width: 1.2),
       ),
       alignment: Alignment.center,
       child: done
           ? const ParlaIcon(
               ParlaIconName.check,
               size: 18,
-              color: SportNight.inkDark,
+              strokeWidth: 2.2,
+              color: Warm.ink,
             )
           : icon != null
           ? ParlaIcon(icon!, size: 18, color: SportNight.ink)
@@ -266,16 +266,19 @@ class OrbPill extends StatelessWidget {
           constraints: BoxConstraints(minHeight: height),
           child: Padding(
             padding: EdgeInsets.all((height - 48) / 2 + 0.5),
+            // Owner 2026-11-26: the label first, the orb on the right,
+            // no extra arrow.
             child: Row(
               children: [
-                SportOrb(icon: icon, size: height - 12),
-                const SizedBox(width: 14),
+                const SizedBox(width: 10),
                 Expanded(
                   child: Text(
                     label,
                     style: const TextStyle(fontSize: 15, color: Colors.white),
                   ),
                 ),
+                const SizedBox(width: 14),
+                SportOrb(icon: icon, size: height - 12),
               ],
             ),
           ),
