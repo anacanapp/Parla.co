@@ -134,7 +134,7 @@ class LiquidGlass extends StatelessWidget {
                     Color(0x38FFFFFF),
                     Color(0x00FFFFFF),
                     Color(0x00000000),
-                    Color(0x1F000000),
+                    Color(0x0A000000),
                   ],
                   stops: [0, .32, .72, 1],
                 ),
@@ -170,7 +170,7 @@ class LiquidGlass extends StatelessWidget {
         shadows: shadow
             ? const [
                 BoxShadow(
-                  color: Color(0x66050118),
+                  color: Color(0x1F78501E),
                   blurRadius: 36,
                   offset: Offset(0, 18),
                 ),
@@ -264,12 +264,12 @@ class GlassSurface extends StatelessWidget {
 /// that passes WCAG AA on all three (checked in
 /// `test/night_palette_test.dart`). The names are the tiles' old ones.
 enum MeshTone {
-  pink(Color(0xFFA5625A), Color(0xFFA6664F), Color(0xFF6E3A30), _light),
-  sage(Color(0xFF56650F), Color(0xFF667A14), Color(0xFF3A4608), _light),
-  blue(Color(0xFF5A4E4A), Color(0xFF3E3532), Color(0xFF241C18), _light),
-  orange(Color(0xFFA9561C), Color(0xFF9A4A16), Color(0xFF5A2A0C), _light),
-  rose(Color(0xFFA9503E), Color(0xFF9C4A3A), Color(0xFF5E2A20), _light),
-  plum(Color(0xFF6A4A3E), Color(0xFF4A342C), Color(0xFF2E201A), _light);
+  pink(Color(0xFFFDEAF2), Color(0xFFF8C9DC), Color(0xFFFFF6CF), _ink),
+  sage(Color(0xFFFFF8DA), Color(0xFFFFE47A), Color(0xFFFFFFFF), _ink),
+  blue(Color(0xFFEEF4FB), Color(0xFFC9DDF2), Color(0xFFFFF6CF), _ink),
+  orange(Color(0xFFFFE97A), Color(0xFFFFCE00), Color(0xFFF6B4CF), _ink),
+  rose(Color(0xFFFCE3EE), Color(0xFFF6B4CF), Color(0xFFC9B8F2), _ink),
+  plum(Color(0xFFF2EDFC), Color(0xFFD6CAF5), Color(0xFFFFF6CF), _ink);
 
   const MeshTone(this.from, this.to, this.blob, this.ink);
 
@@ -295,6 +295,7 @@ enum MeshTone {
 }
 
 const _light = Color(0xFFFFFFFF);
+const _ink = Color(0xFF1A1A1E);
 const _darkPink = Color(0xFF2A0A1C);
 
 /// A rounded tile in a [MeshTone]'s colours as satin glass ([LiquidGlass]):
@@ -374,9 +375,9 @@ class PebbleCard extends StatelessWidget {
 
   /// The gradient's stops, top to bottom (light ink passes AA on each).
   static const stops = [
-    Color(0xFF6A4A3E),
-    Color(0xFF4A342C),
-    Color(0xFF2E201A),
+    Color(0xFF2E2A25),
+    Color(0xFF221F1B),
+    Color(0xFF16130F),
   ];
 
   @override
@@ -405,7 +406,7 @@ class SlidePill extends StatelessWidget {
     required this.label,
     required this.onPressed,
     this.icon = ParlaIconName.arrowRight,
-    this.background = const Color(0x8C2A0A1C),
+    this.background = const Color(0xF216130F),
     this.foreground = const Color(0xFFFFF0F7),
   });
 

@@ -310,10 +310,10 @@ class _StepTileState extends State<StepTile> {
               height: 36,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: done ? Colors.white : Colors.transparent,
+                color: done ? Warm.banana : Colors.transparent,
                 border: done
                     ? null
-                    : Border.all(color: const Color(0x99FFFFFF), width: 1.5),
+                    : Border.all(color: const Color(0x591A1A1E), width: 1.5),
               ),
               alignment: Alignment.center,
               child: done

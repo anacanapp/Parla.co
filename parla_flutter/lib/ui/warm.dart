@@ -17,24 +17,47 @@ abstract final class Warm {
   /// Dark warm brown of chosen chips and round buttons.
   static const black = Color(0xFF2A2320);
 
-  /// The neutral cream under the photo and of text pages.
-  static const page = Color(0xFFF0EDEA);
+  /// The light page under the soft colour wash (light design, owner
+  /// 2026-11-26: "Parla İşıq" demo).
+  static const page = Color(0xFFF7F3F1);
 
-  /// The small lime marker of meters (never text).
-  static const marker = Color(0xFFE8F06A);
+  /// Banana yellow, the brand colour (app icon). Meters, chosen marks and
+  /// the core of every gradient; never text.
+  static const marker = Color(0xFFFFCE00);
+  static const banana = marker;
 
-  /// White text on cards, and its softer variant.
-  static const onCard = Color(0xFFFFFFFF);
-  static const onCardSoft = Color(0xD9FFFFFF);
+  /// Light washes of the design: butter, rose, lilac and sky.
+  static const butter = Color(0xFFFFF6CF);
+  static const roseTint = Color(0xFFF6B4CF);
+  static const lilac = Color(0xFFC9B8F2);
+  static const sky = Color(0xFFBFD8F2);
 
-  /// Lime card: olive to lime, with a lime glow at the bottom right.
-  /// Slightly deeper than the prototype so white text passes AA.
-  static const lime = [Color(0xFF56650F), Color(0xFF61731A), Color(0xFF667A14)];
-  static const limeGlow = Color(0x99C9E04A);
+  /// The rainbow of the Parla mark: banana first and most.
+  static const iris = [
+    Color(0xFFFFCE00),
+    Color(0xFFFFE15A),
+    Color(0xFFF6B4CF),
+    Color(0xFFC9B8F2),
+    Color(0xFFBFD8F2),
+    Color(0xFFFFE97A),
+    Color(0xFFFFCE00),
+  ];
 
-  /// Rose card: dusty rose to clay, with a pink glow on the left.
-  static const rose = [Color(0xFFA5625A), Color(0xFFA86852), Color(0xFFA6664F)];
-  static const roseGlow = Color(0x80D28C8C);
+  /// Text on cards: the cards are light glass now, so this is dark ink;
+  /// the name is kept for the screens that use it.
+  static const onCard = ParlaColors.espresso;
+  static const onCardSoft = Color(0xFF6B6259);
+
+  /// Text on dark surfaces (chosen chips, the menu, black buttons).
+  static const onDark = Color(0xFFFFFFFF);
+
+  /// Butter card (was lime): white to butter to banana, dark text.
+  static const lime = [Color(0xFFFFFBEA), Color(0xFFFFF1B0), Color(0xFFFFE47A)];
+  static const limeGlow = Color(0x99FFCE00);
+
+  /// Rose card: white to pale rose, dark text.
+  static const rose = [Color(0xFFFFF7FA), Color(0xFFFCE3EE), Color(0xFFF9D3E4)];
+  static const roseGlow = Color(0x80C9B8F2);
 }
 
 /// The page: neutral cream with the soft photo of a woman in profile
@@ -60,70 +83,48 @@ class WarmBackdrop extends StatelessWidget {
     child: Stack(
       fit: StackFit.expand,
       children: [
-        if (figure)
-          ExcludeSemantics(
-            child: RepaintBoundary(
-              child: LayoutBuilder(
-                builder: (context, box) {
-                  // As in the prototype: 120 % of the width, 42 % across,
-                  // 40 px above the top (in 844 px).
-                  final width = box.maxWidth * 1.2;
-                  return Stack(
-                    clipBehavior: Clip.hardEdge,
-                    children: [
-                      Positioned(
-                        left: (box.maxWidth - width) * .42,
-                        top: -40 * box.maxHeight / 844,
-                        width: width,
-                        child: Image.asset(
-                          asset,
-                          fit: BoxFit.fitWidth,
-                          gaplessPlayback: true,
-                          errorBuilder: (_, _, _) => const SizedBox(),
-                        ),
-                      ),
-                      // A soft cream fade at the top keeps page titles
-                      // legible over the hair.
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        top: 0,
-                        height: box.maxHeight * .27,
-                        child: const DecoratedBox(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Color(0xF2F0EDEA),
-                                Color(0xBFF0EDEA),
-                                Color(0x00F0EDEA),
-                              ],
-                              stops: [0, .55, 1],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-          )
-        else
-          const DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Color(0xFFF4F1EE), Warm.page],
-              ),
-            ),
+        // Soft colour wash: rose at the top left, banana at the top right
+        // and a butter glow at the bottom. Text pages get a lighter wash.
+        ExcludeSemantics(
+          child: RepaintBoundary(
+            child: CustomPaint(painter: _WashPainter(strong: figure)),
           ),
+        ),
         child,
       ],
     ),
   );
+}
+
+class _WashPainter extends CustomPainter {
+  const _WashPainter({required this.strong});
+
+  final bool strong;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final k = strong ? 1.0 : .55;
+    void glow(Offset c, double r, Color color) {
+      canvas.drawRect(
+        Offset.zero & size,
+        Paint()
+          ..shader = ui.Gradient.radial(c, r, [
+            color.withValues(alpha: color.a * k),
+            color.withValues(alpha: 0),
+          ]),
+      );
+    }
+
+    final w = size.width;
+    final h = size.height;
+    glow(Offset(w * .05, -h * .02), w * .95, const Color(0x8CF6B4CF));
+    glow(Offset(w * 1.02, h * .06), w * .9, const Color(0x80FFCE00));
+    glow(Offset(w * .85, h * 1.02), w * 1.0, const Color(0x8CFFE97A));
+    glow(Offset(-w * .1, h * .92), w * .8, const Color(0x59C9B8F2));
+  }
+
+  @override
+  bool shouldRepaint(_WashPainter old) => old.strong != strong;
 }
 
 /// Tints of [SmokyGlass].
@@ -168,31 +169,26 @@ class SmokyGlass extends StatelessWidget {
     final grouped = BackdropGroup.of(context) != null;
     final glow = switch (tint) {
       SmokyTint.coral => const RadialGradient(
-        center: Alignment(-0.44, -0.1),
+        center: Alignment(0.7, -0.6),
         radius: 1,
-        colors: [Color(0xCCEC6046), Color(0x40EC6046), Color(0x00EC6046)],
+        colors: [Color(0xB3FFCE00), Color(0x40FFE15A), Color(0x00FFE15A)],
         stops: [0, .55, 1],
         transform: _StretchToWidth(),
       ),
       SmokyTint.burnt => const RadialGradient(
         center: Alignment(-0.36, 0.7),
         radius: 1.1,
-        colors: [Color(0xEBE26C16), Color(0x59AA5014), Color(0x00AA5014)],
+        colors: [Color(0x99F6B4CF), Color(0x40C9B8F2), Color(0x00C9B8F2)],
         stops: [0, .55, 1],
         transform: _StretchToWidth(),
       ),
       SmokyTint.none => null,
     };
-    final ink = milk ? Warm.ink : Warm.onCard;
+    const ink = Warm.ink;
     final body = DefaultTextStyle.merge(
-      style: TextStyle(
-        color: ink,
-        shadows: milk
-            ? null
-            : const [Shadow(color: Color(0x591E0F0A), blurRadius: 10)],
-      ),
+      style: const TextStyle(color: ink),
       child: IconTheme.merge(
-        data: IconThemeData(color: ink),
+        data: const IconThemeData(color: ink),
         child: Padding(padding: padding ?? EdgeInsets.zero, child: child),
       ),
     );
@@ -202,9 +198,9 @@ class SmokyGlass extends StatelessWidget {
         shadows: shadow
             ? const [
                 BoxShadow(
-                  color: Color(0x1A28140A),
+                  color: Color(0x1F78501E),
                   blurRadius: 30,
-                  offset: Offset(0, 12),
+                  offset: Offset(0, 14),
                 ),
               ]
             : null,
@@ -221,19 +217,14 @@ class SmokyGlass extends StatelessWidget {
                     )
                   : BackdropFilter(filter: filter, child: const SizedBox()),
             ),
-            // A warm tint under a milky white sheen; a milk surface is
-            // light instead.
+            // White glass; a milk surface (chips, small buttons) is a
+            // little more solid.
             Positioned.fill(
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: milk ? const Color(0x73FFFFFF) : null,
-                  gradient: milk
-                      ? null
-                      : const LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [Color(0x57341E16), Color(0x521E100A)],
-                        ),
+                  color: milk
+                      ? const Color(0xD9FFFFFF)
+                      : const Color(0xB8FFFFFF),
                 ),
               ),
             ),
@@ -457,14 +448,14 @@ class _OpenRingPainter extends CustomPainter {
         0,
         2 * math.pi,
         false,
-        paint..color = const Color(0x40FFFFFF),
+        paint..color = const Color(0x261A1A1E),
       )
       ..drawArc(
         rect,
         math.pi * .6,
         math.pi * 1.6,
         false,
-        paint..color = const Color(0xE6FFFFFF),
+        paint..color = Warm.banana,
       );
   }
 
@@ -583,15 +574,11 @@ class GlowPlusButton extends StatelessWidget {
           border: Border.fromBorderSide(
             BorderSide(color: Color(0xBFFFFFFF), width: 1.5),
           ),
-          gradient: RadialGradient(
-            center: Alignment(-.1, -.2),
-            colors: [Color(0xFAFFF0E0), Color(0x99FFB076), Color(0x2EFFFFFF)],
-            stops: [0, .55, .78],
-          ),
-          boxShadow: [BoxShadow(color: Color(0x99FFA05A), blurRadius: 34)],
+          gradient: SweepGradient(colors: Warm.iris),
+          boxShadow: [BoxShadow(color: Color(0x80FFCE00), blurRadius: 30)],
         ),
         alignment: Alignment.center,
-        child: ParlaIcon(icon, size: size * .32, color: Colors.white),
+        child: ParlaIcon(icon, size: size * .32, color: Warm.ink),
       ),
     ),
   );
@@ -609,7 +596,7 @@ class OutlineBadge extends StatelessWidget {
     constraints: const BoxConstraints(minHeight: 26),
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
     decoration: ShapeDecoration(
-      color: const Color(0x14FFFFFF),
+      color: const Color(0x0D1A1A1E),
       shape: StadiumBorder(
         side: BorderSide(color: color.withValues(alpha: .6)),
       ),
@@ -649,7 +636,7 @@ class _DotsPainter extends CustomPainter {
     final lit = (columns * fraction).round();
     for (var i = 0; i < columns; i++) {
       final paint = Paint()
-        ..color = i < lit ? Warm.marker : const Color(0x80FFFFFF);
+        ..color = i < lit ? Warm.marker : const Color(0x401A1A1E);
       for (var j = 0; j < 3; j++) {
         canvas.drawCircle(Offset(4 + i * step, 4 + j * 6.0), 1.3, paint);
       }
@@ -693,7 +680,7 @@ class _TicksPainter extends CustomPainter {
         Offset(x, 2),
         Offset(x, 16),
         Paint()
-          ..color = i == mark ? Warm.marker : const Color(0x73FFFFFF)
+          ..color = i == mark ? Warm.marker : const Color(0x401A1A1E)
           ..strokeWidth = i == mark ? 2 : 1,
       );
     }
@@ -761,7 +748,7 @@ class _CurvePainter extends CustomPainter {
           ..shader = ui.Gradient.linear(
             Offset.zero,
             Offset(0, size.height),
-            const [Color(0x73F08A3C), Color(0x00F08A3C)],
+            const [Color(0x80FFCE00), Color(0x00FFCE00)],
           ),
       )
       ..drawPath(
@@ -769,11 +756,11 @@ class _CurvePainter extends CustomPainter {
         Paint()
           ..style = PaintingStyle.stroke
           ..strokeWidth = 2.5
-          ..color = const Color(0xFFF6A35C),
+          ..color = const Color(0xFFE0A800),
       );
     final s = at(selected.clamp(0, n - 1));
     final dash = Paint()
-      ..color = const Color(0x66FFFFFF)
+      ..color = const Color(0x661A1A1E)
       ..strokeWidth = 1;
     for (var y = s.dy + 8; y < size.height; y += 7) {
       canvas.drawLine(
@@ -783,8 +770,8 @@ class _CurvePainter extends CustomPainter {
       );
     }
     canvas
-      ..drawCircle(s, 10, Paint()..color = const Color(0x66F6A35C))
-      ..drawCircle(s, 4.5, Paint()..color = Colors.white);
+      ..drawCircle(s, 10, Paint()..color = const Color(0x80FFCE00))
+      ..drawCircle(s, 4.5, Paint()..color = Warm.ink);
   }
 
   @override
@@ -821,19 +808,17 @@ class DayCircles extends StatelessWidget {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: i == selected ? Colors.white : null,
+                color: i == selected ? Warm.black : null,
                 border: i == selected
                     ? null
-                    : Border.all(color: const Color(0x59FFFFFF)),
+                    : Border.all(color: const Color(0x331A1A1E)),
               ),
               child: FittedBox(
                 child: Text(
                   labels[i],
                   style: TextStyle(
                     fontSize: 11,
-                    color: i == selected
-                        ? const Color(0xFF222222)
-                        : Warm.onCard,
+                    color: i == selected ? Warm.onDark : Warm.onCard,
                   ),
                 ),
               ),
@@ -933,7 +918,7 @@ class OutlineCircleButton extends StatelessWidget {
     excludeSemantics: true,
     child: Material(
       type: MaterialType.transparency,
-      shape: const CircleBorder(side: BorderSide(color: Color(0x73FFFFFF))),
+      shape: const CircleBorder(side: BorderSide(color: Color(0x331A1A1E))),
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: onPressed,
@@ -1092,7 +1077,7 @@ class WarmChip extends StatelessWidget {
       style: TextStyle(
         fontSize: 13,
         fontWeight: selected ? FontWeight.w500 : FontWeight.w400,
-        color: selected ? Warm.onCard : Warm.ink,
+        color: selected ? Warm.onDark : Warm.ink,
       ),
     );
     const pad = EdgeInsets.symmetric(horizontal: 16, vertical: 11);
@@ -1177,7 +1162,7 @@ class WarmSegmented<T> extends StatelessWidget {
                       fontWeight: v == selected
                           ? FontWeight.w500
                           : FontWeight.w400,
-                      color: v == selected ? Warm.onCard : Warm.ink,
+                      color: v == selected ? Warm.onDark : Warm.ink,
                     ),
                   ),
                 ),
@@ -1220,18 +1205,18 @@ class WarmStepRow extends StatelessWidget {
             width: 34,
             height: 34,
             decoration: const BoxDecoration(
-              color: Colors.white,
+              color: Warm.banana,
               shape: BoxShape.circle,
             ),
             alignment: Alignment.center,
-            child: const Icon(Icons.check_rounded, size: 18, color: Warm.black),
+            child: const Icon(Icons.check_rounded, size: 18, color: Warm.ink),
           )
         : Container(
             width: 34,
             height: 34,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: const Color(0x99FFFFFF), width: 1.5),
+              border: Border.all(color: const Color(0x591A1A1E), width: 1.5),
             ),
           );
     return ConstrainedBox(

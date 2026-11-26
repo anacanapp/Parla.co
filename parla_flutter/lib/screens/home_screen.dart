@@ -448,17 +448,17 @@ class _Days extends StatelessWidget {
             alignment: Alignment.center,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: i == selected ? Colors.white : null,
+              color: i == selected ? Warm.black : null,
               border: i == selected
                   ? null
-                  : Border.all(color: const Color(0x59FFFFFF)),
+                  : Border.all(color: const Color(0x331A1A1E)),
             ),
             child: Text(
               labels[i],
               maxLines: 1,
               style: TextStyle(
                 fontSize: kMinTextSize,
-                color: i == selected ? Warm.black : Warm.onCard,
+                color: i == selected ? Warm.onDark : Warm.onCard,
               ),
             ),
           ),
@@ -708,7 +708,7 @@ class _RoundButton extends StatelessWidget {
         color: outlined ? Colors.transparent : Warm.black,
         shape: CircleBorder(
           side: outlined
-              ? const BorderSide(color: Color(0x99FFFFFF))
+              ? const BorderSide(color: Color(0x591A1A1E))
               : BorderSide.none,
         ),
         child: InkWell(
@@ -904,8 +904,8 @@ class _TodayRoutines extends StatelessWidget {
             steps: ids.length,
             done: done,
             tile: area == RoutineArea.hair
-                ? const Color(0xFF61731A)
-                : const Color(0xFFA6664F),
+                ? const Color(0xFFC9B8F2)
+                : const Color(0xFFF6B4CF),
           ),
         );
       }
@@ -918,7 +918,7 @@ class _TodayRoutines extends StatelessWidget {
           title: routine.name,
           steps: routine.steps.length,
           done: routine.steps.where((s) => book.isTicked(s.id)).length,
-          tile: const Color(0xFFB8622A),
+          tile: const Color(0xFFFFCE00),
         ),
       );
     }
@@ -1084,7 +1084,7 @@ class _MessagesButtonState extends State<_MessagesButton> {
             child: CircleAvatar(
               key: ValueKey('home-messages-dot'),
               radius: 5,
-              backgroundColor: Color(0xFFF0823C),
+              backgroundColor: Color(0xFFE5573F),
             ),
           ),
       ],

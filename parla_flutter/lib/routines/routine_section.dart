@@ -388,11 +388,11 @@ class _StepRowState extends State<_StepRow> {
                       height: 28,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: done ? Colors.white : Colors.transparent,
+                        color: done ? Warm.banana : Colors.transparent,
                         border: done
                             ? null
                             : Border.all(
-                                color: const Color(0x99FFFFFF),
+                                color: const Color(0x591A1A1E),
                                 width: 1.5,
                               ),
                       ),
@@ -541,10 +541,10 @@ class _OwnRoutineCard extends StatelessWidget {
       child: Theme(
         data: Theme.of(context).copyWith(
           checkboxTheme: CheckboxThemeData(
-            side: const BorderSide(color: Color(0x99FFFFFF), width: 1.5),
+            side: const BorderSide(color: Color(0x591A1A1E), width: 1.5),
             fillColor: WidgetStateProperty.resolveWith(
               (states) => states.contains(WidgetState.selected)
-                  ? Colors.white
+                  ? Warm.banana
                   : Colors.transparent,
             ),
             checkColor: const WidgetStatePropertyAll(Warm.black),

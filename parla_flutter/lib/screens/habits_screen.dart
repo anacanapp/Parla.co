@@ -204,7 +204,7 @@ class _HabitsBody extends StatelessWidget {
             fractions: [
               for (final c in week.care) c ? 1 : 0,
             ],
-            fill: const Color(0xFFF6A35C),
+            fill: const Color(0xFFFFCE00),
           ),
           const SizedBox(height: 10),
           _WeekCard(
@@ -217,7 +217,7 @@ class _HabitsBody extends StatelessWidget {
             fractions: [
               for (final w in week.water) w / HabitTracker.waterGoal,
             ],
-            fill: const Color(0xFFC9E04A),
+            fill: const Color(0xFFBFD8F2),
           ),
           const SizedBox(height: 10),
           _WeekCard(
@@ -244,7 +244,7 @@ class _HabitsBody extends StatelessWidget {
                 : l10n.habitsWeekMoveValue(week.moveTotal, week.moveDays),
             dates: week.dates,
             fractions: _relative(week.move),
-            fill: const Color(0xFFF08A6E),
+            fill: const Color(0xFFF6B4CF),
           ),
           const SizedBox(height: 22),
           Row(
@@ -403,8 +403,8 @@ class _GlassRound extends StatelessWidget {
     label: label,
     excludeSemantics: true,
     child: Material(
-      color: const Color(0x26FFFFFF),
-      shape: const CircleBorder(side: BorderSide(color: Color(0x66FFFFFF))),
+      color: const Color(0x99FFFFFF),
+      shape: const CircleBorder(side: BorderSide(color: Color(0x331A1A1E))),
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: onPressed,
@@ -550,7 +550,7 @@ class _WeekCard extends StatelessWidget {
                           height: _barHeight,
                           alignment: Alignment.bottomCenter,
                           decoration: BoxDecoration(
-                            color: const Color(0x24FFFFFF),
+                            color: const Color(0x141A1A1E),
                             borderRadius: BorderRadius.circular(9),
                           ),
                           child: FractionallySizedBox(

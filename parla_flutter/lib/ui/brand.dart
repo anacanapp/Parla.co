@@ -11,21 +11,21 @@ import 'package:flutter/material.dart';
 abstract final class ParlaColors {
   /// Warm accent surface: rings, fills, chosen states (4.8:1 under
   /// [espresso]).
-  static const sun = Color(0xFFCC6E30);
+  static const sun = Color(0xFFFFCE00);
 
   /// The page behind everything (warm cream).
-  static const cream = Color(0xFFF3EBE3);
+  static const cream = Color(0xFFF7F3F1);
 
   /// Main ink: text and icons, and the surface of the main action.
   static const espresso = Color(0xFF1A1A1E);
 
   /// Tinted surfaces (peach, lavender-grey, sage).
-  static const lemon = Color(0xFFF6E3D3);
+  static const lemon = Color(0xFFFFF6CF);
   static const sky = Color(0xFFE6E2EC);
   static const sage = Color(0xFFE3E8D8);
 
   /// Accent text: eyebrows, accent lines, links (burnt orange).
-  static const sunInk = Color(0xFF9A4A1C);
+  static const sunInk = Color(0xFF7A5300);
 
   /// Card surface, and the text on an [espresso] surface.
   static const white = Color(0xFFFFFFFF);
@@ -37,11 +37,11 @@ abstract final class ParlaColors {
   static const outline = Color(0xFF8E8590);
 
   /// Hairlines, card borders and the track of progress bars.
-  static const line = Color(0xFFE6DAD0);
+  static const line = Color(0xFFECE6E1);
 
   /// Light tints for cards.
   static const sageTint = Color(0xFFEEF0E6);
-  static const blush = Color(0xFFF6E0DC);
+  static const blush = Color(0xFFFCE3EE);
   static const lilac = Color(0xFFECE4EE);
 
   /// Sport surface (deep olive) and its light text.
@@ -50,7 +50,7 @@ abstract final class ParlaColors {
 
   /// Progress fills that must stand out from their tile.
   static const waterFill = Color(0xFF667A14);
-  static const moveFill = Color(0xFFB8622A);
+  static const moveFill = Color(0xFF9A6B00);
   static const moveTrack = Color(0xFFEADFD4);
 
   /// The small lime marker of the design (never text).

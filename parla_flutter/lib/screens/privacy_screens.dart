@@ -310,9 +310,9 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                             4,
                           ),
                           activeThumbColor: Warm.black,
-                          activeTrackColor: Colors.white,
-                          inactiveThumbColor: Colors.white,
-                          inactiveTrackColor: const Color(0x33FFFFFF),
+                          activeTrackColor: Warm.banana,
+                          inactiveThumbColor: const Color(0xFF8A8178),
+                          inactiveTrackColor: const Color(0x141A1A1E),
                           title: Text(
                             _title(l10n, kind),
                             style: const TextStyle(
@@ -408,7 +408,7 @@ class _SmokyGroup extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         for (var i = 0; i < children.length; i++) ...[
-          if (i > 0) const Divider(height: 1, color: Color(0x1FFFFFFF)),
+          if (i > 0) const Divider(height: 1, color: Color(0x1A1A1A1E)),
           children[i],
         ],
       ],
@@ -467,7 +467,7 @@ class _WhitePill extends StatelessWidget {
     button: true,
     enabled: onPressed != null,
     child: Material(
-      color: onPressed == null ? const Color(0x99FFFFFF) : Colors.white,
+      color: onPressed == null ? const Color(0x99FFFFFF) : Warm.banana,
       shape: const StadiumBorder(),
       child: InkWell(
         customBorder: const StadiumBorder(),

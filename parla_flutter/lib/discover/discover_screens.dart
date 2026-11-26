@@ -10,6 +10,7 @@ import '../routes.dart';
 import '../services/parla_api.dart';
 import '../ui/brand.dart';
 import '../ui/night.dart';
+import '../ui/warm.dart';
 import '../ui/parla_icons.dart';
 import 'blog_widgets.dart';
 import 'discover_bento.dart';
@@ -205,7 +206,7 @@ class BlogPostScreen extends StatelessWidget {
               gradient: const LinearGradient(
                 begin: Alignment(-0.4, -1),
                 end: Alignment(0.4, 1),
-                colors: PebbleCard.stops,
+                colors: Warm.lime,
               ),
               borderRadius: BorderRadius.circular(28),
             ),
@@ -607,7 +608,7 @@ class NutritionScreen extends StatelessWidget {
                 gradient: const LinearGradient(
                   begin: Alignment(-0.4, -1),
                   end: Alignment(0.4, 1),
-                  colors: PebbleCard.stops,
+                  colors: Warm.lime,
                 ),
                 borderRadius: BorderRadius.circular(28),
               ),

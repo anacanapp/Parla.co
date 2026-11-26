@@ -153,10 +153,10 @@ class TickDot extends StatelessWidget {
       height: 36,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: done ? Colors.white : null,
+        color: done ? Warm.banana : null,
         border: done
             ? null
-            : Border.all(color: const Color(0x99FFFFFF), width: 1.5),
+            : Border.all(color: const Color(0x591A1A1E), width: 1.5),
       ),
       alignment: Alignment.center,
       child: done

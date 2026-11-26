@@ -201,7 +201,7 @@ void main() {
       ..signedIn = true
       ..profile = const ProfileSummary(countryCode: 'AZ', language: 'az');
     await _pumpApp(tester, prefs: {'language': 'az'}, api: api);
-    expect(find.text('Bu gün'), findsOneWidget);
+    expect(find.bySemanticsLabel('Bu gün'), findsOneWidget);
   });
 
   testWidgets('"I already have an account" without a profile still runs the '

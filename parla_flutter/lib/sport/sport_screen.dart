@@ -215,7 +215,7 @@ class _EditRow extends StatelessWidget {
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [Color(0xFFFFC896), Color(0xFFF0823C)],
+                colors: [Color(0xFFFFE97A), Color(0xFFFFCE00)],
               ),
             ),
             alignment: Alignment.center,
@@ -483,7 +483,7 @@ class _MonthCalendar extends StatelessWidget {
   final int total;
   final String title;
 
-  static const coral = Color(0xFFC4532B);
+  static const coral = Color(0xFFD9534F);
 
   @override
   Widget build(BuildContext context) {
@@ -505,7 +505,7 @@ class _MonthCalendar extends StatelessWidget {
       final missed = w != null && !finished && d.isBefore(today);
       final isToday = d == today;
       final (Color? fill, Color text, BoxBorder? border) = switch (()) {
-        _ when finished => (Colors.white, Warm.black, null),
+        _ when finished => (Warm.banana, Warm.ink, null),
         _ when missed => (
           null,
           Colors.white,

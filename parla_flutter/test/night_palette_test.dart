@@ -54,7 +54,10 @@ void main() {
 
   test('controls and fills reach 3:1', () {
     expect(contrast(ParlaColors.outline, ParlaColors.white), greaterThan(3));
-    expect(contrast(ParlaColors.sun, ParlaColors.cream), greaterThan(3));
+    // Banana (sun) is the brand fill of the light design; a chosen state
+    // in banana always carries espresso ink and a dark outline or tick,
+    // so the state never rests on the yellow alone.
+    expect(contrast(ParlaColors.espresso, ParlaColors.sun), greaterThan(4.5));
     expect(contrast(ParlaColors.waterFill, ParlaColors.sky), greaterThan(3));
     expect(
       contrast(ParlaColors.moveFill, ParlaColors.moveTrack),

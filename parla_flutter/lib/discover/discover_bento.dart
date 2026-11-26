@@ -269,7 +269,7 @@ class _ArrowRing extends StatelessWidget {
     height: 48,
     decoration: BoxDecoration(
       shape: BoxShape.circle,
-      border: Border.all(color: const Color(0x66FFFFFF)),
+      border: Border.all(color: const Color(0x331A1A1E)),
     ),
     alignment: Alignment.center,
     child: const ParlaIcon(
@@ -499,7 +499,7 @@ class _WidePill extends StatelessWidget {
               Container(
                 padding: const EdgeInsets.fromLTRB(12, 4, 4, 4),
                 decoration: const ShapeDecoration(
-                  color: Color(0x33FFFFFF),
+                  color: Color(0x99FFFFFF),
                   shape: StadiumBorder(),
                 ),
                 child: Row(

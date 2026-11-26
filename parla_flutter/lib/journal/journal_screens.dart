@@ -8,6 +8,7 @@ import '../parla_scope.dart';
 import '../routes.dart';
 import '../ui/brand.dart';
 import '../ui/night.dart';
+import '../ui/warm.dart';
 import '../ui/parla_ui.dart';
 import '../ui/parla_icons.dart';
 import 'journal_book.dart';
@@ -48,7 +49,7 @@ class JournalScreen extends StatelessWidget {
                 gradient: const LinearGradient(
                   begin: Alignment(-0.4, -1),
                   end: Alignment(0.4, 1),
-                  colors: PebbleCard.stops,
+                  colors: Warm.lime,
                 ),
                 borderRadius: BorderRadius.circular(28),
               ),
