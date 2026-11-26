@@ -332,4 +332,16 @@ void main() {
       }
     });
   }
+
+  testWidgets('15_quiz', skip: !_enabled, (tester) async {
+    await _open(tester);
+    await _go(tester, Routes.quiz);
+    await tester.tap(find.byType(FilledButton).first); // intro: start
+    await tester.pumpAndSettle();
+    await tester.tap(
+      find.byKey(const ValueKey('option-skin_type-combination')),
+    );
+    await tester.pumpAndSettle();
+    await _shoot(tester, '15_quiz');
+  });
 }

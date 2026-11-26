@@ -7,6 +7,7 @@ import '../l10n/app_localizations.dart';
 import '../parla_scope.dart';
 import '../routes.dart';
 import '../ui/brand.dart';
+import '../ui/warm.dart';
 import '../ui/common.dart';
 import '../ui/parla_icons.dart';
 
@@ -367,16 +368,24 @@ class _QuestionView extends StatelessWidget {
                     ),
                   ],
                   const SizedBox(height: 20),
-                  for (final option in question.options) ...[
-                    _OptionTile(
-                      key: ValueKey('option-${question.id}-${option.id}'),
-                      label: option.text[language] ?? option.text['az']!,
-                      selected: selection.contains(option.id),
-                      multiple: question.multiple,
-                      onTap: () => onToggle(option),
-                    ),
-                    const SizedBox(height: 10),
-                  ],
+                  if (question.id == 'skin_type')
+                    _SkinTypeGrid(
+                      options: question.options,
+                      language: language,
+                      selection: selection,
+                      onToggle: onToggle,
+                    )
+                  else
+                    for (final option in question.options) ...[
+                      _OptionTile(
+                        key: ValueKey('option-${question.id}-${option.id}'),
+                        label: option.text[language] ?? option.text['az']!,
+                        selected: selection.contains(option.id),
+                        multiple: question.multiple,
+                        onTap: () => onToggle(option),
+                      ),
+                      const SizedBox(height: 10),
+                    ],
                 ],
               ),
             ),
@@ -590,4 +599,154 @@ class _SmileMarkPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_SmileMarkPainter oldDelegate) => false;
+}
+
+/// The skin type as colour cards in two columns ("İşıq" design): each
+/// card has its name, a round mark and a soft colour blob; the chosen
+/// one has a dark edge and a filled mark. A card the width of both
+/// columns is left for an odd last option ("not sure").
+class _SkinTypeGrid extends StatelessWidget {
+  const _SkinTypeGrid({
+    required this.options,
+    required this.language,
+    required this.selection,
+    required this.onToggle,
+  });
+
+  final List<QuizOption> options;
+  final String language;
+  final Set<String> selection;
+  final void Function(QuizOption) onToggle;
+
+  static const _blobs = {
+    'dry': [Color(0xFFFFF6CF), Color(0xFFFFE15A), Color(0xFFF2C66B)],
+    'oily': [Color(0xFFF7F1E6), Color(0xFFE9DCC6), Color(0xFFC9B396)],
+    'combination': [Color(0xFFFFF6CF), Color(0xFFFFCE00), Color(0xFFF6B4CF)],
+    'normal': [Color(0xFFF4F0FB), Color(0xFFC9B8F2), Color(0xFFBFD8F2)],
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    Widget card(QuizOption option) => _SkinCard(
+      key: ValueKey('option-skin_type-${option.id}'),
+      label: option.text[language] ?? option.text['az']!,
+      blob: _blobs[option.id],
+      selected: selection.contains(option.id),
+      onTap: () => onToggle(option),
+    );
+    // Rows of two; both cards in a row take the taller one's height.
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        for (var i = 0; i < options.length; i += 2) ...[
+          if (i > 0) const SizedBox(height: 10),
+          if (i + 1 < options.length)
+            IntrinsicHeight(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  Expanded(child: card(options[i])),
+                  const SizedBox(width: 10),
+                  Expanded(child: card(options[i + 1])),
+                ],
+              ),
+            )
+          else
+            card(options[i]),
+        ],
+      ],
+    );
+  }
+}
+
+class _SkinCard extends StatelessWidget {
+  const _SkinCard({
+    super.key,
+    required this.label,
+    required this.blob,
+    required this.selected,
+    required this.onTap,
+  });
+
+  final String label;
+  final List<Color>? blob;
+  final bool selected;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) => Semantics(
+    button: true,
+    selected: selected,
+    inMutuallyExclusiveGroup: true,
+    child: Material(
+      color: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(22),
+        side: BorderSide(
+          color: selected ? Warm.ink : Warm.line,
+          width: selected ? 1.8 : 1,
+        ),
+      ),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(22),
+        onTap: onTap,
+        child: Padding(
+          padding: const EdgeInsets.all(12),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Expanded(
+                    child: Text(
+                      label,
+                      style: const TextStyle(
+                        fontSize: 15,
+                        fontWeight: FontWeight.w500,
+                        color: Warm.ink,
+                      ),
+                    ),
+                  ),
+                  Container(
+                    width: 20,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: selected ? Warm.ink : null,
+                      border: selected
+                          ? null
+                          : Border.all(color: const Color(0xFFD6CFC8)),
+                    ),
+                    alignment: Alignment.center,
+                    child: selected
+                        ? const Icon(Icons.check, size: 13, color: Colors.white)
+                        : null,
+                  ),
+                ],
+              ),
+              if (blob != null) ...[
+                const SizedBox(height: 10),
+                ExcludeSemantics(
+                  child: Container(
+                    height: 70,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(40),
+                      gradient: RadialGradient(
+                        center: const Alignment(-.3, -.2),
+                        radius: 1.2,
+                        colors: blob!,
+                        stops: const [0, .55, 1],
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ),
+    ),
+  );
 }
