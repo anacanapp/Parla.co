@@ -92,7 +92,7 @@ void main() {
   ) async {
     await _pump(
       tester,
-      const Column(
+      Column(
         children: [
           HeroGlow(child: Text('Günaydın!')),
           ProgressRing(fraction: 0.5, label: '2/4'),

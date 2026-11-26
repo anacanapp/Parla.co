@@ -131,7 +131,7 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
           maxLength: 80,
           decoration: glassInput(
             l10n.productsSearchLabel,
-            prefixIcon: const Padding(
+            prefixIcon: Padding(
               padding: EdgeInsetsDirectional.only(start: 16, end: 8),
               child: Icon(Icons.search, color: Glass.soft),
             ),
@@ -283,12 +283,12 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
               children: [
                 Text(
                   l10n.checkSuggestTitle,
-                  style: text.titleMedium?.copyWith(color: Warm.ink),
+                  style: text.titleMedium?.copyWith(color: Warm.dayInk),
                 ),
                 const SizedBox(height: 4),
                 Text(
                   l10n.checkSuggestBody,
-                  style: text.bodySmall?.copyWith(color: Warm.muted),
+                  style: text.bodySmall?.copyWith(color: Warm.dayMuted),
                 ),
                 const SizedBox(height: 8),
                 Wrap(
@@ -349,7 +349,7 @@ class _ProductSearchScreenState extends State<ProductSearchScreen> {
                   key: ValueKey('recent-${r.code}'),
                   label: r.name,
                   value: r.brand,
-                  trailing: const Icon(
+                  trailing: Icon(
                     Icons.search,
                     size: 20,
                     color: Glass.soft,
@@ -392,7 +392,7 @@ class _ProductTile extends StatelessWidget {
           ].join(' · '),
           style: text.bodyMedium?.copyWith(color: Glass.soft),
         ),
-        trailing: const Icon(Icons.chevron_right, color: ParlaColors.espresso),
+        trailing: Icon(Icons.chevron_right, color: ParlaColors.espresso),
         onTap: onTap,
       ),
     );
@@ -499,7 +499,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             header: true,
             child: Text(
               product.name,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 30,
                 fontWeight: FontWeight.w200,
                 letterSpacing: -.8,
@@ -512,7 +512,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             const SizedBox(height: 4),
             Text(
               product.brand!.toUpperCase(),
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: kMinTextSize,
                 letterSpacing: 1,
                 color: Glass.soft,
@@ -751,7 +751,7 @@ class _IngredientTile extends StatelessWidget {
                 children: [
                   Expanded(child: Text(match.name, style: text.titleMedium)),
                   if (entry != null)
-                    const Icon(
+                    Icon(
                       Icons.chevron_right,
                       color: ParlaColors.espresso,
                     ),

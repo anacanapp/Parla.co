@@ -12,21 +12,27 @@ abstract final class Glass {
   static const darkInk = Color(0xFF1A0B2A);
 
   /// Faint glass fill of cards and lists, and its hairline.
-  static const fill = Color(0x99FFFFFF);
-  static const line = Color(0xCCFFFFFF);
+  static Color get fill =>
+      Tone.dark ? const Color(0xFF241D18) : const Color(0x99FFFFFF);
+  static Color get line =>
+      Tone.dark ? const Color(0xFF372D26) : const Color(0xCCFFFFFF);
 
   /// Slightly stronger fill of buttons and chips, and its hairline.
-  static const buttonFill = Color(0xA6FFFFFF);
-  static const buttonLine = Color(0xE6FFFFFF);
+  static Color get buttonFill =>
+      Tone.dark ? const Color(0xFF2C241E) : const Color(0xA6FFFFFF);
+  static Color get buttonLine =>
+      Tone.dark ? const Color(0xFF3F342C) : const Color(0xE6FFFFFF);
 
   /// Divider between rows of a [GlassGroup].
-  static const divider = Color(0x1A1A1A1E);
+  static Color get divider =>
+      Tone.dark ? const Color(0xFF372D26) : const Color(0x1A1A1A1E);
 
   /// Secondary text on the light page and light glass.
-  static const soft = ParlaColors.muted;
+  static Color get soft => Tone.dark ? ParlaColors.muted : ParlaColors.muted;
 
   /// The red of destructive rows ("Delete account") on light glass.
-  static const danger = Color(0xFFB3261E);
+  static Color get danger =>
+      Tone.dark ? const Color(0xFFFF8A80) : const Color(0xFFB3261E);
 
   /// The coral of destructive rows on smoky glass.
   static const dangerOnSmoke = Color(0xFFFFC2B0);
@@ -43,7 +49,7 @@ class GlassTitle extends StatelessWidget {
     header: true,
     child: Text(
       text,
-      style: const TextStyle(
+      style: TextStyle(
         fontSize: 34,
         fontWeight: FontWeight.w200,
         letterSpacing: -1,
@@ -167,7 +173,7 @@ class GlassChip extends StatelessWidget {
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: selected ? FontWeight.w600 : FontWeight.w400,
-                color: selected ? Colors.white : ParlaColors.espresso,
+                color: selected ? Warm.onBlack : ParlaColors.espresso,
               ),
             ),
           ),
@@ -223,7 +229,7 @@ class GlassGroup extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           for (var i = 0; i < children.length; i++) ...[
-            if (i > 0) const Divider(height: 1, color: Glass.divider),
+            if (i > 0) Divider(height: 1, color: Glass.divider),
             children[i],
           ],
         ],
@@ -235,15 +241,15 @@ class GlassGroup extends StatelessWidget {
 /// A row of a [GlassGroup]: optional icon, label, optional value on the
 /// right, at least 58 px high.
 class GlassRow extends StatelessWidget {
-  const GlassRow({
+  GlassRow({
     super.key,
     required this.label,
     this.onTap,
     this.icon,
     this.value,
-    this.color = ParlaColors.espresso,
+    Color? color,
     this.trailing,
-  });
+  }) : color = color ?? ParlaColors.espresso;
 
   final String label;
   final VoidCallback? onTap;
@@ -274,7 +280,7 @@ class GlassRow extends StatelessWidget {
                 child: Text(
                   value!,
                   textAlign: TextAlign.end,
-                  style: const TextStyle(fontSize: 13, color: Glass.soft),
+                  style: TextStyle(fontSize: 13, color: Glass.soft),
                 ),
               ),
             ],
@@ -330,7 +336,7 @@ class PebbleHeader extends StatelessWidget {
               const SizedBox(height: 2),
               Text(
                 subtitle,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: kMinTextSize,
                   height: 1.35,
                   color: Warm.onCardSoft,
@@ -353,7 +359,7 @@ InputDecoration glassInput(String hint, {Widget? prefixIcon}) {
       );
   return InputDecoration(
     hintText: hint,
-    hintStyle: const TextStyle(color: Glass.soft),
+    hintStyle: TextStyle(color: Glass.soft),
     prefixIcon: prefixIcon,
     filled: true,
     fillColor: Glass.buttonFill,

@@ -11,24 +11,30 @@ import 'parla_icons.dart';
 /// dark ink, banana yellow (#FFCE00, the app icon's colour) at the core of
 /// every gradient, and a dark menu capsule with the Parla mark.
 abstract final class Warm {
-  static const ink = Color(0xFF16130F);
+  static Color get ink =>
+      Tone.dark ? const Color(0xFFF5F1EC) : const Color(0xFF16130F);
 
   /// Secondary text: 5.5:1 on white (the demo's #8A8178 is too light for
   /// small text).
-  static const muted = Color(0xFF645B53);
+  static Color get muted =>
+      Tone.dark ? const Color(0xFFCCC3B8) : const Color(0xFF645B53);
 
   /// Dark ink of chosen chips, round buttons and the menu.
-  static const black = Color(0xFF16130F);
+  static Color get black =>
+      Tone.dark ? const Color(0xFFF5F1EC) : const Color(0xFF16130F);
 
   /// The light page behind everything.
-  static const page = Color(0xFFF7F3F1);
+  static Color get page =>
+      Tone.dark ? const Color(0xFF17120E) : const Color(0xFFF7F3F1);
 
   /// The banana marker of meters and chosen days (never text).
   static const marker = Color(0xFFFFCE00);
 
   /// Text on cards (dark on the white glass), and its softer variant.
-  static const onCard = Color(0xFF16130F);
-  static const onCardSoft = Color(0xFF645B53);
+  static Color get onCard =>
+      Tone.dark ? const Color(0xFFF5F1EC) : const Color(0xFF16130F);
+  static Color get onCardSoft =>
+      Tone.dark ? const Color(0xFFCCC3B8) : const Color(0xFF645B53);
 
   /// Brand colours of the design.
   static const banana = Color(0xFFFFCE00);
@@ -37,7 +43,36 @@ abstract final class Warm {
   static const roseTint = Color(0xFFF6B4CF);
   static const lilac = Color(0xFFC9B8F2);
   static const mist = Color(0xFFBFD8F2);
-  static const line = Color(0xFFECE6E1);
+  static Color get line =>
+      Tone.dark ? const Color(0xFF372D26) : const Color(0xFFECE6E1);
+
+  /// Night cards (owner 2026-11-26, "Espresso"): a flat card a little
+  /// lighter than the page, a raised one (chips, chosen rows) and the
+  /// hairline round both. In the day the cards are glass, not these.
+  static const nightCard = Color(0xFF241D18);
+  static const nightCardRaised = Color(0xFF2C241E);
+  static const nightEdge = Color(0xFF372D26);
+
+  /// Faint lines, ticks and rings: dark ink in the day, light at night.
+  static Color get faint =>
+      Tone.dark ? const Color(0x47F5F1EC) : const Color(0x3316130F);
+  static Color get ring =>
+      Tone.dark ? const Color(0x73F5F1EC) : const Color(0x5916130F);
+  static Color get fainter =>
+      Tone.dark ? const Color(0x33F5F1EC) : const Color(0x2616130F);
+
+  /// A plain card: white in the day, the night card at night.
+  static Color get surface => Tone.dark ? nightCard : const Color(0xFFFFFFFF);
+
+  /// Text and icons on a [black] surface: white in the day, dark ink at
+  /// night (when [black] is light).
+  static Color get onBlack =>
+      Tone.dark ? const Color(0xFF16130F) : const Color(0xFFFFFFFF);
+
+  /// Dark ink that stays dark at night: text on the yellow and light
+  /// surfaces that keep their day look.
+  static const dayInk = Color(0xFF16130F);
+  static const dayMuted = Color(0xFF645B53);
 
   /// The iridescent sweep of the Parla mark: banana first.
   static const iris = [
@@ -86,46 +121,49 @@ class WarmBackdrop extends StatelessWidget {
       );
 
   @override
-  Widget build(BuildContext context) => ColoredBox(
-    color: Warm.page,
-    child: Stack(
-      fit: StackFit.expand,
-      children: [
-        ExcludeSemantics(
-          child: RepaintBoundary(
-            child: Stack(
-              fit: StackFit.expand,
-              children: [
-                _wash(
-                  const Alignment(-1, -1.05),
-                  figure ? .9 : .7,
-                  Color(figure ? 0x59F6B4CF : 0x33F6B4CF),
-                ),
-                _wash(
-                  const Alignment(1, -.8),
-                  figure ? .95 : .7,
-                  Color(figure ? 0x4DFFCE00 : 0x26FFCE00),
-                ),
-                if (figure) ...[
-                  _wash(
-                    const Alignment(.7, 1.1),
-                    .8,
-                    const Color(0x33FFE97A),
+  Widget build(BuildContext context) => Tone.dark
+      // Night: a flat espresso page, no washes (owner 2026-11-26).
+      ? ColoredBox(color: Warm.page, child: child)
+      : ColoredBox(
+          color: Warm.page,
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              ExcludeSemantics(
+                child: RepaintBoundary(
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      _wash(
+                        const Alignment(-1, -1.05),
+                        figure ? .9 : .7,
+                        Color(figure ? 0x59F6B4CF : 0x33F6B4CF),
+                      ),
+                      _wash(
+                        const Alignment(1, -.8),
+                        figure ? .95 : .7,
+                        Color(figure ? 0x4DFFCE00 : 0x26FFCE00),
+                      ),
+                      if (figure) ...[
+                        _wash(
+                          const Alignment(.7, 1.1),
+                          .8,
+                          const Color(0x33FFE97A),
+                        ),
+                        _wash(
+                          const Alignment(-1, .95),
+                          .7,
+                          const Color(0x33C9B8F2),
+                        ),
+                      ],
+                    ],
                   ),
-                  _wash(
-                    const Alignment(-1, .95),
-                    .7,
-                    const Color(0x33C9B8F2),
-                  ),
-                ],
-              ],
-            ),
+                ),
+              ),
+              child,
+            ],
           ),
-        ),
-        child,
-      ],
-    ),
-  );
+        );
 }
 
 /// Tints of [SmokyGlass].
@@ -185,6 +223,10 @@ class SmokyGlass extends StatelessWidget {
       ),
       SmokyTint.none => null,
     };
+    // Night: a flat espresso card with a hairline; a tinted card keeps
+    // its yellow glow over it.
+    final night = Tone.dark;
+    final dayLook = !night;
     final ink = milk ? Warm.ink : Warm.onCard;
     final body = DefaultTextStyle.merge(
       style: TextStyle(
@@ -214,48 +256,61 @@ class SmokyGlass extends StatelessWidget {
         clipper: ShapeBorderClipper(shape: outline),
         child: Stack(
           children: [
-            Positioned.fill(
-              child: grouped
-                  ? BackdropFilter.grouped(
-                      filter: filter,
-                      child: const SizedBox(),
-                    )
-                  : BackdropFilter(filter: filter, child: const SizedBox()),
-            ),
+            if (dayLook)
+              Positioned.fill(
+                child: grouped
+                    ? BackdropFilter.grouped(
+                        filter: filter,
+                        child: const SizedBox(),
+                      )
+                    : BackdropFilter(filter: filter, child: const SizedBox()),
+              ),
             // A warm tint under a milky white sheen; a milk surface is
-            // light instead.
+            // light instead. At night: the flat card.
             Positioned.fill(
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: milk
+                  color: !dayLook
+                      ? (milk ? Warm.nightCardRaised : Warm.nightCard)
+                      : milk
                       ? const Color(0xC7FFFFFF)
                       : const Color(0xB8FFFFFF),
                 ),
               ),
             ),
-            const Positioned.fill(
-              child: DecoratedBox(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Color(0x2EFFFFFF),
-                      Color(0x0DFFFFFF),
-                      Color(0x1AFFFFFF),
-                    ],
-                    stops: [0, .55, 1],
+            if (dayLook)
+              const Positioned.fill(
+                child: DecoratedBox(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
+                      colors: [
+                        Color(0x2EFFFFFF),
+                        Color(0x0DFFFFFF),
+                        Color(0x1AFFFFFF),
+                      ],
+                      stops: [0, .55, 1],
+                    ),
                   ),
                 ),
               ),
-            ),
+            // At night the glow is softer, so the light text over it
+            // keeps its contrast.
             if (glow != null)
               Positioned.fill(
-                child: DecoratedBox(decoration: BoxDecoration(gradient: glow)),
+                child: Opacity(
+                  opacity: night ? .28 : 1,
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(gradient: glow),
+                  ),
+                ),
               ),
             Positioned.fill(
               child: IgnorePointer(
-                child: CustomPaint(painter: _EdgePainter(outline)),
+                child: CustomPaint(
+                  painter: _EdgePainter(outline, night: !dayLook),
+                ),
               ),
             ),
             // Only a tappable card is one button; otherwise the buttons
@@ -292,13 +347,26 @@ class _StretchToWidth extends GradientTransform {
 /// The glass edge: a milky white inner glow, a bright line along the
 /// top and a 1.5 px white border.
 class _EdgePainter extends CustomPainter {
-  _EdgePainter(this.shape);
+  _EdgePainter(this.shape, {this.night = false});
 
   final OutlinedBorder shape;
+
+  /// The night card's plain hairline instead of the glass edge.
+  final bool night;
 
   @override
   void paint(Canvas canvas, Size size) {
     final box = Offset.zero & size;
+    if (night) {
+      canvas.drawPath(
+        shape.getOuterPath(box.deflate(.5)),
+        Paint()
+          ..style = PaintingStyle.stroke
+          ..strokeWidth = 1
+          ..color = Warm.nightEdge,
+      );
+      return;
+    }
     final outer = shape.getOuterPath(box);
     canvas
       ..save()
@@ -336,7 +404,8 @@ class _EdgePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_EdgePainter old) => old.shape != shape;
+  bool shouldRepaint(_EdgePainter old) =>
+      old.shape != shape || old.night != night;
 }
 
 /// The colour of a [SquircleCard].
@@ -453,7 +522,7 @@ class _OpenRingPainter extends CustomPainter {
         0,
         2 * math.pi,
         false,
-        paint..color = const Color(0x2616130F),
+        paint..color = Warm.fainter,
       )
       ..drawArc(
         rect,
@@ -502,7 +571,7 @@ class BlackCircleButton extends StatelessWidget {
               width: size,
               height: size,
               child: Center(
-                child: ParlaIcon(icon, size: size * .42, color: Colors.white),
+                child: ParlaIcon(icon, size: size * .42, color: Warm.onBlack),
               ),
             ),
           ),
@@ -595,7 +664,8 @@ class GlowPlusButton extends StatelessWidget {
 
 /// A small outlined capsule next to a value ("dəq", "↑ 2").
 class OutlineBadge extends StatelessWidget {
-  const OutlineBadge(this.text, {super.key, this.color = Warm.onCard});
+  OutlineBadge(this.text, {super.key, Color? color})
+    : color = color ?? Warm.onCard;
 
   final String text;
   final Color color;
@@ -645,7 +715,7 @@ class _DotsPainter extends CustomPainter {
     final lit = (columns * fraction).round();
     for (var i = 0; i < columns; i++) {
       final paint = Paint()
-        ..color = i < lit ? const Color(0xFFE0A800) : const Color(0x2616130F);
+        ..color = i < lit ? const Color(0xFFE0A800) : Warm.fainter;
       for (var j = 0; j < 3; j++) {
         canvas.drawCircle(Offset(4 + i * step, 4 + j * 6.0), 1.3, paint);
       }
@@ -689,9 +759,7 @@ class _TicksPainter extends CustomPainter {
         Offset(x, 2),
         Offset(x, 16),
         Paint()
-          ..color = i == mark
-              ? const Color(0xFFE0A800)
-              : const Color(0x3316130F)
+          ..color = i == mark ? const Color(0xFFE0A800) : Warm.faint
           ..strokeWidth = i == mark ? 2 : 1,
       );
     }
@@ -820,16 +888,14 @@ class DayCircles extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: i == selected ? Warm.black : null,
-                border: i == selected
-                    ? null
-                    : Border.all(color: const Color(0x3316130F)),
+                border: i == selected ? null : Border.all(color: Warm.faint),
               ),
               child: FittedBox(
                 child: Text(
                   labels[i],
                   style: TextStyle(
                     fontSize: 11,
-                    color: i == selected ? Colors.white : Warm.onCard,
+                    color: i == selected ? Warm.onBlack : Warm.onCard,
                   ),
                 ),
               ),
@@ -885,7 +951,7 @@ class GlassHeroCard extends StatelessWidget {
                   if (subtitle != null)
                     Text(
                       subtitle!,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: kMinTextSize,
                         color: Warm.onCardSoft,
                       ),
@@ -929,7 +995,7 @@ class OutlineCircleButton extends StatelessWidget {
     excludeSemantics: true,
     child: Material(
       type: MaterialType.transparency,
-      shape: const CircleBorder(side: BorderSide(color: Color(0x3316130F))),
+      shape: CircleBorder(side: BorderSide(color: Warm.faint)),
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: onPressed,
@@ -1090,7 +1156,7 @@ class WarmChip extends StatelessWidget {
       style: TextStyle(
         fontSize: 13,
         fontWeight: selected ? FontWeight.w500 : FontWeight.w400,
-        color: selected ? Colors.white : Warm.ink,
+        color: selected ? Warm.onBlack : Warm.ink,
       ),
     );
     const pad = EdgeInsets.symmetric(horizontal: 16, vertical: 11);
@@ -1175,7 +1241,7 @@ class WarmSegmented<T> extends StatelessWidget {
                       fontWeight: v == selected
                           ? FontWeight.w500
                           : FontWeight.w400,
-                      color: v == selected ? Colors.white : Warm.ink,
+                      color: v == selected ? Warm.onBlack : Warm.ink,
                     ),
                   ),
                 ),
@@ -1217,15 +1283,15 @@ class WarmStepRow extends StatelessWidget {
         ? Container(
             width: 34,
             height: 34,
-            decoration: const BoxDecoration(
+            decoration: BoxDecoration(
               color: Warm.black,
               shape: BoxShape.circle,
             ),
             alignment: Alignment.center,
-            child: const Icon(
+            child: Icon(
               Icons.check_rounded,
               size: 18,
-              color: Colors.white,
+              color: Warm.onBlack,
             ),
           )
         : Container(
@@ -1280,7 +1346,7 @@ class WarmStepRow extends StatelessWidget {
                       subtitle,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: kMinTextSize,
                         color: Warm.onCardSoft,
                       ),
@@ -1324,13 +1390,13 @@ class WarmHeader extends StatelessWidget {
             if (above != null)
               Text(
                 above!,
-                style: const TextStyle(fontSize: 13, color: Warm.muted),
+                style: TextStyle(fontSize: 13, color: Warm.muted),
               ),
             Semantics(
               header: true,
               child: Text(
                 title,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 38,
                   fontWeight: FontWeight.w200,
                   letterSpacing: -1,
@@ -1374,7 +1440,7 @@ class CheckCircle extends StatelessWidget {
             ParlaIconName.check,
             size: size * .54,
             strokeWidth: 2.2,
-            color: Warm.ink,
+            color: Warm.dayInk,
           )
         : null,
   );

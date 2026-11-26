@@ -633,5 +633,9 @@
   "consentRefreshIntro": "Əvvəl razılaşdığın mətnin yeni versiyasıdır. Razılaşmaq könüllüdür; istənilən vaxt Məxfilik bölməsində geri götürə bilərsən.",
   "consentRefreshAgree": "Razıyam",
   "consentRefreshLater": "İndi yox",
-  "consentRefreshDone": "Razılıq yeniləndi."
+  "consentRefreshDone": "Razılıq yeniləndi.",
+  "appearanceTitle": "Görünüş",
+  "appearanceSystem": "Sistem",
+  "appearanceLight": "Açıq",
+  "appearanceDark": "Tünd"
 }

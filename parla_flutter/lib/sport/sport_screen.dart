@@ -147,7 +147,7 @@ class _SectionLabel extends StatelessWidget {
       padding: const EdgeInsets.only(left: 4),
       child: Text(
         text,
-        style: const TextStyle(fontSize: 13, color: SportNight.pageSoft),
+        style: TextStyle(fontSize: 13, color: SportNight.pageSoft),
       ),
     ),
   );
@@ -219,7 +219,7 @@ class _EditRow extends StatelessWidget {
               ),
             ),
             alignment: Alignment.center,
-            child: const ParlaIcon(
+            child: ParlaIcon(
               ParlaIconName.sparkle,
               size: 22,
               color: SportNight.ink,
@@ -227,7 +227,7 @@ class _EditRow extends StatelessWidget {
           ),
           const SizedBox(width: 14),
           Expanded(child: RowTexts(title: l10n.sportEditAnswers)),
-          const ExcludeSemantics(
+          ExcludeSemantics(
             child: Icon(Icons.chevron_right, color: SportNight.soft),
           ),
         ],
@@ -246,7 +246,7 @@ class _PlanView extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final plan = book.planOf(section)!;
-    const muted = TextStyle(
+    final muted = TextStyle(
       fontSize: kMinTextSize,
       height: 1.4,
       color: SportNight.pageSoft,
@@ -277,7 +277,7 @@ class _PlanView extends StatelessWidget {
               children: [
                 Text(
                   l10n.sportBlockedTitle,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w300,
                     color: SportNight.ink,
@@ -286,7 +286,7 @@ class _PlanView extends StatelessWidget {
                 const SizedBox(height: 6),
                 Text(
                   l10n.sportBlockedBody,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     height: 1.45,
                     color: SportNight.ink,
@@ -318,7 +318,7 @@ class _PlanView extends StatelessWidget {
               children: [
                 Text(
                   l10n.sportMonthDoneTitle,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.w300,
                     color: SportNight.ink,
@@ -327,7 +327,7 @@ class _PlanView extends StatelessWidget {
                 const SizedBox(height: 8),
                 Text(
                   l10n.sportMonthDoneBody(doneCount),
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
                     height: 1.45,
                     color: SportNight.ink,
@@ -386,7 +386,7 @@ class _PlanView extends StatelessWidget {
             highlight: true,
             child: Text(
               l10n.sportGentleNote,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 14,
                 height: 1.45,
                 color: SportNight.ink,
@@ -505,13 +505,13 @@ class _MonthCalendar extends StatelessWidget {
       final missed = w != null && !finished && d.isBefore(today);
       final isToday = d == today;
       final (Color? fill, Color text, BoxBorder? border) = switch (()) {
-        _ when finished => (Warm.black, Colors.white, null),
+        _ when finished => (Warm.black, Warm.onBlack, null),
         _ when missed => (
           null,
           Warm.ink,
           Border.all(color: const Color(0xFFE0A800), width: 2),
         ),
-        _ when w != null => (coral, Warm.ink, null),
+        _ when w != null => (coral, Warm.dayInk, null),
         _ => (
           null,
           Warm.ink.withValues(alpha: inMonth ? 0.55 : 0.25),
@@ -564,7 +564,7 @@ class _MonthCalendar extends StatelessWidget {
         const SizedBox(width: 5),
         Text(
           label,
-          style: const TextStyle(fontSize: 12, color: SportNight.soft),
+          style: TextStyle(fontSize: 12, color: SportNight.soft),
         ),
       ],
     );
@@ -583,7 +583,7 @@ class _MonthCalendar extends StatelessWidget {
             const SizedBox(height: 6),
             Text(
               title,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 20,
                 fontWeight: FontWeight.w300,
                 color: SportNight.ink,
@@ -597,7 +597,7 @@ class _MonthCalendar extends StatelessWidget {
                     child: Text(
                       l10n.sportWeekday('$d'),
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 12,
                         color: SportNight.soft,
                       ),

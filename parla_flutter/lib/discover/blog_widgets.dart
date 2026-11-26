@@ -232,7 +232,7 @@ class SourceChips extends StatelessWidget {
                         ),
                       ),
                       const SizedBox(width: 6),
-                      const Icon(
+                      Icon(
                         Icons.open_in_new,
                         size: 14,
                         color: ParlaColors.muted,
@@ -293,7 +293,7 @@ class CoverPage extends StatelessWidget {
           Transform.translate(
             offset: const Offset(0, -28),
             child: Container(
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: ParlaColors.cream,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
               ),

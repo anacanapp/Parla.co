@@ -405,7 +405,7 @@ class _MoveWeekCard extends StatelessWidget {
                       today == null
                           ? l10n.habitNoEntry
                           : l10n.habitMoveMinutes(today!),
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: kMinTextSize,
                         color: Warm.onCardSoft,
                       ),
@@ -431,7 +431,7 @@ class _MoveWeekCard extends StatelessWidget {
           Text(
             '${l10n.sportWeekTitle} · ${l10n.habitsWeekMoveValue(total, logged)}',
             textAlign: TextAlign.center,
-            style: const TextStyle(fontSize: 13, color: Warm.onCardSoft),
+            style: TextStyle(fontSize: 13, color: Warm.onCardSoft),
           ),
         ],
       ),
@@ -469,7 +469,7 @@ class _Days extends StatelessWidget {
               maxLines: 1,
               style: TextStyle(
                 fontSize: kMinTextSize,
-                color: i == selected ? Warm.black : Warm.onCard,
+                color: i == selected ? Warm.dayInk : Warm.onCard,
               ),
             ),
           ),
@@ -548,7 +548,7 @@ class _WaterCard extends StatelessWidget {
                   children: [
                     TextSpan(
                       text: '/$goal',
-                      style: const TextStyle(color: Warm.onCardSoft),
+                      style: TextStyle(color: Warm.onCardSoft),
                     ),
                   ],
                 ),
@@ -623,7 +623,7 @@ class _RoutineCard extends StatelessWidget {
                       ),
                       Text(
                         caption,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: kMinTextSize,
                           color: Warm.onCardSoft,
                         ),
@@ -668,7 +668,7 @@ class _RoutineCard extends StatelessWidget {
               children: [
                 Text(
                   l10n.sportNextLabel,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: kMinTextSize,
                     color: Warm.onCardSoft,
                   ),
@@ -719,7 +719,7 @@ class _RoundButton extends StatelessWidget {
         color: outlined ? Colors.transparent : Warm.black,
         shape: CircleBorder(
           side: outlined
-              ? const BorderSide(color: Color(0x5916130F), width: 1.2)
+              ? BorderSide(color: Warm.ring, width: 1.2)
               : BorderSide.none,
         ),
         child: InkWell(
@@ -734,10 +734,10 @@ class _RoundButton extends StatelessWidget {
                 size: 18,
                 strokeWidth: 2.5,
                 color: !outlined
-                    ? Colors.white
+                    ? Warm.onBlack
                     : enabled
                     ? Warm.ink
-                    : const Color(0x5916130F),
+                    : Warm.ring,
               ),
             ),
           ),
@@ -836,10 +836,10 @@ class _WhitePill extends StatelessWidget {
             widthFactor: 1,
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 13,
                 fontWeight: FontWeight.w500,
-                color: Warm.black,
+                color: Warm.dayInk,
               ),
             ),
           ),
@@ -879,7 +879,7 @@ class _QuizPromptCard extends StatelessWidget {
             key: const ValueKey('home-quiz-start'),
             style: FilledButton.styleFrom(
               backgroundColor: Warm.black,
-              foregroundColor: Colors.white,
+              foregroundColor: Warm.onBlack,
             ),
             onPressed: onStart,
             child: Text(l10n.homeQuizStart),
@@ -1015,7 +1015,7 @@ class _TodayRoutines extends StatelessWidget {
                       Text(row.title, style: const TextStyle(fontSize: 15)),
                       Text(
                         l10n.routineOwnSteps(row.steps),
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: kMinTextSize,
                           color: Warm.onCardSoft,
                         ),
@@ -1098,7 +1098,7 @@ class _MessagesButtonState extends State<_MessagesButton> {
               shape: const CircleBorder(),
               milk: true,
               onTap: () => context.go(Routes.messages),
-              child: const Center(
+              child: Center(
                 child: ParlaIcon(ParlaIconName.bell, size: 20, color: Warm.ink),
               ),
             ),
@@ -1132,7 +1132,7 @@ class _SectionTitle extends StatelessWidget {
       header: true,
       child: Text(
         text,
-        style: const TextStyle(
+        style: TextStyle(
           fontSize: 17,
           fontWeight: FontWeight.w500,
           color: Warm.ink,
@@ -1198,17 +1198,17 @@ class _FocusCard extends StatelessWidget {
                     children: [
                       Text(
                         l10n.homeFocusTitle,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
-                          color: Warm.ink,
+                          color: Warm.dayInk,
                         ),
                       ),
                       Text(
                         '${l10n.homeFocusSub} · $routineName',
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: kMinTextSize,
-                          color: Warm.muted,
+                          color: Warm.dayMuted,
                         ),
                       ),
                     ],
@@ -1219,11 +1219,11 @@ class _FocusCard extends StatelessWidget {
             const SizedBox(height: 14),
             Text(
               step?.title ?? l10n.homeFocusDone,
-              style: const TextStyle(
+              style: TextStyle(
                 fontSize: 20,
                 height: 1.2,
                 fontWeight: FontWeight.w500,
-                color: Warm.ink,
+                color: Warm.dayInk,
               ),
             ),
             if (step != null) ...[
@@ -1232,10 +1232,10 @@ class _FocusCard extends StatelessWidget {
                 step!.meta,
                 maxLines: 3,
                 overflow: TextOverflow.ellipsis,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 13,
                   height: 1.4,
-                  color: Warm.muted,
+                  color: Warm.dayMuted,
                 ),
               ),
             ],
@@ -1272,9 +1272,9 @@ class _FocusCard extends StatelessWidget {
               const SizedBox(height: 6),
               Text(
                 l10n.homeFocusSteps(doneCount, done.length),
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: kMinTextSize,
-                  color: Warm.muted,
+                  color: Warm.dayMuted,
                 ),
               ),
             ],
@@ -1284,7 +1284,7 @@ class _FocusCard extends StatelessWidget {
               child: FilledButton(
                 key: const ValueKey('home-focus-open'),
                 style: FilledButton.styleFrom(
-                  backgroundColor: Warm.black,
+                  backgroundColor: Warm.dayInk,
                   foregroundColor: Colors.white,
                   minimumSize: const Size(48, 48),
                   shape: const StadiumBorder(),

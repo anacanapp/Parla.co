@@ -2213,4 +2213,16 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get consentRefreshDone => 'Согласие обновлено.';
+
+  @override
+  String get appearanceTitle => 'Оформление';
+
+  @override
+  String get appearanceSystem => 'Как в системе';
+
+  @override
+  String get appearanceLight => 'Светлое';
+
+  @override
+  String get appearanceDark => 'Тёмное';
 }

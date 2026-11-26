@@ -8,6 +8,7 @@ import '../routes.dart';
 import '../ui/brand.dart';
 import '../ui/night.dart';
 import '../ui/parla_icons.dart';
+import '../ui/warm.dart';
 import 'care_list.dart';
 import 'glass_bits.dart';
 import 'shop_screen.dart' show RoundBack;
@@ -89,7 +90,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                         padding: const EdgeInsets.only(bottom: 6),
                         child: Text(
                           l10n.shoppingCount(book.boughtCount, items.length),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 13,
                             color: Glass.soft,
                           ),
@@ -145,7 +146,7 @@ class _ShoppingListScreenState extends State<ShoppingListScreen> {
                         header: true,
                         child: Text(
                           _areaLabel(l10n, area).upperIn(context),
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: kMinTextSize,
                             letterSpacing: 1,
                             color: Glass.soft,
@@ -276,10 +277,10 @@ class _ItemTile extends StatelessWidget {
                   ),
                   alignment: Alignment.center,
                   child: done
-                      ? const ParlaIcon(
+                      ? ParlaIcon(
                           ParlaIconName.check,
                           size: 18,
-                          color: Colors.white,
+                          color: Warm.onBlack,
                         )
                       : null,
                 ),
@@ -300,7 +301,7 @@ class _ItemTile extends StatelessWidget {
                       if (item.origin == 'check')
                         Text(
                           l10n.shoppingFromCheck,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: kMinTextSize,
                             color: Glass.soft,
                           ),
@@ -311,7 +312,7 @@ class _ItemTile extends StatelessWidget {
                 IconButton(
                   tooltip: l10n.shoppingRemove(item.title),
                   onPressed: () => book.removeItem(item.id),
-                  icon: const Icon(Icons.close, size: 20, color: Glass.soft),
+                  icon: Icon(Icons.close, size: 20, color: Glass.soft),
                 ),
               ],
             ),

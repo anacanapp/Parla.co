@@ -12,7 +12,7 @@ double contrast(Color a, Color b) {
 }
 
 void main() {
-  const surfaces = {
+  final surfaces = {
     'cream': ParlaColors.cream,
     'white': ParlaColors.white,
     'lemon': ParlaColors.lemon,
@@ -22,7 +22,7 @@ void main() {
     'blush': ParlaColors.blush,
     'lilac': ParlaColors.lilac,
   };
-  const inks = {
+  final inks = {
     'espresso': ParlaColors.espresso,
     'sunInk': ParlaColors.sunInk,
     'muted': ParlaColors.muted,
@@ -41,7 +41,7 @@ void main() {
   });
 
   test('paired surfaces and inks pass AA', () {
-    const pairs = [
+    final pairs = [
       (ParlaColors.white, ParlaColors.espresso, 'white on espresso'),
       (ParlaColors.espresso, ParlaColors.sun, 'espresso on sun'),
       (ParlaColors.sportBlueText, ParlaColors.sportBlue, 'sport blue'),

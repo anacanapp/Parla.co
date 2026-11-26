@@ -8,6 +8,7 @@ import 'package:parla_shared/parla_shared.dart';
 import '../check/glass_bits.dart';
 import '../push/push_client.dart';
 import '../reminders/reminder_settings.dart';
+import '../state/app_settings.dart';
 import '../l10n/app_localizations.dart';
 import '../l10n/names.dart';
 import '../services/parla_api.dart';
@@ -184,7 +185,7 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                         const SizedBox(height: 2),
                         Text(
                           l10n.profileAccountNote,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: kMinTextSize,
                             height: 1.35,
                             color: Warm.onCardSoft,
@@ -241,6 +242,41 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                       ),
                     ),
                   ],
+                );
+              },
+            ),
+            const SizedBox(height: 18),
+            // Night mode (owner 2026-11-26): like the phone, light or dark.
+            // Kept on this phone only.
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 6),
+              child: Semantics(
+                header: true,
+                child: Text(
+                  l10n.appearanceTitle,
+                  style: text.titleLarge?.copyWith(
+                    fontSize: 18,
+                    fontWeight: FontWeight.w400,
+                    color: Warm.ink,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 10),
+            ListenableBuilder(
+              listenable: ParlaScope.of(context).settings,
+              builder: (context, _) {
+                final settings = ParlaScope.of(context).settings;
+                return WarmSegmented<Appearance>(
+                  values: Appearance.values,
+                  labelOf: (a) => switch (a) {
+                    Appearance.system => l10n.appearanceSystem,
+                    Appearance.light => l10n.appearanceLight,
+                    Appearance.dark => l10n.appearanceDark,
+                  },
+                  selected: settings.appearance,
+                  onChanged: settings.setAppearance,
+                  keyOf: (a) => ValueKey('appearance-${a.name}'),
                 );
               },
             ),
@@ -311,7 +347,7 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                           ),
                           title: Text(
                             _title(l10n, kind),
-                            style: const TextStyle(
+                            style: TextStyle(
                               fontSize: 15,
                               color: Warm.onCard,
                             ),
@@ -374,9 +410,9 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
                     child: Center(
                       child: Text(
                         l10n.privacySignOut,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 15,
-                          color: Colors.white,
+                          color: Warm.onBlack,
                         ),
                       ),
                     ),
@@ -414,13 +450,13 @@ class _SmokyGroup extends StatelessWidget {
 
 /// A row of a [_SmokyGroup]: icon, label and a chevron.
 class _SmokyRow extends StatelessWidget {
-  const _SmokyRow({
+  _SmokyRow({
     super.key,
     required this.icon,
     required this.label,
     required this.onTap,
-    this.color = Warm.onCard,
-  });
+    Color? color,
+  }) : color = color ?? Warm.onCard;
 
   final ParlaIconName icon;
   final String label;
@@ -441,7 +477,7 @@ class _SmokyRow extends StatelessWidget {
             Expanded(
               child: Text(label, style: TextStyle(fontSize: 15, color: color)),
             ),
-            const ExcludeSemantics(
+            ExcludeSemantics(
               child: Icon(Icons.chevron_right, color: Warm.onCardSoft),
             ),
           ],
@@ -473,7 +509,7 @@ class _WhitePill extends StatelessWidget {
           child: Center(
             child: Text(
               label,
-              style: const TextStyle(fontSize: 15, color: Warm.black),
+              style: TextStyle(fontSize: 15, color: Warm.dayInk),
             ),
           ),
         ),
@@ -505,7 +541,7 @@ class _ActionCard extends StatelessWidget {
         const SizedBox(height: 6),
         Text(
           body,
-          style: const TextStyle(
+          style: TextStyle(
             fontSize: 13,
             height: 1.4,
             color: Warm.onCardSoft,
@@ -765,7 +801,7 @@ class _AccountFacts extends StatelessWidget {
                 children: [
                   TextSpan(
                     text: '$label  ',
-                    style: const TextStyle(color: Warm.onCardSoft),
+                    style: TextStyle(color: Warm.onCardSoft),
                   ),
                   TextSpan(text: value),
                 ],

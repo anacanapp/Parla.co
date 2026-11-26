@@ -298,8 +298,8 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
     final l10n = AppLocalizations.of(context);
     final language = Localizations.localeOf(context).languageCode;
     final fixed = fixedWorkoutById(w.id) != null;
-    const body = TextStyle(fontSize: 14, height: 1.45, color: SportNight.ink);
-    const muted = TextStyle(
+    final body = TextStyle(fontSize: 14, height: 1.45, color: SportNight.ink);
+    final muted = TextStyle(
       fontSize: kMinTextSize,
       height: 1.4,
       color: SportNight.pageSoft,
@@ -320,7 +320,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           padding: const EdgeInsets.only(left: 56),
           child: Text(
             l10n.sportWorkoutMeta(sportTypeLabel(l10n, w.type), w.minutes),
-            style: const TextStyle(fontSize: 13, color: SportNight.pageSoft),
+            style: TextStyle(fontSize: 13, color: SportNight.pageSoft),
           ),
         ),
         const SizedBox(height: 18),
@@ -338,7 +338,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   w.type == 'yoga'
                       ? l10n.sportYogaSafetyTitle
                       : l10n.sportFaceYogaSafetyTitle,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: SportNight.ink,
@@ -468,7 +468,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                           _ => l10n.sportSetOf(_set, item.sets),
                         },
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: kMinTextSize,
                           letterSpacing: 1.6,
                           color: SportNight.soft,
@@ -481,7 +481,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                       child: Text(
                         resting ? l10n.sportResting : name,
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.w300,
                           height: 1.2,
@@ -496,7 +496,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                         counting ? 'workout-countdown' : 'workout-count',
                       ),
                       textAlign: TextAlign.center,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 38,
                         fontWeight: FontWeight.w300,
                         height: 1.1,
@@ -509,7 +509,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                         l10n.sportRepsNow(item.amount),
                         key: const ValueKey('workout-reps'),
                         textAlign: TextAlign.center,
-                        style: const TextStyle(
+                        style: TextStyle(
                           fontSize: kMinTextSize,
                           color: SportNight.soft,
                         ),
@@ -528,7 +528,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                   child: Text(
                     l10n.sportRepPace(WorkoutPace.secondsPerRep),
                     textAlign: TextAlign.center,
-                    style: const TextStyle(
+                    style: TextStyle(
                       fontSize: kMinTextSize,
                       color: SportNight.pageSoft,
                     ),
@@ -538,7 +538,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               if (!resting)
                 Text(
                   how,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 15,
                     height: 1.5,
                     color: SportNight.page,
@@ -552,7 +552,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                     highlight: true,
                     child: Text(
                       caution,
-                      style: const TextStyle(
+                      style: TextStyle(
                         fontSize: 14,
                         height: 1.45,
                         color: SportNight.ink,
@@ -592,7 +592,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
-              const Center(
+              Center(
                 child: ExcludeSemantics(
                   child: DashedRing(
                     fraction: 1,
@@ -610,7 +610,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
                 child: Text(
                   l10n.sportFinishedTitle,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.w200,
                     letterSpacing: -1,
@@ -622,7 +622,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
               Text(
                 l10n.sportFinishedBody(w.minutes),
                 textAlign: TextAlign.center,
-                style: const TextStyle(
+                style: TextStyle(
                   fontSize: 15,
                   height: 1.45,
                   color: SportNight.soft,
@@ -772,7 +772,7 @@ class _Media extends StatelessWidget {
                       child: ExcludeSemantics(
                         child: Text(
                           '$countdown',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 64,
                             fontWeight: FontWeight.w200,
                             color: SportNight.ink,
@@ -831,7 +831,7 @@ class _Controls extends StatelessWidget {
               key: const ValueKey('workout-previous'),
               tooltip: l10n.sportPrevious,
               onPressed: onPrevious,
-              style: IconButton.styleFrom(foregroundColor: Colors.white),
+              style: IconButton.styleFrom(foregroundColor: Warm.onBlack),
               icon: const Icon(Icons.arrow_back_rounded),
             ),
           ),

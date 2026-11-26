@@ -11,6 +11,7 @@ import '../services/parla_api.dart';
 import '../ui/brand.dart';
 import '../ui/night.dart';
 import '../ui/parla_icons.dart';
+import '../ui/warm.dart';
 import 'blog_widgets.dart';
 import 'discover_bento.dart';
 import 'discover_widgets.dart';
@@ -191,7 +192,7 @@ class BlogPostScreen extends StatelessWidget {
           ),
         ],
         const SizedBox(height: 14),
-        const Divider(color: ParlaColors.line, height: 1),
+        Divider(color: ParlaColors.line, height: 1),
         const SizedBox(height: 16),
         ArticleBody(
           item: item,
@@ -212,7 +213,10 @@ class BlogPostScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(l10n.blogTips, style: text.titleMedium),
+                Text(
+                  l10n.blogTips,
+                  style: text.titleMedium?.copyWith(color: Warm.dayInk),
+                ),
                 const SizedBox(height: 8),
                 for (var i = 0; i < tips.length; i++)
                   Padding(
@@ -220,12 +224,17 @@ class BlogPostScreen extends StatelessWidget {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text('${i + 1}.', style: text.titleSmall),
+                        Text(
+                          '${i + 1}.',
+                          style: text.titleSmall?.copyWith(color: Warm.dayInk),
+                        ),
                         const SizedBox(width: 8),
                         Expanded(
                           child: Text(
                             tips[i],
-                            style: text.bodyMedium,
+                            style: text.bodyMedium?.copyWith(
+                              color: Warm.dayInk,
+                            ),
                           ),
                         ),
                       ],
@@ -614,11 +623,15 @@ class NutritionScreen extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(l10n.nutritionTip, style: text.titleMedium),
+                  // Dark ink on the yellow card, day and night.
+                  Text(
+                    l10n.nutritionTip,
+                    style: text.titleMedium?.copyWith(color: Warm.dayInk),
+                  ),
                   const SizedBox(height: 4),
                   Text(
                     skinTipFor(scope.clock(), language),
-                    style: text.bodyMedium,
+                    style: text.bodyMedium?.copyWith(color: Warm.dayInk),
                   ),
                 ],
               ),

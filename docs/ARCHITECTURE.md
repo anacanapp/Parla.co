@@ -971,6 +971,27 @@ chose.
   scores, mood tracking, an AI chat and advice cards. Those are on the
   do-not-collect list or need expert and legal review.
 
+### Night mode "Espresso" (owner, 2026-11-26)
+
+- **Choice:** Profile → Appearance: System (follows the phone; the
+  default), Light or Dark. It is kept on the phone only
+  (`AppSettings.appearance`, key `appearance`); it is not personal data
+  and never reaches the server.
+- **Look:** a flat espresso page (#17120E, no washes), flat cards one
+  step lighter (#241D18) with a hairline (#372D26), light ink (#F5F1EC)
+  and muted (#B2AAA1). The yellow surfaces stay as in the day: the focus
+  card, the butter pills, the pebble cards (tips, journal), banana chips,
+  ticks and calendar marks, with dark ink (`Warm.dayInk`). Tinted glass
+  becomes a night card with a softer yellow glow. Dark buttons
+  (`Warm.black`) turn light with dark text (`Warm.onBlack`).
+- **How:** `Tone.dark` (in `brand.dart`) is set by `ToneScope` before
+  the app builds; the colour tokens (`Warm`, `ParlaColors`, `Glass`,
+  `SportNight`) are getters that read it, and the yellow ones stay
+  constants. When the mode changes, `ToneScope` rebuilds and repaints
+  every widget once, so screens keep their state.
+- **Previews:** `screens_preview_test.dart` with
+  `--dart-define=PREVIEW_DARK=true` renders every screen at night.
+
 ## App UI rules
 
 - **Brand.** Colours and the Smile Curve follow the Parla Sun brand

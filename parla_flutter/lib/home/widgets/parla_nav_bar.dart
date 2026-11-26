@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../routes.dart';
+import '../../ui/brand.dart';
 import '../../ui/parla_icons.dart';
 import '../../ui/parla_mark.dart';
 import '../../ui/warm.dart';
@@ -58,10 +59,18 @@ class ParlaNavBar extends StatelessWidget {
               filter: ui.ImageFilter.blur(sigmaX: 16, sigmaY: 16),
               child: DecoratedBox(
                 key: const ValueKey('parla-nav'),
-                decoration: const ShapeDecoration(
-                  color: Color(0xD916130F),
+                // Night: a capsule a step above the espresso page.
+                decoration: ShapeDecoration(
+                  color: Tone.dark
+                      ? const Color(0xF22C241E)
+                      : const Color(0xD916130F),
                   shape: StadiumBorder(
-                    side: BorderSide(color: Color(0x26FFFFFF), width: .8),
+                    side: BorderSide(
+                      color: Tone.dark
+                          ? Warm.nightEdge
+                          : const Color(0x26FFFFFF),
+                      width: .8,
+                    ),
                   ),
                 ),
                 child: Padding(

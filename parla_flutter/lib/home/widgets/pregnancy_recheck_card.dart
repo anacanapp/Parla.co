@@ -252,7 +252,7 @@ class _RecheckCard extends StatelessWidget {
                 key: ValueKey('$key-yes'),
                 style: FilledButton.styleFrom(
                   backgroundColor: Colors.white,
-                  foregroundColor: Warm.black,
+                  foregroundColor: Warm.dayInk,
                 ),
                 onPressed: onYes,
                 child: Text(l10n.recheckYes),

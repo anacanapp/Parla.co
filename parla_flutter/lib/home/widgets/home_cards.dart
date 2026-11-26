@@ -35,7 +35,7 @@ class EyebrowText extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Text(
     text,
-    style: const TextStyle(
+    style: TextStyle(
       fontSize: kMinTextSize,
       fontWeight: FontWeight.w700,
       letterSpacing: 1.2,
@@ -74,7 +74,7 @@ class RoutineHeroCapsule extends StatelessWidget {
     return Container(
       key: const ValueKey('routine-hero'),
       padding: const EdgeInsets.all(8),
-      decoration: const ShapeDecoration(
+      decoration: ShapeDecoration(
         color: ParlaColors.white,
         shape: StadiumBorder(),
         shadows: [
@@ -347,7 +347,7 @@ class _StepTileState extends State<StepTile> {
                           overflow: _open && !done
                               ? TextOverflow.visible
                               : TextOverflow.ellipsis,
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: kMinTextSize,
                             color: Warm.onCardSoft,
                           ),
@@ -366,17 +366,17 @@ class _StepTileState extends State<StepTile> {
 
 /// A habit tile: icon, name, value, optional actions and a progress bar.
 class HabitCard extends StatelessWidget {
-  const HabitCard({
+  HabitCard({
     super.key,
     required this.icon,
     required this.title,
     required this.value,
     required this.background,
     required this.fill,
-    this.track = ParlaColors.cream,
+    Color? track,
     this.fraction,
     this.actions = const [],
-  });
+  }) : track = track ?? ParlaColors.cream;
 
   final ParlaIconName icon;
   final String title;
@@ -445,13 +445,13 @@ class HabitCard extends StatelessWidget {
 
 /// Round 48 px icon button used inside habit cards.
 class RoundIconButton extends StatelessWidget {
-  const RoundIconButton({
+  RoundIconButton({
     super.key,
     required this.icon,
     required this.label,
     required this.onPressed,
-    this.background = ParlaColors.white,
-  });
+    Color? background,
+  }) : background = background ?? ParlaColors.white;
 
   final ParlaIconName icon;
   final String label;

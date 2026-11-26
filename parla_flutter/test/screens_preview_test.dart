@@ -2,8 +2,11 @@
 // flutter test test/screens_preview_test.dart --dart-define=PALETTE_PREVIEW=true --dart-define=PREVIEW_DIR=<abs dir>
 import 'dart:convert';
 import 'dart:io';
+import 'dart:math' as math;
+import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -25,6 +28,7 @@ const _language = String.fromEnvironment(
   defaultValue: 'az',
 );
 const _dir = String.fromEnvironment('PREVIEW_DIR');
+const _dark = bool.fromEnvironment('PREVIEW_DARK');
 final _today = DateTime(2026, 11, 12, 9);
 
 const _answers = QuizAnswers(
@@ -110,7 +114,10 @@ Future<void> _open(WidgetTester tester, {DateTime? at}) async {
   tester.view.devicePixelRatio = 2;
   addTearDown(tester.view.reset);
 
-  SharedPreferences.setMockInitialValues({'language': _language});
+  SharedPreferences.setMockInitialValues({
+    'language': _language,
+    if (_dark) 'appearance': 'dark',
+  });
   final settings = await AppSettings.load();
   final api = FakeApi()
     ..signedIn = true
@@ -189,6 +196,74 @@ Future<void> _shoot(WidgetTester tester, String name) async {
     find.byType(ParlaApp),
     matchesGoldenFile('$_dir/$name.png'),
   );
+  await _contrast(tester, name);
+}
+
+double _lum(Color c) {
+  double ch(double v) =>
+      v <= .03928 ? v / 12.92 : math.pow((v + .055) / 1.055, 2.4).toDouble();
+  return .2126 * ch(c.r) + .7152 * ch(c.g) + .0722 * ch(c.b);
+}
+
+double _ratio(Color a, Color b) {
+  final x = _lum(a), y = _lum(b);
+  return (math.max(x, y) + .05) / (math.min(x, y) + .05);
+}
+
+/// Contrast audit of the shot (`PREVIEW_DIR/<name>.contrast.txt`): every
+/// painted text's colour against the most common colour under its box in
+/// the picture. Lines under 3:1 are listed.
+Future<void> _contrast(WidgetTester tester, String name) async {
+  final element = tester.element(find.byType(ParlaApp));
+  final image = await captureImage(element);
+  final data = (await tester.runAsync(
+    () => image.toByteData(format: ui.ImageByteFormat.rawRgba),
+  ))!;
+  final ratio = tester.view.devicePixelRatio;
+  final out = StringBuffer();
+  for (final e in find.byType(RichText).evaluate()) {
+    final box = e.renderObject;
+    if (box is! RenderParagraph || !box.hasSize || !box.attached) continue;
+    final style = box.text.style;
+    final color = style?.color;
+    if (color == null || color.a < .2) continue;
+    final text = box.text.toPlainText().trim();
+    if (text.isEmpty) continue;
+    final r = MatrixUtils.transformRect(
+      box.getTransformTo(null),
+      Offset.zero & box.size,
+    );
+    final counts = <int, int>{};
+    for (var y = r.top; y < r.bottom; y += 2) {
+      for (var x = r.left; x < r.right; x += 2) {
+        final px = (x * ratio).round(), py = (y * ratio).round();
+        if (px < 0 || py < 0 || px >= image.width || py >= image.height) {
+          continue;
+        }
+        final i = (py * image.width + px) * 4;
+        final q =
+            (data.getUint8(i) >> 3) << 10 |
+            (data.getUint8(i + 1) >> 3) << 5 |
+            (data.getUint8(i + 2) >> 3);
+        counts[q] = (counts[q] ?? 0) + 1;
+      }
+    }
+    if (counts.isEmpty) continue;
+    final q = counts.entries.reduce((a, b) => a.value >= b.value ? a : b).key;
+    final bg = Color.fromARGB(
+      255,
+      ((q >> 10) & 31) << 3 | 4,
+      ((q >> 5) & 31) << 3 | 4,
+      (q & 31) << 3 | 4,
+    );
+    final c = _ratio(Color.alphaBlend(color, bg), bg);
+    if (c < 3) {
+      final short = text.length > 40 ? '${text.substring(0, 40)}…' : text;
+      out.writeln('${c.toStringAsFixed(1)}  "$short"');
+    }
+  }
+  image.dispose();
+  File('$_dir/$name.contrast.txt').writeAsStringSync(out.toString());
 }
 
 Map<String, String> _l(String s) => {'az': s, 'ru': s, 'en': s};
@@ -379,7 +454,10 @@ void main() {
       tester.view.physicalSize = const Size(780, 1688);
       tester.view.devicePixelRatio = 2;
       addTearDown(tester.view.reset);
-      SharedPreferences.setMockInitialValues({'language': _language});
+      SharedPreferences.setMockInitialValues({
+        'language': _language,
+        if (_dark) 'appearance': 'dark',
+      });
       final settings = await AppSettings.load();
       await tester.pumpWidget(
         ParlaApp(

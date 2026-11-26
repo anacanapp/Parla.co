@@ -10,6 +10,7 @@ import '../ui/brand.dart';
 import '../ui/night.dart';
 import '../ui/parla_ui.dart';
 import '../ui/parla_icons.dart';
+import '../ui/warm.dart';
 import 'journal_book.dart';
 import '../ui/text_case.dart';
 
@@ -55,10 +56,14 @@ class JournalScreen extends StatelessWidget {
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const ParlaIcon(ParlaIconName.lock, size: 22),
+                  // Dark ink on the yellow card, day and night.
+                  ParlaIcon(ParlaIconName.lock, size: 22, color: Warm.dayInk),
                   const SizedBox(width: 12),
                   Expanded(
-                    child: Text(l10n.journalIntro, style: text.bodyMedium),
+                    child: Text(
+                      l10n.journalIntro,
+                      style: text.bodyMedium?.copyWith(color: Warm.dayInk),
+                    ),
                   ),
                 ],
               ),
@@ -67,7 +72,7 @@ class JournalScreen extends StatelessWidget {
             FilledButton.icon(
               key: const ValueKey('journal-new'),
               onPressed: () => context.go(Routes.journalEntry),
-              icon: const ParlaIcon(
+              icon: ParlaIcon(
                 ParlaIconName.plus,
                 size: 20,
                 color: ParlaColors.white,

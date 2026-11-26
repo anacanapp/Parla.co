@@ -8,41 +8,62 @@ import 'package:flutter/material.dart';
 /// or [muted]; each passes WCAG AA on [cream], [white] and the tints
 /// (checked in `test/night_palette_test.dart`). A surface in [espresso]
 /// carries [white] text, and [sun] carries [espresso] text.
+/// Night mode (owner 2026-11-26, "Espresso"): a flat espresso page, dark
+/// cards and light ink; the yellow surfaces stay as in the day. Set by
+/// the app from the "Appearance" setting (or the phone's mode) before the
+/// tree builds; the colour tokens below read it.
+abstract final class Tone {
+  static bool dark = false;
+}
+
 abstract final class ParlaColors {
   /// Warm accent surface: rings, fills, chosen states (4.8:1 under
   /// [espresso]).
   static const sun = Color(0xFFFFCE00);
 
   /// The page behind everything (warm cream).
-  static const cream = Color(0xFFF7F3F1);
+  static Color get cream =>
+      Tone.dark ? const Color(0xFF17120E) : const Color(0xFFF7F3F1);
 
   /// Main ink: text and icons, and the surface of the main action.
-  static const espresso = Color(0xFF16130F);
+  static Color get espresso =>
+      Tone.dark ? const Color(0xFFF5F1EC) : const Color(0xFF16130F);
 
   /// Tinted surfaces (peach, lavender-grey, sage).
-  static const lemon = Color(0xFFF6E3D3);
-  static const sky = Color(0xFFE6E2EC);
-  static const sage = Color(0xFFE3E8D8);
+  static Color get lemon =>
+      Tone.dark ? const Color(0xFF2C2219) : const Color(0xFFF6E3D3);
+  static Color get sky =>
+      Tone.dark ? const Color(0xFF26212A) : const Color(0xFFE6E2EC);
+  static Color get sage =>
+      Tone.dark ? const Color(0xFF24251D) : const Color(0xFFE3E8D8);
 
   /// Accent text: eyebrows, accent lines, links (burnt orange).
-  static const sunInk = Color(0xFF7A5600);
+  static Color get sunInk =>
+      Tone.dark ? const Color(0xFFFFCE00) : const Color(0xFF7A5600);
 
   /// Card surface, and the text on an [espresso] surface.
-  static const white = Color(0xFFFFFFFF);
+  static Color get white =>
+      Tone.dark ? const Color(0xFF241D18) : const Color(0xFFFFFFFF);
 
   /// Secondary text and inactive icons.
-  static const muted = Color(0xFF645B53);
+  static Color get muted =>
+      Tone.dark ? const Color(0xFFCCC3B8) : const Color(0xFF645B53);
 
   /// Outline of an unchecked control.
-  static const outline = Color(0xFF8E8590);
+  static Color get outline =>
+      Tone.dark ? const Color(0xFF9C9288) : const Color(0xFF8E8590);
 
   /// Hairlines, card borders and the track of progress bars.
-  static const line = Color(0xFFECE6E1);
+  static Color get line =>
+      Tone.dark ? const Color(0xFF372D26) : const Color(0xFFECE6E1);
 
   /// Light tints for cards.
-  static const sageTint = Color(0xFFEEF0E6);
-  static const blush = Color(0xFFF6E0DC);
-  static const lilac = Color(0xFFECE4EE);
+  static Color get sageTint =>
+      Tone.dark ? const Color(0xFF24251D) : const Color(0xFFEEF0E6);
+  static Color get blush =>
+      Tone.dark ? const Color(0xFF2E2220) : const Color(0xFFF6E0DC);
+  static Color get lilac =>
+      Tone.dark ? const Color(0xFF2A2430) : const Color(0xFFECE4EE);
 
   /// Sport surface (deep olive) and its light text.
   static const sportBlue = Color(0xFF4E5C0E);
@@ -51,7 +72,8 @@ abstract final class ParlaColors {
   /// Progress fills that must stand out from their tile.
   static const waterFill = Color(0xFF667A14);
   static const moveFill = Color(0xFFB8622A);
-  static const moveTrack = Color(0xFFEADFD4);
+  static Color get moveTrack =>
+      Tone.dark ? const Color(0xFF372D26) : const Color(0xFFEADFD4);
 
   /// The small lime marker of the design (never text).
   static const marker = Color(0xFFFFCE00);
@@ -104,7 +126,9 @@ TextStyle accentStyle(Locale locale, {double size = 20}) => TextStyle(
 /// App theme: compact type scale, body text 15–16 px, nothing under
 /// [kMinTextSize].
 ThemeData parlaTheme() {
-  const ink = ParlaColors.espresso;
+  final ink = ParlaColors.espresso;
+  final night = Tone.dark;
+  final brightness = night ? Brightness.dark : Brightness.light;
   TextStyle style(
     double size,
     FontWeight weight, {
@@ -146,7 +170,7 @@ ThemeData parlaTheme() {
 
   return ThemeData(
     useMaterial3: true,
-    brightness: Brightness.light,
+    brightness: brightness,
     fontFamily: ParlaFonts.sans,
     fontFamilyFallback: ParlaFonts.fallback,
     // Every page carries the night backdrop (see `_page` in routes.dart),
@@ -154,7 +178,7 @@ ThemeData parlaTheme() {
     scaffoldBackgroundColor: Colors.transparent,
     colorScheme: ColorScheme.fromSeed(
       seedColor: ParlaColors.sun,
-      brightness: Brightness.light,
+      brightness: brightness,
       primary: ParlaColors.espresso,
       onPrimary: ParlaColors.white,
       secondary: ParlaColors.sun,
@@ -165,29 +189,30 @@ ThemeData parlaTheme() {
       outline: ParlaColors.outline,
       outlineVariant: ParlaColors.line,
       surfaceContainerHighest: ParlaColors.white,
-      error: const Color(0xFFB3261E),
-      onError: const Color(0xFFFFFFFF),
+      error: night ? const Color(0xFFFFB4AB) : const Color(0xFFB3261E),
+      onError: night ? const Color(0xFF690005) : const Color(0xFFFFFFFF),
     ),
     dividerColor: ParlaColors.line,
     // "İşıq": a dark track when on, a light one when off; white thumb.
+    // At night the "on" track is banana.
     switchTheme: SwitchThemeData(
-      thumbColor: const WidgetStatePropertyAll(ParlaColors.white),
+      thumbColor: const WidgetStatePropertyAll(Colors.white),
       trackColor: WidgetStateProperty.resolveWith(
         (states) => states.contains(WidgetState.selected)
-            ? ParlaColors.espresso
-            : const Color(0xFFDCD4CC),
+            ? (night ? ParlaColors.sun : ParlaColors.espresso)
+            : (night ? const Color(0xFF3F342C) : const Color(0xFFDCD4CC)),
       ),
       trackOutlineColor: const WidgetStatePropertyAll(Colors.transparent),
     ),
-    iconTheme: const IconThemeData(color: ParlaColors.espresso),
-    appBarTheme: const AppBarTheme(
+    iconTheme: IconThemeData(color: ParlaColors.espresso),
+    appBarTheme: AppBarTheme(
       backgroundColor: Colors.transparent,
       foregroundColor: ParlaColors.espresso,
       surfaceTintColor: Colors.transparent,
       elevation: 0,
       scrolledUnderElevation: 0,
     ),
-    progressIndicatorTheme: const ProgressIndicatorThemeData(
+    progressIndicatorTheme: ProgressIndicatorThemeData(
       color: ParlaColors.espresso,
       linearTrackColor: ParlaColors.line,
     ),
@@ -209,7 +234,7 @@ ThemeData parlaTheme() {
         backgroundColor: ParlaColors.white,
         minimumSize: const Size.fromHeight(ParlaSpace.buttonHeight),
         shape: const StadiumBorder(),
-        side: const BorderSide(color: ParlaColors.line, width: 1.5),
+        side: BorderSide(color: ParlaColors.line, width: 1.5),
         textStyle: textTheme.labelLarge,
       ),
     ),
@@ -226,15 +251,15 @@ ThemeData parlaTheme() {
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(ParlaSpace.controlRadius),
-        borderSide: const BorderSide(color: ParlaColors.line, width: 1.5),
+        borderSide: BorderSide(color: ParlaColors.line, width: 1.5),
       ),
       enabledBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(ParlaSpace.controlRadius),
-        borderSide: const BorderSide(color: ParlaColors.line, width: 1.5),
+        borderSide: BorderSide(color: ParlaColors.line, width: 1.5),
       ),
       focusedBorder: OutlineInputBorder(
         borderRadius: BorderRadius.circular(ParlaSpace.controlRadius),
-        borderSide: const BorderSide(color: ParlaColors.espresso, width: 2),
+        borderSide: BorderSide(color: ParlaColors.espresso, width: 2),
       ),
       labelStyle: textTheme.bodyMedium?.copyWith(color: ParlaColors.muted),
       hintStyle: textTheme.bodyMedium?.copyWith(color: ParlaColors.outline),
@@ -242,11 +267,15 @@ ThemeData parlaTheme() {
     // Parla 2.0: capsules for chips, large rounded corners for cards,
     // dialogs and sheets.
     chipTheme: ChipThemeData(
-      shape: const StadiumBorder(side: BorderSide(color: ParlaColors.line)),
+      shape: StadiumBorder(side: BorderSide(color: ParlaColors.line)),
       backgroundColor: ParlaColors.white,
       selectedColor: ParlaColors.sun,
       labelStyle: textTheme.labelLarge?.copyWith(color: ParlaColors.espresso),
-      side: const BorderSide(color: ParlaColors.line),
+      // A chosen chip is banana with dark ink, day and night.
+      secondaryLabelStyle: textTheme.labelLarge?.copyWith(
+        color: const Color(0xFF16130F),
+      ),
+      side: BorderSide(color: ParlaColors.line),
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
       showCheckmark: false,
     ),
@@ -255,14 +284,14 @@ ThemeData parlaTheme() {
       elevation: 0,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(22),
-        side: const BorderSide(color: ParlaColors.line),
+        side: BorderSide(color: ParlaColors.line),
       ),
     ),
     dialogTheme: DialogThemeData(
       backgroundColor: ParlaColors.white,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
     ),
-    bottomSheetTheme: const BottomSheetThemeData(
+    bottomSheetTheme: BottomSheetThemeData(
       backgroundColor: ParlaColors.white,
       dragHandleColor: ParlaColors.outline,
       showDragHandle: true,
