@@ -163,7 +163,7 @@ class TickDot extends StatelessWidget {
               ParlaIconName.check,
               size: 18,
               strokeWidth: 2.2,
-              color: Warm.ink,
+              color: Warm.dayInk,
             )
           : icon != null
           ? ParlaIcon(icon!, size: 18, color: SportNight.ink)

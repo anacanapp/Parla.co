@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'brand.dart';
 import 'parla_icons.dart';
+import 'warm.dart';
 
 /// Shapes and shadows of the Parla 2.0 design (prototype "Parla 2.0
 /// dizayn", 2026-11-21): large rounded cards, capsules for controls, soft
@@ -207,7 +208,7 @@ class PillChip extends StatelessWidget {
               style: TextStyle(
                 fontSize: 13,
                 fontWeight: selected ? FontWeight.w700 : FontWeight.w600,
-                color: selected ? ParlaColors.espresso : ParlaColors.muted,
+                color: selected ? Warm.dayInk : ParlaColors.muted,
               ),
             ),
           ),

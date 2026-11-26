@@ -511,7 +511,7 @@ class _MonthCalendar extends StatelessWidget {
           Warm.ink,
           Border.all(color: const Color(0xFFE0A800), width: 2),
         ),
-        _ when w != null => (coral, Warm.ink, null),
+        _ when w != null => (coral, Warm.dayInk, null),
         _ => (
           null,
           Warm.ink.withValues(alpha: inMonth ? 0.55 : 0.25),

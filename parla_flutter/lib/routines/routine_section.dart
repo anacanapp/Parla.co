@@ -565,7 +565,7 @@ class _StepRowState extends State<_StepRow> {
                             style: TextStyle(
                               fontSize: kMinTextSize,
                               fontWeight: FontWeight.w600,
-                              color: Warm.ink,
+                              color: Warm.dayInk,
                             ),
                           ),
                         ),

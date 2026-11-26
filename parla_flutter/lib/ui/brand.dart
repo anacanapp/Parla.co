@@ -47,11 +47,11 @@ abstract final class ParlaColors {
 
   /// Secondary text and inactive icons.
   static Color get muted =>
-      Tone.dark ? const Color(0xFFB2AAA1) : const Color(0xFF645B53);
+      Tone.dark ? const Color(0xFFCCC3B8) : const Color(0xFF645B53);
 
   /// Outline of an unchecked control.
   static Color get outline =>
-      Tone.dark ? const Color(0xFF857B72) : const Color(0xFF8E8590);
+      Tone.dark ? const Color(0xFF9C9288) : const Color(0xFF8E8590);
 
   /// Hairlines, card borders and the track of progress bars.
   static Color get line =>

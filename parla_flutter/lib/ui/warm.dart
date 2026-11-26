@@ -17,7 +17,7 @@ abstract final class Warm {
   /// Secondary text: 5.5:1 on white (the demo's #8A8178 is too light for
   /// small text).
   static Color get muted =>
-      Tone.dark ? const Color(0xFFB2AAA1) : const Color(0xFF645B53);
+      Tone.dark ? const Color(0xFFCCC3B8) : const Color(0xFF645B53);
 
   /// Dark ink of chosen chips, round buttons and the menu.
   static Color get black =>
@@ -34,7 +34,7 @@ abstract final class Warm {
   static Color get onCard =>
       Tone.dark ? const Color(0xFFF5F1EC) : const Color(0xFF16130F);
   static Color get onCardSoft =>
-      Tone.dark ? const Color(0xFFB2AAA1) : const Color(0xFF645B53);
+      Tone.dark ? const Color(0xFFCCC3B8) : const Color(0xFF645B53);
 
   /// Brand colours of the design.
   static const banana = Color(0xFFFFCE00);
@@ -292,7 +292,7 @@ class SmokyGlass extends StatelessWidget {
             if (glow != null)
               Positioned.fill(
                 child: Opacity(
-                  opacity: night ? .4 : 1,
+                  opacity: night ? .28 : 1,
                   child: DecoratedBox(
                     decoration: BoxDecoration(gradient: glow),
                   ),
@@ -1436,7 +1436,7 @@ class CheckCircle extends StatelessWidget {
             ParlaIconName.check,
             size: size * .54,
             strokeWidth: 2.2,
-            color: Warm.ink,
+            color: Warm.dayInk,
           )
         : null,
   );
