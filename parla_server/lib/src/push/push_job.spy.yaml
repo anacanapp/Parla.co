@@ -1,0 +1,23 @@
+### A push campaign being sent in the background, in batches of users,
+### so a large audience does not run inside the publish request and a
+### restart resumes where it stopped. Holds ids and counts only.
+class: PushJob
+table: push_job
+serverOnly: true
+fields:
+  ### The published `push` content item.
+  contentId: int
+  ### queued, sending, done or stopped (the campaign was unpublished).
+  status: String
+  ### Phones the campaign reached so far.
+  sent: int
+  ### The last account handled, in id order; the next batch starts after it.
+  cursor: UuidValue?
+  ### While set and in the future, one server instance is sending.
+  leaseUntil: DateTime?
+  createdAt: DateTime
+  finishedAt: DateTime?
+indexes:
+  push_job_content_idx:
+    fields: contentId
+    unique: true

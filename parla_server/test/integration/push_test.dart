@@ -34,6 +34,9 @@ void main() {
   setUp(() {
     sender = RecordingPushSender();
     Push.sender = sender;
+    // Tests run the queue themselves.
+    PushJobs.kickOnQueue = false;
+    PushJobs.batchSize = 500;
   });
 
   withServerpod('Given push notifications', (sessionBuilder, endpoints) {
@@ -153,7 +156,18 @@ void main() {
         'marketing',
       );
       await endpoints.contentAdmin.publish(admin, item.id);
+      // Publishing only queues it; the background run sends it.
+      expect(sender.sent, isEmpty);
+      expect(
+        (await endpoints.contentAdmin.pushStatus(admin, item.id))!.status,
+        PushJobs.queued,
+      );
+      await runPushJobs(sessionBuilder.build());
       expect(sender.sent.map((s) => s.$1), ['tok-yes']);
+      final status = (await endpoints.contentAdmin.pushStatus(admin, item.id))!;
+      expect(status.status, PushJobs.done);
+      expect(status.sent, 1);
+      expect(status.finishedAt, isNotNull);
       expect(sender.sent.single.$2.title, 'Yeni reseptlər az');
       // FCM said the token is gone: it is deleted.
       final tokens = await DeviceToken.db.find(sessionBuilder.build());
@@ -163,7 +177,131 @@ void main() {
         endpoints.contentAdmin.publish(admin, item.id),
         throwsA(_error(ContentErrors.wrongStatus)),
       );
+      await runPushJobs(sessionBuilder.build());
       expect(sender.sent, hasLength(1));
+    });
+
+    Future<int> campaign(TestSessionBuilder admin, String slug) async {
+      final item = await endpoints.contentAdmin.create(
+        admin,
+        'push',
+        slug,
+        'marketing',
+      );
+      await endpoints.contentAdmin.saveDraft(
+        admin,
+        item.id,
+        jsonEncode({'title': _l('Salam'), 'body': _l('Mətn')}),
+        'marketing',
+      );
+      await endpoints.contentAdmin.publish(admin, item.id);
+      return item.id;
+    }
+
+    test(
+      'large audiences go in batches and resume after the last account',
+      () async {
+        final admin = await staff('first-admin@example.com', StaffRole.admin);
+        for (var i = 0; i < 5; i++) {
+          await member('m$i@example.com', marketing: true, token: 'tok-$i');
+        }
+        PushJobs.batchSize = 2;
+        final id = await campaign(admin, 'boyuk');
+        // A restart after the first two accounts: the job remembers them.
+        final db = sessionBuilder.build();
+        final job = (await PushJob.db.findFirstRow(
+          db,
+          where: (t) => t.contentId.equals(id),
+        ))!;
+        final first = (await DeviceToken.db.find(
+          db,
+          orderBy: (t) => t.authUserId,
+        )).take(2).toList();
+        await PushJob.db.updateRow(
+          db,
+          job.copyWith(
+            status: PushJobs.sending,
+            sent: 2,
+            cursor: first.last.authUserId,
+          ),
+        );
+        await runPushJobs(db);
+        expect(sender.sent, hasLength(3));
+        expect(
+          sender.sent.map((s) => s.$1),
+          isNot(contains(anyOf(first.map((t) => t.token).toList()))),
+        );
+        final status = (await endpoints.contentAdmin.pushStatus(admin, id))!;
+        expect(status.status, PushJobs.done);
+        expect(status.sent, 5);
+      },
+    );
+
+    test(
+      'a job held by another instance is left alone until its lease ends',
+      () async {
+        final admin = await staff('first-admin@example.com', StaffRole.admin);
+        await member('a@example.com', marketing: true, token: 'tok-a');
+        final id = await campaign(admin, 'lease');
+        final db = sessionBuilder.build();
+        final job = (await PushJob.db.findFirstRow(
+          db,
+          where: (t) => t.contentId.equals(id),
+        ))!;
+        await PushJob.db.updateRow(
+          db,
+          job.copyWith(
+            leaseUntil: DateTime.now().toUtc().add(const Duration(minutes: 1)),
+          ),
+        );
+        await runPushJobs(db);
+        expect(sender.sent, isEmpty);
+        await PushJob.db.updateRow(
+          db,
+          job.copyWith(
+            leaseUntil: DateTime.now().toUtc().subtract(
+              const Duration(minutes: 1),
+            ),
+          ),
+        );
+        await runPushJobs(db);
+        expect(sender.sent, hasLength(1));
+      },
+    );
+
+    test('consent withdrawn before sending, or an unpublished campaign, '
+        'sends nothing', () async {
+      final admin = await staff('first-admin@example.com', StaffRole.admin);
+      final user = await member(
+        'w@example.com',
+        marketing: true,
+        token: 'tok-w',
+      );
+      final id = await campaign(admin, 'geri');
+      await endpoints.consent.decide(
+        _as(sessionBuilder, user),
+        consentType: ConsentType.marketing,
+        granted: false,
+        textVersion: currentConsentText(ConsentKind.marketing).version,
+        language: 'az',
+        source: 'app',
+      );
+      await runPushJobs(sessionBuilder.build());
+      expect(sender.sent, isEmpty);
+      expect(
+        (await endpoints.contentAdmin.pushStatus(admin, id))!.status,
+        PushJobs.done,
+      );
+
+      await member('v@example.com', marketing: true, token: 'tok-v');
+      final second = await campaign(admin, 'ikinci');
+      await endpoints.contentAdmin.unpublish(admin, second);
+      await runPushJobs(sessionBuilder.build());
+      expect(sender.sent, isEmpty);
+      expect(
+        (await endpoints.contentAdmin.pushStatus(admin, second))!.status,
+        PushJobs.stopped,
+      );
     });
 
     test('an editor\'s campaign needs an admin', () async {

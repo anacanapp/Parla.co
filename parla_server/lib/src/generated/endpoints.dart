@@ -994,6 +994,26 @@ class Endpoints extends _is.EndpointDispatch {
                         params['id'],
                       ),
         ),
+        'pushStatus': _is.MethodConnector(
+          name: 'pushStatus',
+          params: {
+            'id': _is.ParameterDescription(
+              name: 'id',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['contentAdmin'] as _if39e6se.ContentAdminEndpoint)
+                      .pushStatus(
+                        session,
+                        params['id'],
+                      ),
+        ),
         'unpublish': _is.MethodConnector(
           name: 'unpublish',
           params: {

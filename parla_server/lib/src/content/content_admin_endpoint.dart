@@ -270,11 +270,25 @@ class ContentAdminEndpoint extends Endpoint {
       ),
     );
     await syncPublicMedia(session);
-    if (isPush) {
-      final sent = await sendPushCampaign(session, _draft(row));
-      session.log('Push campaign ${row.id} sent to $sent phones.');
-    }
+    // Sent in the background, in batches (see PushJobs).
+    if (isPush) await queuePushCampaign(session, row.id!);
     return published;
+  }
+
+  /// How far the push campaign [id] has got, or `null` before it is sent.
+  Future<PushJobView?> pushStatus(Session session, int id) async {
+    await requireStaff(session, roles: _writers);
+    final job = await PushJob.db.findFirstRow(
+      session,
+      where: (t) => t.contentId.equals(id),
+    );
+    return job == null
+        ? null
+        : PushJobView(
+            status: job.status,
+            sent: job.sent,
+            finishedAt: job.finishedAt,
+          );
   }
 
   Future<ContentAdminItem> unpublish(Session session, int id) async {

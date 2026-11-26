@@ -35,6 +35,8 @@ import 'package:parla_server/src/generated/products/product_summary.dart'
     as _ivq5jofi;
 import 'package:parla_server/src/generated/profile/member_profile.dart'
     as _igsplnqd;
+import 'package:parla_server/src/generated/push/push_job_view.dart'
+    as _i5g2jf4y;
 import 'package:parla_server/src/generated/quiz/quiz_answer_input.dart'
     as _iak2pevv;
 import 'package:parla_server/src/generated/shop/shop_checkout.dart'
@@ -1559,6 +1561,37 @@ class _ContentAdminEndpoint {
                   _localCallContext.arguments,
                 )
                 as _ida.Future<_itdeiy4d.ContentAdminItem>);
+        return _localReturnValue;
+      } finally {
+        await _localUniqueSession.close();
+      }
+    });
+  }
+
+  _ida.Future<_i5g2jf4y.PushJobView?> pushStatus(
+    _ist.TestSessionBuilder sessionBuilder,
+    int id,
+  ) async {
+    return _ist.callAwaitableFunctionAndHandleExceptions(() async {
+      var _localUniqueSession =
+          (sessionBuilder as _ist.InternalTestSessionBuilder).internalBuild(
+            endpoint: 'contentAdmin',
+            method: 'pushStatus',
+          );
+      try {
+        var _localCallContext = await _endpointDispatch.getMethodCallContext(
+          createSessionCallback: (_) => _localUniqueSession,
+          endpointPath: 'contentAdmin',
+          methodName: 'pushStatus',
+          parameters: _ist.testObjectToJson({'id': id}),
+          serializationManager: _serializationManager,
+        );
+        var _localReturnValue =
+            await (_localCallContext.method.call(
+                  _localUniqueSession,
+                  _localCallContext.arguments,
+                )
+                as _ida.Future<_i5g2jf4y.PushJobView?>);
         return _localReturnValue;
       } finally {
         await _localUniqueSession.close();

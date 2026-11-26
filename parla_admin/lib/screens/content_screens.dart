@@ -1,7 +1,9 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:intl/intl.dart';
 import 'package:parla_shared/parla_shared.dart';
 
 import '../api/admin_api.dart';
@@ -1468,11 +1470,15 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
                   }
                   await _do(
                     () => _api.publishContent(item.id),
-                    _kind == ContentKind.push ? 'Göndərildi.' : 'Dərc olundu.',
+                    _kind == ContentKind.push
+                        ? 'Göndərmə başladı.'
+                        : 'Dərc olundu.',
                   );
                 },
           child: Text(_kind == ContentKind.push ? 'Göndər' : 'Dərc et'),
         ),
+      if (_kind == ContentKind.push && item.live)
+        _PushProgress(api: _api, id: item.id),
       if (writer && item.live)
         OutlinedButton(
           key: const ValueKey('content-unpublish'),
@@ -2035,6 +2041,67 @@ class _WorkflowCard extends StatelessWidget {
           ],
         ],
       ),
+    );
+  }
+}
+
+/// How far a sent push campaign has got; refreshed every few seconds while
+/// it is being sent.
+class _PushProgress extends StatefulWidget {
+  const _PushProgress({required this.api, required this.id});
+
+  final AdminApi api;
+  final int id;
+
+  @override
+  State<_PushProgress> createState() => _PushProgressState();
+}
+
+class _PushProgressState extends State<_PushProgress> {
+  PushJobView? _job;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _load();
+  }
+
+  Future<void> _load() async {
+    try {
+      final job = await widget.api.pushStatus(widget.id);
+      if (!mounted) return;
+      setState(() => _job = job);
+      final running =
+          job != null && (job.status == 'queued' || job.status == 'sending');
+      _timer?.cancel();
+      if (running) _timer = Timer(const Duration(seconds: 5), _load);
+    } on Object {
+      // The line just stays as it was.
+    }
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final job = _job;
+    final text = switch (job?.status) {
+      null => 'Göndərilmə gözlənilir',
+      'queued' => 'Növbədədir',
+      'sending' => 'Göndərilir: ${job!.sent} telefon',
+      'stopped' => 'Dayandırıldı (dərcdən çıxarıldı): ${job!.sent} telefon',
+      _ =>
+        'Göndərildi: ${job!.sent} telefon'
+            '${job.finishedAt == null ? '' : ', ${DateFormat('dd.MM.yyyy HH:mm').format(job.finishedAt!.toLocal())}'}',
+    };
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Text(text, key: const ValueKey('content-push-progress')),
     );
   }
 }

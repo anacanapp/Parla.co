@@ -452,6 +452,12 @@ class FakeAdminApi implements AdminApi {
   Future<ContentAdminItem> recordConsent(int id, String reference) async =>
       _put(_find(id).copyWith(consentRecorded: true));
 
+  /// Push campaign progress by content id.
+  final pushJobs = <int, PushJobView>{};
+
+  @override
+  Future<PushJobView?> pushStatus(int id) async => pushJobs[id];
+
   @override
   Future<ContentAdminItem> publishContent(int id) async {
     calls.add('publish:$id');

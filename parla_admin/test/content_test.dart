@@ -511,8 +511,15 @@ void main() {
     expect(api.calls.where((c) => c.startsWith('publish')), isEmpty);
 
     await _tap(tester, find.byKey(const ValueKey('content-publish')));
+    api.pushJobs[api.content.last.id] = PushJobView(
+      status: 'done',
+      sent: 42,
+      finishedAt: DateTime.utc(2026, 11, 25, 9),
+    );
     await _tap(tester, find.byKey(const ValueKey('push-confirm')));
     expect(api.calls.where((c) => c.startsWith('publish')), hasLength(1));
+    // The editor shows how far the campaign got.
+    expect(find.textContaining('Göndərildi: 42 telefon'), findsOneWidget);
   });
 
   testWidgets('blog: paste from Google Docs, hashtags, inline image, preview', (

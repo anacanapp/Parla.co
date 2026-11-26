@@ -1,0 +1,6 @@
+### How far a push campaign has got, for the admin panel.
+class: PushJobView
+fields:
+  status: String
+  sent: int
+  finishedAt: DateTime?

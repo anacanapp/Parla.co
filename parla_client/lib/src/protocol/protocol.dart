@@ -71,6 +71,7 @@ import 'media/public_image.dart' as _ig6ant5g;
 import 'products/product_summary.dart' as _ikmk0g5q;
 import 'profile/member_profile.dart' as _i1iocmvy;
 import 'push/device_token.dart' as _iqu8ign5;
+import 'push/push_job_view.dart' as _ip1zc33c;
 import 'quiz/quiz_answer.dart' as _ih1qnypb;
 import 'quiz/quiz_answer_input.dart' as _ilw6ope9;
 import 'shop/shop_checkout.dart' as _ijilqnse;
@@ -123,6 +124,7 @@ export 'media/public_image.dart';
 export 'products/product_summary.dart';
 export 'profile/member_profile.dart';
 export 'push/device_token.dart';
+export 'push/push_job_view.dart';
 export 'quiz/quiz_answer.dart';
 export 'quiz/quiz_answer_input.dart';
 export 'shop/shop_checkout.dart';
@@ -190,6 +192,7 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_ikmk0g5q.ProductSummary>,
           _isc.getType<_i1iocmvy.MemberProfile>,
           _isc.getType<_iqu8ign5.DeviceToken>,
+          _isc.getType<_ip1zc33c.PushJobView>,
           _isc.getType<_ih1qnypb.QuizAnswer>,
           _isc.getType<_ilw6ope9.QuizAnswerInput>,
           _isc.getType<_ijilqnse.ShopCheckout>,
@@ -242,6 +245,7 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_ikmk0g5q.ProductSummary?>,
           _isc.getType<_i1iocmvy.MemberProfile?>,
           _isc.getType<_iqu8ign5.DeviceToken?>,
+          _isc.getType<_ip1zc33c.PushJobView?>,
           _isc.getType<_ih1qnypb.QuizAnswer?>,
           _isc.getType<_ilw6ope9.QuizAnswerInput?>,
           _isc.getType<_ijilqnse.ShopCheckout?>,
@@ -323,6 +327,7 @@ class Protocol extends _isc.SerializationManager
           'ProductSummary',
           'MemberProfile',
           'DeviceToken',
+          'PushJobView',
           'QuizAnswer',
           'QuizAnswerInput',
           'ShopCheckout',
@@ -455,6 +460,9 @@ class Protocol extends _isc.SerializationManager
     }
     if (t == _iqu8ign5.DeviceToken) {
       return _iqu8ign5.DeviceToken.fromJson(data) as T;
+    }
+    if (t == _ip1zc33c.PushJobView) {
+      return _ip1zc33c.PushJobView.fromJson(data) as T;
     }
     if (t == _ih1qnypb.QuizAnswer) {
       return _ih1qnypb.QuizAnswer.fromJson(data) as T;
@@ -627,6 +635,9 @@ class Protocol extends _isc.SerializationManager
     }
     if (t == _isc.getType<_iqu8ign5.DeviceToken?>()) {
       return (data != null ? _iqu8ign5.DeviceToken.fromJson(data) : null) as T;
+    }
+    if (t == _isc.getType<_ip1zc33c.PushJobView?>()) {
+      return (data != null ? _ip1zc33c.PushJobView.fromJson(data) : null) as T;
     }
     if (t == _isc.getType<_ih1qnypb.QuizAnswer?>()) {
       return (data != null ? _ih1qnypb.QuizAnswer.fromJson(data) : null) as T;
@@ -895,6 +906,7 @@ class Protocol extends _isc.SerializationManager
       _ikmk0g5q.ProductSummary => 'ProductSummary',
       _i1iocmvy.MemberProfile => 'MemberProfile',
       _iqu8ign5.DeviceToken => 'DeviceToken',
+      _ip1zc33c.PushJobView => 'PushJobView',
       _ih1qnypb.QuizAnswer => 'QuizAnswer',
       _ilw6ope9.QuizAnswerInput => 'QuizAnswerInput',
       _ijilqnse.ShopCheckout => 'ShopCheckout',
@@ -988,6 +1000,8 @@ class Protocol extends _isc.SerializationManager
         return 'MemberProfile';
       case _iqu8ign5.DeviceToken():
         return 'DeviceToken';
+      case _ip1zc33c.PushJobView():
+        return 'PushJobView';
       case _ih1qnypb.QuizAnswer():
         return 'QuizAnswer';
       case _ilw6ope9.QuizAnswerInput():
@@ -1140,6 +1154,9 @@ class Protocol extends _isc.SerializationManager
     }
     if (dataClassName == 'DeviceToken') {
       return deserialize<_iqu8ign5.DeviceToken>(data['data']);
+    }
+    if (dataClassName == 'PushJobView') {
+      return deserialize<_ip1zc33c.PushJobView>(data['data']);
     }
     if (dataClassName == 'QuizAnswer') {
       return deserialize<_ih1qnypb.QuizAnswer>(data['data']);
