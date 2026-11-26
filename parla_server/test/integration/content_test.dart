@@ -9,6 +9,7 @@ import 'package:parla_server/src/content/content_images_task.dart';
 import 'package:parla_server/src/content/recipe_kcal.dart';
 import 'package:parla_server/src/content/content_import.dart';
 import 'package:parla_server/src/content/sample_experts.dart';
+import 'package:parla_server/src/content/wording_fixes.dart';
 import 'package:parla_server/src/content/content_seed_import.dart';
 import 'package:parla_server/src/generated/protocol.dart';
 import 'package:parla_server/src/media/media_store.dart';
@@ -790,6 +791,73 @@ void main() {
         ),
         1,
       );
+    });
+
+    test('the wording task rewords published articles once and leaves '
+        'reworded ones alone', () async {
+      await team();
+      final db = sessionBuilder.build();
+      final admin = (await StaffMember.db.findFirstRow(db))!.authUserId;
+      final now = DateTime.now().toUtc();
+      Future<ContentItem> article(String slug, String az) {
+        final json = jsonEncode({
+          'title': {'az': 'Başlıq', 'ru': 'Заголовок', 'en': 'Title'},
+          'body': {'az': az, 'ru': 'Текст.', 'en': 'Is it harmful? Text.'},
+        });
+        return ContentItem.db.insertRow(
+          db,
+          ContentItem(
+            kind: 'article',
+            slug: slug,
+            category: 'care',
+            status: ContentStatus.published,
+            draftJson: json,
+            publishedJson: json,
+            createdBy: admin,
+            updatedBy: admin,
+            createdAt: now,
+            updatedAt: now,
+            publishedAt: now,
+          ),
+        );
+      }
+
+      final old = await article('glasses', 'Ucuz eynək zərərlidirmi? Mətn.');
+      final edited = await article('edited', 'Komanda artıq dəyişib.');
+      const fixes = <WordingFix>[
+        ('glasses', 'az', 'Ucuz eynək zərərlidirmi?', 'Gözü qoruyurmu?'),
+        ('glasses', 'en', 'harmful', 'protective'),
+        ('edited', 'az', 'zərərlidirmi', 'x'),
+      ];
+      final result = await runFixContentWordingTask(
+        db,
+        'first-admin@example.com',
+        fixes: fixes,
+      );
+      expect(result, 'Reworded 1 articles: glasses.');
+      final g = (await ContentItem.db.findById(db, old.id!))!;
+      for (final json in [g.publishedJson!, g.draftJson]) {
+        final body = (jsonDecode(json) as Map)['body'] as Map;
+        expect(body['az'], 'Gözü qoruyurmu? Mətn.');
+        expect(body['en'], 'Is it protective? Text.');
+        expect(body['ru'], 'Текст.');
+      }
+      expect(g.status, ContentStatus.published);
+      final e = (await ContentItem.db.findById(db, edited.id!))!;
+      expect(e.updatedAt, edited.updatedAt);
+      expect(
+        await AuditLogEntry.db.count(
+          db,
+          where: (t) => t.action.equals('content.wording_fixed'),
+        ),
+        1,
+      );
+      final again = await runFixContentWordingTask(
+        db,
+        'first-admin@example.com',
+        fixes: fixes,
+      );
+      expect(again, 'Reworded 0 articles.');
     });
 
     test('the kcal task fills recipes without kcal, keeps panel values, '
