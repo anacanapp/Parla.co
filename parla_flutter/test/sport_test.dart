@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:parla/app.dart';
+import 'package:parla/discover/discover_widgets.dart';
 import 'package:parla/habits/habit_store.dart';
 import 'package:parla/home/widgets/parla_nav_bar.dart';
 import 'package:parla/services/parla_api.dart';
@@ -684,5 +685,43 @@ void main() {
       expect(answers['start'], '2026-11-15');
       expect(find.byKey(const ValueKey('sport-month')), findsOneWidget);
     });
+  });
+
+  testWidgets('a photo published in the panel replaces the shipped one', (
+    tester,
+  ) async {
+    final requested = <String>[];
+    final provider = ContentImage.provider;
+    addTearDown(() => ContentImage.provider = provider);
+    ContentImage.provider = (url) {
+      requested.add(url);
+      return MemoryImage(
+        base64Decode(
+          'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==',
+        ),
+      );
+    };
+    final api = FakeApi()
+      ..signedIn = true
+      ..profile = const ProfileSummary(countryCode: 'AZ', language: 'en');
+    api.published['sportPhoto'] = [
+      PublishedItem(
+        id: 1,
+        kind: 'sportPhoto',
+        slug: 'squat',
+        category: 'fitness',
+        data: const {},
+        publishedAt: DateTime.utc(2026, 11, 25),
+        image: const ContentImageRef(
+          url: 'https://parla.anacan.az/media/squat.jpg',
+          width: 1080,
+          height: 720,
+          alt: {},
+        ),
+      ),
+    ];
+    await _open(tester, api: api);
+    await _answer(tester);
+    expect(requested, contains('https://parla.anacan.az/media/squat.jpg'));
   });
 }

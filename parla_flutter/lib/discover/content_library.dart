@@ -25,6 +25,7 @@ class ContentLibrary extends ChangeNotifier {
     'banner',
     'message',
     'product',
+    'sportPhoto',
   ];
   static const catalogueKinds = ['preference', 'exercise', 'step'];
 

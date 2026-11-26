@@ -692,6 +692,8 @@ const _fields = <String, List<_Field>>{
       options: ['parla', 'brand'],
     ),
   ],
+  // Only the photo; the workout type is the category.
+  'sportPhoto': [],
   'push': [
     _Field('title', 'Başlıq (ən çox 60 simvol)', _FieldType.line),
     _Field('body', 'Mətn (ən çox 180 simvol)', _FieldType.multiline),
@@ -1763,6 +1765,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           ContentKind.exercise,
           ContentKind.banner,
           ContentKind.product,
+          ContentKind.sportPhoto,
         }.contains(_kind)) ...[
           SectionCard(
             title: 'Şəkil',

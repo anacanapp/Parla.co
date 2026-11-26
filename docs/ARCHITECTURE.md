@@ -268,6 +268,12 @@ wording rules and open legal questions: `docs/INGREDIENTS.md`.
     (`workout_photo.dart`, `assets/images/workouts/`): AI images made for
     Parla in the warm style, no real person, with room above the head so
     the crop never cuts it.
+  - The team can replace them in the admin panel ("İdman şəkilləri",
+    content kind `sportPhoto`): one image per item, the workout type as its
+    category, published directly by an admin (no text). The app shows the
+    published photos of a type, picked by the workout number, and falls
+    back to the shipped ones when there are none or one fails to load.
+    Uploads go through the usual media pipeline (re-encoded, no metadata).
 - **Plan** (`planSport` in `parla_shared`): one workout per day, with the
   types rotating and the chosen areas first. Sets, repetitions and rests
   follow the main goal and the level. The safety answers remove exercises:

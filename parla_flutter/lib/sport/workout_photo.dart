@@ -1,30 +1,54 @@
 import 'package:flutter/material.dart';
 import 'package:parla_shared/parla_shared.dart';
 
+import '../discover/content_library.dart';
+import '../discover/discover_widgets.dart';
+import '../services/parla_api.dart';
 import '../ui/warm.dart';
 
-/// The photo of a workout card, by the workout's type (owner 2026-11-25:
-/// a photo per workout, warm style A). The photos are AI images made for
-/// Parla (no real person), shipped with the app; each type has one to three
-/// and the workout number picks one so neighbouring cards differ.
+/// Shipped photos per workout type.
+const _photoCounts = {
+  'fitness': 3,
+  'stretching': 2,
+  'cardio': 2,
+  'pilates': 2,
+  'wall_pilates': 1,
+  'yoga': 3,
+  'face_yoga': 1,
+};
+
+String _typeOf(Workout w) => _photoCounts.containsKey(w.type) ? w.type : 'yoga';
+
+int _numberOf(Workout w) => switch (w.id) {
+  'yoga_morning' => 0,
+  'yoga_evening' => 1,
+  'yoga_stretch' => 2,
+  _ => (int.tryParse(w.id.replaceAll(RegExp(r'\D'), '')) ?? 1) - 1,
+};
+
+/// The shipped photo of a workout card, by the workout's type (owner
+/// 2026-11-25: a photo per workout, warm style A). The photos are AI images
+/// made for Parla (no real person); each type has one to three and the
+/// workout number picks one so neighbouring cards differ.
 String workoutPhoto(Workout w) {
-  const counts = {
-    'fitness': 3,
-    'stretching': 2,
-    'cardio': 2,
-    'pilates': 2,
-    'wall_pilates': 1,
-    'yoga': 3,
-    'face_yoga': 1,
-  };
-  final type = counts.containsKey(w.type) ? w.type : 'yoga';
-  final number = switch (w.id) {
-    'yoga_morning' => 0,
-    'yoga_evening' => 1,
-    'yoga_stretch' => 2,
-    _ => (int.tryParse(w.id.replaceAll(RegExp(r'\D'), '')) ?? 1) - 1,
-  };
-  return 'assets/images/workouts/${type}_${number % counts[type]! + 1}.jpg';
+  final type = _typeOf(w);
+  return 'assets/images/workouts/${type}_${_numberOf(w) % _photoCounts[type]! + 1}.jpg';
+}
+
+/// The photo of [w]: one the team published in the admin panel for its
+/// type (`sportPhoto`, picked by the workout number like the shipped ones),
+/// else the photo shipped with the app.
+ImageProvider workoutImage(Workout w) {
+  final type = _typeOf(w);
+  final published = [
+    for (final i
+        in ContentLibrary.current?.items('sportPhoto') ??
+            const <PublishedItem>[])
+      if (i.category == type && !i.hidden && i.image != null) i,
+  ]..sort((a, b) => a.id.compareTo(b.id));
+  if (published.isEmpty) return AssetImage(workoutPhoto(w));
+  final url = published[_numberOf(w) % published.length].image!.url;
+  return ContentImage.provider(url);
 }
 
 /// A workout as a photo card: the photo, a dark fade at the bottom with
@@ -83,13 +107,20 @@ class WorkoutPhotoCard extends StatelessWidget {
               child: Stack(
                 fit: StackFit.expand,
                 children: [
-                  Image.asset(
-                    workoutPhoto(workout),
+                  Image(
+                    image: workoutImage(workout),
                     fit: BoxFit.cover,
                     alignment: const Alignment(0, -0.35),
                     excludeFromSemantics: true,
-                    errorBuilder: (_, _, _) =>
-                        const ColoredBox(color: Warm.black),
+                    // A published photo that does not load: the shipped one.
+                    errorBuilder: (_, _, _) => Image.asset(
+                      workoutPhoto(workout),
+                      fit: BoxFit.cover,
+                      alignment: const Alignment(0, -0.35),
+                      excludeFromSemantics: true,
+                      errorBuilder: (_, _, _) =>
+                          const ColoredBox(color: Warm.black),
+                    ),
                   ),
                   const DecoratedBox(
                     decoration: BoxDecoration(

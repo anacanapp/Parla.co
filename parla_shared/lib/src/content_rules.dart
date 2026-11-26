@@ -43,7 +43,12 @@ enum ContentKind {
   /// A product in the Shop. Either sold on a partner's website (`redirect`)
   /// or sold in the app (`own`, by Parla or by the brand through Parla).
   /// Its texts are checked by an expert like every other content.
-  product;
+  product,
+
+  /// A photo for the workout cards of one workout type (owner,
+  /// 2026-11-25). Only an image; the type is the category. The app shows
+  /// the published ones instead of the photos it ships with.
+  sportPhoto;
 
   bool get isCatalogue =>
       this == preference || this == exercise || this == step;
@@ -51,6 +56,17 @@ enum ContentKind {
 
 abstract final class ContentRules {
   static const languages = ['az', 'ru', 'en'];
+
+  /// The workout types a sport photo can belong to.
+  static const sportPhotoTypes = [
+    'fitness',
+    'stretching',
+    'cardio',
+    'pilates',
+    'wall_pilates',
+    'yoga',
+    'face_yoga',
+  ];
 
   static const articleCategories = [
     'care',
@@ -273,6 +289,8 @@ abstract final class ContentRules {
   ) =>
       kind == ContentKind.message ||
       kind == ContentKind.push ||
+      // A photo without text: the admin who uploads it publishes it.
+      kind == ContentKind.sportPhoto ||
       (kind == ContentKind.banner && !isSponsored(json));
 
   /// Whether a published banner shows today for [language] and [country]
@@ -383,6 +401,7 @@ abstract final class ContentRules {
     ContentKind.message => const ['announcement'],
     ContentKind.push => const ['marketing'],
     ContentKind.product => productCategories,
+    ContentKind.sportPhoto => sportPhotoTypes,
   };
 
   /// Problems with [encoded] as content of [kind]; empty when it is valid.
@@ -575,6 +594,9 @@ abstract final class ContentRules {
             allergens.toSet().length != allergens.length) {
           out.add('allergens.invalid');
         }
+      case ContentKind.sportPhoto:
+        only({'image'});
+        if (json['image'] == null) out.add('image.missing');
       case ContentKind.preference:
         only({'name', 'hint'});
         text('name', 80);
