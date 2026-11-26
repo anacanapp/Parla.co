@@ -344,4 +344,55 @@ void main() {
     await tester.pumpAndSettle();
     await _shoot(tester, '15_quiz');
   });
+
+  for (final (name, route, extra) in [
+    ('16_reminders', Routes.reminders, null),
+    ('17_builder', Routes.routineBuilder, null),
+    ('18_orders', Routes.shopOrders, null),
+    ('19_sport_quiz', Routes.sportQuiz, null),
+    ('20_workout', Routes.workout, 'w1'),
+    ('21_journal', Routes.journal, null),
+    ('22_messages', Routes.messages, null),
+    ('23_legal', Routes.legal, null),
+    ('24_delete', Routes.deleteAccount, null),
+    ('25_consent_refresh', Routes.consentRefresh, null),
+  ]) {
+    testWidgets(name, skip: !_enabled, (tester) async {
+      await _open(tester);
+      GoRouter.of(
+        tester.element(find.byType(Scaffold).first),
+      ).go(route, extra: extra);
+      await tester.pumpAndSettle();
+      await _shoot(tester, name);
+    });
+  }
+
+  for (final (name, route) in [
+    ('30_language', Routes.language),
+    ('31_welcome', Routes.welcome),
+    ('32_age', Routes.age),
+    ('33_sign_in', Routes.signIn),
+    ('34_country', Routes.country),
+    ('35_consents', Routes.consents),
+  ]) {
+    testWidgets(name, skip: !_enabled, (tester) async {
+      tester.view.physicalSize = const Size(780, 1688);
+      tester.view.devicePixelRatio = 2;
+      addTearDown(tester.view.reset);
+      SharedPreferences.setMockInitialValues({'language': _language});
+      final settings = await AppSettings.load();
+      await tester.pumpWidget(
+        ParlaApp(
+          api: FakeApi(),
+          settings: settings,
+          clock: () => _today,
+          reminderScheduler: FakeReminderScheduler(),
+        ),
+      );
+      await tester.pumpAndSettle();
+      GoRouter.of(tester.element(find.byType(Scaffold).first)).go(route);
+      await tester.pumpAndSettle();
+      await _shoot(tester, name);
+    });
+  }
 }

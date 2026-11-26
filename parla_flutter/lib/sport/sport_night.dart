@@ -242,7 +242,7 @@ class OrbPill extends StatelessWidget {
     required this.onPressed,
     this.icon = Icons.arrow_forward,
     this.height = 60,
-    this.background = const Color(0x660F0F12),
+    this.background = const Color(0xFF16130F),
   });
 
   final String label;
@@ -273,7 +273,7 @@ class OrbPill extends StatelessWidget {
                 Expanded(
                   child: Text(
                     label,
-                    style: const TextStyle(fontSize: 15, color: SportNight.ink),
+                    style: const TextStyle(fontSize: 15, color: Colors.white),
                   ),
                 ),
               ],
