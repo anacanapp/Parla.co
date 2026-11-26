@@ -974,11 +974,13 @@ class StatPill extends StatelessWidget {
     excludeSemantics: semanticLabel != null,
     child: ConstrainedBox(
       constraints: BoxConstraints(minHeight: height),
+      // A rounded rectangle, not a capsule: a tall capsule turns oval
+      // and squeezes the text into its ends.
       child: SmokyGlass(
-        shape: const StadiumBorder(),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
         tint: tint,
         onTap: onTap,
-        padding: const EdgeInsets.fromLTRB(22, 16, 20, 16),
+        padding: const EdgeInsets.fromLTRB(18, 16, 16, 16),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.start,

@@ -403,8 +403,10 @@ class _GlassRound extends StatelessWidget {
     label: label,
     excludeSemantics: true,
     child: Material(
-      color: const Color(0x26FFFFFF),
-      shape: const CircleBorder(side: BorderSide(color: Color(0x66FFFFFF))),
+      color: Colors.transparent,
+      shape: const CircleBorder(
+        side: BorderSide(color: Color(0x5916130F), width: 1.2),
+      ),
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: onPressed,

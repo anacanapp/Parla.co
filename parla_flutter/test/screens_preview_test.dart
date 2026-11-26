@@ -105,7 +105,7 @@ Future<void> _loadIconFont() async {
   await loader.load();
 }
 
-Future<void> _open(WidgetTester tester) async {
+Future<void> _open(WidgetTester tester, {DateTime? at}) async {
   tester.view.physicalSize = const Size(780, 1688);
   tester.view.devicePixelRatio = 2;
   addTearDown(tester.view.reset);
@@ -154,7 +154,7 @@ Future<void> _open(WidgetTester tester) async {
       key: UniqueKey(),
       api: api,
       settings: settings,
-      clock: () => _today,
+      clock: () => at ?? _today,
       habitStore: _store(),
       reminderScheduler: FakeReminderScheduler(),
       ingredientDataset: _dataset,
@@ -395,4 +395,11 @@ void main() {
       await _shoot(tester, name);
     });
   }
+
+  testWidgets('01_home_evening', skip: !_enabled, (tester) async {
+    await _open(tester, at: DateTime(2026, 11, 12, 21, 30));
+    await tester.drag(find.byType(Scrollable).first, const Offset(0, -420));
+    await tester.pumpAndSettle();
+    await _shoot(tester, '01_home_evening');
+  });
 }

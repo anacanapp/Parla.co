@@ -719,7 +719,7 @@ class _RoundButton extends StatelessWidget {
         color: outlined ? Colors.transparent : Warm.black,
         shape: CircleBorder(
           side: outlined
-              ? const BorderSide(color: Color(0x99FFFFFF))
+              ? const BorderSide(color: Color(0x5916130F), width: 1.2)
               : BorderSide.none,
         ),
         child: InkWell(
@@ -733,7 +733,11 @@ class _RoundButton extends StatelessWidget {
                 icon,
                 size: 18,
                 strokeWidth: 2.5,
-                color: enabled ? Colors.white : const Color(0x66FFFFFF),
+                color: !outlined
+                    ? Colors.white
+                    : enabled
+                    ? Warm.ink
+                    : const Color(0x5916130F),
               ),
             ),
           ),
@@ -762,37 +766,48 @@ class _SleepPill extends StatelessWidget {
   @override
   Widget build(BuildContext context) => ConstrainedBox(
     constraints: const BoxConstraints(minHeight: 104),
+    // Same shape as the card beside it; the add button is small and sits
+    // by the title so the value has the full width.
     child: SmokyGlass(
-      shape: const StadiumBorder(),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
       onTap: onAction,
-      padding: const EdgeInsets.fromLTRB(20, 12, 12, 12),
-      child: Row(
+      padding: const EdgeInsets.fromLTRB(18, 12, 12, 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Expanded(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(title, style: const TextStyle(fontSize: 13)),
-                const SizedBox(height: 2),
-                Text(
-                  value,
-                  maxLines: 2,
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  title,
+                  maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 15,
-                    fontWeight: FontWeight.w300,
-                  ),
+                  style: const TextStyle(fontSize: 13),
                 ),
-                const SizedBox(height: 6),
-                OutlineBadge(actionLabel),
-              ],
+              ),
+              ExcludeSemantics(
+                child: GlowPlusButton(
+                  onPressed: onAction,
+                  label: title,
+                  size: 36,
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 2),
+          Text(
+            value,
+            maxLines: 2,
+            overflow: TextOverflow.ellipsis,
+            style: const TextStyle(
+              fontSize: 15,
+              height: 1.25,
+              fontWeight: FontWeight.w400,
             ),
           ),
-          const SizedBox(width: 6),
-          ExcludeSemantics(
-            child: GlowPlusButton(onPressed: onAction, label: title, size: 56),
-          ),
+          const SizedBox(height: 8),
+          OutlineBadge(actionLabel),
         ],
       ),
     ),
