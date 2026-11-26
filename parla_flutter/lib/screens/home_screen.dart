@@ -1163,29 +1163,15 @@ class _FocusCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final doneCount = done.where((d) => d).length;
-    // Night (owner 2026-11-26): the espresso card with a soft banana and
-    // rose tint, light ink; the step bars and the button stay banana.
-    final night = Tone.dark;
-    final ink = night ? Warm.ink : Warm.dayInk;
-    final soft = night ? Warm.muted : Warm.dayMuted;
     return DecoratedBox(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-        border: Border.all(
-          color: night ? Warm.nightEdge : Colors.white,
-          width: night ? 1 : 1.2,
-        ),
-        gradient: LinearGradient(
+        border: Border.all(color: Colors.white, width: 1.2),
+        gradient: const LinearGradient(
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
-          colors: night
-              ? const [Color(0xFF2A2219), Color(0xFF332914), Color(0xFF33222A)]
-              : const [
-                  Color(0xFFFFFFFF),
-                  Color(0xFFFFF6CF),
-                  Color(0xFFFCE1EC),
-                ],
-          stops: const [0, .6, 1],
+          colors: [Color(0xFFFFFFFF), Color(0xFFFFF6CF), Color(0xFFFCE1EC)],
+          stops: [0, .6, 1],
         ),
       ),
       child: Padding(
@@ -1199,7 +1185,7 @@ class _FocusCard extends StatelessWidget {
                   width: 40,
                   height: 40,
                   decoration: BoxDecoration(
-                    color: night ? Warm.nightCardRaised : Colors.white,
+                    color: Colors.white,
                     borderRadius: BorderRadius.circular(13),
                   ),
                   alignment: Alignment.center,
@@ -1215,14 +1201,14 @@ class _FocusCard extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 15,
                           fontWeight: FontWeight.w500,
-                          color: ink,
+                          color: Warm.dayInk,
                         ),
                       ),
                       Text(
                         '${l10n.homeFocusSub} · $routineName',
                         style: TextStyle(
                           fontSize: kMinTextSize,
-                          color: soft,
+                          color: Warm.dayMuted,
                         ),
                       ),
                     ],
@@ -1237,7 +1223,7 @@ class _FocusCard extends StatelessWidget {
                 fontSize: 20,
                 height: 1.2,
                 fontWeight: FontWeight.w500,
-                color: ink,
+                color: Warm.dayInk,
               ),
             ),
             if (step != null) ...[
@@ -1249,7 +1235,7 @@ class _FocusCard extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 13,
                   height: 1.4,
-                  color: soft,
+                  color: Warm.dayMuted,
                 ),
               ),
             ],
@@ -1273,11 +1259,7 @@ class _FocusCard extends StatelessWidget {
                                       colors: [Warm.banana, Warm.bananaSoft],
                                     )
                                   : null,
-                              color: done[i]
-                                  ? null
-                                  : night
-                                  ? Warm.nightEdge
-                                  : const Color(0xFFE7E1DA),
+                              color: done[i] ? null : const Color(0xFFE7E1DA),
                             ),
                             child: const SizedBox.expand(),
                           ),
@@ -1292,7 +1274,7 @@ class _FocusCard extends StatelessWidget {
                 l10n.homeFocusSteps(doneCount, done.length),
                 style: TextStyle(
                   fontSize: kMinTextSize,
-                  color: soft,
+                  color: Warm.dayMuted,
                 ),
               ),
             ],
@@ -1302,8 +1284,8 @@ class _FocusCard extends StatelessWidget {
               child: FilledButton(
                 key: const ValueKey('home-focus-open'),
                 style: FilledButton.styleFrom(
-                  backgroundColor: night ? Warm.banana : Warm.dayInk,
-                  foregroundColor: night ? Warm.dayInk : Colors.white,
+                  backgroundColor: Warm.dayInk,
+                  foregroundColor: Colors.white,
                   minimumSize: const Size(48, 48),
                   shape: const StadiumBorder(),
                   padding: const EdgeInsets.symmetric(horizontal: 20),
