@@ -6,26 +6,49 @@ import 'package:flutter/material.dart';
 import 'brand.dart';
 import 'parla_icons.dart';
 
-/// The day design "HR" (owner 2026-11-24; prototype boards `HR1Today` …
-/// `HR7Profile`): a soft photo of a woman in profile on a neutral cream
-/// page behind milky glass cards with coral and burnt orange glows, dark
-/// chosen states and a glass menu. Sizes follow the 390 × 844 prototype.
+/// The light design "İşıq" (owner 2026-11-26, demo "Parla İşıq Demo"): a
+/// light page with soft pink and banana washes, white glass cards with
+/// dark ink, banana yellow (#FFCE00, the app icon's colour) at the core of
+/// every gradient, and a dark menu capsule with the Parla mark.
 abstract final class Warm {
-  static const ink = ParlaColors.espresso;
-  static const muted = ParlaColors.muted;
+  static const ink = Color(0xFF16130F);
 
-  /// Dark warm brown of chosen chips and round buttons.
-  static const black = Color(0xFF2A2320);
+  /// Secondary text: 5.5:1 on white (the demo's #8A8178 is too light for
+  /// small text).
+  static const muted = Color(0xFF645B53);
 
-  /// The neutral cream under the photo and of text pages.
-  static const page = Color(0xFFF0EDEA);
+  /// Dark ink of chosen chips, round buttons and the menu.
+  static const black = Color(0xFF16130F);
 
-  /// The small lime marker of meters (never text).
-  static const marker = Color(0xFFE8F06A);
+  /// The light page behind everything.
+  static const page = Color(0xFFF7F3F1);
 
-  /// White text on cards, and its softer variant.
-  static const onCard = Color(0xFFFFFFFF);
-  static const onCardSoft = Color(0xD9FFFFFF);
+  /// The banana marker of meters and chosen days (never text).
+  static const marker = Color(0xFFFFCE00);
+
+  /// Text on cards (dark on the white glass), and its softer variant.
+  static const onCard = Color(0xFF16130F);
+  static const onCardSoft = Color(0xFF645B53);
+
+  /// Brand colours of the design.
+  static const banana = Color(0xFFFFCE00);
+  static const bananaSoft = Color(0xFFFFE97A);
+  static const butter = Color(0xFFFFF6CF);
+  static const roseTint = Color(0xFFF6B4CF);
+  static const lilac = Color(0xFFC9B8F2);
+  static const mist = Color(0xFFBFD8F2);
+  static const line = Color(0xFFECE6E1);
+
+  /// The iridescent sweep of the Parla mark: banana first.
+  static const iris = [
+    Color(0xFFFFCE00),
+    Color(0xFFFFE15A),
+    Color(0xFFF6B4CF),
+    Color(0xFFC9B8F2),
+    Color(0xFFBFD8F2),
+    Color(0xFFFFE97A),
+    Color(0xFFFFCE00),
+  ];
 
   /// Lime card: olive to lime, with a lime glow at the bottom right.
   /// Slightly deeper than the prototype so white text passes AA.
@@ -37,22 +60,30 @@ abstract final class Warm {
   static const roseGlow = Color(0x80D28C8C);
 }
 
-/// The page: neutral cream with the soft photo of a woman in profile
-/// (an AI image made for Parla, no real person) behind the cards.
+/// The page: light, with soft pink and banana washes at the top (and a
+/// faint lilac one low down) behind the cards. Pages of running text
+/// ([figure] false) keep only a calm wash.
 class WarmBackdrop extends StatelessWidget {
   const WarmBackdrop({super.key, required this.child, this.figure = true});
 
-  /// The photo, kept in the app (nothing is fetched at runtime). It is
-  /// the original (`backdrop.jpg`, not bundled) with a light blur baked in
-  /// (owner, 2026-11-25), so no filter runs while scrolling.
-  static const asset = 'assets/images/backdrop_soft.jpg';
-
   final Widget child;
 
-  /// The photo behind the cards. Pages of running text (sign-up,
-  /// consents, legal texts, articles) leave it out so dark text stays
-  /// legible.
+  /// The colour washes; pages of running text (sign-up, consents, legal
+  /// texts, articles) use a calmer one.
   final bool figure;
+
+  static Widget _wash(Alignment at, double radius, Color color) =>
+      Positioned.fill(
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            gradient: RadialGradient(
+              center: at,
+              radius: radius,
+              colors: [color, color.withValues(alpha: 0)],
+            ),
+          ),
+        ),
+      );
 
   @override
   Widget build(BuildContext context) => ColoredBox(
@@ -60,66 +91,37 @@ class WarmBackdrop extends StatelessWidget {
     child: Stack(
       fit: StackFit.expand,
       children: [
-        if (figure)
-          ExcludeSemantics(
-            child: RepaintBoundary(
-              child: LayoutBuilder(
-                builder: (context, box) {
-                  // As in the prototype: 120 % of the width, 42 % across,
-                  // 40 px above the top (in 844 px).
-                  final width = box.maxWidth * 1.2;
-                  return Stack(
-                    clipBehavior: Clip.hardEdge,
-                    children: [
-                      Positioned(
-                        left: (box.maxWidth - width) * .42,
-                        top: -40 * box.maxHeight / 844,
-                        width: width,
-                        child: Image.asset(
-                          asset,
-                          fit: BoxFit.fitWidth,
-                          gaplessPlayback: true,
-                          errorBuilder: (_, _, _) => const SizedBox(),
-                        ),
-                      ),
-                      // A soft cream fade at the top keeps page titles
-                      // legible over the hair.
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        top: 0,
-                        height: box.maxHeight * .27,
-                        child: const DecoratedBox(
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Color(0xF2F0EDEA),
-                                Color(0xBFF0EDEA),
-                                Color(0x00F0EDEA),
-                              ],
-                              stops: [0, .55, 1],
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  );
-                },
-              ),
-            ),
-          )
-        else
-          const DecoratedBox(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topCenter,
-                end: Alignment.bottomCenter,
-                colors: [Color(0xFFF4F1EE), Warm.page],
-              ),
+        ExcludeSemantics(
+          child: RepaintBoundary(
+            child: Stack(
+              fit: StackFit.expand,
+              children: [
+                _wash(
+                  const Alignment(-1, -1.05),
+                  figure ? .9 : .7,
+                  Color(figure ? 0x59F6B4CF : 0x33F6B4CF),
+                ),
+                _wash(
+                  const Alignment(1, -.8),
+                  figure ? .95 : .7,
+                  Color(figure ? 0x4DFFCE00 : 0x26FFCE00),
+                ),
+                if (figure) ...[
+                  _wash(
+                    const Alignment(.7, 1.1),
+                    .8,
+                    const Color(0x33FFE97A),
+                  ),
+                  _wash(
+                    const Alignment(-1, .95),
+                    .7,
+                    const Color(0x33C9B8F2),
+                  ),
+                ],
+              ],
             ),
           ),
+        ),
         child,
       ],
     ),
@@ -170,14 +172,14 @@ class SmokyGlass extends StatelessWidget {
       SmokyTint.coral => const RadialGradient(
         center: Alignment(-0.44, -0.1),
         radius: 1,
-        colors: [Color(0xCCEC6046), Color(0x40EC6046), Color(0x00EC6046)],
+        colors: [Color(0x99FFE15A), Color(0x40F6B4CF), Color(0x00F6B4CF)],
         stops: [0, .55, 1],
         transform: _StretchToWidth(),
       ),
       SmokyTint.burnt => const RadialGradient(
         center: Alignment(-0.36, 0.7),
         radius: 1.1,
-        colors: [Color(0xEBE26C16), Color(0x59AA5014), Color(0x00AA5014)],
+        colors: [Color(0xB3FFCE00), Color(0x4DFFE97A), Color(0x00FFE97A)],
         stops: [0, .55, 1],
         transform: _StretchToWidth(),
       ),
@@ -187,9 +189,7 @@ class SmokyGlass extends StatelessWidget {
     final body = DefaultTextStyle.merge(
       style: TextStyle(
         color: ink,
-        shadows: milk
-            ? null
-            : const [Shadow(color: Color(0x591E0F0A), blurRadius: 10)],
+        shadows: null,
       ),
       child: IconTheme.merge(
         data: IconThemeData(color: ink),
@@ -202,9 +202,10 @@ class SmokyGlass extends StatelessWidget {
         shadows: shadow
             ? const [
                 BoxShadow(
-                  color: Color(0x1A28140A),
-                  blurRadius: 30,
-                  offset: Offset(0, 12),
+                  color: Color(0x24503C1E),
+                  blurRadius: 40,
+                  offset: Offset(0, 16),
+                  spreadRadius: -20,
                 ),
               ]
             : null,
@@ -226,14 +227,9 @@ class SmokyGlass extends StatelessWidget {
             Positioned.fill(
               child: DecoratedBox(
                 decoration: BoxDecoration(
-                  color: milk ? const Color(0x73FFFFFF) : null,
-                  gradient: milk
-                      ? null
-                      : const LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [Color(0x57341E16), Color(0x521E100A)],
-                        ),
+                  color: milk
+                      ? const Color(0xC7FFFFFF)
+                      : const Color(0xB8FFFFFF),
                 ),
               ),
             ),
@@ -457,14 +453,14 @@ class _OpenRingPainter extends CustomPainter {
         0,
         2 * math.pi,
         false,
-        paint..color = const Color(0x40FFFFFF),
+        paint..color = const Color(0x2616130F),
       )
       ..drawArc(
         rect,
         math.pi * .6,
         math.pi * 1.6,
         false,
-        paint..color = const Color(0xE6FFFFFF),
+        paint..color = Warm.ink,
       );
   }
 
@@ -581,17 +577,17 @@ class GlowPlusButton extends StatelessWidget {
         decoration: const BoxDecoration(
           shape: BoxShape.circle,
           border: Border.fromBorderSide(
-            BorderSide(color: Color(0xBFFFFFFF), width: 1.5),
+            BorderSide(color: Color(0xE6FFFFFF), width: 1.5),
           ),
           gradient: RadialGradient(
             center: Alignment(-.1, -.2),
-            colors: [Color(0xFAFFF0E0), Color(0x99FFB076), Color(0x2EFFFFFF)],
-            stops: [0, .55, .78],
+            colors: [Color(0xFFFFF6CF), Color(0xFFFFE15A), Color(0xFFFFCE00)],
+            stops: [0, .55, 1],
           ),
-          boxShadow: [BoxShadow(color: Color(0x99FFA05A), blurRadius: 34)],
+          boxShadow: [BoxShadow(color: Color(0x66FFCE00), blurRadius: 30)],
         ),
         alignment: Alignment.center,
-        child: ParlaIcon(icon, size: size * .32, color: Colors.white),
+        child: ParlaIcon(icon, size: size * .32, color: Warm.ink),
       ),
     ),
   );
@@ -609,7 +605,7 @@ class OutlineBadge extends StatelessWidget {
     constraints: const BoxConstraints(minHeight: 26),
     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 3),
     decoration: ShapeDecoration(
-      color: const Color(0x14FFFFFF),
+      color: const Color(0x0A16130F),
       shape: StadiumBorder(
         side: BorderSide(color: color.withValues(alpha: .6)),
       ),
@@ -649,7 +645,7 @@ class _DotsPainter extends CustomPainter {
     final lit = (columns * fraction).round();
     for (var i = 0; i < columns; i++) {
       final paint = Paint()
-        ..color = i < lit ? Warm.marker : const Color(0x80FFFFFF);
+        ..color = i < lit ? const Color(0xFFE0A800) : const Color(0x2616130F);
       for (var j = 0; j < 3; j++) {
         canvas.drawCircle(Offset(4 + i * step, 4 + j * 6.0), 1.3, paint);
       }
@@ -693,7 +689,9 @@ class _TicksPainter extends CustomPainter {
         Offset(x, 2),
         Offset(x, 16),
         Paint()
-          ..color = i == mark ? Warm.marker : const Color(0x73FFFFFF)
+          ..color = i == mark
+              ? const Color(0xFFE0A800)
+              : const Color(0x3316130F)
           ..strokeWidth = i == mark ? 2 : 1,
       );
     }
@@ -761,7 +759,7 @@ class _CurvePainter extends CustomPainter {
           ..shader = ui.Gradient.linear(
             Offset.zero,
             Offset(0, size.height),
-            const [Color(0x73F08A3C), Color(0x00F08A3C)],
+            const [Color(0x66FFCE00), Color(0x00FFCE00)],
           ),
       )
       ..drawPath(
@@ -769,11 +767,11 @@ class _CurvePainter extends CustomPainter {
         Paint()
           ..style = PaintingStyle.stroke
           ..strokeWidth = 2.5
-          ..color = const Color(0xFFF6A35C),
+          ..color = const Color(0xFFE0A800),
       );
     final s = at(selected.clamp(0, n - 1));
     final dash = Paint()
-      ..color = const Color(0x66FFFFFF)
+      ..color = const Color(0x4016130F)
       ..strokeWidth = 1;
     for (var y = s.dy + 8; y < size.height; y += 7) {
       canvas.drawLine(
@@ -783,8 +781,8 @@ class _CurvePainter extends CustomPainter {
       );
     }
     canvas
-      ..drawCircle(s, 10, Paint()..color = const Color(0x66F6A35C))
-      ..drawCircle(s, 4.5, Paint()..color = Colors.white);
+      ..drawCircle(s, 10, Paint()..color = const Color(0x66FFCE00))
+      ..drawCircle(s, 4.5, Paint()..color = Warm.ink);
   }
 
   @override
@@ -821,19 +819,17 @@ class DayCircles extends StatelessWidget {
               alignment: Alignment.center,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: i == selected ? Colors.white : null,
+                color: i == selected ? Warm.black : null,
                 border: i == selected
                     ? null
-                    : Border.all(color: const Color(0x59FFFFFF)),
+                    : Border.all(color: const Color(0x3316130F)),
               ),
               child: FittedBox(
                 child: Text(
                   labels[i],
                   style: TextStyle(
                     fontSize: 11,
-                    color: i == selected
-                        ? const Color(0xFF222222)
-                        : Warm.onCard,
+                    color: i == selected ? Colors.white : Warm.onCard,
                   ),
                 ),
               ),
@@ -933,7 +929,7 @@ class OutlineCircleButton extends StatelessWidget {
     excludeSemantics: true,
     child: Material(
       type: MaterialType.transparency,
-      shape: const CircleBorder(side: BorderSide(color: Color(0x73FFFFFF))),
+      shape: const CircleBorder(side: BorderSide(color: Color(0x3316130F))),
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: onPressed,
@@ -1092,7 +1088,7 @@ class WarmChip extends StatelessWidget {
       style: TextStyle(
         fontSize: 13,
         fontWeight: selected ? FontWeight.w500 : FontWeight.w400,
-        color: selected ? Warm.onCard : Warm.ink,
+        color: selected ? Colors.white : Warm.ink,
       ),
     );
     const pad = EdgeInsets.symmetric(horizontal: 16, vertical: 11);
@@ -1105,7 +1101,7 @@ class WarmChip extends StatelessWidget {
             ? Material(
                 color: Warm.black,
                 shape: const StadiumBorder(
-                  side: BorderSide(color: Color(0x40FFFFFF), width: 1.5),
+                  side: BorderSide(color: Color(0x0016130F), width: 1.5),
                 ),
                 child: InkWell(
                   customBorder: const StadiumBorder(),
@@ -1177,7 +1173,7 @@ class WarmSegmented<T> extends StatelessWidget {
                       fontWeight: v == selected
                           ? FontWeight.w500
                           : FontWeight.w400,
-                      color: v == selected ? Warm.onCard : Warm.ink,
+                      color: v == selected ? Colors.white : Warm.ink,
                     ),
                   ),
                 ),
@@ -1220,18 +1216,22 @@ class WarmStepRow extends StatelessWidget {
             width: 34,
             height: 34,
             decoration: const BoxDecoration(
-              color: Colors.white,
+              color: Warm.black,
               shape: BoxShape.circle,
             ),
             alignment: Alignment.center,
-            child: const Icon(Icons.check_rounded, size: 18, color: Warm.black),
+            child: const Icon(
+              Icons.check_rounded,
+              size: 18,
+              color: Colors.white,
+            ),
           )
         : Container(
             width: 34,
             height: 34,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: const Color(0x99FFFFFF), width: 1.5),
+              border: Border.all(color: const Color(0x4D16130F), width: 1.5),
             ),
           );
     return ConstrainedBox(

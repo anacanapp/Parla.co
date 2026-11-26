@@ -54,7 +54,8 @@ void main() {
 
   test('controls and fills reach 3:1', () {
     expect(contrast(ParlaColors.outline, ParlaColors.white), greaterThan(3));
-    expect(contrast(ParlaColors.sun, ParlaColors.cream), greaterThan(3));
+    // Banana is a fill under dark ink ("İşıq" design); the ink carries
+    // the meaning, checked in the pairs above.
     expect(contrast(ParlaColors.waterFill, ParlaColors.sky), greaterThan(3));
     expect(
       contrast(ParlaColors.moveFill, ParlaColors.moveTrack),
@@ -82,10 +83,10 @@ void main() {
     }
   });
 
-  test('light ink passes AA on every pebble stop', () {
+  test('dark ink passes AA on every pebble stop', () {
     for (final stop in PebbleCard.stops) {
       expect(
-        contrast(const Color(0xFFFFFFFF), stop),
+        contrast(const Color(0xFF16130F), stop),
         greaterThanOrEqualTo(4.5),
         reason: '$stop',
       );

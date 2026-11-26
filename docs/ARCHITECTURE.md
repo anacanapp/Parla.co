@@ -941,6 +941,21 @@ the `shopSalesOpen` switch is on (Terraform `enable_shop_payments`,
   reminder may come a few minutes late. Reminders are restored after a
   reboot. Android and iOS only; the web build hides them.
 
+## Design "İşıq" (owner, 2026-11-26)
+
+Taken from the demo "Parla İşıq Demo" (Hugg session), which the owner
+chose.
+- **Page:** light #F7F3F1 with soft pink and banana washes. There is no
+  photo any more (`WarmBackdrop`).
+- **Cards:** white glass with dark ink (#16130F) and muted text #645B53.
+- **Accent:** banana #FFCE00, the app icon's colour, at the core of
+  every gradient (`Warm.iris`).
+- **Menu:** a dark capsule with round tabs. The middle tab (Check) is a
+  white circle with the Parla mark (`ParlaMark`, iridescent).
+- **Not taken from the demo:** UV index or weather (needs location),
+  scores, mood tracking, an AI chat and advice cards. Those are on the
+  do-not-collect list or need expert and legal review.
+
 ## App UI rules
 
 - **Brand.** Colours and the Smile Curve follow the Parla Sun brand

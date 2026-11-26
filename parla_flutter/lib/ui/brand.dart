@@ -11,13 +11,13 @@ import 'package:flutter/material.dart';
 abstract final class ParlaColors {
   /// Warm accent surface: rings, fills, chosen states (4.8:1 under
   /// [espresso]).
-  static const sun = Color(0xFFCC6E30);
+  static const sun = Color(0xFFFFCE00);
 
   /// The page behind everything (warm cream).
-  static const cream = Color(0xFFF3EBE3);
+  static const cream = Color(0xFFF7F3F1);
 
   /// Main ink: text and icons, and the surface of the main action.
-  static const espresso = Color(0xFF1A1A1E);
+  static const espresso = Color(0xFF16130F);
 
   /// Tinted surfaces (peach, lavender-grey, sage).
   static const lemon = Color(0xFFF6E3D3);
@@ -25,19 +25,19 @@ abstract final class ParlaColors {
   static const sage = Color(0xFFE3E8D8);
 
   /// Accent text: eyebrows, accent lines, links (burnt orange).
-  static const sunInk = Color(0xFF9A4A1C);
+  static const sunInk = Color(0xFF7A5600);
 
   /// Card surface, and the text on an [espresso] surface.
   static const white = Color(0xFFFFFFFF);
 
   /// Secondary text and inactive icons.
-  static const muted = Color(0xFF5C5560);
+  static const muted = Color(0xFF645B53);
 
   /// Outline of an unchecked control.
   static const outline = Color(0xFF8E8590);
 
   /// Hairlines, card borders and the track of progress bars.
-  static const line = Color(0xFFE6DAD0);
+  static const line = Color(0xFFECE6E1);
 
   /// Light tints for cards.
   static const sageTint = Color(0xFFEEF0E6);
@@ -54,7 +54,7 @@ abstract final class ParlaColors {
   static const moveTrack = Color(0xFFEADFD4);
 
   /// The small lime marker of the design (never text).
-  static const marker = Color(0xFFE8F06A);
+  static const marker = Color(0xFFFFCE00);
 }
 
 /// Font families bundled in `assets/fonts` (SIL OFL 1.1).
