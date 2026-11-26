@@ -2,8 +2,10 @@ import 'dart:convert';
 
 import 'package:parla_server/src/auth/verification_code_sender.dart';
 import 'package:parla_server/src/generated/protocol.dart';
+import 'package:parla_server/src/health/health_kms.dart';
 import 'package:parla_server/src/staff/staff_guard.dart';
 import 'package:parla_server/src/support/support.dart';
+import 'package:parla_server/src/support/support_crypto.dart';
 import 'package:serverpod_auth_idp_server/core.dart';
 import 'package:test/test.dart';
 
@@ -134,6 +136,69 @@ void main() {
       final export =
           jsonDecode(await endpoints.account.exportMyData(user)) as Map;
       expect((export['supportMessages'] as List), hasLength(3));
+    });
+
+    test('with KMS each thread gets its own support key; older messages '
+        'still read and a stale thread never drops the key', () async {
+      addTearDown(() => HealthKms.wrapper = null);
+      final admin = await staff('first-admin@example.com', StaffRole.admin);
+      final id = await member('kms@example.com');
+      final user = _as(sessionBuilder, id);
+      final db = sessionBuilder.build();
+
+      // Before KMS: the key derived from the KEK.
+      await endpoints.support.send(user, 'Köhnə mesaj.');
+      final stale = (await SupportThread.db.findFirstRow(db))!;
+      expect(stale.wrappedKey, isNull);
+
+      final kms = FakeKmsKeyWrapper();
+      HealthKms.wrapper = kms;
+      await endpoints.support.send(user, 'Yeni mesaj.');
+      final thread = (await SupportThread.db.findById(db, stale.id!))!;
+      final key = thread.wrappedKey;
+      expect(key, isNotNull);
+      // Bound to the support purpose: as a health key it is another key.
+      expect(
+        await kms.unwrap(key!, thread.authUserId),
+        isNot(
+          await kms.unwrap(
+            key,
+            thread.authUserId,
+            purpose: SupportCrypto.purpose,
+          ),
+        ),
+      );
+
+      // The thread object read before the key was made: the key is reused
+      // and kept.
+      await addSupportMessage(db, stale, 'Köhnə obyektlə.', staffId: null);
+      await endpoints.supportAdmin.reply(admin, stale.id!, 'Cavab.');
+      final after = (await SupportThread.db.findById(db, stale.id!))!;
+      expect(after.wrappedKey, key);
+
+      final rows = await SupportMessage.db.find(
+        db,
+        orderBy: (t) => t.id,
+      );
+      expect(rows.map((r) => r.keyVersion), [null, 2, 2, 2]);
+      final opened = await endpoints.supportAdmin.open(admin, stale.id!);
+      expect(opened.map((m) => m.text), [
+        'Köhnə mesaj.',
+        'Yeni mesaj.',
+        'Köhnə obyektlə.',
+        'Cavab.',
+      ]);
+      expect(
+        (await endpoints.support.myMessages(user)).map((m) => m.text),
+        hasLength(4),
+      );
+
+      // A KMS-sealed message never falls back to another key.
+      HealthKms.wrapper = null;
+      await expectLater(
+        endpoints.support.myMessages(user),
+        throwsA(isA<StateError>()),
+      );
     });
 
     test('empty and too long messages are refused', () async {

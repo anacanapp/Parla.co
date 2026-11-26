@@ -2064,6 +2064,12 @@ class Protocol extends _is.DatabaseSerializationManager
           dartType: 'String',
         ),
         _isp.ColumnDefinition(
+          name: 'keyVersion',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: true,
+          dartType: 'int?',
+        ),
+        _isp.ColumnDefinition(
           name: 'createdAt',
           columnType: _isp.ColumnType.timestampWithoutTimeZone,
           isNullable: false,
@@ -2136,6 +2142,12 @@ class Protocol extends _is.DatabaseSerializationManager
           columnType: _isp.ColumnType.timestampWithoutTimeZone,
           isNullable: false,
           dartType: 'DateTime',
+        ),
+        _isp.ColumnDefinition(
+          name: 'wrappedKey',
+          columnType: _isp.ColumnType.text,
+          isNullable: true,
+          dartType: 'String?',
         ),
       ],
       foreignKeys: [],

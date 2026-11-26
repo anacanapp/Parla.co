@@ -1,5 +1,5 @@
-### One support message, sealed with a key derived from the server KEK and
-### bound to the thread's owner. [staffId] is set for the team's replies.
+### One support message, sealed with AES-GCM and bound to the thread's
+### owner. [staffId] is set for the team's replies.
 class: SupportMessage
 table: support_message
 fields:
@@ -8,6 +8,9 @@ fields:
   staffId: UuidValue?
   ciphertext: String
   nonce: String
+  ### Which key sealed it: `null` for the key derived from the server KEK
+  ### (messages before 2026-11-26), 2 for the thread's KMS-wrapped key.
+  keyVersion: int?, scope=serverOnly
   createdAt: DateTime
 indexes:
   support_message_thread_idx:

@@ -1036,8 +1036,16 @@ material never leaves KMS.
   are moved to KMS the first time they are used.
 - **Deletion:** deleting the `health_key` row still shreds a user's health
   data.
+- **Support messages** (owner, 2026-11-26: option A): each support thread
+  has its own random key (`support_thread.wrappedKey`), wrapped by the same
+  KMS key with the context `parla:user` = the owner and `parla:purpose` =
+  `support`, so it never unwraps as a health key. Messages record the key
+  in `keyVersion` (2). Messages from before have no version and are read
+  with the HKDF key derived from the KEK until they expire (12 months);
+  they are not re-encrypted. Thread updates name their columns, so a
+  thread read before its key was made never clears it.
 - **The KEK in the secrets is still needed:** for `kekVersion` 1 keys not
-  used since, and for the HKDF-derived key of support messages. Moving those to KMS as well is a follow-up.
+  used since, and for support messages without a key version.
 - **Local development and tests** keep the KEK.
 
 ## Append-only consent and audit tables (AUD-2)
@@ -1123,7 +1131,7 @@ idempotent).
 | Optional on-device photo skin analysis (kept on branch `skin-photo`, not merged) | — | Postponed; needs lawyer approval and a DPIA, plus dermatologist review, before it returns |
 | Expert consent form to cover the profile photo; permission wording for people shown in content images | — | Lawyer, before publishing expert photos |
 | Restricted database role for the server (no DDL; triggers stay owned by an admin role) | AUD-2 | With the production database setup |
-| Move the HKDF-derived key (support messages) to KMS and retire the KEK once all health keys are on KMS | ENC-3 | After all `kekVersion` 1 keys have moved |
+| Retire the KEK: once all health keys are `kekVersion` 2 and the last support message without a key version has expired (12 months after 2026-11-26), or after re-encrypting those messages | ENC-3 | Later |
 | Barcode scanning | — | Later step |
 
 ## Known environment issue

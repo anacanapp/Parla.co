@@ -13,8 +13,8 @@
 import 'dart:async' as _ida;
 import 'package:serverpod/serverpod.dart' as _is;
 
-/// One support message, sealed with a key derived from the server KEK and
-/// bound to the thread's owner. [staffId] is set for the team's replies.
+/// One support message, sealed with AES-GCM and bound to the thread's
+/// owner. [staffId] is set for the team's replies.
 abstract class SupportMessage
     implements _is.TableRow<int?>, _is.ProtocolSerialization {
   SupportMessage._({
@@ -24,6 +24,7 @@ abstract class SupportMessage
     this.staffId,
     required this.ciphertext,
     required this.nonce,
+    this.keyVersion,
     required this.createdAt,
   });
 
@@ -34,6 +35,7 @@ abstract class SupportMessage
     _is.UuidValue? staffId,
     required String ciphertext,
     required String nonce,
+    int? keyVersion,
     required DateTime createdAt,
   }) = _SupportMessageImpl;
 
@@ -47,6 +49,7 @@ abstract class SupportMessage
           : _is.UuidValueJsonExtension.fromJson(jsonSerialization['staffId']),
       ciphertext: jsonSerialization['ciphertext'] as String,
       nonce: jsonSerialization['nonce'] as String,
+      keyVersion: jsonSerialization['keyVersion'] as int?,
       createdAt: _is.DateTimeJsonExtension.fromJson(
         jsonSerialization['createdAt'],
       ),
@@ -70,6 +73,10 @@ abstract class SupportMessage
 
   String nonce;
 
+  /// Which key sealed it: `null` for the key derived from the server KEK
+  /// (messages before 2026-11-26), 2 for the thread's KMS-wrapped key.
+  int? keyVersion;
+
   DateTime createdAt;
 
   @override
@@ -85,6 +92,7 @@ abstract class SupportMessage
     _is.UuidValue? staffId = const _is.$UndefinedUuidValue(),
     String? ciphertext,
     String? nonce,
+    int? keyVersion,
     DateTime? createdAt,
   });
   @override
@@ -97,6 +105,7 @@ abstract class SupportMessage
       if (staffId != null) 'staffId': staffId?.toJson(),
       'ciphertext': ciphertext,
       'nonce': nonce,
+      if (keyVersion != null) 'keyVersion': keyVersion,
       'createdAt': createdAt.toJson(),
     };
   }
@@ -153,6 +162,7 @@ class _SupportMessageImpl extends SupportMessage {
     _is.UuidValue? staffId,
     required String ciphertext,
     required String nonce,
+    int? keyVersion,
     required DateTime createdAt,
   }) : super._(
          id: id,
@@ -161,6 +171,7 @@ class _SupportMessageImpl extends SupportMessage {
          staffId: staffId,
          ciphertext: ciphertext,
          nonce: nonce,
+         keyVersion: keyVersion,
          createdAt: createdAt,
        );
 
@@ -175,6 +186,7 @@ class _SupportMessageImpl extends SupportMessage {
     _is.UuidValue? staffId = const _is.$UndefinedUuidValue(),
     String? ciphertext,
     String? nonce,
+    Object? keyVersion = _Undefined,
     DateTime? createdAt,
   }) {
     return SupportMessage(
@@ -184,6 +196,7 @@ class _SupportMessageImpl extends SupportMessage {
       staffId: staffId is _is.UndefinedSentinel ? this.staffId : staffId,
       ciphertext: ciphertext ?? this.ciphertext,
       nonce: nonce ?? this.nonce,
+      keyVersion: keyVersion is int? ? keyVersion : this.keyVersion,
       createdAt: createdAt ?? this.createdAt,
     );
   }
@@ -218,6 +231,11 @@ class SupportMessageUpdateTable extends _is.UpdateTable<SupportMessageTable> {
     value,
   );
 
+  _is.ColumnValue<int, int> keyVersion(int? value) => _is.ColumnValue(
+    table.keyVersion,
+    value,
+  );
+
   _is.ColumnValue<DateTime, DateTime> createdAt(DateTime value) =>
       _is.ColumnValue(
         table.createdAt,
@@ -249,6 +267,10 @@ class SupportMessageTable extends _is.Table<int?> {
       'nonce',
       this,
     );
+    keyVersion = _is.ColumnInt(
+      'keyVersion',
+      this,
+    );
     createdAt = _is.ColumnDateTime(
       'createdAt',
       this,
@@ -267,6 +289,10 @@ class SupportMessageTable extends _is.Table<int?> {
 
   late final _is.ColumnString nonce;
 
+  /// Which key sealed it: `null` for the key derived from the server KEK
+  /// (messages before 2026-11-26), 2 for the thread's KMS-wrapped key.
+  late final _is.ColumnInt keyVersion;
+
   late final _is.ColumnDateTime createdAt;
 
   @override
@@ -277,6 +303,7 @@ class SupportMessageTable extends _is.Table<int?> {
     staffId,
     ciphertext,
     nonce,
+    keyVersion,
     createdAt,
   ];
 }
