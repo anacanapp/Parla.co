@@ -276,6 +276,16 @@ class OrbPill extends StatelessWidget {
                     style: const TextStyle(fontSize: 15, color: Colors.white),
                   ),
                 ),
+                // Owner 2026-11-26: an arrow on the right, like the
+                // player's capsule (unless the orb already is one).
+                if (icon != Icons.arrow_forward)
+                  const Padding(
+                    padding: EdgeInsets.only(left: 8, right: 10),
+                    child: Icon(
+                      Icons.arrow_forward_rounded,
+                      color: Color(0xCCFFFFFF),
+                    ),
+                  ),
               ],
             ),
           ),

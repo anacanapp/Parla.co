@@ -831,7 +831,7 @@ class _Controls extends StatelessWidget {
               key: const ValueKey('workout-previous'),
               tooltip: l10n.sportPrevious,
               onPressed: onPrevious,
-              style: IconButton.styleFrom(foregroundColor: SportNight.ink),
+              style: IconButton.styleFrom(foregroundColor: Colors.white),
               icon: const Icon(Icons.arrow_back_rounded),
             ),
           ),
@@ -873,7 +873,7 @@ class _Controls extends StatelessWidget {
                         overflow: TextOverflow.ellipsis,
                         style: const TextStyle(
                           fontSize: 15,
-                          color: SportNight.ink,
+                          color: Colors.white,
                         ),
                       ),
                     ),
