@@ -719,7 +719,7 @@ class _RoundButton extends StatelessWidget {
         color: outlined ? Colors.transparent : Warm.black,
         shape: CircleBorder(
           side: outlined
-              ? const BorderSide(color: Color(0x5916130F), width: 1.2)
+              ? BorderSide(color: Warm.ring, width: 1.2)
               : BorderSide.none,
         ),
         child: InkWell(
@@ -737,7 +737,7 @@ class _RoundButton extends StatelessWidget {
                     ? Warm.onBlack
                     : enabled
                     ? Warm.ink
-                    : const Color(0x5916130F),
+                    : Warm.ring,
               ),
             ),
           ),

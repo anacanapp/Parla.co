@@ -404,8 +404,8 @@ class _GlassRound extends StatelessWidget {
     excludeSemantics: true,
     child: Material(
       color: Colors.transparent,
-      shape: const CircleBorder(
-        side: BorderSide(color: Color(0x5916130F), width: 1.2),
+      shape: CircleBorder(
+        side: BorderSide(color: Warm.ring, width: 1.2),
       ),
       child: InkWell(
         customBorder: const CircleBorder(),

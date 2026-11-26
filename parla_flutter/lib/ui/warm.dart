@@ -53,6 +53,14 @@ abstract final class Warm {
   static const nightCardRaised = Color(0xFF2C241E);
   static const nightEdge = Color(0xFF372D26);
 
+  /// Faint lines, ticks and rings: dark ink in the day, light at night.
+  static Color get faint =>
+      Tone.dark ? const Color(0x47F5F1EC) : const Color(0x3316130F);
+  static Color get ring =>
+      Tone.dark ? const Color(0x73F5F1EC) : const Color(0x5916130F);
+  static Color get fainter =>
+      Tone.dark ? const Color(0x33F5F1EC) : const Color(0x2616130F);
+
   /// A plain card: white in the day, the night card at night.
   static Color get surface => Tone.dark ? nightCard : const Color(0xFFFFFFFF);
 
@@ -514,7 +522,7 @@ class _OpenRingPainter extends CustomPainter {
         0,
         2 * math.pi,
         false,
-        paint..color = const Color(0x2616130F),
+        paint..color = Warm.fainter,
       )
       ..drawArc(
         rect,
@@ -707,7 +715,7 @@ class _DotsPainter extends CustomPainter {
     final lit = (columns * fraction).round();
     for (var i = 0; i < columns; i++) {
       final paint = Paint()
-        ..color = i < lit ? const Color(0xFFE0A800) : const Color(0x2616130F);
+        ..color = i < lit ? const Color(0xFFE0A800) : Warm.fainter;
       for (var j = 0; j < 3; j++) {
         canvas.drawCircle(Offset(4 + i * step, 4 + j * 6.0), 1.3, paint);
       }
@@ -751,9 +759,7 @@ class _TicksPainter extends CustomPainter {
         Offset(x, 2),
         Offset(x, 16),
         Paint()
-          ..color = i == mark
-              ? const Color(0xFFE0A800)
-              : const Color(0x3316130F)
+          ..color = i == mark ? const Color(0xFFE0A800) : Warm.faint
           ..strokeWidth = i == mark ? 2 : 1,
       );
     }
@@ -882,9 +888,7 @@ class DayCircles extends StatelessWidget {
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: i == selected ? Warm.black : null,
-                border: i == selected
-                    ? null
-                    : Border.all(color: const Color(0x3316130F)),
+                border: i == selected ? null : Border.all(color: Warm.faint),
               ),
               child: FittedBox(
                 child: Text(
@@ -991,7 +995,7 @@ class OutlineCircleButton extends StatelessWidget {
     excludeSemantics: true,
     child: Material(
       type: MaterialType.transparency,
-      shape: const CircleBorder(side: BorderSide(color: Color(0x3316130F))),
+      shape: CircleBorder(side: BorderSide(color: Warm.faint)),
       child: InkWell(
         customBorder: const CircleBorder(),
         onTap: onPressed,
