@@ -169,6 +169,16 @@ ThemeData parlaTheme() {
       onError: const Color(0xFFFFFFFF),
     ),
     dividerColor: ParlaColors.line,
+    // "İşıq": a dark track when on, a light one when off; white thumb.
+    switchTheme: SwitchThemeData(
+      thumbColor: const WidgetStatePropertyAll(ParlaColors.white),
+      trackColor: WidgetStateProperty.resolveWith(
+        (states) => states.contains(WidgetState.selected)
+            ? ParlaColors.espresso
+            : const Color(0xFFDCD4CC),
+      ),
+      trackOutlineColor: const WidgetStatePropertyAll(Colors.transparent),
+    ),
     iconTheme: const IconThemeData(color: ParlaColors.espresso),
     appBarTheme: const AppBarTheme(
       backgroundColor: Colors.transparent,
