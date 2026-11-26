@@ -1346,3 +1346,36 @@ class WarmHeader extends StatelessWidget {
     ],
   );
 }
+
+/// The done mark of a step (owner 2026-11-26, variant C): a thin warm
+/// grey ring, and when done a banana disc with an ink tick.
+class CheckCircle extends StatelessWidget {
+  const CheckCircle({super.key, required this.done, this.size = 28});
+
+  final bool done;
+  final double size;
+
+  /// The ring of an open step.
+  static const ring = Color(0xFFCFC7BF);
+
+  @override
+  Widget build(BuildContext context) => AnimatedContainer(
+    duration: const Duration(milliseconds: 200),
+    width: size,
+    height: size,
+    decoration: BoxDecoration(
+      shape: BoxShape.circle,
+      color: done ? Warm.banana : Colors.transparent,
+      border: done ? null : Border.all(color: ring, width: 1.2),
+    ),
+    alignment: Alignment.center,
+    child: done
+        ? ParlaIcon(
+            ParlaIconName.check,
+            size: size * .54,
+            strokeWidth: 2.2,
+            color: Warm.ink,
+          )
+        : null,
+  );
+}
