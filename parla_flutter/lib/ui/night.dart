@@ -122,26 +122,28 @@ class LiquidGlass extends StatelessWidget {
             ),
           ),
         ),
-        // Light along the top and shade along the bottom: a thick card.
-        const Positioned.fill(
-          child: IgnorePointer(
-            child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    Color(0x38FFFFFF),
-                    Color(0x00FFFFFF),
-                    Color(0x00000000),
-                    Color(0x1F000000),
-                  ],
-                  stops: [0, .32, .72, 1],
+        // Light along the top and shade along the bottom: a thick card
+        // (flat cards, without [shadow], keep no shade either).
+        if (shadow)
+          const Positioned.fill(
+            child: IgnorePointer(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Color(0x38FFFFFF),
+                      Color(0x00FFFFFF),
+                      Color(0x00000000),
+                      Color(0x1F000000),
+                    ],
+                    stops: [0, .32, .72, 1],
+                  ),
                 ),
               ),
             ),
           ),
-        ),
         // A specular glint at the top left.
         const Positioned.fill(
           child: IgnorePointer(
@@ -312,9 +314,13 @@ class MeshTile extends StatelessWidget {
     this.blobAt = const Alignment(0.75, 0.7),
     this.onTap,
     this.semanticLabel,
+    this.shadow = true,
   });
 
   final MeshTone tone;
+
+  /// The drop shadow and bottom shade; off for a flat tile.
+  final bool shadow;
   final Widget child;
   final double radius;
   final EdgeInsetsGeometry padding;
@@ -343,6 +349,7 @@ class MeshTile extends StatelessWidget {
       label: semanticLabel,
       child: LiquidGlass(
         radius: radius,
+        shadow: shadow,
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -367,11 +374,15 @@ class PebbleCard extends StatelessWidget {
     required this.child,
     this.radius = 40,
     this.padding = const EdgeInsets.all(20),
+    this.shadow = true,
   });
 
   final Widget child;
   final double radius;
   final EdgeInsetsGeometry padding;
+
+  /// The drop shadow and bottom shade; off for a flat card.
+  final bool shadow;
 
   /// The gradient's stops, top to bottom (light ink passes AA on each).
   static const stops = [
@@ -383,6 +394,7 @@ class PebbleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) => LiquidGlass(
     radius: radius,
+    shadow: shadow,
     gradient: const LinearGradient(
       begin: Alignment.topCenter,
       end: Alignment.bottomCenter,

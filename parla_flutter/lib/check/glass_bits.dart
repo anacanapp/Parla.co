@@ -184,22 +184,33 @@ class GlassCard extends StatelessWidget {
     required this.child,
     this.padding = const EdgeInsets.all(18),
     this.radius = 32,
+    this.shadow = true,
   });
 
   final Widget child;
   final EdgeInsetsGeometry padding;
   final double radius;
 
+  /// The drop shadow and bottom shade; off for a flat card.
+  final bool shadow;
+
   @override
-  Widget build(BuildContext context) =>
-      LiquidGlass(radius: radius, padding: padding, child: child);
+  Widget build(BuildContext context) => LiquidGlass(
+    radius: radius,
+    padding: padding,
+    shadow: shadow,
+    child: child,
+  );
 }
 
 /// Rows in one glass card, split by faint lines.
 class GlassGroup extends StatelessWidget {
-  const GlassGroup({super.key, required this.children});
+  const GlassGroup({super.key, required this.children, this.shadow = true});
 
   final List<Widget> children;
+
+  /// The drop shadow and bottom shade; off for a flat card.
+  final bool shadow;
 
   @override
   Widget build(BuildContext context) => ClipRRect(
@@ -207,6 +218,7 @@ class GlassGroup extends StatelessWidget {
     clipBehavior: Clip.none,
     child: GlassCard(
       padding: EdgeInsets.zero,
+      shadow: shadow,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
