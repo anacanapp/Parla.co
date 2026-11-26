@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:parla_server/src/content/content_seed_import.dart';
+import 'package:parla_server/src/content/wording_fixes.dart';
 import 'package:parla_shared/parla_shared.dart';
 import 'package:test/test.dart';
 
@@ -103,5 +104,38 @@ void main() {
       }
     }
     expect(first.keys.every(keys.contains), isTrue);
+  });
+
+  test('no blog article calls anything harmful or toxic, in any language '
+      '(owner 2026-11-26)', () {
+    final banned = RegExp(
+      r'zərərli|zəhərli|(?<!без)вредн|токсич|harmful|toxic',
+      caseSensitive: false,
+    );
+    for (final s in blogSeed) {
+      expect(banned.hasMatch(s.json), isFalse, reason: s.slug);
+    }
+  });
+
+  test('every wording fix is already in the blog seed, and applying the '
+      'fixes again changes nothing', () {
+    final seed = {for (final s in blogSeed) s.slug: s};
+    for (final (slug, lang, _, to) in wordingFixes) {
+      final data = jsonDecode(seed[slug]!.json) as Map<String, Object?>;
+      expect(jsonEncode(data), contains(to), reason: '$slug $lang');
+      expect(applyWordingFixes(slug, data), same(data), reason: slug);
+    }
+    final old = {
+      'title': {'az': 'Ucuz eynək zərərlidirmi?', 'en': 'x'},
+      'tips': [
+        {'az': 'Ucuz eynək zərərlidirmi?'},
+      ],
+    };
+    final fixed = applyWordingFixes('sunglasses-hats-uv', old);
+    expect((fixed['title']! as Map)['az'], 'Ucuz eynək gözü qoruyurmu?');
+    expect(
+      ((fixed['tips']! as List).single as Map)['az'],
+      'Ucuz eynək gözü qoruyurmu?',
+    );
   });
 }

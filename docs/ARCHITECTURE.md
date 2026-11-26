@@ -438,6 +438,7 @@ messages and push notifications (D) follow.
     - A recipe may carry `kcal`, an approximate energy of one serving (10–2000, optional), shown on the recipe as an estimate.
     - The plate itself still counts no calories.
     - The 76 values in `recipe_kcal.dart` were estimated from the ingredients and are applied once with `PARLA_TASK=set-recipe-kcal` (only where no `kcal` is set; audited `content.kcal_set`).
+    - Wording (owner, 2026-11-26): the blog never calls a product or a habit "harmful" (zərərli, вредный, harmful). `wording_fixes.dart` lists the neutral wording per article and language; `build_blog_seed.py` applies it when it writes `blog_seed.dart` (`--apply-fixes` re-applies it without a new export), `PARLA_TASK=fix-content-wording` applies it once to the articles already in the database (draft and published text; an article whose old wording is gone is left alone; audited `content.wording_fixed`), and a unit test keeps the words out of the seed. The Google Docs in "Parla Bloq" still have the old wording.
     - The same task fills three recipes' missing amounts once (`recipeIngredientFixes`: butter for herb-qutab, the vegetables of hummus-veg, the oil of steak-chimichurri; audited `content.ingredients_fixed`).
     - **Needs a dietitian** to check the values.
 
@@ -1100,7 +1101,7 @@ idempotent).
 
 | Item | Checklist | Planned |
 | --- | --- | --- |
-| Privacy policy and terms (az, ru, en) are published in the app from `parla_flutter/assets/legal/`. The company's details are in `assets/legal/company.json` (a line whose detail is empty is left out; the contact email and the effective date are required). `LegalDoc.isReady` still refuses a draft banner, a ⚖️ marker or an unfilled detail. The lawyer's open questions are in `docs/legal/lawyer-questions.md`; changes after the review ship as a new document version | — | Company details (legal name, VÖEN, address, DPO) from the owner; lawyer review of az and ru |
+| Privacy policy and terms (az, ru, en) are published in the app from `parla_flutter/assets/legal/`. The company's details are in `assets/legal/company.json` (a line whose detail is empty is left out; the contact email and the effective date are required). `LegalDoc.isReady` still refuses a draft banner, a ⚖️ marker or an unfilled detail. The lawyer's open questions are in `docs/legal/lawyer-questions.md`; changes after the review ship as a new document version | — | Lawyer review of az and ru (company details filled in 2026-11-26) |
 | Apple and Google sign-in | US-01 | Needs the Apple and Google developer accounts (company registration) |
 | Data region confirmed by the lawyer (prod runs in AWS Frankfurt, email by SMTP via info@anacan.az) | RES-1, RES-5 | Before sign-ups open |
 | Closed beta: sign-ups only with an invite code, until the legal and expert checks are done | — | Before the first beta build |
@@ -1117,7 +1118,7 @@ idempotent).
 | Security measures: staff sign-in is a password or an emailed one-time code (no second factor, decisions of 2026-11-18 and 2026-11-22); staff mailboxes need two-step verification | — | Lawyer to note in the GDPR Art. 32 description |
 | Real-device test of reminders (Android 13+ permission, reboot, iOS foreground) | M7 | Before the beta |
 | Expert review of the preference ingredient lists (`product_preferences.dart`) | — | Before launch |
-| Dietitian check of the imported recipes, their plate groups and allergens; dermatologist review of the 32 blog articles (especially retinoid-first-steps, glp1-skin, gel-manicure-safety, exosomes-pdrn, ai-skin-analysis; the FAQ wording "Saç boyası saça zərərlidirmi?" and "Ucuz eynək zərərlidirmi?"), stylist review of the fashion ones | — | Before publishing them |
+| Dietitian check of the imported recipes, their plate groups and allergens; dermatologist review of the 32 blog articles (especially retinoid-first-steps, glp1-skin, gel-manicure-safety, exosomes-pdrn, ai-skin-analysis), stylist review of the fashion ones | — | Before publishing them |
 | Trainer or physiotherapist review of the exercises, numbers and safety rules (`sport_rules.dart`, `exercise_text.dart`) | — | Before launch |
 | Licensed exercise photos (shown by exercise id) | — | When the photos arrive |
 | Optional on-device photo skin analysis (kept on branch `skin-photo`, not merged) | — | Postponed; needs lawyer approval and a DPIA, plus dermatologist review, before it returns |
