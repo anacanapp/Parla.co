@@ -184,7 +184,7 @@ class GlassCard extends StatelessWidget {
     required this.child,
     this.padding = const EdgeInsets.all(18),
     this.radius = 32,
-    this.shadow = true,
+    this.shadow = false,
   });
 
   final Widget child;
@@ -205,7 +205,7 @@ class GlassCard extends StatelessWidget {
 
 /// Rows in one glass card, split by faint lines.
 class GlassGroup extends StatelessWidget {
-  const GlassGroup({super.key, required this.children, this.shadow = true});
+  const GlassGroup({super.key, required this.children, this.shadow = false});
 
   final List<Widget> children;
 

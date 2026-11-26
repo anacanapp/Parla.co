@@ -19,6 +19,7 @@ import '../routes.dart';
 import '../routines/routine_section.dart';
 import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
+import '../ui/parla_mark.dart';
 import '../ui/warm.dart';
 
 /// M-14 "Bu gün" (design A+): a lemon header with the greeting and the
@@ -175,14 +176,16 @@ class _HomeBody extends StatelessWidget {
             const SizedBox(height: 14),
             // A renewed consent is asked for first (it shows only then).
             const ConsentRefreshCard(),
-            _MoveWeekCard(
-              key: const ValueKey('habit-move'),
-              week: week,
-              todayIndex: now.weekday - 1,
-              today: habits.moveMinutes,
-              onLog: () => logMove(context, habits),
+            _FocusCard(
+              key: const ValueKey('home-focus'),
+              routineName: routineName,
+              step: nextStep,
+              done: progress.done,
+              onOpen: () => context.go(Routes.habits),
             ),
-            const SizedBox(height: 12),
+            const SizedBox(height: 18),
+            _SectionTitle(l10n.homePulse),
+            const SizedBox(height: 10),
             IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -219,6 +222,14 @@ class _HomeBody extends StatelessWidget {
                   ),
                 ],
               ),
+            ),
+            const SizedBox(height: 12),
+            _MoveWeekCard(
+              key: const ValueKey('habit-move'),
+              week: week,
+              todayIndex: now.weekday - 1,
+              today: habits.moveMinutes,
+              onLog: () => logMove(context, habits),
             ),
             const SizedBox(height: 12),
             IntrinsicHeight(
@@ -850,9 +861,10 @@ class _QuizPromptCard extends StatelessWidget {
           ),
           const SizedBox(height: 16),
           FilledButton(
+            key: const ValueKey('home-quiz-start'),
             style: FilledButton.styleFrom(
-              backgroundColor: Colors.white,
-              foregroundColor: Warm.black,
+              backgroundColor: Warm.black,
+              foregroundColor: Colors.white,
             ),
             onPressed: onStart,
             child: Text(l10n.homeQuizStart),
@@ -1088,6 +1100,188 @@ class _MessagesButtonState extends State<_MessagesButton> {
             ),
           ),
       ],
+    );
+  }
+}
+
+/// A quiet section title on the page ("Qısa nəbz").
+class _SectionTitle extends StatelessWidget {
+  const _SectionTitle(this.text);
+
+  final String text;
+
+  @override
+  Widget build(BuildContext context) => Padding(
+    padding: const EdgeInsets.symmetric(horizontal: 6),
+    child: Semantics(
+      header: true,
+      child: Text(
+        text,
+        style: const TextStyle(
+          fontSize: 17,
+          fontWeight: FontWeight.w500,
+          color: Warm.ink,
+        ),
+      ),
+    ),
+  );
+}
+
+/// "Günün fokusu" ("İşıq" design): the Parla mark, the routine's next
+/// step and how to do it, a bar of today's steps (done in banana), and a
+/// dark capsule to open the routine. When every step is done it says so.
+class _FocusCard extends StatelessWidget {
+  const _FocusCard({
+    super.key,
+    required this.routineName,
+    required this.step,
+    required this.done,
+    required this.onOpen,
+  });
+
+  final String routineName;
+  final RoutineStep? step;
+  final List<bool> done;
+  final VoidCallback onOpen;
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = AppLocalizations.of(context);
+    final doneCount = done.where((d) => d).length;
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(30),
+        border: Border.all(color: Colors.white, width: 1.2),
+        gradient: const LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [Color(0xFFFFFFFF), Color(0xFFFFF6CF), Color(0xFFFCE1EC)],
+          stops: [0, .6, 1],
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(16),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Row(
+              children: [
+                Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(13),
+                  ),
+                  alignment: Alignment.center,
+                  child: const ParlaMark(size: 26),
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        l10n.homeFocusTitle,
+                        style: const TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w500,
+                          color: Warm.ink,
+                        ),
+                      ),
+                      Text(
+                        '${l10n.homeFocusSub} · $routineName',
+                        style: const TextStyle(
+                          fontSize: kMinTextSize,
+                          color: Warm.muted,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 14),
+            Text(
+              step?.title ?? l10n.homeFocusDone,
+              style: const TextStyle(
+                fontSize: 20,
+                height: 1.2,
+                fontWeight: FontWeight.w500,
+                color: Warm.ink,
+              ),
+            ),
+            if (step != null) ...[
+              const SizedBox(height: 4),
+              Text(
+                step!.meta,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+                style: const TextStyle(
+                  fontSize: 13,
+                  height: 1.4,
+                  color: Warm.muted,
+                ),
+              ),
+            ],
+            if (done.isNotEmpty) ...[
+              const SizedBox(height: 14),
+              ExcludeSemantics(
+                child: SizedBox(
+                  height: 30,
+                  child: Row(
+                    children: [
+                      for (var i = 0; i < done.length; i++) ...[
+                        if (i > 0) const SizedBox(width: 4),
+                        Expanded(
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(6),
+                              gradient: done[i]
+                                  ? const LinearGradient(
+                                      begin: Alignment.topCenter,
+                                      end: Alignment.bottomCenter,
+                                      colors: [Warm.banana, Warm.bananaSoft],
+                                    )
+                                  : null,
+                              color: done[i] ? null : const Color(0xFFE7E1DA),
+                            ),
+                            child: const SizedBox.expand(),
+                          ),
+                        ),
+                      ],
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 6),
+              Text(
+                l10n.homeFocusSteps(doneCount, done.length),
+                style: const TextStyle(
+                  fontSize: kMinTextSize,
+                  color: Warm.muted,
+                ),
+              ),
+            ],
+            const SizedBox(height: 14),
+            Align(
+              alignment: Alignment.centerLeft,
+              child: FilledButton(
+                key: const ValueKey('home-focus-open'),
+                style: FilledButton.styleFrom(
+                  backgroundColor: Warm.black,
+                  foregroundColor: Colors.white,
+                  minimumSize: const Size(48, 48),
+                  shape: const StadiumBorder(),
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                ),
+                onPressed: onOpen,
+                child: Text(l10n.homeFocusOpen),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

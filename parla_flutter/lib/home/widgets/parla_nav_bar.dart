@@ -55,14 +55,6 @@ class ParlaNavBar extends StatelessWidget {
             decoration: const ShapeDecoration(
               color: Warm.black,
               shape: StadiumBorder(),
-              shadows: [
-                BoxShadow(
-                  color: Color(0x73000000),
-                  blurRadius: 30,
-                  offset: Offset(0, 16),
-                  spreadRadius: -12,
-                ),
-              ],
             ),
             child: Padding(
               padding: const EdgeInsets.all(6),

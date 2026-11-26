@@ -207,7 +207,10 @@ void main() {
           ..profile = ProfileSummary(countryCode: 'AZ', language: language);
         await tester.pumpWidget(ParlaApp(api: api, settings: settings));
         await tester.pumpAndSettle();
-        await _tap(tester, find.byType(FilledButton)); // home: start the quiz
+        await _tap(
+          tester,
+          find.byKey(const ValueKey('home-quiz-start')),
+        ); // home
         await _tap(tester, find.byType(FilledButton)); // intro: start
 
         final sizes = <double>[];

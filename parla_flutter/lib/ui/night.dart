@@ -60,7 +60,7 @@ class LiquidGlass extends StatelessWidget {
     this.color,
     this.gradient,
     this.padding,
-    this.shadow = true,
+    this.shadow = false,
   });
 
   final Widget child;
@@ -314,7 +314,7 @@ class MeshTile extends StatelessWidget {
     this.blobAt = const Alignment(0.75, 0.7),
     this.onTap,
     this.semanticLabel,
-    this.shadow = true,
+    this.shadow = false,
   });
 
   final MeshTone tone;
@@ -374,7 +374,7 @@ class PebbleCard extends StatelessWidget {
     required this.child,
     this.radius = 40,
     this.padding = const EdgeInsets.all(20),
-    this.shadow = true,
+    this.shadow = false,
   });
 
   final Widget child;

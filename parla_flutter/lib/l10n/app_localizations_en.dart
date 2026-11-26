@@ -416,6 +416,30 @@ class AppLocalizationsEn extends AppLocalizations {
       'Your answer is stored encrypted and only used for your routine and plan. If you delete it, your routine stays careful.';
 
   @override
+  String get homeFocusTitle => 'Today\'s focus';
+
+  @override
+  String get homeFocusSub => 'From your routine';
+
+  @override
+  String get homeFocusDone =>
+      'Today\'s routine is done. Take a moment for yourself.';
+
+  @override
+  String get homeFocusOpen => 'Open routine';
+
+  @override
+  String homeFocusSteps(int done, int total) {
+    return '$done / $total steps';
+  }
+
+  @override
+  String get homePulse => 'At a glance';
+
+  @override
+  String get homeLater => 'More';
+
+  @override
   String get homeQuizTitle => 'Let\'s personalise your routine';
 
   @override
