@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -50,28 +52,36 @@ class ParlaNavBar extends StatelessWidget {
         minimum: const EdgeInsets.only(bottom: 18),
         child: Center(
           heightFactor: 1,
-          child: DecoratedBox(
-            key: const ValueKey('parla-nav'),
-            decoration: const ShapeDecoration(
-              color: Warm.black,
-              shape: StadiumBorder(),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.all(6),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  for (final tab in ParlaTab.values)
-                    _NavItem(
-                      icon: tab.icon,
-                      label: tab.label(l10n),
-                      selected: tab == selected,
-                      middle: tab == ParlaTab.check,
-                      onTap: tab == selected
-                          ? () {}
-                          : () => context.go(tab.route),
-                    ),
-                ],
+          child: ClipPath(
+            clipper: const ShapeBorderClipper(shape: StadiumBorder()),
+            child: BackdropFilter(
+              filter: ui.ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+              child: DecoratedBox(
+                key: const ValueKey('parla-nav'),
+                decoration: const ShapeDecoration(
+                  color: Color(0xD916130F),
+                  shape: StadiumBorder(
+                    side: BorderSide(color: Color(0x26FFFFFF), width: .8),
+                  ),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(4),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      for (final tab in ParlaTab.values)
+                        _NavItem(
+                          icon: tab.icon,
+                          label: tab.label(l10n),
+                          selected: tab == selected,
+                          middle: tab == ParlaTab.check,
+                          onTap: tab == selected
+                              ? () {}
+                              : () => context.go(tab.route),
+                        ),
+                    ],
+                  ),
+                ),
               ),
             ),
           ),
@@ -98,14 +108,14 @@ class _NavItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = middle ? 52.0 : 48.0;
+    final size = middle ? 44.0 : 42.0;
     return Semantics(
       button: true,
       selected: selected,
       label: label,
       excludeSemantics: true,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 2),
+        padding: const EdgeInsets.symmetric(horizontal: 3),
         child: InkWell(
           customBorder: const CircleBorder(),
           onTap: onTap,
@@ -117,20 +127,20 @@ class _NavItem extends StatelessWidget {
               color: middle
                   ? Colors.white
                   : selected
-                  ? const Color(0xFF2E2A24)
+                  ? const Color(0x33FFFFFF)
                   : Colors.transparent,
               shape: CircleBorder(
                 side: middle && selected
-                    ? const BorderSide(color: Warm.banana, width: 2.5)
+                    ? const BorderSide(color: Warm.banana, width: 2)
                     : BorderSide.none,
               ),
             ),
             alignment: Alignment.center,
             child: middle
-                ? const ParlaMark(size: 30)
+                ? const ParlaMark(size: 26)
                 : ParlaIcon(
                     icon,
-                    size: 21,
+                    size: 19,
                     color: selected ? Colors.white : const Color(0xFFBDB5AA),
                   ),
           ),
