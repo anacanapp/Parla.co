@@ -6,6 +6,8 @@ import 'package:parla_shared/parla_shared.dart';
 import '../habits/habit_tracker.dart';
 import '../home/routine.dart';
 import '../l10n/app_localizations.dart';
+import '../parla_scope.dart';
+import '../reminders/reminder_settings.dart';
 import '../routes.dart';
 import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
@@ -98,9 +100,26 @@ class _RoutinesSectionState extends State<RoutinesSection> {
         if (!widget.habits.isDoneIn(slot, steps[i].id)) steps[i],
     ].firstOrNull;
 
+    // A timeline: the slot starts at its reminder's time (the suggested
+    // one when the reminder is off) and each step follows the last.
+    final reminders = ParlaScope.of(context).reminders.settings;
+    final startAt = switch (slot) {
+      RoutineSlot.morning => reminders[ReminderKind.morningRoutine].minutes,
+      RoutineSlot.evening => reminders[ReminderKind.eveningRoutine].minutes,
+      RoutineSlot.weekly => null,
+    };
+    final times = <int?>[];
+    var clock = startAt;
+    for (final s in steps) {
+      times.add(clock);
+      if (clock != null) clock += s.minutes;
+    }
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
+        _WeekStrip(today: widget.today),
+        const SizedBox(height: 12),
         if (slots.isNotEmpty)
           WarmSegmented<RoutineSlot>(
             values: slots,
@@ -155,10 +174,12 @@ class _RoutinesSectionState extends State<RoutinesSection> {
             l10n.routineSlotEmpty,
             style: const TextStyle(fontSize: 15, color: Warm.muted),
           ),
-        for (final step in steps) ...[
+        for (final (i, step) in steps.indexed) ...[
           _StepRow(
             key: ValueKey('routine-step-${step.id}'),
             step: step,
+            startAt: times[i],
+            color: _stepColors[i % _stepColors.length],
             done: widget.habits.isDoneIn(slot, step.id),
             current: identical(step, next),
             onToggle: () => widget.habits.toggleIn(slot, step.id),
@@ -332,6 +353,82 @@ class _ProgressCard extends StatelessWidget {
 /// One step as a smoky capsule: a round toggle (white with a tick when
 /// done), the title (struck through when done) and how to do it. The next
 /// step to do glows burnt orange. Tapping the text shows the whole hint.
+const _stepColors = [Warm.banana, Warm.lilac, Warm.roseTint, Warm.mist];
+
+String _clock(int minutes) {
+  final m = minutes % (24 * 60);
+  return '${(m ~/ 60).toString().padLeft(2, '0')}:'
+      '${(m % 60).toString().padLeft(2, '0')}';
+}
+
+/// The week from Monday, today in a dark circle ("İşıq" design).
+class _WeekStrip extends StatelessWidget {
+  const _WeekStrip({required this.today});
+
+  final DateTime today;
+
+  @override
+  Widget build(BuildContext context) {
+    final locale = Localizations.localeOf(context).toString();
+    final monday = DateTime(
+      today.year,
+      today.month,
+      today.day - today.weekday + 1,
+    );
+    return ExcludeSemantics(
+      child: Row(
+        children: [
+          for (var i = 0; i < 7; i++)
+            Expanded(
+              child: Builder(
+                builder: (context) {
+                  final day = DateTime(
+                    monday.year,
+                    monday.month,
+                    monday.day + i,
+                  );
+                  final isToday =
+                      day.day == today.day && day.month == today.month;
+                  return Column(
+                    children: [
+                      Text(
+                        DateFormat.E(locale).format(day).replaceAll('.', ''),
+                        style: const TextStyle(
+                          fontSize: kMinTextSize,
+                          color: Warm.muted,
+                        ),
+                      ),
+                      const SizedBox(height: 6),
+                      Container(
+                        width: 36,
+                        height: 36,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: isToday ? Warm.black : null,
+                        ),
+                        child: Text(
+                          '${day.day}',
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: isToday ? Colors.white : Warm.ink,
+                          ),
+                        ),
+                      ),
+                    ],
+                  );
+                },
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+/// A step on the timeline: its time on the left, then a white card with
+/// a coloured edge, the time range, the how-to (tap to read it all), a
+/// round tick at the top right and the minutes in a coloured capsule.
 class _StepRow extends StatefulWidget {
   const _StepRow({
     super.key,
@@ -339,12 +436,18 @@ class _StepRow extends StatefulWidget {
     required this.done,
     required this.current,
     required this.onToggle,
+    required this.color,
+    this.startAt,
   });
 
   final RoutineStep step;
   final bool done;
   final bool current;
   final VoidCallback onToggle;
+  final Color color;
+
+  /// Minutes after midnight the step starts, or `null` (weekly steps).
+  final int? startAt;
 
   @override
   State<_StepRow> createState() => _StepRowState();
@@ -359,109 +462,159 @@ class _StepRowState extends State<_StepRow> {
     final step = widget.step;
     final done = widget.done;
     final hint = done ? l10n.stepStatusDone : step.meta;
-    return ConstrainedBox(
-      constraints: const BoxConstraints(minHeight: 54),
-      child: SmokyGlass(
-        radius: 27,
-        tint: widget.current && !done ? SmokyTint.coral : SmokyTint.none,
-        shadow: false,
-        padding: const EdgeInsets.fromLTRB(6, 2, 16, 2),
-        child: Row(
-          children: [
-            Semantics(
-              button: true,
-              toggled: done,
-              label: done
-                  ? l10n.stepMarkUndone(step.title)
-                  : l10n.stepMarkDone(step.title),
-              excludeSemantics: true,
-              child: InkResponse(
-                onTap: widget.onToggle,
-                radius: 24,
-                child: SizedBox(
-                  width: 44,
-                  height: 44,
-                  child: Center(
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      width: 28,
-                      height: 28,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: done ? Colors.white : Colors.transparent,
-                        border: done
-                            ? null
-                            : Border.all(
-                                color: const Color(0x99FFFFFF),
-                                width: 1.5,
-                              ),
-                      ),
-                      alignment: Alignment.center,
-                      child: done
-                          ? const ParlaIcon(
-                              ParlaIconName.check,
-                              size: 15,
-                              color: Warm.black,
-                            )
-                          : null,
-                    ),
-                  ),
-                ),
-              ),
+    final start = widget.startAt;
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 46,
+          child: Padding(
+            padding: const EdgeInsets.only(top: 14),
+            child: Text(
+              start == null ? '' : _clock(start),
+              style: const TextStyle(fontSize: 12, color: Warm.muted),
             ),
-            const SizedBox(width: 6),
-            Expanded(
-              child: GestureDetector(
-                behavior: HitTestBehavior.opaque,
-                onTap: done ? null : () => setState(() => _open = !_open),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 7),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        step.title,
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: done ? Warm.onCardSoft : Warm.onCard,
-                          decoration: done ? TextDecoration.lineThrough : null,
-                          decorationColor: Warm.onCardSoft,
+          ),
+        ),
+        Expanded(
+          child: Container(
+            decoration: BoxDecoration(
+              color: widget.current && !done
+                  ? const Color(0xFFFFFDF2)
+                  : const Color(0xF2FFFFFF),
+              borderRadius: BorderRadius.circular(18),
+              border: Border(left: BorderSide(color: widget.color, width: 3)),
+            ),
+            padding: const EdgeInsets.fromLTRB(12, 10, 6, 10),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: GestureDetector(
+                    behavior: HitTestBehavior.opaque,
+                    onTap: done ? null : () => setState(() => _open = !_open),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          step.title,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w500,
+                            color: done ? Warm.muted : Warm.ink,
+                            decoration: done
+                                ? TextDecoration.lineThrough
+                                : null,
+                            decorationColor: Warm.muted,
+                          ),
                         ),
-                      ),
-                      if (hint.isNotEmpty)
-                        AnimatedSize(
-                          duration: const Duration(milliseconds: 160),
-                          alignment: Alignment.topLeft,
+                        if (start != null) ...[
+                          const SizedBox(height: 2),
+                          Row(
+                            children: [
+                              const Icon(
+                                Icons.schedule,
+                                size: 12,
+                                color: Warm.muted,
+                              ),
+                              const SizedBox(width: 4),
+                              Text(
+                                '${_clock(start)} – ${_clock(start + step.minutes)}',
+                                style: const TextStyle(
+                                  fontSize: kMinTextSize,
+                                  color: Warm.muted,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                        if (hint.isNotEmpty) ...[
+                          const SizedBox(height: 4),
+                          AnimatedSize(
+                            duration: const Duration(milliseconds: 160),
+                            alignment: Alignment.topLeft,
+                            child: Text(
+                              hint,
+                              maxLines: _open && !done ? null : 1,
+                              overflow: _open && !done
+                                  ? TextOverflow.visible
+                                  : TextOverflow.ellipsis,
+                              style: const TextStyle(
+                                fontSize: kMinTextSize,
+                                color: Warm.muted,
+                              ),
+                            ),
+                          ),
+                        ],
+                        const SizedBox(height: 6),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 9,
+                            vertical: 3,
+                          ),
+                          decoration: BoxDecoration(
+                            color: widget.color,
+                            borderRadius: BorderRadius.circular(20),
+                          ),
                           child: Text(
-                            hint,
-                            maxLines: _open && !done ? null : 1,
-                            overflow: _open && !done
-                                ? TextOverflow.visible
-                                : TextOverflow.ellipsis,
+                            l10n.sportMinutes(step.minutes),
                             style: const TextStyle(
                               fontSize: kMinTextSize,
-                              color: Warm.onCardSoft,
+                              fontWeight: FontWeight.w600,
+                              color: Warm.ink,
                             ),
                           ),
                         ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ),
-            if (widget.current && !done) ...[
-              const SizedBox(width: 8),
-              const ExcludeSemantics(
-                child: ParlaIcon(
-                  ParlaIconName.arrowRight,
-                  size: 18,
-                  color: Warm.onCard,
+                Semantics(
+                  button: true,
+                  toggled: done,
+                  label: done
+                      ? l10n.stepMarkUndone(step.title)
+                      : l10n.stepMarkDone(step.title),
+                  excludeSemantics: true,
+                  child: InkResponse(
+                    onTap: widget.onToggle,
+                    radius: 24,
+                    child: SizedBox(
+                      width: 44,
+                      height: 44,
+                      child: Center(
+                        child: AnimatedContainer(
+                          duration: const Duration(milliseconds: 200),
+                          width: 24,
+                          height: 24,
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: done ? Warm.black : Colors.transparent,
+                            border: done
+                                ? null
+                                : Border.all(
+                                    color: const Color(0xFFD6CFC8),
+                                    width: 1.5,
+                                  ),
+                          ),
+                          alignment: Alignment.center,
+                          child: done
+                              ? const ParlaIcon(
+                                  ParlaIconName.check,
+                                  size: 13,
+                                  color: Colors.white,
+                                )
+                              : null,
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
-              ),
-            ],
-          ],
+              ],
+            ),
+          ),
         ),
-      ),
+      ],
     );
   }
 }
