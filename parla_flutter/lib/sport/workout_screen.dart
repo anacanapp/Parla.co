@@ -20,6 +20,7 @@ import 'sport_labels.dart';
 import '../ui/warm.dart';
 import 'workout_names.dart';
 import 'sport_night.dart';
+import '../ui/locale_text.dart';
 
 enum _Phase { overview, countdown, work, rest, finished }
 
@@ -296,7 +297,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
 
   Widget _overview(BuildContext context, Workout w, Widget sound) {
     final l10n = AppLocalizations.of(context);
-    final language = Localizations.localeOf(context).languageCode;
+    final language = contentLanguageOf(context);
     final fixed = fixedWorkoutById(w.id) != null;
     final body = TextStyle(fontSize: 14, height: 1.45, color: SportNight.ink);
     final muted = TextStyle(
@@ -380,7 +381,7 @@ class _WorkoutScreenState extends State<WorkoutScreen> {
 
   Widget _player(BuildContext context, Workout w, Widget sound) {
     final l10n = AppLocalizations.of(context);
-    final language = Localizations.localeOf(context).languageCode;
+    final language = contentLanguageOf(context);
     final resting = _phase == _Phase.rest;
     final counting = _phase == _Phase.countdown;
     final item = w.items[_shownIndex(w)];

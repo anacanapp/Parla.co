@@ -11,6 +11,7 @@ import '../ui/brand.dart';
 import '../ui/night.dart';
 import 'content_library.dart';
 import 'discover_widgets.dart';
+import '../ui/locale_text.dart';
 
 /// The route and `extra` of an in-app link (banners, messages, push), or
 /// `null` for an unknown link.
@@ -66,7 +67,7 @@ class BannerStrip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scope = ParlaScope.of(context);
-    final language = Localizations.localeOf(context).languageCode;
+    final language = contentLanguageOf(context);
     return ListenableBuilder(
       listenable: scope.content,
       builder: (context, _) {
@@ -157,7 +158,7 @@ class BannerCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    final language = Localizations.localeOf(context).languageCode;
+    final language = contentLanguageOf(context);
     final sponsor = ContentRules.isSponsored(item.data)
         ? (item.data['sponsor']! as String).trim()
         : null;

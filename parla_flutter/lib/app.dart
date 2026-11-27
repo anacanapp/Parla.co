@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart' show CupertinoLocalizations;
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
@@ -28,6 +29,8 @@ import 'state/app_settings.dart';
 import 'state/onboarding_state.dart';
 import 'ui/brand.dart';
 import 'ui/tone_scope.dart';
+import 'ui/system_texts.dart';
+import 'screens/language_screen.dart' show choosableLanguages;
 
 /// The Parla user app.
 class ParlaApp extends StatefulWidget {
@@ -135,7 +138,7 @@ class _ParlaAppState extends State<ParlaApp> {
 
   late final ReminderController _reminders = ReminderController(
     scheduler: widget.reminderScheduler ?? LocalReminderScheduler(),
-    language: () => widget.settings.language ?? defaultLanguage,
+    language: () => widget.settings.contentLanguage,
   );
   String? _language;
 
@@ -234,12 +237,22 @@ class _ParlaAppState extends State<ParlaApp> {
             // Day "İşıq" or night "Espresso" (owner, 2026-11-26).
             theme: parlaTheme(),
             locale: widget.settings.locale,
-            supportedLocales: AppLocalizations.supportedLocales,
+            // Only the languages people can choose: a phone set to a
+            // language still being checked gets the default one.
+            supportedLocales: [
+              for (final code in choosableLanguages) Locale(code),
+            ],
             localizationsDelegates: const [
               AppLocalizations.delegate,
-              GlobalMaterialLocalizations.delegate,
-              GlobalWidgetsLocalizations.delegate,
-              GlobalCupertinoLocalizations.delegate,
+              SystemTextsDelegate<MaterialLocalizations>(
+                GlobalMaterialLocalizations.delegate,
+              ),
+              SystemTextsDelegate<WidgetsLocalizations>(
+                GlobalWidgetsLocalizations.delegate,
+              ),
+              SystemTextsDelegate<CupertinoLocalizations>(
+                GlobalCupertinoLocalizations.delegate,
+              ),
             ],
             routerConfig: _router,
           ),

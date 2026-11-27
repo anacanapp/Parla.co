@@ -13,6 +13,7 @@ import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
 import '../ui/warm.dart';
 import 'custom_routines.dart';
+import '../ui/locale_text.dart';
 
 /// Label of a care area.
 String areaLabel(AppLocalizations l10n, RoutineArea area) => switch (area) {
@@ -33,7 +34,7 @@ String customWhen(BuildContext context, CustomRoutine routine) {
   final l10n = AppLocalizations.of(context);
   final day = routine.weekday;
   if (day == null) return l10n.routineOwnEveryDay;
-  final locale = Localizations.localeOf(context).toString();
+  final locale = dateLocaleOf(context);
   // 2024-01-01 was a Monday.
   return DateFormat.EEEE(locale).format(DateTime(2024, 1, day));
 }
@@ -83,7 +84,7 @@ class _RoutinesSectionState extends State<RoutinesSection> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final language = Localizations.localeOf(context).languageCode;
+    final language = contentLanguageOf(context);
     final plan = planArea(_area, widget.answers);
     final slots = [
       for (final s in RoutineSlot.values)
@@ -369,7 +370,7 @@ class _WeekStrip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = Localizations.localeOf(context).toString();
+    final locale = dateLocaleOf(context);
     final monday = DateTime(
       today.year,
       today.month,

@@ -68,8 +68,7 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
-  String get _language =>
-      ParlaScope.of(context).settings.language ?? defaultLanguage;
+  String get _language => ParlaScope.of(context).settings.contentLanguage;
 
   QuizQuestion get _current => _questions[_index];
 

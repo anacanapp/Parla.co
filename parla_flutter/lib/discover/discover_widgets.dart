@@ -10,6 +10,7 @@ import '../ui/night.dart';
 import '../ui/parla_ui.dart';
 import '../ui/parla_icons.dart';
 import '../ui/text_case.dart';
+import '../ui/locale_text.dart';
 
 String categoryText(AppLocalizations l10n, String id) => switch (id) {
   'care' => l10n.catCare,
@@ -57,7 +58,7 @@ String groupText(AppLocalizations l10n, String id) => switch (id) {
 };
 
 String shortDate(BuildContext context, DateTime date) =>
-    DateFormat.yMMMd(Localizations.localeOf(context).toString()).format(date);
+    DateFormat.yMMMd(dateLocaleOf(context)).format(date);
 
 /// A small page with a back button and a title.
 class SubPage extends StatelessWidget {
@@ -133,7 +134,7 @@ class ContentImage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final language = Localizations.localeOf(context).languageCode;
+    final language = contentLanguageOf(context);
     final alt = ContentRules.pick(image.alt, language);
     return Semantics(
       image: true,
@@ -164,7 +165,7 @@ class ArticleCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    final language = Localizations.localeOf(context).languageCode;
+    final language = contentLanguageOf(context);
     final minutes = (item.data['minutes'] as num?)?.toInt() ?? 1;
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),

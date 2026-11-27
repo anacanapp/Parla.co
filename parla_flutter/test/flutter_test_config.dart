@@ -34,6 +34,13 @@ Future<void> testExecutable(FutureOr<void> Function() testMain) async {
     'assets/fonts/Onest-Bold.ttf',
     'assets/fonts/Onest-ExtraBold.ttf',
   ]);
+  await load('NotoSansGeorgian', [
+    'assets/fonts/NotoSansGeorgian-Light.ttf',
+    'assets/fonts/NotoSansGeorgian-Regular.ttf',
+    'assets/fonts/NotoSansGeorgian-Medium.ttf',
+    'assets/fonts/NotoSansGeorgian-SemiBold.ttf',
+    'assets/fonts/NotoSansGeorgian-Bold.ttf',
+  ]);
   await load('PlayfairDisplay', [
     'assets/fonts/PlayfairDisplay-MediumItalic.ttf',
   ]);

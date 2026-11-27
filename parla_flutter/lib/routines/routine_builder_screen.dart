@@ -12,6 +12,7 @@ import '../ui/common.dart';
 import '../ui/parla_icons.dart';
 import 'custom_routines.dart';
 import 'routine_section.dart';
+import '../ui/locale_text.dart';
 
 /// Ready step titles for [area] in [language]: every care step of that
 /// area from the content sheet.
@@ -154,11 +155,10 @@ class _RoutineBuilderScreenState extends State<RoutineBuilderScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    final locale = Localizations.localeOf(context);
-    final weekdayName = DateFormat.EEEE(locale.toString());
+    final weekdayName = DateFormat.EEEE(dateLocaleOf(context));
     final suggestions = stepSuggestions(
       _area,
-      locale.languageCode,
+      contentLanguageOf(context),
     ).where((t) => !_steps.any((s) => s.title == t)).toList();
 
     Widget label(String value) => Padding(

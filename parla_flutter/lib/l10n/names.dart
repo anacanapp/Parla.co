@@ -9,9 +9,17 @@ String countryName(AppLocalizations l10n, String code) => switch (code) {
   _ => code,
 };
 
-/// The name of a supported interface language.
+/// The name of an interface language in that language itself (the same
+/// in every interface language, so each person finds their own).
 String languageName(AppLocalizations l10n, String code) => switch (code) {
   'az' => l10n.languageName_az,
   'ru' => l10n.languageName_ru,
-  _ => l10n.languageName_en,
+  'en' => l10n.languageName_en,
+  'tr' => 'Türkçe',
+  'kk' => 'Қазақша',
+  'uz' => 'Oʻzbekcha',
+  'tk' => 'Türkmençe',
+  'ky' => 'Кыргызча',
+  'ka' => 'ქართული',
+  _ => code,
 };

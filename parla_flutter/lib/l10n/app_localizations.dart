@@ -7,7 +7,13 @@ import 'package:intl/intl.dart' as intl;
 
 import 'app_localizations_az.dart';
 import 'app_localizations_en.dart';
+import 'app_localizations_ka.dart';
+import 'app_localizations_kk.dart';
+import 'app_localizations_ky.dart';
 import 'app_localizations_ru.dart';
+import 'app_localizations_tk.dart';
+import 'app_localizations_tr.dart';
+import 'app_localizations_uz.dart';
 
 // ignore_for_file: type=lint
 
@@ -97,7 +103,13 @@ abstract class AppLocalizations {
   static const List<Locale> supportedLocales = <Locale>[
     Locale('az'),
     Locale('en'),
+    Locale('ka'),
+    Locale('kk'),
+    Locale('ky'),
     Locale('ru'),
+    Locale('tk'),
+    Locale('tr'),
+    Locale('uz'),
   ];
 
   /// No description provided for @appTitle.
@@ -3939,8 +3951,17 @@ class _AppLocalizationsDelegate
   }
 
   @override
-  bool isSupported(Locale locale) =>
-      <String>['az', 'en', 'ru'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>[
+    'az',
+    'en',
+    'ka',
+    'kk',
+    'ky',
+    'ru',
+    'tk',
+    'tr',
+    'uz',
+  ].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -3953,8 +3974,20 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
       return AppLocalizationsAz();
     case 'en':
       return AppLocalizationsEn();
+    case 'ka':
+      return AppLocalizationsKa();
+    case 'kk':
+      return AppLocalizationsKk();
+    case 'ky':
+      return AppLocalizationsKy();
     case 'ru':
       return AppLocalizationsRu();
+    case 'tk':
+      return AppLocalizationsTk();
+    case 'tr':
+      return AppLocalizationsTr();
+    case 'uz':
+      return AppLocalizationsUz();
   }
 
   throw FlutterError(

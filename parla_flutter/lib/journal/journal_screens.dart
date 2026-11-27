@@ -13,6 +13,7 @@ import '../ui/parla_icons.dart';
 import '../ui/warm.dart';
 import 'journal_book.dart';
 import '../ui/text_case.dart';
+import '../ui/locale_text.dart';
 
 /// The private journal: entries by day, newest first. Kept only on this
 /// phone (see [JournalBook]).
@@ -23,7 +24,7 @@ class JournalScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    final locale = Localizations.localeOf(context).toString();
+    final locale = dateLocaleOf(context);
     final scope = ParlaScope.of(context);
     final book = scope.journal;
     if (!book.loaded) scope.attachAccount();

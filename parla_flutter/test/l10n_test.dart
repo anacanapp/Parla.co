@@ -4,7 +4,7 @@ import 'dart:io';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:parla_shared/parla_shared.dart';
 
-/// Every supported language must translate every key of the English file,
+/// Every interface language must translate every key of the English file,
 /// so no screen falls back to English silently.
 void main() {
   Map<String, dynamic> load(String language) =>
@@ -16,7 +16,7 @@ void main() {
 
   final english = keys(load('en'));
 
-  for (final language in supportedLanguages) {
+  for (final language in interfaceLanguages) {
     test('$language has every key', () {
       final translated = keys(load(language));
       expect(english.difference(translated), isEmpty);

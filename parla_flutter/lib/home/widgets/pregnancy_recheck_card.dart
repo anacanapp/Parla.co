@@ -71,7 +71,7 @@ class PregnancyRecheckCards extends StatelessWidget {
 }
 
 String _skinLabel(BuildContext context, String id) {
-  final language = ParlaScope.of(context).settings.language ?? defaultLanguage;
+  final language = ParlaScope.of(context).settings.contentLanguage;
   final option = quizQuestion(
     'pregnancy',
   )!.options.firstWhere((o) => o.id == id, orElse: () => QuizOption(id, {}));

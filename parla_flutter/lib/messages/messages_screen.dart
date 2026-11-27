@@ -13,6 +13,7 @@ import '../services/parla_api.dart';
 import '../ui/brand.dart';
 import '../ui/night.dart';
 import '../ui/common.dart';
+import '../ui/locale_text.dart';
 
 /// Messages: the team's announcements and the user's own support
 /// conversation. Support messages are stored encrypted on the server and
@@ -111,7 +112,7 @@ class _MessagesScreenState extends State<MessagesScreen> {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
     final scope = ParlaScope.of(context);
-    final language = Localizations.localeOf(context).languageCode;
+    final language = contentLanguageOf(context);
     final today = scope.clock();
     return SubPage(
       title: l10n.messagesTitle,

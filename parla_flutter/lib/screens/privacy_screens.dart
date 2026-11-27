@@ -90,7 +90,7 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
         kind: kind,
         granted: granted,
         textVersion: currentConsentText(kind).version,
-        language: scope.settings.language ?? defaultLanguage,
+        language: scope.settings.contentLanguage,
       );
       if (kind == ConsentKind.analytics) scope.usage.setEnabled(granted);
       if (mounted) setState(() => _consents = {..._consents!, kind: granted});
@@ -595,8 +595,7 @@ class LegalScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    final language =
-        ParlaScope.of(context).settings.language ?? defaultLanguage;
+    final language = ParlaScope.of(context).settings.contentLanguage;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -678,9 +677,14 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
     super.dispose();
   }
 
-  /// Case-insensitive match that treats Azerbaijani İ/ı correctly.
-  static String _fold(String s) =>
-      s.trim().replaceAll('İ', 'i').replaceAll('I', 'ı').toLowerCase();
+  /// Forgiving match of the typed confirmation word in any interface
+  /// language: case, the four i's (İ I ı i, which keyboards mix up) and
+  /// apostrophe-like signs (Uzbek ʻ ʼ, typed as ' ‘ ’ or `) do not matter.
+  static String _fold(String s) => s
+      .trim()
+      .replaceAll(RegExp("[ʻʼ'‘’`´]"), '')
+      .replaceAll(RegExp('[İIı]'), 'i')
+      .toLowerCase();
 
   Future<void> _delete() async {
     final scope = ParlaScope.of(context);
@@ -893,8 +897,7 @@ class LegalDocScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final language =
-        ParlaScope.of(context).settings.language ?? defaultLanguage;
+    final language = ParlaScope.of(context).settings.contentLanguage;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,

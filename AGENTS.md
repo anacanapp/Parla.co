@@ -17,8 +17,13 @@ data. Key rules:
   in `account.deleteAccount`.
 - Changing a consent text means adding a new version in `parla_shared`, never
   editing an existing one.
-- User-facing strings go in `parla_flutter/lib/l10n/app_{az,ru,en}.arb`; all
-  three files must have the same keys.
+- User-facing strings go in `parla_flutter/lib/l10n/app_<language>.arb` for
+  every interface language (`interfaceLanguages` in `parla_shared`: az, tr,
+  ru, en, kk, uz, tk, ky, ka); all files must have the same keys
+  (`python3 -I tools/l10n/check_arb.py <language>` checks one). Consent
+  texts, legal documents, quiz questions, content and notifications exist
+  in az, ru and en only (`supportedLanguages`); other interface languages
+  show the closest one (`contentLanguageFor`).
 - Do not reintroduce Serverpod Cloud hosting, storage or email.
 
 ## Flutter & Serverpod project
