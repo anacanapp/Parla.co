@@ -29,6 +29,9 @@ const _language = String.fromEnvironment(
 );
 const _dir = String.fromEnvironment('PREVIEW_DIR');
 const _dark = bool.fromEnvironment('PREVIEW_DARK');
+
+/// Pixels per logical pixel (2 by default; 3 for store screenshots).
+const _scale = int.fromEnvironment('PREVIEW_SCALE', defaultValue: 2);
 final _today = DateTime(2026, 11, 12, 9);
 
 const _answers = QuizAnswers(
@@ -110,8 +113,8 @@ Future<void> _loadIconFont() async {
 }
 
 Future<void> _open(WidgetTester tester, {DateTime? at}) async {
-  tester.view.physicalSize = const Size(780, 1688);
-  tester.view.devicePixelRatio = 2;
+  tester.view.physicalSize = Size(390.0 * _scale, 844.0 * _scale);
+  tester.view.devicePixelRatio = _scale.toDouble();
   addTearDown(tester.view.reset);
 
   SharedPreferences.setMockInitialValues({
@@ -451,8 +454,8 @@ void main() {
     ('35_consents', Routes.consents),
   ]) {
     testWidgets(name, skip: !_enabled, (tester) async {
-      tester.view.physicalSize = const Size(780, 1688);
-      tester.view.devicePixelRatio = 2;
+      tester.view.physicalSize = Size(390.0 * _scale, 844.0 * _scale);
+      tester.view.devicePixelRatio = _scale.toDouble();
       addTearDown(tester.view.reset);
       SharedPreferences.setMockInitialValues({
         'language': _language,
