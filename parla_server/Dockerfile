@@ -51,6 +51,8 @@ WORKDIR /app
 COPY pubspec.lock .
 COPY parla_shared parla_shared
 COPY parla_server parla_server
+# The website shows the same privacy policy and terms as the app.
+COPY parla_flutter/assets/legal parla_server/web/site/legal
 RUN printf '%s\n' \
   'name: _' \
   'environment:' \

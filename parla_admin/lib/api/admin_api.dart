@@ -98,6 +98,9 @@ abstract interface class AdminApi {
   // Anonymous statistics (phase C).
   Future<StatsReport> statsReport();
 
+  /// The website's totals of the last [days] days (admins only).
+  Future<StatsReport> siteReport(int days);
+
   /// The dashboard for the last [days] days (7, 30 or 90; admins only).
   Future<DashboardReport> dashboard(int days);
 

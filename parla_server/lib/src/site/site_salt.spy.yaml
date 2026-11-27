@@ -1,0 +1,11 @@
+### The random salt of [day]'s visitor marks; deleted with them.
+class: SiteSalt
+table: site_salt
+serverOnly: true
+fields:
+  day: String
+  salt: String
+indexes:
+  site_salt_day_idx:
+    fields: day
+    unique: true

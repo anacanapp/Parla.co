@@ -1,0 +1,15 @@
+### A visitor counted on [day]: an HMAC of the address and browser with
+### that day's random salt (SiteSalt). It only stops a visitor from being
+### counted twice the same day; marks and salts of earlier days are deleted
+### by the daily retention run, after which nothing links the count to
+### anyone.
+class: SiteVisitorMark
+table: site_visitor_mark
+serverOnly: true
+fields:
+  day: String
+  mark: String
+indexes:
+  site_visitor_mark_key_idx:
+    fields: day, mark
+    unique: true

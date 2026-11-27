@@ -295,6 +295,10 @@ class ServerpodAdminApi implements AdminApi {
   Future<StatsReport> statsReport() => _guard(_client.statsAdmin.report);
 
   @override
+  Future<StatsReport> siteReport(int days) =>
+      _guard(() => _client.siteStatsAdmin.report(days));
+
+  @override
   Future<DashboardReport> dashboard(int days) =>
       _guard(() => _client.dashboardAdmin.report(days));
 

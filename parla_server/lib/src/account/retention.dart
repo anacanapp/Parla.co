@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:serverpod/serverpod.dart';
 
 import '../generated/protocol.dart';
+import '../site/site_stats.dart';
 import '../stats/activity.dart';
 import '../push/push.dart';
 import '../support/support.dart';
@@ -77,12 +78,14 @@ Timer scheduleDailyRetention(Serverpod pod) {
       final days = await rollUpActivity(session);
       final support = await expireSupport(session);
       final tokens = await expireTokens(session);
+      final siteMarks = await expireSiteMarks(session);
       session.log(
         'Retention: ${result.auditRows} audit rows, '
         '${result.consentRows} consent rows, '
         '${result.deletedAccounts} deleted accounts expired, '
         '$days activity days counted, $support support threads and '
-        '$tokens push tokens expired.',
+        '$tokens push tokens expired, $siteMarks site visitor marks '
+        'deleted.',
         level: LogLevel.info,
       );
     } on Object catch (error, stackTrace) {

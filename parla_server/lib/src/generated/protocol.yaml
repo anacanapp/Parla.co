@@ -89,6 +89,8 @@ shop:
   - startOrder:
   - myOrders:
   - refreshOrder:
+siteStatsAdmin:
+  - report:
 staffAdmin:
   - listStaff:
   - listInvites:

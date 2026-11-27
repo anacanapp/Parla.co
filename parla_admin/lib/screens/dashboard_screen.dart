@@ -135,12 +135,14 @@ class _DashboardScreenState extends State<DashboardScreen> {
             'Alətlər',
             'Məzmun və reklam',
             'Auditoriya',
+            'Sayt',
           ],
           keys: const [
             ValueKey('dash-tab-overview'),
             ValueKey('dash-tab-tools'),
             ValueKey('dash-tab-content'),
             ValueKey('dash-tab-audience'),
+            ValueKey('dash-tab-site'),
           ],
           selected: _tab,
           onSelected: (i) => setState(() => _tab = i),
@@ -154,6 +156,12 @@ class _DashboardScreenState extends State<DashboardScreen> {
           ),
         if (_tab == 3)
           AudienceStats(state: widget.state)
+        else if (_tab == 4)
+          AudienceStats(
+            key: ValueKey('site-$_days'),
+            state: widget.state,
+            siteDays: _days,
+          )
         else if (r == null && _error == null)
           const LoadingBlock()
         else if (r != null)

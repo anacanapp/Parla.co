@@ -21,6 +21,16 @@ String _metricTitle(String metric) {
     'consent_granted' => 'Razılıq verənlər',
     'tools' => 'Alətlər (serverdə saxlayanlar)',
     'daily_active' => 'Gündəlik aktiv (analitika razılığı ilə)',
+    'site:view' => 'Səhifə baxışları',
+    'site:visitors' => 'Gündəlik ziyarətçilər',
+    'site:language' => 'Saytın dili',
+    'site:referrer' => 'Haradan gəliblər',
+    'site:campaign' => 'Kampaniya (utm: mənbə / kanal / ad)',
+    'site:device' => 'Cihaz',
+    'site:browser' => 'Brauzer',
+    'site:os' => 'Əməliyyat sistemi',
+    'site:click' => 'Düymə klikləri',
+    'site:depth' => 'Oxuma dərinliyi (səhifə | %)',
     _ => metric,
   };
 }
@@ -42,6 +52,26 @@ String _label(String metric, String label) {
     'az' => 'Azərbaycan dili',
     'ru' => 'Rus dili',
     'en' => 'İngilis dili',
+    'direct' => 'Birbaşa (keçidsiz)',
+    'mobile' => 'Telefon',
+    'tablet' => 'Planşet',
+    'desktop' => 'Kompüter',
+    'appstore' => 'App Store düyməsi',
+    'googleplay' => 'Google Play düyməsi',
+    'blog-card' => 'Məqalə kartı',
+    'blog-all' => 'Bütün məqalələr',
+    'nav-features' => 'Menyu: İmkanlar',
+    'nav-privacy' => 'Menyu: Məxfilik',
+    'nav-blog' => 'Menyu: Bloq',
+    'lang-az' => 'Dil: AZ',
+    'lang-ru' => 'Dil: RU',
+    'lang-en' => 'Dil: EN',
+    'legal-privacy' => 'Məxfilik siyasəti',
+    'legal-terms' => 'İstifadə şərtləri',
+    '/' => 'Ana səhifə',
+    '/blog' => 'Bloq',
+    '/privacy' => 'Məxfilik siyasəti',
+    '/terms' => 'İstifadə şərtləri',
     _ => label,
   };
 }
@@ -50,9 +80,12 @@ String _label(String metric, String label) {
 /// Groups under the minimum size show as "<10"; health answers are never
 /// counted.
 class AudienceStats extends StatefulWidget {
-  const AudienceStats({super.key, required this.state});
+  const AudienceStats({super.key, required this.state, this.siteDays});
 
   final StaffState state;
+
+  /// Shows the website's totals of the last [siteDays] days instead.
+  final int? siteDays;
 
   @override
   State<AudienceStats> createState() => _AudienceStatsState();
@@ -70,7 +103,10 @@ class _AudienceStatsState extends State<AudienceStats> {
 
   Future<void> _load() async {
     try {
-      final r = await widget.state.api.statsReport();
+      final days = widget.siteDays;
+      final r = days == null
+          ? await widget.state.api.statsReport()
+          : await widget.state.api.siteReport(days);
       if (mounted) setState(() => _report = r);
     } on Object catch (e) {
       if (mounted) setState(() => _error = e);
@@ -91,6 +127,17 @@ class _AudienceStatsState extends State<AudienceStats> {
             title: errorText(_error!),
           ),
         if (r == null && _error == null) const LoadingBlock(),
+        if (widget.siteDays != null) ...[
+          const Notice(
+            key: ValueKey('site-note'),
+            icon: Icons.public,
+            title: 'parla.anacan.az saytı',
+            body:
+                'Yalnız gündəlik cəm saylar: cookie, IP ünvanı və ziyarətçi '
+                'identifikatoru saxlanılmır. Ziyarətçi günə bir dəfə sayılır.',
+          ),
+          const SizedBox(height: 16),
+        ],
         if (r != null)
           ResponsiveGrid(
             minItemWidth: 340,

@@ -1215,6 +1215,25 @@ class EndpointShop extends _isc.EndpointRef {
       );
 }
 
+/// The website's statistics for the admin panel (admins only): totals of
+/// the last days per metric. The totals name no visitor, so small counts
+/// are shown as they are.
+/// {@category Endpoint}
+class EndpointSiteStatsAdmin extends _isc.EndpointRef {
+  EndpointSiteStatsAdmin(_isc.EndpointCaller caller) : super(caller);
+
+  @override
+  String get name => 'siteStatsAdmin';
+
+  /// The totals of the last [days] days (1 to 366), today included.
+  _ida.Future<_iod6dk31.StatsReport> report(int days) =>
+      caller.callServerEndpoint<_iod6dk31.StatsReport>(
+        'siteStatsAdmin',
+        'report',
+        {'days': days},
+      );
+}
+
 /// Staff accounts, for admins only (second factor required).
 /// {@category Endpoint}
 class EndpointStaffAdmin extends _isc.EndpointRef {
@@ -1565,6 +1584,7 @@ class Client extends _isc.ServerpodClientShared {
     sport = EndpointSport(this);
     shopAdmin = EndpointShopAdmin(this);
     shop = EndpointShop(this);
+    siteStatsAdmin = EndpointSiteStatsAdmin(this);
     staffAdmin = EndpointStaffAdmin(this);
     staff = EndpointStaff(this);
     activity = EndpointActivity(this);
@@ -1614,6 +1634,8 @@ class Client extends _isc.ServerpodClientShared {
 
   late final EndpointShop shop;
 
+  late final EndpointSiteStatsAdmin siteStatsAdmin;
+
   late final EndpointStaffAdmin staffAdmin;
 
   late final EndpointStaff staff;
@@ -1653,6 +1675,7 @@ class Client extends _isc.ServerpodClientShared {
     'sport': sport,
     'shopAdmin': shopAdmin,
     'shop': shop,
+    'siteStatsAdmin': siteStatsAdmin,
     'staffAdmin': staffAdmin,
     'staff': staff,
     'activity': activity,

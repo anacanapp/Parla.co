@@ -110,7 +110,21 @@ Future<FakeAdminApi> _pump(WidgetTester tester, StaffRole role) async {
         ),
       ],
     )
-    ..dashboardReport = _dashboard;
+    ..dashboardReport = _dashboard
+    ..site = StatsReport(
+      generatedAt: DateTime.utc(2026, 11, 27),
+      minGroupSize: 1,
+      groups: [
+        StatsGroup(
+          metric: 'site:referrer',
+          counts: [
+            StatsCount(label: 'instagram.com', count: 3),
+            StatsCount(label: 'direct', count: 1),
+          ],
+          total: 4,
+        ),
+      ],
+    );
   await tester.pumpWidget(AdminApp(api: api));
   await tester.pumpAndSettle();
   return api;
@@ -200,6 +214,14 @@ void main() {
     await _tap(tester, find.byKey(const ValueKey('dash-tab-audience')));
     expect(find.text('40'), findsOneWidget);
     expect(find.text('87%'), findsOneWidget);
+
+    await _tap(tester, find.byKey(const ValueKey('dash-tab-site')));
+    expect(api.calls, contains('site:7'));
+    expect(find.byKey(const ValueKey('site-note')), findsOneWidget);
+    expect(find.text('Haradan gəliblər'), findsOneWidget);
+    expect(find.text('instagram.com'), findsOneWidget);
+    expect(find.text('Birbaşa (keçidsiz)'), findsOneWidget);
+    expect(find.text('75%'), findsOneWidget);
   });
 
   for (final role in [StaffRole.editor, StaffRole.expert, StaffRole.support]) {
