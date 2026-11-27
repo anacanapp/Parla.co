@@ -7,6 +7,7 @@ import '../ui/warm.dart';
 import '../ui/parla_icons.dart';
 import 'blog_widgets.dart';
 import '../ui/text_case.dart';
+import '../ui/locale_text.dart';
 
 /// One section of the Discover tiles.
 class BentoSection {
@@ -593,7 +594,7 @@ class ArticleRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
-    final language = Localizations.localeOf(context).languageCode;
+    final language = contentLanguageOf(context);
     return Padding(
       padding: const EdgeInsets.only(bottom: 10),
       child: GlassSurface(

@@ -85,8 +85,9 @@ abstract final class ParlaFonts {
   /// ExtraLight (200) to ExtraBold (800).
   static const sans = 'Onest';
 
-  /// Fallback for anything [sans] lacks.
-  static const fallback = ['PlusJakartaSans'];
+  /// Fallback for anything [sans] lacks: Georgian letters (Noto Sans
+  /// Georgian), then other Latin signs.
+  static const fallback = ['NotoSansGeorgian', 'PlusJakartaSans'];
 
   /// Italic accent lines; covers Latin, Azerbaijani and Cyrillic.
   static const accent = 'PlayfairDisplay';

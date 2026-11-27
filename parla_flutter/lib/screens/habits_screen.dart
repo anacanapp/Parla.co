@@ -14,6 +14,7 @@ import '../routines/custom_routines.dart';
 import '../routines/routine_section.dart';
 import '../ui/parla_icons.dart';
 import '../ui/warm.dart';
+import '../ui/locale_text.dart';
 
 /// M-17 "Rutin": face, hair and body routines, the user's own routines,
 /// today's habits and the last seven days.
@@ -278,7 +279,7 @@ class _HabitsBody extends StatelessWidget {
 
   static String _oneDecimal(BuildContext context, double value) => NumberFormat(
     '0.#',
-    Localizations.localeOf(context).toString(),
+    dateLocaleOf(context),
   ).format(value);
 
   /// Movement bars relative to the week's longest day (at least an hour).
@@ -518,7 +519,7 @@ class _WeekCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final locale = Localizations.localeOf(context).toString();
+    final locale = dateLocaleOf(context);
     final weekday = DateFormat.E(locale);
     return Semantics(
       container: true,

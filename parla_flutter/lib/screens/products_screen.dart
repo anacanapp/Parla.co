@@ -13,6 +13,7 @@ import '../parla_scope.dart';
 import '../routes.dart';
 import '../services/parla_api.dart';
 import '../ui/brand.dart';
+import '../ui/locale_text.dart';
 import '../ui/warm.dart';
 import '../ui/night.dart';
 import '../ui/parla_ui.dart';
@@ -733,7 +734,7 @@ class _IngredientTile extends StatelessWidget {
     final entry = match.entry;
     final explained = ingredientText(
       match.name,
-      Localizations.localeOf(context).languageCode,
+      contentLanguageOf(context),
     );
     return GlassCard(
       shadow: false,

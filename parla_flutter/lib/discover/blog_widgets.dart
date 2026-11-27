@@ -7,6 +7,7 @@ import '../ui/night.dart';
 import '../ui/parla_icons.dart';
 import 'discover_widgets.dart';
 import '../ui/text_case.dart';
+import '../ui/locale_text.dart';
 
 /// The cover of an article, or a block in its category's tint with the
 /// blog icon until the team uploads one.
@@ -97,7 +98,7 @@ class FeaturedArticleCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final text = Theme.of(context).textTheme;
-    final language = Localizations.localeOf(context).languageCode;
+    final language = contentLanguageOf(context);
     final summary = item.text('summary', language);
     return Padding(
       padding: const EdgeInsets.only(bottom: 18),
@@ -161,7 +162,7 @@ class RelatedArticleCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final language = Localizations.localeOf(context).languageCode;
+    final language = contentLanguageOf(context);
     return SizedBox(
       width: 150,
       child: InkWell(

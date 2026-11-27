@@ -56,6 +56,29 @@ and expert checks in `docs/RELEASE.md` are done.
   `tool/create_local_passwords.sh`; deployments use `SERVERPOD_PASSWORD_*`
   environment variables. CI runs gitleaks.
 
+## Languages (owner, 2026-11-27)
+
+- **Interface:** nine languages in the owner's order, Azerbaijani first:
+  az, tr, ru, en, kk, uz (Latin), tk, ky, ka (`interfaceLanguages`). The
+  interface texts of tr, kk, uz, tk, ky and ka are translations made with
+  Claude from the Azerbaijani texts; each needs a native speaker's check.
+- **Who sees what:** the language picker lists `openInterfaceLanguages`
+  (az, ru, en); a language is added there after its check. A test build
+  with `--dart-define=PARLA_ALL_LANGUAGES=true` lists all nine. A phone set
+  to a language not yet open starts in Azerbaijani.
+- **Texts Parla stands behind** (consent texts, legal documents, quiz
+  questions, content, push and reminder texts) stay in az, ru and en
+  (`supportedLanguages`), and the server stores only those. Other
+  interface languages show the closest (`contentLanguageFor`): tr → az;
+  kk, uz, tk, ky → ru; ka → en. In the app, `AppSettings.contentLanguage`
+  and `contentLanguageOf(context)` give it; dates use `dateLocaleOf`.
+  Translating consent texts and legal documents into a new language
+  needs a lawyer's check and ships as a new consent version.
+- **Fonts and system texts:** Georgian uses Noto Sans Georgian (OFL) as a
+  fallback of Onest. Flutter has no Turkmen system texts (dialog buttons,
+  date picker), so Turkmen uses the Turkish ones (`SystemTextsDelegate`);
+  dates in Turkmen use Russian (`intl` has no Turkmen).
+
 ## Health data (sprint 2)
 
 - **Envelope encryption (ENC-3).** Health answers (diagnoses, allergies,

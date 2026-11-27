@@ -44,6 +44,22 @@ void main() {
     });
   });
 
+  group('languages', () {
+    test('every interface language shows texts Parla has', () {
+      expect(interfaceLanguages.first, 'az');
+      expect(interfaceLanguages, containsAll(supportedLanguages));
+      expect(interfaceLanguages, containsAll(openInterfaceLanguages));
+      for (final language in interfaceLanguages) {
+        expect(supportedLanguages, contains(contentLanguageFor(language)));
+      }
+      expect(contentLanguageFor('tr'), 'az');
+      expect(contentLanguageFor('kk'), 'ru');
+      expect(contentLanguageFor('ka'), 'en');
+      expect(contentLanguageFor('ru'), 'ru');
+      expect(contentLanguageFor('xx'), defaultLanguage);
+    });
+  });
+
   group('consent texts', () {
     test('every current text exists in every supported language', () {
       for (final kind in ConsentKind.values) {

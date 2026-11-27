@@ -20,6 +20,7 @@ import 'skin_tips.dart';
 import 'article_body.dart';
 import 'banner_strip.dart';
 import '../ui/text_case.dart';
+import '../ui/locale_text.dart';
 
 /// Blogs: category chips and the published articles.
 class BlogListScreen extends StatefulWidget {
@@ -40,7 +41,7 @@ class _BlogListScreenState extends State<BlogListScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final library = ParlaScope.of(context).content;
-    final language = Localizations.localeOf(context).languageCode;
+    final language = contentLanguageOf(context);
     return ListenableBuilder(
       listenable: library,
       builder: (context, _) {
@@ -120,7 +121,7 @@ class BlogPostScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    final language = Localizations.localeOf(context).languageCode;
+    final language = contentLanguageOf(context);
     final library = ParlaScope.of(context).content;
     final item = library.find('article', slug);
     void back() => context.go(Routes.blog);
@@ -310,7 +311,7 @@ class _ExpertsScreenState extends State<ExpertsScreen> {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    final language = Localizations.localeOf(context).languageCode;
+    final language = contentLanguageOf(context);
     final library = ParlaScope.of(context).content;
     return ListenableBuilder(
       listenable: library,
@@ -514,7 +515,7 @@ class NutritionScreen extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
     final scope = ParlaScope.of(context);
-    final language = Localizations.localeOf(context).languageCode;
+    final language = contentLanguageOf(context);
     final muted = text.bodySmall?.copyWith(color: ParlaColors.muted);
     return ListenableBuilder(
       listenable: Listenable.merge([
@@ -696,7 +697,7 @@ class RecipeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    final language = Localizations.localeOf(context).languageCode;
+    final language = contentLanguageOf(context);
     final scope = ParlaScope.of(context);
     final r = scope.content.find('recipe', slug);
     void back() => context.go(Routes.nutrition);

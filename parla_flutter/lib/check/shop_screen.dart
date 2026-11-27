@@ -17,6 +17,7 @@ import '../ui/parla_ui.dart';
 import '../ui/warm.dart';
 import 'glass_bits.dart';
 import '../ui/text_case.dart';
+import '../ui/locale_text.dart';
 
 String shopCategoryText(AppLocalizations l10n, String id) => switch (id) {
   'face' => l10n.shopCategoryFace,
@@ -318,7 +319,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final language = Localizations.localeOf(context).languageCode;
+    final language = contentLanguageOf(context);
     final sponsor = sponsorOf(item);
     final name = item.text('name', language);
     return SquircleCard(
@@ -430,7 +431,7 @@ class ShopProductScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    final language = Localizations.localeOf(context).languageCode;
+    final language = contentLanguageOf(context);
     final scope = ParlaScope.of(context);
     return ListenableBuilder(
       listenable: Listenable.merge([scope.content, ShopSales.open]),
@@ -611,7 +612,7 @@ class ShopProductScreen extends StatelessWidget {
 /// "My orders".
 Future<void> buyProduct(BuildContext context, PublishedItem item) async {
   final l10n = AppLocalizations.of(context);
-  final language = Localizations.localeOf(context).languageCode;
+  final language = contentLanguageOf(context);
   final scope = ParlaScope.of(context);
   final price = l10n.shopPrice('${item.data['price'] ?? ''}');
   final seller = item.data['seller'] == 'brand'
@@ -733,7 +734,7 @@ class _ShopOrdersScreenState extends State<ShopOrdersScreen>
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    final language = Localizations.localeOf(context).languageCode;
+    final language = contentLanguageOf(context);
     final orders = _orders;
     String money(int q) =>
         l10n.shopPrice('${q ~/ 100}.${(q % 100).toString().padLeft(2, '0')}');

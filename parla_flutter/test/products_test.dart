@@ -225,8 +225,20 @@ void main() {
       'токсич',
       'harmful',
       'toxic',
+      'zararlı',
+      'zehirli',
+      'zararli',
+      'zaharli',
+      'zyýanly',
+      'zäherli',
+      'зиянды',
+      'уытты',
+      'зыяндуу',
+      'уулуу',
+      'მავნე',
+      'ტოქსიკ',
     ];
-    for (final lang in ['az', 'ru', 'en']) {
+    for (final lang in interfaceLanguages) {
       final arb = File(
         'lib/l10n/app_$lang.arb',
       ).readAsStringSync().toLowerCase();

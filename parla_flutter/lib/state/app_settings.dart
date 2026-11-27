@@ -22,7 +22,7 @@ class AppSettings extends ChangeNotifier {
     final look = prefs.getString(_appearanceKey);
     return AppSettings._(
       prefs,
-      supportedLanguages.contains(saved) ? saved : null,
+      interfaceLanguages.contains(saved) ? saved : null,
       Appearance.values.where((a) => a.name == look).firstOrNull ??
           Appearance.system,
     );
@@ -41,13 +41,20 @@ class AppSettings extends ChangeNotifier {
     await _prefs.setString(_appearanceKey, appearance.name);
   }
 
-  /// The chosen language, or `null` on first launch.
+  /// The chosen interface language, or `null` on first launch.
   String? get language => _language;
+
+  /// The language of consent texts, legal documents, quiz questions,
+  /// content and notifications for this person (see `contentLanguageFor`):
+  /// the interface language where Parla has those texts, else the closest.
+  /// The server only ever gets this one.
+  String get contentLanguage =>
+      contentLanguageFor(_language ?? defaultLanguage);
 
   Locale? get locale => _language == null ? null : Locale(_language!);
 
   Future<void> setLanguage(String language) async {
-    assert(supportedLanguages.contains(language));
+    assert(interfaceLanguages.contains(language));
     _language = language;
     notifyListeners();
     await _prefs.setString(_languageKey, language);

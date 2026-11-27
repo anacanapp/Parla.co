@@ -3,6 +3,7 @@ import 'package:parla_shared/parla_shared.dart';
 import 'package:video_player/video_player.dart';
 
 import '../services/parla_api.dart';
+import '../ui/locale_text.dart';
 
 /// An exercise's video: looping, from our own server (the team uploads it;
 /// the server keeps one sound track and strips metadata). Its sound
@@ -118,7 +119,7 @@ class _ExerciseVideoState extends State<ExerciseVideo> {
 
   @override
   Widget build(BuildContext context) {
-    final language = Localizations.localeOf(context).languageCode;
+    final language = contentLanguageOf(context);
     final alt = ContentRules.pick(widget.video.alt, language);
     final Widget child;
     if (ExerciseVideo.debugPlayer case final player?) {

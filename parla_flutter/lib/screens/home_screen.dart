@@ -21,6 +21,7 @@ import '../ui/brand.dart';
 import '../ui/parla_icons.dart';
 import '../ui/parla_mark.dart';
 import '../ui/warm.dart';
+import '../ui/locale_text.dart';
 
 /// M-14 "Bu gün" (design A+): a lemon header with the greeting and the
 /// routine switch, then a cream sheet with the Smile Meter summary, the
@@ -118,7 +119,7 @@ class _HomeBody extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
     final now = scope.clock();
-    final language = scope.settings.language ?? defaultLanguage;
+    final language = scope.settings.contentLanguage;
 
     final kind = controller.kind;
     final habits = controller.habits;
@@ -372,7 +373,7 @@ class _MoveWeekCard extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     // Short day names from Monday (Material's narrow names are digits in
     // Azerbaijani). 2024-01-01 was a Monday.
-    final locale = Localizations.localeOf(context).toString();
+    final locale = dateLocaleOf(context);
     final days = [
       for (var i = 0; i < 7; i++)
         DateFormat.E(

@@ -35,7 +35,7 @@ class _ConsentScreenState extends State<ConsentScreen> {
     final scope = ParlaScope.of(context);
     final l10n = AppLocalizations.of(context);
     final onboarding = scope.onboarding;
-    final language = scope.settings.language ?? defaultLanguage;
+    final language = scope.settings.contentLanguage;
     if (onboarding.birthYear == null || onboarding.countryCode == null) {
       context.go(Routes.age);
       return;
@@ -75,8 +75,7 @@ class _ConsentScreenState extends State<ConsentScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final language =
-        ParlaScope.of(context).settings.language ?? defaultLanguage;
+    final language = ParlaScope.of(context).settings.contentLanguage;
     return ParlaPage(
       title: l10n.consentTitle,
       eyebrow: l10n.onboardingStepPrivacy,
