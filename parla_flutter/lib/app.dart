@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/cupertino.dart' show CupertinoLocalizations;
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:go_router/go_router.dart';
@@ -243,9 +244,15 @@ class _ParlaAppState extends State<ParlaApp> {
             ],
             localizationsDelegates: const [
               AppLocalizations.delegate,
-              SystemTextsDelegate(GlobalMaterialLocalizations.delegate),
-              SystemTextsDelegate(GlobalWidgetsLocalizations.delegate),
-              SystemTextsDelegate(GlobalCupertinoLocalizations.delegate),
+              SystemTextsDelegate<MaterialLocalizations>(
+                GlobalMaterialLocalizations.delegate,
+              ),
+              SystemTextsDelegate<WidgetsLocalizations>(
+                GlobalWidgetsLocalizations.delegate,
+              ),
+              SystemTextsDelegate<CupertinoLocalizations>(
+                GlobalCupertinoLocalizations.delegate,
+              ),
             ],
             routerConfig: _router,
           ),

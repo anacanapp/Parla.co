@@ -48,10 +48,10 @@ const List<String> interfaceLanguages = [
   'ka',
 ];
 
-/// Interface languages people can choose today. A new one is added here
-/// after a native speaker has checked its translation; until then it is
-/// shown only in test builds.
-const List<String> openInterfaceLanguages = ['az', 'ru', 'en'];
+/// Interface languages people can choose: all of them (owner,
+/// 2026-11-27: open to everyone; the translations still get a native
+/// speaker's check). A language can be taken out here while it is fixed.
+const List<String> openInterfaceLanguages = interfaceLanguages;
 
 /// The [supportedLanguages] text shown to someone using [language]: the
 /// interface language itself where Parla has its texts, else the closest

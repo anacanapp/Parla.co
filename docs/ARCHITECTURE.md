@@ -62,10 +62,9 @@ and expert checks in `docs/RELEASE.md` are done.
   az, tr, ru, en, kk, uz (Latin), tk, ky, ka (`interfaceLanguages`). The
   interface texts of tr, kk, uz, tk, ky and ka are translations made with
   Claude from the Azerbaijani texts; each needs a native speaker's check.
-- **Who sees what:** the language picker lists `openInterfaceLanguages`
-  (az, ru, en); a language is added there after its check. A test build
-  with `--dart-define=PARLA_ALL_LANGUAGES=true` lists all nine. A phone set
-  to a language not yet open starts in Azerbaijani.
+- **Who sees what:** all nine are open to everyone (owner, 2026-11-27);
+  `openInterfaceLanguages` lists them, so one can be taken out while it is
+  fixed. A native speaker's check of each translation is still due.
 - **Texts Parla stands behind** (consent texts, legal documents, quiz
   questions, content, push and reminder texts) stay in az, ru and en
   (`supportedLanguages`), and the server stores only those. Other

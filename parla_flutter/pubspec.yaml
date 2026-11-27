@@ -111,9 +111,6 @@ flutter:
           weight: 700
         - asset: assets/fonts/PlusJakartaSans-ExtraBold.ttf
           weight: 800
-    # Onest is the interface face of the night design (2026-11-23): it
-    # covers Latin, Azerbaijani and Cyrillic, with light weights for large
-    # numbers and greetings.
     # Georgian script for the Georgian interface (SIL OFL 1.1, see
     # assets/fonts/OFL-NotoSansGeorgian.txt); Onest has no Georgian letters.
     - family: NotoSansGeorgian
@@ -128,6 +125,9 @@ flutter:
           weight: 600
         - asset: assets/fonts/NotoSansGeorgian-Bold.ttf
           weight: 700
+    # Onest is the interface face of the night design (2026-11-23): it
+    # covers Latin, Azerbaijani and Cyrillic, with light weights for large
+    # numbers and greetings.
     - family: Onest
       fonts:
         - asset: assets/fonts/Onest-ExtraLight.ttf

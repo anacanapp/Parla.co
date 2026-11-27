@@ -677,9 +677,14 @@ class _DeleteAccountScreenState extends State<DeleteAccountScreen> {
     super.dispose();
   }
 
-  /// Case-insensitive match that treats Azerbaijani İ/ı correctly.
-  static String _fold(String s) =>
-      s.trim().replaceAll('İ', 'i').replaceAll('I', 'ı').toLowerCase();
+  /// Forgiving match of the typed confirmation word in any interface
+  /// language: case, the four i's (İ I ı i, which keyboards mix up) and
+  /// apostrophe-like signs (Uzbek ʻ ʼ, typed as ' ‘ ’ or `) do not matter.
+  static String _fold(String s) => s
+      .trim()
+      .replaceAll(RegExp("[ʻʼ'‘’`´]"), '')
+      .replaceAll(RegExp('[İIı]'), 'i')
+      .toLowerCase();
 
   Future<void> _delete() async {
     final scope = ParlaScope.of(context);

@@ -66,7 +66,9 @@ def main():
                 problems.append(f'{k}: {word} form differs')
         low = b.lower()
         for w in BANNED.get(code, []):
-            if w in low:
+            # At the start of a word only: Kazakh "улы" (poisonous) is
+            # also inside денсаулық (health) and сұлулық (beauty).
+            if re.search(r'(?<!\w)' + re.escape(w), low):
                 problems.append(f'{k}: banned word "{w}"')
     for p in problems:
         print(p)

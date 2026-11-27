@@ -8,13 +8,8 @@ import '../parla_scope.dart';
 import '../routes.dart';
 import '../ui/common.dart';
 
-/// Interface languages to choose from: the checked ones, or all of them
-/// in a test build (`--dart-define=PARLA_ALL_LANGUAGES=true`) so native
-/// speakers can check a new translation.
-List<String> get choosableLanguages =>
-    const bool.fromEnvironment('PARLA_ALL_LANGUAGES')
-    ? interfaceLanguages
-    : openInterfaceLanguages;
+/// Interface languages to choose from (see `openInterfaceLanguages`).
+List<String> get choosableLanguages => openInterfaceLanguages;
 
 /// M-01: interface language on first launch.
 class LanguageScreen extends StatefulWidget {
