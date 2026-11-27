@@ -4,6 +4,8 @@
 /// INCI name.
 library;
 
+import 'package:parla_shared/parla_shared.dart';
+
 /// Function and explanation of [inci] in [language], or `null`.
 (String, String)? ingredientText(String inci, String language) {
   final key = inci
@@ -13,12 +15,10 @@ library;
       .toUpperCase();
   final entry = ingredientTexts[key];
   if (entry == null) return null;
-  final i = switch (language) {
-    'ru' => 1,
-    'en' => 2,
-    _ => 0,
-  };
-  return (entry[i], entry[i + 3]);
+  return (
+    pickTriple(entry.sublist(0, 3), language),
+    pickTriple(entry.sublist(3, 6), language),
+  );
 }
 
 const ingredientTexts = <String, List<String>>{

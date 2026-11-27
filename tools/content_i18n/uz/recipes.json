@@ -1,0 +1,2853 @@
+{
+ "ajapsandal": {
+  "title": "Ajapsandal",
+  "ingredients": [
+   {
+    "name": "Baqlajon",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Pomidor",
+    "amount": "3 dona"
+   },
+   {
+    "name": "Qalampir",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Piyoz",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Sarimsoq",
+    "amount": "2 boʻlak"
+   },
+   {
+    "name": "Kashnich, rayhon",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "2 osh qoshiq"
+   }
+  ],
+  "steps": [
+   "Sabzavotlarni yirik qilib toʻgʻra.",
+   "Baqlajonni duxovkada 200°C da 15 daqiqa pishir (qovurish oʻrniga).",
+   "Qolgan sabzavotlar bilan qozonda 15 daqiqa dimla, koʻkat va sarimsoq qoʻsh."
+  ]
+ },
+ "almond-trout": {
+  "title": "Bodomli gulmohi",
+  "ingredients": [
+   {
+    "name": "Gulmohi (forel) filesi",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Bodom parraklari",
+    "amount": "2 osh qoshiq"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Petrushka",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Yashil loviya (dukkakli)",
+    "amount": "200 g"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Loviyani 5 daqiqa qaynatib, suvini sizdir.",
+   "Baliqqa tuz-murch sepib, tovada terisini pastga qilib 4 daqiqa, agʻdarib yana 2 daqiqa pishir.",
+   "Baliqni ol, oʻsha tovada bodomni 1 daqiqa qovur, limon sharbati va petrushka qoʻsh.",
+   "Loviya ustiga baliqni qoʻy, bodomli sousni quy."
+  ]
+ },
+ "apple-almond-butter": {
+  "title": "Bodom pastasi bilan olma tilimlari",
+  "ingredients": [
+   {
+    "name": "Olma",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Bodom pastasi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Dolchin",
+    "amount": "1 chimdim"
+   },
+   {
+    "name": "Kanop urugʻi",
+    "amount": "1 choy qoshiq (ixtiyoriy)"
+   }
+  ],
+  "steps": [
+   "Olmani tilimla.",
+   "Tilimlar ustiga bodom pastasini surt.",
+   "Dolchin va urugʻ sep."
+  ]
+ },
+ "azerbaijani-cheese-board": {
+  "title": "Ozarbayjoncha pishloq dasturxoni",
+  "ingredients": [
+   {
+    "name": "Oq pishloq (brinza)",
+    "amount": "150 g"
+   },
+   {
+    "name": "Motal pishlogʻi",
+    "amount": "100 g"
+   },
+   {
+    "name": "Tvorog",
+    "amount": "100 g"
+   },
+   {
+    "name": "Koʻkatlar (rayhon, tarxun, yalpiz)",
+    "amount": "1 bogʻ"
+   },
+   {
+    "name": "Yongʻoq",
+    "amount": "8 dona"
+   },
+   {
+    "name": "Pomidor, bodring",
+    "amount": "2 stakan"
+   },
+   {
+    "name": "Butun donli lavash yoki tandir non",
+    "amount": "2 dona"
+   }
+  ],
+  "steps": [
+   "Pishloqlarni tilimla, tvorogni kosaga sol.",
+   "Koʻkatlarni yuvib quritib ol, sabzavotlarni toʻgʻra.",
+   "Hammasini yongʻoq va non bilan katta laganga ter."
+  ]
+ },
+ "baba-ganoush": {
+  "title": "Baqlajon pyuresi (baba ganush)",
+  "ingredients": [
+   {
+    "name": "Baqlajon",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Taxin (kunjut pastasi)",
+    "amount": "2 osh qoshiq"
+   },
+   {
+    "name": "Sarimsoq",
+    "amount": "1 boʻlak"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Anor donasi",
+    "amount": "2 osh qoshiq"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Tuz",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Baqlajonlarni sanchqi bilan teshib, 220°C duxovkada yoki gaz olovida 35–40 daqiqa, ichi yumshaguncha pishir.",
+   "Sovigach poʻstini archib, 10 daqiqa elakda tut.",
+   "Taxin, sarimsoq, limon sharbati va tuz bilan ezib aralashtir.",
+   "Ustidan moy sep, anor bilan bezat."
+  ]
+ },
+ "baked-apple": {
+  "title": "Dolchinli pishirilgan olma",
+  "ingredients": [
+   {
+    "name": "Olma",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Yongʻoq",
+    "amount": "4 dona"
+   },
+   {
+    "name": "Dolchin",
+    "amount": "½ choy qoshiq"
+   },
+   {
+    "name": "Qatiq",
+    "amount": "2 osh qoshiq (ixtiyoriy)"
+   }
+  ],
+  "steps": [
+   "Olmaning oʻrtasini oʻyib ol.",
+   "Ichiga maydalangan yongʻoq va dolchin sol.",
+   "180°C duxovkada 20 daqiqa pishir, qatiq bilan dasturxonga tort."
+  ]
+ },
+ "baked-fish-veg": {
+  "title": "Duxovkada limonli baliq va sabzavotlar",
+  "ingredients": [
+   {
+    "name": "Baliq filesi (kutum, losos va h.k.)",
+    "amount": "2 boʻlak"
+   },
+   {
+    "name": "Kabachok",
+    "amount": "1 ta kichik"
+   },
+   {
+    "name": "Qalampir",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Shivit",
+    "amount": "ozgina"
+   }
+  ],
+  "steps": [
+   "Sabzavotlarni toʻgʻrab, moy surt.",
+   "Ustiga baliq va limon tilimlarini qoʻy.",
+   "200°C duxovkada 18–20 daqiqa pishir, shivit bilan dasturxonga tort."
+  ]
+ },
+ "baked-herb-chicken-kofta": {
+  "title": "Duxovkada koʻkatli tovuq koʻftasi",
+  "ingredients": [
+   {
+    "name": "Tovuq qiymasi",
+    "amount": "500 g"
+   },
+   {
+    "name": "Piyoz (qirgʻichdan oʻtkazilgan)",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Kashnich, shivit",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Tuxum",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Suli yormasi",
+    "amount": "3 osh qoshiq"
+   },
+   {
+    "name": "Zira",
+    "amount": "½ choy qoshiq"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Barcha masalliqlarni yaxshilab qor.",
+   "Hoʻl qoʻl bilan 16 ta koʻfta yasab, pergament qogʻozga ter.",
+   "200°C duxovkada 18–20 daqiqa, ichi toʻliq pishguncha pishir. Qatiqli sous va salat bilan dasturxonga tort."
+  ]
+ },
+ "baked-sea-bass": {
+  "title": "Koʻkat va limon bilan butunligicha pishirilgan levrek",
+  "ingredients": [
+   {
+    "name": "Levrek (tozalangan)",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Shivit, petrushka",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Sarimsoq",
+    "amount": "2 boʻlak"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "2 osh qoshiq"
+   },
+   {
+    "name": "Cherri pomidor",
+    "amount": "10 dona"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Duxovkani 200°C gacha qizdir.",
+   "Baliqning ichini tuz, murch, limon tilimlari, sarimsoq va koʻkat bilan toʻldir.",
+   "Idishga qoʻy, atrofiga pomidorlarni ter, ustiga moy surt.",
+   "20–25 daqiqa, goʻshti oson qatlam-qatlam ajralguncha pishir."
+  ]
+ },
+ "banana-bread-chocolate": {
+  "title": "Achchiq shokoladli banan noni",
+  "ingredients": [
+   {
+    "name": "Pishgan banan",
+    "amount": "3 dona"
+   },
+   {
+    "name": "Tuxum",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Oʻsimlik yogʻi",
+    "amount": "80 ml"
+   },
+   {
+    "name": "Jigarrang shakar",
+    "amount": "70 g"
+   },
+   {
+    "name": "Un",
+    "amount": "200 g (yarmi butun donli)"
+   },
+   {
+    "name": "Kakao kukuni",
+    "amount": "2 osh qoshiq"
+   },
+   {
+    "name": "Soda",
+    "amount": "1 choy qoshiq"
+   },
+   {
+    "name": "Tuz",
+    "amount": "½ choy qoshiq"
+   },
+   {
+    "name": "Achchiq shokolad (maydalangan)",
+    "amount": "80 g"
+   }
+  ],
+  "steps": [
+   "Duxovkani 175°C gacha qizdir, qolipga qogʻoz toʻsha.",
+   "Bananni ez, tuxum, yogʻ va shakar bilan aralashtir.",
+   "Un, kakao, soda va tuzni qoʻsh, keyin shokoladning koʻp qismini aralashtir.",
+   "Qolipga quy, qolgan shokoladni ustiga sep, 50–55 daqiqa pishir."
+  ]
+ },
+ "banana-bread-classic": {
+  "title": "Klassik banan noni",
+  "ingredients": [
+   {
+    "name": "Pishgan banan",
+    "amount": "3 dona"
+   },
+   {
+    "name": "Tuxum",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Oʻsimlik yogʻi",
+    "amount": "80 ml"
+   },
+   {
+    "name": "Jigarrang shakar",
+    "amount": "80 g"
+   },
+   {
+    "name": "Un",
+    "amount": "220 g (yarmi butun donli)"
+   },
+   {
+    "name": "Soda",
+    "amount": "1 choy qoshiq"
+   },
+   {
+    "name": "Tuz",
+    "amount": "½ choy qoshiq"
+   },
+   {
+    "name": "Dolchin",
+    "amount": "1 choy qoshiq"
+   },
+   {
+    "name": "Vanil ekstrakti",
+    "amount": "1 choy qoshiq"
+   }
+  ],
+  "steps": [
+   "Duxovkani 175°C gacha qizdir, gʻishtsimon qolipga pergament qogʻoz toʻsha.",
+   "Bananni sanchqi bilan ez, tuxum, yogʻ, shakar va vanil bilan aralashtir.",
+   "Un, soda, tuz va dolchinni qoʻshib, faqat birikkuncha aralashtir.",
+   "Qolipga quyib, 50–55 daqiqa, choʻp quruq chiqquncha pishir; qolipda 10 daqiqa sovit."
+  ]
+ },
+ "banana-bread-oat-walnut": {
+  "title": "Suli va yongʻoqli banan noni (qoʻshimcha shakarsiz)",
+  "ingredients": [
+   {
+    "name": "Juda pishgan banan",
+    "amount": "4 dona"
+   },
+   {
+    "name": "Tuxum",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Oʻsimlik yogʻi",
+    "amount": "60 ml"
+   },
+   {
+    "name": "Suli uni (maydalangan suli)",
+    "amount": "100 g"
+   },
+   {
+    "name": "Butun donli un",
+    "amount": "120 g"
+   },
+   {
+    "name": "Pishiriq kukuni",
+    "amount": "1,5 choy qoshiq"
+   },
+   {
+    "name": "Dolchin",
+    "amount": "1 choy qoshiq"
+   },
+   {
+    "name": "Yongʻoq (maydalangan)",
+    "amount": "60 g"
+   },
+   {
+    "name": "Xurmo (maydalangan)",
+    "amount": "4 dona (ixtiyoriy)"
+   }
+  ],
+  "steps": [
+   "Duxovkani 175°C gacha qizdir, qolipga qogʻoz toʻsha.",
+   "Bananni ez, tuxum va yogʻ bilan aralashtir.",
+   "Suli uni, butun donli un, pishiriq kukuni va dolchinni qoʻsh, yongʻoq va xurmoni aralashtir.",
+   "Qolipga quyib, 45–50 daqiqa pishir; toʻliq sovigandan keyin tilimla."
+  ]
+ },
+ "banana-oat-cocoa-smoothie": {
+  "title": "Banan, suli va kakaoli smuzi",
+  "ingredients": [
+   {
+    "name": "Banan",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Suli yormasi",
+    "amount": "2 osh qoshiq"
+   },
+   {
+    "name": "Kakao kukuni",
+    "amount": "1 choy qoshiq"
+   },
+   {
+    "name": "Sut yoki oʻsimlik suti",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Yeryongʻoq pastasi",
+    "amount": "1 choy qoshiq (ixtiyoriy)"
+   }
+  ],
+  "steps": [
+   "Barcha masalliqlarni blenderga sol.",
+   "Suli toʻliq maydalanguncha 1 daqiqa aylantir.",
+   "Darhol ich."
+  ]
+ },
+ "banana-oat-cookies": {
+  "title": "Banan va suli pechenyesi",
+  "ingredients": [
+   {
+    "name": "Pishgan banan",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Suli yormasi",
+    "amount": "1,5 stakan"
+   },
+   {
+    "name": "Dolchin",
+    "amount": "½ choy qoshiq"
+   },
+   {
+    "name": "Achchiq shokolad boʻlakchalari yoki mayiz",
+    "amount": "30 g"
+   }
+  ],
+  "steps": [
+   "Duxovkani 180°C gacha qizdir.",
+   "Bananni ez, suli, dolchin va shokolad bilan aralashtirib, 5 daqiqa qoldir.",
+   "Pergament qogʻozga 12 ta yassi pechenye qoʻy.",
+   "15 daqiqa, chetlari qizarguncha pishir."
+  ]
+ },
+ "beet-carpaccio": {
+  "title": "Echki pishlogʻi va yongʻoqli lavlagi karpachchosi",
+  "ingredients": [
+   {
+    "name": "Pishirilgan lavlagi",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Echki pishlogʻi (pasterizatsiyalangan)",
+    "amount": "60 g"
+   },
+   {
+    "name": "Yongʻoq",
+    "amount": "6 dona"
+   },
+   {
+    "name": "Rukkola",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Balzamik sirka",
+    "amount": "1 choy qoshiq"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Lavlagini juda yupqa doira shaklida toʻgʻrab, likopchaga bir-birining ustiga ter.",
+   "Ustiga ushatilgan echki pishlogʻi, qovurilgan yongʻoq va rukkola qoʻy.",
+   "Moy va balzamik sirkani aralashtirib ustidan sep, tuz-murch qoʻsh."
+  ]
+ },
+ "beet-walnut-salad": {
+  "title": "Yongʻoq va sarimsoqli lavlagi salati",
+  "ingredients": [
+   {
+    "name": "Pishirilgan lavlagi",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Yongʻoq",
+    "amount": "6 dona"
+   },
+   {
+    "name": "Suzma",
+    "amount": "4 osh qoshiq"
+   },
+   {
+    "name": "Sarimsoq",
+    "amount": "1 boʻlak"
+   },
+   {
+    "name": "Olxoʻri qoqisi",
+    "amount": "4 dona (ixtiyoriy)"
+   },
+   {
+    "name": "Tuz",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Lavlagini yirik qirgʻichdan oʻtkaz.",
+   "Yongʻoq va qoqini mayda toʻgʻra.",
+   "Suzma va ezilgan sarimsoq bilan aralashtir, tuz qoʻsh."
+  ]
+ },
+ "berry-oats": {
+  "title": "Rezavorli suli kosasi",
+  "ingredients": [
+   {
+    "name": "Suli yormasi",
+    "amount": "4 osh qoshiq"
+   },
+   {
+    "name": "Qatiq",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Rezavor mevalar",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Yongʻoq",
+    "amount": "3–4 dona"
+   }
+  ],
+  "steps": [
+   "Sulini qatiq bilan aralashtirib, 5 daqiqa qoldir.",
+   "Ustiga rezavor mevalar va yongʻoq qoʻsh."
+  ]
+ },
+ "berry-yoghurt-smoothie": {
+  "title": "Rezavor va qatiqli smuzi",
+  "ingredients": [
+   {
+    "name": "Rezavor mevalar (muzlatilgan)",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Qatiq",
+    "amount": "¾ stakan"
+   },
+   {
+    "name": "Banan",
+    "amount": "½ dona"
+   },
+   {
+    "name": "Chia urugʻi",
+    "amount": "1 choy qoshiq (ixtiyoriy)"
+   }
+  ],
+  "steps": [
+   "Barcha masalliqlarni blenderga sol.",
+   "Bir xil boʻlguncha aylantir; quyuq boʻlsa, ozgina suv qoʻsh.",
+   "Darhol ich."
+  ]
+ },
+ "buckwheat-mushrooms": {
+  "title": "Qoʻziqorinli grechka",
+  "ingredients": [
+   {
+    "name": "Grechka",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Qoʻziqorin",
+    "amount": "200 g"
+   },
+   {
+    "name": "Piyoz",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Shivit",
+    "amount": "ozgina"
+   }
+  ],
+  "steps": [
+   "Grechkani 2 stakan suvda 15 daqiqa pishir.",
+   "Piyoz va qoʻziqorinni moyda 7–8 daqiqa pishir.",
+   "Aralashtirib, shivit bilan dasturxonga tort."
+  ]
+ },
+ "buckwheat-risotto": {
+  "title": "Qoʻziqorinli grechka rizottosi",
+  "ingredients": [
+   {
+    "name": "Grechka",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Qoʻziqorin",
+    "amount": "250 g"
+   },
+   {
+    "name": "Piyoz",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Sarimsoq",
+    "amount": "1 boʻlak"
+   },
+   {
+    "name": "Sabzavot bulyoni",
+    "amount": "3 stakan"
+   },
+   {
+    "name": "Parmezan (qirgʻichdan oʻtkazilgan)",
+    "amount": "30 g"
+   },
+   {
+    "name": "Togʻjambil",
+    "amount": "2 shoxcha"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Piyoz va sarimsoqni moyda 3 daqiqa yumshat, qoʻziqorinni qoʻshib 5 daqiqa pishir.",
+   "Grechkani qoʻsh, 1 daqiqa aralashtir.",
+   "Issiq bulyonni oz-ozdan qoʻshib, 15–18 daqiqa, grechka yumshaguncha pishir.",
+   "Olovdan ol, parmezan va togʻjambil bilan aralashtir."
+  ]
+ },
+ "bulgur-chickpea-salad": {
+  "title": "Bulgʻur va noʻxat salati",
+  "ingredients": [
+   {
+    "name": "Bulgʻur",
+    "amount": "½ stakan"
+   },
+   {
+    "name": "Pishirilgan noʻxat",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Pomidor",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Bodring",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Kashnich, yalpiz",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ dona"
+   }
+  ],
+  "steps": [
+   "Bulgʻurga 1 stakan qaynoq suv quyib, ustini yopib 10 daqiqa qoldir.",
+   "Sabzavot va koʻkatlarni toʻgʻra.",
+   "Hammasini noʻxat, moy va limon bilan aralashtir."
+  ]
+ },
+ "bulgur-stuffed-peppers": {
+  "title": "Bulgʻurli qalampir dolmasi",
+  "ingredients": [
+   {
+    "name": "Bolgar qalampiri",
+    "amount": "4 dona"
+   },
+   {
+    "name": "Bulgʻur",
+    "amount": "¾ stakan"
+   },
+   {
+    "name": "Kurka qiymasi",
+    "amount": "250 g"
+   },
+   {
+    "name": "Piyoz",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Tomat pastasi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Petrushka, yalpiz",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Piyozni moyda yumshat, qiymani qoʻshib 5 daqiqa pishir.",
+   "Bulgʻur, tomat pastasi, koʻkat va 1 stakan suv qoʻshib, 5 daqiqa dimla.",
+   "Qalampirlarning ichini tozalab, aralashma bilan toʻldir.",
+   "Idishga ter, tagiga 1 stakan suv quy, ustini yopib 180°C duxovkada 30–35 daqiqa pishir."
+  ]
+ },
+ "carrot-cake-light": {
+  "title": "Qatiqli kremli sabzi keki (kam shakarli)",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "200 g (yarmi butun donli)"
+   },
+   {
+    "name": "Pishiriq kukuni",
+    "amount": "2 choy qoshiq"
+   },
+   {
+    "name": "Soda",
+    "amount": "½ choy qoshiq"
+   },
+   {
+    "name": "Dolchin",
+    "amount": "2 choy qoshiq"
+   },
+   {
+    "name": "Tuz",
+    "amount": "1 chimdim"
+   },
+   {
+    "name": "Tuxum",
+    "amount": "3 dona"
+   },
+   {
+    "name": "Oʻsimlik yogʻi",
+    "amount": "120 ml"
+   },
+   {
+    "name": "Jigarrang shakar",
+    "amount": "120 g"
+   },
+   {
+    "name": "Sabzi (qirgʻichdan oʻtkazilgan)",
+    "amount": "300 g"
+   },
+   {
+    "name": "Yongʻoq (maydalangan)",
+    "amount": "60 g"
+   },
+   {
+    "name": "Krem uchun: suzma",
+    "amount": "200 g"
+   },
+   {
+    "name": "Krem uchun: krem-pishloq",
+    "amount": "100 g"
+   },
+   {
+    "name": "Krem uchun: asal",
+    "amount": "2 osh qoshiq"
+   }
+  ],
+  "steps": [
+   "Duxovkani 180°C gacha qizdir, 22 sm li qolipga pergament qogʻoz toʻsha.",
+   "Un, pishiriq kukuni, soda, dolchin va tuzni aralashtir.",
+   "Alohida idishda tuxum, yogʻ va shakarni chayqab, sabzi va yongʻoqni qoʻsh, keyin quruq masalliqlarni aralashtir.",
+   "Qolipga quyib, 40–45 daqiqa, choʻp quruq chiqquncha pishir; toʻliq sovit.",
+   "Suzma, krem-pishloq va asalni chayqab, kek ustiga surt."
+  ]
+ },
+ "carrot-cake-muffins": {
+  "title": "Sabzili maffinlar",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "200 g (butun donli)"
+   },
+   {
+    "name": "Pishiriq kukuni",
+    "amount": "2 choy qoshiq"
+   },
+   {
+    "name": "Dolchin",
+    "amount": "1,5 choy qoshiq"
+   },
+   {
+    "name": "Tuxum",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Qatiq",
+    "amount": "120 g"
+   },
+   {
+    "name": "Oʻsimlik yogʻi",
+    "amount": "60 ml"
+   },
+   {
+    "name": "Asal",
+    "amount": "80 g"
+   },
+   {
+    "name": "Sabzi (qirgʻichdan oʻtkazilgan)",
+    "amount": "200 g"
+   },
+   {
+    "name": "Mayiz",
+    "amount": "50 g"
+   }
+  ],
+  "steps": [
+   "Duxovkani 180°C gacha qizdir, maffin qolipiga 12 ta qogʻoz qoʻy.",
+   "Quruq masalliqlarni bir idishda, tuxum, qatiq, yogʻ va asalni boshqa idishda aralashtir.",
+   "Ikkalasini birlashtir, sabzi va mayizni qoʻsh — koʻp aralashtirma.",
+   "Qoliplarga taqsimlab, 20–22 daqiqa pishir."
+  ]
+ },
+ "cheese-herb-toast": {
+  "title": "Pishloq va koʻkatli tost",
+  "ingredients": [
+   {
+    "name": "Butun donli non",
+    "amount": "2 tilim"
+   },
+   {
+    "name": "Oq pishloq",
+    "amount": "40 g"
+   },
+   {
+    "name": "Bodring",
+    "amount": "½ dona"
+   },
+   {
+    "name": "Rayhon, yalpiz, kashnich",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Pomidor",
+    "amount": "1 dona"
+   }
+  ],
+  "steps": [
+   "Nonni qizartir.",
+   "Ustiga pishloq, toʻgʻralgan bodring, pomidor va koʻkat qoʻy."
+  ]
+ },
+ "chicken-durum": {
+  "title": "Tovuqli butun donli dyurum",
+  "ingredients": [
+   {
+    "name": "Butun donli lavash",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Pishirilgan tovuq (tilimlangan)",
+    "amount": "200 g"
+   },
+   {
+    "name": "Salat bargi",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Pomidor",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Bodring",
+    "amount": "½ dona"
+   },
+   {
+    "name": "Suzma",
+    "amount": "3 osh qoshiq"
+   },
+   {
+    "name": "Sarimsoq",
+    "amount": "½ boʻlak"
+   },
+   {
+    "name": "Sumax",
+    "amount": "½ choy qoshiq"
+   }
+  ],
+  "steps": [
+   "Suzmani sarimsoq va sumax bilan aralashtir.",
+   "Lavash ustiga sousni surt, tovuq va toʻgʻralgan sabzavotlarni ter.",
+   "Zich qilib oʻra, xohlasang quruq tovada 1 daqiqa qizartir."
+  ]
+ },
+ "chicken-veg-pan": {
+  "title": "Sabzavotli tovuq",
+  "ingredients": [
+   {
+    "name": "Tovuq filesi",
+    "amount": "250 g"
+   },
+   {
+    "name": "Brokkoli",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Qalampir",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Sabzi",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Sarimsoq",
+    "amount": "1 boʻlak"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   }
+  ],
+  "steps": [
+   "Tovuqni somoncha qilib toʻgʻrab, moyda 6–7 daqiqa pishir.",
+   "Sabzavotlar va sarimsoqni qoʻshib, aralashtirib turib 5 daqiqa pishir."
+  ]
+ },
+ "chickpea-veg-stew": {
+  "title": "Noʻxatli sabzavot dimlamasi",
+  "ingredients": [
+   {
+    "name": "Pishirilgan noʻxat",
+    "amount": "1,5 stakan"
+   },
+   {
+    "name": "Kartoshka",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Sabzi",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Pomidor",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Ismaloq",
+    "amount": "2 hovuch"
+   },
+   {
+    "name": "Piyoz",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   }
+  ],
+  "steps": [
+   "Piyozni moyda yumshat.",
+   "Kartoshka, sabzi, pomidor va 1 stakan suv qoʻshib, 15 daqiqa pishir.",
+   "Noʻxat va ismaloqni qoʻshib, 5 daqiqa dimla."
+  ]
+ },
+ "choban-salad": {
+  "title": "Choban salati",
+  "ingredients": [
+   {
+    "name": "Pomidor",
+    "amount": "3 dona"
+   },
+   {
+    "name": "Bodring",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Qizil piyoz",
+    "amount": "½ dona"
+   },
+   {
+    "name": "Kashnich, rayhon, petrushka",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Sumax",
+    "amount": "1 choy qoshiq"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Tuz",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Pomidor, bodring va piyozni mayda kubik qilib toʻgʻra.",
+   "Koʻkatlarni toʻgʻrab qoʻsh.",
+   "Moy, sumax va tuz bilan aralashtirib, darhol dasturxonga tort."
+  ]
+ },
+ "cinnamon-roll-apple": {
+  "title": "Olmali dolchinli bulochka",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "500 g (yarmi butun donli)"
+   },
+   {
+    "name": "Sut (iliq)",
+    "amount": "250 ml"
+   },
+   {
+    "name": "Quruq xamirturush",
+    "amount": "7 g"
+   },
+   {
+    "name": "Asal",
+    "amount": "2 osh qoshiq"
+   },
+   {
+    "name": "Tuxum",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Sariyogʻ (yumshoq)",
+    "amount": "50 g"
+   },
+   {
+    "name": "Tuz",
+    "amount": "½ choy qoshiq"
+   },
+   {
+    "name": "Ichiga: olma (mayda toʻgʻralgan)",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Ichiga: jigarrang shakar",
+    "amount": "50 g"
+   },
+   {
+    "name": "Ichiga: dolchin",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Ichiga: sariyogʻ",
+    "amount": "30 g"
+   }
+  ],
+  "steps": [
+   "Iliq sutga xamirturush va asalni qoʻshib, 10 daqiqa qoldir.",
+   "Un, tuz, tuxum va sariyogʻ bilan silliq xamir qor, 1 soat oshishga qoʻy.",
+   "Olmani shakar va dolchin bilan aralashtir.",
+   "Xamirni 40×30 sm qilib yoy, sariyogʻ surt, olmali ichlikni yoy, oʻrab 12 boʻlakka kes.",
+   "30 daqiqa oshirib, 180°C duxovkada 22–25 daqiqa pishir."
+  ]
+ },
+ "cinnamon-roll-classic": {
+  "title": "Klassik dolchinli bulochka (sinnabon)",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "500 g"
+   },
+   {
+    "name": "Sut (iliq)",
+    "amount": "250 ml"
+   },
+   {
+    "name": "Quruq xamirturush",
+    "amount": "7 g"
+   },
+   {
+    "name": "Shakar",
+    "amount": "50 g"
+   },
+   {
+    "name": "Tuxum",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Sariyogʻ (yumshoq)",
+    "amount": "60 g"
+   },
+   {
+    "name": "Tuz",
+    "amount": "½ choy qoshiq"
+   },
+   {
+    "name": "Ichiga: sariyogʻ",
+    "amount": "50 g"
+   },
+   {
+    "name": "Ichiga: jigarrang shakar",
+    "amount": "80 g"
+   },
+   {
+    "name": "Ichiga: dolchin",
+    "amount": "1,5 osh qoshiq"
+   },
+   {
+    "name": "Glazur: krem-pishloq",
+    "amount": "100 g"
+   },
+   {
+    "name": "Glazur: shakar upasi",
+    "amount": "2 osh qoshiq"
+   }
+  ],
+  "steps": [
+   "Iliq sutga xamirturush va shakarni qoʻshib, 10 daqiqa qoldir.",
+   "Un, tuz, tuxum va sariyogʻni qoʻshib, 8–10 daqiqa silliq xamir qor; ustini yopib, iliq joyda 1 soat, ikki baravar oshguncha qoldir.",
+   "Xamirni 40×30 sm qilib yoy, yumshoq sariyogʻ surt, shakar va dolchin sep, uzun tomonidan zich oʻrab, 12 boʻlakka kes.",
+   "Qolipga ter, yana 30 daqiqa oshishga qoʻy; 180°C duxovkada 20–25 daqiqa pishir.",
+   "Krem-pishloqni shakar upasi bilan chayqab, issiq bulochkalar ustiga surt."
+  ]
+ },
+ "cinnamon-roll-yoghurt-quick": {
+  "title": "Xamirturushsiz qatiqli dolchinli bulochka",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "250 g (yarmi butun donli)"
+   },
+   {
+    "name": "Pishiriq kukuni",
+    "amount": "2 choy qoshiq"
+   },
+   {
+    "name": "Tuz",
+    "amount": "1 chimdim"
+   },
+   {
+    "name": "Suzma",
+    "amount": "250 g"
+   },
+   {
+    "name": "Ichiga: sariyogʻ (eritilgan)",
+    "amount": "30 g"
+   },
+   {
+    "name": "Ichiga: jigarrang shakar",
+    "amount": "40 g"
+   },
+   {
+    "name": "Ichiga: dolchin",
+    "amount": "1 osh qoshiq"
+   }
+  ],
+  "steps": [
+   "Duxovkani 190°C gacha qizdir.",
+   "Un, pishiriq kukuni, tuz va suzmadan yumshoq xamir qor (yopishsa, ozgina un qoʻsh).",
+   "30×20 sm qilib yoy, eritilgan sariyogʻ surt, shakar va dolchin sep, oʻrab 8 boʻlakka kes.",
+   "Qolipga ter, 20–25 daqiqa qizarguncha pishir."
+  ]
+ },
+ "classic-cheese-board": {
+  "title": "Klassik pishloq laganchasi",
+  "ingredients": [
+   {
+    "name": "Qattiq pishloq (chedder, parmezan va h.k.)",
+    "amount": "150 g"
+   },
+   {
+    "name": "Yarim yumshoq pishloq",
+    "amount": "150 g"
+   },
+   {
+    "name": "Echki pishlogʻi",
+    "amount": "100 g"
+   },
+   {
+    "name": "Uzum",
+    "amount": "1 shingil"
+   },
+   {
+    "name": "Nok yoki anjir",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Yongʻoq va bodom",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Asal",
+    "amount": "2 osh qoshiq"
+   },
+   {
+    "name": "Butun donli kreker",
+    "amount": "1 hovuch"
+   }
+  ],
+  "steps": [
+   "Pishloqlarni dasturxonga tortishdan 30 daqiqa oldin sovutgichdan ol.",
+   "Har bir pishloqni turli shaklda toʻgʻra (kubik, uchburchak, tilim).",
+   "Katta taxtaga pishloqlarni oraliq qoldirib ter, boʻsh joylarni meva, yongʻoq va kreker bilan toʻldir.",
+   "Asalni kichik kosachaga sol."
+  ]
+ },
+ "cucumber-yoghurt": {
+  "title": "Bodringli qatiq",
+  "ingredients": [
+   {
+    "name": "Qatiq",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Bodring",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Sarimsoq",
+    "amount": "½ boʻlak"
+   },
+   {
+    "name": "Yalpiz, shivit",
+    "amount": "ozgina"
+   }
+  ],
+  "steps": [
+   "Bodringni qirgʻichdan oʻtkaz.",
+   "Qatiq, sarimsoq va koʻkat bilan aralashtir."
+  ]
+ },
+ "dark-choc-chip-cookies": {
+  "title": "Achchiq shokoladli pechenye",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "180 g (yarmi butun donli)"
+   },
+   {
+    "name": "Soda",
+    "amount": "½ choy qoshiq"
+   },
+   {
+    "name": "Tuz",
+    "amount": "1 chimdim"
+   },
+   {
+    "name": "Sariyogʻ (yumshoq)",
+    "amount": "100 g"
+   },
+   {
+    "name": "Jigarrang shakar",
+    "amount": "100 g"
+   },
+   {
+    "name": "Tuxum",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Vanil ekstrakti",
+    "amount": "1 choy qoshiq"
+   },
+   {
+    "name": "Achchiq shokolad (maydalangan)",
+    "amount": "100 g"
+   }
+  ],
+  "steps": [
+   "Duxovkani 180°C gacha qizdir.",
+   "Sariyogʻ va shakarni krem holiga kelguncha chayqa, tuxum va vanilni qoʻsh.",
+   "Un, soda va tuzni aralashtir, keyin shokoladni qoʻsh.",
+   "18 ta shar yasab, oraliq qoldirib ter, 10–12 daqiqa pishir — oʻrtasi yumshoq qolishi kerak, sovigach qotadi."
+  ]
+ },
+ "dark-chocolate-strawberries": {
+  "title": "Achchiq shokoladli qulupnay",
+  "ingredients": [
+   {
+    "name": "Qulupnay",
+    "amount": "250 g"
+   },
+   {
+    "name": "Achchiq shokolad (70%+)",
+    "amount": "80 g"
+   },
+   {
+    "name": "Pista (maydalangan)",
+    "amount": "1 osh qoshiq (ixtiyoriy)"
+   }
+  ],
+  "steps": [
+   "Qulupnaylarni yuvib, yaxshilab quritib ol.",
+   "Shokoladni suv hammomida eritib aralashtir.",
+   "Qulupnaylarni shokoladga botirib, pergament qogʻozga ter, xohlasang pista sep.",
+   "Sovutgichda 15 daqiqa saqla."
+  ]
+ },
+ "date-energy-balls": {
+  "title": "Xurmo va yongʻoqli energiya sharchalari",
+  "ingredients": [
+   {
+    "name": "Xurmo (danagi olingan)",
+    "amount": "12 dona"
+   },
+   {
+    "name": "Yongʻoq",
+    "amount": "80 g"
+   },
+   {
+    "name": "Suli yormasi",
+    "amount": "3 osh qoshiq"
+   },
+   {
+    "name": "Kakao kukuni",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Kokos qirindisi",
+    "amount": "2 osh qoshiq (ixtiyoriy)"
+   }
+  ],
+  "steps": [
+   "Xurmo, yongʻoq, suli va kakaoni blenderda yopishqoq massa hosil boʻlguncha aylantir.",
+   "12 ta kichik sharcha yasa.",
+   "Xohlasang kokosga bulab, sovutgichda 30 daqiqa saqla."
+  ]
+ },
+ "date-night-cheese-plate": {
+  "title": "Ikki kishilik mini pishloq laganchasi",
+  "ingredients": [
+   {
+    "name": "Bri (pasterizatsiyalangan)",
+    "amount": "60 g"
+   },
+   {
+    "name": "Qattiq pishloq",
+    "amount": "60 g"
+   },
+   {
+    "name": "Anjir",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Uzum",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Achchiq shokolad",
+    "amount": "20 g"
+   },
+   {
+    "name": "Bodom",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Asal",
+    "amount": "1 osh qoshiq"
+   }
+  ],
+  "steps": [
+   "Pishloqlarni 30 daqiqa xona haroratida tut.",
+   "Anjirlarni toʻrtga boʻl, shokoladni boʻlakla.",
+   "Kichik taxtaga hammasini chiroyli qilib ter, ustidan asal quy."
+  ]
+ },
+ "dovga": {
+  "title": "Dovgʻa",
+  "ingredients": [
+   {
+    "name": "Qatiq",
+    "amount": "1 litr"
+   },
+   {
+    "name": "Suv",
+    "amount": "2 stakan"
+   },
+   {
+    "name": "Tuxum",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Guruch",
+    "amount": "2 osh qoshiq"
+   },
+   {
+    "name": "Un",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Ismaloq, kashnich, shivit, yalpiz",
+    "amount": "4 hovuch"
+   }
+  ],
+  "steps": [
+   "Qatiq, suv, tuxum va unni chayqab, guruchni qoʻsh.",
+   "Oʻrtacha olovda doim bir yoʻnalishda aralashtirib turib qaynat.",
+   "Mayda toʻgʻralgan koʻkatlarni qoʻshib, 10 daqiqa pishir. Issiq yoki sovuq holda dasturxonga tort."
+  ]
+ },
+ "frozen-yoghurt-bark": {
+  "title": "Rezavorli muzlatilgan qatiq plitkasi",
+  "ingredients": [
+   {
+    "name": "Suzma",
+    "amount": "2 stakan"
+   },
+   {
+    "name": "Asal",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Rezavor mevalar",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Bodom (maydalangan)",
+    "amount": "2 osh qoshiq"
+   }
+  ],
+  "steps": [
+   "Suzmani asal bilan aralashtirib, pergament qogʻoz toʻshalgan patnisga 1 sm qalinlikda yoy.",
+   "Ustiga rezavor mevalar va bodom sep.",
+   "Muzlatkichda 3 soat saqla, boʻlaklarga boʻlib, darhol ye."
+  ]
+ },
+ "garlic-prawn-pasta": {
+  "title": "Sarimsoqli krevetkali makaron",
+  "ingredients": [
+   {
+    "name": "Butun donli spagetti",
+    "amount": "160 g"
+   },
+   {
+    "name": "Krevetka (tozalangan)",
+    "amount": "250 g"
+   },
+   {
+    "name": "Sarimsoq",
+    "amount": "3 boʻlak"
+   },
+   {
+    "name": "Cherri pomidor",
+    "amount": "12 dona"
+   },
+   {
+    "name": "Achchiq qalampir parraklari",
+    "amount": "1 chimdim"
+   },
+   {
+    "name": "Petrushka",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ dona"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "2 osh qoshiq"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Spagettini tuzli suvda qadoqda koʻrsatilgan vaqtcha qaynat, yarim stakan suvini olib qoʻy.",
+   "Tovada moyda sarimsoq va achchiq qalampirni 1 daqiqa qovur, pomidorni qoʻshib 3 daqiqa pishir.",
+   "Krevetkani qoʻsh, pushti rangga kirguncha 2–3 daqiqa pishir.",
+   "Spagetti, olib qoʻyilgan suv, limon va petrushka bilan aralashtir."
+  ]
+ },
+ "ginger-cinnamon-cookies": {
+  "title": "Zanjabil va dolchinli pechenye",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "220 g (yarmi butun donli)"
+   },
+   {
+    "name": "Zanjabil kukuni",
+    "amount": "2 choy qoshiq"
+   },
+   {
+    "name": "Dolchin",
+    "amount": "1 choy qoshiq"
+   },
+   {
+    "name": "Soda",
+    "amount": "1 choy qoshiq"
+   },
+   {
+    "name": "Sariyogʻ (yumshoq)",
+    "amount": "90 g"
+   },
+   {
+    "name": "Jigarrang shakar",
+    "amount": "80 g"
+   },
+   {
+    "name": "Asal",
+    "amount": "3 osh qoshiq"
+   },
+   {
+    "name": "Tuxum",
+    "amount": "1 dona"
+   }
+  ],
+  "steps": [
+   "Duxovkani 180°C gacha qizdir.",
+   "Sariyogʻ, shakar va asalni chayqa, tuxumni qoʻsh.",
+   "Un, zanjabil, dolchin va sodani qoʻshib, xamir qor.",
+   "20 ta shar yasab, yassila va 10–12 daqiqa pishir."
+  ]
+ },
+ "greek-salad": {
+  "title": "Grekcha salat",
+  "ingredients": [
+   {
+    "name": "Pomidor",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Bodring",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Bolgar qalampiri",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Qizil piyoz",
+    "amount": "¼ dona"
+   },
+   {
+    "name": "Zaytun",
+    "amount": "8 dona"
+   },
+   {
+    "name": "Feta",
+    "amount": "80 g"
+   },
+   {
+    "name": "Quritilgan rayhon yoki togʻjambil",
+    "amount": "½ choy qoshiq"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   }
+  ],
+  "steps": [
+   "Sabzavotlarni yirik toʻgʻrab, idishga sol.",
+   "Zaytunni qoʻsh, fetani yirik boʻlak qilib ustiga qoʻy.",
+   "Moy sep, quritilgan koʻkat sep."
+  ]
+ },
+ "green-beans-eggs": {
+  "title": "Tuxumli loviya",
+  "ingredients": [
+   {
+    "name": "Yashil loviya (dukkakli)",
+    "amount": "300 g"
+   },
+   {
+    "name": "Piyoz",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Pomidor",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Tuxum",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   }
+  ],
+  "steps": [
+   "Loviyani 5 daqiqa qaynat.",
+   "Piyoz va pomidorni moyda pishirib, loviyani qoʻsh.",
+   "Tuxumni ustiga chaqib, qopqoq ostida tayyor boʻlguncha tut."
+  ]
+ },
+ "green-kiwi-smoothie": {
+  "title": "Kivi va ismaloqli yashil smuzi",
+  "ingredients": [
+   {
+    "name": "Kivi",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Ismaloq",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Bodring",
+    "amount": "½ dona"
+   },
+   {
+    "name": "Olma",
+    "amount": "½ dona"
+   },
+   {
+    "name": "Suv",
+    "amount": "¾ stakan"
+   },
+   {
+    "name": "Yalpiz",
+    "amount": "3 shoxcha"
+   }
+  ],
+  "steps": [
+   "Kivini archib, olmaning urugʻini ol.",
+   "Barcha masalliqlarni blenderda bir xil boʻlguncha aylantir.",
+   "Muz bilan dasturxonga tort."
+  ]
+ },
+ "herb-kuku": {
+  "title": "Koʻkatli kuku",
+  "ingredients": [
+   {
+    "name": "Tuxum",
+    "amount": "3 dona"
+   },
+   {
+    "name": "Kashnich, shivit, koʻk piyoz",
+    "amount": "2 hovuch, mayda toʻgʻralgan"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Tuxumni chayqab, koʻkat bilan aralashtir.",
+   "Moy surtilgan qolipga quy.",
+   "180°C duxovkada 15–18 daqiqa pishir."
+  ]
+ },
+ "herb-qutab": {
+  "title": "Koʻkatli qutob (kam yogʻli)",
+  "ingredients": [
+   {
+    "name": "Un (yarmi butun donli)",
+    "amount": "2 stakan"
+   },
+   {
+    "name": "Suv",
+    "amount": "¾ stakan"
+   },
+   {
+    "name": "Tuz",
+    "amount": "½ choy qoshiq"
+   },
+   {
+    "name": "Ismaloq, shovul, kashnich, shivit",
+    "amount": "4 hovuch"
+   },
+   {
+    "name": "Anor",
+    "amount": "ixtiyoriy"
+   }
+  ],
+  "steps": [
+   "Un, suv va tuzdan xamir qorib, 15 daqiqa qoldir.",
+   "Yupqa yoyib, yarmiga mayda toʻgʻralgan koʻkat qoʻy, yarim oy shaklida buklab yop.",
+   "Quruq tovada har tomonini 2 daqiqadan pishir."
+  ]
+ },
+ "hummus-veg": {
+  "title": "Humus va sabzavot tayoqchalari",
+  "ingredients": [
+   {
+    "name": "Pishirilgan noʻxat",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Taxin",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ dona"
+   },
+   {
+    "name": "Sarimsoq",
+    "amount": "½ boʻlak"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Sabzi, bodring, qalampir",
+    "amount": "tayoqcha qilib toʻgʻralgan"
+   }
+  ],
+  "steps": [
+   "Noʻxat, taxin, limon, sarimsoq va 2–3 osh qoshiq suvni blenderda bir xil boʻlguncha aylantir.",
+   "Moy qoʻshib, sabzavotlar bilan dasturxonga tort."
+  ]
+ },
+ "lamb-chops-pomegranate": {
+  "title": "Narsharab sousli qoʻzi qovurgʻasi",
+  "ingredients": [
+   {
+    "name": "Qoʻzi qovurgʻasi",
+    "amount": "4 dona"
+   },
+   {
+    "name": "Narsharab (anor sousi)",
+    "amount": "2 osh qoshiq"
+   },
+   {
+    "name": "Sarimsoq",
+    "amount": "2 boʻlak"
+   },
+   {
+    "name": "Rozmarin",
+    "amount": "2 shoxcha"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Anor donasi",
+    "amount": "2 osh qoshiq"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Qovurgʻalarni tuz, murch, ezilgan sarimsoq va rozmarin bilan ishqalab, 15 daqiqa qoldir.",
+   "Yaxshi qizigan tovada har tomonini 3–4 daqiqadan qovur, keyin 5 daqiqa dam olishga qoʻy.",
+   "Oʻsha tovaga narsharab va 2 osh qoshiq suv qoʻshib, 1 daqiqa qaynat.",
+   "Sousni goʻsht ustiga quy, anor donasi bilan bezat."
+  ]
+ },
+ "lentil-pumpkin-feta-salad": {
+  "title": "Yashil yasmiq, pishirilgan qovoq va feta salati",
+  "ingredients": [
+   {
+    "name": "Yashil yasmiq",
+    "amount": "¾ stakan"
+   },
+   {
+    "name": "Qovoq (kubik)",
+    "amount": "300 g"
+   },
+   {
+    "name": "Feta",
+    "amount": "60 g"
+   },
+   {
+    "name": "Ismaloq",
+    "amount": "2 hovuch"
+   },
+   {
+    "name": "Qovoq pistasi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ dona"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "2 osh qoshiq"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Yasmiqni 20–25 daqiqa yumshaguncha qaynatib, suvini sizdir.",
+   "Qovoqni 1 osh qoshiq moy bilan aralashtirib, 200°C duxovkada 20 daqiqa pishir.",
+   "Yasmiq, qovoq va ismaloqni qolgan moy va limon bilan aralashtir.",
+   "Ustiga ushatilgan feta va pista sep."
+  ]
+ },
+ "light-caesar": {
+  "title": "Qatiqli sous bilan yengil Sezar",
+  "ingredients": [
+   {
+    "name": "Tovuq toʻshi",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Romen salati",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Butun donli non",
+    "amount": "2 tilim"
+   },
+   {
+    "name": "Suzma",
+    "amount": "4 osh qoshiq"
+   },
+   {
+    "name": "Parmezan",
+    "amount": "20 g"
+   },
+   {
+    "name": "Xantal",
+    "amount": "1 choy qoshiq"
+   },
+   {
+    "name": "Sarimsoq",
+    "amount": "½ boʻlak"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ dona"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Tovuqqa tuz-murch sepib, tovada har tomonini 6–7 daqiqadan, ichi toʻliq pishguncha pishir, tilimla.",
+   "Nonni kubik qilib toʻgʻrab, duxovkada 200°C da 8 daqiqa qurit.",
+   "Suzma, xantal, sarimsoq, limon sharbati va parmezanning yarmidan sous tayyorla.",
+   "Salat bargini sous bilan aralashtir, ustiga tovuq, kruton va qolgan parmezanni qoʻy."
+  ]
+ },
+ "mango-turmeric-smoothie": {
+  "title": "Mango va zarchavali smuzi",
+  "ingredients": [
+   {
+    "name": "Mango (muzlatilgan)",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Apelsin sharbati",
+    "amount": "½ stakan"
+   },
+   {
+    "name": "Qatiq",
+    "amount": "½ stakan"
+   },
+   {
+    "name": "Zarchava",
+    "amount": "½ choy qoshiq"
+   },
+   {
+    "name": "Zanjabil (yangi)",
+    "amount": "1 sm"
+   }
+  ],
+  "steps": [
+   "Barcha masalliqlarni blenderga sol.",
+   "Bir xil boʻlguncha aylantir.",
+   "Darhol ich."
+  ]
+ },
+ "mezze-platter": {
+  "title": "Meze laganchasi",
+  "ingredients": [
+   {
+    "name": "Humus",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Baqlajon pyuresi",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Bodringli qatiq",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Zaytun",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Sabzavot tayoqchalari",
+    "amount": "3 stakan"
+   },
+   {
+    "name": "Butun donli lavash",
+    "amount": "3 dona"
+   },
+   {
+    "name": "Koʻkat",
+    "amount": "1 bogʻ"
+   }
+  ],
+  "steps": [
+   "Humus, baqlajon pyuresi va bodringli qatiqni alohida kosachalarga sol (retseptlar: hummus-veg, baba-ganoush, cucumber-yoghurt).",
+   "Lavashni uchburchak qilib kesib, quruq tovada qizartir.",
+   "Katta laganga kosachalar, sabzavot, zaytun, lavash va koʻkatni ter."
+  ]
+ },
+ "nuts-dried-fruit": {
+  "title": "Yongʻoq va quruq meva aralashmasi",
+  "ingredients": [
+   {
+    "name": "Yongʻoq",
+    "amount": "3 dona"
+   },
+   {
+    "name": "Bodom",
+    "amount": "6 dona"
+   },
+   {
+    "name": "Oʻrik qoqi (turshak)",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Quritilgan anjir",
+    "amount": "1 dona"
+   }
+  ],
+  "steps": [
+   "Kichik idishga solib, sumkangda olib yur."
+  ]
+ },
+ "pomegranate-beet-smoothie": {
+  "title": "Anor va lavlagili smuzi",
+  "ingredients": [
+   {
+    "name": "Anor donasi",
+    "amount": "½ stakan"
+   },
+   {
+    "name": "Pishirilgan lavlagi",
+    "amount": "½ dona"
+   },
+   {
+    "name": "Rezavor mevalar",
+    "amount": "½ stakan"
+   },
+   {
+    "name": "Qatiq",
+    "amount": "½ stakan"
+   },
+   {
+    "name": "Suv",
+    "amount": "½ stakan"
+   }
+  ],
+  "steps": [
+   "Barcha masalliqlarni blenderda bir xil boʻlguncha aylantir.",
+   "Anor urugʻlari qolsa, suzib olishing mumkin.",
+   "Darhol ich."
+  ]
+ },
+ "pomegranate-parfait": {
+  "title": "Qatiq, anor va yongʻoqli parfe",
+  "ingredients": [
+   {
+    "name": "Qatiq",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Anor donasi",
+    "amount": "3 osh qoshiq"
+   },
+   {
+    "name": "Yongʻoq",
+    "amount": "4 dona"
+   },
+   {
+    "name": "Asal",
+    "amount": "1 choy qoshiq (ixtiyoriy)"
+   }
+  ],
+  "steps": [
+   "Stakanga qatma-qat qatiq, anor va maydalangan yongʻoq sol.",
+   "Xohlasang, ustiga asal qoʻsh."
+  ]
+ },
+ "pumpkin-veloute": {
+  "title": "Qovurilgan pista bilan qovoq krem-shoʻrvasi",
+  "ingredients": [
+   {
+    "name": "Qovoq (toʻgʻralgan)",
+    "amount": "800 g"
+   },
+   {
+    "name": "Piyoz",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Sabzi",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Sabzavot bulyoni",
+    "amount": "4 stakan"
+   },
+   {
+    "name": "Qovoq pistasi",
+    "amount": "2 osh qoshiq"
+   },
+   {
+    "name": "Muskat yongʻogʻi",
+    "amount": "1 chimdim"
+   },
+   {
+    "name": "Qatiq",
+    "amount": "2 osh qoshiq (ixtiyoriy)"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Piyoz va sabzini moyda 5 daqiqa yumshat.",
+   "Qovoq va bulyonni qoʻshib, 20 daqiqa pishir.",
+   "Blenderda ipakdek silliq boʻlguncha aylantir, muskat va tuz qoʻsh.",
+   "Pistani quruq tovada 2 daqiqa qovur; shoʻrvani bir tomchi qatiq va pista bilan dasturxonga tort."
+  ]
+ },
+ "quinoa-avocado-salad": {
+  "title": "Kinoa, avokado va anorli salat",
+  "ingredients": [
+   {
+    "name": "Kinoa",
+    "amount": "½ stakan"
+   },
+   {
+    "name": "Avokado",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Anor donasi",
+    "amount": "3 osh qoshiq"
+   },
+   {
+    "name": "Bodring",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Yalpiz, petrushka",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Kinoani yuvib, 1 stakan suvda 12–15 daqiqa pishir, sovit.",
+   "Avokado va bodringni kubik qilib toʻgʻra, koʻkatlarni mayda toʻgʻra.",
+   "Hammasini anor, limon sharbati va moy bilan aralashtir, tuz qoʻsh."
+  ]
+ },
+ "red-lentil-curry": {
+  "title": "Sabzavotli qizil yasmiq karrisi",
+  "ingredients": [
+   {
+    "name": "Qizil yasmiq",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Kokos suti (yengil)",
+    "amount": "200 ml"
+   },
+   {
+    "name": "Pomidor (toʻgʻralgan)",
+    "amount": "400 g"
+   },
+   {
+    "name": "Ismaloq",
+    "amount": "2 hovuch"
+   },
+   {
+    "name": "Piyoz",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Sarimsoq",
+    "amount": "2 boʻlak"
+   },
+   {
+    "name": "Karri kukuni",
+    "amount": "2 choy qoshiq"
+   },
+   {
+    "name": "Suv",
+    "amount": "2 stakan"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Tuz",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Piyoz va sarimsoqni moyda 4 daqiqa yumshat, karri kukunini qoʻshib 30 soniya aralashtir.",
+   "Yasmiq, pomidor va suvni qoʻshib, 15 daqiqa pishir.",
+   "Kokos suti va ismaloqni qoʻshib, yana 3 daqiqa pishir. Jigarrang guruch bilan dasturxonga tort."
+  ]
+ },
+ "red-lentil-soup": {
+  "title": "Yasmiq shoʻrvasi",
+  "ingredients": [
+   {
+    "name": "Qizil yasmiq",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Piyoz",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Sabzi",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Zarchava, murch",
+    "amount": "ozgina"
+   },
+   {
+    "name": "Suv",
+    "amount": "5 stakan"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ dona"
+   }
+  ],
+  "steps": [
+   "Piyoz va sabzini moyda 5 daqiqa yumshat.",
+   "Yuvilgan yasmiq, ziravorlar va suvni qoʻshib, 20–25 daqiqa pishir.",
+   "Blenderda ez, limon bilan dasturxonga tort."
+  ]
+ },
+ "roasted-chickpeas": {
+  "title": "Qarsildoq qovurilgan noʻxat",
+  "ingredients": [
+   {
+    "name": "Pishirilgan noʻxat",
+    "amount": "2 stakan"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Paprika",
+    "amount": "1 choy qoshiq"
+   },
+   {
+    "name": "Zira",
+    "amount": "½ choy qoshiq"
+   },
+   {
+    "name": "Tuz",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Noʻxatning suvini sizdirib, sochiq bilan yaxshilab quritib ol.",
+   "Moy va ziravorlar bilan aralashtir.",
+   "Duxovkada 200°C da 25–30 daqiqa, orada aralashtirib, qarsildoq boʻlguncha pishir. Sovigach yanada qarsildoq boʻladi."
+  ]
+ },
+ "saffron-chicken-plov": {
+  "title": "Zaʼfaronli tovuq palovi, jigarrang guruch va quruq mevalar bilan",
+  "ingredients": [
+   {
+    "name": "Jigarrang guruch",
+    "amount": "1,5 stakan"
+   },
+   {
+    "name": "Tovuq soni (suyaksiz)",
+    "amount": "400 g"
+   },
+   {
+    "name": "Zaʼfaron",
+    "amount": "1 chimdim"
+   },
+   {
+    "name": "Oʻrik qoqi (turshak)",
+    "amount": "8 dona"
+   },
+   {
+    "name": "Mayiz",
+    "amount": "2 osh qoshiq"
+   },
+   {
+    "name": "Kashtan (pishirilgan)",
+    "amount": "8 dona (ixtiyoriy)"
+   },
+   {
+    "name": "Piyoz",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "2 osh qoshiq"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Guruchni yuvib, 30 daqiqa suvda ivit; zaʼfaronni 3 osh qoshiq issiq suvda damla.",
+   "Guruchni tuzli suvda 20 daqiqa, chala pishguncha qaynatib, suvini sizdir.",
+   "Tovuqni piyoz bilan moyda 10 daqiqa qovur, quruq mevalar va kashtanni qoʻsh.",
+   "Guruchni qozonga sol, ustidan zaʼfaronli suvni sep, qopqoqni sochiq bilan oʻrab yopib, past olovda 25 daqiqa dimla; tovuq bilan birga dasturxonga tort."
+  ]
+ },
+ "salmon-papillote": {
+  "title": "Qogʻozda pishirilgan losos",
+  "ingredients": [
+   {
+    "name": "Losos filesi",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Sarsabil yoki yashil loviya",
+    "amount": "200 g"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Shivit",
+    "amount": "4 shoxcha"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Duxovkani 200°C gacha qizdir.",
+   "Har bir porsiya uchun pergament qogʻoz oʻrtasiga sabzavot, ustiga losos, limon tilimi va shivit qoʻy, moy sep, tuz-murch sep.",
+   "Qogʻozni konvert qilib yop.",
+   "15–18 daqiqa pishir; konvertni dasturxonda och."
+  ]
+ },
+ "salmon-pea-puree": {
+  "title": "Koʻk noʻxat pyuresi bilan losos",
+  "ingredients": [
+   {
+    "name": "Losos filesi",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Koʻk noʻxat (muzlatilgan)",
+    "amount": "250 g"
+   },
+   {
+    "name": "Yalpiz",
+    "amount": "5 shoxcha"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "2 osh qoshiq"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Noʻxatni 4 daqiqa qaynatib, suvini sizdir; yalpiz, 1 osh qoshiq moy, limon sharbati va tuz bilan blenderda silliq pyure qil.",
+   "Losos terisini artib quritib, tuz-murch sep.",
+   "Qizigan tovada terisini pastga qilib 4–5 daqiqa, agʻdarib 2–3 daqiqa, goʻshti oson qatlam-qatlam ajralguncha pishir.",
+   "Pyureni likopchaga yoy, ustiga lososni qoʻy, limon poʻsti bilan bezat."
+  ]
+ },
+ "spinach-apple-smoothie": {
+  "title": "Ismaloq va olmali smuzi",
+  "ingredients": [
+   {
+    "name": "Ismaloq",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Olma",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Banan",
+    "amount": "½ dona"
+   },
+   {
+    "name": "Qatiq yoki suv",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Limon sharbati",
+    "amount": "1 choy qoshiq"
+   }
+  ],
+  "steps": [
+   "Barcha masalliqlarni blenderda bir xil boʻlguncha aylantir.",
+   "Darhol ich."
+  ]
+ },
+ "steak-chimichurri": {
+  "title": "Chimichurri sousli mol goʻshti steyki",
+  "ingredients": [
+   {
+    "name": "Mol goʻshti steyki (yogʻsiz)",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Petrushka",
+    "amount": "1 bogʻ"
+   },
+   {
+    "name": "Sarimsoq",
+    "amount": "2 boʻlak"
+   },
+   {
+    "name": "Vino sirkasi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "3 osh qoshiq"
+   },
+   {
+    "name": "Qovurilgan sabzavotlar (kabachok, qalampir)",
+    "amount": "300 g"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Steykni xona haroratida 20 daqiqa tut, tuz-murch sep.",
+   "Petrushka va sarimsoqni mayda toʻgʻrab, sirka va 2 osh qoshiq moy bilan aralashtir.",
+   "Juda qizigan tovada steykni har tomonini 3–4 daqiqadan (qalinligiga qarab) qovur, 5 daqiqa dam olishga qoʻy.",
+   "Tilimlab, qovurilgan sabzavotlar va chimichurri bilan dasturxonga tort."
+  ]
+ },
+ "stuffed-courgettes": {
+  "title": "Kurka qiymasi bilan toʻldirilgan kabachok",
+  "ingredients": [
+   {
+    "name": "Kabachok",
+    "amount": "3 dona"
+   },
+   {
+    "name": "Kurka qiymasi",
+    "amount": "300 g"
+   },
+   {
+    "name": "Piyoz",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Pomidor",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Motsarella (qirgʻichdan oʻtkazilgan)",
+    "amount": "50 g"
+   },
+   {
+    "name": "Shivit",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Kabachoklarni uzunasiga ikkiga boʻl, ichini qoshiq bilan oʻyib olib toʻgʻra.",
+   "Piyoz, qiyma, kabachok ichi va pomidorni tovada 8 daqiqa pishir, shivit qoʻsh.",
+   "Kabachok “qayiqchalari”ni toʻldirib, ustiga pishloq sep.",
+   "190°C duxovkada 20 daqiqa pishir."
+  ]
+ },
+ "tahini-almond-cookies": {
+  "title": "Taxinli va bodomli pechenye (glyutensiz)",
+  "ingredients": [
+   {
+    "name": "Bodom uni",
+    "amount": "150 g"
+   },
+   {
+    "name": "Taxin",
+    "amount": "80 g"
+   },
+   {
+    "name": "Asal",
+    "amount": "60 g"
+   },
+   {
+    "name": "Tuxum",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Soda",
+    "amount": "¼ choy qoshiq"
+   },
+   {
+    "name": "Tuz",
+    "amount": "1 chimdim"
+   },
+   {
+    "name": "Kunjut",
+    "amount": "1 osh qoshiq"
+   }
+  ],
+  "steps": [
+   "Duxovkani 175°C gacha qizdir.",
+   "Barcha masalliqlarni (kunjutdan tashqari) aralashtirib, yumshoq massa hosil qil.",
+   "14 ta shar yasab, kunjutga botir, pergament qogʻozga qoʻyib biroz bos.",
+   "10–12 daqiqa pishir, patnisda sovit."
+  ]
+ },
+ "thyme-chicken-celeriac": {
+  "title": "Selderey pyuresi va koʻkat moyi bilan togʻjambilli tovuq",
+  "ingredients": [
+   {
+    "name": "Tovuq toʻshi",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Selderey ildizi",
+    "amount": "400 g"
+   },
+   {
+    "name": "Sut",
+    "amount": "½ stakan"
+   },
+   {
+    "name": "Togʻjambil",
+    "amount": "4 shoxcha"
+   },
+   {
+    "name": "Petrushka",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "3 osh qoshiq"
+   },
+   {
+    "name": "Sarimsoq",
+    "amount": "1 boʻlak"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Selderey ildizini toʻgʻrab, sut va yarim stakan suvda 20 daqiqa yumshaguncha pishir, pyure qil.",
+   "Petrushkani 2 osh qoshiq moy bilan blenderda aylantirib, suzib ol — koʻkat moyi tayyor.",
+   "Tovuqni tuz, murch, sarimsoq va togʻjambil bilan ishqala, tovada har tomonini 6–7 daqiqadan, ichi toʻliq pishguncha qovur.",
+   "Pyureni likopchaga qoʻy, tilimlangan tovuqni ustiga ter, atrofiga koʻkat moyidan tomizib chiq."
+  ]
+ },
+ "tomato-bruschetta": {
+  "title": "Pomidorli brusketta",
+  "ingredients": [
+   {
+    "name": "Butun donli baget",
+    "amount": "12 tilim"
+   },
+   {
+    "name": "Pomidor",
+    "amount": "4 dona"
+   },
+   {
+    "name": "Sarimsoq",
+    "amount": "1 boʻlak"
+   },
+   {
+    "name": "Rayhon",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "2 osh qoshiq"
+   },
+   {
+    "name": "Tuz",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Non tilimlarini duxovkada yoki grilda qizartir, bir tomonini kesilgan sarimsoq bilan ishqala.",
+   "Pomidorni mayda toʻgʻrab, rayhon, moy va tuz bilan aralashtir.",
+   "Dasturxonga tortishdan sal oldin non ustiga qoʻy."
+  ]
+ },
+ "tomato-eggs": {
+  "title": "Pomidorli tuxum",
+  "ingredients": [
+   {
+    "name": "Pomidor",
+    "amount": "3 ta oʻrtacha"
+   },
+   {
+    "name": "Tuxum",
+    "amount": "3 dona"
+   },
+   {
+    "name": "Piyoz",
+    "amount": "½ dona"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Butun donli non",
+    "amount": "2 tilim"
+   }
+  ],
+  "steps": [
+   "Piyozni moyda yumshat.",
+   "Toʻgʻralgan pomidorni qoʻshib, 5 daqiqa pishir.",
+   "Tuxumni qoʻshib aralashtir va tayyor boʻlguncha pishir. Non bilan dasturxonga tort."
+  ]
+ },
+ "tuna-bean-bowl": {
+  "title": "Tunets va oq loviyali kosa",
+  "ingredients": [
+   {
+    "name": "Tunets (oʻz sharbatida)",
+    "amount": "1 banka (~150 g)"
+   },
+   {
+    "name": "Oq loviya (pishirilgan)",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Cherri pomidor",
+    "amount": "10 dona"
+   },
+   {
+    "name": "Qizil piyoz",
+    "amount": "¼ dona"
+   },
+   {
+    "name": "Rukkola",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ dona"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Tunetsning suvini sizdirib, tolalarga ajrat.",
+   "Loviya, ikkiga boʻlingan pomidor, yupqa toʻgʻralgan piyoz va rukkola bilan aralashtir.",
+   "Limon sharbati, moy va tuz-murch bilan zapravka qil."
+  ]
+ },
+ "turkey-meatballs-tomato": {
+  "title": "Pomidor sousida kurka koʻftasi",
+  "ingredients": [
+   {
+    "name": "Kurka qiymasi",
+    "amount": "500 g"
+   },
+   {
+    "name": "Tuxum",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Suli yormasi",
+    "amount": "3 osh qoshiq"
+   },
+   {
+    "name": "Pomidor (toʻgʻralgan, konserva)",
+    "amount": "400 g"
+   },
+   {
+    "name": "Sarimsoq",
+    "amount": "2 boʻlak"
+   },
+   {
+    "name": "Rayhon",
+    "amount": "1 hovuch"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Qiyma, tuxum, suli, tuz va murchni aralashtirib, 20 ta koʻfta yasa.",
+   "Koʻftalarni tovada moyda har tomonini 5 daqiqa qovur.",
+   "Sarimsoq va pomidorni qoʻshib, qopqoq ostida 15 daqiqa, koʻftalar toʻliq pishguncha pishir.",
+   "Rayhon bilan bezat; yoniga butun donli makaron yoki grechka yarashadi."
+  ]
+ },
+ "veg-chips": {
+  "title": "Duxovkada lavlagi va batat chipsi",
+  "ingredients": [
+   {
+    "name": "Lavlagi (xom)",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Batat",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Rozmarin (quritilgan)",
+    "amount": "½ choy qoshiq"
+   },
+   {
+    "name": "Tuz",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Duxovkani 160°C gacha qizdir.",
+   "Sabzavotlarni archib, juda yupqa (1–2 mm) tilimla, sochiq bilan quritib ol.",
+   "Moy va ziravorlar bilan aralashtirib, pergament qogʻozga bir qavat qilib ter.",
+   "25–30 daqiqa, orada agʻdarib pishir; kuyib qolmasligi uchun oxirgi daqiqalarda kuzatib tur."
+  ]
+ },
+ "vegetarian-yarpaq-dolma": {
+  "title": "Goʻshtsiz barg dolma",
+  "ingredients": [
+   {
+    "name": "Uzum bargi",
+    "amount": "40 dona"
+   },
+   {
+    "name": "Guruch",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Piyoz",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Yalpiz, shivit, petrushka",
+    "amount": "1 bogʻ"
+   },
+   {
+    "name": "Tomat pastasi",
+    "amount": "1 osh qoshiq"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Zaytun moyi",
+    "amount": "3 osh qoshiq"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Barglarni qaynoq suvda 2 daqiqa tutib, suvini sizdir.",
+   "Piyozni moyda yumshat, yuvilgan guruch, tomat pastasi, koʻkat va tuz bilan aralashtir.",
+   "Har bir bargga 1 choy qoshiq ichlik qoʻyib, zich oʻra.",
+   "Qozonga zich terib, limon tilimlari va 2 stakan suv qoʻsh, likopcha bilan bostirib, past olovda 50 daqiqa pishir."
+  ]
+ },
+ "yoghurt-chicken-skewers": {
+  "title": "Qatiqda marinadlangan tovuq kabobi",
+  "ingredients": [
+   {
+    "name": "Tovuq soni (suyaksiz)",
+    "amount": "800 g"
+   },
+   {
+    "name": "Qatiq",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Sarimsoq",
+    "amount": "3 boʻlak"
+   },
+   {
+    "name": "Paprika",
+    "amount": "2 choy qoshiq"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Bolgar qalampiri",
+    "amount": "2 dona"
+   },
+   {
+    "name": "Qizil piyoz",
+    "amount": "1 dona"
+   },
+   {
+    "name": "Tuz, murch",
+    "amount": "taʼbga koʻra"
+   }
+  ],
+  "steps": [
+   "Tovuqni kubik qilib toʻgʻra, qatiq, sarimsoq, paprika, limon va tuz bilan aralashtirib, kamida 2 soat sovutgichda saqla.",
+   "Tovuqni qalampir va piyoz bilan navbatma-navbat sixga ter.",
+   "Grilda yoki 220°C duxovkada 15–20 daqiqa, orada agʻdarib, ichi toʻliq pishguncha pishir."
+  ]
+ }
+}

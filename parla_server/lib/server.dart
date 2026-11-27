@@ -9,6 +9,7 @@ import 'src/auth/staff_password_reset.dart';
 import 'src/auth/verification_code_sender.dart';
 import 'src/content/content_images_task.dart';
 import 'src/content/recipe_kcal.dart';
+import 'src/content/content_translations.dart';
 import 'src/content/wording_fixes.dart';
 import 'src/content/content_import.dart';
 import 'src/generated/serverpod.dart';
@@ -165,6 +166,10 @@ Future<void> _runTask(Serverpod pod, String task, String actor) async {
         stdout.writeln('Task $task: $result');
       case 'set-recipe-kcal':
         final result = await runSetRecipeKcalTask(session, actor);
+        session.log('Task $task: $result', level: LogLevel.info);
+        stdout.writeln('Task $task: $result');
+      case 'add-content-translations':
+        final result = await runAddContentTranslationsTask(session, actor);
         session.log('Task $task: $result', level: LogLevel.info);
         stdout.writeln('Task $task: $result');
       case 'fix-content-wording':

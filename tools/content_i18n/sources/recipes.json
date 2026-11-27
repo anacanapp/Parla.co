@@ -1,0 +1,8305 @@
+{
+ "ajapsandal": {
+  "title": {
+   "az": "Ajapsandal",
+   "ru": "Аджапсандал",
+   "en": "Ajapsandal (aubergine stew)"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Badımcan",
+     "ru": "Баклажаны",
+     "en": "Aubergines"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Pomidor",
+     "ru": "Помидоры",
+     "en": "Tomatoes"
+    },
+    "amount": {
+     "az": "3 ədəd",
+     "ru": "3 шт.",
+     "en": "3"
+    }
+   },
+   {
+    "name": {
+     "az": "Bibər",
+     "ru": "Перец",
+     "en": "Peppers"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Soğan",
+     "ru": "Лук",
+     "en": "Onion"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Sarımsaq",
+     "ru": "Чеснок",
+     "en": "Garlic"
+    },
+    "amount": {
+     "az": "2 diş",
+     "ru": "2 зубчика",
+     "en": "2 cloves"
+    }
+   },
+   {
+    "name": {
+     "az": "Kişniş, reyhan",
+     "ru": "Кинза, рейхан",
+     "en": "Coriander, basil"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. ложки",
+     "en": "2 tbsp"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Tərəvəzləri iri doğra.",
+    "ru": "Крупно нарежь овощи.",
+    "en": "Chop vegetables into large pieces."
+   },
+   {
+    "az": "Badımcanı sobada 200°C-də 15 dəqiqə bişir (qızartmaq əvəzinə).",
+    "ru": "Запеки баклажаны 15 минут при 200°C (вместо жарки).",
+    "en": "Roast the aubergine at 200°C for 15 minutes instead of frying."
+   },
+   {
+    "az": "Qalan tərəvəzlərlə qazanda 15 dəqiqə dəmlə, göyərti və sarımsaq əlavə et.",
+    "ru": "Туши с остальными овощами 15 минут, добавь зелень и чеснок.",
+    "en": "Stew with the other vegetables for 15 minutes; add herbs and garlic."
+   }
+  ]
+ },
+ "almond-trout": {
+  "title": {
+   "az": "Badamlı forel",
+   "ru": "Форель с миндалём",
+   "en": "Trout with almonds"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Forel filesi",
+     "ru": "Филе форели",
+     "en": "Trout fillets"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Badam lopası",
+     "ru": "Миндальные лепестки",
+     "en": "Flaked almonds"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. л.",
+     "en": "2 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Limon",
+     "ru": "Лимон",
+     "en": "Lemon"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Cəfəri",
+     "ru": "Петрушка",
+     "en": "Parsley"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Yaşıl lobya",
+     "ru": "Стручковая фасоль",
+     "en": "Green beans"
+    },
+    "amount": {
+     "az": "200 q",
+     "ru": "200 г",
+     "en": "200 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Lobyanı 5 dəqiqə qaynadıb süz.",
+    "ru": "Отвари фасоль 5 минут, откинь.",
+    "en": "Boil the beans 5 minutes and drain."
+   },
+   {
+    "az": "Foreli duz-istiotla tavada dərisi aşağı 4 dəqiqə, çevirib 2 dəqiqə bişir.",
+    "ru": "Обжарь форель с солью и перцем кожей вниз 4 минуты, переверни и готовь ещё",
+    "en": "Season the trout and cook skin-side down 4 minutes, flip for 2 more."
+   },
+   {
+    "az": "Balığı götür, həmin tavada badamı 1 dəqiqə qızart, limon şirəsi və cəfəri əlavə et.",
+    "ru": "3. Сними рыбу, обжарь в той же сковороде миндаль 1 минуту, добавь лимонный сок и петрушку.",
+    "en": "Remove the fish; toast the almonds in the same pan for 1 minute, add lemon juice and parsley."
+   },
+   {
+    "az": "Lobyanın üstünə forel qoy, badamlı sousu tök.",
+    "ru": "Выложи форель на фасоль и полей миндальным соусом.",
+    "en": "Serve the trout on the beans with the almond sauce."
+   }
+  ]
+ },
+ "apple-almond-butter": {
+  "title": {
+   "az": "Badam pastası ilə alma dilimləri",
+   "ru": "Яблочные дольки с миндальной пастой",
+   "en": "Apple slices with almond butter"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Alma",
+     "ru": "Яблоко",
+     "en": "Apple"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Badam pastası",
+     "ru": "Миндальная паста",
+     "en": "Almond butter"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Darçın",
+     "ru": "Корица",
+     "en": "Cinnamon"
+    },
+    "amount": {
+     "az": "1 çimdik",
+     "ru": "1 щепотка",
+     "en": "1 pinch"
+    }
+   },
+   {
+    "name": {
+     "az": "Çətənə toxumu",
+     "ru": "Семена конопли",
+     "en": "Hemp seeds"
+    },
+    "amount": {
+     "az": "1 çay qaşığı (istəyə bağlı)",
+     "ru": "1 ч. л. (по желанию)",
+     "en": "1 tsp (optional)"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Almanı dilimlə.",
+    "ru": "Нарежь яблоко дольками.",
+    "en": "Slice the apple."
+   },
+   {
+    "az": "Dilimlərin üstünə badam pastası çək.",
+    "ru": "Намажь миндальной пастой.",
+    "en": "Spread with almond butter."
+   },
+   {
+    "az": "Darçın və toxum səp.",
+    "ru": "Посыпь корицей и семенами.",
+    "en": "Sprinkle with cinnamon and seeds."
+   }
+  ]
+ },
+ "azerbaijani-cheese-board": {
+  "title": {
+   "az": "Azərbaycan pendir süfrəsi",
+   "ru": "Азербайджанская сырная тарелка",
+   "en": "Azerbaijani cheese spread"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Ağ pendir",
+     "ru": "Белый сыр (брынза)",
+     "en": "White brined cheese"
+    },
+    "amount": {
+     "az": "150 q",
+     "ru": "150 г",
+     "en": "150 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Motal pendiri",
+     "ru": "Сыр мотал",
+     "en": "Motal cheese"
+    },
+    "amount": {
+     "az": "100 q",
+     "ru": "100 г",
+     "en": "100 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Şor (kəsmik)",
+     "ru": "Шор (творог)",
+     "en": "Shor (cottage cheese)"
+    },
+    "amount": {
+     "az": "100 q",
+     "ru": "100 г",
+     "en": "100 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Göyərti (reyhan, tərxun, nanə)",
+     "ru": "Зелень (рейхан, тархун, мята)",
+     "en": "Herbs (basil, tarragon, mint)"
+    },
+    "amount": {
+     "az": "1 dəstə",
+     "ru": "1 пучок",
+     "en": "1 bunch"
+    }
+   },
+   {
+    "name": {
+     "az": "Qoz",
+     "ru": "Грецкие орехи",
+     "en": "Walnuts"
+    },
+    "amount": {
+     "az": "8 ədəd",
+     "ru": "8 шт.",
+     "en": "8"
+    }
+   },
+   {
+    "name": {
+     "az": "Pomidor, xiyar",
+     "ru": "Помидоры, огурцы",
+     "en": "Tomatoes, cucumbers"
+    },
+    "amount": {
+     "az": "2 stəkan",
+     "ru": "2 стакана",
+     "en": "2 cups"
+    }
+   },
+   {
+    "name": {
+     "az": "Tam taxıl lavaş və ya təndir çörəyi",
+     "ru": "Цельнозерновой лаваш или тендир",
+     "en": "Wholegrain lavash or tandir bread"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Pendirləri dilimlə, şoru kasaya qoy.",
+    "ru": "Нарежь сыры, шор выложи в пиалу.",
+    "en": "Slice the cheeses and put the shor in a bowl."
+   },
+   {
+    "az": "Göyərtini yuyub qurula, tərəvəzləri doğra.",
+    "ru": "Промой и обсуши зелень, нарежь овощи.",
+    "en": "Wash and dry the herbs; cut up the vegetables."
+   },
+   {
+    "az": "Hamısını qoz və çörəklə böyük boşqaba düz.",
+    "ru": "Разложи всё на большом блюде с орехами и хлебом.",
+    "en": "Arrange everything on a large platter with walnuts and bread."
+   }
+  ]
+ },
+ "baba-ganoush": {
+  "title": {
+   "az": "Badımcan ezməsi (baba qanuş)",
+   "ru": "Баба гануш",
+   "en": "Baba ganoush"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Badımcan",
+     "ru": "Баклажаны",
+     "en": "Aubergines"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Tahin",
+     "ru": "Тахини",
+     "en": "Tahini"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. л.",
+     "en": "2 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Sarımsaq",
+     "ru": "Чеснок",
+     "en": "Garlic"
+    },
+    "amount": {
+     "az": "1 diş",
+     "ru": "1 зубчик",
+     "en": "1 clove"
+    }
+   },
+   {
+    "name": {
+     "az": "Limon",
+     "ru": "Лимон",
+     "en": "Lemon"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Nar dənəsi",
+     "ru": "Зёрна граната",
+     "en": "Pomegranate seeds"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. л.",
+     "en": "2 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz",
+     "ru": "Соль",
+     "en": "Salt"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Badımcanları çəngəllə deşib 220°C sobada və ya qazda 35–40 dəqiqə, içi yumşalana qədər bişir.",
+    "ru": "Наколи баклажаны вилкой и запекай при 220°C или на огне 35–40 минут до мягкости.",
+    "en": "Prick the aubergines and roast at 220°C or over a flame for 35–40 minutes until soft."
+   },
+   {
+    "az": "Soyuyunca qabığını təmizlə, 10 dəqiqə süzgəcdə saxla.",
+    "ru": "Остуди, очисть и дай стечь 10 минут.",
+    "en": "Cool, peel and drain 10 minutes."
+   },
+   {
+    "az": "Tahin, sarımsaq, limon şirəsi və duzla əz.",
+    "ru": "Разомни с тахини, чесноком, лимонным соком и солью.",
+    "en": "Mash with tahini, garlic, lemon juice and salt."
+   },
+   {
+    "az": "Yağ çilə, narla bəzə.",
+    "ru": "Полей маслом и укрась гранатом.",
+    "en": "Drizzle with oil and top with pomegranate."
+   }
+  ]
+ },
+ "baked-apple": {
+  "title": {
+   "az": "Darçınlı bişmiş alma",
+   "ru": "Запечённое яблоко с корицей",
+   "en": "Baked cinnamon apple"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Alma",
+     "ru": "Яблоки",
+     "en": "Apples"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Qoz",
+     "ru": "Грецкие орехи",
+     "en": "Walnuts"
+    },
+    "amount": {
+     "az": "4 ədəd",
+     "ru": "4 шт.",
+     "en": "4"
+    }
+   },
+   {
+    "name": {
+     "az": "Darçın",
+     "ru": "Корица",
+     "en": "Cinnamon"
+    },
+    "amount": {
+     "az": "½ çay qaşığı",
+     "ru": "½ ч. ложки",
+     "en": "½ tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Qatıq",
+     "ru": "Йогурт",
+     "en": "Yoghurt"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı (istəyə bağlı)",
+     "ru": "2 ст. ложки (по желанию)",
+     "en": "2 tbsp (optional)"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Almanın ortasını çıxar.",
+    "ru": "Вырежь сердцевину.",
+    "en": "Core the apples."
+   },
+   {
+    "az": "İçinə xırdalanmış qoz və darçın qoy.",
+    "ru": "Наполни измельчёнными орехами и корицей.",
+    "en": "Fill with chopped walnuts and cinnamon."
+   },
+   {
+    "az": "180°C sobada 20 dəqiqə bişir, qatıqla süfrəyə ver.",
+    "ru": "Запекай 20 минут при 180°C, подавай с йогуртом.",
+    "en": "Bake at 180°C for 20 minutes; serve with yoghurt."
+   }
+  ]
+ },
+ "baked-fish-veg": {
+  "title": {
+   "az": "Sobada limonlu balıq və tərəvəz",
+   "ru": "Запечённая рыба с лимоном и овощами",
+   "en": "Baked lemon fish with vegetables"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Balıq filesi (kütüm, somon və s.)",
+     "ru": "Рыбное филе (кутум, лосось и т. д.)",
+     "en": "Fish fillet (kutum, salmon, etc.)"
+    },
+    "amount": {
+     "az": "2 parça",
+     "ru": "2 куска",
+     "en": "2 pieces"
+    }
+   },
+   {
+    "name": {
+     "az": "Balqabaq",
+     "ru": "Кабачок",
+     "en": "Courgette"
+    },
+    "amount": {
+     "az": "1 kiçik",
+     "ru": "1 маленький",
+     "en": "1 small"
+    }
+   },
+   {
+    "name": {
+     "az": "Bibər",
+     "ru": "Перец",
+     "en": "Pepper"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Limon",
+     "ru": "Лимон",
+     "en": "Lemon"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. ложка",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Şivid",
+     "ru": "Укроп",
+     "en": "Dill"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "a little"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Tərəvəzləri doğrayıb yağlay.",
+    "ru": "Нарежь овощи и сбрызни маслом.",
+    "en": "Chop and oil the vegetables."
+   },
+   {
+    "az": "Üstünə balıq və limon dilimi qoy.",
+    "ru": "Сверху выложи рыбу и ломтики лимона.",
+    "en": "Top with fish and lemon slices."
+   },
+   {
+    "az": "200°C sobada 18–20 dəqiqə bişir, şividlə süfrəyə ver.",
+    "ru": "Запекай 18–20 минут при 200°C, подавай с укропом.",
+    "en": "Bake at 200°C for 18–20 minutes; finish with dill."
+   }
+  ]
+ },
+ "baked-herb-chicken-kofta": {
+  "title": {
+   "az": "Sobada göyərtili toyuq küftəsi",
+   "ru": "Куриные кюфты с зеленью в духовке",
+   "en": "Baked herby chicken kofta"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Toyuq qiyməsi",
+     "ru": "Куриный фарш",
+     "en": "Minced chicken"
+    },
+    "amount": {
+     "az": "500 q",
+     "ru": "500 г",
+     "en": "500 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Soğan (sürtgəcdən)",
+     "ru": "Лук (тёртый)",
+     "en": "Onion, grated"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Kişniş, şivid",
+     "ru": "Кинза, укроп",
+     "en": "Coriander, dill"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Yumurta",
+     "ru": "Яйцо",
+     "en": "Egg"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Yulaf",
+     "ru": "Овсяные хлопья",
+     "en": "Oats"
+    },
+    "amount": {
+     "az": "3 xörək qaşığı",
+     "ru": "3 ст. л.",
+     "en": "3 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Zirə",
+     "ru": "Зира",
+     "en": "Cumin"
+    },
+    "amount": {
+     "az": "½ çay qaşığı",
+     "ru": "½ ч. л.",
+     "en": "½ tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Bütün tərkibi yaxşıca yoğur.",
+    "ru": "Хорошо вымеси все ингредиенты.",
+    "en": "Mix everything together well."
+   },
+   {
+    "az": "Yaş əllə 16 küftə düzəlt, yağlı kağız üzərinə düz.",
+    "ru": "Влажными руками сформируй 16 кюфт и выложи на пергамент.",
+    "en": "With wet hands shape 16 koftas and place on a lined tray."
+   },
+   {
+    "az": "200°C sobada 18–20 dəqiqə, içi tam bişənə qədər bişir. Qatıqlı sous və salatla süfrəyə ver.",
+    "ru": "Запекай при 200°C 18–20 минут до полной готовности. Подавай с йогуртовым соусом и салатом.",
+    "en": "Bake at 200°C for 18–20 minutes until cooked through. Serve with yoghurt sauce and salad."
+   }
+  ]
+ },
+ "baked-sea-bass": {
+  "title": {
+   "az": "Göyərti və limonla bütöv bişmiş levrek",
+   "ru": "Сибас, запечённый целиком с зеленью и лимоном",
+   "en": "Whole baked sea bass with herbs and lemon"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Levrek (təmizlənmiş)",
+     "ru": "Сибас (очищенный)",
+     "en": "Sea bass (cleaned)"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Limon",
+     "ru": "Лимон",
+     "en": "Lemon"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Şivid, cəfəri",
+     "ru": "Укроп, петрушка",
+     "en": "Dill, parsley"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Sarımsaq",
+     "ru": "Чеснок",
+     "en": "Garlic"
+    },
+    "amount": {
+     "az": "2 diş",
+     "ru": "2 зубчика",
+     "en": "2 cloves"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. л.",
+     "en": "2 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Albalı pomidoru",
+     "ru": "Помидоры черри",
+     "en": "Cherry tomatoes"
+    },
+    "amount": {
+     "az": "10 ədəd",
+     "ru": "10 шт.",
+     "en": "10"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Sobanı 200°C-yə qızdır.",
+    "ru": "Разогрей духовку до 200°C.",
+    "en": "Heat the oven to 200°C."
+   },
+   {
+    "az": "Balığın içini duz, istiot, limon dilimləri, sarımsaq və göyərti ilə doldur.",
+    "ru": "Нафаршируй рыбу солью, перцем, ломтиками лимона, чесноком и зеленью.",
+    "en": "Fill each fish with salt, pepper, lemon slices, garlic and herbs."
+   },
+   {
+    "az": "Qaba qoy, ətrafına pomidor düz, üstünə yağ çək.",
+    "ru": "Выложи в форму, вокруг — помидоры, сбрызни маслом.",
+    "en": "Place in a dish with the tomatoes around and drizzle with oil."
+   },
+   {
+    "az": "20–25 dəqiqə, ət asanlıqla laylanana qədər bişir.",
+    "ru": "Запекай 20–25 минут, пока мясо не будет легко отделяться слоями.",
+    "en": "Bake 20–25 minutes until the flesh flakes easily."
+   }
+  ]
+ },
+ "banana-bread-chocolate": {
+  "title": {
+   "az": "Tünd şokoladlı banan çörəyi",
+   "ru": "Банановый хлеб с тёмным шоколадом",
+   "en": "Dark chocolate banana bread"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Yetişmiş banan",
+     "ru": "Спелые бананы",
+     "en": "Ripe bananas"
+    },
+    "amount": {
+     "az": "3 ədəd",
+     "ru": "3 шт.",
+     "en": "3"
+    }
+   },
+   {
+    "name": {
+     "az": "Yumurta",
+     "ru": "Яйца",
+     "en": "Eggs"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Bitki yağı",
+     "ru": "Растительное масло",
+     "en": "Vegetable oil"
+    },
+    "amount": {
+     "az": "80 ml",
+     "ru": "80 мл",
+     "en": "80 ml"
+    }
+   },
+   {
+    "name": {
+     "az": "Qəhvəyi şəkər",
+     "ru": "Коричневый сахар",
+     "en": "Brown sugar"
+    },
+    "amount": {
+     "az": "70 q",
+     "ru": "70 г",
+     "en": "70 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Un",
+     "ru": "Мука",
+     "en": "Flour"
+    },
+    "amount": {
+     "az": "200 q (yarısı tam taxıl)",
+     "ru": "200 г (половина цельнозерновая)",
+     "en": "200 g (half wholemeal)"
+    }
+   },
+   {
+    "name": {
+     "az": "Kakao tozu",
+     "ru": "Какао-порошок",
+     "en": "Cocoa powder"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. л.",
+     "en": "2 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Soda",
+     "ru": "Сода",
+     "en": "Bicarbonate of soda"
+    },
+    "amount": {
+     "az": "1 çay qaşığı",
+     "ru": "1 ч. л.",
+     "en": "1 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz",
+     "ru": "Соль",
+     "en": "Salt"
+    },
+    "amount": {
+     "az": "½ çay qaşığı",
+     "ru": "½ ч. л.",
+     "en": "½ tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Tünd şokolad (doğranmış)",
+     "ru": "Тёмный шоколад (рубленый)",
+     "en": "Dark chocolate (chopped)"
+    },
+    "amount": {
+     "az": "80 q",
+     "ru": "80 г",
+     "en": "80 g"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Sobanı 175°C-yə qızdır, formanı döşə.",
+    "ru": "Разогрей духовку до 175°C, застели форму.",
+    "en": "Heat the oven to 175°C and line a loaf tin."
+   },
+   {
+    "az": "Bananı əz, yumurta, yağ və şəkərlə qarışdır.",
+    "ru": "Разомни бананы, смешай с яйцами, маслом и сахаром.",
+    "en": "Mash the bananas and mix with eggs, oil and sugar."
+   },
+   {
+    "az": "Un, kakao, soda və duzu əlavə et, sonra şokoladın çoxunu qat.",
+    "ru": "Добавь муку, какао, соду и соль, затем бо́льшую часть шоколада.",
+    "en": "Add flour, cocoa, soda and salt, then fold in most of the chocolate."
+   },
+   {
+    "az": "Formaya tök, qalan şokoladı üstünə səp, 50–55 dəqiqə bişir.",
+    "ru": "Вылей в форму, посыпь оставшимся шоколадом и выпекай 50–55 минут.",
+    "en": "Pour into the tin, scatter with the rest of the chocolate and bake 50–55 minutes."
+   }
+  ]
+ },
+ "banana-bread-classic": {
+  "title": {
+   "az": "Klassik banan çörəyi",
+   "ru": "Классический банановый хлеб",
+   "en": "Classic banana bread"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Yetişmiş banan",
+     "ru": "Спелые бананы",
+     "en": "Ripe bananas"
+    },
+    "amount": {
+     "az": "3 ədəd",
+     "ru": "3 шт.",
+     "en": "3"
+    }
+   },
+   {
+    "name": {
+     "az": "Yumurta",
+     "ru": "Яйца",
+     "en": "Eggs"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Bitki yağı",
+     "ru": "Растительное масло",
+     "en": "Vegetable oil"
+    },
+    "amount": {
+     "az": "80 ml",
+     "ru": "80 мл",
+     "en": "80 ml"
+    }
+   },
+   {
+    "name": {
+     "az": "Qəhvəyi şəkər",
+     "ru": "Коричневый сахар",
+     "en": "Brown sugar"
+    },
+    "amount": {
+     "az": "80 q",
+     "ru": "80 г",
+     "en": "80 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Un",
+     "ru": "Мука",
+     "en": "Flour"
+    },
+    "amount": {
+     "az": "220 q (yarısı tam taxıl)",
+     "ru": "220 г (половина цельнозерновая)",
+     "en": "220 g (half wholemeal)"
+    }
+   },
+   {
+    "name": {
+     "az": "Soda",
+     "ru": "Сода",
+     "en": "Bicarbonate of soda"
+    },
+    "amount": {
+     "az": "1 çay qaşığı",
+     "ru": "1 ч. л.",
+     "en": "1 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz",
+     "ru": "Соль",
+     "en": "Salt"
+    },
+    "amount": {
+     "az": "½ çay qaşığı",
+     "ru": "½ ч. л.",
+     "en": "½ tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Darçın",
+     "ru": "Корица",
+     "en": "Cinnamon"
+    },
+    "amount": {
+     "az": "1 çay qaşığı",
+     "ru": "1 ч. л.",
+     "en": "1 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Vanil ekstraktı",
+     "ru": "Ванильный экстракт",
+     "en": "Vanilla extract"
+    },
+    "amount": {
+     "az": "1 çay qaşığı",
+     "ru": "1 ч. л.",
+     "en": "1 tsp"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Sobanı 175°C-yə qızdır, kərpic formanı yağlı kağızla döşə.",
+    "ru": "Разогрей духовку до 175°C, застели форму для кекса пергаментом.",
+    "en": "Heat the oven to 175°C and line a loaf tin."
+   },
+   {
+    "az": "Bananı çəngəllə əz, yumurta, yağ, şəkər və vanillə qarışdır.",
+    "ru": "Разомни бананы вилкой, смешай с яйцами, маслом, сахаром и ванилью.",
+    "en": "Mash the bananas and mix with eggs, oil, sugar and vanilla."
+   },
+   {
+    "az": "Un, soda, duz və darçını əlavə edib sadəcə birləşənə qədər qarışdır.",
+    "ru": "Добавь муку, соду, соль и корицу и перемешай только до соединения.",
+    "en": "Add flour, soda, salt and cinnamon and stir just until combined."
+   },
+   {
+    "az": "Formaya töküb 50–55 dəqiqə, çöp quru çıxana qədər bişir; formada 10 dəqiqə soyut.",
+    "ru": "Вылей в форму и выпекай 50–55 минут до сухой шпажки; остуди в форме 10 минут.",
+    "en": "Pour into the tin and bake 50–55 minutes until a skewer comes out clean; cool 10 minutes in the tin."
+   }
+  ]
+ },
+ "banana-bread-oat-walnut": {
+  "title": {
+   "az": "Yulaflı-qozlu banan çörəyi (əlavə şəkərsiz)",
+   "ru": "Банановый хлеб с овсянкой и орехами (без добавленного сахара)",
+   "en": "Oat and walnut banana bread (no added sugar)"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Çox yetişmiş banan",
+     "ru": "Очень спелые бананы",
+     "en": "Very ripe bananas"
+    },
+    "amount": {
+     "az": "4 ədəd",
+     "ru": "4 шт.",
+     "en": "4"
+    }
+   },
+   {
+    "name": {
+     "az": "Yumurta",
+     "ru": "Яйца",
+     "en": "Eggs"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Bitki yağı",
+     "ru": "Растительное масло",
+     "en": "Vegetable oil"
+    },
+    "amount": {
+     "az": "60 ml",
+     "ru": "60 мл",
+     "en": "60 ml"
+    }
+   },
+   {
+    "name": {
+     "az": "Yulaf unu (üyüdülmüş yulaf)",
+     "ru": "Овсяная мука (молотые хлопья)",
+     "en": "Oat flour (blended oats)"
+    },
+    "amount": {
+     "az": "100 q",
+     "ru": "100 г",
+     "en": "100 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Tam taxıl unu",
+     "ru": "Цельнозерновая мука",
+     "en": "Wholemeal flour"
+    },
+    "amount": {
+     "az": "120 q",
+     "ru": "120 г",
+     "en": "120 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Qabartma tozu",
+     "ru": "Разрыхлитель",
+     "en": "Baking powder"
+    },
+    "amount": {
+     "az": "1,5 çay qaşığı",
+     "ru": "1,5 ч. л.",
+     "en": "1.5 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Darçın",
+     "ru": "Корица",
+     "en": "Cinnamon"
+    },
+    "amount": {
+     "az": "1 çay qaşığı",
+     "ru": "1 ч. л.",
+     "en": "1 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Qoz (doğranmış)",
+     "ru": "Грецкие орехи (рубленые)",
+     "en": "Walnuts (chopped)"
+    },
+    "amount": {
+     "az": "60 q",
+     "ru": "60 г",
+     "en": "60 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Xurma (doğranmış)",
+     "ru": "Финики (рубленые)",
+     "en": "Dates (chopped)"
+    },
+    "amount": {
+     "az": "4 ədəd (istəyə bağlı)",
+     "ru": "4 шт. (по желанию)",
+     "en": "4 (optional)"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Sobanı 175°C-yə qızdır, formanı döşə.",
+    "ru": "Разогрей духовку до 175°C, застели форму.",
+    "en": "Heat the oven to 175°C and line a loaf tin."
+   },
+   {
+    "az": "Bananı əz, yumurta və yağla qarışdır.",
+    "ru": "Разомни бананы, смешай с яйцами и маслом.",
+    "en": "Mash the bananas and mix with eggs and oil."
+   },
+   {
+    "az": "Yulaf unu, tam taxıl unu, qabartma tozu və darçını əlavə et, qoz və xurmanı qat.",
+    "ru": "Добавь овсяную и цельнозерновую муку, разрыхлитель и корицу, вмешай орехи и финики.",
+    "en": "Add oat flour, wholemeal flour, baking powder and cinnamon; fold in walnuts and dates."
+   },
+   {
+    "az": "Formaya töküb 45–50 dəqiqə bişir; tam soyuyandan sonra dilimlə.",
+    "ru": "Вылей в форму и выпекай 45–50 минут; нарезай после полного остывания.",
+    "en": "Bake 45–50 minutes; slice once completely cool."
+   }
+  ]
+ },
+ "banana-oat-cocoa-smoothie": {
+  "title": {
+   "az": "Banan-yulaf-kakao smuzisi",
+   "ru": "Смузи с бананом, овсянкой и какао",
+   "en": "Banana, oat and cocoa smoothie"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Banan",
+     "ru": "Банан",
+     "en": "Banana"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Yulaf",
+     "ru": "Овсяные хлопья",
+     "en": "Oats"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. л.",
+     "en": "2 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Kakao tozu",
+     "ru": "Какао-порошок",
+     "en": "Cocoa powder"
+    },
+    "amount": {
+     "az": "1 çay qaşığı",
+     "ru": "1 ч. л.",
+     "en": "1 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Süd və ya bitki südü",
+     "ru": "Молоко или растительное молоко",
+     "en": "Milk or plant milk"
+    },
+    "amount": {
+     "az": "1 stəkan",
+     "ru": "1 стакан",
+     "en": "1 cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Fıstıq pastası",
+     "ru": "Арахисовая паста",
+     "en": "Peanut butter"
+    },
+    "amount": {
+     "az": "1 çay qaşığı (istəyə bağlı)",
+     "ru": "1 ч. л. (по желанию)",
+     "en": "1 tsp (optional)"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Bütün tərkibi blenderə qoy.",
+    "ru": "Положи всё в блендер.",
+    "en": "Put everything in a blender."
+   },
+   {
+    "az": "Yulaf tam əzilənə qədər 1 dəqiqə çal.",
+    "ru": "Взбивай 1 минуту, пока овсянка полностью не измельчится.",
+    "en": "Blend for 1 minute until the oats are smooth."
+   },
+   {
+    "az": "Dərhal iç.",
+    "ru": "Пей сразу.",
+    "en": "Drink straight away."
+   }
+  ]
+ },
+ "banana-oat-cookies": {
+  "title": {
+   "az": "Banan-yulaf peçenyesi",
+   "ru": "Бананово-овсяное печенье",
+   "en": "Banana oat cookies"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Yetişmiş banan",
+     "ru": "Спелые бананы",
+     "en": "Ripe bananas"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Yulaf",
+     "ru": "Овсяные хлопья",
+     "en": "Oats"
+    },
+    "amount": {
+     "az": "1,5 stəkan",
+     "ru": "1,5 стакана",
+     "en": "1.5 cups"
+    }
+   },
+   {
+    "name": {
+     "az": "Darçın",
+     "ru": "Корица",
+     "en": "Cinnamon"
+    },
+    "amount": {
+     "az": "½ çay qaşığı",
+     "ru": "½ ч. л.",
+     "en": "½ tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Tünd şokolad parçaları və ya kişmiş",
+     "ru": "Кусочки тёмного шоколада или изюм",
+     "en": "Dark chocolate chips or raisins"
+    },
+    "amount": {
+     "az": "30 q",
+     "ru": "30 г",
+     "en": "30 g"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Sobanı 180°C-yə qızdır.",
+    "ru": "Разогрей духовку до 180°C.",
+    "en": "Heat the oven to 180°C."
+   },
+   {
+    "az": "Bananı əz, yulaf, darçın və şokoladla qarışdır, 5 dəqiqə saxla.",
+    "ru": "Разомни бананы, смешай с овсянкой, корицей и шоколадом, оставь на 5 минут.",
+    "en": "Mash the bananas and mix with oats, cinnamon and chocolate; rest 5 minutes."
+   },
+   {
+    "az": "Yağlı kağıza 12 yastı peçenye qoy.",
+    "ru": "Выложи на пергамент 12 плоских печений.",
+    "en": "Spoon 12 flat cookies onto a lined tray."
+   },
+   {
+    "az": "15 dəqiqə, kənarları qızarana qədər bişir.",
+    "ru": "Выпекай 15 минут до румяных краёв.",
+    "en": "Bake 15 minutes until golden at the edges."
+   }
+  ]
+ },
+ "beet-carpaccio": {
+  "title": {
+   "az": "Keçi pendiri və qozla çuğundur karpaççosu",
+   "ru": "Карпаччо из свёклы с козьим сыром и орехами",
+   "en": "Beetroot carpaccio with goat cheese and walnuts"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Bişmiş çuğundur",
+     "ru": "Варёная или запечённая свёкла",
+     "en": "Cooked beetroot"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Keçi pendiri (pasterizə edilmiş)",
+     "ru": "Козий сыр (пастеризованный)",
+     "en": "Goat cheese (pasteurised)"
+    },
+    "amount": {
+     "az": "60 q",
+     "ru": "60 г",
+     "en": "60 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Qoz",
+     "ru": "Грецкие орехи",
+     "en": "Walnuts"
+    },
+    "amount": {
+     "az": "6 ədəd",
+     "ru": "6 шт.",
+     "en": "6"
+    }
+   },
+   {
+    "name": {
+     "az": "Roka",
+     "ru": "Руккола",
+     "en": "Rocket"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Balzam sirkəsi",
+     "ru": "Бальзамический уксус",
+     "en": "Balsamic vinegar"
+    },
+    "amount": {
+     "az": "1 çay qaşığı",
+     "ru": "1 ч. л.",
+     "en": "1 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Çuğunduru çox nazik dairələr şəklində doğra və boşqaba bir-birinin üstünə düz.",
+    "ru": "Нарежь свёклу очень тонкими кружками и выложи на тарелку внахлёст.",
+    "en": "Slice the beetroot paper-thin and fan it over a plate."
+   },
+   {
+    "az": "Üzərinə xırdalanmış keçi pendiri, qovrulmuş qoz və roka qoy.",
+    "ru": "Сверху раскроши козий сыр, добавь поджаренные орехи и рукколу.",
+    "en": "Crumble over the goat cheese and add toasted walnuts and rocket."
+   },
+   {
+    "az": "Yağ və balzam sirkəsini qarışdırıb üstünə çilə, duz-istiot əlavə et.",
+    "ru": "Смешай масло с уксусом, сбрызни, посоли и поперчи.",
+    "en": "Whisk oil with balsamic, drizzle and season."
+   }
+  ]
+ },
+ "beet-walnut-salad": {
+  "title": {
+   "az": "Qozlu və sarımsaqlı çuğundur salatı",
+   "ru": "Салат из свёклы с орехами и чесноком",
+   "en": "Beetroot, walnut and garlic yoghurt salad"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Bişmiş çuğundur",
+     "ru": "Варёная свёкла",
+     "en": "Cooked beetroot"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Qoz",
+     "ru": "Грецкие орехи",
+     "en": "Walnuts"
+    },
+    "amount": {
+     "az": "6 ədəd",
+     "ru": "6 шт.",
+     "en": "6"
+    }
+   },
+   {
+    "name": {
+     "az": "Süzülmüş qatıq",
+     "ru": "Процеженный йогурт",
+     "en": "Strained yoghurt"
+    },
+    "amount": {
+     "az": "4 xörək qaşığı",
+     "ru": "4 ст. л.",
+     "en": "4 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Sarımsaq",
+     "ru": "Чеснок",
+     "en": "Garlic"
+    },
+    "amount": {
+     "az": "1 diş",
+     "ru": "1 зубчик",
+     "en": "1 clove"
+    }
+   },
+   {
+    "name": {
+     "az": "Gavalı qurusu",
+     "ru": "Чернослив",
+     "en": "Prunes"
+    },
+    "amount": {
+     "az": "4 ədəd (istəyə bağlı)",
+     "ru": "4 шт. (по желанию)",
+     "en": "4 (optional)"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz",
+     "ru": "Соль",
+     "en": "Salt"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Çuğunduru iri sürtgəcdən keçir.",
+    "ru": "Натри свёклу на крупной тёрке.",
+    "en": "Coarsely grate the beetroot."
+   },
+   {
+    "az": "Qozu və gavalı qurusunu xırda doğra.",
+    "ru": "Мелко порежь орехи и чернослив.",
+    "en": "Chop the walnuts and prunes."
+   },
+   {
+    "az": "Qatıq və əzilmiş sarımsaqla qarışdır, duz əlavə et.",
+    "ru": "Смешай с йогуртом и давленым чесноком, посоли.",
+    "en": "Mix with yoghurt and crushed garlic; season."
+   }
+  ]
+ },
+ "berry-oats": {
+  "title": {
+   "az": "Giləmeyvəli yulaf qabı",
+   "ru": "Овсянка с ягодами",
+   "en": "Berry oat bowl"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Yulaf",
+     "ru": "Овсяные хлопья",
+     "en": "Oats"
+    },
+    "amount": {
+     "az": "4 xörək qaşığı",
+     "ru": "4 ст. ложки",
+     "en": "4 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Qatıq",
+     "ru": "Йогурт (гатыг)",
+     "en": "Plain yoghurt"
+    },
+    "amount": {
+     "az": "1 stəkan",
+     "ru": "1 стакан",
+     "en": "1 cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Giləmeyvə",
+     "ru": "Ягоды",
+     "en": "Berries"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Qoz",
+     "ru": "Грецкие орехи",
+     "en": "Walnuts"
+    },
+    "amount": {
+     "az": "3–4 ədəd",
+     "ru": "3–4 шт.",
+     "en": "3–4"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Yulafı qatıqla qarışdır, 5 dəqiqə saxla.",
+    "ru": "Смешай овсянку с йогуртом, оставь на 5 минут.",
+    "en": "Mix oats with yoghurt and let sit 5 minutes."
+   },
+   {
+    "az": "Üzərinə giləmeyvə və qoz əlavə et.",
+    "ru": "Добавь ягоды и орехи.",
+    "en": "Top with berries and walnuts."
+   }
+  ]
+ },
+ "berry-yoghurt-smoothie": {
+  "title": {
+   "az": "Giləmeyvə-qatıq smuzisi",
+   "ru": "Ягодный смузи с йогуртом",
+   "en": "Berry yoghurt smoothie"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Giləmeyvə (dondurulmuş)",
+     "ru": "Ягоды (замороженные)",
+     "en": "Frozen berries"
+    },
+    "amount": {
+     "az": "1 stəkan",
+     "ru": "1 стакан",
+     "en": "1 cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Qatıq",
+     "ru": "Йогурт",
+     "en": "Plain yoghurt"
+    },
+    "amount": {
+     "az": "¾ stəkan",
+     "ru": "¾ стакана",
+     "en": "¾ cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Banan",
+     "ru": "Банан",
+     "en": "Banana"
+    },
+    "amount": {
+     "az": "½ ədəd",
+     "ru": "½ шт.",
+     "en": "½"
+    }
+   },
+   {
+    "name": {
+     "az": "Çiya toxumu",
+     "ru": "Семена чиа",
+     "en": "Chia seeds"
+    },
+    "amount": {
+     "az": "1 çay qaşığı (istəyə bağlı)",
+     "ru": "1 ч. л. (по желанию)",
+     "en": "1 tsp (optional)"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Bütün tərkibi blenderə qoy.",
+    "ru": "Положи всё в блендер.",
+    "en": "Put everything in a blender."
+   },
+   {
+    "az": "Hamar olana qədər çal; qatı olarsa bir az su əlavə et.",
+    "ru": "Взбей до однородности; если слишком густо, добавь немного воды.",
+    "en": "Blend until smooth, adding a splash of water if too thick."
+   },
+   {
+    "az": "Dərhal iç.",
+    "ru": "Пей сразу.",
+    "en": "Drink straight away."
+   }
+  ]
+ },
+ "buckwheat-mushrooms": {
+  "title": {
+   "az": "Qreçka və göbələk",
+   "ru": "Гречка с грибами",
+   "en": "Buckwheat with mushrooms"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Qreçka (qarabaşaq)",
+     "ru": "Гречка",
+     "en": "Buckwheat"
+    },
+    "amount": {
+     "az": "1 stəkan",
+     "ru": "1 стакан",
+     "en": "1 cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Göbələk",
+     "ru": "Грибы",
+     "en": "Mushrooms"
+    },
+    "amount": {
+     "az": "200 q",
+     "ru": "200 г",
+     "en": "200 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Soğan",
+     "ru": "Лук",
+     "en": "Onion"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. ложка",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Şivid",
+     "ru": "Укроп",
+     "en": "Dill"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "a little"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Qreçkanı 2 stəkan suda 15 dəqiqə bişir.",
+    "ru": "Отвари гречку в 2 стаканах воды 15 минут.",
+    "en": "Cook buckwheat in 2 cups water for 15 minutes."
+   },
+   {
+    "az": "Soğan və göbələyi yağda 7–8 dəqiqə bişir.",
+    "ru": "Обжарь лук и грибы 7–8 минут.",
+    "en": "Cook onion and mushrooms in oil for 7–8 minutes."
+   },
+   {
+    "az": "Qarışdırıb şividlə süfrəyə ver.",
+    "ru": "Смешай и подавай с укропом.",
+    "en": "Combine and serve with dill."
+   }
+  ]
+ },
+ "buckwheat-risotto": {
+  "title": {
+   "az": "Göbələkli qreçka risottosu",
+   "ru": "Гречотто с грибами",
+   "en": "Buckwheat 'risotto' with mushrooms"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Qreçka",
+     "ru": "Гречка",
+     "en": "Buckwheat"
+    },
+    "amount": {
+     "az": "1 stəkan",
+     "ru": "1 стакан",
+     "en": "1 cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Göbələk",
+     "ru": "Грибы",
+     "en": "Mushrooms"
+    },
+    "amount": {
+     "az": "250 q",
+     "ru": "250 г",
+     "en": "250 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Soğan",
+     "ru": "Лук",
+     "en": "Onion"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Sarımsaq",
+     "ru": "Чеснок",
+     "en": "Garlic"
+    },
+    "amount": {
+     "az": "1 diş",
+     "ru": "1 зубчик",
+     "en": "1 clove"
+    }
+   },
+   {
+    "name": {
+     "az": "Tərəvəz bulyonu",
+     "ru": "Овощной бульон",
+     "en": "Vegetable stock"
+    },
+    "amount": {
+     "az": "3 stəkan",
+     "ru": "3 стакана",
+     "en": "3 cups"
+    }
+   },
+   {
+    "name": {
+     "az": "Parmezan (sürtgəcdən keçirilmiş)",
+     "ru": "Пармезан (тёртый)",
+     "en": "Parmesan (grated)"
+    },
+    "amount": {
+     "az": "30 q",
+     "ru": "30 г",
+     "en": "30 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Kəklikotu",
+     "ru": "Тимьян",
+     "en": "Thyme"
+    },
+    "amount": {
+     "az": "2 budaq",
+     "ru": "2 веточки",
+     "en": "2 sprigs"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Soğan və sarımsağı yağda 3 dəqiqə yumşald, göbələyi əlavə edib 5 dəqiqə bişir.",
+    "ru": "Обжарь лук и чеснок 3 минуты, добавь грибы и готовь 5 минут.",
+    "en": "Soften onion and garlic in oil for 3 minutes; add mushrooms and cook 5 minutes."
+   },
+   {
+    "az": "Qreçkanı əlavə et, 1 dəqiqə qarışdır.",
+    "ru": "Всыпь гречку и перемешай 1 минуту.",
+    "en": "Stir in the buckwheat for 1 minute."
+   },
+   {
+    "az": "İsti bulyonu hissə-hissə əlavə edərək 15–18 dəqiqə, qreçka yumşalana qədər bişir.",
+    "ru": "Вливай горячий бульон порциями и готовь 15–18 минут, пока гречка не станет мягкой.",
+    "en": "Add hot stock a ladle at a time and cook 15–18 minutes until tender."
+   },
+   {
+    "az": "Oddan götür, parmezan və kəklikotu ilə qarışdır.",
+    "ru": "Сними с огня, вмешай пармезан и тимьян.",
+    "en": "Off the heat, stir in parmesan and thyme."
+   }
+  ]
+ },
+ "bulgur-chickpea-salad": {
+  "title": {
+   "az": "Bulqur və noxud salatı",
+   "ru": "Салат из булгура и нута",
+   "en": "Bulgur and chickpea salad"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Bulqur",
+     "ru": "Булгур",
+     "en": "Bulgur"
+    },
+    "amount": {
+     "az": "½ stəkan",
+     "ru": "½ стакана",
+     "en": "½ cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Bişmiş noxud",
+     "ru": "Варёный нут",
+     "en": "Cooked chickpeas"
+    },
+    "amount": {
+     "az": "1 stəkan",
+     "ru": "1 стакан",
+     "en": "1 cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Pomidor",
+     "ru": "Помидоры",
+     "en": "Tomatoes"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Xiyar",
+     "ru": "Огурец",
+     "en": "Cucumber"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Kişniş, nanə",
+     "ru": "Кинза, мята",
+     "en": "Coriander, mint"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. ложка",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Limon",
+     "ru": "Лимон",
+     "en": "Lemon"
+    },
+    "amount": {
+     "az": "½ ədəd",
+     "ru": "½ шт.",
+     "en": "½"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Bulquru 1 stəkan qaynar su ilə örtüb 10 dəqiqə saxla.",
+    "ru": "Залей булгур стаканом кипятка на 10 минут.",
+    "en": "Cover bulgur with 1 cup boiling water for 10 minutes."
+   },
+   {
+    "az": "Tərəvəzləri və göyərtini doğra.",
+    "ru": "Нарежь овощи и зелень.",
+    "en": "Chop the vegetables and herbs."
+   },
+   {
+    "az": "Hamısını noxud, yağ və limonla qarışdır.",
+    "ru": "Смешай с нутом, маслом и лимоном.",
+    "en": "Toss with chickpeas, oil and lemon."
+   }
+  ]
+ },
+ "bulgur-stuffed-peppers": {
+  "title": {
+   "az": "Bulqurlu bibər dolması",
+   "ru": "Перцы, фаршированные булгуром",
+   "en": "Bulgur-stuffed peppers"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Bolqar bibəri",
+     "ru": "Болгарский перец",
+     "en": "Bell peppers"
+    },
+    "amount": {
+     "az": "4 ədəd",
+     "ru": "4 шт.",
+     "en": "4"
+    }
+   },
+   {
+    "name": {
+     "az": "Bulqur",
+     "ru": "Булгур",
+     "en": "Bulgur"
+    },
+    "amount": {
+     "az": "¾ stəkan",
+     "ru": "¾ стакана",
+     "en": "¾ cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Hinduşka qiyməsi",
+     "ru": "Фарш индейки",
+     "en": "Minced turkey"
+    },
+    "amount": {
+     "az": "250 q",
+     "ru": "250 г",
+     "en": "250 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Soğan",
+     "ru": "Лук",
+     "en": "Onion"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Pomidor pastası",
+     "ru": "Томатная паста",
+     "en": "Tomato paste"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Cəfəri, nanə",
+     "ru": "Петрушка, мята",
+     "en": "Parsley, mint"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Soğanı yağda yumşald, qiyməni əlavə edib 5 dəqiqə bişir.",
+    "ru": "Обжарь лук, добавь фарш и готовь 5 минут.",
+    "en": "Soften the onion in oil, add the mince and cook 5 minutes."
+   },
+   {
+    "az": "Bulqur, pomidor pastası, göyərti və 1 stəkan su əlavə edib 5 dəqiqə dəmlə.",
+    "ru": "Добавь булгур, томатную пасту, зелень и стакан воды, туши 5 минут.",
+    "en": "Stir in bulgur, tomato paste, herbs and 1 cup water; simmer 5 minutes."
+   },
+   {
+    "az": "Bibərlərin içini çıxarıb qarışıqla doldur.",
+    "ru": "Очисть перцы и нафаршируй смесью.",
+    "en": "Hollow out the peppers and fill them."
+   },
+   {
+    "az": "Qaba düz, dibinə 1 stəkan su tök, örtüb 180°C sobada 30–35 dəqiqə bişir.",
+    "ru": "Выложи в форму, налей на дно стакан воды, накрой и запекай при 180°C 30–35 минут.",
+    "en": "Stand in a dish with 1 cup water, cover and bake at 180°C for 30–35 minutes."
+   }
+  ]
+ },
+ "carrot-cake-light": {
+  "title": {
+   "az": "Qatıq kremli havuçlu kek (az şəkərli)",
+   "ru": "Морковный торт с йогуртовым кремом (меньше сахара)",
+   "en": "Lighter carrot cake with yoghurt frosting"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Un",
+     "ru": "Мука",
+     "en": "Flour"
+    },
+    "amount": {
+     "az": "200 q (yarısı tam taxıl)",
+     "ru": "200 г (половина цельнозерновая)",
+     "en": "200 g (half wholemeal)"
+    }
+   },
+   {
+    "name": {
+     "az": "Qabartma tozu",
+     "ru": "Разрыхлитель",
+     "en": "Baking powder"
+    },
+    "amount": {
+     "az": "2 çay qaşığı",
+     "ru": "2 ч. л.",
+     "en": "2 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Soda",
+     "ru": "Сода",
+     "en": "Bicarbonate of soda"
+    },
+    "amount": {
+     "az": "½ çay qaşığı",
+     "ru": "½ ч. л.",
+     "en": "½ tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Darçın",
+     "ru": "Корица",
+     "en": "Cinnamon"
+    },
+    "amount": {
+     "az": "2 çay qaşığı",
+     "ru": "2 ч. л.",
+     "en": "2 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz",
+     "ru": "Соль",
+     "en": "Salt"
+    },
+    "amount": {
+     "az": "1 çimdik",
+     "ru": "1 щепотка",
+     "en": "1 pinch"
+    }
+   },
+   {
+    "name": {
+     "az": "Yumurta",
+     "ru": "Яйца",
+     "en": "Eggs"
+    },
+    "amount": {
+     "az": "3 ədəd",
+     "ru": "3 шт.",
+     "en": "3"
+    }
+   },
+   {
+    "name": {
+     "az": "Bitki yağı",
+     "ru": "Растительное масло",
+     "en": "Vegetable oil"
+    },
+    "amount": {
+     "az": "120 ml",
+     "ru": "120 мл",
+     "en": "120 ml"
+    }
+   },
+   {
+    "name": {
+     "az": "Qəhvəyi şəkər",
+     "ru": "Коричневый сахар",
+     "en": "Brown sugar"
+    },
+    "amount": {
+     "az": "120 q",
+     "ru": "120 г",
+     "en": "120 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Yerkökü (sürtgəcdən)",
+     "ru": "Морковь (тёртая)",
+     "en": "Carrots (grated)"
+    },
+    "amount": {
+     "az": "300 q",
+     "ru": "300 г",
+     "en": "300 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Qoz (doğranmış)",
+     "ru": "Грецкие орехи (рубленые)",
+     "en": "Walnuts (chopped)"
+    },
+    "amount": {
+     "az": "60 q",
+     "ru": "60 г",
+     "en": "60 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Krem: süzülmüş qatıq",
+     "ru": "Крем: процеженный йогурт",
+     "en": "Frosting: strained yoghurt"
+    },
+    "amount": {
+     "az": "200 q",
+     "ru": "200 г",
+     "en": "200 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Krem: krem pendir",
+     "ru": "Крем: сливочный сыр",
+     "en": "Frosting: cream cheese"
+    },
+    "amount": {
+     "az": "100 q",
+     "ru": "100 г",
+     "en": "100 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Krem: bal",
+     "ru": "Крем: мёд",
+     "en": "Frosting: honey"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. л.",
+     "en": "2 tbsp"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Sobanı 180°C-yə qızdır, 22 sm-lik formanı yağlı kağızla döşə.",
+    "ru": "Разогрей духовку до 180°C, застели форму 22 см пергаментом.",
+    "en": "Heat the oven to 180°C and line a 22 cm tin."
+   },
+   {
+    "az": "Un, qabartma tozu, soda, darçın və duzu qarışdır.",
+    "ru": "Смешай муку, разрыхлитель, соду, корицу и соль.",
+    "en": "Mix flour, baking powder, soda, cinnamon and salt."
+   },
+   {
+    "az": "Ayrı qabda yumurta, yağ və şəkəri çal, yerkökü və qozu əlavə et, sonra quru tərkibi qat.",
+    "ru": "Отдельно взбей яйца, масло и сахар, добавь морковь и орехи, затем сухие ингредиенты.",
+    "en": "In another bowl whisk eggs, oil and sugar; stir in carrots and walnuts, then the dry mix."
+   },
+   {
+    "az": "Formaya töküb 40–45 dəqiqə, çöp quru çıxana qədər bişir; tam soyut.",
+    "ru": "Вылей в форму и выпекай 40–45 минут до сухой шпажки; полностью остуди.",
+    "en": "Pour into the tin and bake 40–45 minutes until a skewer comes out clean; cool completely."
+   },
+   {
+    "az": "Qatıq, krem pendir və balı çalıb kekin üstünə çək.",
+    "ru": "Взбей йогурт, сливочный сыр и мёд и покрой торт кремом.",
+    "en": "Beat yoghurt, cream cheese and honey and spread over the cake."
+   }
+  ]
+ },
+ "carrot-cake-muffins": {
+  "title": {
+   "az": "Havuçlu maffinlər",
+   "ru": "Морковные маффины",
+   "en": "Carrot cake muffins"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Un",
+     "ru": "Мука",
+     "en": "Flour"
+    },
+    "amount": {
+     "az": "200 q (tam taxıl)",
+     "ru": "200 г (цельнозерновая)",
+     "en": "200 g (wholemeal)"
+    }
+   },
+   {
+    "name": {
+     "az": "Qabartma tozu",
+     "ru": "Разрыхлитель",
+     "en": "Baking powder"
+    },
+    "amount": {
+     "az": "2 çay qaşığı",
+     "ru": "2 ч. л.",
+     "en": "2 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Darçın",
+     "ru": "Корица",
+     "en": "Cinnamon"
+    },
+    "amount": {
+     "az": "1,5 çay qaşığı",
+     "ru": "1,5 ч. л.",
+     "en": "1.5 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Yumurta",
+     "ru": "Яйца",
+     "en": "Eggs"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Qatıq",
+     "ru": "Йогурт",
+     "en": "Plain yoghurt"
+    },
+    "amount": {
+     "az": "120 q",
+     "ru": "120 г",
+     "en": "120 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Bitki yağı",
+     "ru": "Растительное масло",
+     "en": "Vegetable oil"
+    },
+    "amount": {
+     "az": "60 ml",
+     "ru": "60 мл",
+     "en": "60 ml"
+    }
+   },
+   {
+    "name": {
+     "az": "Bal",
+     "ru": "Мёд",
+     "en": "Honey"
+    },
+    "amount": {
+     "az": "80 q",
+     "ru": "80 г",
+     "en": "80 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Yerkökü (sürtgəcdən)",
+     "ru": "Морковь (тёртая)",
+     "en": "Carrots (grated)"
+    },
+    "amount": {
+     "az": "200 q",
+     "ru": "200 г",
+     "en": "200 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Kişmiş",
+     "ru": "Изюм",
+     "en": "Raisins"
+    },
+    "amount": {
+     "az": "50 q",
+     "ru": "50 г",
+     "en": "50 g"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Sobanı 180°C-yə qızdır, maffin formasına 12 kağız qoy.",
+    "ru": "Разогрей духовку до 180°C, вставь 12 бумажных форм.",
+    "en": "Heat the oven to 180°C and line a 12-hole muffin tin."
+   },
+   {
+    "az": "Quru tərkibləri bir qabda, yumurta, qatıq, yağ və balı başqa qabda qarışdır.",
+    "ru": "Смешай сухие ингредиенты отдельно, а яйца, йогурт, масло и мёд — отдельно.",
+    "en": "Mix the dry ingredients in one bowl and eggs, yoghurt, oil and honey in another."
+   },
+   {
+    "az": "İkisini birləşdir, yerkökü və kişmişi qat — çox qarışdırma.",
+    "ru": "Соедини, вмешай морковь и изюм — не перемешивай долго.",
+    "en": "Combine, folding in carrots and raisins without overmixing."
+   },
+   {
+    "az": "Formalara bölüb 20–22 dəqiqə bişir.",
+    "ru": "Разложи по формам и выпекай 20–22 минуты.",
+    "en": "Divide between the cases and bake 20–22 minutes."
+   }
+  ]
+ },
+ "cheese-herb-toast": {
+  "title": {
+   "az": "Pendir və göyərti ilə tost",
+   "ru": "Тост с сыром и зеленью",
+   "en": "Cheese and herb toast"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Tam taxıl çörək",
+     "ru": "Цельнозерновой хлеб",
+     "en": "Wholegrain bread"
+    },
+    "amount": {
+     "az": "2 dilim",
+     "ru": "2 ломтика",
+     "en": "2 slices"
+    }
+   },
+   {
+    "name": {
+     "az": "Ağ pendir",
+     "ru": "Белый сыр",
+     "en": "White cheese"
+    },
+    "amount": {
+     "az": "40 q",
+     "ru": "40 г",
+     "en": "40 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Xiyar",
+     "ru": "Огурец",
+     "en": "Cucumber"
+    },
+    "amount": {
+     "az": "½ ədəd",
+     "ru": "½ шт.",
+     "en": "½"
+    }
+   },
+   {
+    "name": {
+     "az": "Reyhan, nanə, kişniş",
+     "ru": "Рейхан, мята, кинза",
+     "en": "Basil, mint, coriander"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Pomidor",
+     "ru": "Помидор",
+     "en": "Tomato"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Çörəyi qızard.",
+    "ru": "Подрумянь хлеб.",
+    "en": "Toast the bread."
+   },
+   {
+    "az": "Üzərinə pendir, doğranmış xiyar, pomidor və göyərti qoy.",
+    "ru": "Выложи сыр, огурец, помидор и зелень.",
+    "en": "Top with cheese, sliced cucumber, tomato and herbs."
+   }
+  ]
+ },
+ "chicken-durum": {
+  "title": {
+   "az": "Toyuqlu tam taxıl dürüm",
+   "ru": "Цельнозерновой ролл с курицей",
+   "en": "Wholegrain chicken wrap"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Tam taxıl lavaş",
+     "ru": "Цельнозерновой лаваш",
+     "en": "Wholegrain flatbread"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Bişmiş toyuq (dilimlənmiş)",
+     "ru": "Варёная или запечённая курица",
+     "en": "Cooked chicken, sliced"
+    },
+    "amount": {
+     "az": "200 q",
+     "ru": "200 г",
+     "en": "200 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Kahı",
+     "ru": "Салат",
+     "en": "Lettuce"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Pomidor",
+     "ru": "Помидор",
+     "en": "Tomato"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Xiyar",
+     "ru": "Огурец",
+     "en": "Cucumber"
+    },
+    "amount": {
+     "az": "½ ədəd",
+     "ru": "½ шт.",
+     "en": "½"
+    }
+   },
+   {
+    "name": {
+     "az": "Süzülmüş qatıq",
+     "ru": "Процеженный йогурт",
+     "en": "Strained yoghurt"
+    },
+    "amount": {
+     "az": "3 xörək qaşığı",
+     "ru": "3 ст. л.",
+     "en": "3 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Sarımsaq",
+     "ru": "Чеснок",
+     "en": "Garlic"
+    },
+    "amount": {
+     "az": "½ diş",
+     "ru": "½ зубчика",
+     "en": "½ clove"
+    }
+   },
+   {
+    "name": {
+     "az": "Sumaq",
+     "ru": "Сумах",
+     "en": "Sumac"
+    },
+    "amount": {
+     "az": "½ çay qaşığı",
+     "ru": "½ ч. л.",
+     "en": "½ tsp"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Qatığı sarımsaq və sumaqla qarışdır.",
+    "ru": "Смешай йогурт с чесноком и сумахом.",
+    "en": "Mix yoghurt with garlic and sumac."
+   },
+   {
+    "az": "Lavaşın üstünə sousu çək, toyuq və doğranmış tərəvəzləri düz.",
+    "ru": "Намажь лаваш соусом, выложи курицу и нарезанные овощи.",
+    "en": "Spread over the flatbread and add chicken and chopped veg."
+   },
+   {
+    "az": "Sıx bük, istəsən quru tavada 1 dəqiqə qızart.",
+    "ru": "Плотно сверни, по желанию подрумянь на сухой сковороде 1 минуту.",
+    "en": "Roll tightly; toast in a dry pan for 1 minute if you like."
+   }
+  ]
+ },
+ "chicken-veg-pan": {
+  "title": {
+   "az": "Tərəvəzli toyuq",
+   "ru": "Курица с овощами",
+   "en": "Chicken and vegetable pan"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Toyuq filesi",
+     "ru": "Куриное филе",
+     "en": "Chicken breast"
+    },
+    "amount": {
+     "az": "250 q",
+     "ru": "250 г",
+     "en": "250 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Brokkoli",
+     "ru": "Брокколи",
+     "en": "Broccoli"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Bibər",
+     "ru": "Перец",
+     "en": "Pepper"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Yerkökü",
+     "ru": "Морковь",
+     "en": "Carrot"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Sarımsaq",
+     "ru": "Чеснок",
+     "en": "Garlic"
+    },
+    "amount": {
+     "az": "1 diş",
+     "ru": "1 зубчик",
+     "en": "1 clove"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. ложка",
+     "en": "1 tbsp"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Toyuğu zolaq-zolaq doğrayıb yağda 6–7 dəqiqə bişir.",
+    "ru": "Нарежь курицу полосками и обжарь 6–7 минут.",
+    "en": "Cut chicken into strips and cook in oil for 6–7 minutes."
+   },
+   {
+    "az": "Tərəvəzləri və sarımsağı əlavə edib 5 dəqiqə qarışdırıb bişir.",
+    "ru": "Добавь овощи и чеснок, готовь 5 минут.",
+    "en": "Add vegetables and garlic and stir-fry 5 minutes."
+   }
+  ]
+ },
+ "chickpea-veg-stew": {
+  "title": {
+   "az": "Noxudlu tərəvəz güveci",
+   "ru": "Рагу с нутом и овощами",
+   "en": "Chickpea and vegetable stew"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Bişmiş noxud",
+     "ru": "Варёный нут",
+     "en": "Cooked chickpeas"
+    },
+    "amount": {
+     "az": "1,5 stəkan",
+     "ru": "1,5 стакана",
+     "en": "1.5 cups"
+    }
+   },
+   {
+    "name": {
+     "az": "Kartof",
+     "ru": "Картофель",
+     "en": "Potato"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Yerkökü",
+     "ru": "Морковь",
+     "en": "Carrot"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Pomidor",
+     "ru": "Помидоры",
+     "en": "Tomatoes"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Ispanaq",
+     "ru": "Шпинат",
+     "en": "Spinach"
+    },
+    "amount": {
+     "az": "2 ovuc",
+     "ru": "2 горсти",
+     "en": "2 handfuls"
+    }
+   },
+   {
+    "name": {
+     "az": "Soğan",
+     "ru": "Лук",
+     "en": "Onion"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. ложка",
+     "en": "1 tbsp"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Soğanı yağda yumşald.",
+    "ru": "Обжарь лук.",
+    "en": "Soften the onion in oil."
+   },
+   {
+    "az": "Kartof, yerkökü, pomidor və 1 stəkan su əlavə edib 15 dəqiqə bişir.",
+    "ru": "Добавь картофель, морковь, помидоры и стакан воды, туши 15 минут.",
+    "en": "Add potato, carrot, tomatoes and 1 cup water; cook 15 minutes."
+   },
+   {
+    "az": "Noxud və ispanağı qatıb 5 dəqiqə dəmlə.",
+    "ru": "Вмешай нут и шпинат, туши ещё 5 минут.",
+    "en": "Stir in chickpeas and spinach for 5 more minutes."
+   }
+  ]
+ },
+ "choban-salad": {
+  "title": {
+   "az": "Çoban salatı",
+   "ru": "Салат «Чобан»",
+   "en": "Shepherd's salad"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Pomidor",
+     "ru": "Помидоры",
+     "en": "Tomatoes"
+    },
+    "amount": {
+     "az": "3 ədəd",
+     "ru": "3 шт.",
+     "en": "3"
+    }
+   },
+   {
+    "name": {
+     "az": "Xiyar",
+     "ru": "Огурцы",
+     "en": "Cucumbers"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Qırmızı soğan",
+     "ru": "Красный лук",
+     "en": "Red onion"
+    },
+    "amount": {
+     "az": "½ ədəd",
+     "ru": "½ шт.",
+     "en": "½"
+    }
+   },
+   {
+    "name": {
+     "az": "Kişniş, reyhan, cəfəri",
+     "ru": "Кинза, рейхан, петрушка",
+     "en": "Coriander, basil, parsley"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Sumaq",
+     "ru": "Сумах",
+     "en": "Sumac"
+    },
+    "amount": {
+     "az": "1 çay qaşığı",
+     "ru": "1 ч. л.",
+     "en": "1 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz",
+     "ru": "Соль",
+     "en": "Salt"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Pomidor, xiyar və soğanı xırda kublar şəklində doğra.",
+    "ru": "Нарежь помидоры, огурцы и лук мелкими кубиками.",
+    "en": "Dice the tomatoes, cucumbers and onion."
+   },
+   {
+    "az": "Göyərtini doğrayıb əlavə et.",
+    "ru": "Добавь нарезанную зелень.",
+    "en": "Add the chopped herbs."
+   },
+   {
+    "az": "Yağ, sumaq və duzla qarışdırıb dərhal süfrəyə ver.",
+    "ru": "Заправь маслом, сумахом и солью и сразу подавай.",
+    "en": "Dress with oil, sumac and salt and serve straight away."
+   }
+  ]
+ },
+ "cinnamon-roll-apple": {
+  "title": {
+   "az": "Almalı darçınlı bulka",
+   "ru": "Булочки с корицей и яблоком",
+   "en": "Apple cinnamon rolls"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Un",
+     "ru": "Мука",
+     "en": "Flour"
+    },
+    "amount": {
+     "az": "500 q (yarısı tam taxıl)",
+     "ru": "500 г (половина цельнозерновая)",
+     "en": "500 g (half wholemeal)"
+    }
+   },
+   {
+    "name": {
+     "az": "Süd (ilıq)",
+     "ru": "Молоко (тёплое)",
+     "en": "Warm milk"
+    },
+    "amount": {
+     "az": "250 ml",
+     "ru": "250 мл",
+     "en": "250 ml"
+    }
+   },
+   {
+    "name": {
+     "az": "Quru maya",
+     "ru": "Сухие дрожжи",
+     "en": "Dried yeast"
+    },
+    "amount": {
+     "az": "7 q",
+     "ru": "7 г",
+     "en": "7 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Bal",
+     "ru": "Мёд",
+     "en": "Honey"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. л.",
+     "en": "2 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Yumurta",
+     "ru": "Яйцо",
+     "en": "Egg"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Kərə yağı (yumşaq)",
+     "ru": "Сливочное масло (мягкое)",
+     "en": "Butter (softened)"
+    },
+    "amount": {
+     "az": "50 q",
+     "ru": "50 г",
+     "en": "50 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz",
+     "ru": "Соль",
+     "en": "Salt"
+    },
+    "amount": {
+     "az": "½ çay qaşığı",
+     "ru": "½ ч. л.",
+     "en": "½ tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "İçlik: alma (xırda doğranmış)",
+     "ru": "Начинка: яблоки (мелкими кубиками)",
+     "en": "Filling: apples (finely diced)"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "İçlik: qəhvəyi şəkər",
+     "ru": "Начинка: коричневый сахар",
+     "en": "Filling: brown sugar"
+    },
+    "amount": {
+     "az": "50 q",
+     "ru": "50 г",
+     "en": "50 g"
+    }
+   },
+   {
+    "name": {
+     "az": "İçlik: darçın",
+     "ru": "Начинка: корица",
+     "en": "Filling: cinnamon"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "İçlik: kərə yağı",
+     "ru": "Начинка: сливочное масло",
+     "en": "Filling: butter"
+    },
+    "amount": {
+     "az": "30 q",
+     "ru": "30 г",
+     "en": "30 g"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "İlıq südə maya və balı qatıb 10 dəqiqə saxla.",
+    "ru": "Раствори дрожжи и мёд в тёплом молоке, оставь на 10 минут.",
+    "en": "Stir yeast and honey into the warm milk; leave 10 minutes."
+   },
+   {
+    "az": "Un, duz, yumurta və kərə yağı ilə hamar xəmir yoğur, 1 saat qabarmağa qoy.",
+    "ru": "Замеси гладкое тесто с мукой, солью, яйцом и маслом, оставь подходить на 1 час.",
+    "en": "Knead with flour, salt, egg and butter into a smooth dough; prove 1 hour."
+   },
+   {
+    "az": "Almanı şəkər və darçınla qarışdır.",
+    "ru": "Смешай яблоки с сахаром и корицей.",
+    "en": "Toss the apple with sugar and cinnamon."
+   },
+   {
+    "az": "Xəmiri 40×30 sm yay, yağ çək, alma içliyini yay, bükərək 12 hissəyə kəs.",
+    "ru": "Раскатай тесто 40×30 см, смажь маслом, распредели начинку, сверни и нарежь на 12 частей.",
+    "en": "Roll the dough to 40×30 cm, brush with butter, spread with the apple, roll up and cut into"
+   },
+   {
+    "az": "30 dəqiqə qabardıb 180°C sobada 22–25 dəqiqə bişir.",
+    "ru": "Дай подойти 30 минут и выпекай при 180°C 22–25 минут.",
+    "en": "5. Prove 30 minutes and bake at 180°C for 22–25 minutes."
+   }
+  ]
+ },
+ "cinnamon-roll-classic": {
+  "title": {
+   "az": "Klassik darçınlı bulka (cinnamon roll)",
+   "ru": "Классические булочки с корицей (синнабон)",
+   "en": "Classic cinnamon rolls"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Un",
+     "ru": "Мука",
+     "en": "Flour"
+    },
+    "amount": {
+     "az": "500 q",
+     "ru": "500 г",
+     "en": "500 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Süd (ilıq)",
+     "ru": "Молоко (тёплое)",
+     "en": "Warm milk"
+    },
+    "amount": {
+     "az": "250 ml",
+     "ru": "250 мл",
+     "en": "250 ml"
+    }
+   },
+   {
+    "name": {
+     "az": "Quru maya",
+     "ru": "Сухие дрожжи",
+     "en": "Dried yeast"
+    },
+    "amount": {
+     "az": "7 q",
+     "ru": "7 г",
+     "en": "7 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Şəkər",
+     "ru": "Сахар",
+     "en": "Sugar"
+    },
+    "amount": {
+     "az": "50 q",
+     "ru": "50 г",
+     "en": "50 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Yumurta",
+     "ru": "Яйцо",
+     "en": "Egg"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Kərə yağı (yumşaq)",
+     "ru": "Сливочное масло (мягкое)",
+     "en": "Butter (softened)"
+    },
+    "amount": {
+     "az": "60 q",
+     "ru": "60 г",
+     "en": "60 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz",
+     "ru": "Соль",
+     "en": "Salt"
+    },
+    "amount": {
+     "az": "½ çay qaşığı",
+     "ru": "½ ч. л.",
+     "en": "½ tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "İçlik: kərə yağı",
+     "ru": "Начинка: сливочное масло",
+     "en": "Filling: butter"
+    },
+    "amount": {
+     "az": "50 q",
+     "ru": "50 г",
+     "en": "50 g"
+    }
+   },
+   {
+    "name": {
+     "az": "İçlik: qəhvəyi şəkər",
+     "ru": "Начинка: коричневый сахар",
+     "en": "Filling: brown sugar"
+    },
+    "amount": {
+     "az": "80 q",
+     "ru": "80 г",
+     "en": "80 g"
+    }
+   },
+   {
+    "name": {
+     "az": "İçlik: darçın",
+     "ru": "Начинка: корица",
+     "en": "Filling: cinnamon"
+    },
+    "amount": {
+     "az": "1,5 xörək qaşığı",
+     "ru": "1,5 ст. л.",
+     "en": "1.5 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Şirə: krem pendir",
+     "ru": "Глазурь: сливочный сыр",
+     "en": "Glaze: cream cheese"
+    },
+    "amount": {
+     "az": "100 q",
+     "ru": "100 г",
+     "en": "100 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Şirə: pudra şəkəri",
+     "ru": "Глазурь: сахарная пудра",
+     "en": "Glaze: icing sugar"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. л.",
+     "en": "2 tbsp"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "İlıq südə maya və şəkəri qatıb 10 dəqiqə saxla.",
+    "ru": "Раствори дрожжи и сахар в тёплом молоке, оставь на 10 минут.",
+    "en": "Stir the yeast and sugar into the warm milk; leave 10 minutes."
+   },
+   {
+    "az": "Un, duz, yumurta və kərə yağını əlavə edib 8–10 dəqiqə hamar xəmir yoğur; örtüb isti yerdə 1 saat, iki dəfə böyüyənə qədər saxla.",
+    "ru": "Добавь муку, соль, яйцо и масло, вымешивай 8–10 минут до гладкости; накрой и оставь в тепле на 1 час, пока тесто не увеличится вдвое.",
+    "en": "Add flour, salt, egg and butter and knead 8–10 minutes until smooth; cover and leave somewhere warm for 1 hour until doubled."
+   },
+   {
+    "az": "Xəmiri 40×30 sm yay, yumşaq yağ çək, şəkər və darçın səp, uzun tərəfdən sıx bük və 12 hissəyə kəs.",
+    "ru": "Раскатай в пласт 40×30 см, смажь мягким маслом, посыпь сахаром и корицей, плотно сверни с длинной стороны и нарежь на 12 частей.",
+    "en": "Roll to 40×30 cm, spread with soft butter, sprinkle with sugar and cinnamon, roll up tightly from the long side and cut into"
+   },
+   {
+    "az": "Formaya düz, 30 dəqiqə də qabarmağa qoy; 180°C sobada 20–25 dəqiqə bişir.",
+    "ru": "Выложи в форму и дай подойти ещё 30 минут; выпекай при 180°C 20–25 минут.",
+    "en": "4. Arrange in a tin and prove 30 minutes more; bake at 180°C for 20–25 minutes."
+   },
+   {
+    "az": "Krem pendiri pudra ilə çalıb isti bulkaların üstünə çək.",
+    "ru": "Взбей сливочный сыр с пудрой и смажь тёплые булочки.",
+    "en": "Beat cream cheese with icing sugar and spread over the warm rolls."
+   }
+  ]
+ },
+ "cinnamon-roll-yoghurt-quick": {
+  "title": {
+   "az": "Mayasız qatıq xəmirli darçınlı bulka",
+   "ru": "Быстрые булочки с корицей на йогуртовом тесте без дрожжей",
+   "en": "Quick no-yeast yoghurt cinnamon rolls"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Un",
+     "ru": "Мука",
+     "en": "Flour"
+    },
+    "amount": {
+     "az": "250 q (yarısı tam taxıl)",
+     "ru": "250 г (половина цельнозерновая)",
+     "en": "250 g (half wholemeal)"
+    }
+   },
+   {
+    "name": {
+     "az": "Qabartma tozu",
+     "ru": "Разрыхлитель",
+     "en": "Baking powder"
+    },
+    "amount": {
+     "az": "2 çay qaşığı",
+     "ru": "2 ч. л.",
+     "en": "2 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz",
+     "ru": "Соль",
+     "en": "Salt"
+    },
+    "amount": {
+     "az": "1 çimdik",
+     "ru": "1 щепотка",
+     "en": "1 pinch"
+    }
+   },
+   {
+    "name": {
+     "az": "Süzülmüş qatıq",
+     "ru": "Процеженный йогурт",
+     "en": "Strained yoghurt"
+    },
+    "amount": {
+     "az": "250 q",
+     "ru": "250 г",
+     "en": "250 g"
+    }
+   },
+   {
+    "name": {
+     "az": "İçlik: kərə yağı (ərimiş)",
+     "ru": "Начинка: растопленное сливочное масло",
+     "en": "Filling: melted butter"
+    },
+    "amount": {
+     "az": "30 q",
+     "ru": "30 г",
+     "en": "30 g"
+    }
+   },
+   {
+    "name": {
+     "az": "İçlik: qəhvəyi şəkər",
+     "ru": "Начинка: коричневый сахар",
+     "en": "Filling: brown sugar"
+    },
+    "amount": {
+     "az": "40 q",
+     "ru": "40 г",
+     "en": "40 g"
+    }
+   },
+   {
+    "name": {
+     "az": "İçlik: darçın",
+     "ru": "Начинка: корица",
+     "en": "Filling: cinnamon"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Sobanı 190°C-yə qızdır.",
+    "ru": "Разогрей духовку до 190°C.",
+    "en": "Heat the oven to 190°C."
+   },
+   {
+    "az": "Un, qabartma tozu, duz və qatığı yumşaq xəmir halına gətir (yapışarsa bir az un əlavə et).",
+    "ru": "Замеси из муки, разрыхлителя, соли и йогурта мягкое тесто (если липнет, подсыпь муки).",
+    "en": "Bring flour, baking powder, salt and yoghurt together into a soft dough (add a little flour if sticky)."
+   },
+   {
+    "az": "30×20 sm yay, ərimiş yağ çək, şəkər və darçın səp, bük və 8 hissəyə kəs.",
+    "ru": "Раскатай 30×20 см, смажь маслом, посыпь сахаром и корицей, сверни и нарежь на 8 частей.",
+    "en": "Roll to 30×20 cm, brush with melted butter, sprinkle with sugar and cinnamon, roll up and cut into"
+   },
+   {
+    "az": "Formaya düz, 20–25 dəqiqə qızarana qədər bişir.",
+    "ru": "Выложи в форму и выпекай 20–25 минут до румяности.",
+    "en": "4. Arrange in a tin and bake 20–25 minutes until golden."
+   }
+  ]
+ },
+ "classic-cheese-board": {
+  "title": {
+   "az": "Klassik pendir boşqabı",
+   "ru": "Классическая сырная тарелка",
+   "en": "Classic cheese board"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Sərt pendir (çeddar, parmezan və s.)",
+     "ru": "Твёрдый сыр (чеддер, пармезан и т. д.)",
+     "en": "Hard cheese (cheddar, parmesan, etc.)"
+    },
+    "amount": {
+     "az": "150 q",
+     "ru": "150 г",
+     "en": "150 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Yarımyumşaq pendir",
+     "ru": "Полутвёрдый сыр",
+     "en": "Semi-soft cheese"
+    },
+    "amount": {
+     "az": "150 q",
+     "ru": "150 г",
+     "en": "150 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Keçi pendiri",
+     "ru": "Козий сыр",
+     "en": "Goat cheese"
+    },
+    "amount": {
+     "az": "100 q",
+     "ru": "100 г",
+     "en": "100 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Üzüm",
+     "ru": "Виноград",
+     "en": "Grapes"
+    },
+    "amount": {
+     "az": "1 dəstə",
+     "ru": "1 пучок",
+     "en": "1 bunch"
+    }
+   },
+   {
+    "name": {
+     "az": "Armud və ya əncir",
+     "ru": "Груша или инжир",
+     "en": "Pear or figs"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Qoz və badam",
+     "ru": "Грецкие орехи и миндаль",
+     "en": "Walnuts and almonds"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Bal",
+     "ru": "Мёд",
+     "en": "Honey"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. л.",
+     "en": "2 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Tam taxıl kraker",
+     "ru": "Цельнозерновые крекеры",
+     "en": "Wholegrain crackers"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Pendirləri süfrədən 30 dəqiqə əvvəl soyuducudan çıxar.",
+    "ru": "Достань сыры из холодильника за 30 минут до подачи.",
+    "en": "Take the cheeses out of the fridge 30 minutes before serving."
+   },
+   {
+    "az": "Hər pendiri fərqli formada doğra (kub, üçbucaq, dilim).",
+    "ru": "Нарежь каждый сыр по-своему (кубики, треугольники, ломтики).",
+    "en": "Cut each one differently (cubes, wedges, slices)."
+   },
+   {
+    "az": "Böyük taxtada pendirləri aralı düz, boşluqları meyvə, qoz və kraker ilə doldur.",
+    "ru": "Разложи сыры на большой доске на расстоянии, промежутки заполни фруктами, орехами и крекерами.",
+    "en": "Space the cheeses on a large board and fill the gaps with fruit, nuts and crackers."
+   },
+   {
+    "az": "Balı kiçik kasada qoy.",
+    "ru": "Мёд поставь в маленькой пиале.",
+    "en": "Put the honey in a small bowl."
+   }
+  ]
+ },
+ "cucumber-yoghurt": {
+  "title": {
+   "az": "Xiyarlı qatıq",
+   "ru": "Йогурт с огурцом",
+   "en": "Cucumber yoghurt"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Qatıq",
+     "ru": "Йогурт",
+     "en": "Plain yoghurt"
+    },
+    "amount": {
+     "az": "1 stəkan",
+     "ru": "1 стакан",
+     "en": "1 cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Xiyar",
+     "ru": "Огурец",
+     "en": "Cucumber"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Sarımsaq",
+     "ru": "Чеснок",
+     "en": "Garlic"
+    },
+    "amount": {
+     "az": "½ diş",
+     "ru": "½ зубчика",
+     "en": "½ clove"
+    }
+   },
+   {
+    "name": {
+     "az": "Nanə, şivid",
+     "ru": "Мята, укроп",
+     "en": "Mint, dill"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "a little"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Xiyarı sürtgəcdən keçir.",
+    "ru": "Натри огурец.",
+    "en": "Grate the cucumber."
+   },
+   {
+    "az": "Qatıq, sarımsaq və göyərti ilə qarışdır.",
+    "ru": "Смешай с йогуртом, чесноком и зеленью.",
+    "en": "Mix with yoghurt, garlic and herbs."
+   }
+  ]
+ },
+ "dark-choc-chip-cookies": {
+  "title": {
+   "az": "Tünd şokoladlı peçenye",
+   "ru": "Печенье с тёмным шоколадом",
+   "en": "Dark chocolate chip cookies"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Un",
+     "ru": "Мука",
+     "en": "Flour"
+    },
+    "amount": {
+     "az": "180 q (yarısı tam taxıl)",
+     "ru": "180 г (половина цельнозерновая)",
+     "en": "180 g (half wholemeal)"
+    }
+   },
+   {
+    "name": {
+     "az": "Soda",
+     "ru": "Сода",
+     "en": "Bicarbonate of soda"
+    },
+    "amount": {
+     "az": "½ çay qaşığı",
+     "ru": "½ ч. л.",
+     "en": "½ tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz",
+     "ru": "Соль",
+     "en": "Salt"
+    },
+    "amount": {
+     "az": "1 çimdik",
+     "ru": "1 щепотка",
+     "en": "1 pinch"
+    }
+   },
+   {
+    "name": {
+     "az": "Kərə yağı (yumşaq)",
+     "ru": "Сливочное масло (мягкое)",
+     "en": "Butter (softened)"
+    },
+    "amount": {
+     "az": "100 q",
+     "ru": "100 г",
+     "en": "100 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Qəhvəyi şəkər",
+     "ru": "Коричневый сахар",
+     "en": "Brown sugar"
+    },
+    "amount": {
+     "az": "100 q",
+     "ru": "100 г",
+     "en": "100 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Yumurta",
+     "ru": "Яйцо",
+     "en": "Egg"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Vanil ekstraktı",
+     "ru": "Ванильный экстракт",
+     "en": "Vanilla extract"
+    },
+    "amount": {
+     "az": "1 çay qaşığı",
+     "ru": "1 ч. л.",
+     "en": "1 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Tünd şokolad (doğranmış)",
+     "ru": "Тёмный шоколад (рубленый)",
+     "en": "Dark chocolate (chopped)"
+    },
+    "amount": {
+     "az": "100 q",
+     "ru": "100 г",
+     "en": "100 g"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Sobanı 180°C-yə qızdır.",
+    "ru": "Разогрей духовку до 180°C.",
+    "en": "Heat the oven to 180°C."
+   },
+   {
+    "az": "Kərə yağı və şəkəri kremləşənə qədər çal, yumurta və vanili əlavə et.",
+    "ru": "Взбей масло с сахаром до кремовой текстуры, добавь яйцо и ваниль.",
+    "en": "Cream the butter and sugar, then beat in the egg and vanilla."
+   },
+   {
+    "az": "Un, soda və duzu qat, sonra şokoladı əlavə et.",
+    "ru": "Вмешай муку, соду и соль, затем шоколад.",
+    "en": "Stir in flour, soda and salt, then the chocolate."
+   },
+   {
+    "az": "18 top düzəldib aralı düz, 10–12 dəqiqə bişir — ortası yumşaq qalmalıdır, soyuyanda bərkiyir.",
+    "ru": "Сформируй 18 шариков, выложи на расстоянии и выпекай 10–12 минут — серединка должна остаться мягкой, при остывании печенье затвердеет.",
+    "en": "Roll into 18 balls, space them out and bake 10–12 minutes — the centres should stay soft; they firm up as they cool."
+   }
+  ]
+ },
+ "dark-chocolate-strawberries": {
+  "title": {
+   "az": "Tünd şokoladlı çiyələk",
+   "ru": "Клубника в тёмном шоколаде",
+   "en": "Dark-chocolate strawberries"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Çiyələk",
+     "ru": "Клубника",
+     "en": "Strawberries"
+    },
+    "amount": {
+     "az": "250 q",
+     "ru": "250 г",
+     "en": "250 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Tünd şokolad (70%+)",
+     "ru": "Тёмный шоколад (70%+)",
+     "en": "Dark chocolate (70%+)"
+    },
+    "amount": {
+     "az": "80 q",
+     "ru": "80 г",
+     "en": "80 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Püstə (xırdalanmış)",
+     "ru": "Фисташки (рубленые)",
+     "en": "Chopped pistachios"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı (istəyə bağlı)",
+     "ru": "1 ст. л. (по желанию)",
+     "en": "1 tbsp (optional)"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Çiyələkləri yuyub tam qurula.",
+    "ru": "Промой клубнику и полностью обсуши.",
+    "en": "Wash the strawberries and dry them completely."
+   },
+   {
+    "az": "Şokoladı su hamamında əridib qarışdır.",
+    "ru": "Растопи шоколад на водяной бане.",
+    "en": "Melt the chocolate over a pan of simmering water."
+   },
+   {
+    "az": "Çiyələkləri şokolada batır, yağlı kağıza düz, istəsən püstə səp.",
+    "ru": "Обмакни ягоды в шоколад, выложи на пергамент, по желанию посыпь фисташками.",
+    "en": "Dip the berries, lay on baking paper and sprinkle with pistachios if you like."
+   },
+   {
+    "az": "Soyuducuda 15 dəqiqə saxla.",
+    "ru": "Охлади 15 минут.",
+    "en": "Chill 15 minutes."
+   }
+  ]
+ },
+ "date-energy-balls": {
+  "title": {
+   "az": "Xurma və qozlu enerji topları",
+   "ru": "Энергетические шарики из фиников и орехов",
+   "en": "Date and walnut energy balls"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Xurma (çəyirdəksiz)",
+     "ru": "Финики без косточек",
+     "en": "Pitted dates"
+    },
+    "amount": {
+     "az": "12 ədəd",
+     "ru": "12 шт.",
+     "en": "12"
+    }
+   },
+   {
+    "name": {
+     "az": "Qoz",
+     "ru": "Грецкие орехи",
+     "en": "Walnuts"
+    },
+    "amount": {
+     "az": "80 q",
+     "ru": "80 г",
+     "en": "80 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Yulaf",
+     "ru": "Овсяные хлопья",
+     "en": "Oats"
+    },
+    "amount": {
+     "az": "3 xörək qaşığı",
+     "ru": "3 ст. л.",
+     "en": "3 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Kakao tozu",
+     "ru": "Какао-порошок",
+     "en": "Cocoa powder"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Kokos qırıntısı",
+     "ru": "Кокосовая стружка",
+     "en": "Desiccated coconut"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı (istəyə bağlı)",
+     "ru": "2 ст. л. (по желанию)",
+     "en": "2 tbsp (optional)"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Xurma, qoz, yulaf və kakaonu blenderdə yapışqan kütlə olana qədər çal.",
+    "ru": "Измельчи финики, орехи, овсянку и какао в блендере до липкой массы.",
+    "en": "Blitz dates, walnuts, oats and cocoa into a sticky mixture."
+   },
+   {
+    "az": "12 kiçik top düzəlt.",
+    "ru": "Скатай 12 шариков.",
+    "en": "Roll into 12 balls."
+   },
+   {
+    "az": "İstəsən kokosa bulayıb soyuducuda 30 dəqiqə saxla.",
+    "ru": "По желанию обваляй в кокосе и охлади 30 минут.",
+    "en": "Coat in coconut if you like and chill 30 minutes."
+   }
+  ]
+ },
+ "date-night-cheese-plate": {
+  "title": {
+   "az": "İkinəfərlik mini pendir boşqabı",
+   "ru": "Мини-сырная тарелка на двоих",
+   "en": "Mini cheese plate for two"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Brie (pasterizə edilmiş)",
+     "ru": "Бри (пастеризованный)",
+     "en": "Brie (pasteurised)"
+    },
+    "amount": {
+     "az": "60 q",
+     "ru": "60 г",
+     "en": "60 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Sərt pendir",
+     "ru": "Твёрдый сыр",
+     "en": "Hard cheese"
+    },
+    "amount": {
+     "az": "60 q",
+     "ru": "60 г",
+     "en": "60 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Əncir",
+     "ru": "Инжир",
+     "en": "Figs"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Üzüm",
+     "ru": "Виноград",
+     "en": "Grapes"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Tünd şokolad",
+     "ru": "Тёмный шоколад",
+     "en": "Dark chocolate"
+    },
+    "amount": {
+     "az": "20 q",
+     "ru": "20 г",
+     "en": "20 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Badam",
+     "ru": "Миндаль",
+     "en": "Almonds"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Bal",
+     "ru": "Мёд",
+     "en": "Honey"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Pendirləri 30 dəqiqə otaq temperaturunda saxla.",
+    "ru": "Подержи сыры 30 минут при комнатной температуре.",
+    "en": "Leave the cheeses at room temperature for 30 minutes."
+   },
+   {
+    "az": "Əncirləri dördə böl, şokoladı parçala.",
+    "ru": "Разрежь инжир на четвертинки, разломай шоколад.",
+    "en": "Quarter the figs and break up the chocolate."
+   },
+   {
+    "az": "Kiçik taxtaya hər şeyi səliqəli düz, balı üstünə çilə.",
+    "ru": "Аккуратно разложи всё на маленькой доске и полей мёдом.",
+    "en": "Arrange everything on a small board and drizzle with honey."
+   }
+  ]
+ },
+ "dovga": {
+  "title": {
+   "az": "Dovğa",
+   "ru": "Довга",
+   "en": "Dovga (yoghurt and herb soup)"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Qatıq",
+     "ru": "Йогурт (гатыг)",
+     "en": "Plain yoghurt"
+    },
+    "amount": {
+     "az": "1 litr",
+     "ru": "1 л",
+     "en": "1 litre"
+    }
+   },
+   {
+    "name": {
+     "az": "Su",
+     "ru": "Вода",
+     "en": "Water"
+    },
+    "amount": {
+     "az": "2 stəkan",
+     "ru": "2 стакана",
+     "en": "2 cups"
+    }
+   },
+   {
+    "name": {
+     "az": "Yumurta",
+     "ru": "Яйцо",
+     "en": "Egg"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Düyü",
+     "ru": "Рис",
+     "en": "Rice"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. ложки",
+     "en": "2 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Un",
+     "ru": "Мука",
+     "en": "Flour"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. ложка",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Ispanaq, kişniş, şivid, nanə",
+     "ru": "Шпинат, кинза, укроп, мята",
+     "en": "Spinach, coriander, dill, mint"
+    },
+    "amount": {
+     "az": "4 ovuc",
+     "ru": "4 горсти",
+     "en": "4 handfuls"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Qatıq, su, yumurta və unu çal, düyünü əlavə et.",
+    "ru": "Взбей йогурт, воду, яйцо и муку, добавь рис.",
+    "en": "Whisk yoghurt, water, egg and flour; add the rice."
+   },
+   {
+    "az": "Orta odda daim eyni istiqamətdə qarışdıraraq qaynat.",
+    "ru": "Доведи до кипения, постоянно помешивая в одну сторону.",
+    "en": "Bring to a boil, stirring constantly in one direction."
+   },
+   {
+    "az": "Xırda doğranmış göyərtini əlavə edib 10 dəqiqə bişir. İsti və ya soyuq süfrəyə ver.",
+    "ru": "Добавь мелко нарезанную зелень и вари 10 минут. Подавай горячим или холодным.",
+    "en": "Add finely chopped herbs and cook 10 minutes. Serve hot or cold."
+   }
+  ]
+ },
+ "frozen-yoghurt-bark": {
+  "title": {
+   "az": "Giləmeyvəli dondurulmuş qatıq lövhəsi",
+   "ru": "Замороженный йогурт с ягодами",
+   "en": "Frozen yoghurt berry bark"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Süzülmüş qatıq",
+     "ru": "Процеженный йогурт",
+     "en": "Strained yoghurt"
+    },
+    "amount": {
+     "az": "2 stəkan",
+     "ru": "2 стакана",
+     "en": "2 cups"
+    }
+   },
+   {
+    "name": {
+     "az": "Bal",
+     "ru": "Мёд",
+     "en": "Honey"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Giləmeyvə",
+     "ru": "Ягоды",
+     "en": "Berries"
+    },
+    "amount": {
+     "az": "1 stəkan",
+     "ru": "1 стакан",
+     "en": "1 cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Badam (xırdalanmış)",
+     "ru": "Миндаль (рубленый)",
+     "en": "Almonds (chopped)"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. л.",
+     "en": "2 tbsp"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Qatığı balla qarışdır, yağlı kağız döşənmiş sinidə 1 sm qalınlığında yay.",
+    "ru": "Смешай йогурт с мёдом и распредели слоем 1 см на противне с пергаментом.",
+    "en": "Mix yoghurt with honey and spread 1 cm thick on a lined tray."
+   },
+   {
+    "az": "Üzərinə giləmeyvə və badam səp.",
+    "ru": "Посыпь ягодами и миндалём.",
+    "en": "Scatter over berries and almonds."
+   },
+   {
+    "az": "Dondurucuda 3 saat saxla, parçalara bölüb dərhal ye.",
+    "ru": "Заморозь на 3 часа, разломай на кусочки и сразу ешь.",
+    "en": "Freeze 3 hours, break into pieces and eat straight away."
+   }
+  ]
+ },
+ "garlic-prawn-pasta": {
+  "title": {
+   "az": "Sarımsaqlı karides makaronu",
+   "ru": "Паста с креветками и чесноком",
+   "en": "Garlic prawn pasta"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Tam taxıl spagetti",
+     "ru": "Цельнозерновые спагетти",
+     "en": "Wholegrain spaghetti"
+    },
+    "amount": {
+     "az": "160 q",
+     "ru": "160 г",
+     "en": "160 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Karides (təmizlənmiş)",
+     "ru": "Креветки (очищенные)",
+     "en": "Peeled prawns"
+    },
+    "amount": {
+     "az": "250 q",
+     "ru": "250 г",
+     "en": "250 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Sarımsaq",
+     "ru": "Чеснок",
+     "en": "Garlic"
+    },
+    "amount": {
+     "az": "3 diş",
+     "ru": "3 зубчика",
+     "en": "3 cloves"
+    }
+   },
+   {
+    "name": {
+     "az": "Albalı pomidoru",
+     "ru": "Помидоры черри",
+     "en": "Cherry tomatoes"
+    },
+    "amount": {
+     "az": "12 ədəd",
+     "ru": "12 шт.",
+     "en": "12"
+    }
+   },
+   {
+    "name": {
+     "az": "Acı bibər lopası",
+     "ru": "Хлопья чили",
+     "en": "Chilli flakes"
+    },
+    "amount": {
+     "az": "1 çimdik",
+     "ru": "1 щепотка",
+     "en": "1 pinch"
+    }
+   },
+   {
+    "name": {
+     "az": "Cəfəri",
+     "ru": "Петрушка",
+     "en": "Parsley"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Limon",
+     "ru": "Лимон",
+     "en": "Lemon"
+    },
+    "amount": {
+     "az": "½ ədəd",
+     "ru": "½ шт.",
+     "en": "½"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. л.",
+     "en": "2 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Spagettini duzlu suda paketdəki vaxt qədər bişir, yarım stəkan suyunu saxla.",
+    "ru": "Отвари спагетти в подсоленной воде по инструкции, сохрани полстакана воды.",
+    "en": "Cook the spaghetti in salted water as the pack says; keep ½ cup of the water."
+   },
+   {
+    "az": "Tavada yağda sarımsaq və acı bibəri 1 dəqiqə qızart, pomidoru əlavə edib 3 dəqiqə bişir.",
+    "ru": "Обжарь чеснок и чили в масле 1 минуту, добавь помидоры и готовь 3 минуты.",
+    "en": "Fry garlic and chilli in oil for 1 minute, add tomatoes and cook 3 minutes."
+   },
+   {
+    "az": "Karidesi əlavə et, çəhrayı olana qədər 2–3 dəqiqə bişir.",
+    "ru": "Добавь креветки и готовь 2–3 минуты, пока не порозовеют.",
+    "en": "Add the prawns and cook 2–3 minutes until pink."
+   },
+   {
+    "az": "Spagetti, saxlanılan su, limon və cəfəri ilə qarışdır.",
+    "ru": "Смешай со спагетти, сохранённой водой, лимоном и петрушкой.",
+    "en": "Toss with the spaghetti, reserved water, lemon and parsley."
+   }
+  ]
+ },
+ "ginger-cinnamon-cookies": {
+  "title": {
+   "az": "Zəncəfilli-darçınlı peçenye",
+   "ru": "Имбирно-коричное печенье",
+   "en": "Ginger and cinnamon cookies"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Un",
+     "ru": "Мука",
+     "en": "Flour"
+    },
+    "amount": {
+     "az": "220 q (yarısı tam taxıl)",
+     "ru": "220 г (половина цельнозерновая)",
+     "en": "220 g (half wholemeal)"
+    }
+   },
+   {
+    "name": {
+     "az": "Zəncəfil tozu",
+     "ru": "Молотый имбирь",
+     "en": "Ground ginger"
+    },
+    "amount": {
+     "az": "2 çay qaşığı",
+     "ru": "2 ч. л.",
+     "en": "2 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Darçın",
+     "ru": "Корица",
+     "en": "Cinnamon"
+    },
+    "amount": {
+     "az": "1 çay qaşığı",
+     "ru": "1 ч. л.",
+     "en": "1 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Soda",
+     "ru": "Сода",
+     "en": "Bicarbonate of soda"
+    },
+    "amount": {
+     "az": "1 çay qaşığı",
+     "ru": "1 ч. л.",
+     "en": "1 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Kərə yağı (yumşaq)",
+     "ru": "Сливочное масло (мягкое)",
+     "en": "Butter (softened)"
+    },
+    "amount": {
+     "az": "90 q",
+     "ru": "90 г",
+     "en": "90 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Qəhvəyi şəkər",
+     "ru": "Коричневый сахар",
+     "en": "Brown sugar"
+    },
+    "amount": {
+     "az": "80 q",
+     "ru": "80 г",
+     "en": "80 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Bal",
+     "ru": "Мёд",
+     "en": "Honey"
+    },
+    "amount": {
+     "az": "3 xörək qaşığı",
+     "ru": "3 ст. л.",
+     "en": "3 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Yumurta",
+     "ru": "Яйцо",
+     "en": "Egg"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Sobanı 180°C-yə qızdır.",
+    "ru": "Разогрей духовку до 180°C.",
+    "en": "Heat the oven to 180°C."
+   },
+   {
+    "az": "Kərə yağı, şəkər və balı çal, yumurtanı əlavə et.",
+    "ru": "Взбей масло, сахар и мёд, добавь яйцо.",
+    "en": "Beat butter, sugar and honey, then add the egg."
+   },
+   {
+    "az": "Un, zəncəfil, darçın və sodanı qatıb xəmir yoğur.",
+    "ru": "Вмешай муку, имбирь, корицу и соду и замеси тесто.",
+    "en": "Mix in flour, ginger, cinnamon and soda to form a dough."
+   },
+   {
+    "az": "20 top düzəldib yastıla, 10–12 dəqiqə bişir.",
+    "ru": "Сформируй 20 шариков, приплюсни и выпекай 10–12 минут.",
+    "en": "Shape 20 balls, flatten and bake 10–12 minutes."
+   }
+  ]
+ },
+ "greek-salad": {
+  "title": {
+   "az": "Yunan salatı",
+   "ru": "Греческий салат",
+   "en": "Greek salad"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Pomidor",
+     "ru": "Помидоры",
+     "en": "Tomatoes"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Xiyar",
+     "ru": "Огурец",
+     "en": "Cucumber"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Bolqar bibəri",
+     "ru": "Болгарский перец",
+     "en": "Bell pepper"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Qırmızı soğan",
+     "ru": "Красный лук",
+     "en": "Red onion"
+    },
+    "amount": {
+     "az": "¼ ədəd",
+     "ru": "¼ шт.",
+     "en": "¼"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun",
+     "ru": "Оливки",
+     "en": "Olives"
+    },
+    "amount": {
+     "az": "8 ədəd",
+     "ru": "8 шт.",
+     "en": "8"
+    }
+   },
+   {
+    "name": {
+     "az": "Feta",
+     "ru": "Фета",
+     "en": "Feta"
+    },
+    "amount": {
+     "az": "80 q",
+     "ru": "80 г",
+     "en": "80 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Quru reyhan və ya kəklikotu",
+     "ru": "Сушёный орегано",
+     "en": "Dried oregano"
+    },
+    "amount": {
+     "az": "½ çay qaşığı",
+     "ru": "½ ч. л.",
+     "en": "½ tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Tərəvəzləri iri doğrayıb qaba qoy.",
+    "ru": "Крупно нарежь овощи и выложи в миску.",
+    "en": "Chop the vegetables into chunks."
+   },
+   {
+    "az": "Zeytunu əlavə et, fetanı iri parça şəklində üstünə qoy.",
+    "ru": "Добавь оливки, сверху — фету крупным куском.",
+    "en": "Add the olives and set the feta on top in a slab."
+   },
+   {
+    "az": "Yağ çilə, quru göyərti səp.",
+    "ru": "Сбрызни маслом и посыпь орегано.",
+    "en": "Drizzle with oil and sprinkle with oregano."
+   }
+  ]
+ },
+ "green-beans-eggs": {
+  "title": {
+   "az": "Yumurtalı lobya",
+   "ru": "Стручковая фасоль с яйцом",
+   "en": "Green beans with eggs"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Yaşıl lobya",
+     "ru": "Стручковая фасоль",
+     "en": "Green beans"
+    },
+    "amount": {
+     "az": "300 q",
+     "ru": "300 г",
+     "en": "300 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Soğan",
+     "ru": "Лук",
+     "en": "Onion"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Pomidor",
+     "ru": "Помидор",
+     "en": "Tomato"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Yumurta",
+     "ru": "Яйца",
+     "en": "Eggs"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. ложка",
+     "en": "1 tbsp"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Lobyanı 5 dəqiqə qaynat.",
+    "ru": "Отвари фасоль 5 минут.",
+    "en": "Boil the beans for 5 minutes."
+   },
+   {
+    "az": "Soğan və pomidoru yağda bişirib lobyanı əlavə et.",
+    "ru": "Обжарь лук и помидор, добавь фасоль.",
+    "en": "Cook onion and tomato in oil, add the beans."
+   },
+   {
+    "az": "Yumurtanı üstünə vurub qapaq altında hazır olana qədər saxla.",
+    "ru": "Вбей яйца и доведи под крышкой.",
+    "en": "Crack the eggs on top and cover until set."
+   }
+  ]
+ },
+ "green-kiwi-smoothie": {
+  "title": {
+   "az": "Kivi-ispanaq yaşıl smuzisi",
+   "ru": "Зелёный смузи с киви и шпинатом",
+   "en": "Green kiwi and spinach smoothie"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Kivi",
+     "ru": "Киви",
+     "en": "Kiwi"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Ispanaq",
+     "ru": "Шпинат",
+     "en": "Spinach"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Xiyar",
+     "ru": "Огурец",
+     "en": "Cucumber"
+    },
+    "amount": {
+     "az": "½ ədəd",
+     "ru": "½ шт.",
+     "en": "½"
+    }
+   },
+   {
+    "name": {
+     "az": "Alma",
+     "ru": "Яблоко",
+     "en": "Apple"
+    },
+    "amount": {
+     "az": "½ ədəd",
+     "ru": "½ шт.",
+     "en": "½"
+    }
+   },
+   {
+    "name": {
+     "az": "Su",
+     "ru": "Вода",
+     "en": "Water"
+    },
+    "amount": {
+     "az": "¾ stəkan",
+     "ru": "¾ стакана",
+     "en": "¾ cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Nanə",
+     "ru": "Мята",
+     "en": "Mint"
+    },
+    "amount": {
+     "az": "3 budaq",
+     "ru": "3 веточки",
+     "en": "3 sprigs"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Kivini soy, almanın toxumlarını çıxar.",
+    "ru": "Очисть киви, удали семена яблока.",
+    "en": "Peel the kiwi and core the apple."
+   },
+   {
+    "az": "Bütün tərkibi blenderdə hamar olana qədər çal.",
+    "ru": "Взбей всё в блендере до однородности.",
+    "en": "Blend everything until smooth."
+   },
+   {
+    "az": "Buzla süfrəyə ver.",
+    "ru": "Подавай со льдом.",
+    "en": "Serve over ice."
+   }
+  ]
+ },
+ "herb-kuku": {
+  "title": {
+   "az": "Göyərti küküsü",
+   "ru": "Кюкю с зеленью",
+   "en": "Herb kuku (baked frittata)"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Yumurta",
+     "ru": "Яйца",
+     "en": "Eggs"
+    },
+    "amount": {
+     "az": "3 ədəd",
+     "ru": "3 шт.",
+     "en": "3"
+    }
+   },
+   {
+    "name": {
+     "az": "Kişniş, şivid, yaşıl soğan",
+     "ru": "Кинза, укроп, зелёный лук",
+     "en": "Coriander, dill, spring onion"
+    },
+    "amount": {
+     "az": "2 ovuc, xırda doğranmış",
+     "ru": "2 горсти, мелко нарезать",
+     "en": "2 handfuls, finely chopped"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. ложка",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "a little"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Yumurtanı çalıb göyərti ilə qarışdır.",
+    "ru": "Взбей яйца и смешай с зеленью.",
+    "en": "Beat the eggs and mix in the herbs."
+   },
+   {
+    "az": "Yağlanmış formaya tök.",
+    "ru": "Вылей в смазанную форму.",
+    "en": "Pour into an oiled dish."
+   },
+   {
+    "az": "180°C sobada 15–18 dəqiqə bişir.",
+    "ru": "Запекай 15–18 минут при 180°C.",
+    "en": "Bake at 180°C for 15–18 minutes."
+   }
+  ]
+ },
+ "herb-qutab": {
+  "title": {
+   "az": "Göyərti qutabı (az yağla)",
+   "ru": "Кутабы с зеленью (с минимумом масла)",
+   "en": "Herb qutab (light)"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Un (yarısı tam taxıl)",
+     "ru": "Мука (половина цельнозерновая)",
+     "en": "Flour (half wholemeal)"
+    },
+    "amount": {
+     "az": "2 stəkan",
+     "ru": "2 стакана",
+     "en": "2 cups"
+    }
+   },
+   {
+    "name": {
+     "az": "Su",
+     "ru": "Вода",
+     "en": "Water"
+    },
+    "amount": {
+     "az": "¾ stəkan",
+     "ru": "¾ стакана",
+     "en": "¾ cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz",
+     "ru": "Соль",
+     "en": "Salt"
+    },
+    "amount": {
+     "az": "½ çay qaşığı",
+     "ru": "½ ч. ложки",
+     "en": "½ tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Ispanaq, əvəlik, kişniş, şivid",
+     "ru": "Шпинат, щавель, кинза, укроп",
+     "en": "Spinach, sorrel, coriander, dill"
+    },
+    "amount": {
+     "az": "4 ovuc",
+     "ru": "4 горсти",
+     "en": "4 handfuls"
+    }
+   },
+   {
+    "name": {
+     "az": "Nar",
+     "ru": "Гранат",
+     "en": "Pomegranate"
+    },
+    "amount": {
+     "az": "istəyə bağlı",
+     "ru": "по желанию",
+     "en": "optional"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Un, su və duzla xəmir yoğurub 15 dəqiqə saxla.",
+    "ru": "Замеси тесто из муки, воды и соли, оставь на 15 минут.",
+    "en": "Knead flour, water and salt into a dough; rest 15 minutes."
+   },
+   {
+    "az": "Nazik yayıb yarısına xırda doğranmış göyərti qoy, yarım ay şəklində qatla.",
+    "ru": "Тонко раскатай, выложи зелень на половину, сложи полумесяцем.",
+    "en": "Roll thin, cover half with chopped greens and fold into a half-moon."
+   },
+   {
+    "az": "Quru tavada hər tərəfdən 2 dəqiqə bişir.",
+    "ru": "Обжарь на сухой сковороде по 2 минуты с каждой стороны.",
+    "en": "Cook in a dry pan for 2 minutes each side."
+   }
+  ]
+ },
+ "hummus-veg": {
+  "title": {
+   "az": "Humus və tərəvəz çubuqları",
+   "ru": "Хумус с овощными палочками",
+   "en": "Hummus with veggie sticks"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Bişmiş noxud",
+     "ru": "Варёный нут",
+     "en": "Cooked chickpeas"
+    },
+    "amount": {
+     "az": "1 stəkan",
+     "ru": "1 стакан",
+     "en": "1 cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Tahin",
+     "ru": "Тахини",
+     "en": "Tahini"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. ложка",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Limon",
+     "ru": "Лимон",
+     "en": "Lemon"
+    },
+    "amount": {
+     "az": "½ ədəd",
+     "ru": "½ шт.",
+     "en": "½"
+    }
+   },
+   {
+    "name": {
+     "az": "Sarımsaq",
+     "ru": "Чеснок",
+     "en": "Garlic"
+    },
+    "amount": {
+     "az": "½ diş",
+     "ru": "½ зубчика",
+     "en": "½ clove"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. ложка",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Yerkökü, xiyar, bibər",
+     "ru": "Морковь, огурец, перец",
+     "en": "Carrot, cucumber, pepper"
+    },
+    "amount": {
+     "az": "çubuq şəklində",
+     "ru": "соломкой",
+     "en": "cut into sticks"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Noxud, tahin, limon, sarımsaq və 2–3 xörək qaşığı suyu blenderdə hamar olana qədər çal.",
+    "ru": "Взбей нут, тахини, лимон, чеснок и 2–3 ст. ложки воды до гладкости.",
+    "en": "Blend chickpeas, tahini, lemon, garlic and 2–3 tbsp water until smooth."
+   },
+   {
+    "az": "Yağ əlavə edib tərəvəzlə süfrəyə ver.",
+    "ru": "Полей маслом, подавай с овощами.",
+    "en": "Drizzle with oil and serve with vegetables."
+   }
+  ]
+ },
+ "lamb-chops-pomegranate": {
+  "title": {
+   "az": "Narşərab sousu ilə quzu pirzolası",
+   "ru": "Котлеты из ягнёнка на косточке с наршарабом",
+   "en": "Lamb chops with narsharab glaze"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Quzu pirzolası",
+     "ru": "Котлеты из ягнёнка на косточке",
+     "en": "Lamb chops"
+    },
+    "amount": {
+     "az": "4 ədəd",
+     "ru": "4 шт.",
+     "en": "4"
+    }
+   },
+   {
+    "name": {
+     "az": "Narşərab (nar sousu)",
+     "ru": "Наршараб (гранатовый соус)",
+     "en": "Narsharab (pomegranate sauce)"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. л.",
+     "en": "2 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Sarımsaq",
+     "ru": "Чеснок",
+     "en": "Garlic"
+    },
+    "amount": {
+     "az": "2 diş",
+     "ru": "2 зубчика",
+     "en": "2 cloves"
+    }
+   },
+   {
+    "name": {
+     "az": "Rozmarin",
+     "ru": "Розмарин",
+     "en": "Rosemary"
+    },
+    "amount": {
+     "az": "2 budaq",
+     "ru": "2 веточки",
+     "en": "2 sprigs"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Nar dənəsi",
+     "ru": "Зёрна граната",
+     "en": "Pomegranate seeds"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. л.",
+     "en": "2 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Pirzolanı duz, istiot, əzilmiş sarımsaq və rozmarinlə ovuşdurub 15 dəqiqə saxla.",
+    "ru": "Натри мясо солью, перцем, давленым чесноком и розмарином, оставь на 15 минут.",
+    "en": "Rub the chops with salt, pepper, crushed garlic and rosemary; rest 15 minutes."
+   },
+   {
+    "az": "Yaxşı qızmış tavada hər tərəfdən 3–4 dəqiqə qızart, sonra 5 dəqiqə dincəlməyə qoy.",
+    "ru": "Обжарь на хорошо разогретой сковороде по 3–4 минуты с каждой стороны, дай отдохнуть 5 минут.",
+    "en": "Sear in a very hot pan for 3–4 minutes per side, then rest 5 minutes."
+   },
+   {
+    "az": "Həmin tavaya narşərab və 2 xörək qaşığı su əlavə edib 1 dəqiqə qaynat.",
+    "ru": "Влей в ту же сковороду наршараб и 2 ст. л. воды, прокипяти 1 минуту.",
+    "en": "Add narsharab and 2 tbsp water to the pan and bubble for 1 minute."
+   },
+   {
+    "az": "Sousu ətin üstünə tök, nar dənəsi ilə bəzə.",
+    "ru": "Полей мясо соусом и укрась зёрнами граната.",
+    "en": "Spoon the glaze over the lamb and scatter with pomegranate seeds."
+   }
+  ]
+ },
+ "lentil-pumpkin-feta-salad": {
+  "title": {
+   "az": "Yaşıl mərci, bişmiş balqabaq və feta salatı",
+   "ru": "Салат из зелёной чечевицы, печёной тыквы и феты",
+   "en": "Green lentil, roasted pumpkin and feta salad"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Yaşıl mərci",
+     "ru": "Зелёная чечевица",
+     "en": "Green lentils"
+    },
+    "amount": {
+     "az": "¾ stəkan",
+     "ru": "¾ стакана",
+     "en": "¾ cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Balqabaq (kub)",
+     "ru": "Тыква (кубиками)",
+     "en": "Pumpkin (cubed)"
+    },
+    "amount": {
+     "az": "300 q",
+     "ru": "300 г",
+     "en": "300 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Feta",
+     "ru": "Фета",
+     "en": "Feta"
+    },
+    "amount": {
+     "az": "60 q",
+     "ru": "60 г",
+     "en": "60 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Ispanaq",
+     "ru": "Шпинат",
+     "en": "Spinach"
+    },
+    "amount": {
+     "az": "2 ovuc",
+     "ru": "2 горсти",
+     "en": "2 handfuls"
+    }
+   },
+   {
+    "name": {
+     "az": "Balqabaq tumu",
+     "ru": "Тыквенные семечки",
+     "en": "Pumpkin seeds"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Limon",
+     "ru": "Лимон",
+     "en": "Lemon"
+    },
+    "amount": {
+     "az": "½ ədəd",
+     "ru": "½ шт.",
+     "en": "½"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. л.",
+     "en": "2 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Mərcini 20–25 dəqiqə yumşalana qədər qaynadıb süz.",
+    "ru": "Отвари чечевицу 20–25 минут до мягкости, откинь.",
+    "en": "Simmer the lentils 20–25 minutes until tender; drain."
+   },
+   {
+    "az": "Balqabağı 1 xörək qaşığı yağla qarışdırıb 200°C sobada 20 dəqiqə bişir.",
+    "ru": "Смешай тыкву с 1 ст. л. масла и запекай при 200°C 20 минут.",
+    "en": "Toss the pumpkin with 1 tbsp oil and roast at 200°C for 20 minutes."
+   },
+   {
+    "az": "Mərci, balqabaq və ispanağı qalan yağ və limonla qarışdır.",
+    "ru": "Соедини чечевицу, тыкву и шпинат с оставшимся маслом и лимоном.",
+    "en": "Combine lentils, pumpkin and spinach with the remaining oil and lemon."
+   },
+   {
+    "az": "Üstünə xırdalanmış feta və tum səp.",
+    "ru": "Посыпь раскрошенной фетой и семечками.",
+    "en": "Top with crumbled feta and seeds."
+   }
+  ]
+ },
+ "light-caesar": {
+  "title": {
+   "az": "Qatıq sousu ilə yüngül sezar",
+   "ru": "Лёгкий «Цезарь» с йогуртовой заправкой",
+   "en": "Light Caesar with yoghurt dressing"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Toyuq döşü",
+     "ru": "Куриная грудка",
+     "en": "Chicken breast"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Romen kahısı",
+     "ru": "Салат ромэн",
+     "en": "Romaine lettuce"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Tam taxıl çörək",
+     "ru": "Цельнозерновой хлеб",
+     "en": "Wholegrain bread"
+    },
+    "amount": {
+     "az": "2 dilim",
+     "ru": "2 ломтика",
+     "en": "2 slices"
+    }
+   },
+   {
+    "name": {
+     "az": "Süzülmüş qatıq",
+     "ru": "Процеженный йогурт",
+     "en": "Strained yoghurt"
+    },
+    "amount": {
+     "az": "4 xörək qaşığı",
+     "ru": "4 ст. л.",
+     "en": "4 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Parmezan",
+     "ru": "Пармезан",
+     "en": "Parmesan"
+    },
+    "amount": {
+     "az": "20 q",
+     "ru": "20 г",
+     "en": "20 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Xardal",
+     "ru": "Горчица",
+     "en": "Mustard"
+    },
+    "amount": {
+     "az": "1 çay qaşığı",
+     "ru": "1 ч. л.",
+     "en": "1 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Sarımsaq",
+     "ru": "Чеснок",
+     "en": "Garlic"
+    },
+    "amount": {
+     "az": "½ diş",
+     "ru": "½ зубчика",
+     "en": "½ clove"
+    }
+   },
+   {
+    "name": {
+     "az": "Limon",
+     "ru": "Лимон",
+     "en": "Lemon"
+    },
+    "amount": {
+     "az": "½ ədəd",
+     "ru": "½ шт.",
+     "en": "½"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Toyuğu duz-istiotla tavada hər tərəfdən 6–7 dəqiqə, içi tam bişənə qədər bişir, dilimlə.",
+    "ru": "Обжарь курицу с солью и перцем по 6–7 минут с каждой стороны до готовности, нарежь.",
+    "en": "Season the chicken and pan-fry 6–7 minutes per side until cooked through; slice."
+   },
+   {
+    "az": "Çörəyi kub doğrayıb sobada 200°C-də 8 dəqiqə qurut.",
+    "ru": "Нарежь хлеб кубиками и подсуши в духовке при 200°C 8 минут.",
+    "en": "Cube the bread and toast at 200°C for 8 minutes."
+   },
+   {
+    "az": "Qatıq, xardal, sarımsaq, limon şirəsi və yarı parmezanla sous hazırla.",
+    "ru": "Смешай йогурт, горчицу, чеснок, лимонный сок и половину пармезана.",
+    "en": "Mix yoghurt, mustard, garlic, lemon juice and half the parmesan."
+   },
+   {
+    "az": "Kahını sousla qarışdır, üstünə toyuq, kruton və qalan parmezan qoy.",
+    "ru": "Заправь салат соусом, сверху выложи курицу, сухарики и оставшийся пармезан.",
+    "en": "Toss the lettuce in the dressing; top with chicken, croutons and the rest of the parmesan."
+   }
+  ]
+ },
+ "mango-turmeric-smoothie": {
+  "title": {
+   "az": "Manqo-zerdeçal smuzisi",
+   "ru": "Смузи с манго и куркумой",
+   "en": "Mango turmeric smoothie"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Manqo (dondurulmuş)",
+     "ru": "Манго (замороженное)",
+     "en": "Frozen mango"
+    },
+    "amount": {
+     "az": "1 stəkan",
+     "ru": "1 стакан",
+     "en": "1 cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Portağal şirəsi",
+     "ru": "Апельсиновый сок",
+     "en": "Orange juice"
+    },
+    "amount": {
+     "az": "½ stəkan",
+     "ru": "½ стакана",
+     "en": "½ cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Qatıq",
+     "ru": "Йогурт",
+     "en": "Plain yoghurt"
+    },
+    "amount": {
+     "az": "½ stəkan",
+     "ru": "½ стакана",
+     "en": "½ cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Zerdeçal",
+     "ru": "Куркума",
+     "en": "Turmeric"
+    },
+    "amount": {
+     "az": "½ çay qaşığı",
+     "ru": "½ ч. л.",
+     "en": "½ tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Zəncəfil (təzə)",
+     "ru": "Имбирь (свежий)",
+     "en": "Fresh ginger"
+    },
+    "amount": {
+     "az": "1 sm",
+     "ru": "1 см",
+     "en": "1 cm"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Bütün tərkibi blenderə qoy.",
+    "ru": "Положи всё в блендер.",
+    "en": "Put everything in a blender."
+   },
+   {
+    "az": "Hamar olana qədər çal.",
+    "ru": "Взбей до однородности.",
+    "en": "Blend until smooth."
+   },
+   {
+    "az": "Dərhal iç.",
+    "ru": "Пей сразу.",
+    "en": "Drink straight away."
+   }
+  ]
+ },
+ "mezze-platter": {
+  "title": {
+   "az": "Mezze boşqabı",
+   "ru": "Тарелка мезе",
+   "en": "Mezze platter"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Humus",
+     "ru": "Хумус",
+     "en": "Hummus"
+    },
+    "amount": {
+     "az": "1 stəkan",
+     "ru": "1 стакан",
+     "en": "1 cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Badımcan ezməsi",
+     "ru": "Баба гануш",
+     "en": "Baba ganoush"
+    },
+    "amount": {
+     "az": "1 stəkan",
+     "ru": "1 стакан",
+     "en": "1 cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Xiyarlı qatıq",
+     "ru": "Йогурт с огурцом",
+     "en": "Cucumber yoghurt"
+    },
+    "amount": {
+     "az": "1 stəkan",
+     "ru": "1 стакан",
+     "en": "1 cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun",
+     "ru": "Оливки",
+     "en": "Olives"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Tərəvəz çubuqları",
+     "ru": "Овощные палочки",
+     "en": "Vegetable sticks"
+    },
+    "amount": {
+     "az": "3 stəkan",
+     "ru": "3 стакана",
+     "en": "3 cups"
+    }
+   },
+   {
+    "name": {
+     "az": "Tam taxıl lavaş",
+     "ru": "Цельнозерновой лаваш",
+     "en": "Wholegrain flatbread"
+    },
+    "amount": {
+     "az": "3 ədəd",
+     "ru": "3 шт.",
+     "en": "3"
+    }
+   },
+   {
+    "name": {
+     "az": "Göyərti dəstəsi",
+     "ru": "Пучок зелени",
+     "en": "Fresh herbs"
+    },
+    "amount": {
+     "az": "1 dəstə",
+     "ru": "1 пучок",
+     "en": "1 bunch"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Humus, badımcan ezməsi və xiyarlı qatığı ayrı kasalara qoy (resept: hummus-veg, baba-ganoush, cucumber-yoghurt).",
+    "ru": "Разложи хумус, баба гануш и йогурт с огурцом по отдельным пиалам (рецепты: hummus-veg, baba-ganoush, cucumber-yoghurt).",
+    "en": "Spoon the hummus, baba ganoush and cucumber yoghurt into separate bowls (recipes: hummus-veg, baba-ganoush, cucumber-yoghurt)."
+   },
+   {
+    "az": "Lavaşı üçbucaq kəsib quru tavada qızart.",
+    "ru": "Нарежь лаваш треугольниками и подсуши на сухой сковороде.",
+    "en": "Cut the flatbread into triangles and toast in a dry pan."
+   },
+   {
+    "az": "Böyük boşqabda kasaları, tərəvəz, zeytun, lavaş və göyərtini düz.",
+    "ru": "Расставь на большом блюде пиалы, овощи, оливки, лаваш и зелень.",
+    "en": "Arrange the bowls, veg, olives, flatbread and herbs on a large board."
+   }
+  ]
+ },
+ "nuts-dried-fruit": {
+  "title": {
+   "az": "Qoz və quru meyvə qarışığı",
+   "ru": "Орехи и сухофрукты",
+   "en": "Nuts and dried fruit mix"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Qoz",
+     "ru": "Грецкие орехи",
+     "en": "Walnuts"
+    },
+    "amount": {
+     "az": "3 ədəd",
+     "ru": "3 шт.",
+     "en": "3"
+    }
+   },
+   {
+    "name": {
+     "az": "Badam",
+     "ru": "Миндаль",
+     "en": "Almonds"
+    },
+    "amount": {
+     "az": "6 ədəd",
+     "ru": "6 шт.",
+     "en": "6"
+    }
+   },
+   {
+    "name": {
+     "az": "Quru ərik",
+     "ru": "Курага",
+     "en": "Dried apricots"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Quru əncır",
+     "ru": "Инжир сушёный",
+     "en": "Dried fig"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Kiçik qaba qoyub çantanda gəzdir.",
+    "ru": "Сложи в небольшой контейнер и бери с собой.",
+    "en": "Pack into a small box to carry with you."
+   }
+  ]
+ },
+ "pomegranate-beet-smoothie": {
+  "title": {
+   "az": "Nar-çuğundur smuzisi",
+   "ru": "Смузи из граната и свёклы",
+   "en": "Pomegranate and beetroot smoothie"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Nar dənəsi",
+     "ru": "Зёрна граната",
+     "en": "Pomegranate seeds"
+    },
+    "amount": {
+     "az": "½ stəkan",
+     "ru": "½ стакана",
+     "en": "½ cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Bişmiş çuğundur",
+     "ru": "Варёная свёкла",
+     "en": "Cooked beetroot"
+    },
+    "amount": {
+     "az": "½ ədəd",
+     "ru": "½ шт.",
+     "en": "½"
+    }
+   },
+   {
+    "name": {
+     "az": "Giləmeyvə",
+     "ru": "Ягоды",
+     "en": "Berries"
+    },
+    "amount": {
+     "az": "½ stəkan",
+     "ru": "½ стакана",
+     "en": "½ cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Qatıq",
+     "ru": "Йогурт",
+     "en": "Plain yoghurt"
+    },
+    "amount": {
+     "az": "½ stəkan",
+     "ru": "½ стакана",
+     "en": "½ cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Su",
+     "ru": "Вода",
+     "en": "Water"
+    },
+    "amount": {
+     "az": "½ stəkan",
+     "ru": "½ стакана",
+     "en": "½ cup"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Bütün tərkibi blenderdə hamar olana qədər çal.",
+    "ru": "Взбей всё в блендере до однородности.",
+    "en": "Blend everything until smooth."
+   },
+   {
+    "az": "Nar toxumu qalarsa süzə bilərsən.",
+    "ru": "При желании процеди от косточек граната.",
+    "en": "Strain out the pomegranate pips if you like."
+   },
+   {
+    "az": "Dərhal iç.",
+    "ru": "Пей сразу.",
+    "en": "Drink straight away."
+   }
+  ]
+ },
+ "pomegranate-parfait": {
+  "title": {
+   "az": "Qatıq, nar və qoz parfesi",
+   "ru": "Парфе из йогурта, граната и орехов",
+   "en": "Yoghurt, pomegranate and walnut parfait"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Qatıq",
+     "ru": "Йогурт",
+     "en": "Plain yoghurt"
+    },
+    "amount": {
+     "az": "1 stəkan",
+     "ru": "1 стакан",
+     "en": "1 cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Nar dənəsi",
+     "ru": "Зёрна граната",
+     "en": "Pomegranate seeds"
+    },
+    "amount": {
+     "az": "3 xörək qaşığı",
+     "ru": "3 ст. ложки",
+     "en": "3 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Qoz",
+     "ru": "Грецкие орехи",
+     "en": "Walnuts"
+    },
+    "amount": {
+     "az": "4 ədəd",
+     "ru": "4 шт.",
+     "en": "4"
+    }
+   },
+   {
+    "name": {
+     "az": "Bal",
+     "ru": "Мёд",
+     "en": "Honey"
+    },
+    "amount": {
+     "az": "1 çay qaşığı (istəyə bağlı)",
+     "ru": "1 ч. ложка (по желанию)",
+     "en": "1 tsp (optional)"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Stəkana qat-qat qatıq, nar və xırdalanmış qoz qoy.",
+    "ru": "Выложи слоями йогурт, гранат и измельчённые орехи.",
+    "en": "Layer yoghurt, pomegranate and chopped walnuts in a glass."
+   },
+   {
+    "az": "İstəsən, üstünə bal əlavə et.",
+    "ru": "По желанию полей мёдом.",
+    "en": "Drizzle with honey if you like."
+   }
+  ]
+ },
+ "pumpkin-veloute": {
+  "title": {
+   "az": "Qovrulmuş tumlarla balqabaq kremi",
+   "ru": "Крем-суп из тыквы с жареными семечками",
+   "en": "Pumpkin velouté with toasted seeds"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Balqabaq (doğranmış)",
+     "ru": "Тыква (кубиками)",
+     "en": "Pumpkin (cubed)"
+    },
+    "amount": {
+     "az": "800 q",
+     "ru": "800 г",
+     "en": "800 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Soğan",
+     "ru": "Лук",
+     "en": "Onion"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Yerkökü",
+     "ru": "Морковь",
+     "en": "Carrot"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Tərəvəz bulyonu",
+     "ru": "Овощной бульон",
+     "en": "Vegetable stock"
+    },
+    "amount": {
+     "az": "4 stəkan",
+     "ru": "4 стакана",
+     "en": "4 cups"
+    }
+   },
+   {
+    "name": {
+     "az": "Balqabaq tumu",
+     "ru": "Тыквенные семечки",
+     "en": "Pumpkin seeds"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. л.",
+     "en": "2 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Muskat qozu",
+     "ru": "Мускатный орех",
+     "en": "Nutmeg"
+    },
+    "amount": {
+     "az": "1 çimdik",
+     "ru": "1 щепотка",
+     "en": "1 pinch"
+    }
+   },
+   {
+    "name": {
+     "az": "Qatıq",
+     "ru": "Йогурт",
+     "en": "Plain yoghurt"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı (istəyə bağlı)",
+     "ru": "2 ст. л. (по желанию)",
+     "en": "2 tbsp (optional)"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Soğan və yerkökünü yağda 5 dəqiqə yumşald.",
+    "ru": "Обжарь лук и морковь 5 минут.",
+    "en": "Soften onion and carrot in oil for 5 minutes."
+   },
+   {
+    "az": "Balqabaq və bulyonu əlavə edib 20 dəqiqə bişir.",
+    "ru": "Добавь тыкву и бульон, вари 20 минут.",
+    "en": "Add pumpkin and stock; simmer 20 minutes."
+   },
+   {
+    "az": "Blenderdə ipək kimi hamar olana qədər çal, muskat və duz əlavə et.",
+    "ru": "Пробей блендером до шелковистой текстуры, добавь мускат и соль.",
+    "en": "Blend until silky; season with nutmeg and salt."
+   },
+   {
+    "az": "Tumları quru tavada 2 dəqiqə qovur; şorbanı qatıq damcısı və tumla süfrəyə ver.",
+    "ru": "Обжарь семечки на сухой сковороде 2 минуты; подавай суп с каплей йогурта и семечками.",
+    "en": "Toast the seeds in a dry pan for 2 minutes; serve with a swirl of yoghurt and the seeds."
+   }
+  ]
+ },
+ "quinoa-avocado-salad": {
+  "title": {
+   "az": "Kinoa, avokado və nar salatı",
+   "ru": "Салат с киноа, авокадо и гранатом",
+   "en": "Quinoa, avocado and pomegranate salad"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Kinoa",
+     "ru": "Киноа",
+     "en": "Quinoa"
+    },
+    "amount": {
+     "az": "½ stəkan",
+     "ru": "½ стакана",
+     "en": "½ cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Avokado",
+     "ru": "Авокадо",
+     "en": "Avocado"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Nar dənəsi",
+     "ru": "Зёрна граната",
+     "en": "Pomegranate seeds"
+    },
+    "amount": {
+     "az": "3 xörək qaşığı",
+     "ru": "3 ст. л.",
+     "en": "3 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Xiyar",
+     "ru": "Огурец",
+     "en": "Cucumber"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Nanə, cəfəri",
+     "ru": "Мята, петрушка",
+     "en": "Mint, parsley"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Limon",
+     "ru": "Лимон",
+     "en": "Lemon"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Kinoanı yuyub 1 stəkan suda 12–15 dəqiqə bişir, soyut.",
+    "ru": "Промой киноа и вари в стакане воды 12–15 минут, остуди.",
+    "en": "Rinse the quinoa and cook in 1 cup water for 12–15 minutes; cool."
+   },
+   {
+    "az": "Avokado və xiyarı kub doğra, göyərtini xırdala.",
+    "ru": "Нарежь авокадо и огурец кубиками, измельчи зелень.",
+    "en": "Dice avocado and cucumber; chop the herbs."
+   },
+   {
+    "az": "Hamısını nar, limon şirəsi və yağla qarışdır, duz əlavə et.",
+    "ru": "Смешай всё с гранатом, лимонным соком и маслом, посоли.",
+    "en": "Toss everything with pomegranate, lemon juice and oil; season."
+   }
+  ]
+ },
+ "red-lentil-curry": {
+  "title": {
+   "az": "Tərəvəzli qırmızı mərci karisi",
+   "ru": "Карри из красной чечевицы с овощами",
+   "en": "Red lentil and vegetable curry"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Qırmızı mərci",
+     "ru": "Красная чечевица",
+     "en": "Red lentils"
+    },
+    "amount": {
+     "az": "1 stəkan",
+     "ru": "1 стакан",
+     "en": "1 cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Kokos südü (yüngül)",
+     "ru": "Кокосовое молоко (лёгкое)",
+     "en": "Light coconut milk"
+    },
+    "amount": {
+     "az": "200 ml",
+     "ru": "200 мл",
+     "en": "200 ml"
+    }
+   },
+   {
+    "name": {
+     "az": "Pomidor (doğranmış)",
+     "ru": "Помидоры (резаные)",
+     "en": "Chopped tomatoes"
+    },
+    "amount": {
+     "az": "400 q",
+     "ru": "400 г",
+     "en": "400 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Ispanaq",
+     "ru": "Шпинат",
+     "en": "Spinach"
+    },
+    "amount": {
+     "az": "2 ovuc",
+     "ru": "2 горсти",
+     "en": "2 handfuls"
+    }
+   },
+   {
+    "name": {
+     "az": "Soğan",
+     "ru": "Лук",
+     "en": "Onion"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Sarımsaq",
+     "ru": "Чеснок",
+     "en": "Garlic"
+    },
+    "amount": {
+     "az": "2 diş",
+     "ru": "2 зубчика",
+     "en": "2 cloves"
+    }
+   },
+   {
+    "name": {
+     "az": "Kari tozu",
+     "ru": "Карри (смесь специй)",
+     "en": "Curry powder"
+    },
+    "amount": {
+     "az": "2 çay qaşığı",
+     "ru": "2 ч. л.",
+     "en": "2 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Su",
+     "ru": "Вода",
+     "en": "Water"
+    },
+    "amount": {
+     "az": "2 stəkan",
+     "ru": "2 стакана",
+     "en": "2 cups"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz",
+     "ru": "Соль",
+     "en": "Salt"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Soğan və sarımsağı yağda 4 dəqiqə yumşald, kari tozunu əlavə edib 30 saniyə qarışdır.",
+    "ru": "Обжарь лук и чеснок 4 минуты, добавь карри и перемешай 30 секунд.",
+    "en": "Soften onion and garlic for 4 minutes; stir in the curry powder for 30 seconds."
+   },
+   {
+    "az": "Mərci, pomidor və suyu əlavə edib 15 dəqiqə bişir.",
+    "ru": "Добавь чечевицу, помидоры и воду, вари 15 минут.",
+    "en": "Add lentils, tomatoes and water; simmer 15 minutes."
+   },
+   {
+    "az": "Kokos südü və ispanağı qatıb 3 dəqiqə də bişir. Qəhvəyi düyü ilə süfrəyə ver.",
+    "ru": "Влей кокосовое молоко, добавь шпинат и готовь ещё 3 минуты. Подавай с бурым рисом.",
+    "en": "Stir in coconut milk and spinach and cook 3 minutes more. Serve with brown rice."
+   }
+  ]
+ },
+ "red-lentil-soup": {
+  "title": {
+   "az": "Mərci şorbası",
+   "ru": "Суп из красной чечевицы",
+   "en": "Red lentil soup"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Qırmızı mərci",
+     "ru": "Красная чечевица",
+     "en": "Red lentils"
+    },
+    "amount": {
+     "az": "1 stəkan",
+     "ru": "1 стакан",
+     "en": "1 cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Soğan",
+     "ru": "Лук",
+     "en": "Onion"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Yerkökü",
+     "ru": "Морковь",
+     "en": "Carrot"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. ложка",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Zerdeçal, istiot",
+     "ru": "Куркума, перец",
+     "en": "Turmeric, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "a little"
+    }
+   },
+   {
+    "name": {
+     "az": "Su",
+     "ru": "Вода",
+     "en": "Water"
+    },
+    "amount": {
+     "az": "5 stəkan",
+     "ru": "5 стаканов",
+     "en": "5 cups"
+    }
+   },
+   {
+    "name": {
+     "az": "Limon",
+     "ru": "Лимон",
+     "en": "Lemon"
+    },
+    "amount": {
+     "az": "½ ədəd",
+     "ru": "½ шт.",
+     "en": "½"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Soğan və yerkökünü yağda 5 dəqiqə yumşald.",
+    "ru": "Обжарь лук и морковь 5 минут.",
+    "en": "Soften onion and carrot in oil for 5 minutes."
+   },
+   {
+    "az": "Yuyulmuş mərci, ziravalar və su əlavə edib 20–25 dəqiqə bişir.",
+    "ru": "Добавь промытую чечевицу, специи и воду, вари 20–25 минут.",
+    "en": "Add rinsed lentils, spices and water; simmer 20–25 minutes."
+   },
+   {
+    "az": "Blenderdə əz, limonla süfrəyə ver.",
+    "ru": "Пробей в пюре, подавай с лимоном.",
+    "en": "Blend and serve with lemon."
+   }
+  ]
+ },
+ "roasted-chickpeas": {
+  "title": {
+   "az": "Xırtıldayan qovrulmuş noxud",
+   "ru": "Хрустящий запечённый нут",
+   "en": "Crispy roasted chickpeas"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Bişmiş noxud",
+     "ru": "Варёный нут",
+     "en": "Cooked chickpeas"
+    },
+    "amount": {
+     "az": "2 stəkan",
+     "ru": "2 стакана",
+     "en": "2 cups"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Paprika",
+     "ru": "Паприка",
+     "en": "Paprika"
+    },
+    "amount": {
+     "az": "1 çay qaşığı",
+     "ru": "1 ч. л.",
+     "en": "1 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Zirə",
+     "ru": "Зира",
+     "en": "Cumin"
+    },
+    "amount": {
+     "az": "½ çay qaşığı",
+     "ru": "½ ч. л.",
+     "en": "½ tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz",
+     "ru": "Соль",
+     "en": "Salt"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Noxudu süzüb dəsmalla yaxşıca qurula.",
+    "ru": "Откинь нут и хорошо обсуши полотенцем.",
+    "en": "Drain the chickpeas and dry them well with a towel."
+   },
+   {
+    "az": "Yağ və ziravalarla qarışdır.",
+    "ru": "Перемешай с маслом и специями.",
+    "en": "Toss with oil and spices."
+   },
+   {
+    "az": "Sobada 200°C-də 25–30 dəqiqə, arada qarışdıraraq xırtıldayana qədər bişir. Soyuyanda daha xırtıldayır.",
+    "ru": "Запекай при 200°C 25–30 минут, перемешивая, до хруста. Остывая, он становится ещё хрустящее.",
+    "en": "Roast at 200°C for 25–30 minutes, stirring, until crunchy. They crisp up more as they cool."
+   }
+  ]
+ },
+ "saffron-chicken-plov": {
+  "title": {
+   "az": "Zəfəranlı toyuq plovu, qəhvəyi düyü və quru meyvə ilə",
+   "ru": "Плов с шафраном, курицей, бурым рисом и сухофруктами",
+   "en": "Saffron chicken plov with brown rice and dried fruit"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Qəhvəyi düyü",
+     "ru": "Бурый рис",
+     "en": "Brown rice"
+    },
+    "amount": {
+     "az": "1,5 stəkan",
+     "ru": "1,5 стакана",
+     "en": "1.5 cups"
+    }
+   },
+   {
+    "name": {
+     "az": "Toyuq budu (sümüksüz)",
+     "ru": "Куриное бедро без кости",
+     "en": "Boneless chicken thighs"
+    },
+    "amount": {
+     "az": "400 q",
+     "ru": "400 г",
+     "en": "400 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Zəfəran",
+     "ru": "Шафран",
+     "en": "Saffron"
+    },
+    "amount": {
+     "az": "1 çimdik",
+     "ru": "1 щепотка",
+     "en": "1 pinch"
+    }
+   },
+   {
+    "name": {
+     "az": "Quru ərik",
+     "ru": "Курага",
+     "en": "Dried apricots"
+    },
+    "amount": {
+     "az": "8 ədəd",
+     "ru": "8 шт.",
+     "en": "8"
+    }
+   },
+   {
+    "name": {
+     "az": "Kişmiş",
+     "ru": "Изюм",
+     "en": "Raisins"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. л.",
+     "en": "2 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Şabalıd (bişmiş)",
+     "ru": "Каштаны (варёные)",
+     "en": "Chestnuts (cooked)"
+    },
+    "amount": {
+     "az": "8 ədəd (istəyə bağlı)",
+     "ru": "8 шт. (по желанию)",
+     "en": "8 (optional)"
+    }
+   },
+   {
+    "name": {
+     "az": "Soğan",
+     "ru": "Лук",
+     "en": "Onion"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. л.",
+     "en": "2 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Düyünü yuyub 30 dəqiqə suda saxla; zəfəranı 3 xörək qaşığı isti suda dəmlə.",
+    "ru": "Промой рис и замочи на 30 минут; шафран залей 3 ст. л. горячей воды.",
+    "en": "Rinse the rice and soak 30 minutes; steep the saffron in 3 tbsp hot water."
+   },
+   {
+    "az": "Düyünü duzlu suda 20 dəqiqə yarımbişmiş halda qaynadıb süz.",
+    "ru": "Отвари рис в подсоленной воде 20 минут до полуготовности, откинь.",
+    "en": "Parboil the rice in salted water for 20 minutes and drain."
+   },
+   {
+    "az": "Toyuğu soğanla yağda 10 dəqiqə qızart, quru meyvə və şabalıdı əlavə et.",
+    "ru": "Обжарь курицу с луком 10 минут, добавь сухофрукты и каштаны.",
+    "en": "Brown the chicken with the onion for 10 minutes, then add the dried fruit and chestnuts."
+   },
+   {
+    "az": "Düyünü qazana qoy, zəfəranlı suyu üstünə çilə, qapağı dəsmalla örtüb zəif odda 25 dəqiqə dəmlə; toyuqla birlikdə süfrəyə ver.",
+    "ru": "Выложи рис в казан, сбрызни шафрановой водой, накрой крышкой с полотенцем и томи на слабом огне 25 минут; подавай с курицей.",
+    "en": "Put the rice in a pot, sprinkle with saffron water, cover with a towel-wrapped lid and steam on low for 25 minutes; serve with the chicken."
+   }
+  ]
+ },
+ "salmon-papillote": {
+  "title": {
+   "az": "Kağızda bişmiş somon",
+   "ru": "Лосось в пергаменте",
+   "en": "Salmon en papillote"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Somon filesi",
+     "ru": "Филе лосося",
+     "en": "Salmon fillets"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Qulançar və ya yaşıl lobya",
+     "ru": "Спаржа или стручковая фасоль",
+     "en": "Asparagus or green beans"
+    },
+    "amount": {
+     "az": "200 q",
+     "ru": "200 г",
+     "en": "200 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Limon",
+     "ru": "Лимон",
+     "en": "Lemon"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Şivid",
+     "ru": "Укроп",
+     "en": "Dill"
+    },
+    "amount": {
+     "az": "4 budaq",
+     "ru": "4 веточки",
+     "en": "4 sprigs"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Sobanı 200°C-yə qızdır.",
+    "ru": "Разогрей духовку до 200°C.",
+    "en": "Heat the oven to 200°C."
+   },
+   {
+    "az": "Hər porsiya üçün yağlı kağızın ortasına tərəvəz, üstünə somon, limon dilimi və şivid qoy, yağ çilə, duz-istiot vur.",
+    "ru": "На каждый лист пергамента выложи овощи, сверху лосось, ломтик лимона и укроп, сбрызни маслом, посоли и поперчи.",
+    "en": "On each sheet of baking paper lay the veg, then salmon, lemon slices and dill; drizzle with oil and season."
+   },
+   {
+    "az": "Kağızı zərf kimi bağla.",
+    "ru": "Плотно заверни конвертом.",
+    "en": "Fold into sealed parcels."
+   },
+   {
+    "az": "15–18 dəqiqə bişir; zərfi süfrədə aç.",
+    "ru": "Запекай 15–18 минут; раскрывай конверт за столом.",
+    "en": "Bake 15–18 minutes and open at the table."
+   }
+  ]
+ },
+ "salmon-pea-puree": {
+  "title": {
+   "az": "Yaşıl noxud püresi ilə somon",
+   "ru": "Лосось с пюре из зелёного горошка",
+   "en": "Seared salmon with pea purée"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Somon filesi",
+     "ru": "Филе лосося",
+     "en": "Salmon fillet"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Yaşıl noxud (dondurulmuş)",
+     "ru": "Зелёный горошек (замороженный)",
+     "en": "Frozen peas"
+    },
+    "amount": {
+     "az": "250 q",
+     "ru": "250 г",
+     "en": "250 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Nanə",
+     "ru": "Мята",
+     "en": "Mint"
+    },
+    "amount": {
+     "az": "5 budaq",
+     "ru": "5 веточек",
+     "en": "5 sprigs"
+    }
+   },
+   {
+    "name": {
+     "az": "Limon",
+     "ru": "Лимон",
+     "en": "Lemon"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. л.",
+     "en": "2 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Noxudu 4 dəqiqə qaynadıb süz; nanə, 1 xörək qaşığı yağ, limon şirəsi və duzla blenderdə hamar püre et.",
+    "ru": "Отвари горошек 4 минуты, откинь и пробей в блендере с мятой, 1 ст. л. масла, лимонным соком и солью.",
+    "en": "Boil the peas 4 minutes, drain and blend with mint, 1 tbsp oil, lemon juice and salt."
+   },
+   {
+    "az": "Somonun dərisini qurula, duz-istiot vur.",
+    "ru": "Обсуши кожу лосося, посоли и поперчи.",
+    "en": "Pat the salmon skin dry and season."
+   },
+   {
+    "az": "İsti tavada dərisi aşağı 4–5 dəqiqə, çevirib 2–3 dəqiqə, ət asanlıqla laylanana qədər bişir.",
+    "ru": "Обжарь кожей вниз 4–5 минут, переверни и готовь ещё 2–3 минуты, пока рыба не начнёт расслаиваться.",
+    "en": "Cook skin-side down 4–5 minutes, flip and cook 2–3 minutes until it flakes."
+   },
+   {
+    "az": "Püreni boşqaba yay, üstünə somonu qoy, limon qabığı ilə bəzə.",
+    "ru": "Выложи пюре на тарелку, сверху лосось, укрась цедрой лимона.",
+    "en": "Spread the purée on the plate, top with salmon and lemon zest."
+   }
+  ]
+ },
+ "spinach-apple-smoothie": {
+  "title": {
+   "az": "Ispanaq-alma smuzisi",
+   "ru": "Смузи со шпинатом и яблоком",
+   "en": "Spinach and apple smoothie"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Ispanaq",
+     "ru": "Шпинат",
+     "en": "Spinach"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Alma",
+     "ru": "Яблоко",
+     "en": "Apple"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Banan",
+     "ru": "Банан",
+     "en": "Banana"
+    },
+    "amount": {
+     "az": "½ ədəd",
+     "ru": "½ шт.",
+     "en": "½"
+    }
+   },
+   {
+    "name": {
+     "az": "Qatıq və ya su",
+     "ru": "Йогурт или вода",
+     "en": "Yoghurt or water"
+    },
+    "amount": {
+     "az": "1 stəkan",
+     "ru": "1 стакан",
+     "en": "1 cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Limon şirəsi",
+     "ru": "Лимонный сок",
+     "en": "Lemon juice"
+    },
+    "amount": {
+     "az": "1 çay qaşığı",
+     "ru": "1 ч. ложка",
+     "en": "1 tsp"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Bütün tərkibi blenderdə hamar olana qədər çal.",
+    "ru": "Взбей всё в блендере до однородности.",
+    "en": "Blend everything until smooth."
+   },
+   {
+    "az": "Dərhal iç.",
+    "ru": "Выпей сразу.",
+    "en": "Drink straight away."
+   }
+  ]
+ },
+ "steak-chimichurri": {
+  "title": {
+   "az": "Çimiçurri sousu ilə mal əti steyki",
+   "ru": "Стейк с соусом чимичурри",
+   "en": "Steak with chimichurri"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Mal əti steyki (yağsız)",
+     "ru": "Говяжий стейк (постный)",
+     "en": "Lean beef steak"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Cəfəri",
+     "ru": "Петрушка",
+     "en": "Parsley"
+    },
+    "amount": {
+     "az": "1 dəstə",
+     "ru": "1 пучок",
+     "en": "1 bunch"
+    }
+   },
+   {
+    "name": {
+     "az": "Sarımsaq",
+     "ru": "Чеснок",
+     "en": "Garlic"
+    },
+    "amount": {
+     "az": "2 diş",
+     "ru": "2 зубчика",
+     "en": "2 cloves"
+    }
+   },
+   {
+    "name": {
+     "az": "Şərab sirkəsi",
+     "ru": "Винный уксус",
+     "en": "Red wine vinegar"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "3 xörək qaşığı",
+     "ru": "3 ст. л.",
+     "en": "3 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Qovrulmuş tərəvəz (balqabaq, bibər)",
+     "ru": "Запечённые овощи (кабачок, перец)",
+     "en": "Roasted vegetables (courgette, pepper)"
+    },
+    "amount": {
+     "az": "300 q",
+     "ru": "300 г",
+     "en": "300 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Steyki otaq temperaturunda 20 dəqiqə saxla, duz-istiot vur.",
+    "ru": "Дай стейку полежать 20 минут при комнатной температуре, посоли и поперчи.",
+    "en": "Let the steak sit at room temperature for 20 minutes; season."
+   },
+   {
+    "az": "Cəfərini, sarımsağı xırda doğra, sirkə və 2 xörək qaşığı yağla qarışdır.",
+    "ru": "Мелко нарежь петрушку и чеснок, смешай с уксусом и 2 ст. л. масла.",
+    "en": "Finely chop parsley and garlic; mix with vinegar and 2 tbsp oil."
+   },
+   {
+    "az": "Çox isti tavada steyki hər tərəfdən 3–4 dəqiqə (qalınlığa görə) qızart, 5 dəqiqə dincəlməyə qoy.",
+    "ru": "Обжарь стейк на очень горячей сковороде по 3–4 минуты с каждой стороны (в зависимости от толщины), дай отдохнуть 5 минут.",
+    "en": "Sear in a very hot pan for 3–4 minutes per side depending on thickness, then rest 5 minutes."
+   },
+   {
+    "az": "Dilimləyib qovrulmuş tərəvəz və çimiçurri ilə süfrəyə ver.",
+    "ru": "Нарежь и подавай с овощами и чимичурри.",
+    "en": "Slice and serve with roasted veg and chimichurri."
+   }
+  ]
+ },
+ "stuffed-courgettes": {
+  "title": {
+   "az": "Hinduşka qiyməsi ilə doldurulmuş kabaçok",
+   "ru": "Кабачки, фаршированные индейкой",
+   "en": "Turkey-stuffed courgettes"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Kabaçok",
+     "ru": "Кабачки",
+     "en": "Courgettes"
+    },
+    "amount": {
+     "az": "3 ədəd",
+     "ru": "3 шт.",
+     "en": "3"
+    }
+   },
+   {
+    "name": {
+     "az": "Hinduşka qiyməsi",
+     "ru": "Фарш индейки",
+     "en": "Minced turkey"
+    },
+    "amount": {
+     "az": "300 q",
+     "ru": "300 г",
+     "en": "300 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Soğan",
+     "ru": "Лук",
+     "en": "Onion"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Pomidor",
+     "ru": "Помидор",
+     "en": "Tomato"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Mozzarella (sürtgəcdən)",
+     "ru": "Моцарелла (тёртая)",
+     "en": "Mozzarella (grated)"
+    },
+    "amount": {
+     "az": "50 q",
+     "ru": "50 г",
+     "en": "50 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Şivid",
+     "ru": "Укроп",
+     "en": "Dill"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Kabaçokları uzununa yarıya böl, içini qaşıqla çıxar və doğra.",
+    "ru": "Разрежь кабачки вдоль, выбери мякоть ложкой и нарежь.",
+    "en": "Halve the courgettes lengthways, scoop out and chop the flesh."
+   },
+   {
+    "az": "Soğan, qiymə, kabaçok içi və pomidoru tavada 8 dəqiqə bişir, şivid əlavə et.",
+    "ru": "Обжарь лук, фарш, мякоть и помидор 8 минут, добавь укроп.",
+    "en": "Cook onion, mince, courgette flesh and tomato for 8 minutes; add dill."
+   },
+   {
+    "az": "Kabaçok qayıqlarını doldurub üstünə pendir səp.",
+    "ru": "Нафаршируй лодочки и посыпь сыром.",
+    "en": "Fill the courgette boats and top with cheese."
+   },
+   {
+    "az": "190°C sobada 20 dəqiqə bişir.",
+    "ru": "Запекай при 190°C 20 минут.",
+    "en": "Bake at 190°C for 20 minutes."
+   }
+  ]
+ },
+ "tahini-almond-cookies": {
+  "title": {
+   "az": "Tahinli-badamlı peçenye (qlütensiz)",
+   "ru": "Печенье с тахини и миндалём (без глютена)",
+   "en": "Tahini almond cookies (gluten-free)"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Badam unu",
+     "ru": "Миндальная мука",
+     "en": "Ground almonds"
+    },
+    "amount": {
+     "az": "150 q",
+     "ru": "150 г",
+     "en": "150 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Tahin",
+     "ru": "Тахини",
+     "en": "Tahini"
+    },
+    "amount": {
+     "az": "80 q",
+     "ru": "80 г",
+     "en": "80 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Bal",
+     "ru": "Мёд",
+     "en": "Honey"
+    },
+    "amount": {
+     "az": "60 q",
+     "ru": "60 г",
+     "en": "60 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Yumurta",
+     "ru": "Яйцо",
+     "en": "Egg"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Soda",
+     "ru": "Сода",
+     "en": "Bicarbonate of soda"
+    },
+    "amount": {
+     "az": "¼ çay qaşığı",
+     "ru": "¼ ч. л.",
+     "en": "¼ tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz",
+     "ru": "Соль",
+     "en": "Salt"
+    },
+    "amount": {
+     "az": "1 çimdik",
+     "ru": "1 щепотка",
+     "en": "1 pinch"
+    }
+   },
+   {
+    "name": {
+     "az": "Küncüt",
+     "ru": "Кунжут",
+     "en": "Sesame seeds"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Sobanı 175°C-yə qızdır.",
+    "ru": "Разогрей духовку до 175°C.",
+    "en": "Heat the oven to 175°C."
+   },
+   {
+    "az": "Bütün tərkibi (küncütdən başqa) qarışdırıb yumşaq kütlə al.",
+    "ru": "Смешай все ингредиенты, кроме кунжута, в мягкую массу.",
+    "en": "Mix everything except the sesame into a soft dough."
+   },
+   {
+    "az": "14 top düzəlt, küncütə batır, yağlı kağıza qoyub bir az bas.",
+    "ru": "Скатай 14 шариков, обваляй в кунжуте, выложи на пергамент и слегка придави.",
+    "en": "Roll into 14 balls, dip in sesame, place on a lined tray and flatten slightly."
+   },
+   {
+    "az": "10–12 dəqiqə bişir, sinidə soyut.",
+    "ru": "Выпекай 10–12 минут, остуди на противне.",
+    "en": "Bake 10–12 minutes and cool on the tray."
+   }
+  ]
+ },
+ "thyme-chicken-celeriac": {
+  "title": {
+   "az": "Kərəviz püresi və göyərti yağı ilə kəklikotulu toyuq",
+   "ru": "Курица с тимьяном, пюре из сельдерея и зелёным маслом",
+   "en": "Thyme chicken with celeriac purée and herb oil"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Toyuq döşü",
+     "ru": "Куриная грудка",
+     "en": "Chicken breast"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Kərəviz kökü",
+     "ru": "Корень сельдерея",
+     "en": "Celeriac"
+    },
+    "amount": {
+     "az": "400 q",
+     "ru": "400 г",
+     "en": "400 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Süd",
+     "ru": "Молоко",
+     "en": "Milk"
+    },
+    "amount": {
+     "az": "½ stəkan",
+     "ru": "½ стакана",
+     "en": "½ cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Kəklikotu",
+     "ru": "Тимьян",
+     "en": "Thyme"
+    },
+    "amount": {
+     "az": "4 budaq",
+     "ru": "4 веточки",
+     "en": "4 sprigs"
+    }
+   },
+   {
+    "name": {
+     "az": "Cəfəri",
+     "ru": "Петрушка",
+     "en": "Parsley"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "3 xörək qaşığı",
+     "ru": "3 ст. л.",
+     "en": "3 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Sarımsaq",
+     "ru": "Чеснок",
+     "en": "Garlic"
+    },
+    "amount": {
+     "az": "1 diş",
+     "ru": "1 зубчик",
+     "en": "1 clove"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Kərəviz kökünü doğrayıb südlə və yarım stəkan su ilə 20 dəqiqə yumşalana qədər bişir, püre et.",
+    "ru": "Нарежь сельдерей и вари в молоке с полстаканом воды 20 минут до мягкости, сделай пюре.",
+    "en": "Simmer cubed celeriac in the milk plus ½ cup water for 20 minutes until soft, then purée."
+   },
+   {
+    "az": "Cəfərini 2 xörək qaşığı yağla blenderdə çalıb süz — göyərti yağı hazırdır.",
+    "ru": "Пробей петрушку с 2 ст. л. масла и процеди — зелёное масло готово.",
+    "en": "Blend the parsley with 2 tbsp oil and strain to make herb oil."
+   },
+   {
+    "az": "Toyuğu duz, istiot, sarımsaq və kəklikotu ilə ovuşdur, tavada hər tərəfdən 6–7 dəqiqə, içi tam bişənə qədər qızart.",
+    "ru": "Натри курицу солью, перцем, чесноком и тимьяном, обжарь по 6–7 минут с каждой стороны до полной готовности.",
+    "en": "Rub the chicken with salt, pepper, garlic and thyme; pan-fry 6–7 minutes per side until cooked through."
+   },
+   {
+    "az": "Püreni boşqaba qoy, dilimlənmiş toyuğu üstünə düz, ətrafına göyərti yağı damcılat.",
+    "ru": "Выложи пюре, сверху нарезанную курицу, вокруг — капли зелёного масла.",
+    "en": "Spoon purée onto plates, top with sliced chicken and dot herb oil around."
+   }
+  ]
+ },
+ "tomato-bruschetta": {
+  "title": {
+   "az": "Pomidorlu brusketta",
+   "ru": "Брускетта с помидорами",
+   "en": "Tomato bruschetta"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Tam taxıl baget",
+     "ru": "Цельнозерновой багет",
+     "en": "Wholegrain baguette"
+    },
+    "amount": {
+     "az": "12 dilim",
+     "ru": "12 ломтиков",
+     "en": "12 slices"
+    }
+   },
+   {
+    "name": {
+     "az": "Pomidor",
+     "ru": "Помидоры",
+     "en": "Tomatoes"
+    },
+    "amount": {
+     "az": "4 ədəd",
+     "ru": "4 шт.",
+     "en": "4"
+    }
+   },
+   {
+    "name": {
+     "az": "Sarımsaq",
+     "ru": "Чеснок",
+     "en": "Garlic"
+    },
+    "amount": {
+     "az": "1 diş",
+     "ru": "1 зубчик",
+     "en": "1 clove"
+    }
+   },
+   {
+    "name": {
+     "az": "Reyhan",
+     "ru": "Базилик",
+     "en": "Basil"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "2 xörək qaşığı",
+     "ru": "2 ст. л.",
+     "en": "2 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz",
+     "ru": "Соль",
+     "en": "Salt"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Çörək dilimlərini sobada və ya qrildə qızart, bir üzünü kəsilmiş sarımsaqla ovuşdur.",
+    "ru": "Подсуши ломтики хлеба в духовке или на гриле, натри одну сторону разрезанным чесноком.",
+    "en": "Toast the bread slices and rub one side with a cut garlic clove."
+   },
+   {
+    "az": "Pomidoru xırda doğra, reyhan, yağ və duzla qarışdır.",
+    "ru": "Мелко нарежь помидоры, смешай с базиликом, маслом и солью.",
+    "en": "Dice the tomatoes and mix with basil, oil and salt."
+   },
+   {
+    "az": "Süfrəyə verməzdən dərhal əvvəl çörəyin üstünə qoy.",
+    "ru": "Выложи на хлеб прямо перед подачей.",
+    "en": "Spoon onto the toasts just before serving."
+   }
+  ]
+ },
+ "tomato-eggs": {
+  "title": {
+   "az": "Pomidor-yumurta",
+   "ru": "Яичница с помидорами",
+   "en": "Tomato eggs"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Pomidor",
+     "ru": "Помидоры",
+     "en": "Tomatoes"
+    },
+    "amount": {
+     "az": "3 orta",
+     "ru": "3 средних",
+     "en": "3 medium"
+    }
+   },
+   {
+    "name": {
+     "az": "Yumurta",
+     "ru": "Яйца",
+     "en": "Eggs"
+    },
+    "amount": {
+     "az": "3 ədəd",
+     "ru": "3 шт.",
+     "en": "3"
+    }
+   },
+   {
+    "name": {
+     "az": "Soğan",
+     "ru": "Лук",
+     "en": "Onion"
+    },
+    "amount": {
+     "az": "½ ədəd",
+     "ru": "½ шт.",
+     "en": "½"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. ложка",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Tam taxıl çörək",
+     "ru": "Цельнозерновой хлеб",
+     "en": "Wholegrain bread"
+    },
+    "amount": {
+     "az": "2 dilim",
+     "ru": "2 ломтика",
+     "en": "2 slices"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Soğanı yağda yumşald.",
+    "ru": "Обжарь лук до мягкости.",
+    "en": "Soften the onion in oil."
+   },
+   {
+    "az": "Doğranmış pomidoru əlavə edib 5 dəqiqə bişir.",
+    "ru": "Добавь нарезанные помидоры, туши 5 минут.",
+    "en": "Add chopped tomatoes and cook 5 minutes."
+   },
+   {
+    "az": "Yumurtanı qarışdırıb hazır olana qədər bişir. Çörəklə süfrəyə ver.",
+    "ru": "Вмешай яйца и доведи до готовности. Подавай с хлебом.",
+    "en": "Stir in the eggs until set. Serve with bread."
+   }
+  ]
+ },
+ "tuna-bean-bowl": {
+  "title": {
+   "az": "Ton balığı və ağ lobya qabı",
+   "ru": "Боул с тунцом и белой фасолью",
+   "en": "Tuna and white bean bowl"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Ton balığı (öz suyunda)",
+     "ru": "Тунец в собственном соку",
+     "en": "Tuna in spring water"
+    },
+    "amount": {
+     "az": "1 qutu (~150 q)",
+     "ru": "1 банка (~150 г)",
+     "en": "1 tin (~150 g)"
+    }
+   },
+   {
+    "name": {
+     "az": "Ağ lobya (bişmiş)",
+     "ru": "Белая фасоль (варёная)",
+     "en": "Cooked white beans"
+    },
+    "amount": {
+     "az": "1 stəkan",
+     "ru": "1 стакан",
+     "en": "1 cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Albalı pomidoru",
+     "ru": "Помидоры черри",
+     "en": "Cherry tomatoes"
+    },
+    "amount": {
+     "az": "10 ədəd",
+     "ru": "10 шт.",
+     "en": "10"
+    }
+   },
+   {
+    "name": {
+     "az": "Qırmızı soğan",
+     "ru": "Красный лук",
+     "en": "Red onion"
+    },
+    "amount": {
+     "az": "¼ ədəd",
+     "ru": "¼ шт.",
+     "en": "¼"
+    }
+   },
+   {
+    "name": {
+     "az": "Roka",
+     "ru": "Руккола",
+     "en": "Rocket"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Limon",
+     "ru": "Лимон",
+     "en": "Lemon"
+    },
+    "amount": {
+     "az": "½ ədəd",
+     "ru": "½ шт.",
+     "en": "½"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Ton balığını süzüb lifləyə ayır.",
+    "ru": "Слей жидкость с тунца и разбери его на волокна.",
+    "en": "Drain and flake the tuna."
+   },
+   {
+    "az": "Lobya, yarıya bölünmüş pomidor, nazik soğan və roka ilə qarışdır.",
+    "ru": "Смешай с фасолью, половинками помидоров, тонко нарезанным луком и рукколой.",
+    "en": "Mix with the beans, halved tomatoes, thinly sliced onion and rocket."
+   },
+   {
+    "az": "Limon şirəsi, yağ və duz-istiotla doldur.",
+    "ru": "Заправь лимонным соком, маслом, солью и перцем.",
+    "en": "Dress with lemon juice, oil, salt and pepper."
+   }
+  ]
+ },
+ "turkey-meatballs-tomato": {
+  "title": {
+   "az": "Pomidor sousunda hinduşka küftəsi",
+   "ru": "Тефтели из индейки в томатном соусе",
+   "en": "Turkey meatballs in tomato sauce"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Hinduşka qiyməsi",
+     "ru": "Фарш индейки",
+     "en": "Minced turkey"
+    },
+    "amount": {
+     "az": "500 q",
+     "ru": "500 г",
+     "en": "500 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Yumurta",
+     "ru": "Яйцо",
+     "en": "Egg"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Yulaf",
+     "ru": "Овсяные хлопья",
+     "en": "Oats"
+    },
+    "amount": {
+     "az": "3 xörək qaşığı",
+     "ru": "3 ст. л.",
+     "en": "3 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Pomidor (doğranmış, konserv)",
+     "ru": "Томаты в собственном соку",
+     "en": "Chopped tomatoes (tinned)"
+    },
+    "amount": {
+     "az": "400 q",
+     "ru": "400 г",
+     "en": "400 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Sarımsaq",
+     "ru": "Чеснок",
+     "en": "Garlic"
+    },
+    "amount": {
+     "az": "2 diş",
+     "ru": "2 зубчика",
+     "en": "2 cloves"
+    }
+   },
+   {
+    "name": {
+     "az": "Reyhan",
+     "ru": "Базилик",
+     "en": "Basil"
+    },
+    "amount": {
+     "az": "1 ovuc",
+     "ru": "1 горсть",
+     "en": "1 handful"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Qiymə, yumurta, yulaf, duz və istiotu qarışdırıb 20 küftə düzəlt.",
+    "ru": "Смешай фарш, яйцо, овсянку, соль и перец, сформируй 20 тефтелей.",
+    "en": "Mix mince, egg, oats, salt and pepper and shape 20 meatballs."
+   },
+   {
+    "az": "Küftələri tavada yağda hər tərəfdən 5 dəqiqə qızart.",
+    "ru": "Обжарь их на масле со всех сторон 5 минут.",
+    "en": "Brown them in oil for 5 minutes."
+   },
+   {
+    "az": "Sarımsaq və pomidoru əlavə edib qapaq altında 15 dəqiqə, küftələr tam bişənə qədər bişir.",
+    "ru": "Добавь чеснок и томаты, туши под крышкой 15 минут до полной готовности.",
+    "en": "Add garlic and tomatoes, cover and simmer 15 minutes until cooked through."
+   },
+   {
+    "az": "Reyhanla bəzə; yanına tam taxıl makaron və ya qreçka yaraşır.",
+    "ru": "Укрась базиликом; подойдут цельнозерновая паста или гречка.",
+    "en": "Finish with basil; serve with wholegrain pasta or buckwheat."
+   }
+  ]
+ },
+ "veg-chips": {
+  "title": {
+   "az": "Sobada çuğundur və batat çipsi",
+   "ru": "Чипсы из свёклы и батата в духовке",
+   "en": "Oven-baked beetroot and sweet potato chips"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Çuğundur (çiy)",
+     "ru": "Свёкла (сырая)",
+     "en": "Raw beetroot"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Batat",
+     "ru": "Батат",
+     "en": "Sweet potato"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Rozmarin (quru)",
+     "ru": "Розмарин (сушёный)",
+     "en": "Dried rosemary"
+    },
+    "amount": {
+     "az": "½ çay qaşığı",
+     "ru": "½ ч. л.",
+     "en": "½ tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz",
+     "ru": "Соль",
+     "en": "Salt"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Sobanı 160°C-yə qızdır.",
+    "ru": "Разогрей духовку до 160°C.",
+    "en": "Heat the oven to 160°C."
+   },
+   {
+    "az": "Tərəvəzləri soyub çox nazik (1–2 mm) dilimlə, dəsmalla qurula.",
+    "ru": "Очисть овощи, нарежь очень тонко (1–2 мм) и обсуши.",
+    "en": "Peel and slice the veg very thinly (1–2 mm); pat dry."
+   },
+   {
+    "az": "Yağ və ziravalarla qarışdırıb yağlı kağız üzərinə tək qat düz.",
+    "ru": "Смешай с маслом и специями, выложи в один слой на пергамент.",
+    "en": "Toss with oil and seasoning and spread in one layer on lined trays."
+   },
+   {
+    "az": "25–30 dəqiqə, arada çevirərək bişir; yanmasın deyə son dəqiqələrdə izlə.",
+    "ru": "Запекай 25–30 минут, переворачивая; в конце следи, чтобы не подгорели.",
+    "en": "Bake 25–30 minutes, turning; watch closely at the end so they don't burn."
+   }
+  ]
+ },
+ "vegetarian-yarpaq-dolma": {
+  "title": {
+   "az": "Ətsiz yarpaq dolması",
+   "ru": "Постная долма в виноградных листьях",
+   "en": "Vegetarian vine-leaf dolma"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Üzüm yarpağı",
+     "ru": "Виноградные листья",
+     "en": "Vine leaves"
+    },
+    "amount": {
+     "az": "40 ədəd",
+     "ru": "40 шт.",
+     "en": "40"
+    }
+   },
+   {
+    "name": {
+     "az": "Düyü",
+     "ru": "Рис",
+     "en": "Rice"
+    },
+    "amount": {
+     "az": "1 stəkan",
+     "ru": "1 стакан",
+     "en": "1 cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Soğan",
+     "ru": "Лук",
+     "en": "Onion"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Nanə, şivid, cəfəri",
+     "ru": "Мята, укроп, петрушка",
+     "en": "Mint, dill, parsley"
+    },
+    "amount": {
+     "az": "1 dəstə",
+     "ru": "1 пучок",
+     "en": "1 bunch"
+    }
+   },
+   {
+    "name": {
+     "az": "Pomidor pastası",
+     "ru": "Томатная паста",
+     "en": "Tomato paste"
+    },
+    "amount": {
+     "az": "1 xörək qaşığı",
+     "ru": "1 ст. л.",
+     "en": "1 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Limon",
+     "ru": "Лимон",
+     "en": "Lemon"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Zeytun yağı",
+     "ru": "Оливковое масло",
+     "en": "Olive oil"
+    },
+    "amount": {
+     "az": "3 xörək qaşığı",
+     "ru": "3 ст. л.",
+     "en": "3 tbsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Yarpaqları qaynar suda 2 dəqiqə saxlayıb süz.",
+    "ru": "Подержи листья в кипятке 2 минуты и откинь.",
+    "en": "Blanch the leaves in boiling water for 2 minutes and drain."
+   },
+   {
+    "az": "Soğanı yağda yumşald, yuyulmuş düyü, pomidor pastası, göyərti və duzla qarışdır.",
+    "ru": "Обжарь лук, смешай с промытым рисом, томатной пастой, зеленью и солью.",
+    "en": "Soften the onion in oil and mix with rinsed rice, tomato paste, herbs and salt."
+   },
+   {
+    "az": "Hər yarpağa 1 çay qaşığı içlik qoyub sıx bük.",
+    "ru": "На каждый лист положи 1 ч. л. начинки и плотно сверни.",
+    "en": "Put 1 tsp filling on each leaf and roll tightly."
+   },
+   {
+    "az": "Qazana sıx düz, limon dilimləri və 2 stəkan su əlavə et, boşqabla basıb zəif odda 50 dəqiqə bişir.",
+    "ru": "Плотно уложи в кастрюлю, добавь ломтики лимона и 2 стакана воды, придави тарелкой и томи на слабом огне 50 минут.",
+    "en": "Pack into a pot with lemon slices and 2 cups water, weigh down with a plate and simmer gently 50 minutes."
+   }
+  ]
+ },
+ "yoghurt-chicken-skewers": {
+  "title": {
+   "az": "Qatıqda marinadlanmış toyuq şişləri",
+   "ru": "Шашлычки из курицы в йогуртовом маринаде",
+   "en": "Yoghurt-marinated chicken skewers"
+  },
+  "ingredients": [
+   {
+    "name": {
+     "az": "Toyuq budu (sümüksüz)",
+     "ru": "Куриное бедро без кости",
+     "en": "Boneless chicken thighs"
+    },
+    "amount": {
+     "az": "800 q",
+     "ru": "800 г",
+     "en": "800 g"
+    }
+   },
+   {
+    "name": {
+     "az": "Qatıq",
+     "ru": "Йогурт",
+     "en": "Plain yoghurt"
+    },
+    "amount": {
+     "az": "1 stəkan",
+     "ru": "1 стакан",
+     "en": "1 cup"
+    }
+   },
+   {
+    "name": {
+     "az": "Sarımsaq",
+     "ru": "Чеснок",
+     "en": "Garlic"
+    },
+    "amount": {
+     "az": "3 diş",
+     "ru": "3 зубчика",
+     "en": "3 cloves"
+    }
+   },
+   {
+    "name": {
+     "az": "Paprika",
+     "ru": "Паприка",
+     "en": "Paprika"
+    },
+    "amount": {
+     "az": "2 çay qaşığı",
+     "ru": "2 ч. л.",
+     "en": "2 tsp"
+    }
+   },
+   {
+    "name": {
+     "az": "Limon",
+     "ru": "Лимон",
+     "en": "Lemon"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Bolqar bibəri",
+     "ru": "Болгарский перец",
+     "en": "Bell peppers"
+    },
+    "amount": {
+     "az": "2 ədəd",
+     "ru": "2 шт.",
+     "en": "2"
+    }
+   },
+   {
+    "name": {
+     "az": "Qırmızı soğan",
+     "ru": "Красный лук",
+     "en": "Red onion"
+    },
+    "amount": {
+     "az": "1 ədəd",
+     "ru": "1 шт.",
+     "en": "1"
+    }
+   },
+   {
+    "name": {
+     "az": "Duz, istiot",
+     "ru": "Соль, перец",
+     "en": "Salt, pepper"
+    },
+    "amount": {
+     "az": "az",
+     "ru": "по вкусу",
+     "en": "to taste"
+    }
+   }
+  ],
+  "steps": [
+   {
+    "az": "Toyuğu kub doğra, qatıq, sarımsaq, paprika, limon və duzla qarışdırıb ən azı 2 saat soyuducuda saxla.",
+    "ru": "Нарежь курицу кубиками, смешай с йогуртом, чесноком, паприкой, лимоном и солью, маринуй в холодильнике минимум 2 часа.",
+    "en": "Cube the chicken and mix with yoghurt, garlic, paprika, lemon and salt; marinate in the fridge for at least 2 hours."
+   },
+   {
+    "az": "Toyuğu bibər və soğanla növbə ilə şişə düz.",
+    "ru": "Нанижи курицу на шпажки, чередуя с перцем и луком.",
+    "en": "Thread onto skewers, alternating with pepper and onion."
+   },
+   {
+    "az": "Qrildə və ya 220°C sobada 15–20 dəqiqə, arada çevirərək, içi tam bişənə qədər bişir.",
+    "ru": "Готовь на гриле или в духовке при 220°C 15–20 минут, переворачивая, до полной готовности.",
+    "en": "Grill or bake at 220°C for 15–20 minutes, turning, until cooked through."
+   }
+  ]
+ }
+}

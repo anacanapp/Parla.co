@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:parla_server/src/content/content_seed_import.dart';
+import 'package:parla_server/src/content/content_translations.dart';
 import 'package:parla_server/src/content/wording_fixes.dart';
 import 'package:parla_shared/parla_shared.dart';
 import 'package:test/test.dart';
@@ -45,8 +46,9 @@ void main() {
     }
   });
 
-  test('the full blog articles are complete in three languages', () {
-    expect(blogSeed, hasLength(32));
+  test('the full blog articles are complete in every language', () {
+    // 32 articles and 3 country versions of bemotrizinol-news.
+    expect(blogSeed, hasLength(35));
     final slugs = blogSeed.map((b) => b.slug).toSet();
     expect(slugs, hasLength(blogSeed.length));
     // Every article of the first sheet has its full version.
@@ -57,7 +59,10 @@ void main() {
       expect(b.problems, isEmpty, reason: b.slug);
       final json = jsonDecode(b.json) as Map<String, Object?>;
       final body = json['body']! as Map<String, Object?>;
-      expect(body.keys.toSet(), {'az', 'ru', 'en'}, reason: b.slug);
+      expect(body.keys.toSet(), {
+        ...supportedLanguages,
+        ...translatedLanguages,
+      }, reason: b.slug);
       for (final text in body.values) {
         expect(text, isNot(contains(ContentRules.planMarker)));
         expect((text! as String).length, greaterThan(3000), reason: b.slug);
@@ -78,7 +83,7 @@ void main() {
 
   test('the import offers each article once, in its full version', () {
     final articles = importSeed.where((s) => s.kind == 'article').toList();
-    expect(articles, hasLength(32));
+    expect(articles, hasLength(35));
     expect(articles.every(blogSeed.contains), isTrue);
     expect(importSeed.where((s) => s.kind == 'recipe'), hasLength(76));
   });
@@ -99,7 +104,12 @@ void main() {
       );
       final old = first[r.slug];
       if (old != null) {
-        expect(jsonDecode(r.json), jsonDecode(old.json), reason: r.slug);
+        // Unchanged apart from the added translations.
+        expect(
+          _withoutTranslations(jsonDecode(r.json)),
+          jsonDecode(old.json),
+          reason: r.slug,
+        );
         expect(r.category, old.category, reason: r.slug);
       }
     }
@@ -138,4 +148,65 @@ void main() {
       'Ucuz eynək gözü qoruyurmu?',
     );
   });
+
+  test('seed translations fill only missing languages of unchanged texts', () {
+    final current = <String, Object?>{
+      'title': {'az': 'Başlıq', 'ru': 'Заголовок', 'en': 'Title'},
+      'body': {'az': 'Komanda dəyişib', 'ru': 'Текст', 'en': 'Text'},
+      'steps': [
+        {'az': 'Bir', 'ru': 'Раз', 'en': 'One', 'tr': 'Komandanın'},
+        {'az': 'İki', 'ru': 'Два', 'en': 'Two'},
+      ],
+      'minutes': 10,
+    };
+    final seed = <String, Object?>{
+      'title': {'az': 'Başlıq', 'ru': 'X', 'en': 'Y', 'tr': 'Başlık'},
+      'body': {'az': 'Köhnə mətn', 'tr': 'Eski metin'},
+      'steps': [
+        {'az': 'Bir', 'tr': 'Bir (tr)', 'kk': 'Бір'},
+        {'az': 'İki', 'tr': 'İki (tr)'},
+      ],
+    };
+    final out = addSeedTranslations(current, seed);
+    expect((out['title']! as Map)['tr'], 'Başlık');
+    // az, ru and en never change.
+    expect((out['title']! as Map)['ru'], 'Заголовок');
+    // The team rewrote the Azerbaijani body: its translation is not added.
+    expect((out['body']! as Map).containsKey('tr'), isFalse);
+    final steps = out['steps']! as List;
+    // A translation already there stays.
+    expect((steps[0] as Map)['tr'], 'Komandanın');
+    expect((steps[0] as Map)['kk'], 'Бір');
+    expect((steps[1] as Map)['tr'], 'İki (tr)');
+    expect(out['minutes'], 10);
+    // Nothing to add: the same map comes back.
+    expect(addSeedTranslations(out, seed), same(out));
+  });
+
+  test('the seed country limit is added only when the team set none', () {
+    final seed = <String, Object?>{
+      'title': {'az': 'A'},
+      'countries': ['AZ'],
+    };
+    final out = addSeedTranslations({
+      'title': {'az': 'A', 'ru': 'B', 'en': 'C'},
+    }, seed);
+    expect(out['countries'], ['AZ']);
+    final team = <String, Object?>{
+      'title': {'az': 'A', 'ru': 'B', 'en': 'C'},
+      'countries': ['AZ', 'TR'],
+    };
+    expect(addSeedTranslations(team, seed), same(team));
+  });
 }
+
+/// [value] without the keys of `translatedLanguages` in its texts.
+Object? _withoutTranslations(Object? value) => switch (value) {
+  Map() => {
+    for (final e in value.entries)
+      if (!translatedLanguages.contains(e.key))
+        e.key: _withoutTranslations(e.value),
+  },
+  List() => [for (final v in value) _withoutTranslations(v)],
+  _ => value,
+};

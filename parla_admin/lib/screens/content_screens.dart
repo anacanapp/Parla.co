@@ -429,6 +429,10 @@ class _ContentScreenState extends State<ContentScreen> {
 }
 
 /// Which of az, ru and en have a title (or name) in the working copy.
+/// The languages the editor shows: az, ru and en, then the translations
+/// (owner, 2026-11-27). The translations are kept on save, never dropped.
+const _editorLanguages = [...ContentRules.languages, ...translatedLanguages];
+
 Set<String> _languagesFilled(ContentAdminItem item) {
   final json = jsonDecode(item.draftJson) as Map<String, Object?>;
   final title = json['title'] ?? json['name'];
@@ -846,6 +850,16 @@ const _fields = <String, List<_Field>>{
       _FieldType.urls,
       localized: false,
     ),
+    _Field(
+      'countries',
+      'Ölkələr (heç biri seçilməsə: hamısı)',
+      _FieldType.multi,
+      localized: false,
+      options: ['AZ', 'TR', 'KZ', 'UZ'],
+      help:
+          'Bir ölkənin adı keçən məqaləni yalnız o ölkəyə seç; başqa '
+          'ölkələr üçün ayrıca versiya yaz.',
+    ),
   ],
   'recipe': [
     _Field('title', 'Başlıq', _FieldType.line),
@@ -964,7 +978,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
       }
       if (f.localized) {
         _localized[f.key] = {
-          for (final l in ContentRules.languages) l: TextEditingController(),
+          for (final l in _editorLanguages) l: TextEditingController(),
         };
       } else {
         _plain[f.key] = TextEditingController();
@@ -1060,7 +1074,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           final v = json[f.key];
           _plain[f.key]!.text = v == null ? '' : '$v';
         case _FieldType.lines:
-          for (final l in ContentRules.languages) {
+          for (final l in _editorLanguages) {
             _localized[f.key]![l]!.text = switch (f.key) {
               'ingredientNames' => lines(json['ingredients'], l, 'name'),
               'ingredientAmounts' => lines(json['ingredients'], l, 'amount'),
@@ -1069,7 +1083,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           }
         case _FieldType.tags:
           final v = json[f.key];
-          for (final l in ContentRules.languages) {
+          for (final l in _editorLanguages) {
             final list = v is Map ? (v[l] as List? ?? const []) : const [];
             _localized[f.key]![l]!.text = [
               for (final t in list) '#$t',
@@ -1077,7 +1091,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           }
         case _FieldType.line || _FieldType.multiline || _FieldType.markdown:
           final v = json[f.key];
-          for (final l in ContentRules.languages) {
+          for (final l in _editorLanguages) {
             _localized[f.key]![l]!.text = v is Map
                 ? (v[l] as String? ?? '')
                 : '';
@@ -1095,7 +1109,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
     final out = <String, Object?>{};
     Map<String, String>? loc(String key) {
       final m = {
-        for (final l in ContentRules.languages)
+        for (final l in _editorLanguages)
           if (_localized[key]![l]!.text.trim().isNotEmpty)
             l: _localized[key]![l]!.text.trim(),
       };
@@ -1108,13 +1122,13 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
     ];
 
     List<Map<String, String>> zip(String key) {
-      final count = ContentRules.languages
+      final count = _editorLanguages
           .map((l) => split(key, l).length)
           .fold(0, (a, b) => a > b ? a : b);
       return [
         for (var i = 0; i < count; i++)
           {
-            for (final l in ContentRules.languages)
+            for (final l in _editorLanguages)
               if (i < split(key, l).length) l: split(key, l)[i],
           },
       ];
@@ -1180,7 +1194,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           if (items.isNotEmpty) out[f.key] = items;
         case _FieldType.tags:
           final byLang = <String, List<String>>{};
-          for (final l in ContentRules.languages) {
+          for (final l in _editorLanguages) {
             final tags = <String>[];
             for (final raw in _localized[f.key]![l]!.text.split(
               RegExp(r'[\s,]+'),
@@ -1193,7 +1207,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           if (byLang.isNotEmpty) out[f.key] = byLang;
         case _FieldType.markdown:
           final v = {
-            for (final l in ContentRules.languages)
+            for (final l in _editorLanguages)
               if (_localized[f.key]![l]!.text.trim().isNotEmpty)
                 l: cleanMarkdown(_localized[f.key]![l]!.text),
           };
@@ -1517,10 +1531,30 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
               (f.type == _FieldType.line || f.type == _FieldType.markdown),
         )
         .every((f) => _localized[f.key]![l]!.text.trim().isEmpty);
-    const langNames = {'az': 'Azərbaycan', 'ru': 'Русский', 'en': 'English'};
-    final languages = ContentRules.languages;
+    const langNames = {
+      'az': 'Azərbaycan',
+      'ru': 'Русский',
+      'en': 'English',
+      'tr': 'Türkçe',
+      'kk': 'Қазақша',
+      'uz': 'Oʻzbekcha',
+      'tk': 'Türkmençe',
+      'ky': 'Кыргызча',
+      'ka': 'ქართული',
+    };
+    final languages = _editorLanguages;
 
     final notices = <Widget>[
+      if (translatedLanguages.contains(_lang))
+        const Notice(
+          key: ValueKey('translation-note'),
+          icon: Icons.translate,
+          title: 'Tərcümə (qaralama)',
+          body:
+              'Bu dilin mətni ana dili daşıyıcısının yoxlamasını gözləyir. '
+              'Azərbaycan mətni dəyişəndə tərcümə özü yenilənmir: onu da '
+              'yenilə və ya boşalt. Boş qalsa, tətbiq ən yaxın dili göstərir.',
+        ),
       if (_kind == ContentKind.product)
         const Notice(
           key: ValueKey('product-note'),

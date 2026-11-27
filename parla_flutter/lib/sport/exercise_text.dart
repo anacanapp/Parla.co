@@ -8,12 +8,6 @@ import 'package:parla_shared/parla_shared.dart';
 
 import '../discover/content_library.dart';
 
-int _index(String language) => switch (language) {
-  'ru' => 1,
-  'en' => 2,
-  _ => 0,
-};
-
 /// Name and how-to of [id] in [language] (Azerbaijani as fallback). Texts
 /// from the content sheet win over the first draft.
 (String, String) exerciseText(String id, String language) {
@@ -26,11 +20,21 @@ int _index(String language) => switch (language) {
   }
   final sheet = exerciseSheetTexts[id];
   if (sheet != null) {
-    final i = _index(language);
-    return (sheet[0][i], sheet[1][i]);
+    return (pickTriple(sheet[0], language), pickTriple(sheet[1], language));
   }
-  final texts = exerciseDraftTexts[language] ?? exerciseDraftTexts['az']!;
-  final entry = texts[id] ?? exerciseDraftTexts['az']![id];
+  final az = exerciseDraftTexts['az']![id];
+  final entry =
+      exerciseDraftTexts[language]?[id] ??
+      (az == null
+          ? null
+          : [
+              for (final (i, text) in az.indexed)
+                pickTriple([
+                  text,
+                  exerciseDraftTexts['ru']?[id]?[i] ?? text,
+                  exerciseDraftTexts['en']?[id]?[i] ?? text,
+                ], language),
+            ]);
   return entry == null ? (id, '') : (entry[0], entry[1]);
 }
 
@@ -41,7 +45,7 @@ String? exerciseCaution(String id, String language) {
   }
   final sheet = exerciseSheetTexts[id];
   if (sheet == null) return null;
-  final text = sheet[2][_index(language)];
+  final text = pickTriple(sheet[2], language);
   return text.isEmpty ? null : text;
 }
 

@@ -30,7 +30,8 @@ class ContentLibrary extends ChangeNotifier {
   static const catalogueKinds = ['preference', 'exercise', 'step'];
 
   /// The signed-in user's country from the profile, for banner targeting
-  /// on the phone (`null` until known).
+  /// and articles limited to some countries, on the phone (`null` until
+  /// known).
   static String? country;
 
   /// The app's library, for the catalogue text lookups.
@@ -68,7 +69,13 @@ class ContentLibrary extends ChangeNotifier {
   final Set<String> _loaded = {};
   bool _offline = false;
 
-  List<PublishedItem> items(String kind) => _items[kind] ?? const [];
+  /// Published items of [kind] shown in the user's [country]: an item
+  /// limited to other countries (an article naming Azerbaijan, say) is
+  /// left out here, so lists, search and links never open it.
+  List<PublishedItem> items(String kind) => [
+    for (final i in _items[kind] ?? const <PublishedItem>[])
+      if (ContentRules.shownInCountry(i.data, country)) i,
+  ];
 
   /// Whether [kind] has been loaded (from the server or the cache).
   bool isLoaded(String kind) => _loaded.contains(kind);

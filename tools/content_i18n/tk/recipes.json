@@ -1,0 +1,2853 @@
+{
+ "ajapsandal": {
+  "title": "Ajapsandal (badamjanly gök önüm çorbasy)",
+  "ingredients": [
+   {
+    "name": "Badamjan",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Pomidor",
+    "amount": "3 sany"
+   },
+   {
+    "name": "Burç",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Sogan",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Sarymsak",
+    "amount": "2 diş"
+   },
+   {
+    "name": "Kişniş, reýhan",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "2 nahar çemçesi"
+   }
+  ],
+  "steps": [
+   "Gök önümleri iri dogra.",
+   "Badamjany peçde 200°C-de 15 minut bişir (gowurmagyň ýerine).",
+   "Galan gök önümler bilen gazanda 15 minut demläp bişir, gök otlary we sarymsagy goş."
+  ]
+ },
+ "almond-trout": {
+  "title": "Badamly forel",
+  "ingredients": [
+   {
+    "name": "Forel filesi",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Badam ýapyrajyklary",
+    "amount": "2 nahar çemçesi"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Petruşka",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Ýaşyl noýba",
+    "amount": "200 g"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Noýbany 5 minut gaýnadyp süz.",
+   "Foreli duz-burç bilen tawada derisini aşak edip 4 minut, öwrüp 2 minut bişir.",
+   "Balygy al, şol tawada badamy 1 minut gowur, limon suwuny we petruşkany goş.",
+   "Noýbanyň üstüne foreli goý, badamly sousy guý."
+  ]
+ },
+ "apple-almond-butter": {
+  "title": "Badam pastasy bilen alma dilimleri",
+  "ingredients": [
+   {
+    "name": "Alma",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Badam pastasy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Darçyn",
+    "amount": "1 çümmük"
+   },
+   {
+    "name": "Kenep tohumy",
+    "amount": "1 çaý çemçesi (islege görä)"
+   }
+  ],
+  "steps": [
+   "Almany dilimle.",
+   "Dilimleriň üstüne badam pastasyny çal.",
+   "Darçyn we tohum sep."
+  ]
+ },
+ "azerbaijani-cheese-board": {
+  "title": "Azerbaýjan peýnir saçagy",
+  "ingredients": [
+   {
+    "name": "Ak peýnir",
+    "amount": "150 g"
+   },
+   {
+    "name": "Motal peýniri",
+    "amount": "100 g"
+   },
+   {
+    "name": "Şor (tworog)",
+    "amount": "100 g"
+   },
+   {
+    "name": "Gök otlar (reýhan, tarhun, ýalpyz)",
+    "amount": "1 desse"
+   },
+   {
+    "name": "Hoz",
+    "amount": "8 sany"
+   },
+   {
+    "name": "Pomidor, hyýar",
+    "amount": "2 stakan"
+   },
+   {
+    "name": "Bitin däneli lawaş ýa-da tamdyr çöregi",
+    "amount": "2 sany"
+   }
+  ],
+  "steps": [
+   "Peýnirleri dilimle, şory käsä goý.",
+   "Gök otlary ýuwup gurat, gök önümleri dogra.",
+   "Hemmesini hoz we çörek bilen uly tabaga düz."
+  ]
+ },
+ "baba-ganoush": {
+  "title": "Badamjan pastasy (baba ganuş)",
+  "ingredients": [
+   {
+    "name": "Badamjan",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Tahin",
+    "amount": "2 nahar çemçesi"
+   },
+   {
+    "name": "Sarymsak",
+    "amount": "1 diş"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Nar dänesi",
+    "amount": "2 nahar çemçesi"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Duz",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Badamjanlary çaňňak bilen deşip, 220°C peçde ýa-da gaz otunda 35–40 minut, içi ýumşaýança bişir.",
+   "Sowansoň gabygyny arassala, 10 minut süzgüçde sakla.",
+   "Tahin, sarymsak, limon suwy we duz bilen ez.",
+   "Ýag sep, nar bilen bezä."
+  ]
+ },
+ "baked-apple": {
+  "title": "Darçynly bişirilen alma",
+  "ingredients": [
+   {
+    "name": "Alma",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Hoz",
+    "amount": "4 sany"
+   },
+   {
+    "name": "Darçyn",
+    "amount": "½ çaý çemçesi"
+   },
+   {
+    "name": "Gatyk",
+    "amount": "2 nahar çemçesi (islege görä)"
+   }
+  ],
+  "steps": [
+   "Almanyň ortasyny çykar.",
+   "Içine owradylan hoz we darçyn goý.",
+   "180°C peçde 20 minut bişir, gatyk bilen saçaga ber."
+  ]
+ },
+ "baked-fish-veg": {
+  "title": "Peçde limonly balyk we gök önüm",
+  "ingredients": [
+   {
+    "name": "Balyk filesi (kütüm, losos we ş.m.)",
+    "amount": "2 bölek"
+   },
+   {
+    "name": "Kabaçok",
+    "amount": "1 kiçi"
+   },
+   {
+    "name": "Burç",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Şüwüt",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Gök önümleri dograp ýagla.",
+   "Üstüne balyk we limon dilimini goý.",
+   "200°C peçde 18–20 minut bişir, şüwüt bilen saçaga ber."
+  ]
+ },
+ "baked-herb-chicken-kofta": {
+  "title": "Peçde gök otly towuk köftesi",
+  "ingredients": [
+   {
+    "name": "Towuk farşy",
+    "amount": "500 g"
+   },
+   {
+    "name": "Sogan (gyrgyçdan geçirilen)",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Kişniş, şüwüt",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Ýumurtga",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Süle",
+    "amount": "3 nahar çemçesi"
+   },
+   {
+    "name": "Zire",
+    "amount": "½ çaý çemçesi"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Ähli düzümi gowy edip ýugur.",
+   "Çygly el bilen 16 köfte ýasap, pergament kagyzyň üstüne düz.",
+   "200°C peçde 18–20 minut, içi doly bişýänçä bişir. Gatykly sous we salat bilen saçaga ber."
+  ]
+ },
+ "baked-sea-bass": {
+  "title": "Gök otlar we limon bilen bitinligine bişirilen lawrak",
+  "ingredients": [
+   {
+    "name": "Lawrak (arassalanan)",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Şüwüt, petruşka",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Sarymsak",
+    "amount": "2 diş"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "2 nahar çemçesi"
+   },
+   {
+    "name": "Çeri pomidor",
+    "amount": "10 sany"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Peçi 200°C-e çenli gyzdyr.",
+   "Balygyň içini duz, burç, limon dilimleri, sarymsak we gök otlar bilen doldur.",
+   "Gaba goý, töweregine pomidor düz, üstüne ýag çal.",
+   "20–25 minut, eti aňsatlyk bilen gatlaklara bölünýänçä bişir."
+  ]
+ },
+ "banana-bread-chocolate": {
+  "title": "Gara şokoladly banan çöregi",
+  "ingredients": [
+   {
+    "name": "Bişen banan",
+    "amount": "3 sany"
+   },
+   {
+    "name": "Ýumurtga",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Ösümlik ýagy",
+    "amount": "80 ml"
+   },
+   {
+    "name": "Goňur şeker",
+    "amount": "70 g"
+   },
+   {
+    "name": "Un",
+    "amount": "200 g (ýarysy bitin däneli)"
+   },
+   {
+    "name": "Kakao poroşogy",
+    "amount": "2 nahar çemçesi"
+   },
+   {
+    "name": "Aş sodasy",
+    "amount": "1 çaý çemçesi"
+   },
+   {
+    "name": "Duz",
+    "amount": "½ çaý çemçesi"
+   },
+   {
+    "name": "Gara şokolad (doglanan)",
+    "amount": "80 g"
+   }
+  ],
+  "steps": [
+   "Peçi 175°C-e çenli gyzdyr, galyby kagyz bilen düşe.",
+   "Banany ez, ýumurtga, ýag we şeker bilen garyşdyr.",
+   "Un, kakao, soda we duzy goş, soňra şokoladyň köp bölegini garyşdyr.",
+   "Galyba guý, galan şokoladyny üstüne sep, 50–55 minut bişir."
+  ]
+ },
+ "banana-bread-classic": {
+  "title": "Klassik banan çöregi",
+  "ingredients": [
+   {
+    "name": "Bişen banan",
+    "amount": "3 sany"
+   },
+   {
+    "name": "Ýumurtga",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Ösümlik ýagy",
+    "amount": "80 ml"
+   },
+   {
+    "name": "Goňur şeker",
+    "amount": "80 g"
+   },
+   {
+    "name": "Un",
+    "amount": "220 g (ýarysy bitin däneli)"
+   },
+   {
+    "name": "Aş sodasy",
+    "amount": "1 çaý çemçesi"
+   },
+   {
+    "name": "Duz",
+    "amount": "½ çaý çemçesi"
+   },
+   {
+    "name": "Darçyn",
+    "amount": "1 çaý çemçesi"
+   },
+   {
+    "name": "Wanil ekstrakty",
+    "amount": "1 çaý çemçesi"
+   }
+  ],
+  "steps": [
+   "Peçi 175°C-e çenli gyzdyr, kerpiç görnüşli galyby pergament kagyz bilen düşe.",
+   "Banany çaňňak bilen ez, ýumurtga, ýag, şeker we wanil bilen garyşdyr.",
+   "Un, soda, duz we darçyny goşup, diňe birleşýänçä garyşdyr.",
+   "Galyba guýup, 50–55 minut, çöp gury çykýança bişir; galypda 10 minut sowat."
+  ]
+ },
+ "banana-bread-oat-walnut": {
+  "title": "Süleli-hozly banan çöregi (goşmaça şekersiz)",
+  "ingredients": [
+   {
+    "name": "Gaty bişen banan",
+    "amount": "4 sany"
+   },
+   {
+    "name": "Ýumurtga",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Ösümlik ýagy",
+    "amount": "60 ml"
+   },
+   {
+    "name": "Süle uny (üwelen süle)",
+    "amount": "100 g"
+   },
+   {
+    "name": "Bitin däneli un",
+    "amount": "120 g"
+   },
+   {
+    "name": "Kabartma poroşogy",
+    "amount": "1,5 çaý çemçesi"
+   },
+   {
+    "name": "Darçyn",
+    "amount": "1 çaý çemçesi"
+   },
+   {
+    "name": "Hoz (doglanan)",
+    "amount": "60 g"
+   },
+   {
+    "name": "Hurma (doglanan)",
+    "amount": "4 sany (islege görä)"
+   }
+  ],
+  "steps": [
+   "Peçi 175°C-e çenli gyzdyr, galyby düşe.",
+   "Banany ez, ýumurtga we ýag bilen garyşdyr.",
+   "Süle ununy, bitin däneli uny, kabartma poroşogyny we darçyny goş, hoz bilen hurmany garyşdyr.",
+   "Galyba guýup, 45–50 minut bişir; doly sowansoň dilimle."
+  ]
+ },
+ "banana-oat-cocoa-smoothie": {
+  "title": "Banan-süle-kakao smuzisi",
+  "ingredients": [
+   {
+    "name": "Banan",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Süle",
+    "amount": "2 nahar çemçesi"
+   },
+   {
+    "name": "Kakao poroşogy",
+    "amount": "1 çaý çemçesi"
+   },
+   {
+    "name": "Süýt ýa-da ösümlik süýdi",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Ýer hoz pastasy",
+    "amount": "1 çaý çemçesi (islege görä)"
+   }
+  ],
+  "steps": [
+   "Ähli düzümi blendere sal.",
+   "Süle doly owranýança 1 minut çaýka.",
+   "Derrew iç."
+  ]
+ },
+ "banana-oat-cookies": {
+  "title": "Banan-süle peçenýesi",
+  "ingredients": [
+   {
+    "name": "Bişen banan",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Süle",
+    "amount": "1,5 stakan"
+   },
+   {
+    "name": "Darçyn",
+    "amount": "½ çaý çemçesi"
+   },
+   {
+    "name": "Gara şokolad bölejikleri ýa-da kişmiş",
+    "amount": "30 g"
+   }
+  ],
+  "steps": [
+   "Peçi 180°C-e çenli gyzdyr.",
+   "Banany ez, süle, darçyn we şokolad bilen garyşdyr, 5 minut sakla.",
+   "Pergament kagyza 12 ýasy peçenýe goý.",
+   "15 minut, gyralary gyzarýança bişir."
+  ]
+ },
+ "beet-carpaccio": {
+  "title": "Geçi peýniri we hoz bilen şugundyr karpaççosy",
+  "ingredients": [
+   {
+    "name": "Bişirilen şugundyr",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Geçi peýniri (pasterizlenen)",
+    "amount": "60 g"
+   },
+   {
+    "name": "Hoz",
+    "amount": "6 sany"
+   },
+   {
+    "name": "Rukkola",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Balzam sirkesi",
+    "amount": "1 çaý çemçesi"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Şugundyry gaty inçe tegelek edip dogra we tabaga biri-biriniň üstüne düz.",
+   "Üstüne owradylan geçi peýnirini, gowrulan hozy we rukkolany goý.",
+   "Ýagy we balzam sirkesini garyşdyryp üstüne sep, duz-burç goş."
+  ]
+ },
+ "beet-walnut-salad": {
+  "title": "Hozly we sarymsakly şugundyr salady",
+  "ingredients": [
+   {
+    "name": "Bişirilen şugundyr",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Hoz",
+    "amount": "6 sany"
+   },
+   {
+    "name": "Süzülen gatyk",
+    "amount": "4 nahar çemçesi"
+   },
+   {
+    "name": "Sarymsak",
+    "amount": "1 diş"
+   },
+   {
+    "name": "Guradylan ülje",
+    "amount": "4 sany (islege görä)"
+   },
+   {
+    "name": "Duz",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Şugundyry iri gyrgyçdan geçir.",
+   "Hozy we guradylan üljäni ownuk dogra.",
+   "Gatyk we ezilen sarymsak bilen garyşdyr, duz goş."
+  ]
+ },
+ "berry-oats": {
+  "title": "Ir-iýmişli süle käsesi",
+  "ingredients": [
+   {
+    "name": "Süle",
+    "amount": "4 nahar çemçesi"
+   },
+   {
+    "name": "Gatyk",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Ir-iýmiş",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Hoz",
+    "amount": "3–4 sany"
+   }
+  ],
+  "steps": [
+   "Süläni gatyk bilen garyşdyr, 5 minut sakla.",
+   "Üstüne ir-iýmiş we hoz goş."
+  ]
+ },
+ "berry-yoghurt-smoothie": {
+  "title": "Ir-iýmiş-gatyk smuzisi",
+  "ingredients": [
+   {
+    "name": "Ir-iýmiş (doňdurylan)",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Gatyk",
+    "amount": "¾ stakan"
+   },
+   {
+    "name": "Banan",
+    "amount": "½ sany"
+   },
+   {
+    "name": "Çiýa tohumy",
+    "amount": "1 çaý çemçesi (islege görä)"
+   }
+  ],
+  "steps": [
+   "Ähli düzümi blendere sal.",
+   "Tekiz bolýança çaýka; gaty goýy bolsa, azajyk suw goş.",
+   "Derrew iç."
+  ]
+ },
+ "buckwheat-mushrooms": {
+  "title": "Greçka we kömelek",
+  "ingredients": [
+   {
+    "name": "Greçka",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Kömelek",
+    "amount": "200 g"
+   },
+   {
+    "name": "Sogan",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Şüwüt",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Greçkany 2 stakan suwda 15 minut bişir.",
+   "Sogany we kömelegi ýagda 7–8 minut bişir.",
+   "Garyşdyryp, şüwüt bilen saçaga ber."
+  ]
+ },
+ "buckwheat-risotto": {
+  "title": "Kömelekli greçka risottosy",
+  "ingredients": [
+   {
+    "name": "Greçka",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Kömelek",
+    "amount": "250 g"
+   },
+   {
+    "name": "Sogan",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Sarymsak",
+    "amount": "1 diş"
+   },
+   {
+    "name": "Gök önüm bulýony",
+    "amount": "3 stakan"
+   },
+   {
+    "name": "Parmezan (gyrgyçdan geçirilen)",
+    "amount": "30 g"
+   },
+   {
+    "name": "Kekik (timýan)",
+    "amount": "2 şaha"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Sogany we sarymsagy ýagda 3 minut ýumşat, kömelegi goşup, 5 minut bişir.",
+   "Greçkany goş, 1 minut garyşdyr.",
+   "Gyzgyn bulýony bölekleýin goşup, 15–18 minut, greçka ýumşaýança bişir.",
+   "Otdan al, parmezan we kekik bilen garyşdyr."
+  ]
+ },
+ "bulgur-chickpea-salad": {
+  "title": "Bulgur we nohut salady",
+  "ingredients": [
+   {
+    "name": "Bulgur",
+    "amount": "½ stakan"
+   },
+   {
+    "name": "Bişirilen nohut",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Pomidor",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Hyýar",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Kişniş, ýalpyz",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ sany"
+   }
+  ],
+  "steps": [
+   "Bulguryň üstüne 1 stakan gaýnag suw guýup ýap we 10 minut sakla.",
+   "Gök önümleri we gök otlary dogra.",
+   "Hemmesini nohut, ýag we limon bilen garyşdyr."
+  ]
+ },
+ "bulgur-stuffed-peppers": {
+  "title": "Bulgurly burç dolmasy",
+  "ingredients": [
+   {
+    "name": "Bolgar burçy",
+    "amount": "4 sany"
+   },
+   {
+    "name": "Bulgur",
+    "amount": "¾ stakan"
+   },
+   {
+    "name": "Hindi towugynyň farşy",
+    "amount": "250 g"
+   },
+   {
+    "name": "Sogan",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Pomidor pastasy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Petruşka, ýalpyz",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Sogany ýagda ýumşat, farşy goşup, 5 minut bişir.",
+   "Bulgur, pomidor pastasy, gök otlar we 1 stakan suw goşup, 5 minut demle.",
+   "Burçlaryň içini aýryp, garyndy bilen doldur.",
+   "Gaba düz, düýbüne 1 stakan suw guý, ýapyp 180°C peçde 30–35 minut bişir."
+  ]
+ },
+ "carrot-cake-light": {
+  "title": "Gatyk kremli käşir keksi (az şekerli)",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "200 g (ýarysy bitin däneli)"
+   },
+   {
+    "name": "Kabartma poroşogy",
+    "amount": "2 çaý çemçesi"
+   },
+   {
+    "name": "Aş sodasy",
+    "amount": "½ çaý çemçesi"
+   },
+   {
+    "name": "Darçyn",
+    "amount": "2 çaý çemçesi"
+   },
+   {
+    "name": "Duz",
+    "amount": "1 çümmük"
+   },
+   {
+    "name": "Ýumurtga",
+    "amount": "3 sany"
+   },
+   {
+    "name": "Ösümlik ýagy",
+    "amount": "120 ml"
+   },
+   {
+    "name": "Goňur şeker",
+    "amount": "120 g"
+   },
+   {
+    "name": "Käşir (gyrgyçdan geçirilen)",
+    "amount": "300 g"
+   },
+   {
+    "name": "Hoz (doglanan)",
+    "amount": "60 g"
+   },
+   {
+    "name": "Krem üçin: süzülen gatyk",
+    "amount": "200 g"
+   },
+   {
+    "name": "Krem üçin: krem peýnir",
+    "amount": "100 g"
+   },
+   {
+    "name": "Krem üçin: bal",
+    "amount": "2 nahar çemçesi"
+   }
+  ],
+  "steps": [
+   "Peçi 180°C-e çenli gyzdyr, 22 sm-lik galyby pergament kagyz bilen düşe.",
+   "Uny, kabartma poroşogyny, sodany, darçyny we duzy garyşdyr.",
+   "Aýry gapda ýumurtgany, ýagy we şekeri çal, käşir bilen hozy goş, soňra gury düzümi garyşdyr.",
+   "Galyba guýup, 40–45 minut, çöp gury çykýança bişir; doly sowat.",
+   "Gatygy, krem peýniri we baly çalyp, keksiň üstüne çal."
+  ]
+ },
+ "carrot-cake-muffins": {
+  "title": "Käşirli maffinler",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "200 g (bitin däneli)"
+   },
+   {
+    "name": "Kabartma poroşogy",
+    "amount": "2 çaý çemçesi"
+   },
+   {
+    "name": "Darçyn",
+    "amount": "1,5 çaý çemçesi"
+   },
+   {
+    "name": "Ýumurtga",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Gatyk",
+    "amount": "120 g"
+   },
+   {
+    "name": "Ösümlik ýagy",
+    "amount": "60 ml"
+   },
+   {
+    "name": "Bal",
+    "amount": "80 g"
+   },
+   {
+    "name": "Käşir (gyrgyçdan geçirilen)",
+    "amount": "200 g"
+   },
+   {
+    "name": "Kişmiş",
+    "amount": "50 g"
+   }
+  ],
+  "steps": [
+   "Peçi 180°C-e çenli gyzdyr, maffin galybyna 12 kagyz goý.",
+   "Gury düzümleri bir gapda, ýumurtgany, gatygy, ýagy we baly başga gapda garyşdyr.",
+   "Ikisini birleşdir, käşiri we kişmişi garyşdyr — köp garyşdyrma.",
+   "Galyplara bölüp, 20–22 minut bişir."
+  ]
+ },
+ "cheese-herb-toast": {
+  "title": "Peýnir we gök otlar bilen tost",
+  "ingredients": [
+   {
+    "name": "Bitin däneli çörek",
+    "amount": "2 dilim"
+   },
+   {
+    "name": "Ak peýnir",
+    "amount": "40 g"
+   },
+   {
+    "name": "Hyýar",
+    "amount": "½ sany"
+   },
+   {
+    "name": "Reýhan, ýalpyz, kişniş",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Pomidor",
+    "amount": "1 sany"
+   }
+  ],
+  "steps": [
+   "Çöregi gyzart.",
+   "Üstüne peýnir, doglanan hyýar, pomidor we gök otlar goý."
+  ]
+ },
+ "chicken-durum": {
+  "title": "Towukly bitin däneli dürüm",
+  "ingredients": [
+   {
+    "name": "Bitin däneli lawaş",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Bişirilen towuk (dilimlenen)",
+    "amount": "200 g"
+   },
+   {
+    "name": "Salat ýapragy",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Pomidor",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Hyýar",
+    "amount": "½ sany"
+   },
+   {
+    "name": "Süzülen gatyk",
+    "amount": "3 nahar çemçesi"
+   },
+   {
+    "name": "Sarymsak",
+    "amount": "½ diş"
+   },
+   {
+    "name": "Sumak",
+    "amount": "½ çaý çemçesi"
+   }
+  ],
+  "steps": [
+   "Gatygy sarymsak we sumak bilen garyşdyr.",
+   "Lawaşyň üstüne sousy çal, towugy we doglanan gök önümleri düz.",
+   "Berk dola, isleseň gury tawada 1 minut gyzart."
+  ]
+ },
+ "chicken-veg-pan": {
+  "title": "Gök önümli towuk",
+  "ingredients": [
+   {
+    "name": "Towuk filesi",
+    "amount": "250 g"
+   },
+   {
+    "name": "Brokkoli",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Burç",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Käşir",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Sarymsak",
+    "amount": "1 diş"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   }
+  ],
+  "steps": [
+   "Towugy zolak-zolak dograp, ýagda 6–7 minut bişir.",
+   "Gök önümleri we sarymsagy goşup, 5 minut garyşdyryp bişir."
+  ]
+ },
+ "chickpea-veg-stew": {
+  "title": "Nohutly gök önüm güweji",
+  "ingredients": [
+   {
+    "name": "Bişirilen nohut",
+    "amount": "1,5 stakan"
+   },
+   {
+    "name": "Kartoşka",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Käşir",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Pomidor",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Ysmanak",
+    "amount": "2 owuç"
+   },
+   {
+    "name": "Sogan",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   }
+  ],
+  "steps": [
+   "Sogany ýagda ýumşat.",
+   "Kartoşka, käşir, pomidor we 1 stakan suw goşup, 15 minut bişir.",
+   "Nohudy we ysmanagy goşup, 5 minut demle."
+  ]
+ },
+ "choban-salad": {
+  "title": "Çopan salady",
+  "ingredients": [
+   {
+    "name": "Pomidor",
+    "amount": "3 sany"
+   },
+   {
+    "name": "Hyýar",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Gyzyl sogan",
+    "amount": "½ sany"
+   },
+   {
+    "name": "Kişniş, reýhan, petruşka",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Sumak",
+    "amount": "1 çaý çemçesi"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Duz",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Pomidory, hyýary we sogany ownuk kub edip dogra.",
+   "Gök otlary dograp goş.",
+   "Ýag, sumak we duz bilen garyşdyryp, derrew saçaga ber."
+  ]
+ },
+ "cinnamon-roll-apple": {
+  "title": "Almaly darçynly bulka",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "500 g (ýarysy bitin däneli)"
+   },
+   {
+    "name": "Süýt (ýyly)",
+    "amount": "250 ml"
+   },
+   {
+    "name": "Gury hamyrmaýa",
+    "amount": "7 g"
+   },
+   {
+    "name": "Bal",
+    "amount": "2 nahar çemçesi"
+   },
+   {
+    "name": "Ýumurtga",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Sary ýag (ýumşak)",
+    "amount": "50 g"
+   },
+   {
+    "name": "Duz",
+    "amount": "½ çaý çemçesi"
+   },
+   {
+    "name": "Içi üçin: alma (ownuk doglanan)",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Içi üçin: goňur şeker",
+    "amount": "50 g"
+   },
+   {
+    "name": "Içi üçin: darçyn",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Içi üçin: sary ýag",
+    "amount": "30 g"
+   }
+  ],
+  "steps": [
+   "Ýyly süýde hamyrmaýany we baly goşup, 10 minut sakla.",
+   "Un, duz, ýumurtga we sary ýag bilen tekiz hamyr ýugur, 1 sagat göterilmäge goý.",
+   "Almany şeker we darçyn bilen garyşdyr.",
+   "Hamyry 40×30 sm ýaý, ýag çal, alma içini ýaýrat, dolap 12 bölege kes.",
+   "30 minut göterilmäge goýup, 180°C peçde 22–25 minut bişir."
+  ]
+ },
+ "cinnamon-roll-classic": {
+  "title": "Klassik darçynly bulka (cinnamon roll)",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "500 g"
+   },
+   {
+    "name": "Süýt (ýyly)",
+    "amount": "250 ml"
+   },
+   {
+    "name": "Gury hamyrmaýa",
+    "amount": "7 g"
+   },
+   {
+    "name": "Şeker",
+    "amount": "50 g"
+   },
+   {
+    "name": "Ýumurtga",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Sary ýag (ýumşak)",
+    "amount": "60 g"
+   },
+   {
+    "name": "Duz",
+    "amount": "½ çaý çemçesi"
+   },
+   {
+    "name": "Içi üçin: sary ýag",
+    "amount": "50 g"
+   },
+   {
+    "name": "Içi üçin: goňur şeker",
+    "amount": "80 g"
+   },
+   {
+    "name": "Içi üçin: darçyn",
+    "amount": "1,5 nahar çemçesi"
+   },
+   {
+    "name": "Glazur üçin: krem peýnir",
+    "amount": "100 g"
+   },
+   {
+    "name": "Glazur üçin: şeker tozy",
+    "amount": "2 nahar çemçesi"
+   }
+  ],
+  "steps": [
+   "Ýyly süýde hamyrmaýany we şekeri goşup, 10 minut sakla.",
+   "Un, duz, ýumurtga we sary ýagy goşup, 8–10 minut tekiz hamyr ýugur; ýapyp, ýyly ýerde 1 sagat, iki esse ulalýança sakla.",
+   "Hamyry 40×30 sm ýaý, ýumşak ýag çal, şeker we darçyn sep, uzyn tarapyndan berk dola we 12 bölege kes.",
+   "Galyba düz, ýene 30 minut göterilmäge goý; 180°C peçde 20–25 minut bişir.",
+   "Krem peýniri şeker tozy bilen çalyp, gyzgyn bulkalaryň üstüne çal."
+  ]
+ },
+ "cinnamon-roll-yoghurt-quick": {
+  "title": "Hamyrmaýasyz gatykly hamyrdan darçynly bulka",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "250 g (ýarysy bitin däneli)"
+   },
+   {
+    "name": "Kabartma poroşogy",
+    "amount": "2 çaý çemçesi"
+   },
+   {
+    "name": "Duz",
+    "amount": "1 çümmük"
+   },
+   {
+    "name": "Süzülen gatyk",
+    "amount": "250 g"
+   },
+   {
+    "name": "Içi üçin: sary ýag (eredilen)",
+    "amount": "30 g"
+   },
+   {
+    "name": "Içi üçin: goňur şeker",
+    "amount": "40 g"
+   },
+   {
+    "name": "Içi üçin: darçyn",
+    "amount": "1 nahar çemçesi"
+   }
+  ],
+  "steps": [
+   "Peçi 190°C-e çenli gyzdyr.",
+   "Un, kabartma poroşogy, duz we gatykdan ýumşak hamyr ýugur (ýelmeşse, azajyk un goş).",
+   "30×20 sm ýaý, eredilen ýag çal, şeker we darçyn sep, dola we 8 bölege kes.",
+   "Galyba düz, 20–25 minut gyzarýança bişir."
+  ]
+ },
+ "classic-cheese-board": {
+  "title": "Klassik peýnir tabagy",
+  "ingredients": [
+   {
+    "name": "Gaty peýnir (çeddar, parmezan we ş.m.)",
+    "amount": "150 g"
+   },
+   {
+    "name": "Ýarym ýumşak peýnir",
+    "amount": "150 g"
+   },
+   {
+    "name": "Geçi peýniri",
+    "amount": "100 g"
+   },
+   {
+    "name": "Üzüm",
+    "amount": "1 salkym"
+   },
+   {
+    "name": "Armyt ýa-da injir",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Hoz we badam",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Bal",
+    "amount": "2 nahar çemçesi"
+   },
+   {
+    "name": "Bitin däneli kraker",
+    "amount": "1 owuç"
+   }
+  ],
+  "steps": [
+   "Peýnirleri saçaga bermezden 30 minut öň sowadyjydan çykar.",
+   "Her peýniri dürli görnüşde dogra (kub, üçburçluk, dilim).",
+   "Uly tagtada peýnirleri aralykly düz, boşluklary miwe, hoz we kraker bilen doldur.",
+   "Baly kiçi käsä goý."
+  ]
+ },
+ "cucumber-yoghurt": {
+  "title": "Hyýarly gatyk",
+  "ingredients": [
+   {
+    "name": "Gatyk",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Hyýar",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Sarymsak",
+    "amount": "½ diş"
+   },
+   {
+    "name": "Ýalpyz, şüwüt",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Hyýary gyrgyçdan geçir.",
+   "Gatyk, sarymsak we gök otlar bilen garyşdyr."
+  ]
+ },
+ "dark-choc-chip-cookies": {
+  "title": "Gara şokoladly peçenýe",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "180 g (ýarysy bitin däneli)"
+   },
+   {
+    "name": "Aş sodasy",
+    "amount": "½ çaý çemçesi"
+   },
+   {
+    "name": "Duz",
+    "amount": "1 çümmük"
+   },
+   {
+    "name": "Sary ýag (ýumşak)",
+    "amount": "100 g"
+   },
+   {
+    "name": "Goňur şeker",
+    "amount": "100 g"
+   },
+   {
+    "name": "Ýumurtga",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Wanil ekstrakty",
+    "amount": "1 çaý çemçesi"
+   },
+   {
+    "name": "Gara şokolad (doglanan)",
+    "amount": "100 g"
+   }
+  ],
+  "steps": [
+   "Peçi 180°C-e çenli gyzdyr.",
+   "Sary ýagy we şekeri krem ýaly bolýança çal, ýumurtgany we wanili goş.",
+   "Uny, sodany we duzy garyşdyr, soňra şokoladyny goş.",
+   "18 togalak ýasap, aralykly düz, 10–12 minut bişir — ortasy ýumşak galmaly, sowanda gatar."
+  ]
+ },
+ "dark-chocolate-strawberries": {
+  "title": "Gara şokoladly ýertudana",
+  "ingredients": [
+   {
+    "name": "Ýertudana",
+    "amount": "250 g"
+   },
+   {
+    "name": "Gara şokolad (70%+)",
+    "amount": "80 g"
+   },
+   {
+    "name": "Pisse (owradylan)",
+    "amount": "1 nahar çemçesi (islege görä)"
+   }
+  ],
+  "steps": [
+   "Ýertudanalary ýuwup, doly gurat.",
+   "Şokolady suw hammamynda eredip garyşdyr.",
+   "Ýertudanalary şokolada batyr, pergament kagyza düz, isleseň pisse sep.",
+   "Sowadyjyda 15 minut sakla."
+  ]
+ },
+ "date-energy-balls": {
+  "title": "Hurma we hozly energiýa togalaklary",
+  "ingredients": [
+   {
+    "name": "Hurma (çekirdeksiz)",
+    "amount": "12 sany"
+   },
+   {
+    "name": "Hoz",
+    "amount": "80 g"
+   },
+   {
+    "name": "Süle",
+    "amount": "3 nahar çemçesi"
+   },
+   {
+    "name": "Kakao poroşogy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Kokos ýonguçlary",
+    "amount": "2 nahar çemçesi (islege görä)"
+   }
+  ],
+  "steps": [
+   "Hurmany, hozy, süläni we kakaony blenderde ýelmeşýän garyndy bolýança çaýka.",
+   "12 sany kiçi togalak ýasa.",
+   "Isleseň kokosa bulap, sowadyjyda 30 minut sakla."
+  ]
+ },
+ "date-night-cheese-plate": {
+  "title": "Iki adamlyk kiçi peýnir tabagy",
+  "ingredients": [
+   {
+    "name": "Bri (pasterizlenen)",
+    "amount": "60 g"
+   },
+   {
+    "name": "Gaty peýnir",
+    "amount": "60 g"
+   },
+   {
+    "name": "Injir",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Üzüm",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Gara şokolad",
+    "amount": "20 g"
+   },
+   {
+    "name": "Badam",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Bal",
+    "amount": "1 nahar çemçesi"
+   }
+  ],
+  "steps": [
+   "Peýnirleri 30 minut otag temperaturasynda sakla.",
+   "Injirleri dörde böl, şokolady döwüp bölekle.",
+   "Kiçi tagta hemme zady tertipli düz, baly üstüne sep."
+  ]
+ },
+ "dovga": {
+  "title": "Dowga (gatykly gök ot çorbasy)",
+  "ingredients": [
+   {
+    "name": "Gatyk",
+    "amount": "1 litr"
+   },
+   {
+    "name": "Suw",
+    "amount": "2 stakan"
+   },
+   {
+    "name": "Ýumurtga",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Tüwi",
+    "amount": "2 nahar çemçesi"
+   },
+   {
+    "name": "Un",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Ysmanak, kişniş, şüwüt, ýalpyz",
+    "amount": "4 owuç"
+   }
+  ],
+  "steps": [
+   "Gatygy, suwy, ýumurtgany we uny çal, tüwüni goş.",
+   "Orta otda hemişe bir ugra garyşdyryp gaýnat.",
+   "Ownuk doglanan gök otlary goşup, 10 minut bişir. Gyzgyn ýa-da sowuk saçaga ber."
+  ]
+ },
+ "frozen-yoghurt-bark": {
+  "title": "Ir-iýmişli doňdurylan gatyk plitkasy",
+  "ingredients": [
+   {
+    "name": "Süzülen gatyk",
+    "amount": "2 stakan"
+   },
+   {
+    "name": "Bal",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Ir-iýmiş",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Badam (owradylan)",
+    "amount": "2 nahar çemçesi"
+   }
+  ],
+  "steps": [
+   "Gatygy bal bilen garyşdyr, pergament kagyz düşelen tabaga 1 sm galyňlykda ýaý.",
+   "Üstüne ir-iýmiş we badam sep.",
+   "Doňduryjyda 3 sagat sakla, böleklere bölüp derrew iý."
+  ]
+ },
+ "garlic-prawn-pasta": {
+  "title": "Sarymsakly krewetka makarony",
+  "ingredients": [
+   {
+    "name": "Bitin däneli spagetti",
+    "amount": "160 g"
+   },
+   {
+    "name": "Krewetka (arassalanan)",
+    "amount": "250 g"
+   },
+   {
+    "name": "Sarymsak",
+    "amount": "3 diş"
+   },
+   {
+    "name": "Çeri pomidor",
+    "amount": "12 sany"
+   },
+   {
+    "name": "Ajy burç owuntygy",
+    "amount": "1 çümmük"
+   },
+   {
+    "name": "Petruşka",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ sany"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "2 nahar çemçesi"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Spagettini duzly suwda gapyndaky wagta çenli bişir, suwundan ýarym stakan alyp goý.",
+   "Tawada ýagda sarymsagy we ajy burçy 1 minut gowur, pomidory goşup, 3 minut bişir.",
+   "Krewetkany goş, gülgüne bolýança 2–3 minut bişir.",
+   "Spagetti, alnyp goýlan suw, limon we petruşka bilen garyşdyr."
+  ]
+ },
+ "ginger-cinnamon-cookies": {
+  "title": "Zenjebilli-darçynly peçenýe",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "220 g (ýarysy bitin däneli)"
+   },
+   {
+    "name": "Zenjebil poroşogy",
+    "amount": "2 çaý çemçesi"
+   },
+   {
+    "name": "Darçyn",
+    "amount": "1 çaý çemçesi"
+   },
+   {
+    "name": "Aş sodasy",
+    "amount": "1 çaý çemçesi"
+   },
+   {
+    "name": "Sary ýag (ýumşak)",
+    "amount": "90 g"
+   },
+   {
+    "name": "Goňur şeker",
+    "amount": "80 g"
+   },
+   {
+    "name": "Bal",
+    "amount": "3 nahar çemçesi"
+   },
+   {
+    "name": "Ýumurtga",
+    "amount": "1 sany"
+   }
+  ],
+  "steps": [
+   "Peçi 180°C-e çenli gyzdyr.",
+   "Sary ýagy, şekeri we baly çal, ýumurtgany goş.",
+   "Uny, zenjebili, darçyny we sodany goşup, hamyr ýugur.",
+   "20 togalak ýasap ýasyla, 10–12 minut bişir."
+  ]
+ },
+ "greek-salad": {
+  "title": "Grek salady",
+  "ingredients": [
+   {
+    "name": "Pomidor",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Hyýar",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Bolgar burçy",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Gyzyl sogan",
+    "amount": "¼ sany"
+   },
+   {
+    "name": "Zeýtun",
+    "amount": "8 sany"
+   },
+   {
+    "name": "Feta",
+    "amount": "80 g"
+   },
+   {
+    "name": "Guradylan reýhan ýa-da kekik",
+    "amount": "½ çaý çemçesi"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   }
+  ],
+  "steps": [
+   "Gök önümleri iri dograp gaba sal.",
+   "Zeýtuny goş, fetany iri bölekler edip üstüne goý.",
+   "Ýag sep, guradylan gök ot sep."
+  ]
+ },
+ "green-beans-eggs": {
+  "title": "Ýumurtgaly noýba",
+  "ingredients": [
+   {
+    "name": "Ýaşyl noýba",
+    "amount": "300 g"
+   },
+   {
+    "name": "Sogan",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Pomidor",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Ýumurtga",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   }
+  ],
+  "steps": [
+   "Noýbany 5 minut gaýnat.",
+   "Sogany we pomidory ýagda bişirip, noýbany goş.",
+   "Ýumurtgany üstüne döwüp, gapagyň aşagynda taýýar bolýança sakla."
+  ]
+ },
+ "green-kiwi-smoothie": {
+  "title": "Kiwi-ysmanak ýaşyl smuzisi",
+  "ingredients": [
+   {
+    "name": "Kiwi",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Ysmanak",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Hyýar",
+    "amount": "½ sany"
+   },
+   {
+    "name": "Alma",
+    "amount": "½ sany"
+   },
+   {
+    "name": "Suw",
+    "amount": "¾ stakan"
+   },
+   {
+    "name": "Ýalpyz",
+    "amount": "3 şaha"
+   }
+  ],
+  "steps": [
+   "Kiwiniň gabygyny aýyr, almanyň tohumlaryny çykar.",
+   "Ähli düzümi blenderde tekiz bolýança çaýka.",
+   "Buz bilen saçaga ber."
+  ]
+ },
+ "herb-kuku": {
+  "title": "Gök otly kuku",
+  "ingredients": [
+   {
+    "name": "Ýumurtga",
+    "amount": "3 sany"
+   },
+   {
+    "name": "Kişniş, şüwüt, ýaşyl sogan",
+    "amount": "2 owuç, ownuk doglanan"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Ýumurtgany çalyp, gök otlar bilen garyşdyr.",
+   "Ýaglanan galyba guý.",
+   "180°C peçde 15–18 minut bişir."
+  ]
+ },
+ "herb-qutab": {
+  "title": "Gök otly gutap (az ýagly)",
+  "ingredients": [
+   {
+    "name": "Un (ýarysy bitin däneli)",
+    "amount": "2 stakan"
+   },
+   {
+    "name": "Suw",
+    "amount": "¾ stakan"
+   },
+   {
+    "name": "Duz",
+    "amount": "½ çaý çemçesi"
+   },
+   {
+    "name": "Ysmanak, turşeňňe, kişniş, şüwüt",
+    "amount": "4 owuç"
+   },
+   {
+    "name": "Nar",
+    "amount": "islege görä"
+   }
+  ],
+  "steps": [
+   "Un, suw we duz bilen hamyr ýugrup, 15 minut sakla.",
+   "Inçe ýaýyp, ýarysyna ownuk doglanan gök otlary goý, ýarym aý görnüşinde eple.",
+   "Gury tawada her tarapyny 2 minut bişir."
+  ]
+ },
+ "hummus-veg": {
+  "title": "Humus we gök önüm çöpleri",
+  "ingredients": [
+   {
+    "name": "Bişirilen nohut",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Tahin",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ sany"
+   },
+   {
+    "name": "Sarymsak",
+    "amount": "½ diş"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Käşir, hyýar, burç",
+    "amount": "çöp görnüşinde"
+   }
+  ],
+  "steps": [
+   "Nohudy, tahini, limony, sarymsagy we 2–3 nahar çemçesi suwy blenderde tekiz bolýança çaýka.",
+   "Ýag goşup, gök önümler bilen saçaga ber."
+  ]
+ },
+ "lamb-chops-pomegranate": {
+  "title": "Narşarab sousy bilen guzy gapyrgasy",
+  "ingredients": [
+   {
+    "name": "Guzy gapyrgasy",
+    "amount": "4 sany"
+   },
+   {
+    "name": "Narşarab (nar sousy)",
+    "amount": "2 nahar çemçesi"
+   },
+   {
+    "name": "Sarymsak",
+    "amount": "2 diş"
+   },
+   {
+    "name": "Rozmarin",
+    "amount": "2 şaha"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Nar dänesi",
+    "amount": "2 nahar çemçesi"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Gapyrgany duz, burç, ezilen sarymsak we rozmarin bilen owkalap, 15 minut sakla.",
+   "Gowy gyzan tawada her tarapyny 3–4 minut gowur, soňra 5 minut dynç almaga goý.",
+   "Şol tawa narşarab we 2 nahar çemçesi suw goşup, 1 minut gaýnat.",
+   "Sousy etiň üstüne guý, nar dänesi bilen bezä."
+  ]
+ },
+ "lentil-pumpkin-feta-salad": {
+  "title": "Ýaşyl merjimek, bişirilen kädi we feta salady",
+  "ingredients": [
+   {
+    "name": "Ýaşyl merjimek",
+    "amount": "¾ stakan"
+   },
+   {
+    "name": "Kädi (kub edilen)",
+    "amount": "300 g"
+   },
+   {
+    "name": "Feta",
+    "amount": "60 g"
+   },
+   {
+    "name": "Ysmanak",
+    "amount": "2 owuç"
+   },
+   {
+    "name": "Kädi tohumy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ sany"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "2 nahar çemçesi"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Merjimegi 20–25 minut ýumşaýança gaýnadyp süz.",
+   "Kädini 1 nahar çemçesi ýag bilen garyşdyryp, 200°C peçde 20 minut bişir.",
+   "Merjimegi, kädini we ysmanagy galan ýag we limon bilen garyşdyr.",
+   "Üstüne owradylan feta we tohum sep."
+  ]
+ },
+ "light-caesar": {
+  "title": "Gatyk sousy bilen ýeňil sezar",
+  "ingredients": [
+   {
+    "name": "Towuk döşi",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Romen salat ýapragy",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Bitin däneli çörek",
+    "amount": "2 dilim"
+   },
+   {
+    "name": "Süzülen gatyk",
+    "amount": "4 nahar çemçesi"
+   },
+   {
+    "name": "Parmezan",
+    "amount": "20 g"
+   },
+   {
+    "name": "Gorçisa",
+    "amount": "1 çaý çemçesi"
+   },
+   {
+    "name": "Sarymsak",
+    "amount": "½ diş"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ sany"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Towugy duz-burç bilen tawada her tarapyny 6–7 minut, içi doly bişýänçä bişir, dilimle.",
+   "Çöregi kub edip dograp, peçde 200°C-de 8 minut gurat.",
+   "Gatyk, gorçisa, sarymsak, limon suwy we parmezanyň ýarysy bilen sous taýýarla.",
+   "Salat ýapraklaryny sous bilen garyşdyr, üstüne towuk, kruton we galan parmezany goý."
+  ]
+ },
+ "mango-turmeric-smoothie": {
+  "title": "Mango-zerdeçal smuzisi",
+  "ingredients": [
+   {
+    "name": "Mango (doňdurylan)",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Apelsin suwy",
+    "amount": "½ stakan"
+   },
+   {
+    "name": "Gatyk",
+    "amount": "½ stakan"
+   },
+   {
+    "name": "Zerdeçal",
+    "amount": "½ çaý çemçesi"
+   },
+   {
+    "name": "Zenjebil (täze)",
+    "amount": "1 sm"
+   }
+  ],
+  "steps": [
+   "Ähli düzümi blendere sal.",
+   "Tekiz bolýança çaýka.",
+   "Derrew iç."
+  ]
+ },
+ "mezze-platter": {
+  "title": "Mezze tabagy",
+  "ingredients": [
+   {
+    "name": "Humus",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Badamjan pastasy",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Hyýarly gatyk",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Zeýtun",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Gök önüm çöpleri",
+    "amount": "3 stakan"
+   },
+   {
+    "name": "Bitin däneli lawaş",
+    "amount": "3 sany"
+   },
+   {
+    "name": "Gök otlar",
+    "amount": "1 desse"
+   }
+  ],
+  "steps": [
+   "Humusy, badamjan pastasyny we hyýarly gatygy aýry käselere goý (reseptler: hummus-veg, baba-ganoush, cucumber-yoghurt).",
+   "Lawaşy üçburçluk edip kesip, gury tawada gyzart.",
+   "Uly tabakda käseleri, gök önümleri, zeýtuny, lawaşy we gök otlary düz."
+  ]
+ },
+ "nuts-dried-fruit": {
+  "title": "Hoz we kak miwe garyndysy",
+  "ingredients": [
+   {
+    "name": "Hoz",
+    "amount": "3 sany"
+   },
+   {
+    "name": "Badam",
+    "amount": "6 sany"
+   },
+   {
+    "name": "Kak erik (kuraga)",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Kak injir",
+    "amount": "1 sany"
+   }
+  ],
+  "steps": [
+   "Kiçi gaba salyp, sumkaňda göter."
+  ]
+ },
+ "pomegranate-beet-smoothie": {
+  "title": "Nar-şugundyr smuzisi",
+  "ingredients": [
+   {
+    "name": "Nar dänesi",
+    "amount": "½ stakan"
+   },
+   {
+    "name": "Bişirilen şugundyr",
+    "amount": "½ sany"
+   },
+   {
+    "name": "Ir-iýmiş",
+    "amount": "½ stakan"
+   },
+   {
+    "name": "Gatyk",
+    "amount": "½ stakan"
+   },
+   {
+    "name": "Suw",
+    "amount": "½ stakan"
+   }
+  ],
+  "steps": [
+   "Ähli düzümi blenderde tekiz bolýança çaýka.",
+   "Nar tohumy galsa, süzüp bilersiň.",
+   "Derrew iç."
+  ]
+ },
+ "pomegranate-parfait": {
+  "title": "Gatyk, nar we hoz parfesi",
+  "ingredients": [
+   {
+    "name": "Gatyk",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Nar dänesi",
+    "amount": "3 nahar çemçesi"
+   },
+   {
+    "name": "Hoz",
+    "amount": "4 sany"
+   },
+   {
+    "name": "Bal",
+    "amount": "1 çaý çemçesi (islege görä)"
+   }
+  ],
+  "steps": [
+   "Stakana gatlak-gatlak edip gatyk, nar we owradylan hoz goý.",
+   "Isleseň, üstüne bal goş."
+  ]
+ },
+ "pumpkin-veloute": {
+  "title": "Gowrulan tohumly kädi kremi",
+  "ingredients": [
+   {
+    "name": "Kädi (doglanan)",
+    "amount": "800 g"
+   },
+   {
+    "name": "Sogan",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Käşir",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Gök önüm bulýony",
+    "amount": "4 stakan"
+   },
+   {
+    "name": "Kädi tohumy",
+    "amount": "2 nahar çemçesi"
+   },
+   {
+    "name": "Muskat hozy",
+    "amount": "1 çümmük"
+   },
+   {
+    "name": "Gatyk",
+    "amount": "2 nahar çemçesi (islege görä)"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Sogany we käşiri ýagda 5 minut ýumşat.",
+   "Kädini we bulýony goşup, 20 minut bişir.",
+   "Blenderde ýüpek ýaly tekiz bolýança çaýka, muskat we duz goş.",
+   "Tohumlary gury tawada 2 minut gowur; çorbany bir damja gatyk we tohum bilen saçaga ber."
+  ]
+ },
+ "quinoa-avocado-salad": {
+  "title": "Kinoa, awokado we nar salady",
+  "ingredients": [
+   {
+    "name": "Kinoa",
+    "amount": "½ stakan"
+   },
+   {
+    "name": "Awokado",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Nar dänesi",
+    "amount": "3 nahar çemçesi"
+   },
+   {
+    "name": "Hyýar",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Ýalpyz, petruşka",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Kinoany ýuwup, 1 stakan suwda 12–15 minut bişir, sowat.",
+   "Awokadony we hyýary kub edip dogra, gök otlary ownuk dogra.",
+   "Hemmesini nar, limon suwy we ýag bilen garyşdyr, duz goş."
+  ]
+ },
+ "red-lentil-curry": {
+  "title": "Gök önümli gyzyl merjimek karrisi",
+  "ingredients": [
+   {
+    "name": "Gyzyl merjimek",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Kokos süýdi (ýeňil)",
+    "amount": "200 ml"
+   },
+   {
+    "name": "Pomidor (doglanan)",
+    "amount": "400 g"
+   },
+   {
+    "name": "Ysmanak",
+    "amount": "2 owuç"
+   },
+   {
+    "name": "Sogan",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Sarymsak",
+    "amount": "2 diş"
+   },
+   {
+    "name": "Karri poroşogy",
+    "amount": "2 çaý çemçesi"
+   },
+   {
+    "name": "Suw",
+    "amount": "2 stakan"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Duz",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Sogany we sarymsagy ýagda 4 minut ýumşat, karri poroşogyny goşup, 30 sekunt garyşdyr.",
+   "Merjimegi, pomidory we suwy goşup, 15 minut bişir.",
+   "Kokos süýdüni we ysmanagy goşup, ýene 3 minut bişir. Goňur tüwi bilen saçaga ber."
+  ]
+ },
+ "red-lentil-soup": {
+  "title": "Merjimek çorbasy",
+  "ingredients": [
+   {
+    "name": "Gyzyl merjimek",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Sogan",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Käşir",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Zerdeçal, burç",
+    "amount": "azajyk"
+   },
+   {
+    "name": "Suw",
+    "amount": "5 stakan"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ sany"
+   }
+  ],
+  "steps": [
+   "Sogany we käşiri ýagda 5 minut ýumşat.",
+   "Ýuwulan merjimegi, ýakymly ysly otlary we suwy goşup, 20–25 minut bişir.",
+   "Blenderde ez, limon bilen saçaga ber."
+  ]
+ },
+ "roasted-chickpeas": {
+  "title": "Şatyrdap duran gowrulan nohut",
+  "ingredients": [
+   {
+    "name": "Bişirilen nohut",
+    "amount": "2 stakan"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Paprika",
+    "amount": "1 çaý çemçesi"
+   },
+   {
+    "name": "Zire",
+    "amount": "½ çaý çemçesi"
+   },
+   {
+    "name": "Duz",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Nohudy süzüp, polotensa bilen gowy edip gurat.",
+   "Ýag we ýakymly ysly otlar bilen garyşdyr.",
+   "Peçde 200°C-de 25–30 minut, arasynda garyşdyryp, şatyrdaýança bişir. Sowanda has-da şatyrdaýar."
+  ]
+ },
+ "saffron-chicken-plov": {
+  "title": "Zagpyranly towuk palawy, goňur tüwi we kak miweler bilen",
+  "ingredients": [
+   {
+    "name": "Goňur tüwi",
+    "amount": "1,5 stakan"
+   },
+   {
+    "name": "Towuk budy (süýeksiz)",
+    "amount": "400 g"
+   },
+   {
+    "name": "Zagpyran",
+    "amount": "1 çümmük"
+   },
+   {
+    "name": "Kak erik (kuraga)",
+    "amount": "8 sany"
+   },
+   {
+    "name": "Kişmiş",
+    "amount": "2 nahar çemçesi"
+   },
+   {
+    "name": "Kaştan (bişirilen)",
+    "amount": "8 sany (islege görä)"
+   },
+   {
+    "name": "Sogan",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "2 nahar çemçesi"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Tüwüni ýuwup, 30 minut suwda sakla; zagpyrany 3 nahar çemçesi gyzgyn suwda demle.",
+   "Tüwüni duzly suwda 20 minut ýarym bişirip gaýnat we süz.",
+   "Towugy sogan bilen ýagda 10 minut gowur, kak miweleri we kaştany goş.",
+   "Tüwüni gazana sal, zagpyranly suwy üstüne sep, gapagyny polotensa bilen örtüp, haýal otda 25 minut demle; towuk bilen bilelikde saçaga ber."
+  ]
+ },
+ "salmon-papillote": {
+  "title": "Kagyzda bişirilen losos",
+  "ingredients": [
+   {
+    "name": "Losos filesi",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Sparža ýa-da ýaşyl noýba",
+    "amount": "200 g"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Şüwüt",
+    "amount": "4 şaha"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Peçi 200°C-e çenli gyzdyr.",
+   "Her porsiýa üçin pergament kagyzyň ortasyna gök önüm, üstüne losos, limon dilimi we şüwüt goý, ýag sep, duz-burç sep.",
+   "Kagyzy bukja ýaly ýap.",
+   "15–18 minut bişir; bukjany saçakda aç."
+  ]
+ },
+ "salmon-pea-puree": {
+  "title": "Ýaşyl nohut püresi bilen losos",
+  "ingredients": [
+   {
+    "name": "Losos filesi",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Ýaşyl nohut (doňdurylan)",
+    "amount": "250 g"
+   },
+   {
+    "name": "Ýalpyz",
+    "amount": "5 şaha"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "2 nahar çemçesi"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Nohudy 4 minut gaýnadyp süz; ýalpyz, 1 nahar çemçesi ýag, limon suwy we duz bilen blenderde tekiz püre et.",
+   "Lososyň derisini gurat, duz-burç sep.",
+   "Gyzgyn tawada derisini aşak edip 4–5 minut, öwrüp 2–3 minut, eti aňsatlyk bilen gatlaklara bölünýänçä bişir.",
+   "Püräni tabaga ýaý, üstüne lososy goý, limon gabygy bilen bezä."
+  ]
+ },
+ "spinach-apple-smoothie": {
+  "title": "Ysmanak-alma smuzisi",
+  "ingredients": [
+   {
+    "name": "Ysmanak",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Alma",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Banan",
+    "amount": "½ sany"
+   },
+   {
+    "name": "Gatyk ýa-da suw",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Limon suwy",
+    "amount": "1 çaý çemçesi"
+   }
+  ],
+  "steps": [
+   "Ähli düzümi blenderde tekiz bolýança çaýka.",
+   "Derrew iç."
+  ]
+ },
+ "steak-chimichurri": {
+  "title": "Çimiçurri sousy bilen sygyr eti steýki",
+  "ingredients": [
+   {
+    "name": "Sygyr eti steýki (ýagsyz)",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Petruşka",
+    "amount": "1 desse"
+   },
+   {
+    "name": "Sarymsak",
+    "amount": "2 diş"
+   },
+   {
+    "name": "Çakyr sirkesi",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "3 nahar çemçesi"
+   },
+   {
+    "name": "Gowrulan gök önüm (kabaçok, burç)",
+    "amount": "300 g"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Steýki otag temperaturasynda 20 minut sakla, duz-burç sep.",
+   "Petruşkany, sarymsagy ownuk dogra, sirke we 2 nahar çemçesi ýag bilen garyşdyr.",
+   "Gaty gyzgyn tawada steýkiň her tarapyny 3–4 minut (galyňlygyna görä) gowur, 5 minut dynç almaga goý.",
+   "Dilimläp, gowrulan gök önüm we çimiçurri bilen saçaga ber."
+  ]
+ },
+ "stuffed-courgettes": {
+  "title": "Hindi towugynyň farşy bilen doldurylan kabaçok",
+  "ingredients": [
+   {
+    "name": "Kabaçok",
+    "amount": "3 sany"
+   },
+   {
+    "name": "Hindi towugynyň farşy",
+    "amount": "300 g"
+   },
+   {
+    "name": "Sogan",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Pomidor",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Mosarella (gyrgyçdan geçirilen)",
+    "amount": "50 g"
+   },
+   {
+    "name": "Şüwüt",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Kabaçoklary uzynlygyna ikä böl, içini çemçe bilen çykar we dogra.",
+   "Sogany, farşy, kabaçogyň içini we pomidory tawada 8 minut bişir, şüwüt goş.",
+   "Kabaçok gaýyklaryny doldurup, üstüne peýnir sep.",
+   "190°C peçde 20 minut bişir."
+  ]
+ },
+ "tahini-almond-cookies": {
+  "title": "Tahinli-badamly peçenýe (glýutensiz)",
+  "ingredients": [
+   {
+    "name": "Badam uny",
+    "amount": "150 g"
+   },
+   {
+    "name": "Tahin",
+    "amount": "80 g"
+   },
+   {
+    "name": "Bal",
+    "amount": "60 g"
+   },
+   {
+    "name": "Ýumurtga",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Aş sodasy",
+    "amount": "¼ çaý çemçesi"
+   },
+   {
+    "name": "Duz",
+    "amount": "1 çümmük"
+   },
+   {
+    "name": "Künji",
+    "amount": "1 nahar çemçesi"
+   }
+  ],
+  "steps": [
+   "Peçi 175°C-e çenli gyzdyr.",
+   "Ähli düzümi (künjiden başga) garyşdyryp, ýumşak garyndy al.",
+   "14 togalak ýasa, künjä batyr, pergament kagyza goýup, azajyk bas.",
+   "10–12 minut bişir, tabakda sowat."
+  ]
+ },
+ "thyme-chicken-celeriac": {
+  "title": "Kereweý püresi we gök ot ýagy bilen kekikli towuk",
+  "ingredients": [
+   {
+    "name": "Towuk döşi",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Kereweý köki",
+    "amount": "400 g"
+   },
+   {
+    "name": "Süýt",
+    "amount": "½ stakan"
+   },
+   {
+    "name": "Kekik (timýan)",
+    "amount": "4 şaha"
+   },
+   {
+    "name": "Petruşka",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "3 nahar çemçesi"
+   },
+   {
+    "name": "Sarymsak",
+    "amount": "1 diş"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Kereweý köküni dograp, süýt we ýarym stakan suw bilen 20 minut ýumşaýança bişir, püre et.",
+   "Petruşkany 2 nahar çemçesi ýag bilen blenderde çaýkap süz — gök ot ýagy taýýar.",
+   "Towugy duz, burç, sarymsak we kekik bilen owkala, tawada her tarapyny 6–7 minut, içi doly bişýänçä gowur.",
+   "Püräni tabaga goý, dilimlenen towugy üstüne düz, töweregine gök ot ýagyny damjalat."
+  ]
+ },
+ "tomato-bruschetta": {
+  "title": "Pomidorly brusketta",
+  "ingredients": [
+   {
+    "name": "Bitin däneli baget",
+    "amount": "12 dilim"
+   },
+   {
+    "name": "Pomidor",
+    "amount": "4 sany"
+   },
+   {
+    "name": "Sarymsak",
+    "amount": "1 diş"
+   },
+   {
+    "name": "Reýhan",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "2 nahar çemçesi"
+   },
+   {
+    "name": "Duz",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Çörek dilimlerini peçde ýa-da grilde gyzart, bir ýüzüni kesilen sarymsak bilen sürt.",
+   "Pomidory ownuk dogra, reýhan, ýag we duz bilen garyşdyr.",
+   "Saçaga bermezden göni öň çöregiň üstüne goý."
+  ]
+ },
+ "tomato-eggs": {
+  "title": "Pomidorly ýumurtga",
+  "ingredients": [
+   {
+    "name": "Pomidor",
+    "amount": "3 sany orta"
+   },
+   {
+    "name": "Ýumurtga",
+    "amount": "3 sany"
+   },
+   {
+    "name": "Sogan",
+    "amount": "½ sany"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Bitin däneli çörek",
+    "amount": "2 dilim"
+   }
+  ],
+  "steps": [
+   "Sogany ýagda ýumşat.",
+   "Doglanan pomidory goşup, 5 minut bişir.",
+   "Ýumurtgany garyşdyryp, taýýar bolýança bişir. Çörek bilen saçaga ber."
+  ]
+ },
+ "tuna-bean-bowl": {
+  "title": "Tunes we ak noýba käsesi",
+  "ingredients": [
+   {
+    "name": "Tunes (öz suwunda)",
+    "amount": "1 banka (~150 g)"
+   },
+   {
+    "name": "Ak noýba (bişirilen)",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Çeri pomidor",
+    "amount": "10 sany"
+   },
+   {
+    "name": "Gyzyl sogan",
+    "amount": "¼ sany"
+   },
+   {
+    "name": "Rukkola",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ sany"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Tunesi süzüp, süýümlere böl.",
+   "Noýba, ikä bölünen pomidor, inçe doglanan sogan we rukkola bilen garyşdyr.",
+   "Limon suwy, ýag we duz-burç bilen tagamlandyr."
+  ]
+ },
+ "turkey-meatballs-tomato": {
+  "title": "Pomidor sousunda hindi towugy köftesi",
+  "ingredients": [
+   {
+    "name": "Hindi towugynyň farşy",
+    "amount": "500 g"
+   },
+   {
+    "name": "Ýumurtga",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Süle",
+    "amount": "3 nahar çemçesi"
+   },
+   {
+    "name": "Pomidor (doglanan, konserwirlenen)",
+    "amount": "400 g"
+   },
+   {
+    "name": "Sarymsak",
+    "amount": "2 diş"
+   },
+   {
+    "name": "Reýhan",
+    "amount": "1 owuç"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Farşy, ýumurtgany, süläni, duzy we burçy garyşdyryp, 20 köfte ýasa.",
+   "Köfteleri tawada ýagda her tarapyny 5 minut gowur.",
+   "Sarymsagy we pomidory goşup, gapagyň aşagynda 15 minut, köfteler doly bişýänçä bişir.",
+   "Reýhan bilen bezä; ýanyna bitin däneli makaron ýa-da greçka gowy gelişýär."
+  ]
+ },
+ "veg-chips": {
+  "title": "Peçde şugundyr we batat çipsi",
+  "ingredients": [
+   {
+    "name": "Şugundyr (çig)",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Batat",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Rozmarin (guradylan)",
+    "amount": "½ çaý çemçesi"
+   },
+   {
+    "name": "Duz",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Peçi 160°C-e çenli gyzdyr.",
+   "Gök önümleri arassalap, gaty inçe (1–2 mm) dilimle, polotensa bilen gurat.",
+   "Ýag we ýakymly ysly otlar bilen garyşdyryp, pergament kagyzyň üstüne bir gatlak edip düz.",
+   "25–30 minut, arasynda öwrüp bişir; ýanmaz ýaly soňky minutlarda gözegçilik et."
+  ]
+ },
+ "vegetarian-yarpaq-dolma": {
+  "title": "Etsiz ýaprak dolmasy",
+  "ingredients": [
+   {
+    "name": "Üzüm ýapragy",
+    "amount": "40 sany"
+   },
+   {
+    "name": "Tüwi",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Sogan",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Ýalpyz, şüwüt, petruşka",
+    "amount": "1 desse"
+   },
+   {
+    "name": "Pomidor pastasy",
+    "amount": "1 nahar çemçesi"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Zeýtun ýagy",
+    "amount": "3 nahar çemçesi"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Ýapraklary gaýnag suwda 2 minut saklap süz.",
+   "Sogany ýagda ýumşat, ýuwulan tüwi, pomidor pastasy, gök otlar we duz bilen garyşdyr.",
+   "Her ýapraga 1 çaý çemçesi iç goýup, berk dola.",
+   "Gazana jebis düz, limon dilimlerini we 2 stakan suw goş, tabak bilen basyp, haýal otda 50 minut bişir."
+  ]
+ },
+ "yoghurt-chicken-skewers": {
+  "title": "Gatykda marinadlanan towuk şaşlygy",
+  "ingredients": [
+   {
+    "name": "Towuk budy (süýeksiz)",
+    "amount": "800 g"
+   },
+   {
+    "name": "Gatyk",
+    "amount": "1 stakan"
+   },
+   {
+    "name": "Sarymsak",
+    "amount": "3 diş"
+   },
+   {
+    "name": "Paprika",
+    "amount": "2 çaý çemçesi"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Bolgar burçy",
+    "amount": "2 sany"
+   },
+   {
+    "name": "Gyzyl sogan",
+    "amount": "1 sany"
+   },
+   {
+    "name": "Duz, burç",
+    "amount": "azajyk"
+   }
+  ],
+  "steps": [
+   "Towugy kub edip dogra, gatyk, sarymsak, paprika, limon we duz bilen garyşdyryp, azyndan 2 sagat sowadyjyda sakla.",
+   "Towugy burç we sogan bilen nobatma-nobat şişe düz.",
+   "Grilde ýa-da 220°C peçde 15–20 minut, arasynda öwrüp, içi doly bişýänçä bişir."
+  ]
+ }
+}

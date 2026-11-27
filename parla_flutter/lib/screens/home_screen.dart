@@ -119,7 +119,7 @@ class _HomeBody extends StatelessWidget {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
     final now = scope.clock();
-    final language = scope.settings.contentLanguage;
+    final language = scope.settings.textLanguage;
 
     final kind = controller.kind;
     final habits = controller.habits;

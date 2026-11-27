@@ -1,0 +1,2853 @@
+{
+ "ajapsandal": {
+  "title": "Acapsandal",
+  "ingredients": [
+   {
+    "name": "Patlıcan",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Domates",
+    "amount": "3 adet"
+   },
+   {
+    "name": "Biber",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Soğan",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Sarımsak",
+    "amount": "2 diş"
+   },
+   {
+    "name": "Kişniş, fesleğen",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "2 yemek kaşığı"
+   }
+  ],
+  "steps": [
+   "Sebzeleri iri doğra.",
+   "Patlıcanı kızartmak yerine fırında 200°C'de 15 dakika pişir.",
+   "Kalan sebzelerle birlikte tencerede 15 dakika kısık ateşte pişir, yeşillikleri ve sarımsağı ekle."
+  ]
+ },
+ "almond-trout": {
+  "title": "Bademli alabalık",
+  "ingredients": [
+   {
+    "name": "Alabalık fileto",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Badem dilimi",
+    "amount": "2 yemek kaşığı"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Maydanoz",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Taze fasulye",
+    "amount": "200 gr"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Fasulyeyi 5 dakika haşlayıp süz.",
+   "Alabalığı tuz ve karabiberle tavada derili tarafı altta 4 dakika, çevirip 2 dakika pişir.",
+   "Balığı al, aynı tavada bademleri 1 dakika kavur, limon suyu ve maydanozu ekle.",
+   "Alabalığı fasulyelerin üzerine koy, bademli sosu dök."
+  ]
+ },
+ "apple-almond-butter": {
+  "title": "Badem ezmeli elma dilimleri",
+  "ingredients": [
+   {
+    "name": "Elma",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Badem ezmesi",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Tarçın",
+    "amount": "1 tutam"
+   },
+   {
+    "name": "Kenevir tohumu",
+    "amount": "1 çay kaşığı (isteğe bağlı)"
+   }
+  ],
+  "steps": [
+   "Elmayı dilimle.",
+   "Dilimlerin üzerine badem ezmesi sür.",
+   "Tarçın ve tohum serp."
+  ]
+ },
+ "azerbaijani-cheese-board": {
+  "title": "Azerbaycan usulü peynir tabağı",
+  "ingredients": [
+   {
+    "name": "Beyaz peynir",
+    "amount": "150 gr"
+   },
+   {
+    "name": "Motal peyniri",
+    "amount": "100 gr"
+   },
+   {
+    "name": "Şor (lor peyniri)",
+    "amount": "100 gr"
+   },
+   {
+    "name": "Yeşillik (fesleğen, tarhun, nane)",
+    "amount": "1 demet"
+   },
+   {
+    "name": "Ceviz",
+    "amount": "8 adet"
+   },
+   {
+    "name": "Domates, salatalık",
+    "amount": "2 su bardağı"
+   },
+   {
+    "name": "Tam buğday lavaş ya da tandır ekmeği",
+    "amount": "2 adet"
+   }
+  ],
+  "steps": [
+   "Peynirleri dilimle, şoru bir kâseye koy.",
+   "Yeşillikleri yıkayıp kurula, sebzeleri doğra.",
+   "Hepsini ceviz ve ekmekle birlikte büyük bir tabağa diz."
+  ]
+ },
+ "baba-ganoush": {
+  "title": "Patlıcan ezmesi (baba gannuş)",
+  "ingredients": [
+   {
+    "name": "Patlıcan",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Tahin",
+    "amount": "2 yemek kaşığı"
+   },
+   {
+    "name": "Sarımsak",
+    "amount": "1 diş"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Nar taneleri",
+    "amount": "2 yemek kaşığı"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Tuz",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Patlıcanları çatalla delip 220°C fırında ya da ocak ateşinde 35–40 dakika, içleri yumuşayana kadar pişir.",
+   "Soğuyunca kabuklarını soy, 10 dakika süzgeçte beklet.",
+   "Tahin, sarımsak, limon suyu ve tuzla ez.",
+   "Üzerine zeytinyağı gezdir, narla süsle."
+  ]
+ },
+ "baked-apple": {
+  "title": "Tarçınlı fırın elma",
+  "ingredients": [
+   {
+    "name": "Elma",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Ceviz",
+    "amount": "4 adet"
+   },
+   {
+    "name": "Tarçın",
+    "amount": "½ çay kaşığı"
+   },
+   {
+    "name": "Yoğurt",
+    "amount": "2 yemek kaşığı (isteğe bağlı)"
+   }
+  ],
+  "steps": [
+   "Elmanın ortasını oy.",
+   "İçine ufalanmış ceviz ve tarçın koy.",
+   "180°C fırında 20 dakika pişir, yoğurtla servis et."
+  ]
+ },
+ "baked-fish-veg": {
+  "title": "Fırında limonlu balık ve sebze",
+  "ingredients": [
+   {
+    "name": "Balık fileto (kutum, somon vb.)",
+    "amount": "2 parça"
+   },
+   {
+    "name": "Kabak",
+    "amount": "1 küçük boy"
+   },
+   {
+    "name": "Biber",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Dereotu",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Sebzeleri doğrayıp yağla.",
+   "Üzerine balığı ve limon dilimlerini koy.",
+   "200°C fırında 18–20 dakika pişir, dereotuyla servis et."
+  ]
+ },
+ "baked-herb-chicken-kofta": {
+  "title": "Fırında yeşillikli tavuk köfte",
+  "ingredients": [
+   {
+    "name": "Tavuk kıyması",
+    "amount": "500 gr"
+   },
+   {
+    "name": "Soğan (rendelenmiş)",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Kişniş, dereotu",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Yumurta",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Yulaf",
+    "amount": "3 yemek kaşığı"
+   },
+   {
+    "name": "Kimyon",
+    "amount": "½ çay kaşığı"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Tüm malzemeleri iyice yoğur.",
+   "Islak elle 16 köfte yap, yağlı kâğıdın üzerine diz.",
+   "200°C fırında 18–20 dakika, içleri tamamen pişene kadar pişir. Yoğurtlu sos ve salatayla servis et."
+  ]
+ },
+ "baked-sea-bass": {
+  "title": "Yeşillik ve limonla bütün fırın levrek",
+  "ingredients": [
+   {
+    "name": "Levrek (temizlenmiş)",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Dereotu, maydanoz",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Sarımsak",
+    "amount": "2 diş"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "2 yemek kaşığı"
+   },
+   {
+    "name": "Çeri domates",
+    "amount": "10 adet"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Fırını 200°C'ye ısıt.",
+   "Balığın içini tuz, karabiber, limon dilimleri, sarımsak ve yeşillikle doldur.",
+   "Kaba koy, etrafına domatesleri diz, üzerine yağ sür.",
+   "20–25 dakika, eti kolayca ayrılana kadar pişir."
+  ]
+ },
+ "banana-bread-chocolate": {
+  "title": "Bitter çikolatalı muzlu kek",
+  "ingredients": [
+   {
+    "name": "Olgun muz",
+    "amount": "3 adet"
+   },
+   {
+    "name": "Yumurta",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Sıvı yağ",
+    "amount": "80 ml"
+   },
+   {
+    "name": "Esmer şeker",
+    "amount": "70 gr"
+   },
+   {
+    "name": "Un",
+    "amount": "200 gr (yarısı tam buğday)"
+   },
+   {
+    "name": "Kakao",
+    "amount": "2 yemek kaşığı"
+   },
+   {
+    "name": "Karbonat",
+    "amount": "1 çay kaşığı"
+   },
+   {
+    "name": "Tuz",
+    "amount": "½ çay kaşığı"
+   },
+   {
+    "name": "Bitter çikolata (doğranmış)",
+    "amount": "80 gr"
+   }
+  ],
+  "steps": [
+   "Fırını 175°C'ye ısıt, kalıba yağlı kâğıt ser.",
+   "Muzu ez, yumurta, yağ ve şekerle karıştır.",
+   "Un, kakao, karbonat ve tuzu ekle, ardından çikolatanın çoğunu kat.",
+   "Kalıba dök, kalan çikolatayı üzerine serp, 50–55 dakika pişir."
+  ]
+ },
+ "banana-bread-classic": {
+  "title": "Klasik muzlu kek",
+  "ingredients": [
+   {
+    "name": "Olgun muz",
+    "amount": "3 adet"
+   },
+   {
+    "name": "Yumurta",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Sıvı yağ",
+    "amount": "80 ml"
+   },
+   {
+    "name": "Esmer şeker",
+    "amount": "80 gr"
+   },
+   {
+    "name": "Un",
+    "amount": "220 gr (yarısı tam buğday)"
+   },
+   {
+    "name": "Karbonat",
+    "amount": "1 çay kaşığı"
+   },
+   {
+    "name": "Tuz",
+    "amount": "½ çay kaşığı"
+   },
+   {
+    "name": "Tarçın",
+    "amount": "1 çay kaşığı"
+   },
+   {
+    "name": "Vanilya özütü",
+    "amount": "1 çay kaşığı"
+   }
+  ],
+  "steps": [
+   "Fırını 175°C'ye ısıt, baton kek kalıbına yağlı kâğıt ser.",
+   "Muzu çatalla ez, yumurta, yağ, şeker ve vanilyayla karıştır.",
+   "Un, karbonat, tuz ve tarçını ekleyip yalnızca birleşene kadar karıştır.",
+   "Kalıba döküp 50–55 dakika, kürdan kuru çıkana kadar pişir; kalıpta 10 dakika soğut."
+  ]
+ },
+ "banana-bread-oat-walnut": {
+  "title": "Yulaflı cevizli muzlu kek (ilave şekersiz)",
+  "ingredients": [
+   {
+    "name": "Çok olgun muz",
+    "amount": "4 adet"
+   },
+   {
+    "name": "Yumurta",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Sıvı yağ",
+    "amount": "60 ml"
+   },
+   {
+    "name": "Yulaf unu (öğütülmüş yulaf)",
+    "amount": "100 gr"
+   },
+   {
+    "name": "Tam buğday unu",
+    "amount": "120 gr"
+   },
+   {
+    "name": "Kabartma tozu",
+    "amount": "1,5 çay kaşığı"
+   },
+   {
+    "name": "Tarçın",
+    "amount": "1 çay kaşığı"
+   },
+   {
+    "name": "Ceviz (doğranmış)",
+    "amount": "60 gr"
+   },
+   {
+    "name": "Hurma (doğranmış)",
+    "amount": "4 adet (isteğe bağlı)"
+   }
+  ],
+  "steps": [
+   "Fırını 175°C'ye ısıt, kalıba yağlı kâğıt ser.",
+   "Muzu ez, yumurta ve yağla karıştır.",
+   "Yulaf unu, tam buğday unu, kabartma tozu ve tarçını ekle, ceviz ve hurmayı kat.",
+   "Kalıba döküp 45–50 dakika pişir; tamamen soğuduktan sonra dilimle."
+  ]
+ },
+ "banana-oat-cocoa-smoothie": {
+  "title": "Muzlu, yulaflı ve kakaolu smoothie",
+  "ingredients": [
+   {
+    "name": "Muz",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Yulaf",
+    "amount": "2 yemek kaşığı"
+   },
+   {
+    "name": "Kakao",
+    "amount": "1 çay kaşığı"
+   },
+   {
+    "name": "Süt ya da bitkisel süt",
+    "amount": "1 su bardağı"
+   },
+   {
+    "name": "Fıstık ezmesi",
+    "amount": "1 çay kaşığı (isteğe bağlı)"
+   }
+  ],
+  "steps": [
+   "Tüm malzemeleri blendera koy.",
+   "Yulaf tamamen ezilene kadar 1 dakika çek.",
+   "Hemen iç."
+  ]
+ },
+ "banana-oat-cookies": {
+  "title": "Muzlu yulaflı kurabiye",
+  "ingredients": [
+   {
+    "name": "Olgun muz",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Yulaf",
+    "amount": "1,5 su bardağı"
+   },
+   {
+    "name": "Tarçın",
+    "amount": "½ çay kaşığı"
+   },
+   {
+    "name": "Bitter çikolata parçaları ya da kuru üzüm",
+    "amount": "30 gr"
+   }
+  ],
+  "steps": [
+   "Fırını 180°C'ye ısıt.",
+   "Muzu ez, yulaf, tarçın ve çikolatayla karıştır, 5 dakika beklet.",
+   "Yağlı kâğıda 12 yassı kurabiye koy.",
+   "15 dakika, kenarları kızarana kadar pişir."
+  ]
+ },
+ "beet-carpaccio": {
+  "title": "Keçi peyniri ve cevizli pancar carpaccio",
+  "ingredients": [
+   {
+    "name": "Haşlanmış pancar",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Keçi peyniri (pastörize)",
+    "amount": "60 gr"
+   },
+   {
+    "name": "Ceviz",
+    "amount": "6 adet"
+   },
+   {
+    "name": "Roka",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Balzamik sirke",
+    "amount": "1 çay kaşığı"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Pancarı çok ince halkalar hâlinde doğra ve tabağa üst üste gelecek şekilde diz.",
+   "Üzerine ufalanmış keçi peyniri, kavrulmuş ceviz ve roka koy.",
+   "Yağ ve balzamik sirkeyi karıştırıp üzerine gezdir, tuz ve karabiber ekle."
+  ]
+ },
+ "beet-walnut-salad": {
+  "title": "Cevizli ve sarımsaklı pancar salatası",
+  "ingredients": [
+   {
+    "name": "Haşlanmış pancar",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Ceviz",
+    "amount": "6 adet"
+   },
+   {
+    "name": "Süzme yoğurt",
+    "amount": "4 yemek kaşığı"
+   },
+   {
+    "name": "Sarımsak",
+    "amount": "1 diş"
+   },
+   {
+    "name": "Kuru erik",
+    "amount": "4 adet (isteğe bağlı)"
+   },
+   {
+    "name": "Tuz",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Pancarı rendenin iri tarafından geçir.",
+   "Cevizi ve kuru eriği ince doğra.",
+   "Yoğurt ve ezilmiş sarımsakla karıştır, tuz ekle."
+  ]
+ },
+ "berry-oats": {
+  "title": "Orman meyveli yulaf kâsesi",
+  "ingredients": [
+   {
+    "name": "Yulaf",
+    "amount": "4 yemek kaşığı"
+   },
+   {
+    "name": "Yoğurt",
+    "amount": "1 su bardağı"
+   },
+   {
+    "name": "Orman meyvesi",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Ceviz",
+    "amount": "3–4 adet"
+   }
+  ],
+  "steps": [
+   "Yulafı yoğurtla karıştır, 5 dakika beklet.",
+   "Üzerine orman meyvesi ve ceviz ekle."
+  ]
+ },
+ "berry-yoghurt-smoothie": {
+  "title": "Orman meyveli yoğurtlu smoothie",
+  "ingredients": [
+   {
+    "name": "Orman meyvesi (dondurulmuş)",
+    "amount": "1 su bardağı"
+   },
+   {
+    "name": "Yoğurt",
+    "amount": "¾ su bardağı"
+   },
+   {
+    "name": "Muz",
+    "amount": "½ adet"
+   },
+   {
+    "name": "Chia tohumu",
+    "amount": "1 çay kaşığı (isteğe bağlı)"
+   }
+  ],
+  "steps": [
+   "Tüm malzemeleri blendera koy.",
+   "Pürüzsüz olana kadar çek; koyu olursa biraz su ekle.",
+   "Hemen iç."
+  ]
+ },
+ "buckwheat-mushrooms": {
+  "title": "Mantarlı karabuğday",
+  "ingredients": [
+   {
+    "name": "Karabuğday",
+    "amount": "1 su bardağı"
+   },
+   {
+    "name": "Mantar",
+    "amount": "200 gr"
+   },
+   {
+    "name": "Soğan",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Dereotu",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Karabuğdayı 2 su bardağı suda 15 dakika pişir.",
+   "Soğan ve mantarı yağda 7–8 dakika pişir.",
+   "Karıştırıp dereotuyla servis et."
+  ]
+ },
+ "buckwheat-risotto": {
+  "title": "Mantarlı karabuğday risotto",
+  "ingredients": [
+   {
+    "name": "Karabuğday",
+    "amount": "1 su bardağı"
+   },
+   {
+    "name": "Mantar",
+    "amount": "250 gr"
+   },
+   {
+    "name": "Soğan",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Sarımsak",
+    "amount": "1 diş"
+   },
+   {
+    "name": "Sebze suyu",
+    "amount": "3 su bardağı"
+   },
+   {
+    "name": "Parmesan (rendelenmiş)",
+    "amount": "30 gr"
+   },
+   {
+    "name": "Kekik",
+    "amount": "2 dal"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Soğan ve sarımsağı yağda 3 dakika yumuşat, mantarı ekleyip 5 dakika pişir.",
+   "Karabuğdayı ekle, 1 dakika karıştır.",
+   "Sıcak sebze suyunu azar azar ekleyerek 15–18 dakika, karabuğday yumuşayana kadar pişir.",
+   "Ocaktan al, parmesan ve kekikle karıştır."
+  ]
+ },
+ "bulgur-chickpea-salad": {
+  "title": "Bulgurlu nohut salatası",
+  "ingredients": [
+   {
+    "name": "Bulgur",
+    "amount": "½ su bardağı"
+   },
+   {
+    "name": "Haşlanmış nohut",
+    "amount": "1 su bardağı"
+   },
+   {
+    "name": "Domates",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Salatalık",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Kişniş, nane",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ adet"
+   }
+  ],
+  "steps": [
+   "Bulgurun üzerine 1 su bardağı kaynar su dök, kapatıp 10 dakika beklet.",
+   "Sebzeleri ve yeşillikleri doğra.",
+   "Hepsini nohut, yağ ve limonla karıştır."
+  ]
+ },
+ "bulgur-stuffed-peppers": {
+  "title": "Bulgurlu biber dolması",
+  "ingredients": [
+   {
+    "name": "Dolmalık biber",
+    "amount": "4 adet"
+   },
+   {
+    "name": "Bulgur",
+    "amount": "¾ su bardağı"
+   },
+   {
+    "name": "Hindi kıyması",
+    "amount": "250 gr"
+   },
+   {
+    "name": "Soğan",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Domates salçası",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Maydanoz, nane",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Soğanı yağda yumuşat, kıymayı ekleyip 5 dakika pişir.",
+   "Bulgur, salça, yeşillik ve 1 su bardağı su ekleyip 5 dakika demlendir.",
+   "Biberlerin içini temizleyip harçla doldur.",
+   "Kaba diz, dibine 1 su bardağı su dök, üzerini kapatıp 180°C fırında 30–35 dakika pişir."
+  ]
+ },
+ "carrot-cake-light": {
+  "title": "Yoğurt kremalı havuçlu kek (az şekerli)",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "200 gr (yarısı tam buğday)"
+   },
+   {
+    "name": "Kabartma tozu",
+    "amount": "2 çay kaşığı"
+   },
+   {
+    "name": "Karbonat",
+    "amount": "½ çay kaşığı"
+   },
+   {
+    "name": "Tarçın",
+    "amount": "2 çay kaşığı"
+   },
+   {
+    "name": "Tuz",
+    "amount": "1 tutam"
+   },
+   {
+    "name": "Yumurta",
+    "amount": "3 adet"
+   },
+   {
+    "name": "Sıvı yağ",
+    "amount": "120 ml"
+   },
+   {
+    "name": "Esmer şeker",
+    "amount": "120 gr"
+   },
+   {
+    "name": "Havuç (rendelenmiş)",
+    "amount": "300 gr"
+   },
+   {
+    "name": "Ceviz (doğranmış)",
+    "amount": "60 gr"
+   },
+   {
+    "name": "Krema: süzme yoğurt",
+    "amount": "200 gr"
+   },
+   {
+    "name": "Krema: krem peynir",
+    "amount": "100 gr"
+   },
+   {
+    "name": "Krema: bal",
+    "amount": "2 yemek kaşığı"
+   }
+  ],
+  "steps": [
+   "Fırını 180°C'ye ısıt, 22 cm'lik kalıba yağlı kâğıt ser.",
+   "Un, kabartma tozu, karbonat, tarçın ve tuzu karıştır.",
+   "Ayrı bir kapta yumurta, yağ ve şekeri çırp, havuç ve cevizi ekle, ardından kuru malzemeleri kat.",
+   "Kalıba döküp 40–45 dakika, kürdan kuru çıkana kadar pişir; tamamen soğut.",
+   "Yoğurt, krem peynir ve balı çırpıp kekin üzerine sür."
+  ]
+ },
+ "carrot-cake-muffins": {
+  "title": "Havuçlu muffin",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "200 gr (tam buğday)"
+   },
+   {
+    "name": "Kabartma tozu",
+    "amount": "2 çay kaşığı"
+   },
+   {
+    "name": "Tarçın",
+    "amount": "1,5 çay kaşığı"
+   },
+   {
+    "name": "Yumurta",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Yoğurt",
+    "amount": "120 gr"
+   },
+   {
+    "name": "Sıvı yağ",
+    "amount": "60 ml"
+   },
+   {
+    "name": "Bal",
+    "amount": "80 gr"
+   },
+   {
+    "name": "Havuç (rendelenmiş)",
+    "amount": "200 gr"
+   },
+   {
+    "name": "Kuru üzüm",
+    "amount": "50 gr"
+   }
+  ],
+  "steps": [
+   "Fırını 180°C'ye ısıt, muffin kalıbına 12 kâğıt kap yerleştir.",
+   "Kuru malzemeleri bir kapta; yumurta, yoğurt, yağ ve balı başka bir kapta karıştır.",
+   "İkisini birleştir, havuç ve kuru üzümü kat; fazla karıştırma.",
+   "Kalıplara paylaştırıp 20–22 dakika pişir."
+  ]
+ },
+ "cheese-herb-toast": {
+  "title": "Peynirli ve yeşillikli tost",
+  "ingredients": [
+   {
+    "name": "Tam buğday ekmeği",
+    "amount": "2 dilim"
+   },
+   {
+    "name": "Beyaz peynir",
+    "amount": "40 gr"
+   },
+   {
+    "name": "Salatalık",
+    "amount": "½ adet"
+   },
+   {
+    "name": "Fesleğen, nane, kişniş",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Domates",
+    "amount": "1 adet"
+   }
+  ],
+  "steps": [
+   "Ekmeği kızart.",
+   "Üzerine peynir, doğranmış salatalık, domates ve yeşillik koy."
+  ]
+ },
+ "chicken-durum": {
+  "title": "Tavuklu tam buğday dürüm",
+  "ingredients": [
+   {
+    "name": "Tam buğday lavaş",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Pişmiş tavuk (dilimlenmiş)",
+    "amount": "200 gr"
+   },
+   {
+    "name": "Marul",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Domates",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Salatalık",
+    "amount": "½ adet"
+   },
+   {
+    "name": "Süzme yoğurt",
+    "amount": "3 yemek kaşığı"
+   },
+   {
+    "name": "Sarımsak",
+    "amount": "½ diş"
+   },
+   {
+    "name": "Sumak",
+    "amount": "½ çay kaşığı"
+   }
+  ],
+  "steps": [
+   "Yoğurdu sarımsak ve sumakla karıştır.",
+   "Lavaşın üzerine sosu sür, tavuğu ve doğranmış sebzeleri diz.",
+   "Sıkıca sar, istersen kuru tavada 1 dakika kızart."
+  ]
+ },
+ "chicken-veg-pan": {
+  "title": "Sebzeli tavuk sote",
+  "ingredients": [
+   {
+    "name": "Tavuk göğsü",
+    "amount": "250 gr"
+   },
+   {
+    "name": "Brokoli",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Biber",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Havuç",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Sarımsak",
+    "amount": "1 diş"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   }
+  ],
+  "steps": [
+   "Tavuğu şeritler hâlinde doğrayıp yağda 6–7 dakika pişir.",
+   "Sebzeleri ve sarımsağı ekleyip 5 dakika karıştırarak pişir."
+  ]
+ },
+ "chickpea-veg-stew": {
+  "title": "Nohutlu sebze güveci",
+  "ingredients": [
+   {
+    "name": "Haşlanmış nohut",
+    "amount": "1,5 su bardağı"
+   },
+   {
+    "name": "Patates",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Havuç",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Domates",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Ispanak",
+    "amount": "2 avuç"
+   },
+   {
+    "name": "Soğan",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   }
+  ],
+  "steps": [
+   "Soğanı yağda yumuşat.",
+   "Patates, havuç, domates ve 1 su bardağı su ekleyip 15 dakika pişir.",
+   "Nohut ve ıspanağı katıp 5 dakika demlendir."
+  ]
+ },
+ "choban-salad": {
+  "title": "Çoban salatası",
+  "ingredients": [
+   {
+    "name": "Domates",
+    "amount": "3 adet"
+   },
+   {
+    "name": "Salatalık",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Kırmızı soğan",
+    "amount": "½ adet"
+   },
+   {
+    "name": "Kişniş, fesleğen, maydanoz",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Sumak",
+    "amount": "1 çay kaşığı"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Tuz",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Domates, salatalık ve soğanı küçük küpler hâlinde doğra.",
+   "Yeşillikleri doğrayıp ekle.",
+   "Yağ, sumak ve tuzla karıştırıp hemen servis et."
+  ]
+ },
+ "cinnamon-roll-apple": {
+  "title": "Elmalı tarçınlı çörek",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "500 gr (yarısı tam buğday)"
+   },
+   {
+    "name": "Süt (ılık)",
+    "amount": "250 ml"
+   },
+   {
+    "name": "Kuru maya",
+    "amount": "7 gr"
+   },
+   {
+    "name": "Bal",
+    "amount": "2 yemek kaşığı"
+   },
+   {
+    "name": "Yumurta",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Tereyağı (yumuşak)",
+    "amount": "50 gr"
+   },
+   {
+    "name": "Tuz",
+    "amount": "½ çay kaşığı"
+   },
+   {
+    "name": "İç harcı: elma (küçük doğranmış)",
+    "amount": "2 adet"
+   },
+   {
+    "name": "İç harcı: esmer şeker",
+    "amount": "50 gr"
+   },
+   {
+    "name": "İç harcı: tarçın",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "İç harcı: tereyağı",
+    "amount": "30 gr"
+   }
+  ],
+  "steps": [
+   "Ilık süte maya ve balı katıp 10 dakika beklet.",
+   "Un, tuz, yumurta ve tereyağıyla pürüzsüz bir hamur yoğur, 1 saat mayalanmaya bırak.",
+   "Elmayı şeker ve tarçınla karıştır.",
+   "Hamuru 40×30 cm açıp yağ sür, elmalı harcı yay, rulo yapıp 12 parçaya kes.",
+   "30 dakika mayalandırıp 180°C fırında 22–25 dakika pişir."
+  ]
+ },
+ "cinnamon-roll-classic": {
+  "title": "Klasik tarçınlı çörek (cinnamon roll)",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "500 gr"
+   },
+   {
+    "name": "Süt (ılık)",
+    "amount": "250 ml"
+   },
+   {
+    "name": "Kuru maya",
+    "amount": "7 gr"
+   },
+   {
+    "name": "Şeker",
+    "amount": "50 gr"
+   },
+   {
+    "name": "Yumurta",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Tereyağı (yumuşak)",
+    "amount": "60 gr"
+   },
+   {
+    "name": "Tuz",
+    "amount": "½ çay kaşığı"
+   },
+   {
+    "name": "İç harcı: tereyağı",
+    "amount": "50 gr"
+   },
+   {
+    "name": "İç harcı: esmer şeker",
+    "amount": "80 gr"
+   },
+   {
+    "name": "İç harcı: tarçın",
+    "amount": "1,5 yemek kaşığı"
+   },
+   {
+    "name": "Glaze: krem peynir",
+    "amount": "100 gr"
+   },
+   {
+    "name": "Glaze: pudra şekeri",
+    "amount": "2 yemek kaşığı"
+   }
+  ],
+  "steps": [
+   "Ilık süte maya ve şekeri katıp 10 dakika beklet.",
+   "Un, tuz, yumurta ve tereyağını ekleyip 8–10 dakika pürüzsüz bir hamur yoğur; üzerini örtüp ılık bir yerde 1 saat, iki katına çıkana kadar beklet.",
+   "Hamuru 40×30 cm aç, yumuşak tereyağı sür, şeker ve tarçın serp, uzun kenarından sıkıca sar ve 12 parçaya kes.",
+   "Kalıba diz, 30 dakika daha mayalanmaya bırak; 180°C fırında 20–25 dakika pişir.",
+   "Krem peyniri pudra şekeriyle çırpıp sıcak çöreklerin üzerine sür."
+  ]
+ },
+ "cinnamon-roll-yoghurt-quick": {
+  "title": "Mayasız yoğurtlu hamurdan tarçınlı çörek",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "250 gr (yarısı tam buğday)"
+   },
+   {
+    "name": "Kabartma tozu",
+    "amount": "2 çay kaşığı"
+   },
+   {
+    "name": "Tuz",
+    "amount": "1 tutam"
+   },
+   {
+    "name": "Süzme yoğurt",
+    "amount": "250 gr"
+   },
+   {
+    "name": "İç harcı: tereyağı (eritilmiş)",
+    "amount": "30 gr"
+   },
+   {
+    "name": "İç harcı: esmer şeker",
+    "amount": "40 gr"
+   },
+   {
+    "name": "İç harcı: tarçın",
+    "amount": "1 yemek kaşığı"
+   }
+  ],
+  "steps": [
+   "Fırını 190°C'ye ısıt.",
+   "Un, kabartma tozu, tuz ve yoğurdu yumuşak bir hamur hâline getir (yapışırsa biraz un ekle).",
+   "30×20 cm aç, eritilmiş yağ sür, şeker ve tarçın serp, sar ve 8 parçaya kes.",
+   "Kalıba diz, 20–25 dakika kızarana kadar pişir."
+  ]
+ },
+ "classic-cheese-board": {
+  "title": "Klasik peynir tabağı",
+  "ingredients": [
+   {
+    "name": "Sert peynir (çedar, parmesan vb.)",
+    "amount": "150 gr"
+   },
+   {
+    "name": "Yarı yumuşak peynir",
+    "amount": "150 gr"
+   },
+   {
+    "name": "Keçi peyniri",
+    "amount": "100 gr"
+   },
+   {
+    "name": "Üzüm",
+    "amount": "1 salkım"
+   },
+   {
+    "name": "Armut ya da incir",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Ceviz ve badem",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Bal",
+    "amount": "2 yemek kaşığı"
+   },
+   {
+    "name": "Tam buğday kraker",
+    "amount": "1 avuç"
+   }
+  ],
+  "steps": [
+   "Peynirleri servisten 30 dakika önce buzdolabından çıkar.",
+   "Her peyniri farklı şekilde kes (küp, üçgen, dilim).",
+   "Büyük bir tahtaya peynirleri aralıklı diz, boşlukları meyve, ceviz ve krakerle doldur.",
+   "Balı küçük bir kâseye koy."
+  ]
+ },
+ "cucumber-yoghurt": {
+  "title": "Cacık",
+  "ingredients": [
+   {
+    "name": "Yoğurt",
+    "amount": "1 su bardağı"
+   },
+   {
+    "name": "Salatalık",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Sarımsak",
+    "amount": "½ diş"
+   },
+   {
+    "name": "Nane, dereotu",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Salatalığı rendele.",
+   "Yoğurt, sarımsak ve yeşilliklerle karıştır."
+  ]
+ },
+ "dark-choc-chip-cookies": {
+  "title": "Bitter çikolatalı kurabiye",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "180 gr (yarısı tam buğday)"
+   },
+   {
+    "name": "Karbonat",
+    "amount": "½ çay kaşığı"
+   },
+   {
+    "name": "Tuz",
+    "amount": "1 tutam"
+   },
+   {
+    "name": "Tereyağı (yumuşak)",
+    "amount": "100 gr"
+   },
+   {
+    "name": "Esmer şeker",
+    "amount": "100 gr"
+   },
+   {
+    "name": "Yumurta",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Vanilya özütü",
+    "amount": "1 çay kaşığı"
+   },
+   {
+    "name": "Bitter çikolata (doğranmış)",
+    "amount": "100 gr"
+   }
+  ],
+  "steps": [
+   "Fırını 180°C'ye ısıt.",
+   "Tereyağı ve şekeri krema kıvamına gelene kadar çırp, yumurta ve vanilyayı ekle.",
+   "Un, karbonat ve tuzu kat, ardından çikolatayı ekle.",
+   "18 top yapıp aralıklı diz, 10–12 dakika pişir; ortası yumuşak kalmalı, soğuyunca sertleşir."
+  ]
+ },
+ "dark-chocolate-strawberries": {
+  "title": "Bitter çikolatalı çilek",
+  "ingredients": [
+   {
+    "name": "Çilek",
+    "amount": "250 gr"
+   },
+   {
+    "name": "Bitter çikolata (%70+)",
+    "amount": "80 gr"
+   },
+   {
+    "name": "Antep fıstığı (kırılmış)",
+    "amount": "1 yemek kaşığı (isteğe bağlı)"
+   }
+  ],
+  "steps": [
+   "Çilekleri yıkayıp iyice kurula.",
+   "Çikolatayı benmari usulü eritip karıştır.",
+   "Çilekleri çikolataya batır, yağlı kâğıda diz, istersen fıstık serp.",
+   "Buzdolabında 15 dakika beklet."
+  ]
+ },
+ "date-energy-balls": {
+  "title": "Hurmalı cevizli enerji topları",
+  "ingredients": [
+   {
+    "name": "Hurma (çekirdeksiz)",
+    "amount": "12 adet"
+   },
+   {
+    "name": "Ceviz",
+    "amount": "80 gr"
+   },
+   {
+    "name": "Yulaf",
+    "amount": "3 yemek kaşığı"
+   },
+   {
+    "name": "Kakao",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Hindistan cevizi rendesi",
+    "amount": "2 yemek kaşığı (isteğe bağlı)"
+   }
+  ],
+  "steps": [
+   "Hurma, ceviz, yulaf ve kakaoyu rondoda yapışkan bir kıvam alana kadar çek.",
+   "12 küçük top yap.",
+   "İstersen hindistan cevizine bulayıp buzdolabında 30 dakika beklet."
+  ]
+ },
+ "date-night-cheese-plate": {
+  "title": "İki kişilik mini peynir tabağı",
+  "ingredients": [
+   {
+    "name": "Brie (pastörize)",
+    "amount": "60 gr"
+   },
+   {
+    "name": "Sert peynir",
+    "amount": "60 gr"
+   },
+   {
+    "name": "İncir",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Üzüm",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Bitter çikolata",
+    "amount": "20 gr"
+   },
+   {
+    "name": "Badem",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Bal",
+    "amount": "1 yemek kaşığı"
+   }
+  ],
+  "steps": [
+   "Peynirleri 30 dakika oda sıcaklığında beklet.",
+   "İncirleri dörde böl, çikolatayı parçala.",
+   "Küçük bir tahtaya her şeyi düzgünce diz, balı üzerine gezdir."
+  ]
+ },
+ "dovga": {
+  "title": "Dovga",
+  "ingredients": [
+   {
+    "name": "Yoğurt",
+    "amount": "1 litre"
+   },
+   {
+    "name": "Su",
+    "amount": "2 su bardağı"
+   },
+   {
+    "name": "Yumurta",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Pirinç",
+    "amount": "2 yemek kaşığı"
+   },
+   {
+    "name": "Un",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Ispanak, kişniş, dereotu, nane",
+    "amount": "4 avuç"
+   }
+  ],
+  "steps": [
+   "Yoğurt, su, yumurta ve unu çırp, pirinci ekle.",
+   "Orta ateşte sürekli aynı yönde karıştırarak kaynat.",
+   "İnce doğranmış yeşillikleri ekleyip 10 dakika pişir. Sıcak ya da soğuk servis et."
+  ]
+ },
+ "frozen-yoghurt-bark": {
+  "title": "Orman meyveli dondurulmuş yoğurt plakası",
+  "ingredients": [
+   {
+    "name": "Süzme yoğurt",
+    "amount": "2 su bardağı"
+   },
+   {
+    "name": "Bal",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Orman meyvesi",
+    "amount": "1 su bardağı"
+   },
+   {
+    "name": "Badem (kırılmış)",
+    "amount": "2 yemek kaşığı"
+   }
+  ],
+  "steps": [
+   "Yoğurdu balla karıştır, yağlı kâğıt serilmiş tepsiye 1 cm kalınlığında yay.",
+   "Üzerine orman meyvesi ve badem serp.",
+   "Dondurucuda 3 saat beklet, parçalara bölüp hemen ye."
+  ]
+ },
+ "garlic-prawn-pasta": {
+  "title": "Sarımsaklı karidesli makarna",
+  "ingredients": [
+   {
+    "name": "Tam buğday spagetti",
+    "amount": "160 gr"
+   },
+   {
+    "name": "Karides (temizlenmiş)",
+    "amount": "250 gr"
+   },
+   {
+    "name": "Sarımsak",
+    "amount": "3 diş"
+   },
+   {
+    "name": "Çeri domates",
+    "amount": "12 adet"
+   },
+   {
+    "name": "Pul biber",
+    "amount": "1 tutam"
+   },
+   {
+    "name": "Maydanoz",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ adet"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "2 yemek kaşığı"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Spagettiyi tuzlu suda paketteki süre kadar haşla, yarım su bardağı haşlama suyunu ayır.",
+   "Tavada yağda sarımsak ve pul biberi 1 dakika kavur, domatesleri ekleyip 3 dakika pişir.",
+   "Karidesi ekle, pembeleşene kadar 2–3 dakika pişir.",
+   "Spagetti, ayırdığın su, limon ve maydanozla karıştır."
+  ]
+ },
+ "ginger-cinnamon-cookies": {
+  "title": "Zencefilli tarçınlı kurabiye",
+  "ingredients": [
+   {
+    "name": "Un",
+    "amount": "220 gr (yarısı tam buğday)"
+   },
+   {
+    "name": "Toz zencefil",
+    "amount": "2 çay kaşığı"
+   },
+   {
+    "name": "Tarçın",
+    "amount": "1 çay kaşığı"
+   },
+   {
+    "name": "Karbonat",
+    "amount": "1 çay kaşığı"
+   },
+   {
+    "name": "Tereyağı (yumuşak)",
+    "amount": "90 gr"
+   },
+   {
+    "name": "Esmer şeker",
+    "amount": "80 gr"
+   },
+   {
+    "name": "Bal",
+    "amount": "3 yemek kaşığı"
+   },
+   {
+    "name": "Yumurta",
+    "amount": "1 adet"
+   }
+  ],
+  "steps": [
+   "Fırını 180°C'ye ısıt.",
+   "Tereyağı, şeker ve balı çırp, yumurtayı ekle.",
+   "Un, zencefil, tarçın ve karbonatı katıp hamur yoğur.",
+   "20 top yapıp bastırarak yassılaştır, 10–12 dakika pişir."
+  ]
+ },
+ "greek-salad": {
+  "title": "Yunan salatası",
+  "ingredients": [
+   {
+    "name": "Domates",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Salatalık",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Dolmalık biber",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Kırmızı soğan",
+    "amount": "¼ adet"
+   },
+   {
+    "name": "Zeytin",
+    "amount": "8 adet"
+   },
+   {
+    "name": "Feta peyniri",
+    "amount": "80 gr"
+   },
+   {
+    "name": "Kuru fesleğen ya da kekik",
+    "amount": "½ çay kaşığı"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   }
+  ],
+  "steps": [
+   "Sebzeleri iri doğrayıp bir kaba koy.",
+   "Zeytinleri ekle, fetayı iri parçalar hâlinde üzerine koy.",
+   "Yağ gezdir, kuru otu serp."
+  ]
+ },
+ "green-beans-eggs": {
+  "title": "Yumurtalı taze fasulye",
+  "ingredients": [
+   {
+    "name": "Taze fasulye",
+    "amount": "300 gr"
+   },
+   {
+    "name": "Soğan",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Domates",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Yumurta",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   }
+  ],
+  "steps": [
+   "Fasulyeyi 5 dakika haşla.",
+   "Soğan ve domatesi yağda pişirip fasulyeyi ekle.",
+   "Yumurtaları üzerine kır, kapağı kapalı olarak pişene kadar beklet."
+  ]
+ },
+ "green-kiwi-smoothie": {
+  "title": "Kivili ıspanaklı yeşil smoothie",
+  "ingredients": [
+   {
+    "name": "Kivi",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Ispanak",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Salatalık",
+    "amount": "½ adet"
+   },
+   {
+    "name": "Elma",
+    "amount": "½ adet"
+   },
+   {
+    "name": "Su",
+    "amount": "¾ su bardağı"
+   },
+   {
+    "name": "Nane",
+    "amount": "3 dal"
+   }
+  ],
+  "steps": [
+   "Kiviyi soy, elmanın çekirdeklerini çıkar.",
+   "Tüm malzemeleri blenderda pürüzsüz olana kadar çek.",
+   "Buzla servis et."
+  ]
+ },
+ "herb-kuku": {
+  "title": "Yeşillikli kükü",
+  "ingredients": [
+   {
+    "name": "Yumurta",
+    "amount": "3 adet"
+   },
+   {
+    "name": "Kişniş, dereotu, taze soğan",
+    "amount": "2 avuç, ince doğranmış"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Yumurtaları çırpıp yeşilliklerle karıştır.",
+   "Yağlanmış kalıba dök.",
+   "180°C fırında 15–18 dakika pişir."
+  ]
+ },
+ "herb-qutab": {
+  "title": "Yeşillikli kutab (az yağlı)",
+  "ingredients": [
+   {
+    "name": "Un (yarısı tam buğday)",
+    "amount": "2 su bardağı"
+   },
+   {
+    "name": "Su",
+    "amount": "¾ su bardağı"
+   },
+   {
+    "name": "Tuz",
+    "amount": "½ çay kaşığı"
+   },
+   {
+    "name": "Ispanak, kuzukulağı, kişniş, dereotu",
+    "amount": "4 avuç"
+   },
+   {
+    "name": "Nar",
+    "amount": "isteğe bağlı"
+   }
+  ],
+  "steps": [
+   "Un, su ve tuzla hamur yoğurup 15 dakika dinlendir.",
+   "İnce açıp yarısına ince doğranmış yeşillik koy, yarım ay şeklinde katla.",
+   "Kuru tavada her iki tarafını 2'şer dakika pişir."
+  ]
+ },
+ "hummus-veg": {
+  "title": "Humus ve sebze çubukları",
+  "ingredients": [
+   {
+    "name": "Haşlanmış nohut",
+    "amount": "1 su bardağı"
+   },
+   {
+    "name": "Tahin",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ adet"
+   },
+   {
+    "name": "Sarımsak",
+    "amount": "½ diş"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Havuç, salatalık, biber",
+    "amount": "çubuk şeklinde"
+   }
+  ],
+  "steps": [
+   "Nohut, tahin, limon, sarımsak ve 2–3 yemek kaşığı suyu blenderda pürüzsüz olana kadar çek.",
+   "Yağ ekleyip sebzelerle servis et."
+  ]
+ },
+ "lamb-chops-pomegranate": {
+  "title": "Narşarap soslu kuzu pirzola",
+  "ingredients": [
+   {
+    "name": "Kuzu pirzola",
+    "amount": "4 adet"
+   },
+   {
+    "name": "Narşarap (nar sosu)",
+    "amount": "2 yemek kaşığı"
+   },
+   {
+    "name": "Sarımsak",
+    "amount": "2 diş"
+   },
+   {
+    "name": "Biberiye",
+    "amount": "2 dal"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Nar taneleri",
+    "amount": "2 yemek kaşığı"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Pirzolaları tuz, karabiber, ezilmiş sarımsak ve biberiyeyle ovup 15 dakika beklet.",
+   "İyice ısınmış tavada her iki tarafını 3–4 dakika kızart, sonra 5 dakika dinlendir.",
+   "Aynı tavaya narşarap ve 2 yemek kaşığı su ekleyip 1 dakika kaynat.",
+   "Sosu etin üzerine dök, nar taneleriyle süsle."
+  ]
+ },
+ "lentil-pumpkin-feta-salad": {
+  "title": "Yeşil mercimek, fırın balkabağı ve feta salatası",
+  "ingredients": [
+   {
+    "name": "Yeşil mercimek",
+    "amount": "¾ su bardağı"
+   },
+   {
+    "name": "Balkabağı (küp)",
+    "amount": "300 gr"
+   },
+   {
+    "name": "Feta peyniri",
+    "amount": "60 gr"
+   },
+   {
+    "name": "Ispanak",
+    "amount": "2 avuç"
+   },
+   {
+    "name": "Kabak çekirdeği",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ adet"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "2 yemek kaşığı"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Mercimeği 20–25 dakika yumuşayana kadar haşlayıp süz.",
+   "Balkabağını 1 yemek kaşığı yağla karıştırıp 200°C fırında 20 dakika pişir.",
+   "Mercimek, balkabağı ve ıspanağı kalan yağ ve limonla karıştır.",
+   "Üzerine ufalanmış feta ve kabak çekirdeği serp."
+  ]
+ },
+ "light-caesar": {
+  "title": "Yoğurt soslu hafif sezar salata",
+  "ingredients": [
+   {
+    "name": "Tavuk göğsü",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Marul (göbek/romaine)",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Tam buğday ekmeği",
+    "amount": "2 dilim"
+   },
+   {
+    "name": "Süzme yoğurt",
+    "amount": "4 yemek kaşığı"
+   },
+   {
+    "name": "Parmesan",
+    "amount": "20 gr"
+   },
+   {
+    "name": "Hardal",
+    "amount": "1 çay kaşığı"
+   },
+   {
+    "name": "Sarımsak",
+    "amount": "½ diş"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ adet"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Tavuğu tuz ve karabiberle tavada her iki tarafını 6–7 dakika, içi tamamen pişene kadar pişir, dilimle.",
+   "Ekmeği küp küp doğrayıp fırında 200°C'de 8 dakika kurut.",
+   "Yoğurt, hardal, sarımsak, limon suyu ve parmesanın yarısıyla sos hazırla.",
+   "Marulu sosla karıştır, üzerine tavuk, kruton ve kalan parmesanı koy."
+  ]
+ },
+ "mango-turmeric-smoothie": {
+  "title": "Mangolu zerdeçallı smoothie",
+  "ingredients": [
+   {
+    "name": "Mango (dondurulmuş)",
+    "amount": "1 su bardağı"
+   },
+   {
+    "name": "Portakal suyu",
+    "amount": "½ su bardağı"
+   },
+   {
+    "name": "Yoğurt",
+    "amount": "½ su bardağı"
+   },
+   {
+    "name": "Zerdeçal",
+    "amount": "½ çay kaşığı"
+   },
+   {
+    "name": "Zencefil (taze)",
+    "amount": "1 cm"
+   }
+  ],
+  "steps": [
+   "Tüm malzemeleri blendera koy.",
+   "Pürüzsüz olana kadar çek.",
+   "Hemen iç."
+  ]
+ },
+ "mezze-platter": {
+  "title": "Meze tabağı",
+  "ingredients": [
+   {
+    "name": "Humus",
+    "amount": "1 su bardağı"
+   },
+   {
+    "name": "Patlıcan ezmesi",
+    "amount": "1 su bardağı"
+   },
+   {
+    "name": "Cacık",
+    "amount": "1 su bardağı"
+   },
+   {
+    "name": "Zeytin",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Sebze çubukları",
+    "amount": "3 su bardağı"
+   },
+   {
+    "name": "Tam buğday lavaş",
+    "amount": "3 adet"
+   },
+   {
+    "name": "Yeşillik demeti",
+    "amount": "1 demet"
+   }
+  ],
+  "steps": [
+   "Humus, patlıcan ezmesi ve cacığı ayrı kâselere koy (tarif: hummus-veg, baba-ganoush, cucumber-yoghurt).",
+   "Lavaşı üçgen kesip kuru tavada kızart.",
+   "Büyük bir tabağa kâseleri, sebzeleri, zeytini, lavaşı ve yeşillikleri diz."
+  ]
+ },
+ "nuts-dried-fruit": {
+  "title": "Kuruyemiş ve kuru meyve karışımı",
+  "ingredients": [
+   {
+    "name": "Ceviz",
+    "amount": "3 adet"
+   },
+   {
+    "name": "Badem",
+    "amount": "6 adet"
+   },
+   {
+    "name": "Kuru kayısı",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Kuru incir",
+    "amount": "1 adet"
+   }
+  ],
+  "steps": [
+   "Küçük bir kaba koyup çantanda taşı."
+  ]
+ },
+ "pomegranate-beet-smoothie": {
+  "title": "Narlı pancarlı smoothie",
+  "ingredients": [
+   {
+    "name": "Nar taneleri",
+    "amount": "½ su bardağı"
+   },
+   {
+    "name": "Haşlanmış pancar",
+    "amount": "½ adet"
+   },
+   {
+    "name": "Orman meyvesi",
+    "amount": "½ su bardağı"
+   },
+   {
+    "name": "Yoğurt",
+    "amount": "½ su bardağı"
+   },
+   {
+    "name": "Su",
+    "amount": "½ su bardağı"
+   }
+  ],
+  "steps": [
+   "Tüm malzemeleri blenderda pürüzsüz olana kadar çek.",
+   "Nar çekirdekleri kalırsa süzebilirsin.",
+   "Hemen iç."
+  ]
+ },
+ "pomegranate-parfait": {
+  "title": "Yoğurtlu, narlı ve cevizli parfe",
+  "ingredients": [
+   {
+    "name": "Yoğurt",
+    "amount": "1 su bardağı"
+   },
+   {
+    "name": "Nar taneleri",
+    "amount": "3 yemek kaşığı"
+   },
+   {
+    "name": "Ceviz",
+    "amount": "4 adet"
+   },
+   {
+    "name": "Bal",
+    "amount": "1 çay kaşığı (isteğe bağlı)"
+   }
+  ],
+  "steps": [
+   "Bir bardağa kat kat yoğurt, nar ve kırılmış ceviz koy.",
+   "İstersen üzerine bal ekle."
+  ]
+ },
+ "pumpkin-veloute": {
+  "title": "Kavrulmuş çekirdekli balkabağı çorbası",
+  "ingredients": [
+   {
+    "name": "Balkabağı (doğranmış)",
+    "amount": "800 gr"
+   },
+   {
+    "name": "Soğan",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Havuç",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Sebze suyu",
+    "amount": "4 su bardağı"
+   },
+   {
+    "name": "Kabak çekirdeği",
+    "amount": "2 yemek kaşığı"
+   },
+   {
+    "name": "Muskat",
+    "amount": "1 tutam"
+   },
+   {
+    "name": "Yoğurt",
+    "amount": "2 yemek kaşığı (isteğe bağlı)"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Soğan ve havucu yağda 5 dakika yumuşat.",
+   "Balkabağı ve sebze suyunu ekleyip 20 dakika pişir.",
+   "Blenderda ipek gibi pürüzsüz olana kadar çek, muskat ve tuz ekle.",
+   "Çekirdekleri kuru tavada 2 dakika kavur; çorbayı birkaç damla yoğurt ve çekirdekle servis et."
+  ]
+ },
+ "quinoa-avocado-salad": {
+  "title": "Kinoa, avokado ve nar salatası",
+  "ingredients": [
+   {
+    "name": "Kinoa",
+    "amount": "½ su bardağı"
+   },
+   {
+    "name": "Avokado",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Nar taneleri",
+    "amount": "3 yemek kaşığı"
+   },
+   {
+    "name": "Salatalık",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Nane, maydanoz",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Kinoayı yıkayıp 1 su bardağı suda 12–15 dakika pişir, soğut.",
+   "Avokado ve salatalığı küp doğra, yeşillikleri ince kıy.",
+   "Hepsini nar, limon suyu ve yağla karıştır, tuz ekle."
+  ]
+ },
+ "red-lentil-curry": {
+  "title": "Sebzeli kırmızı mercimek köri",
+  "ingredients": [
+   {
+    "name": "Kırmızı mercimek",
+    "amount": "1 su bardağı"
+   },
+   {
+    "name": "Hindistan cevizi sütü (light)",
+    "amount": "200 ml"
+   },
+   {
+    "name": "Domates (doğranmış)",
+    "amount": "400 gr"
+   },
+   {
+    "name": "Ispanak",
+    "amount": "2 avuç"
+   },
+   {
+    "name": "Soğan",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Sarımsak",
+    "amount": "2 diş"
+   },
+   {
+    "name": "Köri",
+    "amount": "2 çay kaşığı"
+   },
+   {
+    "name": "Su",
+    "amount": "2 su bardağı"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Tuz",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Soğan ve sarımsağı yağda 4 dakika yumuşat, köriyi ekleyip 30 saniye karıştır.",
+   "Mercimek, domates ve suyu ekleyip 15 dakika pişir.",
+   "Hindistan cevizi sütü ve ıspanağı katıp 3 dakika daha pişir. Esmer pirinçle servis et."
+  ]
+ },
+ "red-lentil-soup": {
+  "title": "Mercimek çorbası",
+  "ingredients": [
+   {
+    "name": "Kırmızı mercimek",
+    "amount": "1 su bardağı"
+   },
+   {
+    "name": "Soğan",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Havuç",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Zerdeçal, karabiber",
+    "amount": "az"
+   },
+   {
+    "name": "Su",
+    "amount": "5 su bardağı"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ adet"
+   }
+  ],
+  "steps": [
+   "Soğan ve havucu yağda 5 dakika yumuşat.",
+   "Yıkanmış mercimeği, baharatları ve suyu ekleyip 20–25 dakika pişir.",
+   "Blenderdan geçir, limonla servis et."
+  ]
+ },
+ "roasted-chickpeas": {
+  "title": "Çıtır fırın nohut",
+  "ingredients": [
+   {
+    "name": "Haşlanmış nohut",
+    "amount": "2 su bardağı"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Toz kırmızı biber",
+    "amount": "1 çay kaşığı"
+   },
+   {
+    "name": "Kimyon",
+    "amount": "½ çay kaşığı"
+   },
+   {
+    "name": "Tuz",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Nohudu süzüp havluyla iyice kurula.",
+   "Yağ ve baharatlarla karıştır.",
+   "Fırında 200°C'de 25–30 dakika, arada karıştırarak çıtır çıtır olana kadar pişir. Soğudukça daha da çıtırlaşır."
+  ]
+ },
+ "saffron-chicken-plov": {
+  "title": "Esmer pirinç ve kuru meyveli safranlı tavuk pilavı",
+  "ingredients": [
+   {
+    "name": "Esmer pirinç",
+    "amount": "1,5 su bardağı"
+   },
+   {
+    "name": "Tavuk but (kemiksiz)",
+    "amount": "400 gr"
+   },
+   {
+    "name": "Safran",
+    "amount": "1 tutam"
+   },
+   {
+    "name": "Kuru kayısı",
+    "amount": "8 adet"
+   },
+   {
+    "name": "Kuru üzüm",
+    "amount": "2 yemek kaşığı"
+   },
+   {
+    "name": "Kestane (pişmiş)",
+    "amount": "8 adet (isteğe bağlı)"
+   },
+   {
+    "name": "Soğan",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "2 yemek kaşığı"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Pirinci yıkayıp 30 dakika suda beklet; safranı 3 yemek kaşığı sıcak suda demle.",
+   "Pirinci tuzlu suda 20 dakika yarı pişmiş hâle gelene kadar haşlayıp süz.",
+   "Tavuğu soğanla yağda 10 dakika kızart, kuru meyveleri ve kestaneyi ekle.",
+   "Pirinci tencereye koy, safranlı suyu üzerine gezdir, kapağı bir bezle sarıp kısık ateşte 25 dakika demlendir; tavukla birlikte servis et."
+  ]
+ },
+ "salmon-papillote": {
+  "title": "Kâğıtta somon",
+  "ingredients": [
+   {
+    "name": "Somon fileto",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Kuşkonmaz ya da taze fasulye",
+    "amount": "200 gr"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Dereotu",
+    "amount": "4 dal"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Fırını 200°C'ye ısıt.",
+   "Her porsiyon için yağlı kâğıdın ortasına sebze, üzerine somon, limon dilimi ve dereotu koy, yağ gezdir, tuz ve karabiber serp.",
+   "Kâğıdı zarf gibi kapat.",
+   "15–18 dakika pişir; zarfı sofrada aç."
+  ]
+ },
+ "salmon-pea-puree": {
+  "title": "Bezelye püreli somon",
+  "ingredients": [
+   {
+    "name": "Somon fileto",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Bezelye (dondurulmuş)",
+    "amount": "250 gr"
+   },
+   {
+    "name": "Nane",
+    "amount": "5 dal"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "2 yemek kaşığı"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Bezelyeyi 4 dakika haşlayıp süz; nane, 1 yemek kaşığı yağ, limon suyu ve tuzla blenderda pürüzsüz bir püre yap.",
+   "Somonun derisini kurula, tuz ve karabiber serp.",
+   "Sıcak tavada derili tarafı altta 4–5 dakika, çevirip 2–3 dakika, eti kolayca ayrılana kadar pişir.",
+   "Püreyi tabağa yay, üzerine somonu koy, limon kabuğu rendesiyle süsle."
+  ]
+ },
+ "spinach-apple-smoothie": {
+  "title": "Ispanaklı elmalı smoothie",
+  "ingredients": [
+   {
+    "name": "Ispanak",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Elma",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Muz",
+    "amount": "½ adet"
+   },
+   {
+    "name": "Yoğurt ya da su",
+    "amount": "1 su bardağı"
+   },
+   {
+    "name": "Limon suyu",
+    "amount": "1 çay kaşığı"
+   }
+  ],
+  "steps": [
+   "Tüm malzemeleri blenderda pürüzsüz olana kadar çek.",
+   "Hemen iç."
+  ]
+ },
+ "steak-chimichurri": {
+  "title": "Chimichurri soslu dana biftek",
+  "ingredients": [
+   {
+    "name": "Dana biftek (yağsız)",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Maydanoz",
+    "amount": "1 demet"
+   },
+   {
+    "name": "Sarımsak",
+    "amount": "2 diş"
+   },
+   {
+    "name": "Şarap sirkesi",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "3 yemek kaşığı"
+   },
+   {
+    "name": "Fırınlanmış sebze (kabak, biber)",
+    "amount": "300 gr"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Bifteği oda sıcaklığında 20 dakika beklet, tuz ve karabiber serp.",
+   "Maydanozu ve sarımsağı ince doğra, sirke ve 2 yemek kaşığı yağla karıştır.",
+   "Çok sıcak tavada bifteğin her iki tarafını 3–4 dakika (kalınlığına göre) kızart, 5 dakika dinlendir.",
+   "Dilimleyip fırınlanmış sebze ve chimichurri ile servis et."
+  ]
+ },
+ "stuffed-courgettes": {
+  "title": "Hindi kıymalı kabak dolması",
+  "ingredients": [
+   {
+    "name": "Kabak",
+    "amount": "3 adet"
+   },
+   {
+    "name": "Hindi kıyması",
+    "amount": "300 gr"
+   },
+   {
+    "name": "Soğan",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Domates",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Mozzarella (rendelenmiş)",
+    "amount": "50 gr"
+   },
+   {
+    "name": "Dereotu",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Kabakları uzunlamasına ikiye böl, içlerini kaşıkla oyup doğra.",
+   "Soğan, kıyma, kabak içi ve domatesi tavada 8 dakika pişir, dereotunu ekle.",
+   "Kabak kayıklarını doldurup üzerine peynir serp.",
+   "190°C fırında 20 dakika pişir."
+  ]
+ },
+ "tahini-almond-cookies": {
+  "title": "Tahinli bademli kurabiye (glutensiz)",
+  "ingredients": [
+   {
+    "name": "Badem unu",
+    "amount": "150 gr"
+   },
+   {
+    "name": "Tahin",
+    "amount": "80 gr"
+   },
+   {
+    "name": "Bal",
+    "amount": "60 gr"
+   },
+   {
+    "name": "Yumurta",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Karbonat",
+    "amount": "¼ çay kaşığı"
+   },
+   {
+    "name": "Tuz",
+    "amount": "1 tutam"
+   },
+   {
+    "name": "Susam",
+    "amount": "1 yemek kaşığı"
+   }
+  ],
+  "steps": [
+   "Fırını 175°C'ye ısıt.",
+   "Susam hariç tüm malzemeleri karıştırıp yumuşak bir hamur elde et.",
+   "14 top yap, susama batır, yağlı kâğıda koyup hafifçe bastır.",
+   "10–12 dakika pişir, tepside soğut."
+  ]
+ },
+ "thyme-chicken-celeriac": {
+  "title": "Kereviz püresi ve yeşillik yağıyla kekikli tavuk",
+  "ingredients": [
+   {
+    "name": "Tavuk göğsü",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Kök kereviz",
+    "amount": "400 gr"
+   },
+   {
+    "name": "Süt",
+    "amount": "½ su bardağı"
+   },
+   {
+    "name": "Kekik",
+    "amount": "4 dal"
+   },
+   {
+    "name": "Maydanoz",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "3 yemek kaşığı"
+   },
+   {
+    "name": "Sarımsak",
+    "amount": "1 diş"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Kerevizi doğrayıp süt ve yarım su bardağı suyla 20 dakika, yumuşayana kadar pişir, püre yap.",
+   "Maydanozu 2 yemek kaşığı yağla blenderda çekip süz; yeşillik yağı hazır.",
+   "Tavuğu tuz, karabiber, sarımsak ve kekikle ov, tavada her iki tarafını 6–7 dakika, içi tamamen pişene kadar kızart.",
+   "Püreyi tabağa koy, dilimlenmiş tavuğu üzerine diz, etrafına yeşillik yağı damlat."
+  ]
+ },
+ "tomato-bruschetta": {
+  "title": "Domatesli bruschetta",
+  "ingredients": [
+   {
+    "name": "Tam buğday baget",
+    "amount": "12 dilim"
+   },
+   {
+    "name": "Domates",
+    "amount": "4 adet"
+   },
+   {
+    "name": "Sarımsak",
+    "amount": "1 diş"
+   },
+   {
+    "name": "Fesleğen",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "2 yemek kaşığı"
+   },
+   {
+    "name": "Tuz",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Ekmek dilimlerini fırında ya da ızgarada kızart, bir yüzünü kesilmiş sarımsakla ov.",
+   "Domatesi küçük doğra, fesleğen, yağ ve tuzla karıştır.",
+   "Servis etmeden hemen önce ekmeğin üzerine koy."
+  ]
+ },
+ "tomato-eggs": {
+  "title": "Domatesli yumurta",
+  "ingredients": [
+   {
+    "name": "Domates",
+    "amount": "3 orta boy"
+   },
+   {
+    "name": "Yumurta",
+    "amount": "3 adet"
+   },
+   {
+    "name": "Soğan",
+    "amount": "½ adet"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Tam buğday ekmeği",
+    "amount": "2 dilim"
+   }
+  ],
+  "steps": [
+   "Soğanı yağda yumuşat.",
+   "Doğranmış domatesi ekleyip 5 dakika pişir.",
+   "Yumurtaları karıştırarak pişene kadar pişir. Ekmekle servis et."
+  ]
+ },
+ "tuna-bean-bowl": {
+  "title": "Ton balıklı ve kuru fasulyeli kâse",
+  "ingredients": [
+   {
+    "name": "Ton balığı (kendi suyunda)",
+    "amount": "1 kutu (~150 gr)"
+   },
+   {
+    "name": "Beyaz fasulye (haşlanmış)",
+    "amount": "1 su bardağı"
+   },
+   {
+    "name": "Çeri domates",
+    "amount": "10 adet"
+   },
+   {
+    "name": "Kırmızı soğan",
+    "amount": "¼ adet"
+   },
+   {
+    "name": "Roka",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Limon",
+    "amount": "½ adet"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Ton balığını süzüp didikle.",
+   "Fasulye, ikiye bölünmüş domates, ince doğranmış soğan ve rokayla karıştır.",
+   "Limon suyu, yağ, tuz ve karabiberle tatlandır."
+  ]
+ },
+ "turkey-meatballs-tomato": {
+  "title": "Domates soslu hindi köfte",
+  "ingredients": [
+   {
+    "name": "Hindi kıyması",
+    "amount": "500 gr"
+   },
+   {
+    "name": "Yumurta",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Yulaf",
+    "amount": "3 yemek kaşığı"
+   },
+   {
+    "name": "Domates (doğranmış, konserve)",
+    "amount": "400 gr"
+   },
+   {
+    "name": "Sarımsak",
+    "amount": "2 diş"
+   },
+   {
+    "name": "Fesleğen",
+    "amount": "1 avuç"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Kıyma, yumurta, yulaf, tuz ve karabiberi karıştırıp 20 köfte yap.",
+   "Köfteleri tavada yağda her tarafını 5 dakika kızart.",
+   "Sarımsak ve domatesi ekleyip kapağı kapalı olarak 15 dakika, köfteler tamamen pişene kadar pişir.",
+   "Fesleğenle süsle; yanına tam buğday makarna ya da karabuğday yakışır."
+  ]
+ },
+ "veg-chips": {
+  "title": "Fırında pancar ve tatlı patates cipsi",
+  "ingredients": [
+   {
+    "name": "Pancar (çiğ)",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Tatlı patates",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Biberiye (kuru)",
+    "amount": "½ çay kaşığı"
+   },
+   {
+    "name": "Tuz",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Fırını 160°C'ye ısıt.",
+   "Sebzeleri soyup çok ince (1–2 mm) dilimle, havluyla kurula.",
+   "Yağ ve baharatlarla karıştırıp yağlı kâğıdın üzerine tek kat diz.",
+   "25–30 dakika, arada çevirerek pişir; yanmaması için son dakikalarda göz kulak ol."
+  ]
+ },
+ "vegetarian-yarpaq-dolma": {
+  "title": "Etsiz yaprak sarması",
+  "ingredients": [
+   {
+    "name": "Asma yaprağı",
+    "amount": "40 adet"
+   },
+   {
+    "name": "Pirinç",
+    "amount": "1 su bardağı"
+   },
+   {
+    "name": "Soğan",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Nane, dereotu, maydanoz",
+    "amount": "1 demet"
+   },
+   {
+    "name": "Domates salçası",
+    "amount": "1 yemek kaşığı"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Zeytinyağı",
+    "amount": "3 yemek kaşığı"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Yaprakları kaynar suda 2 dakika bekletip süz.",
+   "Soğanı yağda yumuşat, yıkanmış pirinç, salça, yeşillikler ve tuzla karıştır.",
+   "Her yaprağa 1 çay kaşığı iç koyup sıkıca sar.",
+   "Tencereye sıkıca diz, limon dilimleri ve 2 su bardağı su ekle, üzerine bir tabak bastırıp kısık ateşte 50 dakika pişir."
+  ]
+ },
+ "yoghurt-chicken-skewers": {
+  "title": "Yoğurtlu marine tavuk şiş",
+  "ingredients": [
+   {
+    "name": "Tavuk but (kemiksiz)",
+    "amount": "800 gr"
+   },
+   {
+    "name": "Yoğurt",
+    "amount": "1 su bardağı"
+   },
+   {
+    "name": "Sarımsak",
+    "amount": "3 diş"
+   },
+   {
+    "name": "Toz kırmızı biber",
+    "amount": "2 çay kaşığı"
+   },
+   {
+    "name": "Limon",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Dolmalık biber",
+    "amount": "2 adet"
+   },
+   {
+    "name": "Kırmızı soğan",
+    "amount": "1 adet"
+   },
+   {
+    "name": "Tuz, karabiber",
+    "amount": "az"
+   }
+  ],
+  "steps": [
+   "Tavuğu küp doğra, yoğurt, sarımsak, toz kırmızı biber, limon ve tuzla karıştırıp en az 2 saat buzdolabında beklet.",
+   "Tavuğu biber ve soğanla sırayla şişe diz.",
+   "Izgarada ya da 220°C fırında 15–20 dakika, arada çevirerek, içi tamamen pişene kadar pişir."
+  ]
+ }
+}

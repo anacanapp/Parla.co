@@ -3,6 +3,8 @@
 /// turn, `[az, ru, en]`. General information only.
 library;
 
+import 'package:parla_shared/parla_shared.dart';
+
 const skinTips = <List<String>>[
   [
     "C vitamini ilə zəngin qidalar (bibər, kivi, sitrus) dərinin kollagen istehsalında rol oynayır.",
@@ -174,9 +176,5 @@ String skinTipFor(DateTime day, String language) {
     day.day,
   ).difference(DateTime.utc(2026)).inDays;
   final tip = skinTips[index % skinTips.length];
-  return switch (language) {
-    'ru' => tip[1],
-    'en' => tip[2],
-    _ => tip[0],
-  };
+  return pickTriple(tip, language);
 }

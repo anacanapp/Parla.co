@@ -58,6 +58,23 @@ void main() {
       expect(contentLanguageFor('ru'), 'ru');
       expect(contentLanguageFor('xx'), defaultLanguage);
     });
+
+    test('texts are picked in the interface language, its translation or '
+        'the closest of az/ru/en', () {
+      const triple = ['Az mətn', 'Ру текст', 'En text'];
+      expect(pickTriple(triple, 'ru'), 'Ру текст');
+      expect(pickTriple(triple, 'en'), 'En text');
+      // No translation of this text: Kazakh shows Russian, Georgian
+      // English, Turkish Azerbaijani.
+      expect(pickTriple(triple, 'kk'), 'Ру текст');
+      expect(pickTriple(triple, 'ka'), 'En text');
+      expect(pickTriple(triple, 'tr'), 'Az mətn');
+      expect(pickTriple(const ['Yalnız az'], 'ru'), 'Yalnız az');
+      final value = {'az': 'Az mətn', 'ru': 'Ру текст', 'en': 'En text'};
+      expect(ContentRules.pick(value, 'kk'), 'Ру текст');
+      expect(ContentRules.pick({...value, 'kk': 'Қазақша'}, 'kk'), 'Қазақша');
+      expect(ContentRules.pick(value, 'ka'), 'En text');
+    });
   });
 
   group('consent texts', () {

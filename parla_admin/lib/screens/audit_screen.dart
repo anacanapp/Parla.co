@@ -71,6 +71,7 @@ String auditActionLabel(String action) => switch (action) {
   'content.kcal_set' => 'Kalori yazıldı',
   'content.ingredients_fixed' => 'Tərkib düzəldildi',
   'content.wording_fixed' => 'Mətnin ifadəsi düzəldildi',
+  'content.translated' => 'Tərcümələr əlavə olundu',
   'media.uploaded' => 'Media yükləndi',
   'media.updated' => 'Media dəyişdirildi',
   'media.deleted' => 'Media silindi',

@@ -36,16 +36,9 @@ class RoutineStep {
   final bool approvedByDermatologist;
 }
 
-int _index(String language) => switch (language) {
-  'ru' => 1,
-  'en' => 2,
-  _ => 0,
-};
-
 /// DRAFT CONTENT from the content sheet ("rutin_addimlari"), not reviewed
 /// by a dermatologist yet, so the badge never shows for it.
 List<RoutineStep> routineSteps(List<String> ids, String language) {
-  final i = _index(language);
   final hidden = ContentLibrary.hiddenIds('step');
   String text(String id, String key, String fallback) =>
       ContentLibrary.catalogueText('step', id, key, language) ?? fallback;
@@ -55,11 +48,11 @@ List<RoutineStep> routineSteps(List<String> ids, String language) {
         if (routineStepTexts[id] case final t?)
           RoutineStep(
             id: id,
-            title: text(id, 'title', t[0][i]),
-            meta: text(id, 'how', t[1][i]),
+            title: text(id, 'title', pickTriple(t[0], language)),
+            meta: text(id, 'how', pickTriple(t[1], language)),
             tip: ContentLibrary.catalogueData('step', id) != null
                 ? text(id, 'tip', '')
-                : t[2][i],
+                : pickTriple(t[2], language),
             minutes: int.tryParse(t[4][0]) ?? 1,
             tile: _tile(id),
           ),

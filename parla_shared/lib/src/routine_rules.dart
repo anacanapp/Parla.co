@@ -20,6 +20,7 @@
 library;
 
 import 'quiz.dart';
+import 'texts/translations.dart';
 
 part 'routine_content.dart';
 

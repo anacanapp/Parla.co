@@ -44,6 +44,12 @@ class AppSettings extends ChangeNotifier {
   /// The chosen interface language, or `null` on first launch.
   String? get language => _language;
 
+  /// The language texts are shown in (the interface language, Azerbaijani
+  /// until one is chosen). Parla's own texts are picked for it with their
+  /// translation or the closest language (`ContentRules.pick`,
+  /// `pickTriple`).
+  String get textLanguage => _language ?? defaultLanguage;
+
   /// The language of consent texts, legal documents, quiz questions,
   /// content and notifications for this person (see `contentLanguageFor`):
   /// the interface language where Parla has those texts, else the closest.

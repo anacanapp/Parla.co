@@ -12,6 +12,7 @@ import 'markets.dart';
 import 'product_preferences.dart';
 import 'routine_rules.dart';
 import 'sport_rules.dart';
+import 'texts/translations.dart';
 import 'texts/exercise_draft_texts.dart';
 import 'texts/exercise_sheet_texts.dart';
 import 'texts/preference_texts.dart';
@@ -318,13 +319,14 @@ abstract final class ContentRules {
     if (starts is! String || ends is! String) return false;
     if (day.compareTo(starts) < 0 || day.compareTo(ends) > 0) return false;
     final languages = (json['languages'] as List?)?.cast<String>() ?? const [];
-    if (languages.isNotEmpty && !languages.contains(language)) return false;
-    final countries = (json['countries'] as List?)?.cast<String>() ?? const [];
-    if (countries.isNotEmpty &&
-        (country == null || !countries.contains(country))) {
+    // A banner for Russian also shows to people reading Russian texts
+    // (Kazakh, Uzbek, Turkmen and Kyrgyz interfaces), and so on.
+    if (languages.isNotEmpty &&
+        !languages.contains(language) &&
+        !languages.contains(contentLanguageFor(language))) {
       return false;
     }
-    return true;
+    return shownInCountry(json, country);
   }
 
   /// The single category of catalogue texts.
@@ -480,7 +482,9 @@ abstract final class ContentRules {
           'sources',
           'image',
           'tags',
+          'countries',
         });
+        _countries(json, out);
         text('title', maxTitle);
         text('summary', maxSummary);
         text('body', maxBody);
@@ -516,7 +520,8 @@ abstract final class ContentRules {
           } else {
             for (final e in tags.entries) {
               final v = e.value;
-              if (!languages.contains(e.key) ||
+              if (!(languages.contains(e.key) ||
+                      translatedLanguages.contains(e.key)) ||
                   v is! List ||
                   v.length > maxTags ||
                   !v.every((t) => t is String && _tag.hasMatch(t))) {
@@ -859,14 +864,32 @@ abstract final class ContentRules {
     if (langs != null && (langs is! List || !langs.every(languages.contains))) {
       out.add('languages.invalid');
     }
+    _countries(json, out);
+  }
+
+  /// The optional `countries` list: market codes, at least one.
+  static void _countries(Map<String, Object?> json, List<String> out) {
     final countries = json['countries'];
     if (countries != null &&
         (countries is! List ||
+            countries.isEmpty ||
             !countries.every(
               (c) => c is String && markets.any((m) => m.countryCode == c),
             ))) {
       out.add('countries.invalid');
     }
+  }
+
+  /// Whether an item limited to `countries` shows in [country] (`null`
+  /// when unknown: then only items for every country show). Articles
+  /// that name one country (owner, 2026-11-27: "Azərbaycan adı keçən
+  /// bloqları başqa ölkələrdə yayımlama") are limited to it; the other
+  /// markets get their own version. Checked on the phone; nothing about
+  /// the user is sent.
+  static bool shownInCountry(Map<String, Object?> json, String? country) {
+    final countries = (json['countries'] as List?)?.cast<String>() ?? const [];
+    return countries.isEmpty ||
+        (country != null && countries.contains(country));
   }
 
   static void _localized(
@@ -881,7 +904,9 @@ abstract final class ContentRules {
       return;
     }
     for (final k in value.keys) {
-      if (!languages.contains(k)) out.add('$key.$k.unknown');
+      if (!languages.contains(k) && !translatedLanguages.contains(k)) {
+        out.add('$key.$k.unknown');
+      }
     }
     for (final lang in languages) {
       final v = value[lang];
@@ -891,13 +916,31 @@ abstract final class ContentRules {
         out.add('$key.$lang.invalid');
       }
     }
+    // Translations into the other interface languages are optional (owner,
+    // 2026-11-27); a missing one shows the closest of az/ru/en.
+    for (final lang in translatedLanguages) {
+      final v = value[lang];
+      if (v != null && (v is! String || v.length > max)) {
+        out.add('$key.$lang.invalid');
+      }
+    }
   }
 
-  /// [value] in [language], falling back to Azerbaijani.
+  /// [value] in [language]: its own text in that language, else (for an
+  /// interface language Parla writes no texts in) the translation of the
+  /// Azerbaijani text, else the closest of az/ru/en (`contentLanguageFor`),
+  /// else Azerbaijani.
   static String pick(Object? value, String language) {
     if (value is String) return value;
     if (value is! Map) return '';
-    final v = value[language] ?? value['az'];
+    final own = value[language];
+    if (own is String && own.isNotEmpty) return own;
+    final az = value['az'];
+    if (az is String && !supportedLanguages.contains(language)) {
+      final t = translationOf(az, language);
+      if (t != null) return t;
+    }
+    final v = value[contentLanguageFor(language)] ?? az;
     return v is String ? v : '';
   }
 }
