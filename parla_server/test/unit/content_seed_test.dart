@@ -173,4 +173,20 @@ void main() {
     // Nothing to add: the same map comes back.
     expect(addSeedTranslations(out, seed), same(out));
   });
+
+  test('the seed country limit is added only when the team set none', () {
+    final seed = <String, Object?>{
+      'title': {'az': 'A'},
+      'countries': ['AZ'],
+    };
+    final out = addSeedTranslations({
+      'title': {'az': 'A', 'ru': 'B', 'en': 'C'},
+    }, seed);
+    expect(out['countries'], ['AZ']);
+    final team = <String, Object?>{
+      'title': {'az': 'A', 'ru': 'B', 'en': 'C'},
+      'countries': ['AZ', 'TR'],
+    };
+    expect(addSeedTranslations(team, seed), same(team));
+  });
 }

@@ -13,7 +13,8 @@ import 'content_seed_import.dart';
 /// Azerbaijani text is the same, the languages of `translatedLanguages`
 /// the seed has and [current] lacks. Nothing else changes: az, ru and en,
 /// a translation already there and a text the team rewrote stay as they
-/// are. Returns [current] itself when nothing was added.
+/// are. The seed's `countries` limit is added when [current] has none.
+/// Returns [current] itself when nothing was added.
 Map<String, Object?> addSeedTranslations(
   Map<String, Object?> current,
   Map<String, Object?> seed,
@@ -43,8 +44,14 @@ Map<String, Object?> addSeedTranslations(
     return cur;
   }
 
-  final next = merge(current, seed) as Map;
-  return changed ? next.cast<String, Object?>() : current;
+  final next = (merge(current, seed) as Map).cast<String, Object?>();
+  // An article limited to some countries in the seed (one naming
+  // Azerbaijan) gets that limit when the team has set none.
+  if (current['countries'] == null && seed['countries'] is List) {
+    next['countries'] = seed['countries'];
+    changed = true;
+  }
+  return changed ? next : current;
 }
 
 /// The one-off task `add-content-translations`: adds the translations of

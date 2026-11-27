@@ -713,4 +713,26 @@ void main() {
       isTrue,
     );
   });
+
+  group('articles limited to countries', () {
+    test('show only in their countries', () {
+      final az = <String, Object?>{
+        'countries': ['AZ'],
+      };
+      expect(ContentRules.shownInCountry(az, 'AZ'), isTrue);
+      expect(ContentRules.shownInCountry(az, 'TR'), isFalse);
+      // Unknown country: only items for every country.
+      expect(ContentRules.shownInCountry(az, null), isFalse);
+      expect(ContentRules.shownInCountry(const {}, null), isTrue);
+    });
+
+    test('an article accepts a valid countries list only', () {
+      List<String> problems(Object countries) =>
+          _p(ContentKind.article, {...article, 'countries': countries});
+      expect(_p(ContentKind.article, article), isEmpty);
+      expect(problems(['AZ']), isEmpty);
+      expect(problems(['XX']), contains('countries.invalid'));
+      expect(problems(<String>[]), contains('countries.invalid'));
+    });
+  });
 }

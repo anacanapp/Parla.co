@@ -846,6 +846,16 @@ const _fields = <String, List<_Field>>{
       _FieldType.urls,
       localized: false,
     ),
+    _Field(
+      'countries',
+      'Ölkələr (heç biri seçilməsə: hamısı)',
+      _FieldType.multi,
+      localized: false,
+      options: ['AZ', 'TR', 'KZ', 'UZ'],
+      help:
+          'Bir ölkənin adı keçən məqaləni yalnız o ölkəyə seç; başqa '
+          'ölkələr üçün ayrıca versiya yaz.',
+    ),
   ],
   'recipe': [
     _Field('title', 'Başlıq', _FieldType.line),

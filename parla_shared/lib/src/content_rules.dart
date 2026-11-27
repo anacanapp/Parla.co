@@ -326,12 +326,7 @@ abstract final class ContentRules {
         !languages.contains(contentLanguageFor(language))) {
       return false;
     }
-    final countries = (json['countries'] as List?)?.cast<String>() ?? const [];
-    if (countries.isNotEmpty &&
-        (country == null || !countries.contains(country))) {
-      return false;
-    }
-    return true;
+    return shownInCountry(json, country);
   }
 
   /// The single category of catalogue texts.
@@ -487,7 +482,9 @@ abstract final class ContentRules {
           'sources',
           'image',
           'tags',
+          'countries',
         });
+        _countries(json, out);
         text('title', maxTitle);
         text('summary', maxSummary);
         text('body', maxBody);
@@ -867,14 +864,32 @@ abstract final class ContentRules {
     if (langs != null && (langs is! List || !langs.every(languages.contains))) {
       out.add('languages.invalid');
     }
+    _countries(json, out);
+  }
+
+  /// The optional `countries` list: market codes, at least one.
+  static void _countries(Map<String, Object?> json, List<String> out) {
     final countries = json['countries'];
     if (countries != null &&
         (countries is! List ||
+            countries.isEmpty ||
             !countries.every(
               (c) => c is String && markets.any((m) => m.countryCode == c),
             ))) {
       out.add('countries.invalid');
     }
+  }
+
+  /// Whether an item limited to `countries` shows in [country] (`null`
+  /// when unknown: then only items for every country show). Articles
+  /// that name one country (owner, 2026-11-27: "Azərbaycan adı keçən
+  /// bloqları başqa ölkələrdə yayımlama") are limited to it; the other
+  /// markets get their own version. Checked on the phone; nothing about
+  /// the user is sent.
+  static bool shownInCountry(Map<String, Object?> json, String? country) {
+    final countries = (json['countries'] as List?)?.cast<String>() ?? const [];
+    return countries.isEmpty ||
+        (country != null && countries.contains(country));
   }
 
   static void _localized(
