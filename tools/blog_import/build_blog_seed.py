@@ -27,6 +27,10 @@ import merge  # noqa: E402
 OUT = ROOT / 'parla_server/lib/src/content/blog_seed.dart'
 OLD_SEED = ROOT / 'parla_server/lib/src/content/content_seed.dart'
 FIXES = ROOT / 'parla_server/lib/src/content/wording_fixes.dart'
+# Articles that name one country, and their versions for the other
+# markets (owner, 2026-11-27: articles naming Azerbaijan are not published
+# in other countries). Each version replaces one paragraph in every language.
+COUNTRY_VARIANTS = ROOT / 'tools/content_i18n/country_variants.json'
 
 # The sheet's categories to the app's (ContentRules.articleCategories).
 CATEGORIES = {
@@ -186,6 +190,34 @@ def apply_fixes(slug, data, fixes):
     return {k: fix(v) for k, v in data.items()}
 
 
+def with_countries(items):
+    """[items] (slug, category, data) with the country limits and the
+    country versions of tools/content_i18n/country_variants.json."""
+    spec = json.loads(COUNTRY_VARIANTS.read_text(encoding='utf-8'))
+    out = []
+    for slug, category, data in items:
+        entry = spec.get(slug)
+        if entry is None:
+            out.append((slug, category, data))
+            continue
+        out.append((slug, category, {**data, 'countries': entry['countries']}))
+        base = entry['paragraph']
+        for v in entry['variants']:
+            body = {}
+            for lang, text in data['body'].items():
+                if text.count(base[lang]) != 1:
+                    sys.exit(f'{slug}: paragraph not found once in body.{lang}')
+                body[lang] = text.replace(base[lang], v['paragraph'][lang])
+            sources = list(dict.fromkeys(data.get('sources', []) + v['sources']))
+            out.append((v['slug'], category, {
+                **data,
+                'body': body,
+                'sources': sources[:10],
+                'countries': v['countries'],
+            }))
+    return out
+
+
 def dart_string(s):
     return "'" + s.replace('\\', '\\\\').replace("'", "\\'").replace('$', '\\$') + "'"
 
@@ -202,8 +234,11 @@ def write(items):
         'const blogSeed = <SeedContent>[',
     ]
     fixes = wording_fixes()
-    for slug, category, data in items:
-        data = merge.article(slug, apply_fixes(slug, data, fixes))
+    items = [
+        (slug, category, merge.article(slug, apply_fixes(slug, data, fixes)))
+        for slug, category, data in items
+    ]
+    for slug, category, data in with_countries(items):
         out += [
             '  SeedContent(',
             "    'article',",
@@ -225,9 +260,18 @@ def current_items():
         src,
     )
     items = []
+    variants = {
+        v['slug']
+        for e in json.loads(COUNTRY_VARIANTS.read_text(encoding='utf-8')).values()
+        for v in e['variants']
+    }
     for slug, category, raw in found:
+        if slug in variants:
+            continue  # made again from the article they are a version of
         text = re.sub(r'\\(.)', r'\1', raw)
-        items.append((slug, category, json.loads(text)))
+        data = json.loads(text)
+        data.pop('countries', None)
+        items.append((slug, category, data))
     return items
 
 

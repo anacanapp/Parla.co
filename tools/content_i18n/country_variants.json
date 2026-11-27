@@ -1,0 +1,78 @@
+{
+  "bemotrizinol-news": {
+    "countries": [
+      "AZ"
+    ],
+    "paragraph": {
+      "az": "Azərbaycanda satılan Avropa və Asiya istehsalı qoruyucularda bu filtr artıq ola bilər. Etiketdə onu belə tanıya bilərsən:",
+      "ru": "В европейских и азиатских средствах, которые продаются в Азербайджане, этот фильтр может уже быть. На этикетке его можно найти так:",
+      "en": "European and Asian sunscreens sold in Azerbaijan may already contain this filter. You can spot it on the label as:",
+      "tr": "Azerbaycan'da satılan Avrupa ve Asya üretimi güneş koruyucularda bu filtre zaten bulunuyor olabilir. Etikette onu şöyle tanıyabilirsin:",
+      "kk": "Әзербайжанда сатылатын еуропалық және азиялық қорғаныш құралдарында бұл сүзгі қазірдің өзінде болуы мүмкін. Затбелгіден оны былай тани аласың:",
+      "uz": "Ozarbayjonda sotiladigan Yevropa va Osiyoda ishlab chiqarilgan himoya vositalarida bu filtr allaqachon boʻlishi mumkin. Yorliqda uni shunday tanishing mumkin:",
+      "tk": "Azerbaýjanda satylýan Ýewropada we Aziýada öndürilen goraýjy serişdelerde bu süzgüç eýýäm bolup biler. Bellikde ony şeýle tanap bilersiň:",
+      "ky": "Азербайжанда сатылган европалык жана азиялык коргоочу каражаттарда бул чыпка буга чейин эле болушу мүмкүн. Этикеткадан аны мындайча тааный аласың:",
+      "ka": "აზერბაიჯანში გაყიდულ ევროპული და აზიური წარმოების დამცავ საშუალებებში ეს ფილტრი შეიძლება უკვე იყოს. ეტიკეტზე მას ასე ამოიცნობ:"
+    },
+    "variants": [
+      {
+        "slug": "bemotrizinol-news-tr",
+        "countries": [
+          "TR"
+        ],
+        "paragraph": {
+          "az": "Türkiyədə 2023-cü ilin Kosmetik Məhsullar Reqlamenti bu filtrə günəşdən qoruyucularda 10%-ə qədər icazə verir, ona görə Türkiyədə satılan qoruyucularda o artıq ola bilər. Etiketdə onu belə tanıya bilərsən:",
+          "ru": "В Турции Регламент о косметической продукции 2023 года разрешает этот фильтр в солнцезащитных средствах в концентрации до 10%, поэтому он уже может быть в средствах, которые продаются в Турции. На этикетке его можно найти так:",
+          "en": "In Türkiye, the 2023 Cosmetic Products Regulation allows this filter in sunscreens at up to 10%, so sunscreens sold in Türkiye may already contain it. You can spot it on the label as:",
+          "tr": "Türkiye'de 2023 tarihli Kozmetik Ürünler Yönetmeliği bu filtreye güneş koruyucularda %10'a kadar izin veriyor; bu yüzden Türkiye'de satılan güneş koruyucularda zaten bulunuyor olabilir. Etikette onu şöyle tanıyabilirsin:",
+          "kk": "Түркияда 2023 жылғы Косметикалық өнімдер туралы регламент бұл сүзгіні күннен қорғайтын құралдарда 10%-ға дейін рұқсат етеді, сондықтан Түркияда сатылатын қорғаныш құралдарында ол қазірдің өзінде болуы мүмкін. Затбелгіден оны былай тани аласың:",
+          "uz": "Turkiyada 2023-yilgi Kosmetik mahsulotlar toʻgʻrisidagi reglament bu filtrga quyoshdan himoya vositalarida 10% gacha ruxsat beradi, shuning uchun Turkiyada sotiladigan himoya vositalarida u allaqachon boʻlishi mumkin. Yorliqda uni shunday tanishing mumkin:",
+          "tk": "Türkiýede 2023-nji ýylyň Kosmetik önümler baradaky düzgünnamasy bu süzgüje günden goraýjy serişdelerde 10%-e çenli rugsat berýär, şonuň üçin Türkiýede satylýan goraýjy serişdelerde ol eýýäm bolup biler. Bellikde ony şeýle tanap bilersiň:",
+          "ky": "Түркияда 2023-жылкы Косметикалык продукциялар жөнүндө регламент бул чыпкага күндөн коргоочу каражаттарда 10% чейин уруксат берет, ошондуктан Түркияда сатылган коргоочу каражаттарда ал буга чейин эле болушу мүмкүн. Этикеткадан аны мындайча тааный аласың:",
+          "ka": "თურქეთში 2023 წლის კოსმეტიკური პროდუქტების რეგლამენტი ამ ფილტრს მზისგან დამცავ საშუალებებში 10%-მდე უშვებს, ამიტომ თურქეთში გაყიდულ დამცავ საშუალებებში ის შეიძლება უკვე იყოს. ეტიკეტზე მას ასე ამოიცნობ:"
+        },
+        "sources": [
+          "https://titck.gov.tr/storage/Archive/2023/contentFile/Kozmetik%20%C3%9Cr%C3%BCnler%20Y%C3%B6netmeli%C4%9Fi_42da2b01-a4f1-405c-a083-6667d2e038ea.pdf"
+        ]
+      },
+      {
+        "slug": "bemotrizinol-news-kz",
+        "countries": [
+          "KZ"
+        ],
+        "paragraph": {
+          "az": "Qazaxıstanda Avrasiya İqtisadi İttifaqının TR CU 009/2011 texniki reqlamenti qüvvədədir: o, bu filtrə günəşdən qoruyucularda 10%-ə qədər icazə verir, ona görə Qazaxıstanda satılan qoruyucularda o artıq ola bilər. Etiketdə onu belə tanıya bilərsən:",
+          "ru": "В Казахстане действует технический регламент Евразийского экономического союза ТР ТС 009/2011: он разрешает этот фильтр в солнцезащитных средствах в концентрации до 10%, поэтому он уже может быть в средствах, которые продаются в Казахстане. На этикетке его можно найти так:",
+          "en": "Kazakhstan applies the Eurasian Economic Union's technical regulation TR CU 009/2011, which allows this filter in sunscreens at up to 10%, so sunscreens sold in Kazakhstan may already contain it. You can spot it on the label as:",
+          "tr": "Kazakistan'da Avrasya Ekonomik Birliği'nin TR CU 009/2011 teknik düzenlemesi uygulanıyor: bu filtreye güneş koruyucularda %10'a kadar izin veriyor; bu yüzden Kazakistan'da satılan güneş koruyucularda zaten bulunuyor olabilir. Etikette onu şöyle tanıyabilirsin:",
+          "kk": "Қазақстанда Еуразиялық экономикалық одақтың КО ТР 009/2011 техникалық регламенті қолданылады: ол бұл сүзгіні күннен қорғайтын құралдарда 10%-ға дейін рұқсат етеді, сондықтан Қазақстанда сатылатын қорғаныш құралдарында ол қазірдің өзінде болуы мүмкін. Затбелгіден оны былай тани аласың:",
+          "uz": "Qozogʻistonda Yevroosiyo iqtisodiy ittifoqining TR CU 009/2011 texnik reglamenti amal qiladi: u bu filtrga quyoshdan himoya vositalarida 10% gacha ruxsat beradi, shuning uchun Qozogʻistonda sotiladigan himoya vositalarida u allaqachon boʻlishi mumkin. Yorliqda uni shunday tanishing mumkin:",
+          "tk": "Gazagystanda Ýewraziýa ykdysady bileleşiginiň TR CU 009/2011 tehniki düzgünnamasy ulanylýar: ol bu süzgüje günden goraýjy serişdelerde 10%-e çenli rugsat berýär, şonuň üçin Gazagystanda satylýan goraýjy serişdelerde ol eýýäm bolup biler. Bellikde ony şeýle tanap bilersiň:",
+          "ky": "Казакстанда Евразиялык экономикалык биримдиктин БС ТР 009/2011 техникалык регламенти колдонулат: ал бул чыпкага күндөн коргоочу каражаттарда 10% чейин уруксат берет, ошондуктан Казакстанда сатылган коргоочу каражаттарда ал буга чейин эле болушу мүмкүн. Этикеткадан аны мындайча тааный аласың:",
+          "ka": "ყაზახეთში მოქმედებს ევრაზიული ეკონომიკური კავშირის ტექნიკური რეგლამენტი TR CU 009/2011: ის ამ ფილტრს მზისგან დამცავ საშუალებებში 10%-მდე უშვებს, ამიტომ ყაზახეთში გაყიდულ დამცავ საშუალებებში ის შეიძლება უკვე იყოს. ეტიკეტზე მას ასე ამოიცნობ:"
+        },
+        "sources": [
+          "https://zakon.uchet.kz/rus/docs/H11T0000799"
+        ]
+      },
+      {
+        "slug": "bemotrizinol-news-uz",
+        "countries": [
+          "UZ"
+        ],
+        "paragraph": {
+          "az": "Avropa və Asiya istehsalı bəzi qoruyucularda bu filtr artıq ola bilər. Etiketdə onu belə tanıya bilərsən:",
+          "ru": "В некоторых европейских и азиатских солнцезащитных средствах этот фильтр может уже быть. На этикетке его можно найти так:",
+          "en": "Some European and Asian sunscreens may already contain this filter. You can spot it on the label as:",
+          "tr": "Bazı Avrupa ve Asya üretimi güneş koruyucularda bu filtre zaten bulunuyor olabilir. Etikette onu şöyle tanıyabilirsin:",
+          "kk": "Кейбір еуропалық және азиялық қорғаныш құралдарында бұл сүзгі қазірдің өзінде болуы мүмкін. Затбелгіден оны былай тани аласың:",
+          "uz": "Yevropa va Osiyoda ishlab chiqarilgan baʼzi himoya vositalarida bu filtr allaqachon boʻlishi mumkin. Yorliqda uni shunday tanishing mumkin:",
+          "tk": "Ýewropada we Aziýada öndürilen käbir goraýjy serişdelerde bu süzgüç eýýäm bolup biler. Bellikde ony şeýle tanap bilersiň:",
+          "ky": "Айрым европалык жана азиялык коргоочу каражаттарда бул чыпка буга чейин эле болушу мүмкүн. Этикеткадан аны мындайча тааный аласың:",
+          "ka": "ზოგიერთ ევროპული და აზიური წარმოების დამცავ საშუალებაში ეს ფილტრი შეიძლება უკვე იყოს. ეტიკეტზე მას ასე ამოიცნობ:"
+        },
+        "sources": []
+      }
+    ]
+  }
+}

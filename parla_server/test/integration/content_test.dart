@@ -410,16 +410,20 @@ void main() {
         );
 
         final changed = await endpoints.contentAdmin.importSheet(t.admin);
-        // 20 new articles, 11 plans filled, the edited one kept; recipes.
-        expect(changed, 20 + 11 + recipeSeed.length);
+        // 20 new articles and 3 country versions of bemotrizinol-news,
+        // 11 plans filled, the edited one kept; recipes.
+        expect(changed, 20 + 3 + 11 + recipeSeed.length);
         final articles = await endpoints.contentAdmin.list(t.admin, 'article');
-        expect(articles, hasLength(32));
+        expect(articles, hasLength(35));
         Map<String, Object?> draft(String slug) =>
             jsonDecode(articles.firstWhere((a) => a.slug == slug).draftJson)
                 as Map<String, Object?>;
         final dry = draft('winter-dry-skin');
         final body = dry['body']! as Map<String, Object?>;
-        expect(body.keys.toSet(), {'az', 'ru', 'en'});
+        expect(body.keys.toSet(), {
+          ...supportedLanguages,
+          ...translatedLanguages,
+        });
         expect(body['az'], isNot(contains(ContentRules.planMarker)));
         expect(draft('winter-hands'), containsPair('minutes', 9));
         expect(
@@ -442,21 +446,24 @@ void main() {
         );
         expect(
           await endpoints.contentAdmin.publishImported(t.admin),
-          // All but the edited plan (incomplete), and every recipe.
-          31 + recipeSeed.length,
+          // All but the edited plan (incomplete), with the 3 country
+          // versions, and every recipe.
+          34 + recipeSeed.length,
         );
         final live = await endpoints.content.published(
           sessionBuilder,
           'article',
         );
-        expect(live, hasLength(31));
+        // The server lists every country's version; the app shows only
+        // the user's country.
+        expect(live, hasLength(34));
         expect(live.every((a) => a.reviewedAt == null), isTrue);
         expect(
           await AuditLogEntry.db.count(
             db,
             where: (a) => a.action.equals('content.published_unreviewed'),
           ),
-          31 + recipeSeed.length,
+          34 + recipeSeed.length,
         );
         expect(
           await endpoints.contentAdmin.publishImported(t.admin),

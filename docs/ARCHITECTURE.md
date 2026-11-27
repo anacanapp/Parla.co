@@ -73,6 +73,24 @@ and expert checks in `docs/RELEASE.md` are done.
   and `contentLanguageOf(context)` give it; dates use `dateLocaleOf`.
   Translating consent texts and legal documents into a new language
   needs a lawyer's check and ships as a new consent version.
+- **Content translations:** quiz questions, routine steps, exercises,
+  preferences, ingredient texts and tips also have tr, kk, uz, tk, ky and
+  ka translations (owner, 2026-11-27), as drafts for a native speaker's
+  check. Shared texts: `parla_shared/i18n/<language>.json` (keyed by the
+  Azerbaijani text) builds `lib/src/texts/i18n/` with
+  `tools/l10n/build_text_tables.py`; `translationOf`, `pickTriple` and
+  `ContentRules.pick` use them, else the `contentLanguageFor` text.
+  Articles and recipes: `tools/content_i18n/<language>/` is merged into
+  the seeds; the one-off task `add-content-translations` adds them to the
+  database only where the Azerbaijani text is unchanged. Consent and
+  legal texts are not translated.
+- **Articles naming one country** (owner, 2026-11-27: not published in
+  other countries) carry `countries`, as banners do; the app leaves out
+  items limited to another country (`ContentRules.shownInCountry`, on the
+  phone). Other markets get their own version
+  (`tools/content_i18n/country_variants.json`, e.g. bemotrizinol-news for
+  AZ and -tr, -kz, -uz), whose legal facts are checked against the
+  country's regulation and need a local expert's review.
 - **Fonts and system texts:** Georgian uses Noto Sans Georgian (OFL) as a
   fallback of Onest. Flutter has no Turkmen system texts (dialog buttons,
   date picker), so Turkmen uses the Turkish ones (`SystemTextsDelegate`);

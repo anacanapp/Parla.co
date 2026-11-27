@@ -46,8 +46,9 @@ void main() {
     }
   });
 
-  test('the full blog articles are complete in three languages', () {
-    expect(blogSeed, hasLength(32));
+  test('the full blog articles are complete in every language', () {
+    // 32 articles and 3 country versions of bemotrizinol-news.
+    expect(blogSeed, hasLength(35));
     final slugs = blogSeed.map((b) => b.slug).toSet();
     expect(slugs, hasLength(blogSeed.length));
     // Every article of the first sheet has its full version.
@@ -58,7 +59,10 @@ void main() {
       expect(b.problems, isEmpty, reason: b.slug);
       final json = jsonDecode(b.json) as Map<String, Object?>;
       final body = json['body']! as Map<String, Object?>;
-      expect(body.keys.toSet(), {'az', 'ru', 'en'}, reason: b.slug);
+      expect(body.keys.toSet(), {
+        ...supportedLanguages,
+        ...translatedLanguages,
+      }, reason: b.slug);
       for (final text in body.values) {
         expect(text, isNot(contains(ContentRules.planMarker)));
         expect((text! as String).length, greaterThan(3000), reason: b.slug);
@@ -79,7 +83,7 @@ void main() {
 
   test('the import offers each article once, in its full version', () {
     final articles = importSeed.where((s) => s.kind == 'article').toList();
-    expect(articles, hasLength(32));
+    expect(articles, hasLength(35));
     expect(articles.every(blogSeed.contains), isTrue);
     expect(importSeed.where((s) => s.kind == 'recipe'), hasLength(76));
   });
@@ -100,7 +104,12 @@ void main() {
       );
       final old = first[r.slug];
       if (old != null) {
-        expect(jsonDecode(r.json), jsonDecode(old.json), reason: r.slug);
+        // Unchanged apart from the added translations.
+        expect(
+          _withoutTranslations(jsonDecode(r.json)),
+          jsonDecode(old.json),
+          reason: r.slug,
+        );
         expect(r.category, old.category, reason: r.slug);
       }
     }
@@ -190,3 +199,14 @@ void main() {
     expect(addSeedTranslations(team, seed), same(team));
   });
 }
+
+/// [value] without the keys of `translatedLanguages` in its texts.
+Object? _withoutTranslations(Object? value) => switch (value) {
+  Map() => {
+    for (final e in value.entries)
+      if (!translatedLanguages.contains(e.key))
+        e.key: _withoutTranslations(e.value),
+  },
+  List() => [for (final v in value) _withoutTranslations(v)],
+  _ => value,
+};
