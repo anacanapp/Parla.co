@@ -6,23 +6,21 @@ import '../ui/brand.dart';
 import '../discover/content_library.dart';
 import 'care_list.dart';
 
-int _lang(AppLocalizations l10n) => switch (l10n.localeName) {
-  'ru' => 1,
-  'en' => 2,
-  _ => 0,
-};
-
 /// Label of a product preference (from the content sheet); the id itself
 /// for one this version has no text for.
 String preferenceLabel(AppLocalizations l10n, String id) =>
     ContentLibrary.catalogueText('preference', id, 'name', l10n.localeName) ??
-    preferenceTexts[id]?[0][_lang(l10n)] ??
+    (preferenceTexts[id] == null
+        ? null
+        : pickTriple(preferenceTexts[id]![0], l10n.localeName)) ??
     id;
 
 /// What a preference checks, in neutral words, or `null`.
 String? preferenceHint(AppLocalizations l10n, String id) =>
     ContentLibrary.catalogueText('preference', id, 'hint', l10n.localeName) ??
-    preferenceTexts[id]?[1][_lang(l10n)];
+    (preferenceTexts[id] == null
+        ? null
+        : pickTriple(preferenceTexts[id]![1], l10n.localeName));
 
 /// Lets the user pick her preferences; saves them to [book].
 Future<void> editPreferences(BuildContext context, CareListBook book) async {

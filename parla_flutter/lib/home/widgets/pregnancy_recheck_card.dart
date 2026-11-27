@@ -71,11 +71,12 @@ class PregnancyRecheckCards extends StatelessWidget {
 }
 
 String _skinLabel(BuildContext context, String id) {
-  final language = ParlaScope.of(context).settings.contentLanguage;
+  final language = ParlaScope.of(context).settings.textLanguage;
   final option = quizQuestion(
     'pregnancy',
   )!.options.firstWhere((o) => o.id == id, orElse: () => QuizOption(id, {}));
-  return option.text[language] ?? option.text['az'] ?? id;
+  final text = ContentRules.pick(option.text, language);
+  return text.isEmpty ? id : text;
 }
 
 class _SkinCard extends StatelessWidget {

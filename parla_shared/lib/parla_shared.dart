@@ -24,6 +24,7 @@ export 'src/texts/exercise_draft_texts.dart';
 export 'src/texts/exercise_sheet_texts.dart';
 export 'src/texts/preference_texts.dart';
 export 'src/texts/routine_step_texts.dart';
+export 'src/texts/translations.dart';
 
 /// The ingredient statuses shipped with this version.
 final euIngredientDataset = IngredientDataset(

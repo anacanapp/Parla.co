@@ -8,6 +8,8 @@
 /// never infer a condition (MDR rule, see the regulation analysis).
 library;
 
+import 'texts/translations.dart';
+
 /// Groups of questions, in the order the quiz asks them.
 enum QuizSection { skin, health, lifestyle, body, hair, safety }
 
@@ -90,11 +92,10 @@ class QuizQuestion {
 /// Version of the question set; stored with answers.
 const quizContentVersion = 'quiz-2026-11-sheet1';
 
-Map<String, String> _t(String az, String ru, String en) => {
-  'az': az,
-  'ru': ru,
-  'en': en,
-};
+/// The text in az, ru and en, plus its translations into the other
+/// interface languages (`texts/translations.dart`).
+Map<String, String> _t(String az, String ru, String en) =>
+    withTranslations({'az': az, 'ru': ru, 'en': en});
 
 final List<QuizQuestion> quizQuestions = [
   QuizQuestion(

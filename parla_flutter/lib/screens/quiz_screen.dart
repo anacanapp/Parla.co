@@ -68,7 +68,7 @@ class _QuizScreenState extends State<QuizScreen> {
     });
   }
 
-  String get _language => ParlaScope.of(context).settings.contentLanguage;
+  String get _language => ParlaScope.of(context).settings.textLanguage;
 
   QuizQuestion get _current => _questions[_index];
 
@@ -342,15 +342,14 @@ class _QuestionView extends StatelessWidget {
                   Semantics(
                     header: true,
                     child: Text(
-                      question.text[language] ?? question.text['az']!,
+                      ContentRules.pick(question.text, language),
                       style: text.headlineSmall,
                     ),
                   ),
-                  if ((question.why[language] ?? question.why['az']) !=
-                      null) ...[
+                  if (ContentRules.pick(question.why, language).isNotEmpty) ...[
                     const SizedBox(height: 6),
                     Text(
-                      question.why[language] ?? question.why['az']!,
+                      ContentRules.pick(question.why, language),
                       key: const ValueKey('quiz-why'),
                       style: text.bodySmall?.copyWith(
                         color: ParlaColors.muted,
@@ -378,7 +377,7 @@ class _QuestionView extends StatelessWidget {
                     for (final option in question.options) ...[
                       _OptionTile(
                         key: ValueKey('option-${question.id}-${option.id}'),
-                        label: option.text[language] ?? option.text['az']!,
+                        label: ContentRules.pick(option.text, language),
                         selected: selection.contains(option.id),
                         multiple: question.multiple,
                         onTap: () => onToggle(option),
@@ -504,7 +503,11 @@ class _ResultView extends StatelessWidget {
     final q = quizQuestion(questionId)!;
     return answers
         .of(questionId)
-        .map((id) => q.option(id)?.text[language] ?? id)
+        .map(
+          (id) => (q.option(id) == null
+              ? id
+              : ContentRules.pick(q.option(id)!.text, language)),
+        )
         .join(', ');
   }
 
@@ -526,7 +529,7 @@ class _ResultView extends StatelessWidget {
     final notes = [
       for (final rule in routine.notes)
         if (rule.action != RuleAction.add)
-          rule.note[language] ?? rule.note['az']!,
+          ContentRules.pick(rule.note, language),
     ];
     return ParlaPage(
       title: l10n.resultTitle,
@@ -628,7 +631,7 @@ class _SkinTypeGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget card(QuizOption option) => _SkinCard(
       key: ValueKey('option-skin_type-${option.id}'),
-      label: option.text[language] ?? option.text['az']!,
+      label: ContentRules.pick(option.text, language),
       blob: _blobs[option.id],
       selected: selection.contains(option.id),
       onTap: () => onToggle(option),

@@ -5,11 +5,10 @@
 // the engine in routine_rules.dart applies itself.
 part of 'routine_rules.dart';
 
-Map<String, String> _t(String az, String ru, String en) => {
-  'az': az,
-  'ru': ru,
-  'en': en,
-};
+/// The text in az, ru and en, plus its translations into the other
+/// interface languages (`texts/translations.dart`).
+Map<String, String> _t(String az, String ru, String en) =>
+    withTranslations({'az': az, 'ru': ru, 'en': en});
 
 /// Every care step, in display order within its area.
 const routineStepCatalogue = <RoutineStepInfo>[

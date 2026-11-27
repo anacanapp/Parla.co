@@ -138,7 +138,7 @@ class _ParlaAppState extends State<ParlaApp> {
 
   late final ReminderController _reminders = ReminderController(
     scheduler: widget.reminderScheduler ?? LocalReminderScheduler(),
-    language: () => widget.settings.contentLanguage,
+    language: () => widget.settings.textLanguage,
   );
   String? _language;
 

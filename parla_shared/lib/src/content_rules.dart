@@ -12,6 +12,7 @@ import 'markets.dart';
 import 'product_preferences.dart';
 import 'routine_rules.dart';
 import 'sport_rules.dart';
+import 'texts/translations.dart';
 import 'texts/exercise_draft_texts.dart';
 import 'texts/exercise_sheet_texts.dart';
 import 'texts/preference_texts.dart';
@@ -893,11 +894,21 @@ abstract final class ContentRules {
     }
   }
 
-  /// [value] in [language], falling back to Azerbaijani.
+  /// [value] in [language]: its own text in that language, else (for an
+  /// interface language Parla writes no texts in) the translation of the
+  /// Azerbaijani text, else the closest of az/ru/en (`contentLanguageFor`),
+  /// else Azerbaijani.
   static String pick(Object? value, String language) {
     if (value is String) return value;
     if (value is! Map) return '';
-    final v = value[language] ?? value['az'];
+    final own = value[language];
+    if (own is String && own.isNotEmpty) return own;
+    final az = value['az'];
+    if (az is String && !supportedLanguages.contains(language)) {
+      final t = translationOf(az, language);
+      if (t != null) return t;
+    }
+    final v = value[contentLanguageFor(language)] ?? az;
     return v is String ? v : '';
   }
 }
