@@ -156,19 +156,21 @@ flutter:
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 
-# App icon from the brand guidelines v2.0 (07 · App ikon): the Smile mark on
-# Sun. Regenerate with `dart run flutter_launcher_icons`.
+# App icon (owner 2026-11-27, variant 1): the iridescent Parla mark on
+# white. The images are rendered from
+# ParlaMark (see docs/ARCHITECTURE.md). Regenerate with
+# `dart run flutter_launcher_icons`.
 flutter_launcher_icons:
   android: "ic_launcher"
   ios: true
   remove_alpha_ios: true
   image_path: "assets/icon/app_icon.png"
-  adaptive_icon_background: "#FFCE00"
+  adaptive_icon_background: "#FFFFFF"
   adaptive_icon_foreground: "assets/icon/app_icon_foreground.png"
-  adaptive_icon_monochrome: "assets/icon/app_icon_foreground.png"
+  adaptive_icon_monochrome: "assets/icon/app_icon_monochrome.png"
   min_sdk_android: 21
   web:
     generate: true
     image_path: "assets/icon/app_icon.png"
-    background_color: "#FFCE00"
-    theme_color: "#FFCE00"
+    background_color: "#FFFFFF"
+    theme_color: "#FFFFFF"

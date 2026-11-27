@@ -965,6 +965,11 @@ chose.
 - **Cards:** white glass with dark ink (#16130F) and muted text #645B53.
 - **Accent:** banana #FFCE00, the app icon's colour, at the core of
   every gradient (`Warm.iris`).
+- **App icon** (owner, 2026-11-27): the iridescent Parla mark on white.
+  `assets/icon/app_icon.png` (full icon) and the adaptive foreground and
+  monochrome layers are rendered from `ParlaMark` (mark at 58% of the
+  icon; 58.7% of the adaptive layer, which Android insets by 16%); the
+  platform icons come from `dart run flutter_launcher_icons`.
 - **Menu:** a dark capsule with round tabs. The middle tab (Check) is a
   white circle with the Parla mark (`ParlaMark`, iridescent).
 - **Not taken from the demo:** UV index or weather (needs location),
