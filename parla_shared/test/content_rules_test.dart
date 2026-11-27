@@ -735,4 +735,25 @@ void main() {
       expect(problems(<String>[]), contains('countries.invalid'));
     });
   });
+
+  test('every editable website text starts complete in az, ru and en', () {
+    expect(ContentKind.site.isCatalogue, isTrue);
+    expect(siteTextKeys.toSet(), hasLength(siteTextKeys.length));
+    for (final key in siteTextKeys) {
+      expect(siteTextLabels[key], isNotNull, reason: key);
+      final d = ContentRules.catalogueDefaults(ContentKind.site, key);
+      expect(_p(ContentKind.site, d), isEmpty, reason: key);
+    }
+    expect(
+      _p(ContentKind.site, {
+        'text': {'az': 'A'},
+        'extra': 1,
+      }),
+      isNotEmpty,
+    );
+    expect(
+      ContentRules.adminPublishesDirectly(ContentKind.site, const {}),
+      isTrue,
+    );
+  });
 }

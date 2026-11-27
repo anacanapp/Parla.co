@@ -7,11 +7,80 @@ library;
 /// below `/ru` and `/en`.
 const siteLanguages = ['az', 'ru', 'en'];
 
-/// The site's text [key] in [language].
+/// The site's built-in text [key] in [language] (the admin panel's
+/// published "site" texts replace them; see [siteTextKeys]).
 String siteText(String key, String language) =>
-    _texts[key]?[language] ?? _texts[key]?['az'] ?? key;
+    siteTextDefaults[key]?[language] ?? siteTextDefaults[key]?['az'] ?? key;
 
-const _texts = <String, Map<String, String>>{
+/// The texts the team edits in the admin panel (ContentKind.site), in the
+/// order the panel lists them. The rest (labels, units) stay in code.
+const siteTextKeys = [
+  'title',
+  'description',
+  'heroPill',
+  'heroTitle',
+  'languagesNote',
+  'featuresTitle',
+  'f1Title',
+  'f1Body',
+  'f2Title',
+  'f2Body',
+  'f3Title',
+  'f3Body',
+  'privacyPill',
+  'privacyTitle',
+  'privacyLead',
+  'p1Bold',
+  'p1',
+  'p2Bold',
+  'p2',
+  'p3Bold',
+  'p3',
+  'p4Bold',
+  'p4',
+  'blogTitle',
+  'blogPageTitle',
+  'blogPageLead',
+  'disclaimer',
+  'articleCta',
+  'siteNotice',
+];
+
+/// What each editable text is, for the admin panel (Azerbaijani).
+const siteTextLabels = <String, String>{
+  'title': 'Brauzer başlığı və axtarış nəticəsinin başlığı',
+  'description': 'Ana səhifənin təsviri (giriş mətni və axtarış nəticəsi)',
+  'heroPill': 'Giriş: kiçik nişan',
+  'heroTitle': 'Giriş: böyük başlıq (*söz* kursivlə vurğulanır)',
+  'languagesNote': 'Giriş: düymələrin altındakı qeyd',
+  'featuresTitle': 'İmkanlar: başlıq',
+  'f1Title': 'İmkan 1: başlıq',
+  'f1Body': 'İmkan 1: mətn',
+  'f2Title': 'İmkan 2: başlıq',
+  'f2Body': 'İmkan 2: mətn',
+  'f3Title': 'İmkan 3: başlıq',
+  'f3Body': 'İmkan 3: mətn',
+  'privacyPill': 'Məxfilik bloku: nişan',
+  'privacyTitle': 'Məxfilik bloku: başlıq',
+  'privacyLead': 'Məxfilik bloku: giriş mətni',
+  'p1Bold': 'Məxfilik 1: qalın hissə',
+  'p1': 'Məxfilik 1: davamı',
+  'p2Bold': 'Məxfilik 2: qalın hissə',
+  'p2': 'Məxfilik 2: davamı',
+  'p3Bold': 'Məxfilik 3: qalın hissə',
+  'p3': 'Məxfilik 3: davamı',
+  'p4Bold': 'Məxfilik 4: qalın hissə',
+  'p4': 'Məxfilik 4: davamı',
+  'blogTitle': 'Ana səhifə: bloq bölməsinin başlığı',
+  'blogPageTitle': 'Bloq səhifəsi: başlıq',
+  'blogPageLead': 'Bloq səhifəsi: giriş mətni',
+  'disclaimer': 'Məqalələrin altındakı xəbərdarlıq',
+  'articleCta': 'Məqalənin sonunda tətbiqə çağırış',
+  'siteNotice': 'Məxfilik səhifəsi: "Bu sayt haqqında" (hüquqşünas yoxlayır)',
+};
+
+/// The built-in texts.
+const siteTextDefaults = <String, Map<String, String>>{
   'title': {
     'az': 'Parla — gözəllik və qulluq bələdçin',
     'ru': 'Parla — твой гид по красоте и уходу',
@@ -36,12 +105,10 @@ const _texts = <String, Map<String, String>>{
     'ru': 'Для женщин 18+',
     'en': 'For women 18+',
   },
-  'heroBefore': {'az': 'Sənin ', 'ru': 'Твой гид по ', 'en': 'Your '},
-  'heroAccent': {'az': 'gözəllik', 'ru': 'красоте', 'en': 'beauty'},
-  'heroAfter': {
-    'az': ' və qulluq bələdçin',
-    'ru': ' и уходу',
-    'en': ' and care guide',
+  'heroTitle': {
+    'az': 'Sənin *gözəllik* və qulluq bələdçin',
+    'ru': 'Твой гид по *красоте* и уходу',
+    'en': 'Your *beauty* and care guide',
   },
   'storeGet': {'az': 'Yüklə', 'ru': 'Скачать в', 'en': 'Get it on'},
   'languagesNote': {

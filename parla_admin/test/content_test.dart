@@ -324,6 +324,27 @@ void main() {
     expect(find.byKey(const ValueKey('video-field')), findsNothing);
   });
 
+  testWidgets('the website texts start from the built-in ones, in three '
+      'languages', (tester) async {
+    final api = await _pump(tester, StaffRole.admin);
+    await _tap(tester, _nav('Məzmun'));
+    await _tap(tester, find.text('Sayt mətnləri'));
+    expect(find.byKey(const ValueKey('content-new')), findsNothing);
+    expect(find.text(siteTextLabels['heroTitle']!), findsOneWidget);
+
+    await _tap(tester, find.byKey(const ValueKey('catalogue-heroTitle')));
+    final saved = api.calls.lastWhere((c) => c.startsWith('save:'));
+    final json = jsonDecode(saved.substring(saved.indexOf('{'))) as Map;
+    expect(json, {
+      'text': siteTextDefaults['heroTitle'],
+    });
+    expect(find.byKey(const ValueKey('site-text-note')), findsOneWidget);
+    expect(find.byKey(const ValueKey('field-text-az')), findsOneWidget);
+    // The website is in az, ru and en only.
+    expect(find.text('Türkçe'), findsNothing);
+    expect(find.byKey(const ValueKey('image-field')), findsNothing);
+  });
+
   testWidgets('an editor uploads an exercise video; the library keeps '
       'images and videos apart', (tester) async {
     final file = Uint8List.fromList(List.filled(2000, 7));
