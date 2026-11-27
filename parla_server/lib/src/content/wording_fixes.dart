@@ -18,8 +18,18 @@ typedef WordingFix = (String slug, String lang, String from, String to);
 /// `tools/blog_import/build_blog_seed.py` reads this list (one entry per
 /// line, single-quoted, no escapes) and applies it when it writes
 /// `blog_seed.dart`; the task `PARLA_TASK=fix-content-wording` applies it
-/// to the articles already in the database.
+/// to the articles already in the database. The first entries correct
+/// the FDA date of bemotrizinol-news: the Federal Register notice is of
+/// 10 June 2026 (owner, 2026-11-27).
 const wordingFixes = <WordingFix>[
+  (
+    'bemotrizinol-news',
+    'az',
+    '(FDA) 9 iyun 2026-da',
+    '(FDA) 10 iyun 2026-da',
+  ),
+  ('bemotrizinol-news', 'ru', '9 июня 2026 года', '10 июня 2026 года'),
+  ('bemotrizinol-news', 'en', 'On June 9, 2026,', 'On June 10, 2026,'),
   (
     'bemotrizinol-news',
     'az',
