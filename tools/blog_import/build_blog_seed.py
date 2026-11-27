@@ -5,7 +5,8 @@ exported as Markdown (one file per article, any file names). Run:
 
     python3 -I tools/blog_import/build_blog_seed.py <folder-with-md-files>
 
-or, to apply only the wording fixes to the current output (no export):
+or, to apply only the wording fixes and the translations in
+tools/content_i18n to the current output (no export):
 
     python3 -I tools/blog_import/build_blog_seed.py --apply-fixes
 
@@ -21,6 +22,8 @@ import re
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[2]
+sys.path.insert(0, str(ROOT / 'tools/content_i18n'))
+import merge  # noqa: E402
 OUT = ROOT / 'parla_server/lib/src/content/blog_seed.dart'
 OLD_SEED = ROOT / 'parla_server/lib/src/content/content_seed.dart'
 FIXES = ROOT / 'parla_server/lib/src/content/wording_fixes.dart'
@@ -200,7 +203,7 @@ def write(items):
     ]
     fixes = wording_fixes()
     for slug, category, data in items:
-        data = apply_fixes(slug, data, fixes)
+        data = merge.article(slug, apply_fixes(slug, data, fixes))
         out += [
             '  SeedContent(',
             "    'article',",

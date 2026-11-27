@@ -319,7 +319,13 @@ abstract final class ContentRules {
     if (starts is! String || ends is! String) return false;
     if (day.compareTo(starts) < 0 || day.compareTo(ends) > 0) return false;
     final languages = (json['languages'] as List?)?.cast<String>() ?? const [];
-    if (languages.isNotEmpty && !languages.contains(language)) return false;
+    // A banner for Russian also shows to people reading Russian texts
+    // (Kazakh, Uzbek, Turkmen and Kyrgyz interfaces), and so on.
+    if (languages.isNotEmpty &&
+        !languages.contains(language) &&
+        !languages.contains(contentLanguageFor(language))) {
+      return false;
+    }
     final countries = (json['countries'] as List?)?.cast<String>() ?? const [];
     if (countries.isNotEmpty &&
         (country == null || !countries.contains(country))) {
@@ -517,7 +523,8 @@ abstract final class ContentRules {
           } else {
             for (final e in tags.entries) {
               final v = e.value;
-              if (!languages.contains(e.key) ||
+              if (!(languages.contains(e.key) ||
+                      translatedLanguages.contains(e.key)) ||
                   v is! List ||
                   v.length > maxTags ||
                   !v.every((t) => t is String && _tag.hasMatch(t))) {
@@ -882,13 +889,23 @@ abstract final class ContentRules {
       return;
     }
     for (final k in value.keys) {
-      if (!languages.contains(k)) out.add('$key.$k.unknown');
+      if (!languages.contains(k) && !translatedLanguages.contains(k)) {
+        out.add('$key.$k.unknown');
+      }
     }
     for (final lang in languages) {
       final v = value[lang];
       if (v == null || (v is String && v.trim().isEmpty)) {
         if (complete) out.add('$key.$lang.missing');
       } else if (v is! String || v.length > max) {
+        out.add('$key.$lang.invalid');
+      }
+    }
+    // Translations into the other interface languages are optional (owner,
+    // 2026-11-27); a missing one shows the closest of az/ru/en.
+    for (final lang in translatedLanguages) {
+      final v = value[lang];
+      if (v != null && (v is! String || v.length > max)) {
         out.add('$key.$lang.invalid');
       }
     }

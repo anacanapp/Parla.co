@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:parla_server/src/content/content_seed_import.dart';
+import 'package:parla_server/src/content/content_translations.dart';
 import 'package:parla_server/src/content/wording_fixes.dart';
 import 'package:parla_shared/parla_shared.dart';
 import 'package:test/test.dart';
@@ -137,5 +138,39 @@ void main() {
       ((fixed['tips']! as List).single as Map)['az'],
       'Ucuz eynək gözü qoruyurmu?',
     );
+  });
+
+  test('seed translations fill only missing languages of unchanged texts', () {
+    final current = <String, Object?>{
+      'title': {'az': 'Başlıq', 'ru': 'Заголовок', 'en': 'Title'},
+      'body': {'az': 'Komanda dəyişib', 'ru': 'Текст', 'en': 'Text'},
+      'steps': [
+        {'az': 'Bir', 'ru': 'Раз', 'en': 'One', 'tr': 'Komandanın'},
+        {'az': 'İki', 'ru': 'Два', 'en': 'Two'},
+      ],
+      'minutes': 10,
+    };
+    final seed = <String, Object?>{
+      'title': {'az': 'Başlıq', 'ru': 'X', 'en': 'Y', 'tr': 'Başlık'},
+      'body': {'az': 'Köhnə mətn', 'tr': 'Eski metin'},
+      'steps': [
+        {'az': 'Bir', 'tr': 'Bir (tr)', 'kk': 'Бір'},
+        {'az': 'İki', 'tr': 'İki (tr)'},
+      ],
+    };
+    final out = addSeedTranslations(current, seed);
+    expect((out['title']! as Map)['tr'], 'Başlık');
+    // az, ru and en never change.
+    expect((out['title']! as Map)['ru'], 'Заголовок');
+    // The team rewrote the Azerbaijani body: its translation is not added.
+    expect((out['body']! as Map).containsKey('tr'), isFalse);
+    final steps = out['steps']! as List;
+    // A translation already there stays.
+    expect((steps[0] as Map)['tr'], 'Komandanın');
+    expect((steps[0] as Map)['kk'], 'Бір');
+    expect((steps[1] as Map)['tr'], 'İki (tr)');
+    expect(out['minutes'], 10);
+    // Nothing to add: the same map comes back.
+    expect(addSeedTranslations(out, seed), same(out));
   });
 }
