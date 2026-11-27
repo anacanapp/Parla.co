@@ -5,6 +5,7 @@ import 'dart:typed_data';
 import 'package:serverpod/serverpod.dart';
 
 import '../media/media_store.dart';
+import '../site/site_routes.dart';
 import 'public_media.dart';
 import 'shop_routes.dart';
 
@@ -17,6 +18,9 @@ import 'shop_routes.dart';
 ///   exercise videos ([PublicMedia]).
 /// - `/shop/epoint/result`, `/shop/done`: Epoint's payment report and the
 ///   page buyers return to ([EpointResultRoute], [ShopDoneRoute]).
+/// - `/`, `/blog`, `/privacy`, `/terms` (also below `/ru` and `/en`),
+///   `/site/*`, `/robots.txt`, `/sitemap.xml`: the public website
+///   (`site/site_routes.dart`).
 /// - `/admin/`: the admin panel, a Flutter web build in `web/admin` (built
 ///   into the image by the Dockerfile), with a strict content security
 ///   policy. Unknown paths below it load the panel (client-side routing).
@@ -43,6 +47,11 @@ void mountWebRoutes({
   addRoute(MediaRoute(), '/media/:file');
   addRoute(EpointResultRoute(), '/shop/epoint/result');
   addRoute(ShopDoneRoute(), '/shop/done');
+
+  // The public website, when its files are in the image.
+  if (Directory('$webRoot/site/assets').existsSync()) {
+    mountSiteRoutes(SiteConfig.of(webRoot), addRoute: addRoute);
+  }
 
   final admin = Directory('$webRoot/admin');
   if (!File('${admin.path}/index.html').existsSync()) return;

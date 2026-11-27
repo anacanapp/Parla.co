@@ -336,6 +336,14 @@ class FakeAdminApi implements AdminApi {
   @override
   Future<StatsReport> statsReport() async => stats!;
 
+  StatsReport? site;
+
+  @override
+  Future<StatsReport> siteReport(int days) async {
+    calls.add('site:$days');
+    return site!;
+  }
+
   DashboardReport? dashboardReport;
   final dashboardDays = <int>[];
 

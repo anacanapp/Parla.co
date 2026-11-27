@@ -12,4 +12,6 @@
 **/.dart_tool
 **/build
 parla_flutter
+# Except the legal texts the website shows (parla_server/Dockerfile).
+!parla_flutter/assets/legal
 parla_client/.dart_tool

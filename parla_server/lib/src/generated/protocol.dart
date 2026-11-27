@@ -80,6 +80,9 @@ import 'shop/shop_checkout.dart' as _ijilqnse;
 import 'shop/shop_order.dart' as _iebtnvku;
 import 'shop/shop_order_status.dart' as _ik5inhen;
 import 'shop/shop_order_view.dart' as _ibk2dfia;
+import 'site/site_salt.dart' as _i75viulk;
+import 'site/site_stat_daily.dart' as _ixxcy3ri;
+import 'site/site_visitor_mark.dart' as _iw7dcgbe;
 import 'staff/staff_invite.dart' as _ig710w64;
 import 'staff/staff_invite_summary.dart' as _igjtjhuj;
 import 'staff/staff_me.dart' as _i0yb5pr1;
@@ -134,6 +137,9 @@ export 'shop/shop_checkout.dart';
 export 'shop/shop_order.dart';
 export 'shop/shop_order_status.dart';
 export 'shop/shop_order_view.dart';
+export 'site/site_salt.dart';
+export 'site/site_stat_daily.dart';
+export 'site/site_visitor_mark.dart';
 export 'staff/staff_invite.dart';
 export 'staff/staff_invite_summary.dart';
 export 'staff/staff_me.dart';
@@ -202,6 +208,9 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_iebtnvku.ShopOrder>,
           _is.getType<_ik5inhen.ShopOrderStatus>,
           _is.getType<_ibk2dfia.ShopOrderView>,
+          _is.getType<_i75viulk.SiteSalt>,
+          _is.getType<_ixxcy3ri.SiteStatDaily>,
+          _is.getType<_iw7dcgbe.SiteVisitorMark>,
           _is.getType<_ig710w64.StaffInvite>,
           _is.getType<_igjtjhuj.StaffInviteSummary>,
           _is.getType<_i0yb5pr1.StaffMe>,
@@ -256,6 +265,9 @@ class Protocol extends _is.DatabaseSerializationManager
           _is.getType<_iebtnvku.ShopOrder?>,
           _is.getType<_ik5inhen.ShopOrderStatus?>,
           _is.getType<_ibk2dfia.ShopOrderView?>,
+          _is.getType<_i75viulk.SiteSalt?>,
+          _is.getType<_ixxcy3ri.SiteStatDaily?>,
+          _is.getType<_iw7dcgbe.SiteVisitorMark?>,
           _is.getType<_ig710w64.StaffInvite?>,
           _is.getType<_igjtjhuj.StaffInviteSummary?>,
           _is.getType<_i0yb5pr1.StaffMe?>,
@@ -340,6 +352,9 @@ class Protocol extends _is.DatabaseSerializationManager
           'ShopOrder',
           'ShopOrderStatus',
           'ShopOrderView',
+          'SiteSalt',
+          'SiteStatDaily',
+          'SiteVisitorMark',
           'StaffInvite',
           'StaffInviteSummary',
           'StaffMe',
@@ -1823,6 +1838,175 @@ class Protocol extends _is.DatabaseSerializationManager
       managed: true,
     ),
     _isp.TableDefinition(
+      name: 'site_salt',
+      dartName: 'SiteSalt',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'day',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'salt',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'site_salt_day_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'day',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _isp.TableDefinition(
+      name: 'site_stat_daily',
+      dartName: 'SiteStatDaily',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'day',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'metric',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'target',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'times',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'site_stat_daily_key_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'day',
+            ),
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'metric',
+            ),
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'target',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+        _isp.IndexDefinition(
+          indexName: 'site_stat_daily_day_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'day',
+            ),
+          ],
+          type: 'btree',
+          isUnique: false,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _isp.TableDefinition(
+      name: 'site_visitor_mark',
+      dartName: 'SiteVisitorMark',
+      schema: 'public',
+      module: 'parla',
+      columns: [
+        _isp.ColumnDefinition(
+          name: 'id',
+          columnType: _isp.ColumnType.bigint,
+          isNullable: false,
+          dartType: 'int?',
+          columnDefault: 'serial',
+        ),
+        _isp.ColumnDefinition(
+          name: 'day',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+        _isp.ColumnDefinition(
+          name: 'mark',
+          columnType: _isp.ColumnType.text,
+          isNullable: false,
+          dartType: 'String',
+        ),
+      ],
+      foreignKeys: [],
+      indexes: [
+        _isp.IndexDefinition(
+          indexName: 'site_visitor_mark_key_idx',
+          tableSpace: null,
+          elements: [
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'day',
+            ),
+            _isp.IndexElementDefinition(
+              type: _isp.IndexElementDefinitionType.column,
+              definition: 'mark',
+            ),
+          ],
+          type: 'btree',
+          isUnique: true,
+          isPrimary: false,
+        ),
+      ],
+      managed: true,
+    ),
+    _isp.TableDefinition(
       name: 'sport_record',
       dartName: 'SportRecord',
       schema: 'public',
@@ -2399,6 +2583,15 @@ class Protocol extends _is.DatabaseSerializationManager
     if (t == _ibk2dfia.ShopOrderView) {
       return _ibk2dfia.ShopOrderView.fromJson(data) as T;
     }
+    if (t == _i75viulk.SiteSalt) {
+      return _i75viulk.SiteSalt.fromJson(data) as T;
+    }
+    if (t == _ixxcy3ri.SiteStatDaily) {
+      return _ixxcy3ri.SiteStatDaily.fromJson(data) as T;
+    }
+    if (t == _iw7dcgbe.SiteVisitorMark) {
+      return _iw7dcgbe.SiteVisitorMark.fromJson(data) as T;
+    }
     if (t == _ig710w64.StaffInvite) {
       return _ig710w64.StaffInvite.fromJson(data) as T;
     }
@@ -2578,6 +2771,17 @@ class Protocol extends _is.DatabaseSerializationManager
     }
     if (t == _is.getType<_ibk2dfia.ShopOrderView?>()) {
       return (data != null ? _ibk2dfia.ShopOrderView.fromJson(data) : null)
+          as T;
+    }
+    if (t == _is.getType<_i75viulk.SiteSalt?>()) {
+      return (data != null ? _i75viulk.SiteSalt.fromJson(data) : null) as T;
+    }
+    if (t == _is.getType<_ixxcy3ri.SiteStatDaily?>()) {
+      return (data != null ? _ixxcy3ri.SiteStatDaily.fromJson(data) : null)
+          as T;
+    }
+    if (t == _is.getType<_iw7dcgbe.SiteVisitorMark?>()) {
+      return (data != null ? _iw7dcgbe.SiteVisitorMark.fromJson(data) : null)
           as T;
     }
     if (t == _is.getType<_ig710w64.StaffInvite?>()) {
@@ -2834,6 +3038,9 @@ class Protocol extends _is.DatabaseSerializationManager
       _iebtnvku.ShopOrder => 'ShopOrder',
       _ik5inhen.ShopOrderStatus => 'ShopOrderStatus',
       _ibk2dfia.ShopOrderView => 'ShopOrderView',
+      _i75viulk.SiteSalt => 'SiteSalt',
+      _ixxcy3ri.SiteStatDaily => 'SiteStatDaily',
+      _iw7dcgbe.SiteVisitorMark => 'SiteVisitorMark',
       _ig710w64.StaffInvite => 'StaffInvite',
       _igjtjhuj.StaffInviteSummary => 'StaffInviteSummary',
       _i0yb5pr1.StaffMe => 'StaffMe',
@@ -2937,6 +3144,12 @@ class Protocol extends _is.DatabaseSerializationManager
         return 'ShopOrderStatus';
       case _ibk2dfia.ShopOrderView():
         return 'ShopOrderView';
+      case _i75viulk.SiteSalt():
+        return 'SiteSalt';
+      case _ixxcy3ri.SiteStatDaily():
+        return 'SiteStatDaily';
+      case _iw7dcgbe.SiteVisitorMark():
+        return 'SiteVisitorMark';
       case _ig710w64.StaffInvite():
         return 'StaffInvite';
       case _igjtjhuj.StaffInviteSummary():
@@ -3106,6 +3319,15 @@ class Protocol extends _is.DatabaseSerializationManager
     if (dataClassName == 'ShopOrderView') {
       return deserialize<_ibk2dfia.ShopOrderView>(data['data']);
     }
+    if (dataClassName == 'SiteSalt') {
+      return deserialize<_i75viulk.SiteSalt>(data['data']);
+    }
+    if (dataClassName == 'SiteStatDaily') {
+      return deserialize<_ixxcy3ri.SiteStatDaily>(data['data']);
+    }
+    if (dataClassName == 'SiteVisitorMark') {
+      return deserialize<_iw7dcgbe.SiteVisitorMark>(data['data']);
+    }
     if (dataClassName == 'StaffInvite') {
       return deserialize<_ig710w64.StaffInvite>(data['data']);
     }
@@ -3246,6 +3468,12 @@ class Protocol extends _is.DatabaseSerializationManager
         return _ih1qnypb.QuizAnswer.t;
       case _iebtnvku.ShopOrder:
         return _iebtnvku.ShopOrder.t;
+      case _i75viulk.SiteSalt:
+        return _i75viulk.SiteSalt.t;
+      case _ixxcy3ri.SiteStatDaily:
+        return _ixxcy3ri.SiteStatDaily.t;
+      case _iw7dcgbe.SiteVisitorMark:
+        return _iw7dcgbe.SiteVisitorMark.t;
       case _ig710w64.StaffInvite:
         return _ig710w64.StaffInvite.t;
       case _ihm1xmqc.StaffMember:

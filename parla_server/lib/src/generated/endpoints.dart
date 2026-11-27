@@ -46,6 +46,7 @@ import '../routines/routine_endpoint.dart' as _ifrtvzp2;
 import '../routines/sport_endpoint.dart' as _iv36jnzl;
 import '../shop/shop_admin_endpoint.dart' as _i4j2quvp;
 import '../shop/shop_endpoint.dart' as _ig43k7x5;
+import '../site/site_stats_admin_endpoint.dart' as _id1cv7fa;
 import '../staff/staff_admin_endpoint.dart' as _i73k1848;
 import '../staff/staff_endpoint.dart' as _ig11nxnn;
 import '../stats/activity_endpoint.dart' as _ilkw5wl2;
@@ -171,6 +172,12 @@ class Endpoints extends _is.EndpointDispatch {
         ..initialize(
           server,
           'shop',
+          null,
+        ),
+      'siteStatsAdmin': _id1cv7fa.SiteStatsAdminEndpoint()
+        ..initialize(
+          server,
+          'siteStatsAdmin',
           null,
         ),
       'staffAdmin': _i73k1848.StaffAdminEndpoint()
@@ -1811,6 +1818,33 @@ class Endpoints extends _is.EndpointDispatch {
                     session,
                     params['number'],
                   ),
+        ),
+      },
+    );
+    connectors['siteStatsAdmin'] = _is.EndpointConnector(
+      name: 'siteStatsAdmin',
+      endpoint: endpoints['siteStatsAdmin']!,
+      methodConnectors: {
+        'report': _is.MethodConnector(
+          name: 'report',
+          params: {
+            'days': _is.ParameterDescription(
+              name: 'days',
+              type: _is.getType<int>(),
+              nullable: false,
+            ),
+          },
+          call:
+              (
+                _is.Session session,
+                Map<String, dynamic> params,
+              ) async =>
+                  (endpoints['siteStatsAdmin']
+                          as _id1cv7fa.SiteStatsAdminEndpoint)
+                      .report(
+                        session,
+                        params['days'],
+                      ),
         ),
       },
     );

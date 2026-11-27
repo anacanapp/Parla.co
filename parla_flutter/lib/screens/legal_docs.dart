@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart';
+import 'package:parla_shared/parla_shared.dart';
 
 /// The privacy policy and the terms of use, shipped as Markdown in
 /// `assets/legal/<doc>.<language>.md`.
@@ -20,50 +21,23 @@ enum LegalDoc {
   terms;
 
   /// The company's details every document needs.
-  static const required = ['email', 'effectiveDate'];
-
-  static final _token = RegExp(r'\{\{(\w+)\}\}');
+  static const required = LegalTexts.required;
 
   /// Whether [markdown] may be shown to users.
-  static bool isReady(String markdown) =>
-      markdown.trim().isNotEmpty &&
-      !markdown.contains('QARALAMA') &&
-      !markdown.contains('DRAFT') &&
-      !markdown.contains('⚖️') &&
-      !markdown.contains('{{');
+  static bool isReady(String markdown) => LegalTexts.isReady(markdown);
 
-  /// Fills the company's details into [markdown]: a line naming a detail
-  /// that is empty is dropped, an unknown detail is left as it is (so the
-  /// text is not [isReady]).
-  static String fill(String markdown, Map<String, String> company) {
-    final lines = <String>[];
-    for (final line in markdown.split('\n')) {
-      final names = _token.allMatches(line).map((m) => m.group(1)!);
-      if (names.any((n) => company.containsKey(n) && company[n]!.isEmpty)) {
-        continue;
-      }
-      lines.add(
-        line.replaceAllMapped(
-          _token,
-          (m) => company[m.group(1)!] ?? m.group(0)!,
-        ),
-      );
-    }
-    return lines.join('\n');
-  }
+  /// Fills the company's details into [markdown] ([LegalTexts.fill]).
+  static String fill(String markdown, Map<String, String> company) =>
+      LegalTexts.fill(markdown, company);
 
   /// Reads an asset; replaced in tests.
   static Future<String> Function(String path) read = rootBundle.loadString;
 
   static Future<Map<String, String>?> _company() async {
     try {
-      final json = jsonDecode(await read('assets/legal/company.json'));
-      final company = {
-        for (final e in (json as Map<String, dynamic>).entries)
-          e.key: (e.value as String).trim(),
-      };
-      if (required.any((k) => (company[k] ?? '').isEmpty)) return null;
-      return company;
+      return LegalTexts.company(
+        jsonDecode(await read('assets/legal/company.json')),
+      );
     } on Object {
       return null;
     }

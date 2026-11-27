@@ -149,6 +149,39 @@ resource "aws_lb_listener_rule" "web" {
   }
 }
 
+# The public website (parla_server/lib/src/site): its pages in az (/),
+# ru (/ru) and en (/en), its files and the crawler files. Rules hold at
+# most five values, the host included, so the paths are split in three.
+locals {
+  site_paths = [
+    ["/", "/ru", "/en", "/site/*"],
+    ["/ru/*", "/en/*", "/privacy", "/terms"],
+    ["/blog", "/blog/*", "/robots.txt", "/sitemap.xml"],
+  ]
+}
+
+resource "aws_lb_listener_rule" "site" {
+  count        = length(local.site_paths)
+  listener_arn = aws_lb_listener.https.arn
+  priority     = 11 + count.index
+
+  condition {
+    host_header {
+      values = [var.domain]
+    }
+  }
+  condition {
+    path_pattern {
+      values = local.site_paths[count.index]
+    }
+  }
+
+  action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.web.arn
+  }
+}
+
 resource "aws_lb_listener_rule" "api" {
   listener_arn = aws_lb_listener.https.arn
   priority     = 20

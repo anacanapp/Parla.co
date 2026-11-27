@@ -78,6 +78,7 @@ import 'shop/shop_checkout.dart' as _ijilqnse;
 import 'shop/shop_order.dart' as _iebtnvku;
 import 'shop/shop_order_status.dart' as _ik5inhen;
 import 'shop/shop_order_view.dart' as _ibk2dfia;
+import 'site/site_stat_daily.dart' as _ixxcy3ri;
 import 'staff/staff_invite.dart' as _ig710w64;
 import 'staff/staff_invite_summary.dart' as _igjtjhuj;
 import 'staff/staff_me.dart' as _i0yb5pr1;
@@ -131,6 +132,7 @@ export 'shop/shop_checkout.dart';
 export 'shop/shop_order.dart';
 export 'shop/shop_order_status.dart';
 export 'shop/shop_order_view.dart';
+export 'site/site_stat_daily.dart';
 export 'staff/staff_invite.dart';
 export 'staff/staff_invite_summary.dart';
 export 'staff/staff_me.dart';
@@ -199,6 +201,7 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_iebtnvku.ShopOrder>,
           _isc.getType<_ik5inhen.ShopOrderStatus>,
           _isc.getType<_ibk2dfia.ShopOrderView>,
+          _isc.getType<_ixxcy3ri.SiteStatDaily>,
           _isc.getType<_ig710w64.StaffInvite>,
           _isc.getType<_igjtjhuj.StaffInviteSummary>,
           _isc.getType<_i0yb5pr1.StaffMe>,
@@ -252,6 +255,7 @@ class Protocol extends _isc.SerializationManager
           _isc.getType<_iebtnvku.ShopOrder?>,
           _isc.getType<_ik5inhen.ShopOrderStatus?>,
           _isc.getType<_ibk2dfia.ShopOrderView?>,
+          _isc.getType<_ixxcy3ri.SiteStatDaily?>,
           _isc.getType<_ig710w64.StaffInvite?>,
           _isc.getType<_igjtjhuj.StaffInviteSummary?>,
           _isc.getType<_i0yb5pr1.StaffMe?>,
@@ -334,6 +338,7 @@ class Protocol extends _isc.SerializationManager
           'ShopOrder',
           'ShopOrderStatus',
           'ShopOrderView',
+          'SiteStatDaily',
           'StaffInvite',
           'StaffInviteSummary',
           'StaffMe',
@@ -481,6 +486,9 @@ class Protocol extends _isc.SerializationManager
     }
     if (t == _ibk2dfia.ShopOrderView) {
       return _ibk2dfia.ShopOrderView.fromJson(data) as T;
+    }
+    if (t == _ixxcy3ri.SiteStatDaily) {
+      return _ixxcy3ri.SiteStatDaily.fromJson(data) as T;
     }
     if (t == _ig710w64.StaffInvite) {
       return _ig710w64.StaffInvite.fromJson(data) as T;
@@ -658,6 +666,10 @@ class Protocol extends _isc.SerializationManager
     }
     if (t == _isc.getType<_ibk2dfia.ShopOrderView?>()) {
       return (data != null ? _ibk2dfia.ShopOrderView.fromJson(data) : null)
+          as T;
+    }
+    if (t == _isc.getType<_ixxcy3ri.SiteStatDaily?>()) {
+      return (data != null ? _ixxcy3ri.SiteStatDaily.fromJson(data) : null)
           as T;
     }
     if (t == _isc.getType<_ig710w64.StaffInvite?>()) {
@@ -913,6 +925,7 @@ class Protocol extends _isc.SerializationManager
       _iebtnvku.ShopOrder => 'ShopOrder',
       _ik5inhen.ShopOrderStatus => 'ShopOrderStatus',
       _ibk2dfia.ShopOrderView => 'ShopOrderView',
+      _ixxcy3ri.SiteStatDaily => 'SiteStatDaily',
       _ig710w64.StaffInvite => 'StaffInvite',
       _igjtjhuj.StaffInviteSummary => 'StaffInviteSummary',
       _i0yb5pr1.StaffMe => 'StaffMe',
@@ -1014,6 +1027,8 @@ class Protocol extends _isc.SerializationManager
         return 'ShopOrderStatus';
       case _ibk2dfia.ShopOrderView():
         return 'ShopOrderView';
+      case _ixxcy3ri.SiteStatDaily():
+        return 'SiteStatDaily';
       case _ig710w64.StaffInvite():
         return 'StaffInvite';
       case _igjtjhuj.StaffInviteSummary():
@@ -1175,6 +1190,9 @@ class Protocol extends _isc.SerializationManager
     }
     if (dataClassName == 'ShopOrderView') {
       return deserialize<_ibk2dfia.ShopOrderView>(data['data']);
+    }
+    if (dataClassName == 'SiteStatDaily') {
+      return deserialize<_ixxcy3ri.SiteStatDaily>(data['data']);
     }
     if (dataClassName == 'StaffInvite') {
       return deserialize<_ig710w64.StaffInvite>(data['data']);

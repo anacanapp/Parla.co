@@ -1171,6 +1171,37 @@ idempotent).
 - The app shows the user's language's tags under the title; tapping one
   lists the articles with that tag.
 
+## Website (owner, 2026-11-27)
+
+- **Where:** `https://parla.anacan.az/` — the API's own address, served by
+  the Serverpod web server (`parla_server/lib/src/site/`); the load
+  balancer sends `/`, `/ru`, `/en`, `/ru/*`, `/en/*`, `/privacy`, `/terms`,
+  `/blog`, `/blog/*`, `/site/*`, `/robots.txt` and `/sitemap.xml` there
+  (`deploy/aws/prod/alb.tf`, rules `site`). No other host, no CDN.
+- **Pages:** home, blog list and articles, privacy policy and terms in az
+  (`/`), ru (`/ru`) and en (`/en`). Plain server-rendered HTML with the
+  site's own CSS, fonts and script (`parla_server/web/site/assets`); the
+  content security policy allows nothing from other sites. Article bodies
+  are Markdown without raw HTML; links only to https://, images only the
+  team's `media:<id>` uploads. Articles limited to a country are not on the
+  website (it does not know its visitors' country). The privacy policy and
+  terms are the app's own files (`parla_flutter/assets/legal`, copied into
+  the image by the Dockerfile) filled with `LegalTexts` (parla_shared).
+- **Store buttons:** shown without a link until `PARLA_APP_STORE_URL` and
+  `PARLA_GOOGLE_PLAY_URL` are set on the server (https store links only).
+- **Statistics (owner: detailed, with daily unique visitors):** no cookie,
+  no stored IP address, no identifier, no third party. `site_stat_daily`
+  keeps daily totals per metric: page views, language, referring site
+  (host only), utm campaign, device, browser and OS family, button clicks
+  and reading depth (a small script posts `kind|key|path` to `/site/e`;
+  unknown keys are ignored). A visitor is counted once a day with an HMAC
+  of address and browser under that day's random salt (`site_salt`,
+  `site_visitor_mark`); the daily retention run deletes earlier days' marks
+  and salts, and totals after 24 months. Robots are not counted. Admins see
+  the totals in Dashboard → Sayt. The privacy page starts with a notice
+  about this; the lawyer still has to confirm it
+  (docs/legal/lawyer-questions.md).
+
 ## Not done yet (tracked, not forgotten)
 
 | Item | Checklist | Planned |

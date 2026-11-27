@@ -11,6 +11,7 @@ export 'src/content_rules.dart';
 export 'src/cosing_data.dart';
 export 'src/custom_routine_rules.dart';
 export 'src/ingredients.dart';
+export 'src/legal_texts.dart';
 export 'src/markets.dart';
 export 'src/media_rules.dart';
 export 'src/nutrition_rules.dart';

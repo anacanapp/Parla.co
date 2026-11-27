@@ -1,0 +1,21 @@
+### Website totals: how often [metric] with [target] happened on [day]
+### (UTC). Only counts: no row names a visitor, and no cookie, IP address
+### or identifier is kept (owner, 2026-11-27). Kept for
+### UsageRules.keepMonths.
+class: SiteStatDaily
+table: site_stat_daily
+fields:
+  day: String
+  ### SiteMetric name: view, visitors, language, referrer, campaign,
+  ### device, browser, os, click, depth.
+  metric: String
+  ### The page, language, referring site, campaign, device, browser,
+  ### system, button or "page|percent" (see SiteStats).
+  target: String
+  times: int
+indexes:
+  site_stat_daily_key_idx:
+    fields: day, metric, target
+    unique: true
+  site_stat_daily_day_idx:
+    fields: day
