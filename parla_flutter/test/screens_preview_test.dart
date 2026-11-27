@@ -281,7 +281,18 @@ final _content = <String, List<PublishedItem>>{
       publishedAt: DateTime.utc(2026, 11, 10),
       reviewedAt: DateTime.utc(2026, 11, 9),
       data: {
-        'title': _l('Qışda quru dəri: 5 sadə vərdiş'),
+        // In every interface language: the store screenshots show it.
+        'title': {
+          'az': 'Qışda quru dəri: 5 sadə vərdiş',
+          'tr': 'Kışın kuru cilt: 5 basit alışkanlık',
+          'ru': 'Сухая кожа зимой: 5 простых привычек',
+          'en': 'Dry skin in winter: 5 simple habits',
+          'kk': 'Қыста құрғақ тері: 5 қарапайым әдет',
+          'uz': 'Qishda quruq teri: 5 ta oddiy odat',
+          'tk': 'Gyşda gury deri: 5 sany ýönekeý endik',
+          'ky': 'Кышында кургак тери: 5 жөнөкөй адат',
+          'ka': 'მშრალი კანი ზამთარში: 5 მარტივი ჩვევა',
+        },
         'summary': _l('Soyuq havada dəri niyə quruyur və nə kömək edir'),
         'body': _l(
           'Soyuq hava və isti otaqlar dərinin nəmini azaldır.\n\n## Vərdişlər\n\nIlıq su ilə yuyun və nəmləndiricini nəm dəriyə çəkin.',
