@@ -1,11 +1,16 @@
 import 'package:markdown/markdown.dart' as md;
 
-import 'site_texts.dart';
+import 'package:parla_shared/parla_shared.dart';
 
 /// The public website's pages, rendered on the server as plain HTML (no
 /// framework, no third-party resources, no cookies). Everything a page
 /// shows is escaped here; article bodies are Markdown without raw HTML.
-abstract final class SiteHtml {
+class SiteHtml {
+  /// Pages with [texts] (the published site texts over the built-in ones).
+  const SiteHtml([this.texts = const SiteTexts()]);
+
+  final SiteTexts texts;
+
   /// The site's canonical origin (links in the sitemap and meta tags).
   static const origin = 'https://parla.anacan.az';
 
@@ -23,10 +28,10 @@ abstract final class SiteHtml {
       .replaceAll('"', '&quot;')
       .replaceAll("'", '&#39;');
 
-  static String _t(String key, String l) => esc(siteText(key, l));
+  String _t(String key, String l) => esc(texts.of(key, l));
 
   /// The whole page around [main].
-  static String page({
+  String page({
     required String language,
     required String path,
     required String title,
@@ -73,7 +78,7 @@ ${_footer(language, path)}
 ''';
   }
 
-  static String _nav(String l, String path) {
+  String _nav(String l, String path) {
     final langs = [
       for (final o in siteLanguages)
         o == l
@@ -92,7 +97,7 @@ ${_footer(language, path)}
 </header>''';
   }
 
-  static String _footer(String l, String path) =>
+  String _footer(String l, String path) =>
       '''<footer class="wrap foot">
 <div><b>Parla</b> — "ANACAN" Məhdud Məsuliyyətli Cəmiyyəti<br>${_t('taxId', l)} 1407578211 · Şamil Əzizbəyov 150, Bakı, Azərbaycan<br>${_t('dpo', l)}: Türkan Sultanlı · <a href="mailto:info@anacan.az">info@anacan.az</a></div>
 <div><b>${_t('docs', l)}</b><br><a href="${pathIn(l, '/privacy')}" data-track="legal-privacy">${_t('privacyPolicy', l)}</a><br><a href="${pathIn(l, '/terms')}" data-track="legal-terms">${_t('terms', l)}</a></div>
@@ -103,7 +108,7 @@ ${_footer(language, path)}
 
   /// The App Store and Google Play buttons; a button without its store
   /// link is shown but not a link yet (owner: no "coming soon" text).
-  static String stores(String l, {String? appStore, String? googlePlay}) {
+  String stores(String l, {String? appStore, String? googlePlay}) {
     String button(String label, String track, String? url, String mark) {
       final inner =
           '<span class="mark" aria-hidden="true">$mark</span><span><small>${_t('storeGet', l)}</small>$label</span>';
@@ -119,7 +124,7 @@ ${_footer(language, path)}
   }
 
   /// The home page.
-  static String home(
+  String home(
     String l,
     List<SiteArticle> latest, {
     String? appStore,
@@ -138,7 +143,7 @@ ${_footer(language, path)}
         '''<section class="wrap hero">
 <div>
 <span class="pill">${_t('heroPill', l)}</span>
-<h1>${_t('heroBefore', l)}<em>${_t('heroAccent', l)}</em>${_t('heroAfter', l)}</h1>
+<h1>${accent(_t('heroTitle', l))}</h1>
 <p class="lead">${_t('description', l)}</p>
 ${stores(l, appStore: appStore, googlePlay: googlePlay)}
 <p class="soon">${_t('languagesNote', l)}</p>
@@ -176,14 +181,14 @@ ${latest.map((a) => card(l, a)).join('\n')}
     return page(
       language: l,
       path: '/',
-      title: siteText('title', l),
-      description: siteText('description', l),
+      title: texts.of('title', l),
+      description: texts.of('description', l),
       main: main,
     );
   }
 
   /// An article's card in a list.
-  static String card(String l, SiteArticle a) {
+  String card(String l, SiteArticle a) {
     final cover = a.imageUrl == null
         ? '<div class="img g${a.slug.length % 3}"></div>'
         : '<img class="img" src="${esc(a.imageUrl!)}" alt="${esc(a.imageAlt ?? '')}" loading="lazy">';
@@ -191,18 +196,18 @@ ${latest.map((a) => card(l, a)).join('\n')}
   }
 
   /// The category's name.
-  static String category(String id, String l) {
+  String category(String id, String l) {
     final key =
         'cat${id.isEmpty ? '' : id[0].toUpperCase()}${id.length > 1 ? id.substring(1) : ''}';
-    final name = siteText(key, l);
+    final name = texts.of(key, l);
     return name == key ? id : name;
   }
 
-  static String minutes(int? n, String l) =>
-      n == null ? '' : siteText('minutes', l).replaceAll('{n}', '$n');
+  String minutes(int? n, String l) =>
+      n == null ? '' : texts.of('minutes', l).replaceAll('{n}', '$n');
 
   /// The blog's list.
-  static String blog(String l, List<SiteArticle> articles) {
+  String blog(String l, List<SiteArticle> articles) {
     final list = articles.isEmpty
         ? '<p class="lead">${_t('blogEmpty', l)}</p>'
         : '<div class="blog">\n${articles.map((a) => card(l, a)).join('\n')}\n</div>';
@@ -216,14 +221,14 @@ $list
     return page(
       language: l,
       path: '/blog',
-      title: '${siteText('blogPageTitle', l)} — Parla',
-      description: siteText('blogPageLead', l),
+      title: '${texts.of('blogPageTitle', l)} — Parla',
+      description: texts.of('blogPageLead', l),
       main: main,
     );
   }
 
   /// One article.
-  static String article(
+  String article(
     String l,
     SiteArticle a, {
     String? appStore,
@@ -262,7 +267,7 @@ $sources
   /// The privacy policy or the terms ([html] is the filled document, or
   /// `null` when none is ready). The privacy page starts with the
   /// website's own notice.
-  static String legal(String l, String doc, String? html) {
+  String legal(String l, String doc, String? html) {
     final privacy = doc == 'privacy';
     final notice = privacy
         ? '<section class="notice"><h2>${_t('siteNoticeTitle', l)}</h2><p>${_t('siteNotice', l)}</p></section>'
@@ -275,18 +280,18 @@ ${html ?? '<h1 class="h1s">${_t(privacy ? 'privacyPolicy' : 'terms', l)}</h1><p 
     return page(
       language: l,
       path: '/$doc',
-      title: '${siteText(privacy ? 'privacyPolicy' : 'terms', l)} — Parla',
-      description: siteText(privacy ? 'privacyPolicy' : 'terms', l),
+      title: '${texts.of(privacy ? 'privacyPolicy' : 'terms', l)} — Parla',
+      description: texts.of(privacy ? 'privacyPolicy' : 'terms', l),
       main: main,
     );
   }
 
   /// The not-found page.
-  static String notFound(String l) => page(
+  String notFound(String l) => page(
     language: l,
     path: '/',
-    title: '${siteText('notFound', l)} — Parla',
-    description: siteText('notFound', l),
+    title: '${texts.of('notFound', l)} — Parla',
+    description: texts.of('notFound', l),
     index: false,
     main:
         '<section class="wrap sec top"><h1 class="h1s">404</h1><p class="lead">${_t('notFound', l)}</p><p><a href="${pathIn(l, '/')}">${_t('home', l)}</a></p></section>',
@@ -385,3 +390,38 @@ class SiteArticle {
   final Map<int, (String, String)> inlineImages;
   final DateTime? publishedAt;
 }
+
+/// The site's texts: the team's published ones (admin panel, kind
+/// `site`) over the built-in ones ([siteText]).
+class SiteTexts {
+  const SiteTexts([this.published = const {}]);
+
+  /// From the published `site` items' (slug, json) pairs.
+  factory SiteTexts.from(Iterable<(String, Map<String, Object?>)> items) {
+    final out = <String, Map<String, String>>{};
+    for (final (key, json) in items) {
+      final text = json['text'];
+      if (!siteTextKeys.contains(key) || text is! Map) continue;
+      out[key] = {
+        for (final e in text.entries)
+          if (e.key is String &&
+              e.value is String &&
+              (e.value as String).trim().isNotEmpty)
+            e.key as String: (e.value as String).trim(),
+      };
+    }
+    return SiteTexts(out);
+  }
+
+  final Map<String, Map<String, String>> published;
+
+  /// Text [key] in [language]: the published one, else the built-in one.
+  String of(String key, String language) =>
+      published[key]?[language] ?? siteText(key, language);
+}
+
+/// [escaped] with `*word*` set in italics (the home title's accent).
+String accent(String escaped) => escaped.replaceAllMapped(
+  RegExp(r'\*([^*]{1,60})\*'),
+  (m) => '<em>${m.group(1)}</em>',
+);

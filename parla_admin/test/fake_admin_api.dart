@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:parla_admin/api/admin_api.dart';
+import 'package:parla_shared/parla_shared.dart';
 
 /// In-memory server for the panel tests.
 class FakeAdminApi implements AdminApi {
@@ -408,7 +409,8 @@ class FakeAdminApi implements AdminApi {
     String slug,
     String category,
   ) async {
-    if (!RegExp(r'^[a-z0-9-]+$').hasMatch(slug)) {
+    // As the server: a known id for catalogue kinds, else a slug.
+    if (!ContentRules.isValidSlug(ContentKind.values.byName(kind), slug)) {
       throw const AdminError('content.invalid');
     }
     return _put(

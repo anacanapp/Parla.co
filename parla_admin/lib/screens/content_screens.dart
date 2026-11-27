@@ -603,12 +603,16 @@ class _ContentRow extends StatelessWidget {
 }
 
 String _defaultTitle(ContentKind kind, String id) {
+  if (kind == ContentKind.site) return siteTextLabels[id] ?? id;
   final d = ContentRules.catalogueDefaults(kind, id);
   final v = ContentRules.pick(d['title'] ?? d['name'], 'az');
   return v.isEmpty ? id : v;
 }
 
 String _title(ContentAdminItem item) {
+  if (item.kind == ContentKind.site.name) {
+    return siteTextLabels[item.slug] ?? item.slug;
+  }
   final json = jsonDecode(item.draftJson) as Map<String, Object?>;
   final title = json['title'] ?? json['name'];
   final value = ContentRules.pick(title, 'az');
@@ -828,6 +832,7 @@ const _fields = <String, List<_Field>>{
     _Field('how', 'Necə edilir', _FieldType.multiline),
     _Field('caution', 'Ehtiyat (nə vaxt etməməli)', _FieldType.multiline),
   ],
+  'site': [_Field('text', 'Mətn', _FieldType.multiline)],
   'step': [
     _Field('title', 'Ad', _FieldType.line),
     _Field('how', 'Necə edilir', _FieldType.multiline),
@@ -962,6 +967,10 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
   final Map<String, TextEditingController> _plain = {};
   final Map<String, Map<String, TextEditingController>> _localized = {};
 
+  /// The languages edited: the website's texts are az, ru and en only.
+  List<String> get _langs =>
+      _kind == ContentKind.site ? ContentRules.languages : _editorLanguages;
+
   AdminApi get _api => widget.state.api;
   List<_Field> get _defs => _fields[widget.kind]!;
   ContentKind get _kind => ContentKind.values.byName(widget.kind);
@@ -978,7 +987,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
       }
       if (f.localized) {
         _localized[f.key] = {
-          for (final l in _editorLanguages) l: TextEditingController(),
+          for (final l in _langs) l: TextEditingController(),
         };
       } else {
         _plain[f.key] = TextEditingController();
@@ -1074,7 +1083,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           final v = json[f.key];
           _plain[f.key]!.text = v == null ? '' : '$v';
         case _FieldType.lines:
-          for (final l in _editorLanguages) {
+          for (final l in _langs) {
             _localized[f.key]![l]!.text = switch (f.key) {
               'ingredientNames' => lines(json['ingredients'], l, 'name'),
               'ingredientAmounts' => lines(json['ingredients'], l, 'amount'),
@@ -1083,7 +1092,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           }
         case _FieldType.tags:
           final v = json[f.key];
-          for (final l in _editorLanguages) {
+          for (final l in _langs) {
             final list = v is Map ? (v[l] as List? ?? const []) : const [];
             _localized[f.key]![l]!.text = [
               for (final t in list) '#$t',
@@ -1091,7 +1100,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           }
         case _FieldType.line || _FieldType.multiline || _FieldType.markdown:
           final v = json[f.key];
-          for (final l in _editorLanguages) {
+          for (final l in _langs) {
             _localized[f.key]![l]!.text = v is Map
                 ? (v[l] as String? ?? '')
                 : '';
@@ -1109,7 +1118,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
     final out = <String, Object?>{};
     Map<String, String>? loc(String key) {
       final m = {
-        for (final l in _editorLanguages)
+        for (final l in _langs)
           if (_localized[key]![l]!.text.trim().isNotEmpty)
             l: _localized[key]![l]!.text.trim(),
       };
@@ -1122,13 +1131,13 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
     ];
 
     List<Map<String, String>> zip(String key) {
-      final count = _editorLanguages
+      final count = _langs
           .map((l) => split(key, l).length)
           .fold(0, (a, b) => a > b ? a : b);
       return [
         for (var i = 0; i < count; i++)
           {
-            for (final l in _editorLanguages)
+            for (final l in _langs)
               if (i < split(key, l).length) l: split(key, l)[i],
           },
       ];
@@ -1194,7 +1203,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           if (items.isNotEmpty) out[f.key] = items;
         case _FieldType.tags:
           final byLang = <String, List<String>>{};
-          for (final l in _editorLanguages) {
+          for (final l in _langs) {
             final tags = <String>[];
             for (final raw in _localized[f.key]![l]!.text.split(
               RegExp(r'[\s,]+'),
@@ -1207,7 +1216,7 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
           if (byLang.isNotEmpty) out[f.key] = byLang;
         case _FieldType.markdown:
           final v = {
-            for (final l in _editorLanguages)
+            for (final l in _langs)
               if (_localized[f.key]![l]!.text.trim().isNotEmpty)
                 l: cleanMarkdown(_localized[f.key]![l]!.text),
           };
@@ -1542,9 +1551,20 @@ class _ContentEditorScreenState extends State<ContentEditorScreen> {
       'ky': 'Кыргызча',
       'ka': 'ქართული',
     };
-    final languages = _editorLanguages;
+    final languages = _langs;
 
     final notices = <Widget>[
+      if (_kind == ContentKind.site)
+        const Notice(
+          key: ValueKey('site-text-note'),
+          icon: Icons.public,
+          title: 'parla.anacan.az saytının mətni',
+          body:
+              'Dərc etdiyiniz mətn saytda dərhal görünür. Sağlamlıq vədi və '
+              '"zərərli" sözü olmasın; məxfilik iddiaları tətbiqdə həqiqətən '
+              'olanla eyni qalmalıdır. "Bu sayt haqqında" mətnini hüquqşünas '
+              'yoxlayır. *söz* yazsanız, başlıqda kursivlə çıxır.',
+        ),
       if (translatedLanguages.contains(_lang))
         const Notice(
           key: ValueKey('translation-note'),

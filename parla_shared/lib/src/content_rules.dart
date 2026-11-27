@@ -17,6 +17,7 @@ import 'texts/exercise_draft_texts.dart';
 import 'texts/exercise_sheet_texts.dart';
 import 'texts/preference_texts.dart';
 import 'texts/routine_step_texts.dart';
+import 'texts/site_texts.dart';
 
 enum ContentKind {
   article,
@@ -49,10 +50,14 @@ enum ContentKind {
   /// A photo for the workout cards of one workout type (owner,
   /// 2026-11-25). Only an image; the type is the category. The app shows
   /// the published ones instead of the photos it ships with.
-  sportPhoto;
+  sportPhoto,
+
+  /// The website's own texts (owner, 2026-11-27): one item per text of
+  /// [siteTextKeys], with the built-in text as the panel's starting point.
+  site;
 
   bool get isCatalogue =>
-      this == preference || this == exercise || this == step;
+      this == preference || this == exercise || this == step || this == site;
 }
 
 abstract final class ContentRules {
@@ -290,6 +295,9 @@ abstract final class ContentRules {
   ) =>
       kind == ContentKind.message ||
       kind == ContentKind.push ||
+      // The website's texts: no health claims; the admin who edits them
+      // publishes them (owner, 2026-11-27).
+      kind == ContentKind.site ||
       // A photo without text: the admin who uploads it publishes it.
       kind == ContentKind.sportPhoto ||
       (kind == ContentKind.banner && !isSponsored(json));
@@ -337,6 +345,7 @@ abstract final class ContentRules {
     ContentKind.preference => [for (final p in productPreferences) p.id],
     ContentKind.exercise => [for (final e in exerciseCatalogue) e.id],
     ContentKind.step => [for (final s in routineStepCatalogue) s.id],
+    ContentKind.site => siteTextKeys,
     _ => const [],
   };
 
@@ -386,6 +395,9 @@ abstract final class ContentRules {
           'how': ?three(t[1]),
           if (tip != null && tip.isNotEmpty) 'tip': tip,
         };
+      case ContentKind.site:
+        final t = siteTextDefaults[id];
+        return t == null ? {} : {'text': Map.of(t)};
       default:
         return {};
     }
@@ -398,7 +410,8 @@ abstract final class ContentRules {
     ContentKind.expert => expertSpecialties,
     ContentKind.preference ||
     ContentKind.exercise ||
-    ContentKind.step => const [catalogueCategory],
+    ContentKind.step ||
+    ContentKind.site => const [catalogueCategory],
     ContentKind.banner => bannerPlacements,
     ContentKind.message => const ['announcement'],
     ContentKind.push => const ['marketing'],
@@ -611,6 +624,9 @@ abstract final class ContentRules {
         text('name', 80);
         text('how', 600);
         text('caution', 400, required: false);
+      case ContentKind.site:
+        only({'text'});
+        text('text', 1500);
       case ContentKind.step:
         only({'title', 'how', 'tip'});
         text('title', 80);

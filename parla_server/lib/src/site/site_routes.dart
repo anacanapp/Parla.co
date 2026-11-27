@@ -9,7 +9,6 @@ import '../content/content_endpoint.dart';
 import '../generated/protocol.dart';
 import 'site_html.dart';
 import 'site_stats.dart';
-import 'site_texts.dart';
 
 /// The public website at the API's address (owner, 2026-11-27): the home
 /// page, the blog, the privacy policy and the terms, in az (`/`), ru
@@ -136,7 +135,8 @@ class SitePageRoute extends Route {
   /// ([SiteStats.recordView]) unless the visitor is a robot.
   Future<(int, String)> serve(Session session, SiteVisit visit) async {
     final (language, page) = split(visit.path);
-    final (status, html, key) = await _render(session, language, page);
+    final h = SiteHtml(await siteTexts(session));
+    final (status, html, key) = await _render(session, h, language, page);
     if (visit.counted && status == 200 && !SiteStats.isBot(visit.userAgent)) {
       try {
         await SiteStats.recordView(
@@ -161,6 +161,7 @@ class SitePageRoute extends Route {
 
   Future<(int, String, String)> _render(
     Session session,
+    SiteHtml h,
     String l,
     String page,
   ) async {
@@ -169,7 +170,7 @@ class SitePageRoute extends Route {
       final articles = await siteArticles(session, l);
       return (
         200,
-        SiteHtml.home(
+        h.home(
           l,
           articles.take(3).toList(),
           appStore: stores.$1,
@@ -179,7 +180,7 @@ class SitePageRoute extends Route {
       );
     }
     if (page == '/blog') {
-      return (200, SiteHtml.blog(l, await siteArticles(session, l)), page);
+      return (200, h.blog(l, await siteArticles(session, l)), page);
     }
     if (page.startsWith('/blog/')) {
       final slug = page.substring('/blog/'.length);
@@ -188,7 +189,7 @@ class SitePageRoute extends Route {
         if (a.slug == slug) {
           return (
             200,
-            SiteHtml.article(
+            h.article(
               l,
               a,
               appStore: stores.$1,
@@ -198,17 +199,17 @@ class SitePageRoute extends Route {
           );
         }
       }
-      return (404, SiteHtml.notFound(l), '404');
+      return (404, h.notFound(l), '404');
     }
     if (page == '/privacy' || page == '/terms') {
       final doc = page.substring(1);
       return (
         200,
-        SiteHtml.legal(l, doc, legalHtml(config.legal, doc, l)),
+        h.legal(l, doc, legalHtml(config.legal, doc, l)),
         page,
       );
     }
-    return (404, SiteHtml.notFound(l), '404');
+    return (404, h.notFound(l), '404');
   }
 }
 
@@ -233,6 +234,17 @@ class SiteVisit {
   final String? forwardedFor;
   final String? remote;
   final String? referer;
+}
+
+/// The team's published website texts (admin panel, kind `site`) over
+/// the built-in ones.
+Future<SiteTexts> siteTexts(Session session) async {
+  final items = await ContentEndpoint().published(session, 'site');
+  return SiteTexts.from([
+    for (final i in items)
+      if (!i.hidden)
+        (i.slug, (jsonDecode(i.json) as Map).cast<String, Object?>()),
+  ]);
 }
 
 /// The published articles in [language] that the website may show:

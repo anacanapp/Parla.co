@@ -1187,6 +1187,14 @@ idempotent).
   website (it does not know its visitors' country). The privacy policy and
   terms are the app's own files (`parla_flutter/assets/legal`, copied into
   the image by the Dockerfile) filled with `LegalTexts` (parla_shared).
+- **Editable texts (owner, 2026-11-27):** the home page, blog and privacy
+  notice texts are a catalogue kind, `site` (admin panel → Məzmun → Sayt
+  mətnləri), one item per key of `siteTextKeys` (parla_shared
+  `texts/site_texts.dart`), starting from the built-in text, in az, ru and
+  en. Admins publish them directly (no health claims); a published text
+  replaces the built-in one at once, a hidden or empty one falls back to
+  it. `*word*` in the home title is set in italics. Labels, units and
+  legal documents stay in code and in `assets/legal`.
 - **Store buttons:** shown without a link until `PARLA_APP_STORE_URL` and
   `PARLA_GOOGLE_PLAY_URL` are set on the server (https store links only).
 - **Statistics (owner: detailed, with daily unique visitors):** no cookie,

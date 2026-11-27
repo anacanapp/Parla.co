@@ -91,6 +91,43 @@ void main() {
       expect(ru, contains('href="/ru/blog/winter-skin"'));
     });
 
+    test(
+      'the team\'s published site texts replace the built-in ones',
+      () async {
+        final (_, before) = await get('/');
+        expect(before, contains('Sənin <em>gözəllik</em> və qulluq bələdçin'));
+        final db = sessionBuilder.build();
+        final now = DateTime.now().toUtc();
+        final data = jsonEncode({
+          'text': {
+            'az': 'Yeni *başlıq* <b>',
+            'ru': 'Новый *заголовок*',
+            'en': 'New *title*',
+          },
+        });
+        await ContentItem.db.insertRow(
+          db,
+          ContentItem(
+            kind: 'site',
+            slug: 'heroTitle',
+            category: 'catalogue',
+            status: ContentStatus.published,
+            draftJson: data,
+            publishedJson: data,
+            publishedAt: now,
+            createdBy: _team,
+            updatedBy: _team,
+            createdAt: now,
+            updatedAt: now,
+          ),
+        );
+        final (_, after) = await get('/');
+        expect(after, contains('<h1>Yeni <em>başlıq</em> &lt;b&gt;</h1>'));
+        final (_, ru) = await get('/ru');
+        expect(ru, contains('<h1>Новый <em>заголовок</em></h1>'));
+      },
+    );
+
     test('an article is rendered safely', () async {
       final (status, html) = await get('/blog/winter-skin');
       expect(status, 200);

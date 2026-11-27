@@ -103,6 +103,7 @@ String kindLabel(String kind) => switch (kind) {
   'push' => 'Push',
   'product' => 'Məhsullar',
   'sportPhoto' => 'İdman şəkilləri',
+  'site' => 'Sayt mətnləri',
   _ => 'Mütəxəssislər',
 };
 
