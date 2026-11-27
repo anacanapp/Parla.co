@@ -255,7 +255,9 @@ class _QuizScreenState extends State<QuizScreen> {
             padding: const EdgeInsets.all(16),
             child: Text(
               currentConsentText(ConsentKind.health).bodyFor(
-                    currentConsentText(ConsentKind.health).languageFor(_language),
+                    currentConsentText(
+                      ConsentKind.health,
+                    ).languageFor(_language),
                   ) ??
                   '',
               style: Theme.of(context).textTheme.bodyMedium,

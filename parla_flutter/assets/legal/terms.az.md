@@ -24,7 +24,7 @@ hissəsi deyil; onlar ayrıca verilir və istənilən vaxt geri götürülə bil
 
 ## 2. Kim istifadə edə bilər
 
-2.1. Parla yalnız **18 yaşdan yuxarı** şəxslər üçündür. Qeydiyyatda doğum
+2.1. Parla yalnız **18 yaş və yuxarı** şəxslər üçündür. Qeydiyyatda doğum
 ilinizi düzgün göstərməlisiniz. Yaş həm tətbiqdə, həm də serverdə yoxlanılır;
 18 yaşdan kiçik şəxs üçün hesab yaradılmır.
 

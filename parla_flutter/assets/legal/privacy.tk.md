@@ -25,7 +25,7 @@ alýarys.
 
 ## 2. Gysgaça
 
-- Parla 18 ýaşdan uly aýallar üçin gözellik we ideg boýunça gollanmadyr.
+- Parla 18 we ondan uly ýaşly aýallar üçin gözellik we ideg boýunça gollanmadyr.
   Ol lukmançylyk maslahatyny bermeýär, diagnoz goýmaýar, bejermeýär we
   lukmanyň ornuny tutmaýar.
 - Biz diňe zerur zady saklaýarys: giriş üçin e-poçta, doglan ýyl, ýurt we dil.
@@ -543,7 +543,7 @@ Hasabyňyzy e-poçta arkaly ýüz tutup hem pozdurup bilersiňiz. Administrator
 
 ## 19. Ýaş çäklendirmesi
 
-Parla diňe 18 ýaşdan uly adamlar üçindir. Ýaş programmada hem, serwerde hem
+Parla diňe 18 we ondan uly ýaşly adamlar üçindir. Ýaş programmada hem, serwerde hem
 barlanýar. 18 ýaşdan kiçi adam üçin hasap döredilmeýär we onuň girizen hiç
 zady saklanmaýar. 18 ýaşdan kiçi adamyň maglumatlarynyň bize gelendigini
 bilseňiz, {{email}} salgysyna ýazyň.

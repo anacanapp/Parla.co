@@ -22,7 +22,7 @@ Reqlamentini (GDPR) yüksək standart kimi rəhbər tuturuq.
 
 ## 2. Qısaca
 
-- Parla 18 yaşdan yuxarı qadınlar üçün gözəllik və qulluq bələdçisidir.
+- Parla 18 yaş və yuxarı qadınlar üçün gözəllik və qulluq bələdçisidir.
   Tibbi məsləhət vermir, diaqnoz qoymur, müalicə etmir və həkimi əvəz etmir.
 - Biz yalnız lazım olanı saxlayırıq: giriş üçün e-poçt, doğum ili, ölkə və dil.
 - Sağlamlıqla bağlı cavablar serverdə yalnız ayrıca, açıq sağlamlıq
@@ -532,7 +532,7 @@ prosesini işə salır.
 
 ## 19. Yaş məhdudiyyəti
 
-Parla yalnız 18 yaşdan yuxarı şəxslər üçündür. Yaş həm tətbiqdə, həm də
+Parla yalnız 18 yaş və yuxarı şəxslər üçündür. Yaş həm tətbiqdə, həm də
 serverdə yoxlanılır. 18 yaşdan kiçik şəxs üçün hesab yaradılmır və onun daxil
 etdiyi heç nə saxlanılmır. 18 yaşdan kiçik şəxsin məlumatlarının bizə
 çatdığını bilsəniz, {{email}} ünvanına yazın.

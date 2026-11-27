@@ -27,7 +27,7 @@ islendik wagt yzyna alnyp bilner.
 
 ## 2. Kim ulanyp biler
 
-2.1. Parla diňe **18 ýaşdan uly** adamlar üçindir. Hasaba alnanyňyzda doglan
+2.1. Parla diňe **18 we ondan uly ýaşly** adamlar üçindir. Hasaba alnanyňyzda doglan
 ýylyňyzy dogry görkezmeli. Ýaş programmada hem, serwerde hem barlanýar;
 18 ýaşdan kiçi adam üçin hasap döredilmeýär.
 
