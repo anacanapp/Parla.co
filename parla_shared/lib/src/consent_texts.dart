@@ -12,6 +12,8 @@ import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
 
+import 'markets.dart';
+
 /// The three separate consents (checklist CON-1). Names must match the
 /// server's `ConsentType` enum.
 enum ConsentKind { health, analytics, marketing }
@@ -32,6 +34,13 @@ class ConsentText {
 
   /// The text in [language], or `null` if that language is missing.
   String? bodyFor(String language) => bodies[language];
+
+  /// The language this text is shown in for someone using the interface
+  /// [language]: the language itself when the text has it (every
+  /// interface language from health-2026-11-draft6 on), else the closest
+  /// one ([contentLanguageFor]). The app shows and records this language.
+  String languageFor(String language) =>
+      bodies.containsKey(language) ? language : contentLanguageFor(language);
 
   /// SHA-256 of the text in [language], or `null` if that language is missing.
   String? hashFor(String language) {
@@ -277,6 +286,7 @@ const healthVersionsCoveringOwnRoutines = {
   'health-2026-11-draft3',
   'health-2026-11-draft4',
   'health-2026-11-draft5',
+  'health-2026-11-draft6',
 };
 
 /// Health consent versions that cover product preferences, checked
@@ -285,16 +295,21 @@ const healthVersionsCoveringCareList = {
   'health-2026-11-draft3',
   'health-2026-11-draft4',
   'health-2026-11-draft5',
+  'health-2026-11-draft6',
 };
 
 /// Health consent versions that cover the sport answers and workout log.
 const healthVersionsCoveringSport = {
   'health-2026-11-draft4',
   'health-2026-11-draft5',
+  'health-2026-11-draft6',
 };
 
 /// Health consent versions that cover the daily plate.
-const healthVersionsCoveringNutrition = {'health-2026-11-draft5'};
+const healthVersionsCoveringNutrition = {
+  'health-2026-11-draft5',
+  'health-2026-11-draft6',
+};
 
 /// The version currently shown for [kind].
 ConsentText currentConsentText(ConsentKind kind) =>

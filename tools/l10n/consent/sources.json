@@ -1,0 +1,17 @@
+{
+  "health": {
+    "az": "Dəri vəziyyətləri, allergiyalar, hamiləlik və qəbul etdiyim dərman kateqoriyaları haqqında cavablarımın, özüm yaratdığım rutinlərin və onların gündəlik qeydlərinin, məhsul seçimlərimin, yoxladığım məhsulların və alış siyahımın, idman sorğusuna cavablarımın (hamiləlik, zədələr, məqsədlər) və etdiyim məşqlərin, həmçinin gündəlik boşqab qeydlərimin yalnız mənə fərdi və təhlükəsiz qulluq, idman və qidalanma planı qurmaq və saxlamaq üçün emal olunmasına açıq razılıq verirəm. Bu məlumatlar şifrələnmiş saxlanılır, üçüncü tərəflərə verilmir və analitikada istifadə olunmur. Razılığı istənilən vaxt Parametrlər → Məxfilik bölməsində geri götürə bilərəm; bu halda həmin məlumatlar 24 saat ərzində serverdən silinir.",
+    "ru": "Я даю явное согласие на обработку моих ответов о состоянии кожи, аллергиях, беременности и категориях принимаемых лекарств, созданных мной рутин и отметок об их выполнении, моих предпочтений по продуктам, проверенных мной продуктов и списка покупок, моих ответов в спортивной анкете (беременность, травмы, цели) и выполненных тренировок, а также моих ежедневных записей о тарелке исключительно для составления и хранения персонального и безопасного плана ухода, тренировок и питания. Эти данные хранятся в зашифрованном виде, не передаются третьим лицам и не используются в аналитике. Я могу отозвать согласие в любой момент в разделе Настройки → Конфиденциальность; в этом случае данные удаляются с сервера в течение 24 часов.",
+    "en": "I give explicit consent to the processing of my answers about skin conditions, allergies, pregnancy and the categories of medicines I take, of the routines I create and their daily ticks, of my product preferences, the products I check and my shopping list, of my answers to the fitness questions (pregnancy, injuries, goals) and the workouts I do, and of my daily plate entries, solely to build and keep a personal and safe care, workout and nutrition plan. This data is stored encrypted, is not shared with third parties and is not used for analytics. I can withdraw consent at any time in Settings → Privacy; the data is then deleted from the server within 24 hours."
+  },
+  "analytics": {
+    "az": "Tətbiqin necə istifadə olunduğunu anlamaq üçün şəxsiyyətimi birbaşa göstərməyən identifikatorla istifadə statistikasının (açılan ekranlar, istifadə olunan funksiyalar) toplanmasına razıyam. Sağlamlıq cavablarım analitikaya heç vaxt göndərilmir.",
+    "ru": "Я даю согласие на сбор статистики использования (открытые экраны, используемые функции) с идентификатором, который не раскрывает мою личность напрямую, чтобы понять, как используется приложение. Мои ответы о здоровье никогда не передаются в аналитику.",
+    "en": "I agree to the collection of usage statistics (screens opened, features used) under an identifier that does not directly reveal who I am, to understand how the app is used. My health answers are never sent to analytics."
+  },
+  "marketing": {
+    "az": "Parla yenilikləri və məsləhətləri haqqında e-poçt almağa razıyam. İstənilən məktubdakı linklə abunəlikdən çıxa bilərəm.",
+    "ru": "Я даю согласие получать по электронной почте новости и советы Parla. Я могу отписаться по ссылке в любом письме.",
+    "en": "I agree to receive emails with Parla news and tips. I can unsubscribe via the link in any email."
+  }
+}

@@ -48,7 +48,7 @@ enum LegalDoc {
   Future<String?> load(String language) async {
     final company = await _company();
     if (company == null) return null;
-    for (final l in {language, 'az'}) {
+    for (final l in {language, contentLanguageFor(language), 'az'}) {
       try {
         final text = fill(await read('assets/legal/$name.$l.md'), company);
         if (isReady(text)) return text;

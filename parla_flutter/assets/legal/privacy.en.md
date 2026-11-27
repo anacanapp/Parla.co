@@ -1,7 +1,7 @@
 # Parla — Privacy policy
 
 - Effective date: {{effectiveDate}}
-- Document version: 2
+- Document version: 3
 
 *This is a translation of the Azerbaijani text.*
 
@@ -62,7 +62,7 @@ Parla does not ask for or store:
   is created for a person under 18, and nothing they entered is stored.
 - **Country** — to determine the market where the service is open. Only
   Azerbaijan is open today.
-- **Interface language** — Azerbaijani, Russian or English.
+- **Interface language** — Azerbaijani, Turkish, Russian, English, Kazakh, Uzbek, Turkmen, Kyrgyz or Georgian.
 - **Registration date.**
 
 ### 4.2. Sign-in data
@@ -166,7 +166,7 @@ You manage consents in Profile → Privacy centre → Consents.
 
 ### 6.1. Health consent
 
-Current text (version `health-2026-11-draft5`):
+Current text (version `health-2026-11-draft6`):
 
 > "I give explicit consent to the processing of my answers about skin
 > conditions, allergies, pregnancy and the categories of medicines I take,
@@ -192,7 +192,7 @@ give the consent again later.
 
 ### 6.2. Analytics consent
 
-Current text (version `analytics-2026-11-draft1`):
+Current text (version `analytics-2026-11-draft2`):
 
 > "I agree to the collection of usage statistics (screens opened, features
 > used) under an identifier that does not directly reveal who I am, to
@@ -204,7 +204,7 @@ account's daily activity marks are deleted (see section 9).
 
 ### 6.3. Marketing consent
 
-Current text (version `marketing-2026-11-draft1`):
+Current text (version `marketing-2026-11-draft2`):
 
 > "I agree to receive emails with Parla news and tips. I can unsubscribe via
 > the link in any email."

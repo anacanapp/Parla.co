@@ -86,7 +86,9 @@ class _ConsentRefreshScreenState extends State<ConsentRefreshScreen> {
   Future<void> _agree() async {
     final scope = ParlaScope.of(context);
     final l10n = AppLocalizations.of(context);
-    final language = scope.settings.contentLanguage;
+    final language = currentConsentText(
+      ConsentKind.health,
+    ).languageFor(scope.settings.textLanguage);
     setState(() => _busy = true);
     try {
       await scope.api.decideConsent(
@@ -110,7 +112,9 @@ class _ConsentRefreshScreenState extends State<ConsentRefreshScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final language = ParlaScope.of(context).settings.contentLanguage;
+    final language = currentConsentText(
+      ConsentKind.health,
+    ).languageFor(ParlaScope.of(context).settings.textLanguage);
     return ParlaPage(
       title: l10n.consentRefreshTitle,
       onBack: () => context.go(Routes.home),

@@ -1,7 +1,7 @@
 # Parla — İstifadə şərtləri
 
 - Qüvvəyə minmə tarixi: {{effectiveDate}}
-- Sənədin versiyası: 1
+- Sənədin versiyası: 2
 
 ## 1. Ümumi müddəalar
 
@@ -247,7 +247,8 @@ Respublikasının səlahiyyətli məhkəməsində baxılır.
 
 ## 17. Dil
 
-Bu şərtlər azərbaycan, rus və ingilis dillərində təqdim olunur. Mətnlər
+Bu şərtlər azərbaycan, türk, rus, ingilis, qazax, özbək, türkmən, qırğız və
+gürcü dillərində təqdim olunur. Digər dillərdəki mətnlər tərcümədir; mətnlər
 arasında fərq olduqda azərbaycan dilindəki mətn əsas götürülür.
 
 ## 18. Əlaqə
