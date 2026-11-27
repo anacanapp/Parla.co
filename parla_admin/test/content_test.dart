@@ -78,6 +78,31 @@ void main() {
     expect(find.byKey(const ValueKey('content-approve')), findsNothing);
   });
 
+  testWidgets('translations have their own tabs and are kept on save', (
+    tester,
+  ) async {
+    final api = await _pump(tester, StaffRole.editor);
+    await _tap(tester, _nav('Məzmun'));
+    await _tap(tester, find.byKey(const ValueKey('content-new')));
+    await tester.enterText(find.byKey(const ValueKey('new-slug')), 'qis');
+    await _tap(tester, find.byKey(const ValueKey('new-create')));
+    await _type(tester, 'field-title-az', 'Qışda dəri');
+
+    await _tap(tester, find.text('Türkçe'));
+    expect(find.byKey(const ValueKey('translation-note')), findsOneWidget);
+    await _type(tester, 'field-title-tr', 'Kışın cilt');
+    await _tap(tester, find.text('Қазақша'));
+    await _type(tester, 'field-title-kk', 'Қыстағы тері');
+    await _tap(tester, find.byKey(const ValueKey('content-save')));
+    final saved = api.calls.lastWhere((c) => c.startsWith('save:'));
+    final json = jsonDecode(saved.substring(saved.indexOf('{'))) as Map;
+    expect(json['title'], {
+      'az': 'Qışda dəri',
+      'tr': 'Kışın cilt',
+      'kk': 'Қыстағы тері',
+    });
+  });
+
   testWidgets('an expert approves or returns with a note; editors publish', (
     tester,
   ) async {
