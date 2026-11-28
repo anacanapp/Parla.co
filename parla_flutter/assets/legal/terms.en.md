@@ -1,7 +1,7 @@
 # Parla — Terms of use
 
 - Effective date: {{effectiveDate}}
-- Document version: 1
+- Document version: 2
 
 *This is a translation of the Azerbaijani text.*
 
@@ -245,8 +245,9 @@ of the Republic of Azerbaijan.
 
 ## 17. Language
 
-These terms are provided in Azerbaijani, Russian and English. If the texts
-differ, the Azerbaijani text prevails.
+These terms are provided in Azerbaijani, Turkish, Russian, English, Kazakh,
+Uzbek, Turkmen, Kyrgyz and Georgian. The texts in other languages are
+translations; if the texts differ, the Azerbaijani text prevails.
 
 ## 18. Contact
 

@@ -71,8 +71,16 @@ and expert checks in `docs/RELEASE.md` are done.
   interface languages show the closest (`contentLanguageFor`): tr → az;
   kk, uz, tk, ky → ru; ka → en. In the app, `AppSettings.contentLanguage`
   and `contentLanguageOf(context)` give it; dates use `dateLocaleOf`.
-  Translating consent texts and legal documents into a new language
-  needs a lawyer's check and ships as a new consent version.
+  Consent texts, the privacy policy and the terms are in all nine
+  interface languages (owner, 2026-11-27): the consent versions
+  health-2026-11-draft6, analytics-2026-11-draft2 and
+  marketing-2026-11-draft2 carry every language (`ConsentText.languageFor`
+  picks the interface language, else the closest), and
+  `assets/legal/<doc>.<code>.md` exists per language, each marked as a
+  translation of the governing Azerbaijani text. They were shown before
+  the lawyer's check at the owner's request; the check is still due
+  (docs/legal/lawyer-questions.md). Server records keep the language the
+  text was shown in.
 - **Content translations:** quiz questions, routine steps, exercises,
   preferences, ingredient texts and tips also have tr, kk, uz, tk, ky and
   ka translations (owner, 2026-11-27), as drafts for a native speaker's

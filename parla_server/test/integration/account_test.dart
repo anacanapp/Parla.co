@@ -50,6 +50,29 @@ void main() {
       return id;
     }
 
+    test('a consent is recorded in the interface language it was shown in, '
+        'with that text\'s hash', () async {
+      final user = await const AuthUsers().create(sessionBuilder.build());
+      final session = _as(sessionBuilder, user.id.toString());
+      await endpoints.consent.decide(
+        session,
+        consentType: ConsentType.health,
+        granted: true,
+        textVersion: healthVersion,
+        language: 'ka',
+        source: 'app',
+      );
+      final record = (await ConsentRecord.db.find(
+        sessionBuilder.build(),
+        where: (t) => t.authUserId.equals(user.id),
+      )).single;
+      expect(record.language, 'ka');
+      expect(
+        record.textHash,
+        currentConsentText(ConsentKind.health).hashFor('ka'),
+      );
+    });
+
     test('export holds every kind of data, health answers decrypted', () async {
       final alice = await fullUser();
       final json =

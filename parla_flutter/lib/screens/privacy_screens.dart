@@ -90,7 +90,9 @@ class _PrivacyScreenState extends State<PrivacyScreen> {
         kind: kind,
         granted: granted,
         textVersion: currentConsentText(kind).version,
-        language: scope.settings.contentLanguage,
+        language: currentConsentText(
+          kind,
+        ).languageFor(scope.settings.textLanguage),
       );
       if (kind == ConsentKind.analytics) scope.usage.setEnabled(granted);
       if (mounted) setState(() => _consents = {..._consents!, kind: granted});
@@ -595,7 +597,7 @@ class LegalScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final text = Theme.of(context).textTheme;
-    final language = ParlaScope.of(context).settings.contentLanguage;
+    final language = ParlaScope.of(context).settings.textLanguage;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -646,7 +648,10 @@ class LegalScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 6),
                   Text(
-                    currentConsentText(kind).bodyFor(language) ?? '',
+                    currentConsentText(kind).bodyFor(
+                          currentConsentText(kind).languageFor(language),
+                        ) ??
+                        '',
                     style: text.bodyMedium,
                   ),
                 ],
@@ -897,7 +902,7 @@ class LegalDocScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
     final theme = Theme.of(context);
-    final language = ParlaScope.of(context).settings.contentLanguage;
+    final language = ParlaScope.of(context).settings.textLanguage;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
