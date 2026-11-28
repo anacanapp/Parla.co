@@ -1,0 +1,263 @@
+{
+ "az": {
+  "shots": [
+   {
+    "verb": "QUR",
+    "desc": "sənə uyğun qulluq rutini"
+   },
+   {
+    "verb": "TANI",
+    "desc": "dərini qısa testlə"
+   },
+   {
+    "verb": "YOXLA",
+    "desc": "məhsulun tərkibini"
+   },
+   {
+    "verb": "HƏRƏKƏT ET",
+    "desc": "evdə qısa məşqlərlə"
+   },
+   {
+    "verb": "KƏŞF ET",
+    "desc": "məqalələr, reseptlər, mütəxəssislər"
+   },
+   {
+    "verb": "QORU",
+    "desc": "məlumatların sənindir"
+   }
+  ],
+  "slogan": "Öz işığını tap."
+ },
+ "tr": {
+  "shots": [
+   {
+    "verb": "OLUŞTUR",
+    "desc": "sana uygun bakım rutinini"
+   },
+   {
+    "verb": "TANI",
+    "desc": "cildini kısa bir testle"
+   },
+   {
+    "verb": "KONTROL ET",
+    "desc": "ürünün içeriğini"
+   },
+   {
+    "verb": "HAREKET ET",
+    "desc": "evde kısa antrenmanlarla"
+   },
+   {
+    "verb": "KEŞFET",
+    "desc": "yazılar, tarifler, uzmanlar"
+   },
+   {
+    "verb": "KORU",
+    "desc": "verilerin senindir"
+   }
+  ],
+  "slogan": "Kendi ışığını bul."
+ },
+ "ru": {
+  "shots": [
+   {
+    "verb": "СОБЕРИ",
+    "desc": "уход, который подходит тебе"
+   },
+   {
+    "verb": "УЗНАЙ",
+    "desc": "свою кожу с коротким тестом"
+   },
+   {
+    "verb": "ПРОВЕРЬ",
+    "desc": "состав средства"
+   },
+   {
+    "verb": "ДВИГАЙСЯ",
+    "desc": "с короткими тренировками дома"
+   },
+   {
+    "verb": "ОТКРЫВАЙ",
+    "desc": "статьи, рецепты, экспертов"
+   },
+   {
+    "verb": "БЕРЕГИ",
+    "desc": "твои данные — твои"
+   }
+  ],
+  "slogan": "Найди свой свет."
+ },
+ "en": {
+  "shots": [
+   {
+    "verb": "BUILD",
+    "desc": "a care routine that fits you"
+   },
+   {
+    "verb": "KNOW",
+    "desc": "your skin with a short quiz"
+   },
+   {
+    "verb": "CHECK",
+    "desc": "what is inside a product"
+   },
+   {
+    "verb": "MOVE",
+    "desc": "with short workouts at home"
+   },
+   {
+    "verb": "DISCOVER",
+    "desc": "articles, recipes, experts"
+   },
+   {
+    "verb": "PROTECT",
+    "desc": "your data stays yours"
+   }
+  ],
+  "slogan": "Find your glow."
+ },
+ "kk": {
+  "shots": [
+   {
+    "verb": "ҚҰР",
+    "desc": "өзіңе лайық күтім тәртібін"
+   },
+   {
+    "verb": "ТАНЫ",
+    "desc": "теріңді қысқа тестпен"
+   },
+   {
+    "verb": "ТЕКСЕР",
+    "desc": "өнімнің құрамын"
+   },
+   {
+    "verb": "ҚОЗҒАЛ",
+    "desc": "үйдегі қысқа жаттығулармен"
+   },
+   {
+    "verb": "АШ",
+    "desc": "мақалалар, рецепттер, мамандар"
+   },
+   {
+    "verb": "ҚОРҒА",
+    "desc": "деректерің — өзіңдікі"
+   }
+  ],
+  "slogan": "Өз жарығыңды тап."
+ },
+ "uz": {
+  "shots": [
+   {
+    "verb": "TUZ",
+    "desc": "oʻzingga mos parvarish tartibini"
+   },
+   {
+    "verb": "TANI",
+    "desc": "teringni qisqa test bilan"
+   },
+   {
+    "verb": "TEKSHIR",
+    "desc": "mahsulot tarkibini"
+   },
+   {
+    "verb": "HARAKAT QIL",
+    "desc": "uyda qisqa mashgʻulotlar bilan"
+   },
+   {
+    "verb": "KASHF ET",
+    "desc": "maqolalar, retseptlar, mutaxassislar"
+   },
+   {
+    "verb": "HIMOYA QIL",
+    "desc": "maʼlumotlaring — oʻzingniki"
+   }
+  ],
+  "slogan": "Oʻz nuringni top."
+ },
+ "tk": {
+  "shots": [
+   {
+    "verb": "DÜZ",
+    "desc": "özüňe laýyk ideg tertibini"
+   },
+   {
+    "verb": "TANA",
+    "desc": "derini gysga test bilen"
+   },
+   {
+    "verb": "BARLA",
+    "desc": "önümiň düzümini"
+   },
+   {
+    "verb": "HEREKET ET",
+    "desc": "öýde gysga türgenleşikler bilen"
+   },
+   {
+    "verb": "AÇ",
+    "desc": "makalalar, reseptler, hünärmenler"
+   },
+   {
+    "verb": "GORA",
+    "desc": "maglumatlaryň seniňki"
+   }
+  ],
+  "slogan": "Öz nuruňy tap."
+ },
+ "ky": {
+  "shots": [
+   {
+    "verb": "ТҮЗ",
+    "desc": "өзүңө ылайык кам көрүү тартибин"
+   },
+   {
+    "verb": "ТААНЫ",
+    "desc": "териңди кыска тест менен"
+   },
+   {
+    "verb": "ТЕКШЕР",
+    "desc": "буюмдун курамын"
+   },
+   {
+    "verb": "КЫЙМЫЛДА",
+    "desc": "үйдө кыска машыгуулар менен"
+   },
+   {
+    "verb": "АЧ",
+    "desc": "макалалар, рецепттер, адистер"
+   },
+   {
+    "verb": "КОРГО",
+    "desc": "маалыматтарың — өзүңдүкү"
+   }
+  ],
+  "slogan": "Өз жарыгыңды тап."
+ },
+ "ka": {
+  "shots": [
+   {
+    "verb": "შექმენი",
+    "desc": "შენზე მორგებული მოვლის რუტინა"
+   },
+   {
+    "verb": "გაიცანი",
+    "desc": "შენი კანი მოკლე ტესტით"
+   },
+   {
+    "verb": "შეამოწმე",
+    "desc": "პროდუქტის შემადგენლობა"
+   },
+   {
+    "verb": "იმოძრავე",
+    "desc": "მოკლე ვარჯიშებით სახლში"
+   },
+   {
+    "verb": "აღმოაჩინე",
+    "desc": "სტატიები, რეცეპტები, ექსპერტები"
+   },
+   {
+    "verb": "დაიცავი",
+    "desc": "შენი მონაცემები შენია"
+   }
+  ],
+  "slogan": "იპოვე შენი სინათლე."
+ }
+}
