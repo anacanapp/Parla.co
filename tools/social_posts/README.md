@@ -6,7 +6,8 @@
 
 | Fayl | Nədir |
 | --- | --- |
-| `posts.json` | 30 postun bütün slaydları: kompozisiya (`t`), mətn, foto |
+| `posts.json` | 30 postun bütün slaydları: kompozisiya (`t`), mətn, foto (Azərbaycanca) |
+| `posts_en.json` | Eyni postların ingiliscə versiyası (tətbiq ekranları `assets/en/`) |
 | `render.js` | HTML şablonları → PNG (Playwright + Chromium) |
 | `assets/post.css` | Bütün kompozisiyaların dizaynı (rənglər, şriftlər, şüşə panellər) |
 | `assets/` | Söz loqosu, Smile nişan, işıq fonu, 4 tətbiq ekranı. Şriftlər `parla_flutter/assets/fonts`-dan oxunur |
@@ -23,6 +24,7 @@ cd tools/social_posts
 npm i playwright && npx playwright install chromium
 node render.js posts.json            # bütün postlar → out/<id>/<nn>.png
 node render.js posts.json 05 12      # yalnız 05 və 12
+POST_LANG=en POST_OUT=out_en node render.js posts_en.json   # ingiliscə → out_en/
 CHECK=1 node render.js posts.json && pip install "opencv-python-headless<5" && python3 facecheck.py
 ```
 

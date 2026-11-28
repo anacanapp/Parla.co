@@ -1,0 +1,1256 @@
+[
+ {
+  "id": "01",
+  "kick": "Brand",
+  "slides": [
+   {
+    "t": "P8",
+    "quote": "Find your\n*glow*.",
+    "size": 120,
+    "corners": [
+     "your beauty\nand care guide",
+     "in 9 languages",
+     "18+"
+    ]
+   }
+  ],
+  "theme": "all"
+ },
+ {
+  "id": "02",
+  "kick": "Routine",
+  "slides": [
+   {
+    "t": "P1",
+    "photo": "h02",
+    "pos": "center 30%",
+    "tt": "Dry skin\n_winter mornings_",
+    "lead": "3 steps · 3 minutes",
+    "pills": [
+     "Cleanse",
+     "!Moisturise",
+     "Protect"
+    ],
+    "serSize": 118
+   },
+   {
+    "t": "P2",
+    "photo": "h02b",
+    "pos": "center",
+    "tt": "_Step 1_",
+    "head": "Cleanse gently",
+    "rows": [
+     "+Non-foaming cleanser",
+     "+or lukewarm water",
+     "-Very hot water"
+    ],
+    "panelTop": 420
+   },
+   {
+    "t": "T2",
+    "num": "STEP 2",
+    "h": "Moisturise",
+    "p": "While your skin is still a little damp. Look for **ceramides, glycerin** or **hyaluronic acid**."
+   },
+   {
+    "t": "P6",
+    "photo": "h02",
+    "pos": "center 30%",
+    "head": "Step 3",
+    "q": "Protect from the sun",
+    "p": "Even in winter. SPF 30 or higher, labelled “broad spectrum”.",
+    "cardTop": 760
+   },
+   {
+    "t": "T2",
+    "num": "BONUS",
+    "h": "Lips and hands",
+    "p": "Keep lip balm and hand cream **in your bag**."
+   },
+   {
+    "t": "T7",
+    "h": "Build your routine in Parla",
+    "p": "Get to know your skin with a short quiz and your steps are ready."
+   }
+  ],
+  "theme": "rose"
+ },
+ {
+  "id": "03",
+  "slides": [
+   {
+    "t": "T3v",
+    "photo": "h03",
+    "myth": "“Natural is always better.”",
+    "truth": "Natural and synthetic ingredients can both suit your skin, or irritate it. **What matters is your skin and how much of an ingredient there is.**"
+   }
+  ],
+  "theme": "lilac"
+ },
+ {
+  "id": "04",
+  "kick": "Parla",
+  "slides": [
+   {
+    "t": "P5",
+    "lines": [
+     {
+      "p": [
+       {
+        "cap": "How"
+       },
+       {
+        "pill": "Parla"
+       }
+      ]
+     },
+     {
+      "p": [
+       {
+        "cap": "works"
+       }
+      ]
+     },
+     {
+      "p": [
+       {
+        "img": "h04"
+       },
+       {
+        "small": "Get to know your skin, build your routine, check ingredients, discover new things."
+       }
+      ]
+     }
+    ],
+    "pills": [
+     "Know",
+     "Build",
+     "Check",
+     "Discover"
+    ],
+    "pillsTop": 940
+   },
+   {
+    "t": "T6",
+    "verb": "KNOW",
+    "desc": "your skin with a short quiz",
+    "screen": "en/15_quiz"
+   },
+   {
+    "t": "T6",
+    "verb": "BUILD",
+    "desc": "a care routine that fits you",
+    "screen": "en/01_home"
+   },
+   {
+    "t": "T6",
+    "verb": "CHECK",
+    "desc": "what is inside a product",
+    "screen": "en/10_check"
+   },
+   {
+    "t": "T6",
+    "verb": "DISCOVER",
+    "desc": "articles, recipes, workouts",
+    "screen": "en/03_discover"
+   },
+   {
+    "t": "T7",
+    "h": "Get Parla",
+    "p": "Link in bio · 9 languages"
+   }
+  ],
+  "theme": "all"
+ },
+ {
+  "id": "05",
+  "kick": "Routine",
+  "slides": [
+   {
+    "t": "P2",
+    "photo": "h05b",
+    "tt": "This week\n_just for you_",
+    "ttTop": 150,
+    "head": "Weekly checklist",
+    "rows": [
+     "+SPF every morning",
+     "+Change your pillowcase",
+     "+Exfoliate 1–2 times",
+     "+Move 15 minutes, twice",
+     "-Sleeping in makeup"
+    ],
+    "panelTop": 520
+   }
+  ],
+  "theme": "rose"
+ },
+ {
+  "id": "06",
+  "kick": "Routine",
+  "slides": [
+   {
+    "t": "P3",
+    "photo": "h06b",
+    "tt": "Evening routine\n_5 common mistakes_",
+    "items": [
+     [
+      "Sleeping in makeup",
+      "Cleanse gently for 1 minute"
+     ],
+     [
+      "A harsh scrub every day",
+      "1–2 times a week"
+     ],
+     [
+      "Too many actives at once",
+      "Start one at a time"
+     ],
+     [
+      "Skipping moisturiser",
+      "A light moisturiser"
+     ],
+     [
+      "Testing on your face",
+      "Arm first, 1–2 days"
+     ]
+    ]
+   },
+   {
+    "t": "T2",
+    "num": "MISTAKE 1",
+    "h": "Sleeping in makeup",
+    "p": "Even when you are tired, **1 minute** with a gentle cleanser is enough."
+   },
+   {
+    "t": "T2",
+    "num": "MISTAKE 2",
+    "h": "A harsh scrub every day",
+    "p": "Exfoliating **1–2 times a week** is plenty."
+   },
+   {
+    "t": "P6",
+    "photo": "p06",
+    "pos": "center 30%",
+    "head": "Mistake 3",
+    "q": "Too many actives in one evening",
+    "p": "Don’t start retinol and acids on the same evening.",
+    "cardTop": 780,
+    "dark": false
+   },
+   {
+    "t": "T2",
+    "num": "MISTAKE 4",
+    "h": "Skipping moisturiser",
+    "p": "Oily skin **needs moisture** too."
+   },
+   {
+    "t": "T2",
+    "num": "MISTAKE 5",
+    "h": "New product straight on your face",
+    "p": "Try it on the inside of your arm for **1–2 days** first."
+   },
+   {
+    "t": "T7",
+    "h": "Which one is yours?",
+    "p": "Save it and share with a friend."
+   }
+  ],
+  "theme": "rose"
+ },
+ {
+  "id": "07",
+  "kick": "Body",
+  "slides": [
+   {
+    "t": "P2",
+    "photo": "h07b",
+    "pos": "center",
+    "tt": "Every hour\n_3 small breaks_",
+    "ttTop": 160,
+    "head": "At your desk",
+    "rows": [
+     "+Stand up for 1 minute",
+     "+Roll your shoulders 10 times",
+     "+Look far away for 20 seconds"
+    ],
+    "panelTop": 560
+   }
+  ],
+  "theme": "mist"
+ },
+ {
+  "id": "08",
+  "kick": "Ingredients",
+  "slides": [
+   {
+    "t": "P4",
+    "photo": "h08",
+    "tt": "Niacinamide\n_and vitamin C_",
+    "pills": [
+     "What’s the difference?"
+    ]
+   },
+   {
+    "t": "T2",
+    "num": "NIACINAMIDE",
+    "h": "A form of vitamin B3",
+    "p": "Supports the skin’s protective barrier and can help with **the look of oiliness and pores**. Works morning or evening."
+   },
+   {
+    "t": "T2",
+    "num": "VITAMIN C",
+    "h": "An antioxidant",
+    "p": "Can help skin look **brighter and more even**. Usually in the morning, before SPF."
+   },
+   {
+    "t": "P6",
+    "photo": "h08",
+    "head": "Together?",
+    "q": "Many people use both",
+    "p": "If your skin is sensitive, try one in the morning and the other in the evening.",
+    "cardTop": 420
+   },
+   {
+    "t": "P7",
+    "photo": "h08",
+    "tt": "_How it reads on the label_",
+    "cols2": true,
+    "gridTop": 470,
+    "tiles": [
+     [
+      "Niacinamide",
+      "niacinamide"
+     ],
+     [
+      "Ascorbic Acid",
+      "vitamin C"
+     ],
+     [
+      "Sodium Ascorbyl Phosphate",
+      "a form of vitamin C"
+     ],
+     [
+      "Ascorbyl Glucoside",
+      "a form of vitamin C"
+     ]
+    ]
+   },
+   {
+    "t": "T7",
+    "h": "Find them in the ingredients",
+    "p": "With “Check” in Parla."
+   }
+  ],
+  "theme": "lilac"
+ },
+ {
+  "id": "09",
+  "slides": [
+   {
+    "t": "T3v",
+    "photo": "h09",
+    "myth": "“Oily skin doesn’t need moisturiser.”",
+    "truth": "Oil and moisture are different things. Oily skin loses water too. **Choose a light, gel-textured, “non-comedogenic” moisturiser.**"
+   }
+  ],
+  "theme": "rose"
+ },
+ {
+  "id": "10",
+  "kick": "Ingredients",
+  "slides": [
+   {
+    "t": "P1",
+    "photo": "h10",
+    "pos": "center 25%",
+    "tt": "On the label\n_how to read SPF_",
+    "pills": [
+     "SPF",
+     "UVA",
+     "Amount",
+     "!Reapply"
+    ],
+    "serSize": 104,
+    "bottom": 150
+   },
+   {
+    "t": "P10",
+    "photo": "p10",
+    "tt": "_Number and symbol_",
+    "rows": [
+     [
+      "SPF number",
+      "protection from UVB, **30+** for every day"
+     ],
+     [
+      "UVA symbol",
+      "Broad spectrum · PA+++ · UVA in a circle"
+     ]
+    ],
+    "rowsTop": 480
+   },
+   {
+    "t": "T2",
+    "num": "AMOUNT",
+    "h": "Two fingers",
+    "p": "About **two finger-lengths** for face and neck."
+   },
+   {
+    "t": "P6",
+    "photo": "h10",
+    "pos": "center 25%",
+    "head": "Reapply",
+    "q": "Every 2 hours",
+    "p": "When you’re outdoors, and after swimming or sweating.",
+    "cardTop": 760
+   },
+   {
+    "t": "T2",
+    "num": "NOTE",
+    "h": "There is no “waterproof”",
+    "p": "What exists: **“water resistant: 40 or 80 minutes”**."
+   },
+   {
+    "t": "T7",
+    "h": "Save it",
+    "p": "Open it on your next shopping trip."
+   }
+  ],
+  "theme": "lilac"
+ },
+ {
+  "id": "11",
+  "kick": "Parla",
+  "slides": [
+   {
+    "t": "P8",
+    "quote": "A little more\n*you* every day.",
+    "size": 100,
+    "corners": [
+     "small steps",
+     "every day"
+    ]
+   }
+  ],
+  "theme": "rose"
+ },
+ {
+  "id": "12",
+  "kick": "Ingredients",
+  "slides": [
+   {
+    "t": "P5",
+    "lines": [
+     {
+      "p": [
+       {
+        "cap": "Sensitive"
+       },
+       {
+        "pill": "skin"
+       }
+      ]
+     },
+     {
+      "p": [
+       {
+        "ser": "fragrance-free"
+       }
+      ]
+     },
+     {
+      "p": [
+       {
+        "img": "h12"
+       },
+       {
+        "small": "4 rules for the back of the box."
+       }
+      ]
+     }
+    ],
+    "pills": [
+     "Fragrance-free",
+     "Parfum",
+     "Essential oils",
+     "!Patch test"
+    ],
+    "pillsTop": 940
+   },
+   {
+    "t": "T2",
+    "num": "RULE 1",
+    "h": "“Fragrance-free” ≠ “unscented”",
+    "p": "An “unscented” product can contain **fragrance that masks odours**."
+   },
+   {
+    "t": "P7",
+    "photo": "h12",
+    "tt": "_Look for these_",
+    "gridTop": 470,
+    "tiles": [
+     [
+      "Parfum",
+      "fragrance"
+     ],
+     [
+      "Fragrance",
+      "fragrance"
+     ],
+     [
+      "Linalool",
+      "fragrance component"
+     ],
+     [
+      "Limonene",
+      "fragrance component"
+     ],
+     [
+      "Lavender Oil",
+      "essential oil"
+     ],
+     [
+      "Citrus Peel Oil",
+      "essential oil"
+     ]
+    ]
+   },
+   {
+    "t": "T2",
+    "num": "RULE 4",
+    "h": "Patch test first",
+    "p": "Try a new product **on the inside of your arm for 1–2 days**."
+   },
+   {
+    "t": "T7",
+    "h": "Check the ingredient list",
+    "p": "With “Check” in Parla."
+   }
+  ],
+  "theme": "lilac"
+ },
+ {
+  "id": "13",
+  "slides": [
+   {
+    "t": "T3v",
+    "photo": "h13",
+    "myth": "“Drinking lots of water clears acne.”",
+    "truth": "Water matters for everyday life, but acne has many causes. **For acne that doesn’t go away, talk to a dermatologist.**"
+   }
+  ],
+  "theme": "mist"
+ },
+ {
+  "id": "14",
+  "kick": "Routine",
+  "slides": [
+   {
+    "t": "P4",
+    "photo": "h14",
+    "tt": "Toner\n_and essence_",
+    "pills": [
+     "What’s the difference?"
+    ]
+   },
+   {
+    "t": "T2",
+    "num": "TONER",
+    "h": "After cleansing",
+    "p": "Light and watery; removes leftovers and gets skin ready for **the next step**."
+   },
+   {
+    "t": "P6",
+    "photo": "h14b",
+    "pos": "center 30%",
+    "head": "Essence",
+    "q": "After toner, before serum",
+    "p": "A little thicker, with hydrating ingredients.",
+    "cardTop": 780
+   },
+   {
+    "t": "T2",
+    "num": "DO YOU NEED BOTH?",
+    "h": "No",
+    "p": "A simple routine works too: **cleanse, moisturise, protect.**"
+   },
+   {
+    "t": "P9",
+    "photo": "h14c",
+    "pos": "center",
+    "tt": "_The order_",
+    "steps": [
+     [
+      "Cleanser",
+      "every routine starts here"
+     ],
+     [
+      "Toner",
+      "light, watery"
+     ],
+     [
+      "Essence",
+      "a little thicker"
+     ],
+     [
+      "Serum",
+      "active ingredient"
+     ],
+     [
+      "Cream",
+      "locks in moisture"
+     ],
+     [
+      "SPF",
+      "mornings only"
+     ]
+    ]
+   },
+   {
+    "t": "T7",
+    "h": "Can’t remember the order?",
+    "p": "Your routine is ready in Parla."
+   }
+  ],
+  "theme": "rose"
+ },
+ {
+  "id": "15",
+  "slides": [
+   {
+    "t": "POLL",
+    "q": "Mornings: *which one?*",
+    "left": {
+     "photo": "p15a",
+     "label": "CREAM"
+    },
+    "right": {
+     "photo": "p15b",
+     "label": "GEL"
+    }
+   }
+  ],
+  "theme": "all"
+ },
+ {
+  "id": "16",
+  "kick": "Body",
+  "slides": [
+   {
+    "t": "P1",
+    "photo": "p16",
+    "pos": "center 45%",
+    "tt": "Yoga\n_or pilates?_",
+    "lead": "For beginners",
+    "pills": [
+     "Breath",
+     "Flexibility",
+     "!Posture"
+    ]
+   },
+   {
+    "t": "T2",
+    "num": "YOGA",
+    "h": "Breath, flexibility, relaxation",
+    "p": "A **mat** is all you need to start."
+   },
+   {
+    "t": "T2",
+    "num": "PILATES",
+    "h": "Core muscles and posture",
+    "p": "**Controlled**, slow movements."
+   },
+   {
+    "t": "P10",
+    "photo": "h16b",
+    "tt": "_How to start_",
+    "rows": [
+     [
+      "2–3 times a week",
+      "**15–20 minutes**"
+     ],
+     [
+      "Pick what you enjoy",
+      "the best workout is the one you keep doing"
+     ],
+     [
+      "If it hurts",
+      "stop and talk to a doctor"
+     ]
+    ],
+    "rowsTop": 440
+   },
+   {
+    "t": "T7",
+    "h": "Short workouts at home",
+    "p": "Ready in Parla."
+   }
+  ],
+  "theme": "mist"
+ },
+ {
+  "id": "17",
+  "kick": "Routine",
+  "slides": [
+   {
+    "t": "P6",
+    "photo": "p17",
+    "pos": "center 25%",
+    "head": "Tip of the day",
+    "q": "SPF on cloudy days too",
+    "p": "UV rays pass through clouds, and snow reflects them.",
+    "cardTop": 800
+   }
+  ],
+  "theme": "rose"
+ },
+ {
+  "id": "18",
+  "kick": "Food",
+  "slides": [
+   {
+    "t": "P4",
+    "photo": "p18",
+    "tt": "For winter\n_3 simple recipes_",
+    "pills": [
+     "Soup",
+     "Breakfast",
+     "!Salad"
+    ]
+   },
+   {
+    "t": "P7",
+    "photo": "p18",
+    "tt": "_3 recipes_",
+    "gridTop": 430,
+    "tiles": [
+     [
+      "Lentil soup",
+      "red lentils, onion, carrot, cumin, lemon"
+     ],
+     [
+      "Oats, apple, cinnamon",
+      "a warm 5-minute breakfast"
+     ],
+     [
+      "Pomegranate and walnut salad",
+      "herbs, olive oil, salt"
+     ]
+    ]
+   },
+   {
+    "t": "T7",
+    "h": "Full recipes",
+    "p": "In the “Discover” section of Parla."
+   }
+  ],
+  "theme": "mist"
+ },
+ {
+  "id": "19",
+  "kick": "Parla",
+  "slides": [
+   {
+    "t": "P5",
+    "top": 230,
+    "lines": [
+     {
+      "p": [
+       {
+        "cap": "Parla"
+       },
+       {
+        "pill": "speaks"
+       }
+      ]
+     },
+     {
+      "p": [
+       {
+        "ser": "your language"
+       }
+      ]
+     },
+     {
+      "p": [
+       {
+        "img": "h19"
+       },
+       {
+        "small": "Choose your language in the app settings."
+       }
+      ]
+     }
+    ],
+    "pills": [
+     "Azərbaycanca",
+     "Türkçe",
+     "Русский",
+     "English",
+     "Қазақша",
+     "Oʻzbekcha",
+     "Türkmençe",
+     "Кыргызча",
+     "!ქართული"
+    ],
+    "pillsTop": 960
+   }
+  ],
+  "theme": "all"
+ },
+ {
+  "id": "20",
+  "kick": "Expert",
+  "slides": [
+   {
+    "t": "P1",
+    "photo": "p20",
+    "tt": "3 questions\n_for a dermatologist_",
+    "lead": "[Name Surname], dermatologist",
+    "pills": [
+     "Face washing",
+     "Retinol",
+     "!Acne"
+    ],
+    "serSize": 96
+   },
+   {
+    "t": "T2",
+    "num": "QUESTION 1",
+    "h": "How many times a day should I wash my face?",
+    "p": "[The expert’s own answer]"
+   },
+   {
+    "t": "T2",
+    "num": "QUESTION 2",
+    "h": "When can I start retinol?",
+    "p": "[The expert’s own answer]"
+   },
+   {
+    "t": "T2",
+    "num": "QUESTION 3",
+    "h": "When should I see a doctor about acne?",
+    "p": "[The expert’s own answer]"
+   },
+   {
+    "t": "T7",
+    "h": "Ask the next question",
+    "p": "Write it in the comments."
+   }
+  ],
+  "theme": "lilac"
+ },
+ {
+  "id": "21",
+  "kick": "Routine",
+  "slides": [
+   {
+    "t": "P2",
+    "photo": "h21b",
+    "pos": "center",
+    "tt": "2-minute\n_evening_",
+    "ttTop": 150,
+    "head": "Tired-evening routine",
+    "rows": [
+     "+Remove makeup",
+     "+Apply moisturiser",
+     "+Lip balm"
+    ],
+    "panelTop": 580
+   }
+  ],
+  "theme": "rose"
+ },
+ {
+  "id": "22",
+  "kick": "Ingredients",
+  "slides": [
+   {
+    "t": "P5",
+    "lines": [
+     {
+      "p": [
+       {
+        "cap": "Ingredients"
+       },
+       {
+        "pill": "list"
+       }
+      ]
+     },
+     {
+      "p": [
+       {
+        "ser": "how to read it"
+       }
+      ]
+     },
+     {
+      "p": [
+       {
+        "img": "h22"
+       },
+       {
+        "small": "5 rules: decide in 30 seconds in the shop."
+       }
+      ]
+     }
+    ],
+    "pills": [
+     "Most to least",
+     "First 5",
+     "Actives",
+     "Fragrance",
+     "!Read the back"
+    ],
+    "pillsTop": 940
+   },
+   {
+    "t": "P10",
+    "photo": "h22",
+    "tt": "_Rules 1 and 2_",
+    "rows": [
+     [
+      "Most to least",
+      "Listed by amount; those **under 1%** can come in any order"
+     ],
+     [
+      "The first 5 ingredients",
+      "**most of the product**"
+     ]
+    ],
+    "rowsTop": 470
+   },
+   {
+    "t": "T2",
+    "num": "RULE 3",
+    "h": "Actives on the label",
+    "tags": [
+     "Niacinamide",
+     "Retinol",
+     "Ascorbic Acid",
+     "Salicylic Acid"
+    ]
+   },
+   {
+    "t": "T2",
+    "num": "RULE 4",
+    "h": "How fragrance is written",
+    "tags": [
+     "Parfum",
+     "Fragrance"
+    ]
+   },
+   {
+    "t": "T2",
+    "num": "RULE 5",
+    "h": "Read the back, not the front",
+    "p": "The **list** tells you more than the marketing words."
+   },
+   {
+    "t": "T7",
+    "h": "Open the list in Parla",
+    "p": "With “Check”."
+   }
+  ],
+  "theme": "lilac"
+ },
+ {
+  "id": "23",
+  "slides": [
+   {
+    "t": "T3v",
+    "photo": "h23",
+    "myth": "“Brushing 100 times a day makes hair stronger.”",
+    "truth": "Brushing too much can tire hair and cause more breakage. **Start from the ends with a soft brush and work your way up.**"
+   }
+  ],
+  "theme": "rose"
+ },
+ {
+  "id": "24",
+  "kick": "Body",
+  "slides": [
+   {
+    "t": "P1",
+    "photo": "p24",
+    "pos": "center 35%",
+    "tt": "At your desk\n_5 minutes_",
+    "pills": [
+     "Neck",
+     "Shoulders",
+     "Chair",
+     "Feet",
+     "!Chest"
+    ]
+   },
+   {
+    "t": "P9",
+    "photo": "h24b",
+    "pos": "center",
+    "tt": "_5 moves_",
+    "steps": [
+     [
+      "Neck",
+      "tilt side to side, 5 each way"
+     ],
+     [
+      "Shoulders",
+      "roll back 10 times"
+     ],
+     [
+      "Chair",
+      "sit down and stand up 10 times"
+     ],
+     [
+      "Tiptoes",
+      "rise and lower 15 times"
+     ],
+     [
+      "Chest",
+      "open your arms, 5 deep breaths"
+     ]
+    ]
+   },
+   {
+    "t": "T7",
+    "h": "If it hurts, stop",
+    "p": "More short workouts in Parla."
+   }
+  ],
+  "theme": "mist"
+ },
+ {
+  "id": "25",
+  "kick": "Community",
+  "slides": [
+   {
+    "t": "P6",
+    "photo": "h25",
+    "head": "You asked",
+    "q": "Can I use retinol and vitamin C together?",
+    "p": "Many people use vitamin C in the morning and retinol in the evening, which can be easier on the skin. If you are pregnant, talk to your doctor about retinol.",
+    "cardTop": 330
+   }
+  ],
+  "theme": "rose"
+ },
+ {
+  "id": "26",
+  "kick": "Expert",
+  "slides": [
+   {
+    "t": "P4",
+    "photo": "p26",
+    "tt": "Salon\n_or home?_",
+    "pills": [
+     "Home: every day",
+     "Salon: professional"
+    ]
+   },
+   {
+    "t": "T2",
+    "num": "HOME",
+    "h": "A daily routine",
+    "p": "**Cleanse, moisturise, protect.**"
+   },
+   {
+    "t": "T2",
+    "num": "SALON",
+    "h": "Professional treatments",
+    "p": "And **an expert’s eye**."
+   },
+   {
+    "t": "T2",
+    "num": "TOGETHER",
+    "h": "One doesn’t replace the other",
+    "p": "Salon results are kept up **at home**."
+   },
+   {
+    "t": "P2",
+    "photo": "p26",
+    "tt": "_Choosing a salon_",
+    "head": "Look for",
+    "rows": [
+     "+Hygiene",
+     "+The specialist’s credentials",
+     "+Clear answers to your questions"
+    ],
+    "panelTop": 520
+   },
+   {
+    "t": "T7",
+    "h": "Build your home routine",
+    "p": "In Parla."
+   }
+  ],
+  "theme": "lilac"
+ },
+ {
+  "id": "27",
+  "kick": "Body",
+  "slides": [
+   {
+    "t": "T5",
+    "photo": "p27",
+    "qTop": 180,
+    "quote": "Sleep is part of\nyour *routine* too.",
+    "sub": "Put your phone away before bed.\nChange your pillowcase often.",
+    "subTop": 470,
+    "shade": 55
+   }
+  ],
+  "theme": "mist"
+ },
+ {
+  "id": "28",
+  "kick": "Routine",
+  "slides": [
+   {
+    "t": "P1",
+    "photo": "p28",
+    "tt": "Winter lips & hands\n_5 small habits_",
+    "serSize": 118
+   },
+   {
+    "t": "P2",
+    "photo": "p28",
+    "tt": "_5 habits_",
+    "head": "Winter care",
+    "rows": [
+     "-Licking your lips",
+     "+Balm, a thick layer at night",
+     "+Hand cream after every wash",
+     "+Gloves outdoors",
+     "+A humidifier in a dry room"
+    ],
+    "panelTop": 420
+   },
+   {
+    "t": "T2",
+    "num": "HABIT 1",
+    "h": "Don’t lick your lips",
+    "p": "As saliva dries, lips feel **even drier**."
+   },
+   {
+    "t": "T7",
+    "h": "Save it",
+    "p": "And send it to a friend."
+   }
+  ],
+  "theme": "rose"
+ },
+ {
+  "id": "29",
+  "kick": "Parla",
+  "slides": [
+   {
+    "t": "T5",
+    "photo": "p29",
+    "quote": "Find your\n*glow*.",
+    "qTop": 860,
+    "shade": 0
+   }
+  ],
+  "theme": "all"
+ },
+ {
+  "id": "30",
+  "kick": "Ingredients",
+  "slides": [
+   {
+    "t": "P5",
+    "lines": [
+     {
+      "p": [
+       {
+        "cap": "Skincare"
+       }
+      ]
+     },
+     {
+      "p": [
+       {
+        "ser": "glossary"
+       },
+       {
+        "pill": "8 words"
+       }
+      ]
+     },
+     {
+      "p": [
+       {
+        "img": "h30"
+       },
+       {
+        "small": "A skincare shelf can feel like a foreign language. Start here."
+       }
+      ]
+     }
+    ],
+    "pillsTop": 940
+   },
+   {
+    "t": "P7",
+    "photo": "h30b",
+    "tt": "_Glossary 1–4_",
+    "cols2": true,
+    "gridTop": 440,
+    "tiles": [
+     [
+      "SPF",
+      "how much it protects from the sun (UVB)"
+     ],
+     [
+      "Niacinamide",
+      "vitamin B3; supports the barrier"
+     ],
+     [
+      "Ceramides",
+      "help skin hold on to moisture"
+     ],
+     [
+      "Hyaluronic acid",
+      "a hydrator that draws in water"
+     ]
+    ]
+   },
+   {
+    "t": "T2",
+    "num": "5",
+    "h": "Exfoliation",
+    "p": "Removing dead skin cells; **1–2 times a week** is plenty."
+   },
+   {
+    "t": "T2",
+    "num": "6",
+    "h": "Retinol",
+    "p": "A form of vitamin A; start **in the evening, a little at a time**. If you are pregnant, talk to your doctor."
+   },
+   {
+    "t": "P7",
+    "photo": "h30b",
+    "tt": "_Glossary 7–8_",
+    "cols2": true,
+    "gridTop": 520,
+    "tiles": [
+     [
+      "Non-comedogenic",
+      "made not to clog pores"
+     ],
+     [
+      "pH",
+      "healthy skin’s surface is slightly acidic"
+     ]
+    ]
+   },
+   {
+    "t": "T7",
+    "h": "Save the glossary",
+    "p": "New words in the “Discover” section of Parla."
+   }
+  ],
+  "theme": "lilac"
+ }
+]
