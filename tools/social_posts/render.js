@@ -3,6 +3,12 @@ const { chromium } = require('playwright');
 const fs = require('fs');
 const path = require('path');
 
+const LANG = process.env.POST_LANG || 'az';
+const UI = {
+  az: { swipe: 'sürüşdür', newPost: 'Yeni post', myth: 'MİF', fact: 'HƏQİQƏT', mythBar: 'Mif və həqiqət', no: 'Belə yox', yes: 'Belə', save: 'Saxla', share: 'Paylaş', get: 'Parla-nı yüklə', saveH: 'Saxla, sonra lazım olacaq' },
+  en: { swipe: 'swipe', newPost: 'New post', myth: 'MYTH', fact: 'FACT', mythBar: 'Myth vs fact', no: 'Don’t', yes: 'Do', save: 'Save', share: 'Share', get: 'Get Parla', saveH: 'Save it for later' },
+}[LANG];
+const OUTDIR = process.env.POST_OUT || 'out';
 const HERE = __dirname;
 const ASSETS = path.join(HERE, 'assets');
 const PHOTOS = path.join(HERE, 'photos');
@@ -26,17 +32,17 @@ const THEME = {Rutin:'rose','Saç':'rose','Tərkib':'lilac','Bədən':'mist',Qid
 
 const tt = (t, cls = '') => (t || '').split('\n').map(l => {
   const m = l.match(/^_(.+)_$/);
-  return m ? `<div class="ser">${esc(m[1])}</div>` : `<div class="cap">${esc(l.toLocaleUpperCase('az'))}</div>`;
+  return m ? `<div class="ser">${esc(m[1])}</div>` : `<div class="cap">${esc(l.toLocaleUpperCase(LANG))}</div>`;
 }).join('');
 const pills = a => a ? `<div class="pills">${a.map(x => x.startsWith('!') ? `<span class="pill f">${esc(x.slice(1))}</span>` : `<span class="pill">${esc(x)}</span>`).join('')}</div>` : '';
-const chrome = (kick, pg, dark = true) => `<div class="bar ${dark ? 'on-dark' : ''}"><span>${esc(kick === 'Parla' ? 'Parla' : 'Parla · ' + kick)}</span><span>${pg || 'Yeni post'}</span></div>
+const chrome = (kick, pg, dark = true) => `<div class="bar ${dark ? 'on-dark' : ''}"><span>${esc(kick === 'Parla' ? 'Parla' : 'Parla · ' + kick)}</span><span>${pg || UI.newPost}</span></div>
   <div class="foot ${dark ? 'on-dark' : ''}"><img src="wordmark_${dark ? 'cream' : 'espresso'}.png"><span>parla.anacan.az</span></div>`;
 const ORB = {all:'conic-gradient(from 300deg,#FFCE00,#F6B4CF,#C9B8F2,#BFD8F2,#FFE97A,#FFCE00)',rose:'radial-gradient(circle,#F6B4CF 0,#FFE97A 45%,#F7F3F1 70%)',lilac:'radial-gradient(circle,#C9B8F2 0,#BFD8F2 45%,#F7F3F1 70%)',mist:'radial-gradient(circle,#BFD8F2 0,#FFE97A 50%,#F7F3F1 70%)'};
 function slide(p, s, i, n) {
   const th = s.theme || p.theme || THEME[s.kick ?? p.kick] || 'all';
   const L = s.sun ? '' : '<div class="lights"></div>';
   const pg = n > 1 ? `<div class="pg">${i + 1} / ${n}</div>` : '';
-  const swipe = n > 1 && i === 0 ? '<div class="swipe">sürüşdür <b>→</b></div>' : '';
+  const swipe = n > 1 && i === 0 ? `<div class="swipe">${UI.swipe} <b>→</b></div>` : '';
   const kick = s.kick ?? p.kick;
   switch (s.t) {
     case 'T1': return `<div class="s t1 ${s.sun ? '' : 'light'} th-${th}">${L}${s.sun ? '' : '<img class="orb" src="mark.png">'}
@@ -58,8 +64,8 @@ function slide(p, s, i, n) {
         <div class="card">${inner}${s.noSteps ? '' : steps}</div>${wm('espresso', 'bottom:70px;width:130px')}</div>`;
     }
     case 'T3': return `<div class="s t3 lit th-${th}"><div class="lights" style="top:600px"></div>
-      <div class="top"><div class="kick"><i></i>MİF</div><div class="myth">${rich(s.myth, false)}</div></div>
-      <div class="bot"><div class="kick"><i></i>HƏQİQƏT</div><div class="truth">${rich(s.truth, false)}</div></div>
+      <div class="top"><div class="kick"><i></i>${UI.myth}</div><div class="myth">${rich(s.myth, false)}</div></div>
+      <div class="bot"><div class="kick"><i></i>${UI.fact}</div><div class="truth">${rich(s.truth, false)}</div></div>
       ${wm()}</div>`;
     case 'T4': return `<div class="s t4">
       <svg width="0" height="0" style="position:absolute"><clipPath id="smilecrop" clipPathUnits="objectBoundingBox"><path d="M0,0 H1 V0.9 Q0.5,1.08 0,0.9 Z"/></clipPath></svg>
@@ -78,9 +84,9 @@ function slide(p, s, i, n) {
       <div class="verb">${esc(s.verb)}</div><div class="desc">${esc(s.desc)}</div>
       <div class="phone"><img src="${s.screen}.png"><div class="island"></div></div></div>`;
     case 'T7': return `<div class="s t7 lit th-${th}"><div class="lights"></div>${pg}<div class="in">
-      <img class="mark" src="mark.png"><h2>${rich(s.h || 'Saxla, sonra lazım olacaq', false)}</h2>
+      <img class="mark" src="mark.png"><h2>${rich(s.h || UI.saveH, false)}</h2>
       ${s.p ? `<p>${rich(s.p, false)}</p>` : ''}
-      <div class="acts"><span>Saxla</span><span>Paylaş</span><span class="main">Parla-nı yüklə</span></div></div>
+      <div class="acts"><span>${UI.save}</span><span>${UI.share}</span><span class="main">${UI.get}</span></div></div>
       ${wm('espresso', 'bottom:66px')}</div>`;
 
     case 'P1': return `<div class="s p1 on-dark"><img class="bg" src="${photo(s.photo)}" style="object-position:${s.pos || 'center'}"><div class="shade"></div>
@@ -93,7 +99,7 @@ function slide(p, s, i, n) {
     case 'P3': return `<div class="s p3 on-dark"><img class="bg" src="${photo(s.photo)}" style="object-position:${s.pos || 'center'}"><div class="shade"></div>
       ${chrome(kick, n > 1 ? `${i + 1} / ${n}` : '')}
       <div class="tt">${tt(s.tt)}</div>
-      <div class="cols"><div class="colh">${esc(s.noH || 'Belə yox')}</div><div class="colh">${esc(s.okH || 'Belə')}</div>
+      <div class="cols"><div class="colh">${esc(s.noH || UI.no)}</div><div class="colh">${esc(s.okH || UI.yes)}</div>
       ${s.items.map(([a, b]) => `<div class="it no"><b>×</b>${esc(a)}</div><div class="it ok"><b>✓</b>${esc(b)}</div>`).join('')}</div>${n > 1 && i === 0 ? '' : ''}</div>`;
     case 'P4': return `<div class="s p4 th-${th}"><div class="lights" style="height:640px"></div>
       <div class="top">${chrome(kick, n > 1 ? `${i + 1} / ${n}` : '', false).replace(/<div class="foot[\s\S]*$/, '')}<div class="tt">${tt(s.tt)}</div>${pills(s.pills)}</div>
@@ -101,7 +107,7 @@ function slide(p, s, i, n) {
       <img src="wordmark_cream.png" style="position:absolute;left:64px;bottom:52px;width:120px"></div>`;
     case 'P5': return `<div class="s p5 th-${th}"><div class="lights"></div>${chrome(kick, n > 1 ? `${i + 1} / ${n}` : '', false)}
       <div class="lines" style="top:${s.top || 260}px">${s.lines.map(l => `<div class="ln" style="justify-content:${l.j || 'flex-start'}">${l.p.map(x =>
-        x.cap ? `<span class="cap">${esc(x.cap.toLocaleUpperCase('az'))}</span>` : x.ser ? `<span class="ser">${esc(x.ser)}</span>` : x.pill ? `<span class="pill">${esc(x.pill)}</span>` :
+        x.cap ? `<span class="cap">${esc(x.cap.toLocaleUpperCase(LANG))}</span>` : x.ser ? `<span class="ser">${esc(x.ser)}</span>` : x.pill ? `<span class="pill">${esc(x.pill)}</span>` :
         x.img ? `<img class="inset" src="${photo(x.img)}">` : x.small ? `<span class="small">${esc(x.small)}</span>` : '').join('')}</div>`).join('')}</div>
       ${s.pills ? `<div style="position:absolute;left:64px;right:64px;top:${s.pillsTop || 940}px">${pills(s.pills)}</div>` : ''}</div>`;
     case 'P6': return `<div class="s p6"><img class="bg" src="${photo(s.photo)}" style="object-position:${s.pos || 'center'}"><div class="shade"></div>
@@ -128,9 +134,9 @@ function slide(p, s, i, n) {
       <div class="rows" style="top:${s.rowsTop || 430}px">${s.rows.map(([b, sp]) => `<div class="r glass"><b>${esc(b)}</b><span>${rich(sp || '', false)}</span></div>`).join('')}</div></div>`;
     case 'T3v': return `<div class="s t3v th-${th}"><div class="lights" style="top:640px"></div>
       <div class="top"><img src="${photo(s.photo)}" style="object-position:${s.pos || 'center'}"><div class="shade"></div>
-      <div class="bar on-dark" style="top:56px"><span>Parla · Mif və həqiqət</span><span>Yeni post</span></div>
-      <div class="in"><span class="stamp">MİF</span><div class="myth">${esc(s.myth)}</div></div></div>
-      <div class="bot"><span class="stamp">HƏQİQƏT</span><div class="truth">${rich(s.truth, false)}</div></div>
+      <div class="bar on-dark" style="top:56px"><span>Parla · ${UI.mythBar}</span><span>${UI.newPost}</span></div>
+      <div class="in"><span class="stamp">${UI.myth}</span><div class="myth">${esc(s.myth)}</div></div></div>
+      <div class="bot"><span class="stamp">${UI.fact}</span><div class="truth">${rich(s.truth, false)}</div></div>
       <img class="wm" src="wordmark_espresso.png" style="width:120px;bottom:52px;left:64px"></div>`;
     case 'POLL': return `<div class="s"><div class="split">
       <div><img src="${photo(s.left.photo)}"><div class="lab">${esc(s.left.label)}</div><div class="n">1</div></div>
@@ -146,10 +152,10 @@ function slide(p, s, i, n) {
   const css = fs.readFileSync(path.join(ASSETS, 'post.css'), 'utf8');
   for (const p of posts) {
     if (only.length && !only.includes(p.id)) continue;
-    const dir = path.join(HERE, 'out', p.id);
+    const dir = path.join(HERE, OUTDIR, p.id);
     fs.mkdirSync(dir, { recursive: true });
     for (let i = 0; i < p.slides.length; i++) {
-      const html = `<!doctype html><html lang="az"><head><meta charset="utf-8"><base href="file://${ASSETS}/"><style>${css}</style></head><body>${slide(p, p.slides[i], i, p.slides.length)}</body></html>`;
+      const html = `<!doctype html><html lang="${LANG}"><head><meta charset="utf-8"><base href="file://${ASSETS}/"><style>${css}</style></head><body>${slide(p, p.slides[i], i, p.slides.length)}</body></html>`;
       const file = path.join(HERE, 'tmp.html');
       fs.writeFileSync(file, html);
       await page.goto('file://' + file);
