@@ -1,0 +1,1228 @@
+[
+ {
+  "id": "01",
+  "kick": "Brend",
+  "slides": [
+   {
+    "t": "P8",
+    "quote": "Öz *işığını*\ntap.",
+    "size": 120,
+    "corners": [
+     "sənin gözəllik\nbələdçin",
+     "9 dildə",
+     "18+"
+    ]
+   }
+  ]
+ },
+ {
+  "id": "02",
+  "kick": "Rutin",
+  "slides": [
+   {
+    "t": "P1",
+    "photo": "h02",
+    "pos": "center 30%",
+    "tt": "Quru dəri üçün\n_qış səhəri_",
+    "lead": "3 addım · 3 dəqiqə",
+    "pills": [
+     "Təmizlə",
+     "!Nəmləndir",
+     "Qoru"
+    ]
+   },
+   {
+    "t": "P2",
+    "photo": "h02b",
+    "pos": "center",
+    "tt": "_Addım 1_",
+    "head": "Yumşaq təmizlə",
+    "rows": [
+     "+Köpüklənməyən təmizləyici",
+     "+və ya ilıq su",
+     "-Çox isti su"
+    ],
+    "panelTop": 420
+   },
+   {
+    "t": "T2",
+    "num": "ADDIM 2",
+    "h": "Nəmləndir",
+    "p": "Dəri hələ bir az nəm ikən. Tərkibdə **seramid, qliserin** və ya **hialuron turşusu** axtar."
+   },
+   {
+    "t": "P6",
+    "photo": "h02",
+    "pos": "center 30%",
+    "head": "Addım 3",
+    "q": "Günəşdən qoru",
+    "p": "Qışda da. SPF 30 və ya yuxarı, “geniş spektr” yazısı ilə.",
+    "cardTop": 760
+   },
+   {
+    "t": "T2",
+    "num": "BONUS",
+    "h": "Dodaq və əllər",
+    "p": "Dodaq balzamı və əl kremi **çantanda** olsun."
+   },
+   {
+    "t": "T7",
+    "h": "Rutinini Parla-da qur",
+    "p": "Dərini qısa testlə tanı — addımlar hazır olsun."
+   }
+  ]
+ },
+ {
+  "id": "03",
+  "slides": [
+   {
+    "t": "T3v",
+    "photo": "h03",
+    "myth": "“Təbii həmişə daha yaxşıdır.”",
+    "truth": "Təbii də, sintetik də dəriyə uyğun gələ bilər — ya da qıcıqlandıra bilər. **Əsas olan sənin dərin və tərkibin miqdarıdır.**"
+   }
+  ],
+  "theme": "lilac"
+ },
+ {
+  "id": "04",
+  "kick": "Parla",
+  "slides": [
+   {
+    "t": "P5",
+    "lines": [
+     {
+      "p": [
+       {
+        "cap": "Parla"
+       },
+       {
+        "pill": "necə"
+       }
+      ]
+     },
+     {
+      "p": [
+       {
+        "cap": "işləyir?"
+       }
+      ]
+     },
+     {
+      "p": [
+       {
+        "img": "h04"
+       },
+       {
+        "small": "Dərini tanı, rutinini qur, tərkibi yoxla, yeni şeylər kəşf et."
+       }
+      ]
+     }
+    ],
+    "pills": [
+     "Tanı",
+     "Qur",
+     "Yoxla",
+     "Kəşf et"
+    ],
+    "pillsTop": 940
+   },
+   {
+    "t": "T6",
+    "verb": "TANI",
+    "desc": "dərini qısa testlə",
+    "screen": "15_quiz"
+   },
+   {
+    "t": "T6",
+    "verb": "QUR",
+    "desc": "sənə uyğun qulluq rutini",
+    "screen": "01_home"
+   },
+   {
+    "t": "T6",
+    "verb": "YOXLA",
+    "desc": "məhsulun tərkibini",
+    "screen": "10_check"
+   },
+   {
+    "t": "T6",
+    "verb": "KƏŞF ET",
+    "desc": "məqalələr, reseptlər, məşqlər",
+    "screen": "03_discover"
+   },
+   {
+    "t": "T7",
+    "h": "Parla-nı yüklə",
+    "p": "Link bioda · 9 dildə"
+   }
+  ]
+ },
+ {
+  "id": "05",
+  "kick": "Rutin",
+  "slides": [
+   {
+    "t": "P2",
+    "photo": "h05b",
+    "tt": "Bu həftə\n_özün üçün_",
+    "ttTop": 150,
+    "head": "Həftəlik siyahı",
+    "rows": [
+     "+Hər səhər SPF",
+     "+Yastıq üzlüyünü dəyiş",
+     "+1–2 dəfə eksfoliasiya",
+     "+2 dəfə 15 dəqiqə hərəkət",
+     "-Makiyajla yatmaq"
+    ],
+    "panelTop": 520
+   }
+  ]
+ },
+ {
+  "id": "06",
+  "kick": "Rutin",
+  "slides": [
+   {
+    "t": "P3",
+    "photo": "h06b",
+    "tt": "Axşam rutinində\n_5 ümumi səhv_",
+    "items": [
+     [
+      "Makiyajla yatmaq",
+      "1 dəqiqə yumşaq təmizlə"
+     ],
+     [
+      "Hər gün sərt skrab",
+      "Həftədə 1–2 dəfə"
+     ],
+     [
+      "Bir axşamda çox aktiv",
+      "Bir-bir başla"
+     ],
+     [
+      "Kremi atlamaq",
+      "Yüngül nəmləndirici"
+     ],
+     [
+      "Birbaşa üzə sınamaq",
+      "Əvvəl qolda 1–2 gün"
+     ]
+    ]
+   },
+   {
+    "t": "T2",
+    "num": "SƏHV 1",
+    "h": "Makiyajla yatmaq",
+    "p": "Yorulsan belə, yumşaq təmizləyici ilə **1 dəqiqə** kifayətdir."
+   },
+   {
+    "t": "T2",
+    "num": "SƏHV 2",
+    "h": "Hər gün sərt skrab",
+    "p": "Eksfoliasiya həftədə **1–2 dəfə** bəs edir."
+   },
+   {
+    "t": "P6",
+    "photo": "p06",
+    "pos": "center 30%",
+    "head": "Səhv 3",
+    "q": "Bir axşamda çox aktiv tərkib",
+    "p": "Retinol və turşuları eyni axşam başlama.",
+    "cardTop": 780,
+    "dark": false
+   },
+   {
+    "t": "T2",
+    "num": "SƏHV 4",
+    "h": "Nəmləndiricini atlamaq",
+    "p": "Yağlı dərinin də **nəmə** ehtiyacı var."
+   },
+   {
+    "t": "T2",
+    "num": "SƏHV 5",
+    "h": "Yeni məhsulu birbaşa üzə",
+    "p": "Əvvəlcə qolunun içində **1–2 gün** sına."
+   },
+   {
+    "t": "T7",
+    "h": "Sənin səhvin hansıdır?",
+    "p": "Saxla və dostunla paylaş."
+   }
+  ]
+ },
+ {
+  "id": "07",
+  "kick": "Bədən",
+  "slides": [
+   {
+    "t": "P2",
+    "photo": "h07b",
+    "pos": "center",
+    "tt": "Hər saat\n_3 fasilə_",
+    "ttTop": 160,
+    "head": "Masa başında",
+    "rows": [
+     "+1 dəqiqə ayağa qalx",
+     "+10 dəfə çiyin fırlat",
+     "+20 saniyə uzağa bax"
+    ],
+    "panelTop": 560
+   }
+  ]
+ },
+ {
+  "id": "08",
+  "kick": "Tərkib",
+  "slides": [
+   {
+    "t": "P4",
+    "photo": "h08",
+    "tt": "Niasinamid\n_və C vitamini_",
+    "pills": [
+     "Fərq nədir?"
+    ]
+   },
+   {
+    "t": "T2",
+    "num": "NİASİNAMİD",
+    "h": "B3 vitamininin bir forması",
+    "p": "Dərinin qoruyucu baryerini dəstəkləyir, **yağlılıq və məsamələrin görünüşünə** kömək edə bilər. Səhər də, axşam da işlədilə bilər."
+   },
+   {
+    "t": "T2",
+    "num": "C VİTAMİNİ",
+    "h": "Antioksidant",
+    "p": "Dərinin **daha parlaq və bərabər** görünməsinə kömək edə bilər. Adətən səhər, SPF-dən əvvəl."
+   },
+   {
+    "t": "P6",
+    "photo": "h08",
+    "head": "Birlikdə?",
+    "q": "Çoxları ikisini də işlədir",
+    "p": "Dərin həssasdırsa, birini səhər, digərini axşam sına.",
+    "cardTop": 420
+   },
+   {
+    "t": "P7",
+    "photo": "h08",
+    "tt": "_Etiketdə belə yazılır_",
+    "cols2": true,
+    "gridTop": 470,
+    "tiles": [
+     [
+      "Niacinamide",
+      "niasinamid"
+     ],
+     [
+      "Ascorbic Acid",
+      "C vitamini"
+     ],
+     [
+      "Sodium Ascorbyl Phosphate",
+      "C vitamini forması"
+     ],
+     [
+      "Ascorbyl Glucoside",
+      "C vitamini forması"
+     ]
+    ]
+   },
+   {
+    "t": "T7",
+    "h": "Tərkibdə bunları tap",
+    "p": "Parla-da “Yoxla” ilə."
+   }
+  ]
+ },
+ {
+  "id": "09",
+  "slides": [
+   {
+    "t": "T3v",
+    "photo": "h09",
+    "myth": "“Yağlı dəriyə krem lazım deyil.”",
+    "truth": "Yağ və nəm fərqli şeylərdir. Yağlı dəri də su itirir. **Yüngül, gel teksturalı, “non-comedogenic” nəmləndirici seç.**"
+   }
+  ],
+  "theme": "rose"
+ },
+ {
+  "id": "10",
+  "kick": "Tərkib",
+  "slides": [
+   {
+    "t": "P1",
+    "photo": "h10",
+    "pos": "center 25%",
+    "tt": "Etiketdə\n_SPF necə oxunur_",
+    "pills": [
+     "SPF",
+     "UVA",
+     "Miqdar",
+     "!Yenilə"
+    ],
+    "serSize": 104,
+    "bottom": 150
+   },
+   {
+    "t": "P10",
+    "photo": "p10",
+    "tt": "_Rəqəm və işarə_",
+    "rows": [
+     [
+      "SPF rəqəmi",
+      "UVB-dən qorunma, gündəlik **30+**"
+     ],
+     [
+      "UVA işarəsi",
+      "Broad spectrum · PA+++ · dairədə UVA"
+     ]
+    ],
+    "rowsTop": 480
+   },
+   {
+    "t": "T2",
+    "num": "MİQDAR",
+    "h": "İki barmaq",
+    "p": "Üz və boyun üçün təxminən **iki barmaq uzunluğu**."
+   },
+   {
+    "t": "P6",
+    "photo": "h10",
+    "pos": "center 25%",
+    "head": "Yenilə",
+    "q": "Hər 2 saatdan bir",
+    "p": "Çöldəsənsə, həm də üzəndən və ya tərləyəndən sonra.",
+    "cardTop": 760
+   },
+   {
+    "t": "T2",
+    "num": "DİQQƏT",
+    "h": "“Su keçirməz” yoxdur",
+    "p": "Var olan: **“suya davamlı: 40 və ya 80 dəqiqə”**."
+   },
+   {
+    "t": "T7",
+    "h": "Saxla",
+    "p": "Növbəti alış-verişdə aç."
+   }
+  ]
+ },
+ {
+  "id": "11",
+  "kick": "Parla",
+  "slides": [
+   {
+    "t": "P8",
+    "quote": "Hər gün bir az\ndaha *sən*.",
+    "size": 100,
+    "corners": [
+     "kiçik addımlar",
+     "hər gün"
+    ]
+   }
+  ],
+  "theme": "rose"
+ },
+ {
+  "id": "12",
+  "kick": "Tərkib",
+  "slides": [
+   {
+    "t": "P5",
+    "lines": [
+     {
+      "p": [
+       {
+        "cap": "Həssas"
+       },
+       {
+        "pill": "dəri"
+       }
+      ]
+     },
+     {
+      "p": [
+       {
+        "ser": "ətirsiz seçim"
+       }
+      ]
+     },
+     {
+      "p": [
+       {
+        "img": "h12"
+       },
+       {
+        "small": "Qutunun arxasında baxmalı olduğun 4 qayda."
+       }
+      ]
+     }
+    ],
+    "pills": [
+     "Fragrance-free",
+     "Parfum",
+     "Efir yağları",
+     "!Sına"
+    ],
+    "pillsTop": 940
+   },
+   {
+    "t": "T2",
+    "num": "QAYDA 1",
+    "h": "“Fragrance-free” ≠ “unscented”",
+    "p": "“Unscented” məhsulda **qoxunu örtən ətir** ola bilər."
+   },
+   {
+    "t": "P7",
+    "photo": "h12",
+    "tt": "_Siyahıda axtar_",
+    "gridTop": 470,
+    "tiles": [
+     [
+      "Parfum",
+      "ətir"
+     ],
+     [
+      "Fragrance",
+      "ətir"
+     ],
+     [
+      "Linalool",
+      "ətir tərkibi"
+     ],
+     [
+      "Limonene",
+      "ətir tərkibi"
+     ],
+     [
+      "Lavender Oil",
+      "efir yağı"
+     ],
+     [
+      "Citrus Peel Oil",
+      "efir yağı"
+     ]
+    ]
+   },
+   {
+    "t": "T2",
+    "num": "QAYDA 4",
+    "h": "Əvvəlcə sına",
+    "p": "Yeni məhsulu **qolunun içində 1–2 gün** yoxla."
+   },
+   {
+    "t": "T7",
+    "h": "Tərkib siyahısına bax",
+    "p": "Parla-da “Yoxla” ilə."
+   }
+  ]
+ },
+ {
+  "id": "13",
+  "slides": [
+   {
+    "t": "T3v",
+    "photo": "h13",
+    "myth": "“Çox su içmək sızanağı yox edir.”",
+    "truth": "Su gündəlik həyat üçün vacibdir, amma sızanağın bir çox səbəbi var. **Davam edən sızanaq üçün dermatoloqla danış.**"
+   }
+  ],
+  "theme": "mist"
+ },
+ {
+  "id": "14",
+  "kick": "Rutin",
+  "slides": [
+   {
+    "t": "P4",
+    "photo": "h14",
+    "tt": "Tonik\n_və esens_",
+    "pills": [
+     "Fərq nədir?"
+    ]
+   },
+   {
+    "t": "T2",
+    "num": "TONİK",
+    "h": "Təmizləmədən sonra",
+    "p": "Yüngül və sulu; qalıqları götürür, dərini **növbəti addıma** hazırlayır."
+   },
+   {
+    "t": "P6",
+    "photo": "h14b",
+    "pos": "center 30%",
+    "head": "Esens",
+    "q": "Tonikdən sonra, serumdan əvvəl",
+    "p": "Bir az qatı, nəmləndirici tərkiblərlə.",
+    "cardTop": 780
+   },
+   {
+    "t": "T2",
+    "num": "İKİSİ DƏ LAZIMDIR?",
+    "h": "Yox",
+    "p": "Sadə rutin də işləyir: **təmizlə, nəmləndir, qoru.**"
+   },
+   {
+    "t": "P9",
+    "photo": "h14c",
+    "pos": "center",
+    "tt": "_Ardıcıllıq_",
+    "steps": [
+     [
+      "Təmizləyici",
+      "hər rutinin başı"
+     ],
+     [
+      "Tonik",
+      "yüngül, sulu"
+     ],
+     [
+      "Esens",
+      "bir az qatı"
+     ],
+     [
+      "Serum",
+      "aktiv tərkib"
+     ],
+     [
+      "Krem",
+      "nəmi saxla"
+     ],
+     [
+      "SPF",
+      "yalnız səhər"
+     ]
+    ]
+   },
+   {
+    "t": "T7",
+    "h": "Ardıcıllıq yadda qalmır?",
+    "p": "Parla-da rutin hazırdır."
+   }
+  ]
+ },
+ {
+  "id": "15",
+  "slides": [
+   {
+    "t": "POLL",
+    "q": "Səhər *hansı?*",
+    "left": {
+     "photo": "p15a",
+     "label": "KREM"
+    },
+    "right": {
+     "photo": "p15b",
+     "label": "GEL"
+    }
+   }
+  ]
+ },
+ {
+  "id": "16",
+  "kick": "Bədən",
+  "slides": [
+   {
+    "t": "P1",
+    "photo": "p16",
+    "pos": "center 45%",
+    "tt": "Yoga,\n_yoxsa pilates?_",
+    "lead": "Başlanğıc üçün",
+    "pills": [
+     "Nəfəs",
+     "Çeviklik",
+     "!Duruş"
+    ]
+   },
+   {
+    "t": "T2",
+    "num": "YOGA",
+    "h": "Nəfəs, çeviklik, rahatlama",
+    "p": "Başlamaq üçün **xalça** kifayətdir."
+   },
+   {
+    "t": "T2",
+    "num": "PİLATES",
+    "h": "Mərkəz əzələləri və duruş",
+    "p": "**Nəzarətli**, yavaş hərəkətlər."
+   },
+   {
+    "t": "P10",
+    "photo": "h16b",
+    "tt": "_Necə başlamalı_",
+    "rows": [
+     [
+      "Həftədə 2–3 dəfə",
+      "**15–20 dəqiqə**"
+     ],
+     [
+      "Sevdiyini seç",
+      "ən yaxşı məşq — davam etdiyindir"
+     ],
+     [
+      "Ağrı olarsa",
+      "dayan, həkimlə danış"
+     ]
+    ],
+    "rowsTop": 440
+   },
+   {
+    "t": "T7",
+    "h": "Evdə qısa məşqlər",
+    "p": "Parla-da hazırdır."
+   }
+  ]
+ },
+ {
+  "id": "17",
+  "kick": "Rutin",
+  "slides": [
+   {
+    "t": "P6",
+    "photo": "p17",
+    "pos": "center 25%",
+    "head": "Günün məsləhəti",
+    "q": "Buludlu gündə də SPF",
+    "p": "UV şüaları buludların arasından keçir, qar isə onları əks etdirir.",
+    "cardTop": 800
+   }
+  ]
+ },
+ {
+  "id": "18",
+  "kick": "Qidalanma",
+  "slides": [
+   {
+    "t": "P4",
+    "photo": "p18",
+    "tt": "Qış üçün\n_3 sadə resept_",
+    "pills": [
+     "Şorba",
+     "Səhər yeməyi",
+     "!Salat"
+    ]
+   },
+   {
+    "t": "P7",
+    "photo": "p18",
+    "tt": "_3 resept_",
+    "gridTop": 430,
+    "tiles": [
+     [
+      "Mərcimək şorbası",
+      "mərcimək, soğan, kök, zirə, limon"
+     ],
+     [
+      "Yulaf, alma, darçın",
+      "5 dəqiqəlik isti səhər yeməyi"
+     ],
+     [
+      "Nar və qoz salatı",
+      "göyərti, zeytun yağı, duz"
+     ]
+    ]
+   },
+   {
+    "t": "T7",
+    "h": "Tam reseptlər",
+    "p": "Parla-da “Kəşf et” bölməsində."
+   }
+  ]
+ },
+ {
+  "id": "19",
+  "kick": "Parla",
+  "slides": [
+   {
+    "t": "P5",
+    "top": 230,
+    "lines": [
+     {
+      "p": [
+       {
+        "cap": "Parla"
+       },
+       {
+        "pill": "səninlə"
+       }
+      ]
+     },
+     {
+      "p": [
+       {
+        "ser": "danışır"
+       }
+      ]
+     },
+     {
+      "p": [
+       {
+        "img": "h19"
+       },
+       {
+        "small": "Dilini tətbiqin ayarlarından seç."
+       }
+      ]
+     }
+    ],
+    "pills": [
+     "Azərbaycanca",
+     "Türkçe",
+     "Русский",
+     "English",
+     "Қазақша",
+     "Oʻzbekcha",
+     "Türkmençe",
+     "Кыргызча",
+     "!ქართული"
+    ],
+    "pillsTop": 960
+   }
+  ]
+ },
+ {
+  "id": "20",
+  "kick": "Ekspert",
+  "slides": [
+   {
+    "t": "P1",
+    "photo": "p20",
+    "tt": "Dermatoloqa\n_3 sual_",
+    "lead": "[Ad Soyad], dermatoloq",
+    "pills": [
+     "Üz yumaq",
+     "Retinol",
+     "!Sızanaq"
+    ]
+   },
+   {
+    "t": "T2",
+    "num": "SUAL 1",
+    "h": "Gündə neçə dəfə üz yumaq lazımdır?",
+    "p": "[Ekspertin öz cavabı]"
+   },
+   {
+    "t": "T2",
+    "num": "SUAL 2",
+    "h": "Retinola nə vaxt başlamaq olar?",
+    "p": "[Ekspertin öz cavabı]"
+   },
+   {
+    "t": "T2",
+    "num": "SUAL 3",
+    "h": "Sızanaqla nə vaxt həkimə getməliyəm?",
+    "p": "[Ekspertin öz cavabı]"
+   },
+   {
+    "t": "T7",
+    "h": "Növbəti sualı sən ver",
+    "p": "Şərhdə yaz."
+   }
+  ]
+ },
+ {
+  "id": "21",
+  "kick": "Rutin",
+  "slides": [
+   {
+    "t": "P2",
+    "photo": "h21b",
+    "pos": "center",
+    "tt": "2 dəqiqəlik\n_axşam_",
+    "ttTop": 150,
+    "head": "Yorğun axşam rutini",
+    "rows": [
+     "+Makiyajı təmizlə",
+     "+Nəmləndirici sürt",
+     "+Dodaq balzamı"
+    ],
+    "panelTop": 580
+   }
+  ]
+ },
+ {
+  "id": "22",
+  "kick": "Tərkib",
+  "slides": [
+   {
+    "t": "P5",
+    "lines": [
+     {
+      "p": [
+       {
+        "cap": "Tərkib"
+       },
+       {
+        "pill": "siyahısı"
+       }
+      ]
+     },
+     {
+      "p": [
+       {
+        "ser": "necə oxunur"
+       }
+      ]
+     },
+     {
+      "p": [
+       {
+        "img": "h22"
+       },
+       {
+        "small": "5 qayda — mağazada 30 saniyəyə qərar."
+       }
+      ]
+     }
+    ],
+    "pills": [
+     "Çoxdan aza",
+     "İlk 5",
+     "Aktivlər",
+     "Ətir",
+     "!Arxaya bax"
+    ],
+    "pillsTop": 940
+   },
+   {
+    "t": "P10",
+    "photo": "h22",
+    "tt": "_Qayda 1 və 2_",
+    "rows": [
+     [
+      "Çoxdan aza",
+      "Miqdarına görə sıralanır; **1%-dən az** olanlar istənilən sırada"
+     ],
+     [
+      "İlk 5 tərkib",
+      "məhsulun **əsas hissəsi**"
+     ]
+    ],
+    "rowsTop": 470
+   },
+   {
+    "t": "T2",
+    "num": "QAYDA 3",
+    "h": "Aktivlərin etiket adı",
+    "tags": [
+     "Niacinamide",
+     "Retinol",
+     "Ascorbic Acid",
+     "Salicylic Acid"
+    ]
+   },
+   {
+    "t": "T2",
+    "num": "QAYDA 4",
+    "h": "Ətir belə yazılır",
+    "tags": [
+     "Parfum",
+     "Fragrance"
+    ]
+   },
+   {
+    "t": "T2",
+    "num": "QAYDA 5",
+    "h": "Ön üzə yox, arxaya bax",
+    "p": "Reklam sözləri deyil, **siyahı** danışır."
+   },
+   {
+    "t": "T7",
+    "h": "Siyahını Parla-da aç",
+    "p": "“Yoxla” ilə."
+   }
+  ]
+ },
+ {
+  "id": "23",
+  "slides": [
+   {
+    "t": "T3v",
+    "photo": "h23",
+    "myth": "“Gündə 100 dəfə daramaq saçı gücləndirir.”",
+    "truth": "Çox daramaq saçı yora və qırılmanı artıra bilər. **Yumşaq darağı uclardan başla, yuxarı doğru qalx.**"
+   }
+  ],
+  "theme": "rose"
+ },
+ {
+  "id": "24",
+  "kick": "Bədən",
+  "slides": [
+   {
+    "t": "P1",
+    "photo": "p24",
+    "pos": "center 35%",
+    "tt": "Masa başında\n_5 dəqiqə_",
+    "pills": [
+     "Boyun",
+     "Çiyin",
+     "Stul",
+     "Ayaq",
+     "!Sinə"
+    ]
+   },
+   {
+    "t": "P9",
+    "photo": "h24b",
+    "pos": "center",
+    "tt": "_5 hərəkət_",
+    "steps": [
+     [
+      "Boyun",
+      "yanlara əy, hər tərəfə 5"
+     ],
+     [
+      "Çiyinlər",
+      "10 dəfə geri fırlat"
+     ],
+     [
+      "Stul",
+      "10 dəfə otur və qalx"
+     ],
+     [
+      "Ayaq ucu",
+      "15 dəfə qalx və en"
+     ],
+     [
+      "Sinə",
+      "qolları aç, 5 dərin nəfəs"
+     ]
+    ]
+   },
+   {
+    "t": "T7",
+    "h": "Ağrı olarsa, dayan",
+    "p": "Daha çox qısa məşq Parla-da."
+   }
+  ]
+ },
+ {
+  "id": "25",
+  "kick": "İcma",
+  "slides": [
+   {
+    "t": "P6",
+    "photo": "h25",
+    "head": "Siz soruşdunuz",
+    "q": "Retinol və C vitaminini birlikdə istifadə etmək olar?",
+    "p": "Çoxları C vitaminini səhər, retinolu axşam istifadə edir — dəri üçün bu daha rahat ola bilər. Hamiləlikdə retinol barədə həkimlə danış.",
+    "cardTop": 330
+   }
+  ]
+ },
+ {
+  "id": "26",
+  "kick": "Ekspert",
+  "slides": [
+   {
+    "t": "P4",
+    "photo": "p26",
+    "tt": "Salon,\n_yoxsa ev?_",
+    "pills": [
+     "Ev — hər gün",
+     "Salon — peşəkar"
+    ]
+   },
+   {
+    "t": "T2",
+    "num": "EV",
+    "h": "Gündəlik ardıcıllıq",
+    "p": "**Təmizlə, nəmləndir, qoru.**"
+   },
+   {
+    "t": "T2",
+    "num": "SALON",
+    "h": "Peşəkar prosedurlar",
+    "p": "Və **mütəxəssis baxışı**."
+   },
+   {
+    "t": "T2",
+    "num": "BİRLİKDƏ",
+    "h": "Biri digərini əvəz etmir",
+    "p": "Salon nəticəsi **evdə** qorunur."
+   },
+   {
+    "t": "P2",
+    "photo": "p26",
+    "tt": "_Salon seçəndə_",
+    "head": "Bunlara bax",
+    "rows": [
+     "+Gigiyena",
+     "+Mütəxəssisin sənədləri",
+     "+Suallarına açıq cavab"
+    ],
+    "panelTop": 520
+   },
+   {
+    "t": "T7",
+    "h": "Ev rutinini qur",
+    "p": "Parla-da."
+   }
+  ]
+ },
+ {
+  "id": "27",
+  "kick": "Bədən",
+  "slides": [
+   {
+    "t": "T5",
+    "photo": "p27",
+    "qTop": 180,
+    "quote": "Yuxu da *rutinin*\nbir hissəsidir.",
+    "sub": "Yatmazdan əvvəl telefonu kənara qoy.\nYastıq üzlüyünü tez-tez dəyiş.",
+    "subTop": 470,
+    "shade": 55
+   }
+  ]
+ },
+ {
+  "id": "28",
+  "kick": "Rutin",
+  "slides": [
+   {
+    "t": "P1",
+    "photo": "p28",
+    "tt": "Qışda dodaq və əl:\n_5 kiçik vərdiş_"
+   },
+   {
+    "t": "P2",
+    "photo": "p28",
+    "tt": "_5 vərdiş_",
+    "head": "Qış qulluğu",
+    "rows": [
+     "-Dodaqları yalamaq",
+     "+Balzam, gecə qalın qat",
+     "+Hər yuyulmadan sonra əl kremi",
+     "+Çöldə əlcək",
+     "+Quru otaqda nəmləndirici"
+    ],
+    "panelTop": 420
+   },
+   {
+    "t": "T2",
+    "num": "VƏRDİŞ 1",
+    "h": "Dodaqları yalama",
+    "p": "Tüpürcək quruduqca dodaq **daha quru** hiss olunur."
+   },
+   {
+    "t": "T7",
+    "h": "Saxla",
+    "p": "Və dostuna göndər."
+   }
+  ]
+ },
+ {
+  "id": "29",
+  "kick": "Parla",
+  "slides": [
+   {
+    "t": "T5",
+    "photo": "p29",
+    "quote": "Öz *işığını*\ntap.",
+    "qTop": 860,
+    "shade": 0
+   }
+  ]
+ },
+ {
+  "id": "30",
+  "kick": "Tərkib",
+  "slides": [
+   {
+    "t": "P5",
+    "lines": [
+     {
+      "p": [
+       {
+        "cap": "Qulluq"
+       }
+      ]
+     },
+     {
+      "p": [
+       {
+        "ser": "lüğəti"
+       },
+       {
+        "pill": "8 söz"
+       }
+      ]
+     },
+     {
+      "p": [
+       {
+        "img": "h30"
+       },
+       {
+        "small": "Kosmetika rəfi bəzən xarici dil kimidir. Buradan başla."
+       }
+      ]
+     }
+    ],
+    "pillsTop": 940
+   },
+   {
+    "t": "P7",
+    "photo": "h30b",
+    "tt": "_Lüğət 1–4_",
+    "cols2": true,
+    "gridTop": 440,
+    "tiles": [
+     [
+      "SPF",
+      "günəşdən (UVB) qorunma səviyyəsi"
+     ],
+     [
+      "Niasinamid",
+      "B3 vitamini; baryeri dəstəkləyir"
+     ],
+     [
+      "Seramid",
+      "nəmi saxlamağa kömək edir"
+     ],
+     [
+      "Hialuron turşusu",
+      "suyu özünə çəkən nəmləndirici"
+     ]
+    ]
+   },
+   {
+    "t": "T2",
+    "num": "5",
+    "h": "Eksfoliasiya",
+    "p": "Ölü hüceyrələri təmizləmək; **həftədə 1–2 dəfə** bəs edir."
+   },
+   {
+    "t": "T2",
+    "num": "6",
+    "h": "Retinol",
+    "p": "A vitamini forması; **axşam, az-az** başlanır. Hamiləlikdə həkimlə danış."
+   },
+   {
+    "t": "P7",
+    "photo": "h30b",
+    "tt": "_Lüğət 7–8_",
+    "cols2": true,
+    "gridTop": 520,
+    "tiles": [
+     [
+      "Non-comedogenic",
+      "məsamələri tıxamamaq üçün"
+     ],
+     [
+      "pH",
+      "sağlam dərinin səthi bir az turşudur"
+     ]
+    ]
+   },
+   {
+    "t": "T7",
+    "h": "Lüğəti saxla",
+    "p": "Yeni sözlər Parla-da “Kəşf et” bölməsində."
+   }
+  ]
+ }
+]
