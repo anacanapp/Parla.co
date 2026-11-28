@@ -1,7 +1,7 @@
 # Parla — Məxfilik siyasəti
 
 - Qüvvəyə minmə tarixi: {{effectiveDate}}
-- Sənədin versiyası: 2
+- Sənədin versiyası: 3
 
 ## 1. Biz kimik
 
@@ -22,7 +22,7 @@ Reqlamentini (GDPR) yüksək standart kimi rəhbər tuturuq.
 
 ## 2. Qısaca
 
-- Parla 18 yaşdan yuxarı qadınlar üçün gözəllik və qulluq bələdçisidir.
+- Parla 18 yaş və yuxarı qadınlar üçün gözəllik və qulluq bələdçisidir.
   Tibbi məsləhət vermir, diaqnoz qoymur, müalicə etmir və həkimi əvəz etmir.
 - Biz yalnız lazım olanı saxlayırıq: giriş üçün e-poçt, doğum ili, ölkə və dil.
 - Sağlamlıqla bağlı cavablar serverdə yalnız ayrıca, açıq sağlamlıq
@@ -58,7 +58,7 @@ Parla aşağıdakıları soruşmur və saxlamır:
   yaradılmır və onun daxil etdiyi heç nə saxlanılmır.
 - **Ölkə** — xidmətin açıq olduğu bazarı müəyyən etmək üçün. Hazırda yalnız
   Azərbaycan açıqdır.
-- **İnterfeys dili** — azərbaycan, rus və ya ingilis.
+- **İnterfeys dili** — azərbaycan, türk, rus, ingilis, qazax, özbək, türkmən, qırğız və ya gürcü.
 - **Qeydiyyat tarixi.**
 
 ### 4.2. Giriş məlumatları
@@ -163,7 +163,7 @@ bilərsiniz.
 
 ### 6.1. Sağlamlıq razılığı
 
-Cari mətn (versiya `health-2026-11-draft5`):
+Cari mətn (versiya `health-2026-11-draft6`):
 
 > "Dəri vəziyyətləri, allergiyalar, hamiləlik və qəbul etdiyim dərman
 > kateqoriyaları haqqında cavablarımın, özüm yaratdığım rutinlərin və onların
@@ -190,7 +190,7 @@ bilərsiniz.
 
 ### 6.2. Analitika razılığı
 
-Cari mətn (versiya `analytics-2026-11-draft1`):
+Cari mətn (versiya `analytics-2026-11-draft2`):
 
 > "Tətbiqin necə istifadə olunduğunu anlamaq üçün şəxsiyyətimi birbaşa
 > göstərməyən identifikatorla istifadə statistikasının (açılan ekranlar,
@@ -202,7 +202,7 @@ gündəlik aktivlik işarələri silinir (bax: bölmə 9).
 
 ### 6.3. Marketinq razılığı
 
-Cari mətn (versiya `marketing-2026-11-draft1`):
+Cari mətn (versiya `marketing-2026-11-draft2`):
 
 > "Parla yenilikləri və məsləhətləri haqqında e-poçt almağa razıyam.
 > İstənilən məktubdakı linklə abunəlikdən çıxa bilərəm."
@@ -532,7 +532,7 @@ prosesini işə salır.
 
 ## 19. Yaş məhdudiyyəti
 
-Parla yalnız 18 yaşdan yuxarı şəxslər üçündür. Yaş həm tətbiqdə, həm də
+Parla yalnız 18 yaş və yuxarı şəxslər üçündür. Yaş həm tətbiqdə, həm də
 serverdə yoxlanılır. 18 yaşdan kiçik şəxs üçün hesab yaradılmır və onun daxil
 etdiyi heç nə saxlanılmır. 18 yaşdan kiçik şəxsin məlumatlarının bizə
 çatdığını bilsəniz, {{email}} ünvanına yazın.

@@ -150,7 +150,9 @@ class _QuizScreenState extends State<QuizScreen> {
         kind: ConsentKind.health,
         granted: true,
         textVersion: currentConsentText(ConsentKind.health).version,
-        language: _language,
+        language: currentConsentText(
+          ConsentKind.health,
+        ).languageFor(_language),
       );
       _healthConsent = true;
       _gateDone = true;
@@ -252,7 +254,12 @@ class _QuizScreenState extends State<QuizScreen> {
           SoftCard(
             padding: const EdgeInsets.all(16),
             child: Text(
-              currentConsentText(ConsentKind.health).bodyFor(_language) ?? '',
+              currentConsentText(ConsentKind.health).bodyFor(
+                    currentConsentText(
+                      ConsentKind.health,
+                    ).languageFor(_language),
+                  ) ??
+                  '',
               style: Theme.of(context).textTheme.bodyMedium,
             ),
           ),

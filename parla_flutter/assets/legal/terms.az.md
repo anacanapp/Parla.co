@@ -1,7 +1,7 @@
 # Parla — İstifadə şərtləri
 
 - Qüvvəyə minmə tarixi: {{effectiveDate}}
-- Sənədin versiyası: 1
+- Sənədin versiyası: 2
 
 ## 1. Ümumi müddəalar
 
@@ -24,7 +24,7 @@ hissəsi deyil; onlar ayrıca verilir və istənilən vaxt geri götürülə bil
 
 ## 2. Kim istifadə edə bilər
 
-2.1. Parla yalnız **18 yaşdan yuxarı** şəxslər üçündür. Qeydiyyatda doğum
+2.1. Parla yalnız **18 yaş və yuxarı** şəxslər üçündür. Qeydiyyatda doğum
 ilinizi düzgün göstərməlisiniz. Yaş həm tətbiqdə, həm də serverdə yoxlanılır;
 18 yaşdan kiçik şəxs üçün hesab yaradılmır.
 
@@ -247,7 +247,8 @@ Respublikasının səlahiyyətli məhkəməsində baxılır.
 
 ## 17. Dil
 
-Bu şərtlər azərbaycan, rus və ingilis dillərində təqdim olunur. Mətnlər
+Bu şərtlər azərbaycan, türk, rus, ingilis, qazax, özbək, türkmən, qırğız və
+gürcü dillərində təqdim olunur. Digər dillərdəki mətnlər tərcümədir; mətnlər
 arasında fərq olduqda azərbaycan dilindəki mətn əsas götürülür.
 
 ## 18. Əlaqə

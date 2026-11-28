@@ -56,7 +56,7 @@ class ConsentEndpoint extends Endpoint {
       throw ParlaException(code: ConsentErrors.outdatedVersion);
     }
     final hash = text.hashFor(language);
-    if (hash == null || !supportedLanguages.contains(language)) {
+    if (hash == null || !interfaceLanguages.contains(language)) {
       throw ParlaException(code: ConsentErrors.languageUnsupported);
     }
     if (!consentSources.contains(source)) {

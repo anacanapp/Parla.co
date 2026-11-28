@@ -60,7 +60,9 @@ class _ConsentScreenState extends State<ConsentScreen> {
           kind: kind,
           granted: true,
           textVersion: currentConsentText(kind).version,
-          language: language,
+          language: currentConsentText(
+            kind,
+          ).languageFor(scope.settings.textLanguage),
         );
       }
       onboarding.clear();
@@ -75,7 +77,7 @@ class _ConsentScreenState extends State<ConsentScreen> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context);
-    final language = ParlaScope.of(context).settings.contentLanguage;
+    final language = ParlaScope.of(context).settings.textLanguage;
     return ParlaPage(
       title: l10n.consentTitle,
       eyebrow: l10n.onboardingStepPrivacy,
@@ -138,7 +140,7 @@ class _ConsentCard extends StatelessWidget {
           ExpansionTile(
             title: Text(l10n.consentVersion(text.version), style: small),
             childrenPadding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
-            children: [Text(text.bodyFor(language) ?? '')],
+            children: [Text(text.bodyFor(text.languageFor(language)) ?? '')],
           ),
         ],
       ),
